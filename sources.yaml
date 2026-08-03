@@ -1,318 +1,390 @@
 sources:
-- articles_this_week: 0
+- articles_this_week: 13
   category: LLM
-  eval_score: 7
+  eval_score: 8
   name: OpenAI Blog
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://openai.com/blog/rss.xml
   weight: 9
-- articles_this_week: 0
+- articles_this_week: 14
+  category: 设计仿真
+  eval_score: 8
+  name: NVIDIA Developer
+  streak_failures: 0
+  type: rss
+  url: https://developer.nvidia.com/blog/feed/
+  weight: 9
+- articles_this_week: 8
+  category: AI4Science
+  eval_score: 8
+  name: Demis Hassabis (Nitter)
+  note: DeepMind CEO
+  streak_failures: 0
+  type: nitter_rss
+  url: https://nitter.net/demishassabis/rss
+  weight: 9
+- articles_this_week: 17
   category: LLM
   eval_score: 7
+  name: arXiv cs.CL
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.CL
+  weight: 8
+- articles_this_week: 6
+  category: LLM
+  eval_score: 7
+  name: Andrej Karpathy (Nitter)
+  note: Tesla前AI总监
+  streak_failures: 0
+  type: nitter_rss
+  url: https://nitter.net/karpathy/rss
+  weight: 8
+- articles_this_week: 0
+  category: LLM
+  eval_score: 5
   name: Anthropic Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.anthropic.com/blog/rss.xml
   weight: 9
 - articles_this_week: 0
   category: LLM
-  eval_score: 7
+  eval_score: 5
   name: Google DeepMind Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://deepmind.google/discover/blog/feed.xml
   weight: 9
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 7
+  eval_score: 5
   name: DeepMind Science
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://deepmind.google/discover/blog/feed.xml
   weight: 9
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 7
+  eval_score: 5
   name: Nature AI
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.nature.com/subjects/artificial-intelligence.rss
   weight: 9
 - articles_this_week: 0
-  category: 设计仿真
-  eval_score: 7
-  name: NVIDIA Developer
-  streak_failures: 1
-  type: rss
-  url: https://developer.nvidia.com/blog/feed/
-  weight: 9
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 7
-  name: Demis Hassabis (Nitter)
-  note: DeepMind CEO
-  streak_failures: 1
-  type: nitter_rss
-  url: https://nitter.net/demishassabis/rss
-  weight: 9
-- articles_this_week: 0
   category: LLM
-  eval_score: 6
+  eval_score: 4
   name: Meta AI Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://ai.meta.com/blog/feed.xml
   weight: 8
 - articles_this_week: 0
   category: LLM
-  eval_score: 6
-  name: arXiv cs.CL
-  streak_failures: 1
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.CL
-  weight: 8
-- articles_this_week: 0
-  category: LLM
-  eval_score: 6
+  eval_score: 4
   name: HuggingFace Daily Papers
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://huggingface.co/papers/rss
   weight: 8
 - articles_this_week: 0
   category: Agent
-  eval_score: 6
+  eval_score: 4
   name: LangChain Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://blog.langchain.dev/feed
   weight: 8
 - articles_this_week: 0
   category: Agent
-  eval_score: 6
+  eval_score: 4
   name: Anthropic Engineering
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.anthropic.com/engineering/rss.xml
   weight: 8
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 6
+  eval_score: 4
   name: Science AI News
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.science.org/rss/ai.xml
   weight: 8
 - articles_this_week: 0
   category: 设计仿真
-  eval_score: 6
+  eval_score: 4
   name: Ansys Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.ansys.com/blog/rss.xml
   weight: 8
 - articles_this_week: 0
   category: 数字孪生
-  eval_score: 6
+  eval_score: 4
   name: Azure Digital Twins
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://techcommunity.microsoft.com/t5/azure-digital-twins-blog/rss
   weight: 8
 - articles_this_week: 0
-  category: LLM
-  eval_score: 6
-  name: Andrej Karpathy (Nitter)
-  note: Tesla前AI总监
-  streak_failures: 1
-  type: nitter_rss
-  url: https://nitter.net/karpathy/rss
-  weight: 8
-- articles_this_week: 0
   category: Agent
-  eval_score: 6
+  eval_score: 4
   name: Jim Fan (Nitter)
   note: NVIDIA高级研究科学家
-  streak_failures: 1
+  streak_failures: 2
   type: nitter_rss
   url: https://nitter.net/DrJimFan/rss
   weight: 8
 - articles_this_week: 0
   category: Agent
-  eval_score: 6
+  eval_score: 4
   name: Lilian Weng (Nitter)
   note: OpenAI安全系统负责人
-  streak_failures: 1
+  streak_failures: 2
   type: nitter_rss
   url: https://nitter.net/lilianweng/rss
   weight: 8
 - articles_this_week: 0
   category: LLM
-  eval_score: 5
+  eval_score: 3
   name: LMSYS Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://lmsys.org/blog/feed.xml
   weight: 7
 - articles_this_week: 0
   category: LLM
-  eval_score: 5
+  eval_score: 3
   name: Cohere Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://cohere.com/blog/rss.xml
   weight: 7
 - articles_this_week: 0
   category: LLM
-  eval_score: 5
+  eval_score: 3
   name: Mistral AI Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://mistral.ai/news/rss.xml
   weight: 7
 - articles_this_week: 0
   category: Agent
-  eval_score: 5
+  eval_score: 3
   name: AutoGen Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://microsoft.github.io/autogen/blog/feed.xml
   weight: 7
 - articles_this_week: 0
   category: Agent
-  eval_score: 5
+  eval_score: 3
   name: CrewAI Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.crewai.com/blog/rss.xml
   weight: 7
 - articles_this_week: 0
   category: Agent
-  eval_score: 5
+  eval_score: 3
   name: arXiv cs.AI
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://rss.arxiv.org/rss/cs.AI
   weight: 7
 - articles_this_week: 0
   category: Agent
-  eval_score: 5
+  eval_score: 3
   name: Nous Research Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://nousresearch.com/feed.xml
   weight: 7
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 5
+  eval_score: 3
   name: arXiv q-bio
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://rss.arxiv.org/rss/q-bio.BM
   weight: 7
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 5
+  eval_score: 3
   name: MIT-IBM Watson AI
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://mitibmwatsonailab.mit.edu/feed/
   weight: 7
 - articles_this_week: 0
   category: 设计仿真
-  eval_score: 5
+  eval_score: 3
   name: arXiv cs.GR
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://rss.arxiv.org/rss/cs.GR
   weight: 7
 - articles_this_week: 0
   category: 设计仿真
-  eval_score: 5
+  eval_score: 3
   name: Autodesk Research
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.autodesk.com/research/blog/feed
   weight: 7
 - articles_this_week: 0
   category: 数字孪生
-  eval_score: 5
+  eval_score: 3
   name: AWS IoT Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://aws.amazon.com/blogs/iot/feed/
   weight: 7
 - articles_this_week: 0
   category: 数字孪生
-  eval_score: 5
+  eval_score: 3
   name: Siemens Digital Twin
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://blogs.sw.siemens.com/feed/
   weight: 7
 - articles_this_week: 0
   category: 数字孪生
-  eval_score: 5
+  eval_score: 3
   name: GE Digital Blog
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.ge.com/digital/blog/rss.xml
   weight: 7
 - articles_this_week: 0
   category: LLM
-  eval_score: 5
+  eval_score: 3
   name: Yann LeCun (Nitter)
   note: Meta AI首席科学家
-  streak_failures: 1
+  streak_failures: 2
   type: nitter_rss
   url: https://nitter.net/ylecun/rss
   weight: 7
 - articles_this_week: 0
   category: Agent
-  eval_score: 4
+  eval_score: 2
   name: OpenAI Cookbook
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://github.com/openai/openai-cookbook/commits/main.atom
   weight: 6
 - articles_this_week: 0
   category: 设计仿真
-  eval_score: 4
+  eval_score: 2
   name: SIGGRAPH News
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.siggraph.org/feed/
   weight: 6
 - articles_this_week: 0
   category: 数字孪生
-  eval_score: 4
+  eval_score: 2
   name: arXiv cs.RO
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://rss.arxiv.org/rss/cs.RO
   weight: 6
 - articles_this_week: 0
   category: LLM
-  eval_score: 4
+  eval_score: 2
   name: TechCrunch AI
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://techcrunch.com/category/artificial-intelligence/feed/
   weight: 6
 - articles_this_week: 0
   category: LLM
-  eval_score: 4
+  eval_score: 2
   name: The Verge AI
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.theverge.com/rss/ai-artificial-intelligence/index.xml
   weight: 6
 - articles_this_week: 0
   category: LLM
-  eval_score: 4
+  eval_score: 2
   name: VentureBeat AI
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://venturebeat.com/category/ai/feed/
   weight: 6
+- category: LLM
+  discovered_by: agent
+  name: www.artificialanalysis.ai
+  type: rss
+  url: https://www.artificialanalysis.ai/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: simonwillison.net
+  type: rss
+  url: https://simonwillison.net/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: www.latent.space
+  type: rss
+  url: https://www.latent.space/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: huggingface.co
+  type: rss
+  url: https://huggingface.co/blog
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: thegradient.pub
+  type: rss
+  url: https://thegradient.pub/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: www.lesswrong.com
+  type: rss
+  url: https://www.lesswrong.com/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: blog.research.google
+  type: rss
+  url: https://blog.research.google/
+  weight: 5
+- category: 数字孪生
+  name: Digital Twin Consortium
+  url: https://www.digitaltwinconsortium.org/
+  type: web
+  weight: 9
+  note: 全球最具影响力的数字孪生跨行业组织，发布架构指南/白皮书
+- category: 数字孪生
+  name: IoT Analytics (Digital Twin)
+  url: https://iot-analytics.com/tag/digital-twin/
+  type: web
+  weight: 8
+  note: 全球领先的物联网与数字孪生市场研究机构
+- category: 数字孪生
+  name: NVIDIA Omniverse Blog
+  url: https://developer.nvidia.com/blog/category/omniverse/
+  type: rss
+  weight: 9
+  note: 实时渲染/物理仿真/AI驱动数字孪生，OpenUSD协议
+- category: 数字孪生
+  name: PTC Blog
+  url: https://www.ptc.com/en/blogs
+  type: web
+  weight: 7
+  note: 工业制造PLM与数字孪生
+- category: 数字孪生
+  name: Dassault Systèmes Blog
+  url: https://blog.3ds.com/
+  type: web
+  weight: 7
+  note: 工业软件巨头，制造业数字孪生前沿案例

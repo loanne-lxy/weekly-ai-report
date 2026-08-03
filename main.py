@@ -8,6 +8,7 @@ from fetcher.fetcher import fetch_all
 from dedup.deduplicator import Deduplicator
 from filter.filter_summarizer import FilterSummarizer
 from evaluator.source_evaluator import SourceEvaluator
+from evaluator.source_discoverer import SourceDiscoverer
 from generator.report_generator import generate_report
 from models.llm_client import LLMClient
 
@@ -57,13 +58,13 @@ async def main():
     fs = FilterSummarizer(llm, config)
     articles = fs.keyword_pre_filter(articles)
 
-    # 4. LLM 分类
+    # 4. LLM 分类（并发）
     logger.info("=== Phase 4: Classify ===")
-    articles = fs.classify_batch(articles)
+    articles = await fs._classify_async(articles)
 
-    # 5. LLM 摘要
+    # 5. LLM 摘要（并发）
     logger.info("=== Phase 5: Summarize ===")
-    articles = fs.summarize_batch(articles)
+    articles = await fs._summarize_async(articles)
 
     # 6. 生成报告
     week_num = datetime.now(timezone.utc).isocalendar()
@@ -72,10 +73,15 @@ async def main():
     report_path = generate_report(articles, config, week_label)
     logger.info(f"Report saved to: {report_path}")
 
-    # 7. 源池自评估
-    logger.info("=== Phase 7: Evaluate Sources ===")
+    # 7. 源池自评估 + 自动发现
+    logger.info("=== Phase 7: Evaluate & Discover Sources ===")
     evaluator = SourceEvaluator("sources.yaml", config)
-    evaluator.evaluate(articles, sources)
+    sources = evaluator.evaluate(articles, sources)
+
+    discoverer = SourceDiscoverer(llm)
+    new_sources = discoverer.discover(articles, {s.get("url", "") for s in sources})
+    sources = evaluator.merge_discovered(new_sources, sources)
+    evaluator._save(sources)
 
     logger.info("Done!")
 

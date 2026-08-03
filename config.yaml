@@ -59,7 +59,7 @@ filter:
       keywords: [数字孪生, Digital Twin, IoT, 工业4.0, 实时仿真, 预测性维护]
 
   # 关键词预过滤（快速筛掉完全不相关的内容）
-  pre_filter_keywords: [AI, 人工智能, LLM, Agent, 模型, 训练]
+  pre_filter_keywords: [AI, 人工智能, LLM, Agent, 模型, 训练, simulation, digital twin, 仿真, 数字孪生, generative design, 生成式设计, CAD, CFD, IoT, 3D, rendering]
 
 # ============================================
 # 源池自评估配置

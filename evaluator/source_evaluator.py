@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 class SourceEvaluator:
     def __init__(self, sources_path: str, config: dict):
         self.sources_path = sources_path
-        self.min_weekly = config["evaluator"].get("min_weekly_output", 2)
-        self.stale_weeks = config["evaluator"].get("stale_weeks", 3)
+        self.min_weekly = config["evaluator"].get("min_weekly_output", 0)
+        self.stale_weeks = config["evaluator"].get("stale_weeks", 4)
 
     def evaluate(self, articles: list[dict], current_sources: list[dict]) -> list[dict]:
         """根据本周产出评估源池质量，返回更新后的源列表"""
@@ -53,6 +53,18 @@ class SourceEvaluator:
 
         self._save(active)
         return active
+
+    def merge_discovered(self, discovered: list[dict], current: list[dict]) -> list[dict]:
+        """合并Agent发现的新源到源池"""
+        existing_urls = {s.get("url", "") for s in current}
+        added = 0
+        for ds in discovered:
+            if ds["url"] not in existing_urls and len(current) < 80:
+                current.append(ds)
+                existing_urls.add(ds["url"])
+                added += 1
+        logger.info(f"Discovered {len(discovered)} sources, merged {added} new")
+        return current
 
     def _save(self, sources: list[dict]):
         with open(self.sources_path, "w", encoding="utf-8") as f:

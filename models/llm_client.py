@@ -3,6 +3,12 @@ import os
 from pathlib import Path
 from openai import OpenAI
 
+try:
+    from langsmith import wrappers
+    _wrap_openai = wrappers.wrap_openai
+except ImportError:
+    _wrap_openai = None
+
 
 def _load_dotenv():
     """加载项目根目录的 .env 文件"""
@@ -34,10 +40,17 @@ class LLMClient:
                 "or export DEEPSEEK_API_KEY=xxx"
             )
 
-        self.client = OpenAI(
+        raw_client = OpenAI(
             api_key=api_key,
             base_url=cfg.get("base_url", "http://localhost:11434/v1"),
         )
+
+        # LangSmith 追踪（如果已配置）
+        if _wrap_openai and os.environ.get("LANGSMITH_TRACING") == "true":
+            self.client = _wrap_openai(raw_client)
+        else:
+            self.client = raw_client
+
         self.model = cfg.get("name", "qwen3:14b")
         self.temperature = cfg.get("temperature", 0.3)
         self.max_tokens = cfg.get("max_tokens", 2048)

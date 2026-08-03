@@ -6,73 +6,165 @@
 <title>{{ title }}</title>
 <style>
   :root {
-    --bg: #0f172a; --card: #1e293b; --border: #334155;
-    --accent: #38bdf8; --text: #e2e8f0; --muted: #94a3b8;
-    --llm: #3b82f6; --agent: #8b5cf6; --ai4sci: #10b981;
+    --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0;
+    --accent: #2563eb; --text: #1e293b; --muted: #64748b;
+    --llm: #3b82f6; --agent: #8b5cf6; --ai4s: #10b981;
     --design: #f59e0b; --digital: #ef4444;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; line-height: 1.6; }
-  .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1rem; }
-  header { text-align: center; padding: 3rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2rem; }
-  header h1 { font-size: 2.2rem; color: var(--accent); margin-bottom: 0.5rem; }
-  header .subtitle { color: var(--muted); font-size: 0.95rem; }
-  header .week { display: inline-block; background: var(--accent); color: var(--bg); padding: 0.2rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.8rem; }
-  .section { margin-bottom: 3rem; }
-  .section-title { font-size: 1.4rem; padding: 0.5rem 0; border-bottom: 2px solid; margin-bottom: 1.2rem; display: flex; align-items: center; gap: 0.5rem; }
-  .section-title .count { font-size: 0.85rem; color: var(--muted); font-weight: normal; margin-left: 0.5rem; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.2rem; margin-bottom: 0.8rem; transition: border-color 0.2s; }
-  .card:hover { border-color: var(--accent); }
-  .card .source { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.3rem; }
-  .card h3 { font-size: 1.05rem; margin-bottom: 0.4rem; }
-  .card h3 a { color: var(--text); text-decoration: none; }
-  .card h3 a:hover { color: var(--accent); }
-  .card .summary { font-size: 0.9rem; color: var(--muted); }
-  .stats { display: flex; gap: 2rem; justify-content: center; padding: 1rem; background: var(--card); border-radius: 8px; margin-bottom: 2rem; }
-  .stat { text-align: center; }
-  .stat .num { font-size: 2rem; font-weight: 700; color: var(--accent); }
-  .stat .label { font-size: 0.8rem; color: var(--muted); }
-  .color-LLM { border-left: 3px solid var(--llm); } .section-LLM { border-color: var(--llm) !important; color: var(--llm); }
-  .color-Agent { border-left: 3px solid var(--agent); } .section-Agent { border-color: var(--agent) !important; color: var(--agent); }
-  .color-AI4Science { border-left: 3px solid var(--ai4sci); } .section-AI4Science { border-color: var(--ai4sci) !important; color: var(--ai4sci); }
-  .color-设计仿真 { border-left: 3px solid var(--design); } .section-设计仿真 { border-color: var(--design) !important; color: var(--design); }
-  .color-数字孪生 { border-left: 3px solid var(--digital); } .section-数字孪生 { border-color: var(--digital) !important; color: var(--digital); }
-  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; line-height:1.7; }
+  .container { max-width:960px; margin:0 auto; padding:2rem 1.5rem; }
+
+  header { text-align:center; padding:3rem 0 1.5rem; }
+  header .week-badge { display:inline-block; background:var(--accent); color:#fff; padding:0.3rem 1.2rem; border-radius:20px; font-size:0.85rem; font-weight:600; margin-bottom:0.8rem; }
+  header h1 { font-size:2rem; font-weight:800; margin-bottom:0.4rem; }
+  header .sub { color:var(--muted); font-size:0.95rem; }
+
+  .trend-bar { background:linear-gradient(135deg,#1e40af,#3b82f6); border-radius:14px; padding:1.8rem 2rem; margin-bottom:2.5rem; color:#fff; }
+  .trend-bar h2 { font-size:0.85rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; opacity:0.7; margin-bottom:1rem; }
+  .trend-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:1.2rem; }
+  .trend-item { text-align:center; }
+  .trend-item .dot { width:12px;height:12px; border-radius:50%; margin:0 auto 0.5rem; }
+  .trend-item .label { font-size:0.75rem; opacity:0.65; margin-bottom:0.2rem; }
+  .trend-item .keyword { font-size:0.95rem; font-weight:700; }
+
+  .stats { display:flex; gap:1rem; margin-bottom:2.5rem; flex-wrap:wrap; }
+  .stat { flex:1; min-width:100px; background:var(--card); border:1px solid var(--border); border-radius:10px; padding:0.8rem; text-align:center; }
+  .stat .num { font-size:1.8rem; font-weight:800; }
+  .stat .label { font-size:0.75rem; color:var(--muted); margin-top:0.2rem; }
+  .stat .num.llm { color:var(--llm); } .stat .num.agent { color:var(--agent); } .stat .num.ai4s { color:var(--ai4s); } .stat .num.design { color:var(--design); } .stat .num.digital { color:var(--digital); }
+
+  .section { margin-bottom:2.5rem; }
+  .section-header { display:flex; align-items:center; gap:0.6rem; margin-bottom:0.8rem; padding-bottom:0.5rem; border-bottom:2px solid; }
+  .section-header .icon { font-size:1.3rem; }
+  .section-header h2 { font-size:1.2rem; font-weight:700; }
+  .section-header .badge { font-size:0.75rem; padding:0.15rem 0.6rem; border-radius:10px; color:#fff; margin-left:auto; }
+
+  .sec-LLM { border-color:var(--llm); color:var(--llm); } .badge-LLM { background:var(--llm); }
+  .sec-Agent { border-color:var(--agent); color:var(--agent); } .badge-Agent { background:var(--agent); }
+  .sec-ai4s { border-color:var(--ai4s); color:var(--ai4s); } .badge-ai4s { background:var(--ai4s); }
+  .sec-design { border-color:var(--design); color:var(--design); } .badge-design { background:var(--design); }
+  .sec-digital { border-color:var(--digital); color:var(--digital); } .badge-digital { background:var(--digital); }
+
+  .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:1rem 1.2rem; margin-bottom:0.6rem; transition:box-shadow 0.2s; display:flex; gap:1rem; align-items:flex-start; }
+  .card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.06); }
+  .score { flex-shrink:0; width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:800; color:#fff; }
+  .score.high { background:linear-gradient(135deg,#dc2626,#ef4444); }
+  .score.mid { background:linear-gradient(135deg,#d97706,#f59e0b); }
+  .score.low { background:linear-gradient(135deg,#6b7280,#9ca3af); }
+  .card-body { flex:1; min-width:0; }
+  .card-source { font-size:0.7rem; color:var(--muted); margin-bottom:0.2rem; }
+  .card h3 { font-size:0.95rem; font-weight:600; line-height:1.4; }
+  .card h3 a { color:var(--text); text-decoration:none; }
+  .card h3 a:hover { color:var(--accent); }
+  .card .orig { font-size:0.75rem; color:var(--muted); margin-bottom:0.3rem; }
+  .card .summary { font-size:0.82rem; color:var(--muted); line-height:1.5; }
+
+  .pagination { display:flex; justify-content:center; gap:0.5rem; margin-top:1.5rem; }
+  .pagination button { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:0.4rem 0.9rem; cursor:pointer; font-size:0.85rem; color:var(--text); }
+  .pagination button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .pagination button:hover:not(.active) { border-color:var(--accent); }
+  .page-info { font-size:0.8rem; color:var(--muted); margin-top:0.5rem; text-align:center; }
+
+  .empty { text-align:center; color:var(--muted); padding:2rem; font-size:0.9rem; }
+  footer { text-align:center; padding:2rem 0; color:var(--muted); font-size:0.78rem; border-top:1px solid var(--border); margin-top:2rem; }
+
+  @media (max-width:640px) { .trend-grid { grid-template-columns:repeat(2,1fr); } .stats { flex-direction:column; } .card { flex-direction:column; } }
 </style>
 </head>
 <body>
 <div class="container">
   <header>
-    <div class="week">{{ week }}</div>
+    <div class="week-badge">{{ week }}</div>
     <h1>{{ title }}</h1>
-    <p class="subtitle">{{ subtitle }}</p>
+    <p class="sub">{{ subtitle }}</p>
   </header>
 
+  <div class="trend-bar">
+    <h2>📊 本周趋势关键词</h2>
+    <div class="trend-grid">
+      {% set cat_keys = ["LLM","Agent","AI for Science","设计仿真","数字孪生"] %}
+      {% for cat_name in cat_keys %}
+      <div class="trend-item">
+        <div class="dot" style="background:{% if cat_name=='LLM' %}#3b82f6{% elif cat_name=='Agent' %}#8b5cf6{% elif cat_name=='AI for Science' %}#10b981{% elif cat_name=='设计仿真' %}#f59e0b{% else %}#ef4444{% endif %}"></div>
+        <div class="label">{{ cat_name }}</div>
+        <div class="keyword">{{ trends.get(cat_name, '持续关注') }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
   <div class="stats">
-    {% for cat_name, count in stats.items() %}
-    <div class="stat"><div class="num">{{ count }}</div><div class="label">{{ cat_name }}</div></div>
+    {% for cat_name in cat_keys %}
+    {% set cn = cat_name.replace('AI for Science','ai4s').replace('设计仿真','design').replace('数字孪生','digital').replace('Agent','agent').replace('LLM','llm') %}
+    <div class="stat"><div class="num {{ cn }}">{{ stats.get(cat_name,0) }}</div><div class="label">{{ cat_name }}</div></div>
     {% endfor %}
   </div>
 
-  {% for cat_name, articles in categories.items() %}
-  <div class="section">
-    <h2 class="section-title section-{{ cat_name }}">
-      {{ icons.get(cat_name, '📄') }} {{ cat_name }}
-      <span class="count">{{ articles|length }} 篇</span>
-    </h2>
-    {% for a in articles %}
-    <div class="card color-{{ cat_name }}">
-      <div class="source">{{ a.source_name }}</div>
-      <h3><a href="{{ a.url }}" target="_blank">{{ a.title }}</a></h3>
-      <p class="summary">{{ a.ai_summary }}</p>
+  {% for cat_name in cat_keys %}
+  {% set cn = cat_name.replace('AI for Science','ai4s').replace('设计仿真','design').replace('数字孪生','digital') %}
+  {% set sec_class = cn if cn in ['ai4s','design','digital'] else cat_name %}
+  <div class="section" id="sec-{{ sec_class }}">
+    <div class="section-header sec-{{ sec_class }}">
+      <span class="icon">{{ icons.get(cat_name,'📄') }}</span>
+      <h2>{{ cat_name }}</h2>
+      <span class="badge badge-{{ sec_class }}">{{ categories.get(cat_name,[])|length }}</span>
     </div>
-    {% endfor %}
+
+    {% set arts = categories.get(cat_name,[]) %}
+    {% if arts %}
+    <div class="article-list" data-cat="{{ sec_class }}" data-per-page="15">
+      {% for a in arts %}
+      {% set imp = a.get('importance',5)|int %}
+      <div class="card">
+        <div class="score {% if imp>=8 %}high{% elif imp>=5 %}mid{% else %}low{% endif %}">{{ imp }}</div>
+        <div class="card-body">
+          <div class="card-source">{{ a.source_name }}</div>
+          <h3><a href="{{ a.url }}" target="_blank">{{ a.get('chinese_title', a.title) }}</a></h3>
+          {% if a.get('chinese_title') and a.get('chinese_title') != a.get('title') %}
+          <div class="orig">{{ a.title[:120] }}</div>
+          {% endif %}
+          <p class="summary">{{ a.ai_summary }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="pagination" data-for="{{ sec_class }}"></div>
+    {% else %}
+    <div class="empty">本周暂无相关内容</div>
+    {% endif %}
   </div>
   {% endfor %}
 
-  <footer>
-    Generated by Weekly AI Report Agent · {{ generated_at }}
-  </footer>
+  <footer>Generated by Weekly AI Report Agent · {{ generated_at }}</footer>
 </div>
+
+<script>
+// Pagination logic
+document.querySelectorAll('.article-list').forEach(list => {
+  const cat = list.dataset.cat;
+  const perPage = parseInt(list.dataset.perPage) || 15;
+  const cards = list.querySelectorAll('.card');
+  const total = cards.length;
+  if (total <= perPage) return;
+
+  let page = 1;
+  const totalPages = Math.ceil(total / perPage);
+  const pagDiv = document.querySelector(`.pagination[data-for="${cat}"]`);
+
+  function render() {
+    cards.forEach((c, i) => c.style.display = (i >= (page-1)*perPage && i < page*perPage) ? '' : 'none');
+    pagDiv.innerHTML = '';
+    for (let p=1; p<=totalPages; p++) {
+      const btn = document.createElement('button');
+      btn.textContent = p;
+      if (p===page) btn.classList.add('active');
+      btn.onclick = () => { page = p; render(); scrollTo(0, document.getElementById('sec-'+cat).offsetTop - 20); };
+      pagDiv.appendChild(btn);
+    }
+  }
+  render();
+});
+</script>
 </body>
 </html>

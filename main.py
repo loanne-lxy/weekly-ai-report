@@ -62,15 +62,16 @@ async def main():
     logger.info("=== Phase 4: Classify ===")
     articles = await fs._classify_async(articles)
 
-    # 5. LLM 摘要（并发）
-    logger.info("=== Phase 5: Summarize ===")
-    articles = await fs._summarize_async(articles)
+    # 5. LLM 评分 + 中文标题 + 摘要（并发）
+    logger.info("=== Phase 5: Enrich (score + CN title + summary) ===")
+    articles = await fs._enrich_async(articles)
+    articles.sort(key=lambda a: a.get("importance", 5), reverse=True)
 
     # 6. 生成报告
     week_num = datetime.now(timezone.utc).isocalendar()
     week_label = f"{week_num[0]}-W{week_num[1]:02d}"
     logger.info(f"=== Phase 6: Generate Report ({week_label}) ===")
-    report_path = generate_report(articles, config, week_label)
+    report_path = generate_report(articles, config, week_label, llm)
     logger.info(f"Report saved to: {report_path}")
 
     # 7. 源池自评估 + 自动发现

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+venv/
+output/
+dedup.db
+*.log
+.env
+.DS_Store

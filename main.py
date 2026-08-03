@@ -1,0 +1,85 @@
+"""主流程 — 端到端周报生成"""
+import yaml
+import logging
+import argparse
+from datetime import datetime, timezone
+
+from fetcher.fetcher import fetch_all
+from dedup.deduplicator import Deduplicator
+from filter.filter_summarizer import FilterSummarizer
+from evaluator.source_evaluator import SourceEvaluator
+from generator.report_generator import generate_report
+from models.llm_client import LLMClient
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger("weekly_report")
+
+
+def load_config() -> dict:
+    with open("config.yaml", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+def load_sources() -> list[dict]:
+    with open("sources.yaml", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    return data.get("sources", [])
+
+
+async def main():
+    parser = argparse.ArgumentParser(description="Weekly AI Report Agent")
+    parser.add_argument("--no-fetch", action="store_true", help="Skip fetching")
+    args = parser.parse_args()
+
+    config = load_config()
+    sources = load_sources()
+    logger.info(f"Loaded {len(sources)} sources")
+
+    # 1. 抓取
+    if not args.no_fetch:
+        logger.info("=== Phase 1: Fetching ===")
+        articles = await fetch_all(sources, config["fetch"].get("concurrency", 10))
+        logger.info(f"Fetched {len(articles)} raw articles")
+    else:
+        articles = []
+
+    # 2. 去重
+    logger.info("=== Phase 2: Dedup ===")
+    dedup = Deduplicator()
+    articles = dedup.filter_new(articles)
+
+    # 3. 关键词预过滤
+    logger.info("=== Phase 3: Filter ===")
+    llm = LLMClient(config)
+    fs = FilterSummarizer(llm, config)
+    articles = fs.keyword_pre_filter(articles)
+
+    # 4. LLM 分类
+    logger.info("=== Phase 4: Classify ===")
+    articles = fs.classify_batch(articles)
+
+    # 5. LLM 摘要
+    logger.info("=== Phase 5: Summarize ===")
+    articles = fs.summarize_batch(articles)
+
+    # 6. 生成报告
+    week_num = datetime.now(timezone.utc).isocalendar()
+    week_label = f"{week_num[0]}-W{week_num[1]:02d}"
+    logger.info(f"=== Phase 6: Generate Report ({week_label}) ===")
+    report_path = generate_report(articles, config, week_label)
+    logger.info(f"Report saved to: {report_path}")
+
+    # 7. 源池自评估
+    logger.info("=== Phase 7: Evaluate Sources ===")
+    evaluator = SourceEvaluator("sources.yaml", config)
+    evaluator.evaluate(articles, sources)
+
+    logger.info("Done!")
+
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())

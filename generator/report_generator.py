@@ -21,7 +21,7 @@ def generate_report(articles: list[dict], config: dict, week_label: str) -> str:
     total = sum(stats.values())
 
     icons = {
-        "LLM": "🧠", "Agent": "🤖", "AI4Science": "🔬",
+        "LLM": "🧠", "Agent": "🤖", "AI for Science": "🔬",
         "设计仿真": "🎨", "数字孪生": "🏭",
     }
 

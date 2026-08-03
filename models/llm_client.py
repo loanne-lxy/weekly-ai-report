@@ -1,6 +1,22 @@
 """统一 LLM 调用接口 — 支持 Ollama / OpenAI / DeepSeek / 自定义"""
 import os
+from pathlib import Path
 from openai import OpenAI
+
+
+def _load_dotenv():
+    """加载项目根目录的 .env 文件"""
+    env_path = Path(__file__).parent.parent / ".env"
+    if env_path.exists():
+        with open(env_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    os.environ.setdefault(k.strip(), v.strip())
+
+
+_load_dotenv()
 
 
 class LLMClient:
@@ -12,8 +28,14 @@ class LLMClient:
         if api_key.startswith("${") and api_key.endswith("}"):
             api_key = os.environ.get(api_key[2:-1], "")
 
+        if not api_key or api_key == "ollama":
+            raise RuntimeError(
+                "API key not found. Set DEEPSEEK_API_KEY in .env file "
+                "or export DEEPSEEK_API_KEY=xxx"
+            )
+
         self.client = OpenAI(
-            api_key=api_key or "ollama",
+            api_key=api_key,
             base_url=cfg.get("base_url", "http://localhost:11434/v1"),
         )
         self.model = cfg.get("name", "qwen3:14b")

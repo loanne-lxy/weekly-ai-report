@@ -74,6 +74,11 @@ async def main():
     report_path = generate_report(articles, config, week_label, llm)
     logger.info(f"Report saved to: {report_path}")
 
+    # 自动在浏览器打开
+    import webbrowser
+    webbrowser.open(f"file://{report_path}")
+    logger.info(f"Opened in browser")
+
     # 7. 源池自评估 + 自动发现
     logger.info("=== Phase 7: Evaluate & Discover Sources ===")
     evaluator = SourceEvaluator("sources.yaml", config)

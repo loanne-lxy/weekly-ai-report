@@ -1,4 +1,5 @@
 """主流程 — 端到端周报生成"""
+import os
 import yaml
 import logging
 import argparse
@@ -33,7 +34,15 @@ def load_sources() -> list[dict]:
 async def main():
     parser = argparse.ArgumentParser(description="Weekly AI Report Agent")
     parser.add_argument("--no-fetch", action="store_true", help="Skip fetching")
+    parser.add_argument("--reset", action="store_true", help="Reset dedup DB (for testing)")
     args = parser.parse_args()
+
+    if args.reset:
+        import os as _os
+        db = "dedup.db"
+        if _os.path.exists(db):
+            _os.remove(db)
+            logger.info("Reset dedup database")
 
     config = load_config()
     sources = load_sources()
@@ -76,8 +85,9 @@ async def main():
 
     # 自动在浏览器打开
     import webbrowser
-    webbrowser.open(f"file://{report_path}")
-    logger.info(f"Opened in browser")
+    abs_path = os.path.abspath(report_path)
+    webbrowser.open(f"file://{abs_path}")
+    logger.info(f"Opened in browser: {abs_path}")
 
     # 7. 源池自评估 + 自动发现
     logger.info("=== Phase 7: Evaluate & Discover Sources ===")

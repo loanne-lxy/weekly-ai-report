@@ -118,7 +118,7 @@
     {% if arty %}{% endif %}
     {% if arts %}
     {% if cat_name in empty_cats %}
-    <div class="no-update">⚠ 本周无新资讯，以下为上周内容</div>
+    <div class="no-update">⚠ 暂无新资讯，以下为上周内容</div>
     {% endif %}
     <div class="article-list" data-cat="{{ sec_class }}" data-per-page="15">
       {% for a in arts %}
@@ -126,7 +126,7 @@
       <div class="card{% if a.get('carried_over') %} carried{% endif %}">
         <div class="score {% if imp>=8 %}high{% elif imp>=5 %}mid{% else %}low{% endif %}">{{ imp }}</div>
         <div class="card-body">
-          <div class="card-source">{{ a.source_name }}{% if a.get('carried_over') %} <span class="carried-badge">📌 上周</span>{% endif %}</div>
+          <div class="card-source">{{ a.source_name }}{% if a.get('carried_over') %} <span class="carried-badge">{{ a.get('published','')[:10] }}</span>{% endif %}</div>
           <h3><a href="{{ a.url }}" target="_blank">{{ a.get('chinese_title', a.title) }}</a></h3>
           {% if a.get('chinese_title') and a.get('chinese_title') != a.get('title') %}
           <div class="orig">{{ a.title[:120] }}</div>

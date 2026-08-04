@@ -1,54 +1,57 @@
 sources:
-- articles_this_week: 0
+- articles_this_week: 5
   category: LLM
-  eval_score: 2
+  eval_score: 3
   name: OpenAI Blog
-  streak_failures: 2
+  streak_failures: 0
   type: rss
   url: https://openai.com/blog/rss.xml
   weight: 9
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 1
   name: openai.com
-  streak_failures: 2
   type: rss
-  url: https://openai.com/blog/circles-powers-telco-personalization/
+  url: https://openai.com/blog/introducing-openai-presence
   weight: 5
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 1
   name: openai.com
-  streak_failures: 2
   type: rss
-  url: https://openai.com/blog/how-we-built-a-realtime-system-for-responsive-voice-ai/
+  url: https://openai.com/index/how-gpt-5-6-fuses-frontier-intelligence-with-frontier-efficiency
   weight: 5
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 1
+  name: arc-agi-3.devpost.com
+  type: rss
+  url: https://arc-agi-3.devpost.com/blog/how-enabling-two-settings-tripled-our-scores
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: www.avatarin.com
+  type: rss
+  url: https://www.avatarin.com/blog/retail-agent-gpt-realtime
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: www.nature.com
+  type: rss
+  url: https://www.nature.com/articles/s41586-025-00987-5
+  weight: 5
+- category: LLM
+  discovered_by: agent
   name: www.latent.space
-  streak_failures: 2
   type: rss
-  url: https://www.latent.space/
+  url: https://www.latent.space
   weight: 5
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 1
   name: www.interconnects.ai
-  streak_failures: 2
   type: rss
-  url: https://www.interconnects.ai/
+  url: https://www.interconnects.ai
   weight: 5
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 1
-  name: huggingface.co
-  streak_failures: 2
+  name: www.lesswrong.com
   type: rss
-  url: https://huggingface.co/blog
+  url: https://www.lesswrong.com
   weight: 5

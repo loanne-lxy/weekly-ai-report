@@ -50,6 +50,18 @@ def _get_trends(llm: LLMClient, articles: list[dict], categories: list[dict]) ->
     return trends
 
 
+def _domain_summary(llm: LLMClient, cat_name: str, titles: list[str]) -> str:
+    """Generate a one-paragraph summary for a domain section"""
+    sample = "\n".join(f"- {t}" for t in titles[:5])
+    try:
+        return llm.chat(
+            system_prompt="You are a concise analyst. Write one sentence in Chinese summarizing the key developments.",
+            user_prompt=f"Domain: {cat_name}\nTop articles:\n{sample}\n\nOne-sentence Chinese summary of this week's key developments:",
+        )
+    except Exception:
+        return ""
+
+
 def _load_last_week_articles() -> dict[str, list[dict]]:
     """读取上周 articles.json，返回按领域分组的文章字典"""
     pattern = "output/*/articles.json"
@@ -108,6 +120,18 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
 
     trends = _get_trends(llm, articles, config["filter"]["categories"]) if llm else {k: "持续关注" for k in categories}
 
+    # Generate per-domain summaries
+    domain_summaries = {}
+    if llm:
+        for cat_name, arts in categories.items():
+            if arts and len(arts) >= 2:
+                titles = [a.get("chinese_title", a.get("title", "")) for a in arts[:5]]
+                domain_summaries[cat_name] = _domain_summary(llm, cat_name, titles)
+            else:
+                domain_summaries[cat_name] = ""
+    else:
+        domain_summaries = {k: "" for k in categories}
+
     env = Environment(loader=FileSystemLoader("generator/templates"))
     template = env.get_template("weekly.html")
     html = template.render(
@@ -121,6 +145,7 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
         trends=trends,
         empty_cats=empty_cats,
         has_carried=has_carried,
+        domain_summaries=domain_summaries,
         generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
     )
 

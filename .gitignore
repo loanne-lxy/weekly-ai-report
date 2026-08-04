@@ -1,8 +1,0 @@
-__pycache__/
-*.pyc
-venv/
-dedup.db
-*.log
-.env
-.DS_Store
-.idea/

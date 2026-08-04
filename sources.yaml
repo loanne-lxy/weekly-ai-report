@@ -1,286 +1,251 @@
 sources:
 - articles_this_week: 0
-  category: 数字孪生
-  eval_score: 6
-  name: Digital Twin Consortium
-  note: 全球最具影响力的数字孪生跨行业组织，发布架构指南/白皮书
+  category: AI4Science
+  eval_score: 8
+  name: DeepMind Science Blog
+  note: AlphaFold/GNoME/FunSearch — global AI4S leader
   streak_failures: 1
   type: web
-  url: https://www.digitaltwinconsortium.org/
-  weight: 9
-- articles_this_week: 0
-  category: 数字孪生
-  eval_score: 5
-  name: NVIDIA Omniverse Blog
-  note: 实时渲染/物理仿真/AI驱动数字孪生，OpenUSD协议
-  streak_failures: 2
+  url: https://deepmind.google/discover/blog/
+  weight: 10
+- articles_this_week: 2
+  category: AI4Science
+  eval_score: 8
+  name: arXiv q-bio
+  note: Quantitative biology — protein, drug discovery
+  streak_failures: 0
   type: rss
-  url: https://developer.nvidia.com/blog/category/omniverse/
-  weight: 9
+  url: https://rss.arxiv.org/rss/q-bio.BM
+  weight: 7
 - articles_this_week: 0
-  category: LLM
-  eval_score: 4
-  name: OpenAI Blog
-  streak_failures: 2
-  type: rss
-  url: https://openai.com/blog/rss.xml
-  weight: 9
-- articles_this_week: 0
-  category: 设计仿真
-  eval_score: 4
-  name: NVIDIA Developer
-  streak_failures: 2
-  type: rss
-  url: https://developer.nvidia.com/blog/feed/
+  category: AI4Science
+  eval_score: 7
+  name: Microsoft Research AI4Science
+  note: Quantum chemistry, molecular dynamics, MatterSim, BioGPT
+  streak_failures: 1
+  type: web
+  url: https://www.microsoft.com/en-us/research/theme/ai-for-science/
   weight: 9
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 4
+  eval_score: 7
+  name: Meta AI Research (FAIR)
+  note: ESM protein language models, Open Catalyst Project
+  streak_failures: 1
+  type: web
+  url: https://ai.meta.com/research/
+  weight: 9
+- articles_this_week: 0
+  category: AI4Science
+  eval_score: 7
+  name: Nature Machine Intelligence
+  note: Top-tier AI journal with strong AI4S coverage
+  streak_failures: 1
+  type: rss
+  url: https://www.nature.com/subjects/artificial-intelligence.rss
+  weight: 9
+- articles_this_week: 0
+  category: LLM
+  eval_score: 7
+  name: HuggingFace Trending Models
+  note: Most downloaded/trending models — LLM releases
+  streak_failures: 1
+  type: web
+  url: https://huggingface.co/models?sort=trending
+  weight: 9
+- articles_this_week: 1
+  category: AI4Science
+  eval_score: 6
+  name: arXiv physics.comp-ph
+  note: Computational physics, PINN, simulation
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/physics.comp-ph
+  weight: 7
+- articles_this_week: 0
+  category: AI4Science
+  eval_score: 6
+  name: DP Technology (深势科技) Blog
+  note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
+  streak_failures: 1
+  type: web
+  url: https://www.dp.tech/en
+  weight: 8
+- articles_this_week: 0
+  category: AI4Science
+  eval_score: 6
+  name: Shanghai AI Lab
+  note: FengWu weather model, Earth science + AI
+  streak_failures: 1
+  type: web
+  url: https://www.shlab.org.cn/
+  weight: 8
+- articles_this_week: 0
+  category: LLM
+  eval_score: 6
+  name: GitHub Trending Python (weekly)
+  note: Top trending Python repos — strong LLM/Agent signal
+  streak_failures: 1
+  type: web
+  url: https://github.com/trending/python?since=weekly
+  weight: 8
+- articles_this_week: 0
+  category: Agent
+  eval_score: 6
+  name: GitHub Trending Python (weekly)
+  note: Agent frameworks and tooling surface here
+  streak_failures: 1
+  type: web
+  url: https://github.com/trending/python?since=weekly
+  weight: 8
+- articles_this_week: 1
+  category: 数字孪生
+  eval_score: 5
+  name: Digital Twin Consortium
+  note: 全球最具影响力的数字孪生跨行业组织，发布架构指南/白皮书
+  streak_failures: 0
+  type: web
+  url: https://www.digitaltwinconsortium.org/
+  weight: 9
+- articles_this_week: 11
+  category: 设计仿真
+  eval_score: 5
+  name: NVIDIA Developer
+  streak_failures: 0
+  type: rss
+  url: https://developer.nvidia.com/blog/feed/
+  weight: 9
+- articles_this_week: 10
+  category: AI4Science
+  eval_score: 5
   name: Demis Hassabis (Nitter)
   note: DeepMind CEO
-  streak_failures: 2
+  streak_failures: 0
   type: nitter_rss
   url: https://nitter.net/demishassabis/rss
   weight: 9
 - articles_this_week: 0
-  category: 数字孪生
-  eval_score: 4
-  name: IoT Analytics (Digital Twin)
-  note: 全球领先的物联网与数字孪生市场研究机构
-  streak_failures: 2
-  type: web
-  url: https://iot-analytics.com/tag/digital-twin/
-  weight: 8
+  category: AI4Science
+  eval_score: 5
+  name: arXiv cond-mat.mtrl-sci
+  note: Materials science, crystal structure prediction
+  streak_failures: 1
+  type: rss
+  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  weight: 7
 - articles_this_week: 0
-  category: 数字孪生
+  category: AI4Science
+  eval_score: 5
+  name: HuggingFace Daily Papers (AI4Science)
+  note: Daily trending AI4S papers curated by HF community
+  streak_failures: 1
+  type: web
+  url: https://huggingface.co/papers?tag=AI4Science
+  weight: 7
+- articles_this_week: 0
+  category: Agent
+  eval_score: 5
+  name: HuggingFace Trending Spaces
+  note: Agent demos and interactive apps
+  streak_failures: 1
+  type: web
+  url: https://huggingface.co/spaces?sort=trending
+  weight: 7
+- articles_this_week: 19
+  category: LLM
   eval_score: 4
+  name: arXiv cs.CL
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.CL
+  weight: 8
+- articles_this_week: 11
+  category: LLM
+  eval_score: 4
+  name: Andrej Karpathy (Nitter)
+  note: Tesla前AI总监
+  streak_failures: 0
+  type: nitter_rss
+  url: https://nitter.net/karpathy/rss
+  weight: 8
+- articles_this_week: 1
+  category: 数字孪生
+  eval_score: 3
   name: PTC Blog
   note: 工业制造PLM与数字孪生
-  streak_failures: 1
+  streak_failures: 0
   type: web
   url: https://www.ptc.com/en/blogs
   weight: 7
-- articles_this_week: 0
+- articles_this_week: 1
   category: 数字孪生
-  eval_score: 4
+  eval_score: 3
   name: Dassault Systèmes Blog
   note: 工业软件巨头，制造业数字孪生前沿案例
-  streak_failures: 1
+  streak_failures: 0
   type: web
   url: https://blog.3ds.com/
   weight: 7
 - articles_this_week: 0
   category: LLM
-  eval_score: 3
-  name: arXiv cs.CL
-  streak_failures: 2
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.CL
-  weight: 8
-- articles_this_week: 0
-  category: LLM
-  eval_score: 3
-  name: Andrej Karpathy (Nitter)
-  note: Tesla前AI总监
-  streak_failures: 2
-  type: nitter_rss
-  url: https://nitter.net/karpathy/rss
-  weight: 8
-- articles_this_week: 0
-  category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: blogs.3ds.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://blogs.3ds.com/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.engineering.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.engineering.com/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.designnews.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.designnews.com/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.techbriefs.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.techbriefs.com/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.manufacturingtomorrow.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.manufacturingtomorrow.com/
   weight: 5
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 1
-  name: www.artificialanalysis.ai
-  streak_failures: 2
-  type: rss
-  url: https://www.artificialanalysis.ai/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: simonwillison.net
-  streak_failures: 2
-  type: rss
-  url: https://simonwillison.net/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.latent.space
-  streak_failures: 2
-  type: rss
-  url: https://www.latent.space/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: huggingface.co
-  streak_failures: 2
-  type: rss
-  url: https://huggingface.co/blog
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: thegradient.pub
-  streak_failures: 2
-  type: rss
-  url: https://thegradient.pub/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
   name: www.lesswrong.com
-  streak_failures: 2
   type: rss
   url: https://www.lesswrong.com/
   weight: 5
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 1
-  name: blog.research.google
-  streak_failures: 2
+  name: www.alignmentforum.org
   type: rss
-  url: https://blog.research.google/
+  url: https://www.alignmentforum.org/
   weight: 5
-# ============================================
-# AI for Science — 新增权威源 (2026-08)
-# ============================================
-- category: AI4Science
-  name: DeepMind Science Blog
-  url: https://deepmind.google/discover/blog/
-  type: web
-  weight: 10
-  note: AlphaFold/GNoME/FunSearch — global AI4S leader
-- category: AI4Science
-  name: Microsoft Research AI4Science
-  url: https://www.microsoft.com/en-us/research/theme/ai-for-science/
-  type: web
-  weight: 9
-  note: Quantum chemistry, molecular dynamics, MatterSim, BioGPT
-- category: AI4Science
-  name: Meta AI Research (FAIR)
-  url: https://ai.meta.com/research/
-  type: web
-  weight: 9
-  note: ESM protein language models, Open Catalyst Project
-- category: AI4Science
-  name: arXiv q-bio
-  url: https://rss.arxiv.org/rss/q-bio.BM
-  type: rss
-  weight: 7
-  note: Quantitative biology — protein, drug discovery
-- category: AI4Science
-  name: arXiv physics.comp-ph
-  url: https://rss.arxiv.org/rss/physics.comp-ph
-  type: rss
-  weight: 7
-  note: Computational physics, PINN, simulation
-- category: AI4Science
-  name: arXiv cond-mat.mtrl-sci
-  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
-  type: rss
-  weight: 7
-  note: Materials science, crystal structure prediction
-- category: AI4Science
-  name: HuggingFace Daily Papers (AI4Science)
-  url: https://huggingface.co/papers?tag=AI4Science
-  type: web
-  weight: 7
-  note: Daily trending AI4S papers curated by HF community
-- category: AI4Science
-  name: DP Technology (深势科技) Blog
-  url: https://www.dp.tech/en
-  type: web
-  weight: 8
-  note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
-- category: AI4Science
-  name: Shanghai AI Lab
-  url: https://www.shlab.org.cn/
-  type: web
-  weight: 8
-  note: FengWu weather model, Earth science + AI
-- category: AI4Science
-  name: Nature Machine Intelligence
-  url: https://www.nature.com/subjects/artificial-intelligence.rss
-  type: rss
-  weight: 9
-  note: Top-tier AI journal with strong AI4S coverage
-# ============================================
-# LLM & Agent — GitHub Trending + HuggingFace
-# ============================================
 - category: LLM
-  name: GitHub Trending Python (weekly)
-  url: https://github.com/trending/python?since=weekly
-  type: web
-  weight: 8
-  note: Top trending Python repos — strong LLM/Agent signal
-- category: Agent
-  name: GitHub Trending Python (weekly)
-  url: https://github.com/trending/python?since=weekly
-  type: web
-  weight: 8
-  note: Agent frameworks and tooling surface here
-- category: LLM
-  name: HuggingFace Trending Models
-  url: https://huggingface.co/models?sort=trending
-  type: web
-  weight: 9
-  note: Most downloaded/trending models — LLM releases
-- category: Agent
-  name: HuggingFace Trending Spaces
-  url: https://huggingface.co/spaces?sort=trending
-  type: web
-  weight: 7
-  note: Agent demos and interactive apps
+  discovered_by: agent
+  name: simonwillison.net
+  type: rss
+  url: https://simonwillison.net/
+  weight: 5

@@ -73,14 +73,20 @@ class LLMClient:
         cat_names = [c["name"] for c in categories]
         prompt = f"""判断以下文章属于哪个领域。只输出领域名称，不要解释。
 
-领域: {", ".join(cat_names)}
+领域定义:
+- LLM: 核心大模型技术（新模型架构/训练方法/推理优化/基准评测/对齐技术/Transformer变体/量化/蒸馏），不包含应用案例
+- Agent: AI智能体（自主决策/工具调用/多Agent协作/RAG/机器人/任务规划/人机交互Agent），不含纯模型发布
+- AI for Science: AI驱动科学发现（蛋白质结构/药物研发/材料科学/气象预测/数学证明/物理模拟）
+- 设计仿真: AI辅助工程设计（生成式设计/CAD/CAE仿真/3D生成/渲染/Omniverse/数字内容创作）
+- 数字孪生: 工业数字孪生（IoT数据集成/实时仿真/预测性维护/工业4.0/赛博物理系统）
+
 如果都不属于，输出 "NONE"。
 
 标题: {title}
 摘要: {summary[:500]}
 
 领域:"""
-        result = self.chat(system_prompt="你是AI资讯分类器。", user_prompt=prompt)
+        result = self.chat(system_prompt="你是AI资讯分类器。严格按照领域定义分类，不要将AI应用案例归入LLM。", user_prompt=prompt)
         for name in cat_names:
             if name in result:
                 return name

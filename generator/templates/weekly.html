@@ -140,7 +140,7 @@
     {% if cat_name in empty_cats %}
     <div class="no-update">暂无新资讯，以下为上周内容</div>
     {% endif %}
-    <div class="article-list" data-cat="{{ c }}" data-per-page="15">
+    <div class="article-list" data-cat="{{ c }}" data-per-page="5">
       {% for a in arts %}
       {% set imp = a.get('importance',5)|int %}
       <div class="card{% if a.get('carried_over') %} carried{% endif %}">

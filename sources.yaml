@@ -257,3 +257,30 @@ sources:
   type: rss
   weight: 9
   note: Top-tier AI journal with strong AI4S coverage
+# ============================================
+# LLM & Agent — GitHub Trending + HuggingFace
+# ============================================
+- category: LLM
+  name: GitHub Trending Python (weekly)
+  url: https://github.com/trending/python?since=weekly
+  type: web
+  weight: 8
+  note: Top trending Python repos — strong LLM/Agent signal
+- category: Agent
+  name: GitHub Trending Python (weekly)
+  url: https://github.com/trending/python?since=weekly
+  type: web
+  weight: 8
+  note: Agent frameworks and tooling surface here
+- category: LLM
+  name: HuggingFace Trending Models
+  url: https://huggingface.co/models?sort=trending
+  type: web
+  weight: 9
+  note: Most downloaded/trending models — LLM releases
+- category: Agent
+  name: HuggingFace Trending Spaces
+  url: https://huggingface.co/spaces?sort=trending
+  type: web
+  weight: 7
+  note: Agent demos and interactive apps

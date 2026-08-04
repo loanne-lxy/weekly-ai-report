@@ -1,0 +1,39 @@
+name: Deploy Weekly Report to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find latest report
+        id: latest
+        run: |
+          LATEST=$(ls -d output/*/index.html 2>/dev/null | sort -r | head -1)
+          if [ -n "$LATEST" ]; then
+            echo "Found latest: $LATEST"
+            cp "$LATEST" ./index.html
+            echo "status=deployed" >> $GITHUB_OUTPUT
+          else
+            echo "No reports found"
+            echo '<html><body><h1>No report yet</h1></body></html>' > index.html
+            echo "status=empty" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          keep_files: false

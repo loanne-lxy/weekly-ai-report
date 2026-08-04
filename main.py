@@ -83,11 +83,13 @@ async def main():
     report_path = generate_report(articles, config, week_label, llm)
     logger.info(f"Report saved to: {report_path}")
 
-    # 自动在浏览器打开
+    # 自动在浏览器打开 + 公网 URL
     import webbrowser
     abs_path = os.path.abspath(report_path)
     webbrowser.open(f"file://{abs_path}")
-    logger.info(f"Opened in browser: {abs_path}")
+    public_url = "https://loanne-lxy.github.io/weekly-ai-report/"
+    logger.info(f"公网地址: {public_url}  (推送后自动部署)")
+    logger.info(f"本地打开: {abs_path}")
 
     # 7. 源池自评估 + 自动发现
     logger.info("=== Phase 7: Evaluate & Discover Sources ===")

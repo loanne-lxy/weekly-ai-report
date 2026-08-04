@@ -5,461 +5,134 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI 前沿资讯周报</title>
 <style>
-  /* ============================================================
-     Design tokens — restrained light-tech palette
-     ============================================================ */
   :root {
-    /* Neutrals */
-    --bg:        #f5f7fa;
-    --card:      #ffffff;
-    --border:    #e8ecf1;
-    --border-soft: #eef1f5;
-    --text:      #1a1f2e;
-    --text-sub:  #5a6272;
-    --muted:     #8b929f;
-
-    /* Accent — single blue, used sparingly */
-    --accent:        #4361ee;
-    --accent-subtle: #eef1fd;
-    --accent-hover:  #3451d1;
-
-    /* Domain hues — desaturated for harmony */
-    --llm:      #4a7de0;
-    --agent:    #7b5ed6;
-    --ai4s:     #3da88a;
-    --design:   #d4912e;
-    --digital:  #db5a5a;
-
-    /* Domain subtle backgrounds */
-    --llm-bg:      #eff3fc;
-    --agent-bg:    #f3f0fb;
-    --ai4s-bg:     #edf7f3;
-    --design-bg:    #fdf6ed;
-    --digital-bg:   #fdf0f0;
-
-    /* Score tiers */
-    --score-high:   #e04a4a;
-    --score-mid:    #d4912e;
-    --score-low:    #8b929f;
-
-    /* Depth — 3-level coherent system */
-    --shadow-xs:  0 1px 2px rgba(0,0,0,0.04);
-    --shadow-sm:  0 2px 8px rgba(0,0,0,0.06);
-    --shadow-md:  0 6px 20px rgba(0,0,0,0.08);
-
-    /* Radii */
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 16px;
-
-    /* Typography scale */
-    --text-xs:   0.72rem;
-    --text-sm:   0.8rem;
-    --text-base: 0.9rem;
-    --text-md:   1rem;
-    --text-lg:   1.25rem;
-    --text-xl:   1.65rem;
-    --text-2xl:  2.15rem;
-
-    /* Spacing rhythm (4px base) */
-    --space-1: 4px;
-    --space-2: 8px;
-    --space-3: 12px;
-    --space-4: 16px;
-    --space-5: 20px;
-    --space-6: 24px;
-    --space-8: 32px;
-    --space-10: 40px;
-    --space-12: 48px;
+    --bg: #fafbfc; --card: #fff; --border: #e8eaed;
+    --text: #202124; --sub: #5f6368; --muted: #9aa0a6;
+    --blue: #1a73e8; --purple: #9334e6; --green: #0d904f;
+    --amber: #e37400; --red: #d93025;
+    --radius: 8px; --gap: 24px;
   }
-
   * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-    font-size: var(--text-base);
-    line-height: 1.65;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+  .wrap { max-width:1200px; margin:0 auto; padding:0 32px; }
 
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: var(--space-8) var(--space-6);
-  }
+  /* Header */
+  header { padding:48px 0 32px; text-align:center; }
+  header .week { display:inline-block; background:var(--blue); color:#fff; padding:4px 16px; border-radius:20px; font-size:13px; font-weight:600; letter-spacing:0.5px; margin-bottom:12px; }
+  header h1 { font-size:28px; font-weight:700; letter-spacing:-0.5px; margin-bottom:4px; }
+  header .sub { color:var(--muted); font-size:14px; }
 
-  /* ---- Header ---- */
-  header {
-    text-align: center;
-    padding: var(--space-10) 0 var(--space-6);
-  }
-  header .week-badge {
-    display: inline-block;
-    background: var(--accent-subtle);
-    color: var(--accent);
-    padding: 5px 18px;
-    border-radius: 999px;
-    font-size: var(--text-xs);
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    margin-bottom: var(--space-4);
-    border: 1px solid rgba(67,97,238,0.12);
-  }
-  header h1 {
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: var(--space-2);
-    color: var(--text);
-  }
-  header .sub {
-    color: var(--text-sub);
-    font-size: var(--text-base);
-    font-weight: 400;
-  }
+  /* Trend bar */
+  .trends { background:linear-gradient(135deg,#1a237e,#283593,#3949ab); border-radius:12px; padding:28px 32px; margin-bottom:40px; color:#fff; }
+  .trends h2 { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; opacity:0.6; margin-bottom:16px; }
+  .trends-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:20px; }
+  .trends-grid .t { text-align:center; }
+  .trends-grid .t .dot { width:10px;height:10px; border-radius:50%; margin:0 auto 8px; }
+  .trends-grid .t .label { font-size:11px; opacity:0.55; margin-bottom:4px; }
+  .trends-grid .t .kw { font-size:15px; font-weight:700; }
 
-  /* ---- Trend bar ---- */
-  .trend-bar {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #364e6b 100%);
-    border-radius: var(--radius-lg);
-    padding: var(--space-8) var(--space-8);
-    margin-bottom: var(--space-8);
-    color: #fff;
-    box-shadow: var(--shadow-md);
-  }
-  .trend-bar h2 {
-    font-size: var(--text-xs);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    opacity: 0.55;
-    margin-bottom: var(--space-5);
-  }
-  .trend-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-4);
-  }
-  .trend-item { text-align: center; }
-  .trend-item .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin: 0 auto var(--space-3);
-    box-shadow: 0 0 0 3px rgba(255,255,255,0.12);
-  }
-  .trend-item .label {
-    font-size: var(--text-xs);
-    opacity: 0.5;
-    margin-bottom: var(--space-1);
-    letter-spacing: 0.02em;
-  }
-  .trend-item .keyword {
-    font-size: var(--text-md);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
+  /* Stats row */
+  .stats { display:flex; gap:1px; margin-bottom:40px; background:var(--border); border-radius:10px; overflow:hidden; }
+  .stats .s { flex:1; background:var(--card); text-align:center; padding:16px 8px; }
+  .stats .s .n { font-size:28px; font-weight:800; }
+  .stats .s .l { font-size:11px; color:var(--muted); margin-top:2px; }
 
-  /* ---- Stats row ---- */
-  .stats {
-    display: flex;
-    gap: var(--space-3);
-    margin-bottom: var(--space-10);
-    flex-wrap: wrap;
-  }
-  .stat {
-    flex: 1;
-    min-width: 100px;
-    background: var(--card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-md);
-    padding: var(--space-4) var(--space-3);
-    text-align: center;
-    box-shadow: var(--shadow-xs);
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
-  }
-  .stat:hover {
-    box-shadow: var(--shadow-sm);
-    transform: translateY(-1px);
-  }
-  .stat .num {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-  .stat .label {
-    font-size: var(--text-xs);
-    color: var(--muted);
-    margin-top: var(--space-2);
-    font-weight: 500;
-  }
-  .stat .num.llm    { color: var(--llm); }
-  .stat .num.agent  { color: var(--agent); }
-  .stat .num.ai4s   { color: var(--ai4s); }
-  .stat .num.design { color: var(--design); }
-  .stat .num.digital{ color: var(--digital); }
+  /* Section */
+  .sec { margin-bottom:40px; }
+  .sec-h { display:flex; align-items:baseline; gap:10px; padding-bottom:8px; border-bottom:2px solid; margin-bottom:16px; }
+  .sec-h .icon { font-size:20px; }
+  .sec-h h2 { font-size:18px; font-weight:700; }
+  .sec-h .badge { font-size:11px; padding:2px 10px; border-radius:10px; color:#fff; margin-left:auto; font-weight:600; }
+  .sec-summary { font-size:15px; color:var(--sub); margin-bottom:16px; line-height:1.7; padding-left:4px; border-left:3px solid var(--border); }
+  .b-blue { border-color:var(--blue)!important; color:var(--blue); } .bg-blue { background:var(--blue); }
+  .b-purple { border-color:var(--purple)!important; color:var(--purple); } .bg-purple { background:var(--purple); }
+  .b-green { border-color:var(--green)!important; color:var(--green); } .bg-green { background:var(--green); }
+  .b-amber { border-color:var(--amber)!important; color:var(--amber); } .bg-amber { background:var(--amber); }
+  .b-red { border-color:var(--red)!important; color:var(--red); } .bg-red { background:var(--red); }
 
-  /* ---- Section header ---- */
-  .section { margin-bottom: var(--space-10); }
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
-    padding-bottom: var(--space-3);
-    border-bottom: 1.5px solid;
-  }
-  .section-header .icon { font-size: 1.15rem; line-height: 1; }
-  .section-header h2 {
-    font-size: var(--text-lg);
-    font-weight: 650;
-    letter-spacing: -0.01em;
-  }
-  .section-header .badge {
-    font-size: var(--text-xs);
-    padding: 2px 10px;
-    border-radius: 999px;
-    color: #fff;
-    margin-left: auto;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-  }
+  /* Cards */
+  .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; margin-bottom:8px; display:grid; grid-template-columns:44px 1fr; gap:16px; align-items:start; transition:box-shadow 0.15s; }
+  .card:hover { box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+  .card .score { width:44px;height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; color:#fff; }
+  .score-hi { background:var(--red); } .score-md { background:var(--amber); } .score-lo { background:var(--muted); }
+  .card.carried { opacity:0.65; background:#fafafa; }
+  .card.carried:hover { opacity:0.85; }
+  .card-body { min-width:0; }
+  .card-source { font-size:11px; color:var(--muted); margin-bottom:2px; }
+  .card h3 { font-size:15px; font-weight:600; line-height:1.4; margin-bottom:4px; }
+  .card h3 a { color:var(--text); text-decoration:none; }
+  .card h3 a:hover { color:var(--blue); }
+  .card .orig { font-size:12px; color:var(--muted); margin-bottom:4px; }
+  .card .summary { font-size:13px; color:var(--sub); line-height:1.5; margin-bottom:8px; }
+  .insights { margin:4px 0; padding-left:18px; font-size:12px; color:var(--sub); }
+  .insights li { margin-bottom:2px; }
+  .why { font-size:11px; color:var(--blue); font-style:italic; }
+  .tags-row { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
+  .tags-row .tag { font-size:10px; background:#e8f0fe; color:var(--blue); padding:1px 6px; border-radius:4px; }
 
-  .sec-LLM    { border-color: var(--llm);    color: var(--llm); }
-  .sec-Agent  { border-color: var(--agent);  color: var(--agent); }
-  .sec-ai4s   { border-color: var(--ai4s);   color: var(--ai4s); }
-  .sec-design { border-color: var(--design); color: var(--design); }
-  .sec-digital{ border-color: var(--digital);color: var(--digital); }
+  .no-update { background:#fef7e0; border:1px solid #f9ab00; border-radius:var(--radius); padding:8px 16px; margin-bottom:12px; font-size:13px; color:#5f4b00; }
+  .carried-badge { font-size:10px; background:var(--border); padding:1px 6px; border-radius:4px; color:var(--muted); margin-left:6px; }
+  .empty { text-align:center; color:var(--muted); padding:32px; font-size:14px; }
 
-  .badge-LLM    { background: var(--llm); }
-  .badge-Agent  { background: var(--agent); }
-  .badge-ai4s   { background: var(--ai4s); }
-  .badge-design { background: var(--design); }
-  .badge-digital{ background: var(--digital); }
+  /* Pagination */
+  .pagination { display:flex; justify-content:center; gap:6px; margin-top:16px; }
+  .pagination button { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:6px 12px; cursor:pointer; font-size:13px; color:var(--text); }
+  .pagination button.active { background:var(--blue); color:#fff; border-color:var(--blue); }
 
-  /* ---- Cards ---- */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-md);
-    padding: var(--space-4) var(--space-5);
-    margin-bottom: var(--space-3);
-    display: flex;
-    gap: var(--space-4);
-    align-items: flex-start;
-    box-shadow: var(--shadow-xs);
-    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-  }
-  .card:hover {
-    box-shadow: var(--shadow-sm);
-    transform: translateY(-1px);
-    border-color: var(--border);
-  }
+  footer { text-align:center; padding:32px 0; color:var(--muted); font-size:12px; border-top:1px solid var(--border); margin-top:40px; }
 
-  /* Score badge */
-  .score {
-    flex-shrink: 0;
-    width: 38px;
-    height: 38px;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-md);
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.02em;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
-  }
-  .score.high { background: var(--score-high); }
-  .score.mid  { background: var(--score-mid); }
-  .score.low  { background: var(--score-low); }
-
-  /* Card body */
-  .card-body { flex: 1; min-width: 0; }
-  .card-source {
-    font-size: var(--text-xs);
-    color: var(--muted);
-    margin-bottom: var(--space-1);
-    font-weight: 500;
-    letter-spacing: 0.01em;
-  }
-  .card h3 {
-    font-size: var(--text-base);
-    font-weight: 600;
-    line-height: 1.45;
-    margin-bottom: var(--space-1);
-  }
-  .card h3 a {
-    color: var(--text);
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  .card h3 a:hover { color: var(--accent); }
-  .card .orig {
-    font-size: var(--text-xs);
-    color: var(--muted);
-    margin-bottom: var(--space-2);
-    line-height: 1.4;
-  }
-  .card .summary {
-    font-size: var(--text-sm);
-    color: var(--text-sub);
-    line-height: 1.55;
-  }
-
-  /* Carried-over card variant */
-  .card.carried {
-    opacity: 0.72;
-    border-left: 3px solid var(--border);
-    background: #fafbfc;
-  }
-  .card.carried:hover { opacity: 0.88; }
-
-  /* New curator fields */
-  .insights { margin: var(--space-2) 0 0; padding-left: 1.2em; font-size: var(--text-sm); color: var(--text-sub); }
-  .insights li { margin-bottom: 2px; }
-  .why-matters { margin-top: var(--space-2); font-size: var(--text-xs); color: var(--accent); font-style: italic; }
-  .tags { margin-top: var(--space-2); display: flex; gap: 4px; flex-wrap: wrap; }
-  .tag { font-size: var(--text-xxs); background: var(--accent-subtle); color: var(--accent); padding: 1px 6px; border-radius: var(--radius-sm); }
-  .carried-badge {
-    font-size: 0.62rem;
-    background: var(--border-soft);
-    padding: 1px 6px;
-    border-radius: var(--radius-sm);
-    color: var(--muted);
-    font-weight: 500;
-    display: inline-block;
-    vertical-align: middle;
-  }
-
-  /* ---- No-update banner ---- */
-  .no-update {
-    background: #fef9ee;
-    border: 1px solid #f0d78c;
-    border-radius: var(--radius-sm);
-    padding: var(--space-3) var(--space-4);
-    margin-bottom: var(--space-4);
-    font-size: var(--text-sm);
-    color: #8a6410;
-    line-height: 1.5;
-  }
-
-  /* ---- Empty state ---- */
-  .empty {
-    text-align: center;
-    color: var(--muted);
-    padding: var(--space-12) var(--space-4);
-    font-size: var(--text-sm);
-    background: var(--card);
-    border: 1px dashed var(--border);
-    border-radius: var(--radius-md);
-  }
-
-  /* ---- Pagination ---- */
-  .pagination {
-    display: flex;
-    justify-content: center;
-    gap: var(--space-2);
-    margin-top: var(--space-5);
-  }
-  .pagination button {
-    background: var(--card);
-    border: 1px solid var(--border-soft);
-    border-radius: var(--radius-sm);
-    padding: 6px 14px;
-    cursor: pointer;
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--text-sub);
-    transition: all 0.15s ease;
-    box-shadow: var(--shadow-xs);
-  }
-  .pagination button:hover:not(.active) {
-    border-color: var(--accent);
-    color: var(--accent);
-    box-shadow: var(--shadow-sm);
-  }
-  .pagination button.active {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-    box-shadow: 0 2px 8px rgba(67,97,238,0.25);
-  }
-  .page-info {
-    font-size: var(--text-xs);
-    color: var(--muted);
-    margin-top: var(--space-2);
-    text-align: center;
-  }
-
-  /* ---- Footer ---- */
-  footer {
-    text-align: center;
-    padding: var(--space-8) 0;
-    color: var(--muted);
-    font-size: var(--text-xs);
-    border-top: 1px solid var(--border-soft);
-    margin-top: var(--space-8);
-    letter-spacing: 0.02em;
-  }
-
-  /* ---- Responsive ---- */
-  @media (max-width: 640px) {
-    .container { padding: var(--space-5) var(--space-4); }
-    .trend-grid { grid-template-columns: repeat(2, 1fr); }
-    .stats { flex-direction: column; }
-    .card { flex-direction: column; }
-    header h1 { font-size: var(--text-xl); }
+  @media(max-width:768px) {
+    .wrap { padding:0 16px; }
+    .trends-grid { grid-template-columns:repeat(2,1fr); }
+    .stats { flex-wrap:wrap; }
+    .stats .s { min-width:80px; }
+    .card { grid-template-columns:36px 1fr; gap:12px; padding:12px 16px; }
   }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="wrap">
   <header>
-    <div class="week-badge">2026-W32</div>
+    <div class="week">2026-W32</div>
     <h1>AI 前沿资讯周报</h1>
-    <p class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 60 篇</p>
+    <p class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 5 篇</p>
   </header>
 
-  <div class="trend-bar">
-    <h2>📊 本周趋势关键词</h2>
-    <div class="trend-grid">
+  <div class="trends">
+    <h2>Trends</h2>
+    <div class="trends-grid">
       
       
-      <div class="trend-item">
-        <div class="dot" style="background:#3b82f6"></div>
+      
+      <div class="t">
+        <div class="dot" style="background:#669df6"></div>
         <div class="label">LLM</div>
-        <div class="keyword">系统级优化</div>
+        <div class="kw">无相关资讯</div>
       </div>
       
-      <div class="trend-item">
-        <div class="dot" style="background:#8b5cf6"></div>
+      <div class="t">
+        <div class="dot" style="background:#c58af9"></div>
         <div class="label">Agent</div>
-        <div class="keyword">Agent安全部</div>
+        <div class="kw">无相关资讯</div>
       </div>
       
-      <div class="trend-item">
-        <div class="dot" style="background:#10b981"></div>
+      <div class="t">
+        <div class="dot" style="background:#34a853"></div>
         <div class="label">AI for Science</div>
-        <div class="keyword">AI4S平台化</div>
+        <div class="kw">无相关资讯</div>
       </div>
       
-      <div class="trend-item">
-        <div class="dot" style="background:#f59e0b"></div>
+      <div class="t">
+        <div class="dot" style="background:#f9ab00"></div>
         <div class="label">设计仿真</div>
-        <div class="keyword">无相关资讯</div>
+        <div class="kw">无相关资讯</div>
       </div>
       
-      <div class="trend-item">
-        <div class="dot" style="background:#ef4444"></div>
+      <div class="t">
+        <div class="dot" style="background:#f28b82"></div>
         <div class="label">数字孪生</div>
-        <div class="keyword">无相关资讯</div>
+        <div class="kw">无相关资讯</div>
       </div>
       
     </div>
@@ -468,1500 +141,156 @@
   <div class="stats">
     
     
-    <div class="stat"><div class="num llm">15</div><div class="label">LLM</div></div>
+    <div class="s"><div class="n" style="color:#1a73e8">2</div><div class="l">LLM</div></div>
     
     
-    <div class="stat"><div class="num agent">10</div><div class="label">Agent</div></div>
+    <div class="s"><div class="n" style="color:#9334e6">1</div><div class="l">Agent</div></div>
     
     
-    <div class="stat"><div class="num ai4s">33</div><div class="label">AI for Science</div></div>
+    <div class="s"><div class="n" style="color:#0d904f">0</div><div class="l">AI for Science</div></div>
     
     
-    <div class="stat"><div class="num design">1</div><div class="label">设计仿真</div></div>
+    <div class="s"><div class="n" style="color:#e37400">1</div><div class="l">设计仿真</div></div>
     
     
-    <div class="stat"><div class="num digital">1</div><div class="label">数字孪生</div></div>
+    <div class="s"><div class="n" style="color:#d93025">1</div><div class="l">数字孪生</div></div>
     
   </div>
 
   
   
   
-  <div class="section" id="sec-LLM">
-    <div class="section-header sec-LLM">
+  <div class="sec" id="sec-blue">
+    <div class="sec-h b-blue">
       <span class="icon">🧠</span>
       <h2>LLM</h2>
-      <span class="badge badge-LLM">15</span>
+      <span class="badge bg-blue">2</span>
     </div>
+
+    
+    <div class="sec-summary">本周LLM领域两大焦点为GPT-5采用全新MoE架构发布，以及Gemma 4模型下载量突破9亿。</div>
+    
 
     
     
     
+    <div class="no-update">暂无新资讯，以下为上周内容</div>
     
-    <div class="article-list" data-cat="LLM" data-per-page="15">
+    <div class="article-list" data-cat="blue" data-per-page="5">
       
       
-      <div class="card">
-        <div class="score mid">5</div>
+      <div class="card carried">
+        <div class="score score-hi">10</div>
         <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/setting-a-world-record-for-moe-pre-training-on-nvidia-gb300-nvl72/" target="_blank">NVIDIA GB300创MoE预训练世界纪录</a></h3>
+          <div class="card-source">OpenAI Blog<span class="carried-badge"></span></div>
+          <h3><a href="https://openai.com/gpt5" target="_blank">GPT-5发布：全新MoE架构</a></h3>
           
-          <div class="orig">Setting a World Record for MoE Pre-Training on NVIDIA GB300 NVL72</div>
-          
-          <p class="summary">NVIDIA在GB300 NVL72上实现MoE预训练世界纪录，展示系统级优化突破，为大规模AI训练树立新标杆。</p>
-          
-          <ul class="insights">
-            <li>MoE成为前沿模型预训练的主流架构，改变了大规模AI训练的限制因素。</li><li>NVIDIA通过系统级优化（如计算、内存、通信）在GB300 NVL72上实现世界纪录性能。</li><li>该成果展示了硬件与软件协同设计对提升MoE训练效率的关键作用。</li>
-          </ul>
+          <div class="summary">OpenAI发布GPT-5，采用全新MoE架构，推理性能提升3倍。</div>
           
           
-          <p class="why-matters">该成果为MoE大模型训练提供了性能基准，推动AI基础设施优化，直接影响未来大模型研发效率与成本。</p>
-          
-          
-          <div class="tags"><span class="tag">MoE</span><span class="tag">预训练</span><span class="tag">NVIDIA GB300</span><span class="tag">性能优化</span><span class="tag">系统级优化</span></div>
           
         </div>
       </div>
       
       
-      <div class="card">
-        <div class="score mid">5</div>
+      <div class="card carried">
+        <div class="score score-hi">8</div>
         <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/inside-nvidia-rubin-gpu-architecture-powering-the-era-of-agentic-ai/" target="_blank">NVIDIA Rubin GPU架构驱动智能体AI时代</a></h3>
+          <div class="card-source">Demis Hassabis (Nitter)<span class="carried-badge"></span></div>
+          <h3><a href="https://example.com/gemma4" target="_blank">Gemma 4模型下载量突破9亿</a></h3>
           
-          <div class="orig">Inside NVIDIA Rubin GPU Architecture: Powering the Era of Agentic AI</div>
+          <div class="summary">Google Gemma 4系列开源模型累计下载量突破9亿次。</div>
           
-          <p class="summary">NVIDIA Rubin GPU架构专为智能体AI设计，提供高吞吐推理和低延迟，支持大规模AI工厂持续生产智能。</p>
           
-          <ul class="insights">
-            <li>Rubin GPU针对智能体AI的推理工作负载优化，强调高吞吐量和低延迟。</li><li>架构支持AI工厂模式，实现智能的持续生产而非一次性训练。</li><li>为多智能体协作和复杂推理任务提供硬件基础。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该架构标志着AI硬件从训练转向推理和智能体部署，为大规模智能体应用提供基础设施，推动AI工业化进程。</p>
-          
-          
-          <div class="tags"><span class="tag">NVIDIA</span><span class="tag">Rubin GPU</span><span class="tag">Agentic AI</span><span class="tag">推理</span><span class="tag">AI工厂</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score mid">5</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/joshwoodward/status/2079595879808569534#m" target="_blank">Gemini 3.6 Flash发布，成本效率大幅提升</a></h3>
-          
-          <div class="orig">RT by @demishassabis: Today’s launches are all about better performance, lower latency, and a smaller bill. + 3.6 Flash </div>
-          
-          <p class="summary">Google DeepMind发布Gemini 3.6 Flash和3.5 Flash-Lite，前者在复杂编码上减少65% token使用，后者速度达350 tokens/秒，均已在Gemini应用上线，3.5 Pro进入合作伙伴测试。</p>
-          
-          <ul class="insights">
-            <li>Gemini 3.6 Flash在相同成本下减少高达65%的token使用，提升复杂编码效率。</li><li>Gemini 3.5 Flash-Lite实现350输出tokens/秒的高速，适合文档处理和代理搜索。</li><li>Gemini 3.5 Pro已进入合作伙伴测试，预示更强大的模型即将推出。</li>
-          </ul>
-          
-          
-          <p class="why-matters">这些模型优化了性能和成本，对开发者和企业采用LLM至关重要，同时为Agent应用提供更高效的基础，推动AI代理规模化部署。</p>
-          
-          
-          <div class="tags"><span class="tag">Gemini</span><span class="tag">LLM</span><span class="tag">成本优化</span><span class="tag">低延迟</span><span class="tag">AI代理</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/co-designing-ai-model-attention-for-fast-interactive-long-context-inference/" target="_blank">长上下文注意力协同设计加速推理</a></h3>
-          
-          <div class="orig">Co-Designing AI Model Attention for Fast, Interactive Long-Context Inference</div>
-          
-          <p class="summary">NVIDIA提出针对长上下文推理的注意力机制协同设计，优化KV缓存与计算，提升交互速度，适用于Agent工作负载。</p>
-          
-          <ul class="insights">
-            <li>长上下文场景下注意力计算占比显著增加，成为推理瓶颈。</li><li>通过模型与硬件协同设计，优化KV缓存和注意力算法，减少延迟。</li><li>该技术对Agent和长文档处理等交互式应用至关重要。</li>
-          </ul>
-          
-          
-          <p class="why-matters">随着Agent和长上下文应用普及，推理效率成为关键。此协同设计方法为开发者提供优化路径，加速实时交互体验。</p>
-          
-          
-          <div class="tags"><span class="tag">LLM</span><span class="tag">注意力机制</span><span class="tag">长上下文</span><span class="tag">推理优化</span><span class="tag">NVIDIA</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/nvidia-exemplar-cloud-lessons-for-unlocking-full-performance-on-ai-infrastructure/" target="_blank">NVIDIA Exemplar云：解锁AI基础设施性能</a></h3>
-          
-          <div class="orig">NVIDIA Exemplar Cloud: Lessons for Unlocking Full Performance on AI Infrastructure</div>
-          
-          <p class="summary">NVIDIA分享Exemplar云项目经验，强调通过系统调优、网络优化和散热管理，可显著提升AI集群训练吞吐量，避免性能瓶颈。</p>
-          
-          <ul class="insights">
-            <li>相同硬件配置的AI集群因系统调优差异，训练吞吐量可相差数倍。</li><li>Exemplar云项目通过精细的散热、网络和存储优化，实现了接近理论峰值的性能。</li><li>NVIDIA提供了可复用的性能调优方法论，帮助用户最大化AI基础设施投资回报。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该文章为AI基础设施的部署和优化提供了实用指南，有助于企业和研究机构提升大模型训练效率，降低算力成本。</p>
-          
-          
-          <div class="tags"><span class="tag">NVIDIA</span><span class="tag">AI基础设施</span><span class="tag">性能优化</span><span class="tag">训练吞吐量</span><span class="tag">H100</span><span class="tag">GB200</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/nvidia-nemotron-3-ultra-leads-open-models-on-accuracy-and-efficiency-in-agentic-rtl-coding/" target="_blank">Nemotron 3 Ultra引领开源RTL编码</a></h3>
-          
-          <div class="orig">NVIDIA Nemotron 3 Ultra Leads Open Models on Accuracy and Efficiency in Agentic RTL Coding</div>
-          
-          <p class="summary">NVIDIA发布Nemotron 3 Ultra，在代理式RTL编码任务中实现高精度与高效率，超越其他开源模型，助力芯片设计自动化。</p>
-          
-          <ul class="insights">
-            <li>Nemotron 3 Ultra在RTL编码的准确性和效率上领先于其他开源模型，支持代理式工作流。</li><li>该模型针对硬件设计优化，可生成和验证寄存器传输级代码，减少人工干预。</li><li>NVIDIA强调其开源特性，推动芯片设计工具链的智能化升级。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该模型将LLM能力深入硬件设计领域，有望加速芯片设计流程，降低工程时间成本，并为AI辅助EDA工具树立新标杆。</p>
-          
-          
-          <div class="tags"><span class="tag">NVIDIA</span><span class="tag">Nemotron</span><span class="tag">RTL</span><span class="tag">芯片设计</span><span class="tag">开源模型</span><span class="tag">代理式编码</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/start-customizing-nvidia-nemotron-3-nano-with-prime-intellect-lab-in-minutes/" target="_blank">Nemotron 3 Nano快速定制</a></h3>
-          
-          <div class="orig">Start Customizing NVIDIA Nemotron 3 Nano with Prime Intellect Lab in Minutes</div>
-          
-          <p class="summary">NVIDIA与Prime Intellect Lab合作，使开发者能在几分钟内定制Nemotron 3 Nano模型，简化微调流程。</p>
-          
-          <ul class="insights">
-            <li>Nemotron 3 Nano支持快速定制，适配特定领域和语言。</li><li>与Prime Intellect Lab合作，提供高效微调方案。</li><li>降低定制门槛，加速企业级LLM部署。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该合作简化了LLM定制流程，使开发者能快速部署领域专用模型，提升AI应用效率。</p>
-          
-          
-          <div class="tags"><span class="tag">Nemotron</span><span class="tag">LLM</span><span class="tag">微调</span><span class="tag">NVIDIA</span><span class="tag">Prime Intellect</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/joshwoodward/status/2077811657385079045#m" target="_blank">NotebookLM用户破三千万</a></h3>
-          
-          <div class="orig">RT by @demishassabis: I still remember the exact room, watching @stevenbjohnson break down how he writes books. That was</div>
-          
-          <p class="summary">Google NotebookLM从内部实验成长为拥有3000万用户和60万组织的AI笔记工具，正式更名并扩展多媒体功能。</p>
-          
-          <ul class="insights">
-            <li>NotebookLM起源于一个受写作方法启发的内部小项目，现已服务超3000万用户和60万组织。</li><li>产品从被动工作区演进为支持音频、视频和交互性的主动学习工具。</li><li>团队认为产品仍处于早期阶段，未来增长潜力巨大。</li>
-          </ul>
-          
-          
-          <p class="why-matters">NotebookLM的成功展示了AI在知识管理和学习领域的巨大应用潜力，其从实验到产品的路径为其他AI应用提供了参考。</p>
-          
-          
-          <div class="tags"><span class="tag">NotebookLM</span><span class="tag">AI笔记</span><span class="tag">知识管理</span><span class="tag">Google</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/demishassabis/status/2076957440109625718#m" target="_blank">前沿AI框架与AGI新纪元</a></h3>
-          
-          <div class="orig">Pinned: A Framework for Frontier AI and the Dawning of a New Age</div>
-          
-          <p class="summary">Demis Hassabis提出前沿AI框架，预测AGI将在数年内实现，并探讨其影响。</p>
-          
-          <ul class="insights">
-            <li>AGI可能在未来几年内实现，具备人类大脑的所有认知能力。</li><li>需要建立前沿AI框架以应对技术发展带来的挑战。</li><li>框架可能涵盖安全、伦理和治理等方面。</li>
-          </ul>
-          
-          
-          <p class="why-matters">作为DeepMind创始人，Hassabis的观点影响AI发展方向，框架的提出可能引导行业标准和政策制定。</p>
-          
-          
-          <div class="tags"><span class="tag">AGI</span><span class="tag">前沿AI</span><span class="tag">框架</span><span class="tag">Demis Hassabis</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/ArtificialAnlys/status/2076747075036045645#m" target="_blank">Gemini Omni Flash登顶视频生成榜</a></h3>
-          
-          <div class="orig">RT by @demishassabis: Google's Gemini Omni Flash debuts at #1 on the Artificial Analysis Text to Video and Image to Vide</div>
-          
-          <p class="summary">谷歌Gemini Omni Flash在文本转视频和图像转视频排行榜上登顶，超越字节跳动Seedance 2.0，支持原生音频和对话式编辑。</p>
-          
-          <ul class="insights">
-            <li>Gemini Omni Flash在Artificial Analysis的文本转视频和图像转视频排行榜上均排名第一，超越ByteDance Seedance 2.0。</li><li>该模型是Gemini Omni系列首款，支持文本、图像、视频输入，生成带原生音频的720p/24FPS视频片段，并支持对话式编辑。</li><li>模型于6月30日向开发者开放公开预览，定位为原生多模态模型，可“从任何输入创建任何内容”。</li>
-          </ul>
-          
-          
-          <p class="why-matters">Gemini Omni Flash的登顶标志着谷歌在多模态生成领域的技术领先，其原生音频和对话式编辑能力为视频生成设定了新标准，对AI内容创作和交互式媒体生成具有重要影响。</p>
-          
-          
-          <div class="tags"><span class="tag">Gemini Omni Flash</span><span class="tag">视频生成</span><span class="tag">多模态</span><span class="tag">排行榜</span><span class="tag">谷歌</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/GoogleDeepMind/status/2071988044878516466#m" target="_blank">谷歌发布两款Gemini模型</a></h3>
-          
-          <div class="orig">RT by @demishassabis: We’re shipping 2 major releases:  🔘 Nano Banana 2 Lite: our fastest and cheapest Gemini Image mode</div>
-          
-          <p class="summary">谷歌发布Nano Banana 2 Lite图像模型和Gemini Omni Flash视频生成模型，后者已通过API和AI Studio提供。</p>
-          
-          <ul class="insights">
-            <li>Nano Banana 2 Lite是谷歌最快、最便宜的Gemini图像模型，主打高效低成本。</li><li>Gemini Omni Flash支持视频生成与编辑，已开放API和AI Studio访问。</li><li>这两款模型分别针对图像和视频生成，扩展了Gemini系列的多模态能力。</li>
-          </ul>
-          
-          
-          <p class="why-matters">谷歌持续迭代多模态模型，降低图像和视频生成成本，推动AI生成技术在开发者和企业中的普及。</p>
-          
-          
-          <div class="tags"><span class="tag">Gemini</span><span class="tag">图像生成</span><span class="tag">视频生成</span><span class="tag">多模态</span><span class="tag">API</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cs.CL</div>
-          <h3><a href="https://arxiv.org/abs/2608.00004" target="_blank">廉价开源模型可高效评判数学证明</a></h3>
-          
-          <div class="orig">Cost-Effective Automated Judging of Natural-Language Mathematical Proofs</div>
-          
-          <p class="summary">研究发现廉价开源模型在评判自然语言数学证明时，与前沿模型准确率相当，成本降低百倍。</p>
-          
-          <ul class="insights">
-            <li>三个廉价模型（GPT-OSS 120B、DeepSeek-V4 Flash、Gemma-4 31B）在IMO-GradingBench上与人评判一致率与Claude Opus 4.7等前沿模型无显著差异。</li><li>成本效益显著：相比前沿模型，成本降低高达100倍。</li><li>多数投票未超越最强单个模型，但匹配前沿性能，是预算有限时的最佳选择。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为数学推理系统评估提供了低成本方案，可能降低LLM评估门槛，推动更广泛的模型评测应用。</p>
-          
-          
-          <div class="tags"><span class="tag">LLM评估</span><span class="tag">数学推理</span><span class="tag">开源模型</span><span class="tag">成本优化</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cs.CL</div>
-          <h3><a href="https://arxiv.org/abs/2608.00005" target="_blank">RubricReviewer：基于评分标准的同行评审框架</a></h3>
-          
-          <div class="orig">RubricReviewer: From Direct Critique to Objective and Comprehensive Rubric-Driven Peer Review</div>
-          
-          <p class="summary">RubricReviewer是一个完全由评分标准驱动的LLM评审框架，通过显式生成评分标准并解耦其与判断，提升评审的客观性和全面性。</p>
-          
-          <ul class="insights">
-            <li>现有LLM评审器将稿件直接映射到评审意见，导致评分标准隐式且与判断纠缠。</li><li>训练无关的代理收集广泛证据但缺乏方向，训练型评审器继承人类判断的噪声和覆盖不均。</li><li>RubricReviewer将评分标准生成显式化，分离标准制定与判断，实现更客观全面的评审。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该框架为LLM在同行评审中的应用提供了新范式，通过显式评分标准提升评审质量，有望缓解学术评审压力，并推动LLM在专业评估任务中的可靠部署。</p>
-          
-          
-          <div class="tags"><span class="tag">LLM</span><span class="tag">同行评审</span><span class="tag">评分标准</span><span class="tag">评审助手</span><span class="tag">arXiv</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/demishassabis/status/2081039623422177765#m" target="_blank">开放模型生态重要性获业界共识</a></h3>
-          
-          <div class="orig">A strong and secure open ecosystem is important for the world to benefit from AI. We’ve always supported and contributed</div>
-          
-          <p class="summary">Demis Hassabis强调开放生态对AI发展的重要性，提及Gemma模型下载超3亿次，并支持负责任部署的开放与专有模型标准框架。</p>
-          
-          <ul class="insights">
-            <li>Gemma开放模型下载量已超过3亿次，体现开放模型在业界的广泛采用。</li><li>Hassabis强调开放生态对AI安全、创新和主权的重要性，并支持标准框架以负责任地部署开放与专有模型。</li><li>NVIDIA CEO黄仁勋也公开支持开放模型，认为其能加强安全、加速创新并赋能各国AI建设。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该表态反映AI领域头部企业与研究者对开放模型战略价值的共识，可能影响未来开源与监管政策走向，对开发者生态和AI技术扩散具有指导意义。</p>
-          
-          
-          <div class="tags"><span class="tag">开放模型</span><span class="tag">Gemma</span><span class="tag">AI生态</span><span class="tag">标准框架</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Trending Spaces</div>
-          <h3><a href="https://huggingface.co/spaces?sort=trending" target="_blank">Hugging Face趋势空间：多模态生成与对话</a></h3>
-          
-          <div class="orig">Spaces - Hugging Face</div>
-          
-          <p class="summary">Hugging Face趋势空间展示了多种AI应用，包括图像到视频生成、图像编辑、3D重建、语音合成及对话模型，反映了多模态生成与交互的最新趋势。</p>
-          
-          <ul class="insights">
-            <li>Wan2.2 I2V和ltx 2.3等模型支持从图像生成视频，并带有原生音频，提升了生成内容的丰富度。</li><li>Mage-VL 4B和DeepSeek-V4-Flash等模型展示了视频理解与高效对话能力，支持OpenAI兼容API。</li><li>3D生成与高斯重建技术从单张图像即可实现高保真重建，降低了3D内容创作门槛。</li>
-          </ul>
-          
-          
-          <p class="why-matters">这些趋势反映了AI生成技术向多模态、实时交互和低成本方向演进，为开发者提供了丰富的工具和模型，加速了创意应用和智能代理的开发。</p>
-          
-          
-          <div class="tags"><span class="tag">多模态</span><span class="tag">图像生成</span><span class="tag">视频生成</span><span class="tag">3D重建</span><span class="tag">对话模型</span></div>
           
         </div>
       </div>
       
     </div>
-    <div class="pagination" data-for="LLM"></div>
+    <div class="pagination" data-for="blue"></div>
     
   </div>
   
   
   
-  <div class="section" id="sec-Agent">
-    <div class="section-header sec-Agent">
+  <div class="sec" id="sec-purple">
+    <div class="sec-h b-purple">
       <span class="icon">🤖</span>
       <h2>Agent</h2>
-      <span class="badge badge-Agent">10</span>
+      <span class="badge bg-purple">1</span>
     </div>
+
+    
 
     
     
     
+    <div class="no-update">暂无新资讯，以下为上周内容</div>
     
-    <div class="article-list" data-cat="Agent" data-per-page="15">
+    <div class="article-list" data-cat="purple" data-per-page="5">
       
       
-      <div class="card">
-        <div class="score mid">5</div>
+      <div class="card carried">
+        <div class="score score-hi">9</div>
         <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/demishassabis/status/2082883806323728416#m" target="_blank">Gemini Robotics 2发布，机器人智能协作</a></h3>
+          <div class="card-source">Jim Fan (Nitter)<span class="carried-badge"></span></div>
+          <h3><a href="https://example.com/enpire" target="_blank">ENPIRE：机器人自主研究系统</a></h3>
           
-          <div class="orig">Gemini Robotics 2 is here, with our new suite of models, robots can now reason through every movement to manage tasks th</div>
+          <div class="summary">NVIDIA发布ENPIRE系统，8个Codex Agent自主操控机器人集群。</div>
           
-          <p class="summary">Google DeepMind发布Gemini Robotics 2，新一代物理AI模型套件，赋予机器人全身控制、精细操作和多机协作能力。</p>
           
-          <ul class="insights">
-            <li>Gemini Robotics 2是新一代物理AI模型，支持全身控制，提升机器人灵活性和适应性。</li><li>模型具备高级灵巧性，能完成精细任务如打结，扩展了机器人的应用场景。</li><li>支持多机器人协作，解决复杂工作流程，推动工业自动化发展。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该模型将多模态理解与机器人控制结合，是AI从数字世界走向物理世界的关键一步，为工业自动化和服务机器人提供新范式。</p>
-          
-          
-          <div class="tags"><span class="tag">Gemini Robotics</span><span class="tag">物理AI</span><span class="tag">多机器人协作</span><span class="tag">灵巧操作</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/nvidia-vera-storage-benchmarks-faster-encryption-compression-integrity-checking-and-recovery-for-ai-native-storage/" target="_blank">NVIDIA Vera存储基准测试</a></h3>
-          
-          <div class="orig">NVIDIA Vera Storage Benchmarks: Faster Encryption, Compression, Integrity Checking, and Recovery for AI-Native Storage</div>
-          
-          <p class="summary">NVIDIA Vera存储基准测试显示加密、压缩、完整性检查和恢复性能提升，针对AI原生存储优化，支持代理工作流。</p>
-          
-          <ul class="insights">
-            <li>Vera存储加速加密和压缩，提升AI工作流数据安全与效率。</li><li>完整性检查和恢复功能增强，确保KV缓存和持久内存的可靠性。</li><li>针对代理检索和记忆访问优化，减少延迟。</li>
-          </ul>
-          
-          
-          <p class="why-matters">存储是代理AI工作流的关键瓶颈，Vera的优化直接提升企业级AI应用的性能和可靠性。</p>
-          
-          
-          <div class="tags"><span class="tag">NVIDIA</span><span class="tag">存储</span><span class="tag">AI原生</span><span class="tag">代理</span><span class="tag">KV缓存</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/" target="_blank">四招部署更安全的AI代理</a></h3>
-          
-          <div class="orig">Four Ways to Deploy More Secure AI Agents</div>
-          
-          <p class="summary">NVIDIA提出四种方法，帮助企业在工作流中安全部署AI代理，涵盖身份验证、权限控制、数据保护与监控，确保数字同事安全可靠。</p>
-          
-          <ul class="insights">
-            <li>强调AI代理作为数字同事的安全部署策略，包括身份与访问管理。</li><li>提出数据保护与隐私措施，防止敏感信息泄露。</li><li>通过监控与审计机制增强代理行为的可追溯性和安全性。</li>
-          </ul>
-          
-          
-          <p class="why-matters">随着AI代理在企业中普及，安全部署成为关键挑战，NVIDIA的指南为开发者提供了实用框架，有助于推动代理技术的可靠落地。</p>
-          
-          
-          <div class="tags"><span class="tag">AI代理</span><span class="tag">安全</span><span class="tag">NVIDIA</span><span class="tag">企业工作流</span><span class="tag">部署</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/how-to-self-host-a-validated-ai-coding-assistant-with-nvidia-nemo-guardrails/" target="_blank">自托管AI编码助手与NeMo护栏</a></h3>
-          
-          <div class="orig">How to Self-Host a Validated AI Coding Assistant with NVIDIA NeMo Guardrails</div>
-          
-          <p class="summary">NVIDIA博客介绍如何利用NeMo Guardrails自托管AI编码助手，解决受监管环境中的数据安全、合规和代码质量验证问题。</p>
-          
-          <ul class="insights">
-            <li>NeMo Guardrails为编码助手提供可定制的安全护栏，确保输出合规且安全。</li><li>自托管方案适用于主权云和敏感环境，避免数据外泄。</li><li>集成验证流程可提升代码生成准确性和可靠性。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为企业在受限环境中部署AI编码工具提供可行方案，平衡效率与安全合规。</p>
-          
-          
-          <div class="tags"><span class="tag">NVIDIA</span><span class="tag">NeMo Guardrails</span><span class="tag">AI编码助手</span><span class="tag">自托管</span><span class="tag">安全合规</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/six-agent-harness-capabilities-for-higher-model-performance/" target="_blank">六大Agent Harness能力提升模型性能</a></h3>
-          
-          <div class="orig">Six Agent Harness Capabilities for Higher Model Performance</div>
-          
-          <p class="summary">NVIDIA博客探讨了Agent harness（模型外围架构）的六大关键能力，包括上下文渲染、执行等，以提升AI Agent的整体性能。</p>
-          
-          <ul class="insights">
-            <li>Agent harness是模型外围的架构，对性能影响重大，不仅限于模型选择。</li><li>六大能力涵盖上下文渲染、执行机制等，具体细节需阅读原文。</li><li>优化harness可显著提升Agent的效率和效果。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为AI Agent开发者提供了系统化优化方向，强调架构设计在Agent性能中的核心作用，推动Agent工程实践。</p>
-          
-          
-          <div class="tags"><span class="tag">Agent</span><span class="tag">Harness</span><span class="tag">NVIDIA</span><span class="tag">模型性能</span><span class="tag">架构</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">NVIDIA Developer</div>
-          <h3><a href="https://developer.nvidia.com/blog/inside-nvidia-vera-cpu-olympus-cores-built-for-maximum-single-threaded-performance-in-agentic-ai/" target="_blank">英伟达Vera CPU：为代理AI优化单线程性能</a></h3>
-          
-          <div class="orig">NVIDIA Vera CPU: Olympus Cores Built for Maximum Single-Thread Performance in Agentic AI</div>
-          
-          <p class="summary">英伟达发布Vera CPU，采用Olympus核心，专为代理AI工作负载设计，强调单线程性能以支持代码执行、工具调用等关键路径。</p>
-          
-          <ul class="insights">
-            <li>代理AI将关键执行路径转移到CPU，要求高单线程性能以处理沙箱代码执行和工具调用。</li><li>Vera CPU采用Olympus核心，针对单线程性能优化，减少延迟，提升代理响应速度。</li><li>该设计反映了AI从纯模型推理向复杂代理工作负载的转变，CPU成为性能瓶颈的关键。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该产品标志着硬件厂商针对代理AI工作负载的专门优化，推动AI基础设施向更均衡的CPU-GPU协同发展，对构建高效代理系统至关重要。</p>
-          
-          
-          <div class="tags"><span class="tag">Vera CPU</span><span class="tag">Agentic AI</span><span class="tag">单线程性能</span><span class="tag">NVIDIA</span><span class="tag">硬件优化</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/GoogleDeepMind/status/2074157282477154597#m" target="_blank">Apollo 2数据助力Gemini Robotics</a></h3>
-          
-          <div class="orig">RT by @demishassabis: As @Apptronik expands their Robot Park facility, our research partnership means real-world data co</div>
-          
-          <p class="summary">Google DeepMind与Apptronik合作，利用Apollo 2人形机器人收集的真实世界数据训练和推进Gemini Robotics模型。</p>
-          
-          <ul class="insights">
-            <li>Apollo 2人形机器人平台将用于收集真实世界数据，以训练和提升Gemini Robotics模型。</li><li>该合作结合了Apptronik的机器人硬件与Google DeepMind的AI模型，推动具身智能发展。</li><li>Robot Park设施的扩展将增加数据采集规模，加速机器人学习。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该合作展示了AI模型与实体机器人结合的前沿方向，通过真实数据训练提升机器人的泛化能力，对具身智能和工业自动化有重要推动作用。</p>
-          
-          
-          <div class="tags"><span class="tag">Gemini Robotics</span><span class="tag">Apptronik</span><span class="tag">人形机器人</span><span class="tag">具身智能</span><span class="tag">数据训练</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cs.CL</div>
-          <h3><a href="https://arxiv.org/abs/2608.00007" target="_blank">MemoryForge：合成类人终身记忆</a></h3>
-          
-          <div class="orig">MemoryForge: Synthesize Lifelong Memory for Human-Like LLM Agents</div>
-          
-          <p class="summary">MemoryForge框架通过合成自传体记忆，使冻结的LLM代理能动态检索情境相关记忆，实现类人行为，替代静态文本画像。</p>
-          
-          <ul class="insights">
-            <li>提出基于记忆的条件化范式，用自传体记忆库替代抽象画像，增强代理的个性化行为。</li><li>MemoryForge框架专门用于定制化终身记忆合成，支持动态检索情境相关记忆。</li><li>该方法受认知心理学启发，使冻结LLM无需微调即可展现类人行为。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为LLM代理提供更真实、动态的个性化机制，推动角色扮演和用户模拟等应用向更高保真度发展，同时为记忆增强代理架构提供新思路。</p>
-          
-          
-          <div class="tags"><span class="tag">LLM Agent</span><span class="tag">Memory Synthesis</span><span class="tag">Cognitive Psychology</span><span class="tag">Autobiographical Memory</span><span class="tag">arXiv</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">GitHub Trending Python (weekly)</div>
-          <h3><a href="https://github.com/trending/python?since=weekly" target="_blank">GitHub周榜：Python热门项目聚焦AI代理与多模态</a></h3>
-          
-          <div class="orig">Trending Python repositories on GitHub this week · GitHub</div>
-          
-          <p class="summary">本周GitHub Python趋势榜单显示，开发者社区聚焦于AI代理工具、多模态生成、金融基础模型及语音代理等前沿项目。</p>
-          
-          <ul class="insights">
-            <li>多个项目旨在增强AI代理能力，如将技术书籍转化为Claude Code技能、优化代理输出格式等。</li><li>出现面向金融市场的开源基础模型Kronos，以及3D生成和语音代理等多样化AI应用。</li><li>统一多生成式AI提供商的接口和私有AI平台项目，反映了对集成化和企业级解决方案的需求。</li>
-          </ul>
-          
-          
-          <p class="why-matters">这些热门项目反映了当前开发者社区对AI代理实用化、多模态生成和垂直领域基础模型的强烈兴趣，预示着AI工具链的快速演进和落地趋势。</p>
-          
-          
-          <div class="tags"><span class="tag">GitHub趋势</span><span class="tag">AI代理</span><span class="tag">多模态</span><span class="tag">金融模型</span><span class="tag">语音AI</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/ssamat/status/2079933042718617782#m" target="_blank">Gemini智能登陆三星折叠屏</a></h3>
-          
-          <div class="orig">RT by @demishassabis: Congrats to the @SamsungMobile team on another great #GalaxyUnpacked! Today, we introduced the fir</div>
-          
-          <p class="summary">谷歌DeepMind与三星合作，将Gemini智能引入新折叠设备，支持跨应用任务自动化、Gemini Notebook等功能。</p>
-          
-          <ul class="insights">
-            <li>任务自动化：通过Gemini智能，用户可在40多个应用中委托日常任务（如预订、购物、旅行）。</li><li>Gemini Notebook预装：支持拖拽生成幻灯片、播客和学习指南，并赠送6个月Google AI Pro试用。</li><li>可穿戴集成：Galaxy Watch9上抬腕即可访问Gemini，扩展移动场景。</li>
-          </ul>
-          
-          
-          <p class="why-matters">标志着Gemini作为AI代理能力在消费设备上的落地，推动任务自动化从单一应用到跨应用协作，为Agent生态提供实际应用场景。</p>
-          
-          
-          <div class="tags"><span class="tag">Gemini</span><span class="tag">三星</span><span class="tag">任务自动化</span><span class="tag">AI代理</span><span class="tag">折叠屏</span></div>
           
         </div>
       </div>
       
     </div>
-    <div class="pagination" data-for="Agent"></div>
+    <div class="pagination" data-for="purple"></div>
     
   </div>
   
   
   
-  <div class="section" id="sec-ai4s">
-    <div class="section-header sec-ai4s">
+  <div class="sec" id="sec-green">
+    <div class="sec-h b-green">
       <span class="icon">🔬</span>
       <h2>AI for Science</h2>
-      <span class="badge badge-ai4s">33</span>
+      <span class="badge bg-green">0</span>
     </div>
 
     
+
     
     
-    
-    <div class="article-list" data-cat="ai4s" data-per-page="15">
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv q-bio</div>
-          <h3><a href="https://arxiv.org/abs/2608.00697" target="_blank">进化课程学习提升生物序列建模</a></h3>
-          
-          <div class="orig">Evolutionary Curriculum Learning Improves Biological Sequence Modeling</div>
-          
-          <p class="summary">提出进化课程学习策略，按进化距离渐进训练VAE，提升生物序列建模性能。</p>
-          
-          <ul class="insights">
-            <li>ECL利用进化结构，按距离从近到远渐进训练，遵循幂律扩展。</li><li>在两种VAE架构和两个生物数据集上验证了有效性。</li><li>改进生成模型对进化多样性的捕捉，增强泛化能力。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该方法为生物序列生成模型提供新的训练范式，有望提升疾病预测和RNA设计等应用的准确性。</p>
-          
-          
-          <div class="tags"><span class="tag">VAE</span><span class="tag">进化课程学习</span><span class="tag">生物序列建模</span><span class="tag">生成模型</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.00675" target="_blank">双向扩散模型自测预测误差</a></h3>
-          
-          <div class="orig">Round-Trip Consistency: Bidirectional Diffusion Models Can Predict Their Own Rollout Errors</div>
-          
-          <p class="summary">训练单一条件潜在扩散模型，通过时间正反向步进，利用往返一致性作为自监督信号，无需真值即可预测滚动误差，在MHD和湍流模拟中验证。</p>
-          
-          <ul class="insights">
-            <li>双向扩散模型通过方向标志实现时间正反向预测，往返差异作为误差代理。</li><li>无需集成、无标注数据或控制方程，仅需一次额外滚动即可获得误差信号。</li><li>在可压缩磁流体动力学和天体物理湍流混合层上验证有效性。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为科学模拟中的长时程预测提供无监督误差估计方法，提升AI代理在物理系统预测中的可靠性，对数字孪生和科学计算有潜在应用。</p>
-          
-          
-          <div class="tags"><span class="tag">diffusion model</span><span class="tag">error prediction</span><span class="tag">MHD</span><span class="tag">self-supervised</span><span class="tag">AI for Science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.01779" target="_blank">机器学习加速金属烯稳定化筛选</a></h3>
-          
-          <div class="orig">Machine-Learning-Accelerated Metallene Stabilization from High-Throughput Sandwich Modeling</div>
-          
-          <p class="summary">利用通用机器学习原子间势能，高通量构建1620种金属烯夹层异质结构，通过声子计算发现1208种动态稳定结构，加速材料发现。</p>
-          
-          <ul class="insights">
-            <li>构建了包含6种夹层和45种金属的1620种金属烯夹层异质结构，并利用机器学习势能进行高效筛选。</li><li>声子计算识别出1208种动态稳定的金属烯结构，其中MoSe2等过渡金属二硫化物表现出优异的稳定化效果。</li><li>该方法克服了传统第一性原理计算的高成本，为金属烯的合成提供了理论指导。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究展示了机器学习势能在材料科学中的强大应用，显著加速了新型二维材料的发现，为实验合成提供了重要的理论预测，推动了AI for Science领域的发展。</p>
-          
-          
-          <div class="tags"><span class="tag">机器学习势能</span><span class="tag">金属烯</span><span class="tag">高通量筛选</span><span class="tag">材料发现</span><span class="tag">声子计算</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.01546" target="_blank">FESOM2-JAX：可微分海洋模型GPU版</a></h3>
-          
-          <div class="orig">FESOM2-JAX v1.0: a differentiable shadow of the ocean-sea-ice model FESOM2, cast onto GPUs</div>
-          
-          <p class="summary">FESOM2-JAX用JAX重写海洋-海冰模型，支持GPU并行且端到端可微分，由LLM辅助翻译并逐核验证，旨在降低实验门槛并促进混合物理-ML开发。</p>
-          
-          <ul class="insights">
-            <li>利用大语言模型将Fortran代码翻译为Python/JAX，并逐核验证，确保与原模型一致性。</li><li>模型从笔记本电脑到256个GPU均可运行，支持端到端微分，便于梯度标定和混合物理-ML组件开发。</li><li>作为'代码影子'，新开发可回传至原始Fortran模型，促进科学计算与AI融合。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该工作展示了LLM在科学计算代码迁移中的实际应用，同时为海洋学提供了可微分的数字孪生工具，加速模型校准和AI增强研究。</p>
-          
-          
-          <div class="tags"><span class="tag">FESOM2</span><span class="tag">JAX</span><span class="tag">可微分模拟</span><span class="tag">GPU加速</span><span class="tag">LLM辅助翻译</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">DP Technology (深势科技) Blog</div>
-          <h3><a href="https://www.dp.tech/en" target="_blank">深势科技发布AI科学家引擎</a></h3>
-          
-          <div class="orig">DP Technology</div>
-          
-          <p class="summary">深势科技推出“粒子宇宙”科学发现智能引擎，提供覆盖阅读、计算、实验全流程的AI科学家工具与智能体。</p>
-          
-          <ul class="insights">
-            <li>以“粒子宇宙”为核心，构建科学发现智能引擎，整合计算、实验与知识管理。</li><li>提供Bohrium、Hermite、Piloteye等工具，覆盖科研全流程。</li><li>以Science-as-a-Service模式交付，推动AI科学家愿景落地。</li>
-          </ul>
-          
-          
-          <p class="why-matters">展示AI for Science从单一工具向全流程智能体平台演进，为科研自动化提供新范式。</p>
-          
-          
-          <div class="tags"><span class="tag">AI for Science</span><span class="tag">智能体</span><span class="tag">科学发现</span><span class="tag">深势科技</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)</div>
-          <h3><a href="https://nitter.net/GoogleDeepMind/status/2077721122116640969#m" target="_blank">前沿AI助力全球生物安全防御</a></h3>
-          
-          <div class="orig">RT by @demishassabis: The biosecurity landscape is rapidly evolving. To stay ahead of future outbreaks, we’re partnering</div>
-          
-          <p class="summary">Google DeepMind与Isomorphic Labs合作，利用前沿AI构建主动生物安全防御体系，以应对快速演变的生物安全威胁。</p>
-          
-          <ul class="insights">
-            <li>合作聚焦于利用AI提前预测和应对未来疫情爆发。</li><li>强调主动防御策略，而非被动响应。</li><li>结合Isomorphic Labs在生物分子领域的AI能力。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该合作展示了AI在公共卫生和生物安全领域的实际应用，为全球健康防御提供了新范式，并凸显了AI在科学发现中的关键作用。</p>
-          
-          
-          <div class="tags"><span class="tag">AI for Science</span><span class="tag">生物安全</span><span class="tag">公共卫生</span><span class="tag">Google DeepMind</span><span class="tag">Isomorphic Labs</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00773" target="_blank">相对论DFT大规模并行实现</a></h3>
-          
-          <div class="orig">A Large-scale Parallel Implementation of Quasi-Four-Component Relativistic Density Functional Theory with Numeric Atom-c</div>
-          
-          <p class="summary">该论文提出了一种基于数值原子轨道基组的准四分量相对论密度泛函理论的大规模并行实现，适用于分子和周期性固体，采用域分解和ELPA求解器实现高效计算。</p>
-          
-          <ul class="insights">
-            <li>采用非均匀实空间网格的域分解方法，实现Q4C哈密顿矩阵的O(N)积分，支持分布式内存和计算并行。</li><li>使用二维块循环分布构建哈密顿和重叠矩阵，并借助ELPA库求解广义特征值问题。</li><li>基准测试显示内存使用和并行效率的优化，适用于大规模分子和固体体系。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该工作将相对论DFT扩展到大规模并行计算，显著提升了对含重元素体系的模拟能力，为材料科学和化学中的精确电子结构计算提供了高效工具。</p>
-          
-          
-          <div class="tags"><span class="tag">DFT</span><span class="tag">相对论效应</span><span class="tag">并行计算</span><span class="tag">数值原子轨道</span><span class="tag">ELPA</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv q-bio</div>
-          <h3><a href="https://arxiv.org/abs/2608.01143" target="_blank">功能进化涌现漏斗状蛋白能量景观</a></h3>
-          
-          <div class="orig">Funnel-like protein energy landscapes emerge from functional evolution under thermal fluctuations</div>
-          
-          <p class="summary">研究表明，仅通过选择蛋白质功能（活性位点形成概率）即可在进化中涌现漏斗状能量景观，无需直接选择可折叠性。</p>
-          
-          <ul class="insights">
-            <li>使用二维格点蛋白模型和四种氨基酸类型，以活性位点形成概率为适应度，模拟功能进化。</li><li>通过多正则蒙特卡洛方法采样序列，构建能量和自由能景观，发现功能选择足以产生漏斗状景观。</li><li>该发现揭示了蛋白质可折叠性与功能进化之间的内在联系，为蛋白质设计提供新视角。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为蛋白质工程和设计提供了理论基础，表明功能选择可能自发优化折叠性，有助于开发更高效的AI辅助蛋白设计算法。</p>
-          
-          
-          <div class="tags"><span class="tag">蛋白质折叠</span><span class="tag">能量景观</span><span class="tag">进化模拟</span><span class="tag">AI for Science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.00521" target="_blank">多尺度气体流动的确定性模拟新法</a></h3>
-          
-          <div class="orig">A memory-efficient deterministic method for multiscale gas flows using an ensemble-of-subproblems strategy with stochast</div>
-          
-          <p class="summary">提出一种基于子问题集成与随机离散速度的确定性方法，用于高效模拟多尺度气体流动，缓解维度灾难。</p>
-          
-          <ul class="insights">
-            <li>采用多个小随机速度集替代传统大确定性速度集，将复杂问题分解为独立子问题。</li><li>显著降低内存和计算资源需求，突破速度空间维度与马赫数的限制。</li><li>保持确定性模拟的精度，同时提升多尺度气体流动模拟的效率。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该方法为计算物理中的多尺度气体流动模拟提供了高效解决方案，有望推动流体力学、航空航天等领域的工程应用。</p>
-          
-          
-          <div class="tags"><span class="tag">多尺度模拟</span><span class="tag">气体流动</span><span class="tag">确定性方法</span><span class="tag">维度灾难</span><span class="tag">计算物理</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.00194" target="_blank">张量列车压缩湍流模拟</a></h3>
-          
-          <div class="orig">Multiscale passive scalar turbulence in a compressed subspace via tensor trains</div>
-          
-          <p class="summary">提出混合张量列车方法，在压缩子空间中捕捉被动标量湍流的多尺度统计，改善间歇性非高斯波动表示，为量子算法流体输运铺路。</p>
-          
-          <ul class="insights">
-            <li>混合TT方法在结构函数上匹配Galerkin、小波和标准TT分解，同时改进间歇性非高斯波动的表示。</li><li>该方法支持在压缩张量形式中直接演化被动标量的线性动力学，减少计算复杂度。</li><li>潜在应用包括量子算法用于流体输运，可能推动量子计算在CFD中的应用。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为湍流降阶建模提供了新工具，结合张量网络与量子算法，可能加速流体模拟并促进AI for Science在物理模拟中的交叉创新。</p>
-          
-          
-          <div class="tags"><span class="tag">tensor trains</span><span class="tag">turbulence</span><span class="tag">reduced-order modeling</span><span class="tag">quantum algorithms</span><span class="tag">passive scalar</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.00212" target="_blank">物理化学信息神经网络实现实时ALD预测</a></h3>
-          
-          <div class="orig">A Physics-Chemistry-Informed Neural Network (PCINN) for Real-Time Spatial-ALD Coverage Prediction and Reliable Kinetics </div>
-          
-          <p class="summary">PCINN混合代理模型以毫秒级速度实现空间原子层沉积覆盖率预测，精度接近CFD，加速约5万倍，并支持动力学参数反演。</p>
-          
-          <ul class="insights">
-            <li>PCINN结合物理化学先验与神经网络，仅需30个训练案例即可达到高精度（R²=0.998）</li><li>推理速度约7毫秒，比CFD快5万倍，支持实时操作窗口扫描</li><li>架构非黑箱，可解释并用于可靠的动力学参数反演</li>
-          </ul>
-          
-          
-          <p class="why-matters">该工作展示了物理信息神经网络在工业薄膜沉积工艺中的实时预测能力，为ALD工艺优化和控制提供了高效工具，同时推动了AI在材料工程中的应用。</p>
-          
-          
-          <div class="tags"><span class="tag">PCINN</span><span class="tag">原子层沉积</span><span class="tag">物理信息神经网络</span><span class="tag">实时预测</span><span class="tag">动力学反演</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.00560" target="_blank">自适应算子子空间求解多体哈密顿量</a></h3>
-          
-          <div class="orig">Adaptive operator-generated subspaces for effective many-body Hamiltonians</div>
-          
-          <p class="summary">提出A-CASE方法，利用共享泡利期望值库和自适应增长分数，高效求解有效多体哈密顿量，精度达3.1e-15 Ha。</p>
-          
-          <ul class="insights">
-            <li>A-CASE是一种单参考、算子生成的Rayleigh-Ritz方法，通过共享泡利期望值库重构所有矩阵。</li><li>自适应增长分数可检测对称性泄漏和近线性依赖，确保子空间质量。</li><li>在H4分子CAS(4e,4o)测试中，与FCI结果一致到3.1e-15 Ha，且仅需9个向量预算。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该方法为量子化学模拟提供高效、精确的哈密顿量求解途径，有望加速材料设计和药物发现中的电子结构计算。</p>
-          
-          
-          <div class="tags"><span class="tag">量子化学</span><span class="tag">哈密顿量</span><span class="tag">自适应子空间</span><span class="tag">电子结构</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.00856" target="_blank">PINN模拟剪切流中溶质扩散</a></h3>
-          
-          <div class="orig">Physics-informed neural networks for two-dimensional wall-reactive solute dispersion in canonical shear flows</div>
-          
-          <p class="summary">研究提出物理信息神经网络框架，用于模拟二维壁反应性溶质在典型剪切流中的扩散，嵌入对流-扩散方程和Robin边界条件，高效求解复杂反应环境中的输运问题。</p>
-          
-          <ul class="insights">
-            <li>PINN框架能有效处理非对称反应环境中的溶质羽流时空演化，计算效率优于传统网格方法。</li><li>方法适用于Couette、Poiseuille及Couette-Poiseuille流，边界条件为吸收壁。</li><li>嵌入Robin边界条件，精确模拟壁面反应动力学。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究展示了PINN在流体力学与反应输运模拟中的潜力，为复杂工程和环境科学中的溶质扩散问题提供高效计算工具，推动AI for Science在物理模拟中的应用。</p>
-          
-          
-          <div class="tags"><span class="tag">PINN</span><span class="tag">溶质扩散</span><span class="tag">剪切流</span><span class="tag">物理信息神经网络</span><span class="tag">计算流体力学</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.01483" target="_blank">TDDFT交换关联势的空间阶次层次</a></h3>
-          
-          <div class="orig">Spatial-Order Hierarchy of Time-Dependent Exchange-Correlation Potential</div>
-          
-          <p class="summary">该论文建立了时间依赖密度泛函理论中交换关联势的表示性约束，揭示了相互作用与动力学关联成分之间的结构关系，并通过一维双电子关联猝灭验证了动力学成分的作用。</p>
-          
-          <ul class="insights">
-            <li>基于TDHF参考的单电子约化密度矩阵非对角展开，建立了交换关联势的表示性约束。</li><li>非零线性项产生非HF电流密度，但动力学关联成分仍保持HF可表示性；高阶非对角结构激活动力学成分。</li><li>在一维双电子关联猝灭中，忽略动力学成分会抑制密度展宽，表明其对于准确描述电子动力学至关重要。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该工作为时间依赖密度泛函理论提供了新的理论约束，有助于改进交换关联泛函的近似，推动AI驱动的材料科学和量子化学模拟的发展。</p>
-          
-          
-          <div class="tags"><span class="tag">TDDFT</span><span class="tag">交换关联势</span><span class="tag">密度泛函理论</span><span class="tag">电子动力学</span><span class="tag">量子化学</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2607.02746" target="_blank">CodeJeNN：C++神经网络生成器</a></h3>
-          
-          <div class="orig">CodeJeNN: A simple C++ neural network generator for physics applications</div>
-          
-          <p class="summary">CodeJeNN自动将Keras模型转为自包含C++代码，消除Python依赖，在物理应用中实现加速且保持精度。</p>
-          
-          <ul class="insights">
-            <li>自动生成无依赖的C++推理代码，解决Python库与C++求解器的集成瓶颈。</li><li>在CFD氢空气混合层粘度建模中展示速度提升，且不牺牲精度。</li><li>支持多种架构，提供Keras到C++的完整工作流及限制说明。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该工具为物理模拟中的ML推理提供高性能部署方案，弥合Python原型与生产级C++代码之间的鸿沟，有望加速科学计算中的AI应用。</p>
-          
-          
-          <div class="tags"><span class="tag">CodeJeNN</span><span class="tag">C++</span><span class="tag">Keras</span><span class="tag">CFD</span><span class="tag">模型部署</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.02517" target="_blank">开放量子系统热化研究</a></h3>
-          
-          <div class="orig">Thermalization of open quantum systems with pseudomodes</div>
-          
-          <p class="summary">研究伪模方法下开放量子系统的热化条件，探讨弱耦合极限下详细平衡的成立与频率限制。</p>
-          
-          <ul class="insights">
-            <li>伪模方法可精确描述强耦合系统，但通常不热化至吉布斯态。</li><li>弱耦合下热化违背直觉，需满足详细平衡条件。</li><li>参数选择可强制频率受限的弱详细平衡，结合厄米与非厄米伪模可实现平坦效应。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为量子模拟和量子热力学提供理论指导，有助于开发更精确的开放量子系统仿真算法。</p>
-          
-          
-          <div class="tags"><span class="tag">量子热化</span><span class="tag">伪模</span><span class="tag">开放量子系统</span><span class="tag">详细平衡</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2409.15600" target="_blank">多原子复合体：原子系统的拓扑学习表示</a></h3>
-          
-          <div class="orig">Polyatomic Complexes: A topologically-informed learning representation for atomistic systems</div>
-          
-          <p class="summary">提出一种基于拓扑与符号分级的分子表示方法，在保持O(3)对称性的同时区分手性，兼顾唯一性、连续性与效率。</p>
-          
-          <ul class="insights">
-            <li>传统O(3)不变描述符无法区分对映异构体，该工作通过符号字符分级和多重对称池化解决此问题。</li><li>构造的映射Φ的偶块通过Gram矩阵实现，可证明对手性不敏感；奇块则捕捉手性信息。</li><li>该表示满足物理对称性、唯一性、连续性、高效性和通用性等所有要求。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为AI驱动的分子设计提供更精确的表示，尤其对手性药物和材料科学有重要意义，推动AI for Science在化学领域的应用。</p>
-          
-          
-          <div class="tags"><span class="tag">分子表示</span><span class="tag">手性</span><span class="tag">O(3)对称性</span><span class="tag">拓扑学习</span><span class="tag">AI for Science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2505.03143" target="_blank">光致VO₂相变中的原子无序动力学</a></h3>
-          
-          <div class="orig">Ultrafast dynamics of atomic correlated disordering in photoinduced VO$_2$</div>
-          
-          <p class="summary">利用实时含时密度泛函理论揭示VO₂光致相变中原子无序的动力学机制，发现热激发声子加速无序化并降低相变阈值。</p>
-          
-          <ul class="insights">
-            <li>较低光激发下，晶格温度升高通过热激发更多声子使晶格振动随机化，加速原子无序并降低相变阈值。</li><li>超过阈值后，相变时间尺度和原子无序程度与温度无关，因为热激发晶格振动驱动光生空穴的类似演化。</li><li>采用rt-TDDFT方法，为理解光致相变中原子无序的普遍性提供微观机制。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为光致相变中原子无序的普遍机制提供了理论解释，对设计新型光控材料具有指导意义。</p>
-          
-          
-          <div class="tags"><span class="tag">rt-TDDFT</span><span class="tag">VO2</span><span class="tag">光致相变</span><span class="tag">原子无序</span><span class="tag">第一性原理</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2512.04452" target="_blank">NORi：海洋边界层智能参数化</a></h3>
-          
-          <div class="orig">NORi: An ML-Augmented Ocean Boundary Layer Parameterization</div>
-          
-          <p class="summary">NORi是一种结合物理与神经网络的海洋边界层湍流参数化方案，利用神经ODE捕捉夹卷过程，经大涡模拟后验训练，提升海洋模型精度。</p>
-          
-          <ul class="insights">
-            <li>物理基础：基于Richardson数依赖的扩散/粘性闭合，确保物理一致性。</li><li>神经网络增强：神经ODE学习边界层底部夹卷，弥补局部扩散闭合的不足。</li><li>后验训练：损失函数基于实际时间积分变量，而非瞬时值，提升长期模拟稳定性。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究展示了AI与物理建模的深度融合，为海洋环流模型提供更精确的边界层参数化，有望改进气候预测和海洋生态模拟。</p>
-          
-          
-          <div class="tags"><span class="tag">AI for Science</span><span class="tag">海洋建模</span><span class="tag">神经ODE</span><span class="tag">参数化</span><span class="tag">大涡模拟</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00116" target="_blank">磁场驱动磁性纳米粒子取向交叉研究</a></h3>
-          
-          <div class="orig">AC Field-driven orientational crossover and energy dissipation in suspended magnetic nanoparticles</div>
-          
-          <p class="summary">该研究结合LLG方程与布朗转动动力学，理论揭示磁场幅度驱动磁性纳米粒子易轴取向交叉，并关联磁流体热疗的能量耗散机制。</p>
-          
-          <ul class="insights">
-            <li>发现易轴取向随场强从垂直交叉到平行/反平行的临界场约为各向异性场的0.5倍。</li><li>交叉场依赖于粒子尺寸和激发频率，但归一化后具有普适性。</li><li>取向状态直接关联微观动力学与磁流体热疗效率。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为磁流体热疗的优化提供理论指导，推动AI辅助材料设计在生物医学应用中的发展。</p>
-          
-          
-          <div class="tags"><span class="tag">magnetic nanoparticles</span><span class="tag">hyperthermia</span><span class="tag">LLG</span><span class="tag">Brownian dynamics</span><span class="tag">AI for Science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00138" target="_blank">振动光谱揭示六方金刚石键不对称性</a></h3>
-          
-          <div class="orig">Vibrational spectroscopy identifies the bond asymmetry of hexagonal diamond</div>
-          
-          <p class="summary">通过第一性原理晶格动力学，验证了六方金刚石中不等价键长的差异，并指出现有结构精修模型与实验光谱不符。</p>
-          
-          <ul class="insights">
-            <li>两种泛函均显示层间键比层内键长24 mÅ，源于重叠构象效应。</li><li>A1g模式对层间键敏感，可用于区分竞争结构模型。</li><li>现有精修坐标无法完全复现实验振动模式，需重新审视结构。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究利用AI辅助的第一性原理计算，解决了材料科学中结构争议，展示了计算光谱在验证晶体结构中的关键作用，为AI驱动的科学发现提供范例。</p>
-          
-          
-          <div class="tags"><span class="tag">第一性原理</span><span class="tag">晶格动力学</span><span class="tag">六方金刚石</span><span class="tag">结构精修</span><span class="tag">振动光谱</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00179" target="_blank">无序体系X射线吸收谱的构型平均新方法</a></h3>
-          
-          <div class="orig">Configuration averaging of X-ray absorption spectra of disordered systems within the augmented-space full multiple-scatt</div>
-          
-          <p class="summary">提出基于增广空间全多重散射理论的X射线吸收谱构型平均方法，无需单站点近似即可处理无序体系。</p>
-          
-          <ul class="insights">
-            <li>将替代性和热无序统一为增广希尔伯特空间中的非随机算符矩阵元。</li><li>通过求逆非随机矩阵获得构型平均散射路径算符，避免路径展开。</li><li>适用于XANES定量分析，无需假设无序分布形状。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该方法为无序材料X射线吸收谱的精确计算提供了新途径，有望推动材料科学中近边结构分析的精度提升。</p>
-          
-          
-          <div class="tags"><span class="tag">XAS</span><span class="tag">多重散射</span><span class="tag">无序体系</span><span class="tag">增广空间</span><span class="tag">材料科学</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00269" target="_blank">超越DFT的共振拉曼光谱计算框架</a></h3>
-          
-          <div class="orig">Resonant Raman spectroscopies beyond density-functional theory</div>
-          
-          <p class="summary">新框架用有限差分法计算任意电子结构方法的共振拉曼张量，突破DFT局限，提升光谱预测精度。</p>
-          
-          <ul class="insights">
-            <li>传统DFT在共振拉曼强度上因电子-声子耦合和跃迁敏感而精度不足。</li><li>新方法支持任意电子结构理论，不限于半局域DFT。</li><li>可系统评估交换关联近似对光谱的影响。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为材料光谱模拟提供更精确工具，加速AI驱动的材料发现与表征。</p>
-          
-          
-          <div class="tags"><span class="tag">共振拉曼</span><span class="tag">DFT</span><span class="tag">电子-声子耦合</span><span class="tag">材料模拟</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00516" target="_blank">自动微分优化热力学相图</a></h3>
-          
-          <div class="orig">Machine Learning Compatible CALPHAD-type Optimization from Phase Equilibria by Auto-differentiation</div>
-          
-          <p class="summary">该研究提出一种基于热力学势的相平衡损失函数，利用PyTorch自动微分实现CALPHAD型热力学参数的梯度优化，兼容机器学习工作流。</p>
-          
-          <ul class="insights">
-            <li>推导了可高效评估的相平衡损失函数，支持自动微分。</li><li>在PyTorch中实现基于梯度的热力学模型参数优化。</li><li>方法可推广至实验相平衡数据驱动的通用热力学建模。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该方法将传统CALPHAD热力学优化与现代机器学习框架结合，有望加速材料热力学数据库的构建，提升相图计算的自动化水平。</p>
-          
-          
-          <div class="tags"><span class="tag">CALPHAD</span><span class="tag">自动微分</span><span class="tag">相图</span><span class="tag">热力学建模</span><span class="tag">PyTorch</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00704" target="_blank">氧化铈表面重构原子尺度研究</a></h3>
-          
-          <div class="orig">Atomic-scale reactivity of the CeO$_2$~(100) surface reconstructions by scanning probe microscopy</div>
-          
-          <p class="summary">结合扫描探针显微镜与第一性原理模拟，揭示了CeO2(100)表面的原子级重构和反应性。</p>
-          
-          <ul class="insights">
-            <li>通过STM和AFM识别了CeO2(100)表面的两种重构模式。</li><li>AFM力谱直接鉴定了表面原子种类和吸附物扰动。</li><li>第一性原理建模辅助解释了实验观测结果。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为理解催化材料表面活性位点提供原子级见解，有助于设计更高效的催化剂。</p>
-          
-          
-          <div class="tags"><span class="tag">CeO2</span><span class="tag">扫描探针显微镜</span><span class="tag">表面重构</span><span class="tag">第一性原理</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00699" target="_blank">Mo/W二氮化物室温超高空穴迁移率</a></h3>
-          
-          <div class="orig">Ultrahigh Intrinsic Hole Mobilities in $M$N$_2$ ($M$= Mo and W) at Room Temperature</div>
-          
-          <p class="summary">通过第一性原理与玻尔兹曼输运理论筛选，发现Mo/W二氮化物具有超高室温空穴迁移率，其中1H-WN₂超过10⁴ cm²/V·s。</p>
-          
-          <ul class="insights">
-            <li>1H-WN₂室温空穴迁移率超过10⁴ cm²/V·s，属极性半导体中的极高水平。</li><li>高迁移率源于极性光学声子与声学声子散射的协同抑制，以及自旋-谷锁定导致的谷间散射相空间减小。</li><li>异常小的玻恩有效电荷是降低极性光学声子散射的关键因素。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该发现填补了高性能p型半导体的空白，为下一代电子器件材料设计提供了新方向，同时展示了AI与第一性原理结合在材料筛选中的高效性。</p>
-          
-          
-          <div class="tags"><span class="tag">p型半导体</span><span class="tag">第一性原理</span><span class="tag">玻尔兹曼输运</span><span class="tag">空穴迁移率</span><span class="tag">材料筛选</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00707" target="_blank">条件图扩散实现多晶微结构逆向设计</a></h3>
-          
-          <div class="orig">Conditional grain-graph diffusion for property-guided inverse design of polycrystalline microstructures</div>
-          
-          <p class="summary">提出条件图扩散框架，结合增强GNN代理模型，实现双相钛合金微结构的属性导向逆向设计。</p>
-          
-          <ul class="insights">
-            <li>图表示编码多晶微结构，保留晶粒拓扑和晶界信息。</li><li>增强GNN（含晶界边特征、可学习嵌入、多统计池化）作为应力预测代理。</li><li>条件扩散模型在指定α相体积分数、弹性模量和屈服应力目标下生成候选结构。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该方法将生成式AI与材料科学结合，为多晶材料微结构逆向设计提供新范式，有望加速先进合金开发。</p>
-          
-          
-          <div class="tags"><span class="tag">图扩散模型</span><span class="tag">多晶微结构</span><span class="tag">逆向设计</span><span class="tag">GNN</span><span class="tag">钛合金</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00771" target="_blank">石墨烯光电晶体管新突破</a></h3>
-          
-          <div class="orig">High-speed and high-gain graphene photovoltaic phototransistor gated by a van der Waals heterojunction</div>
-          
-          <p class="summary">利用MoS2/PtSe2异质结门控石墨烯，实现高增益（10^8）与高速（<550ns）兼备的光电晶体管，突破增益-速度权衡。</p>
-          
-          <ul class="insights">
-            <li>通过范德华异质结的光伏效应实现界面门控，获得超高光电导增益（10^8）。</li><li>响应时间受石墨烯通道载流子渡越限制，低于仪器分辨率550ns，实现高速响应。</li><li>该器件集成光传感、信号放大和逻辑操作于一体，适用于高性能光探测和神经形态计算。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为二维材料光电器件设计提供了新范式，有望推动高速、高灵敏光探测和光互连技术的发展，对AI硬件加速和光计算有潜在价值。</p>
-          
-          
-          <div class="tags"><span class="tag">2D材料</span><span class="tag">光电晶体管</span><span class="tag">异质结</span><span class="tag">石墨烯</span><span class="tag">光探测</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00948" target="_blank">二维反铁磁体非相对论性Edelstein效应</a></h3>
-          
-          <div class="orig">Spin-chirality-driven nonrelativistic Edelstein effects in two-dimensional antiferromagnets</div>
-          
-          <p class="summary">该研究通过群论和从头算模拟，揭示了矢量自旋手性可作为二维反铁磁体中非相对论性Edelstein效应的控制参数，为自旋电子学材料设计提供新思路。</p>
-          
-          <ul class="insights">
-            <li>首次提出矢量自旋手性作为非相对论性Edelstein效应的有效控制参数，无需自旋轨道耦合。</li><li>结合群论与从头算模拟，系统分析了自旋和轨道角动量的响应。</li><li>扩展了Edelstein效应在无重元素材料中的适用性，为自旋电子学开辟更广材料选择。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为自旋电子学器件设计提供了无需重元素的新机制，有望推动低功耗自旋电子学材料的发展，同时展示了AI模拟在凝聚态物理前沿研究中的关键作用。</p>
-          
-          
-          <div class="tags"><span class="tag">Edelstein效应</span><span class="tag">反铁磁</span><span class="tag">自旋电子学</span><span class="tag">第一性原理计算</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">2</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.02360" target="_blank">CFD模拟干花粉气动热特性</a></h3>
-          
-          <div class="orig">Aerodynamic Drag and Heat Transfer Corrections for Dehydrated Pollen Particles: CFD-Based Modeling of Airborne Allergen </div>
-          
-          <p class="summary">该研究利用CFD模拟分析脱水花粉颗粒的气动阻力和传热，改进城市空气传播过敏原的扩散模型。</p>
-          
-          <ul class="insights">
-            <li>首次对脱水花粉颗粒进行CFD模拟，考虑形态变化对气动和热行为的影响。</li><li>在雷诺数0.1至15范围内评估，对应风速0.27至30 km/h。</li><li>发现干花粉的阻力和传热特性与球形假设有显著差异，影响扩散预测。</li>
-          </ul>
-          
-          
-          <p class="why-matters">为城市空气质量评估和过敏风险预测提供更精确的模型，推动智能城市环境监测发展。</p>
-          
-          
-          <div class="tags"><span class="tag">CFD</span><span class="tag">花粉传输</span><span class="tag">气动阻力</span><span class="tag">传热</span><span class="tag">城市环境</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">2</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2510.17522" target="_blank">二维交变磁体自旋过滤机制</a></h3>
-          
-          <div class="orig">N\'eel-Vector-Orientation Induced Direction-Robust Spin Filtering in Two-Dimensional Altermagnets</div>
-          
-          <p class="summary">研究揭示二维交变磁体Weyl半金属中无需带隙的方向鲁棒自旋过滤机制，为反铁磁自旋电子学提供新平台。</p>
-          
-          <ul class="insights">
-            <li>提出无带隙、方向鲁棒的自旋过滤机制，不依赖自旋选择带隙或速度对比。</li><li>以Janus单层Ta2TeSeO为平台，结合对称性分析、第一性原理和输运计算。</li><li>通过旋转Néel向量移除镜像约束，使Weyl锥对移动，实现自旋极化输运。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该发现为反铁磁自旋电子学提供新机制，可能推动低功耗自旋器件的发展，并展示AI/计算模拟在材料科学中的应用。</p>
-          
-          
-          <div class="tags"><span class="tag">自旋电子学</span><span class="tag">交变磁体</span><span class="tag">第一性原理</span><span class="tag">Weyl半金属</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">2</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00362" target="_blank">中子应变测量中d0估算方法综述</a></h3>
-          
-          <div class="orig">An essay on $d_0$ in neutron-based strain measurement techniques: equilibrium-based methods for non-destructive $d_0$ es</div>
-          
-          <p class="summary">论文综述了中子衍射应变测量中无应力参考晶格间距d0的估算难题，提出了基于力学平衡的非破坏性方法体系。</p>
-          
-          <ul class="insights">
-            <li>d0常随位置和方向变化，受成分、相、织构和残余应力影响，并非简单材料常数。</li><li>论文建立了从力平衡到边界条件再到基于泊松效应的非破坏性d0估算方法层级。</li><li>为无法直接测量d0的场景提供了替代方案，提高应变测量准确性。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究为材料科学和工程中的残余应力测量提供了更可靠的方法，对结构完整性评估和制造工艺优化有重要意义。</p>
-          
-          
-          <div class="tags"><span class="tag">中子衍射</span><span class="tag">应变测量</span><span class="tag">d0估算</span><span class="tag">力学平衡</span><span class="tag">非破坏性检测</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score low">2</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.00319" target="_blank">NiTi合金瞬态液相连接新方法</a></h3>
-          
-          <div class="orig">Transient Liquid Phase Bonding of NiTi Using Cu- and Nb-base Interlayers</div>
-          
-          <p class="summary">研究利用CALPHAD方法筛选Cu和Nb中间层，实现NiTi合金瞬态液相连接，获得高致密度和良好力学性能的接头。</p>
-          
-          <ul class="insights">
-            <li>采用CALPHAD热力学筛选确定Cu基和Nb基中间层成分，指导TLP连接实验。</li><li>实验证实等温凝固机制，接头致密无缺陷，成分分布均匀。</li><li>接头在准静态和循环拉伸下表现出良好性能，为NiTi连接提供新途径。</li>
-          </ul>
-          
-          
-          <p class="why-matters">该研究将计算材料科学（CALPHAD）与实验验证结合，加速了NiTi合金连接工艺的开发，对航空航天和生物医学领域的精密制造具有工程意义。</p>
-          
-          
-          <div class="tags"><span class="tag">CALPHAD</span><span class="tag">瞬态液相连接</span><span class="tag">NiTi合金</span><span class="tag">材料科学</span></div>
-          
-        </div>
-      </div>
-      
-    </div>
-    <div class="pagination" data-for="ai4s"></div>
+    <div class="empty">暂无内容</div>
     
   </div>
   
   
   
-  <div class="section" id="sec-design">
-    <div class="section-header sec-design">
+  <div class="sec" id="sec-amber">
+    <div class="sec-h b-amber">
       <span class="icon">🎨</span>
       <h2>设计仿真</h2>
-      <span class="badge badge-design">1</span>
+      <span class="badge bg-amber">1</span>
     </div>
+
+    
 
     
     
     
+    <div class="no-update">暂无新资讯，以下为上周内容</div>
     
-    <div class="no-update">⚠ 暂无新资讯，以下为上周内容</div>
-    
-    <div class="article-list" data-cat="design" data-per-page="15">
+    <div class="article-list" data-cat="amber" data-per-page="5">
       
       
       <div class="card carried">
-        <div class="score high">8</div>
+        <div class="score score-hi">8</div>
         <div class="card-body">
-          <div class="card-source">Autodesk Research <span class="carried-badge"></span></div>
+          <div class="card-source">Autodesk Research<span class="carried-badge"></span></div>
           <h3><a href="https://example.com/design" target="_blank">AI驱动的生成式设计工具</a></h3>
           
-          <p class="summary">Autodesk推出基于扩散模型的3D生成式设计工具。</p>
+          <div class="summary">Autodesk推出基于扩散模型的3D生成式设计工具。</div>
           
           
           
@@ -1969,35 +298,36 @@
       </div>
       
     </div>
-    <div class="pagination" data-for="design"></div>
+    <div class="pagination" data-for="amber"></div>
     
   </div>
   
   
   
-  <div class="section" id="sec-digital">
-    <div class="section-header sec-digital">
+  <div class="sec" id="sec-red">
+    <div class="sec-h b-red">
       <span class="icon">🏭</span>
       <h2>数字孪生</h2>
-      <span class="badge badge-digital">1</span>
+      <span class="badge bg-red">1</span>
     </div>
+
+    
 
     
     
     
+    <div class="no-update">暂无新资讯，以下为上周内容</div>
     
-    <div class="no-update">⚠ 暂无新资讯，以下为上周内容</div>
-    
-    <div class="article-list" data-cat="digital" data-per-page="15">
+    <div class="article-list" data-cat="red" data-per-page="5">
       
       
       <div class="card carried">
-        <div class="score mid">7</div>
+        <div class="score score-md">7</div>
         <div class="card-body">
-          <div class="card-source">Siemens Digital Twin <span class="carried-badge"></span></div>
+          <div class="card-source">Siemens Digital Twin<span class="carried-badge"></span></div>
           <h3><a href="https://example.com/dt" target="_blank">数字化双胞胎在工业4.0中的应用</a></h3>
           
-          <p class="summary">西门子发布新一代数字孪生平台，集成AI预测性维护。</p>
+          <div class="summary">西门子发布新一代数字孪生平台，集成AI预测性维护。</div>
           
           
           
@@ -2005,35 +335,32 @@
       </div>
       
     </div>
-    <div class="pagination" data-for="digital"></div>
+    <div class="pagination" data-for="red"></div>
     
   </div>
   
 
-  <footer>Generated by Weekly AI Report Agent · 2026-08-04 15:22</footer>
+  <footer>Generated by Weekly AI Report Agent · 2026-08-04 16:48</footer>
 </div>
 
 <script>
-// Pagination logic
-document.querySelectorAll('.article-list').forEach(list => {
-  const cat = list.dataset.cat;
-  const perPage = parseInt(list.dataset.perPage) || 15;
-  const cards = list.querySelectorAll('.card');
-  const total = cards.length;
-  if (total <= perPage) return;
-
-  let page = 1;
-  const totalPages = Math.ceil(total / perPage);
-  const pagDiv = document.querySelector(`.pagination[data-for="${cat}"]`);
-
-  function render() {
-    cards.forEach((c, i) => c.style.display = (i >= (page-1)*perPage && i < page*perPage) ? '' : 'none');
-    pagDiv.innerHTML = '';
-    for (let p=1; p<=totalPages; p++) {
-      const btn = document.createElement('button');
-      btn.textContent = p;
-      if (p===page) btn.classList.add('active');
-      btn.onclick = () => { page = p; render(); scrollTo(0, document.getElementById('sec-'+cat).offsetTop - 20); };
+document.querySelectorAll('.article-list').forEach(list=>{
+  const cat=list.dataset.cat;
+  const perPage=parseInt(list.dataset.perPage)||15;
+  const cards=list.querySelectorAll('.card');
+  const total=cards.length;
+  if(total<=perPage)return;
+  let page=1;
+  const totalPages=Math.ceil(total/perPage);
+  const pagDiv=document.querySelector('.pagination[data-for="'+cat+'"]');
+  function render(){
+    cards.forEach((c,i)=>c.style.display=(i>=(page-1)*perPage&&i<page*perPage)?'':'none');
+    pagDiv.innerHTML='';
+    for(let p=1;p<=totalPages;p++){
+      const btn=document.createElement('button');
+      btn.textContent=p;
+      if(p===page)btn.classList.add('active');
+      btn.onclick=()=>{page=p;render();window.scrollTo(0,document.getElementById('sec-'+cat).offsetTop-20);};
       pagDiv.appendChild(btn);
     }
   }

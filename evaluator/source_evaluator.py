@@ -8,8 +8,8 @@ logger = logging.getLogger(__name__)
 class SourceEvaluator:
     def __init__(self, sources_path: str, config: dict):
         self.sources_path = sources_path
-        self.min_weekly = config["evaluator"].get("min_weekly_output", 0)
-        self.stale_weeks = config["evaluator"].get("stale_weeks", 4)
+        self.min_weekly = config.get("evaluator", {}).get("min_weekly_output", 0)
+        self.stale_weeks = config.get("evaluator", {}).get("stale_weeks", 4)
 
     def evaluate(self, articles: list[dict], current_sources: list[dict]) -> list[dict]:
         """根据本周产出评估源池质量，返回更新后的源列表"""
@@ -41,7 +41,8 @@ class SourceEvaluator:
                 logger.info(f"Archiving stale source: {name}")
                 s["active"] = False
 
-        # 过滤出活跃源，按评分排序
+        # 保存所有源（包括归档的），以便手动恢复
+        all_sources = current_sources
         active = [s for s in current_sources if s.get("active", True)]
         active.sort(key=lambda x: x.get("eval_score", 5), reverse=True)
 
@@ -51,7 +52,7 @@ class SourceEvaluator:
             f"{len(current_sources) - len(active)} archived"
         )
 
-        self._save(active)
+        self._save(all_sources)
         return active
 
     def merge_discovered(self, discovered: list[dict], current: list[dict]) -> list[dict]:

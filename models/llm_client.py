@@ -34,7 +34,7 @@ class LLMClient:
         if api_key.startswith("${") and api_key.endswith("}"):
             api_key = os.environ.get(api_key[2:-1], "")
 
-        if not api_key or api_key == "ollama":
+        if self.provider != "ollama" and (not api_key or api_key == "ollama"):
             raise RuntimeError(
                 "API key not found. Set DEEPSEEK_API_KEY in .env file "
                 "or export DEEPSEEK_API_KEY=xxx"

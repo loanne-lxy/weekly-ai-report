@@ -16,20 +16,35 @@ def _get_trends(llm: LLMClient, articles: list[dict], categories: list[dict]) ->
     for a in articles:
         cat = a.get("category", "")
         if cat in cats:
-            cats[cat].append(a.get("title", "")[:80])
+            # Use AI summary for richer context
+            text = a.get("ai_summary", "") or a.get("title", "")
+            cats[cat].append(text[:200])
 
     trends = {}
-    for cat_name, titles in cats.items():
-        if not titles:
-            trends[cat_name] = "持续关注"
+    for cat_name, texts in cats.items():
+        if not texts:
+            trends[cat_name] = "无相关资讯"
             continue
-        sample = "\n".join(titles[:6])
+        sample = "\n".join(f"- {t}" for t in texts[:5])
         try:
             keyword = llm.chat(
-                system_prompt="你是AI趋势分析师。用2-4字中文关键词概括趋势。",
-                user_prompt=f"基于以下{cat_name}领域文章标题，用一个中文关键词（2-4字）概括本周趋势:\n{sample}\n关键词:",
+                system_prompt=(
+                    "You are an AI trend analyst. Based on article summaries, identify the single most "
+                    "prominent technology trend or theme in simple Chinese (2-6 characters). "
+                    "Good examples: 多模态融合, MoE架构, Agent自主性, 端侧推理, 开源生态, "
+                    "蛋白质设计, 物理AI, 实时孪生. "
+                    "Bad examples: 技术发展, 行业动态, AI应用. "
+                    "Return ONLY the keyword, no explanation."
+                ),
+                user_prompt=(
+                    f"Domain: {cat_name}\n"
+                    f"Following are this week's top article summaries. Identify the most prominent trend:\n\n"
+                    f"{sample}\n\n"
+                    f"Trend keyword (2-6 Chinese characters only):"
+                ),
             )
-            trends[cat_name] = keyword.strip().replace("。", "").replace("，", "")[:6]
+            cleaned = keyword.strip().replace("。", "").replace("，", "").replace("：", "").replace(":", "")
+            trends[cat_name] = cleaned[:8]
         except Exception:
             trends[cat_name] = "持续关注"
     return trends

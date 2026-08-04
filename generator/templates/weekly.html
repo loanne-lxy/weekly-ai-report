@@ -117,7 +117,7 @@
     {% set arts = categories.get(cat_name,[]) %}
     {% if arty %}{% endif %}
     {% if arts %}
-    {% if sec_class in empty_cats %}
+    {% if cat_name in empty_cats %}
     <div class="no-update">⚠ 本周无新资讯，以下为上周内容</div>
     {% endif %}
     <div class="article-list" data-cat="{{ sec_class }}" data-per-page="15">

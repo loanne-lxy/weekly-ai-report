@@ -320,6 +320,13 @@
     background: #fafbfc;
   }
   .card.carried:hover { opacity: 0.88; }
+
+  /* New curator fields */
+  .insights { margin: var(--space-2) 0 0; padding-left: 1.2em; font-size: var(--text-sm); color: var(--text-sub); }
+  .insights li { margin-bottom: 2px; }
+  .why-matters { margin-top: var(--space-2); font-size: var(--text-xs); color: var(--accent); font-style: italic; }
+  .tags { margin-top: var(--space-2); display: flex; gap: 4px; flex-wrap: wrap; }
+  .tag { font-size: var(--text-xxs); background: var(--accent-subtle); color: var(--accent); padding: 1px 6px; border-radius: var(--radius-sm); }
   .carried-badge {
     font-size: 0.62rem;
     background: var(--border-soft);
@@ -469,6 +476,17 @@
           <div class="orig">{{ a.title[:120] }}</div>
           {% endif %}
           <p class="summary">{{ a.ai_summary }}</p>
+          {% if a.get('key_insights') %}
+          <ul class="insights">
+            {% for ins in a.key_insights[:3] %}<li>{{ ins }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+          {% if a.get('why_it_matters') %}
+          <p class="why-matters">{{ a.why_it_matters }}</p>
+          {% endif %}
+          {% if a.get('tags') %}
+          <div class="tags">{% for t in a.tags %}<span class="tag">{{ t }}</span>{% endfor %}</div>
+          {% endif %}
         </div>
       </div>
       {% endfor %}

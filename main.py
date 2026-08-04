@@ -67,14 +67,10 @@ async def main():
     fs = FilterSummarizer(llm, config)
     articles = fs.keyword_pre_filter(articles)
 
-    # 4. LLM 分类（并发）
-    logger.info("=== Phase 4: Classify ===")
-    articles = await fs._classify_async(articles)
-
-    # 5. LLM 评分 + 中文标题 + 摘要（并发）
-    logger.info("=== Phase 5: Enrich (score + CN title + summary) ===")
-    articles = await fs._enrich_async(articles)
-    articles.sort(key=lambda a: a.get("importance", 5), reverse=True)
+    # 4. LLM curator: relevance + classification + enrichment
+    logger.info("=== Phase 4: Curator (classify + score + summarize) ===")
+    articles = await fs._curate_async(articles)
+    articles.sort(key=lambda a: a.get("priority_score", 3), reverse=True)
 
     # 6. 生成报告
     week_num = datetime.now(timezone.utc).isocalendar()

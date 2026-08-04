@@ -2,45 +2,44 @@
 import asyncio
 import json
 import logging
+from pathlib import Path
 from models.llm_client import LLMClient
 
 logger = logging.getLogger(__name__)
 
-CURATOR_PROMPT = """# Role
-You are a senior technology news curator and intelligence analyst specializing in tracking global AI frontiers and industrial technology evolution. Analyze the given news article and output ONLY valid JSON.
+# Load modular prompt components from references/
+PROMPT_DIR = Path(__file__).parent.parent / "references"
 
-# Categories
-1. **LLM** — Core Large Language Model Technology: pre-training, fine-tuning, architecture (MoE, Mamba, Attention variants), alignment (RLHF/DPO), reasoning, open-weight releases, token/latency optimization, multimodal API updates. NOT application stories.
-2. **Agent** — AI Autonomous Agents: agent architectures, multi-agent collaboration, tool calling (MCP), memory, task planning/execution, agent frameworks (LangChain, CrewAI, AutoGen), coding/browser agents, safety guardrails.
-3. **AI for Science** — AI-driven Scientific Discovery: biomedicine (AIDD, protein), materials science, quantum chemistry, weather, PINN, theorem proving.
-4. **Design Simulation** — AI-assisted Engineering Design: generative design, CAD/CAE, physics simulation, chip EDA+AI.
-5. **Digital Twin** — Industrial Digital Twins: real-time rendering (Omniverse), CPS, IoT+AI modeling, cloud platforms, standards.
 
-# Tasks
-1. **Relevance**: Does it belong to one of the 5 domains? Filter out: pure PR, marketing hype without technical detail, duplicative reporting, generic entertainment tech.
-2. **Priority**: Score 1-5. Boost LLM/Agent content.
-3. **Category**: Primary + optional secondary.
-4. **Summary**: Structured extraction.
+def _load_prompt(filename: str) -> str:
+    """Load a prompt module from references/ directory"""
+    path = PROMPT_DIR / filename
+    if path.exists():
+        return path.read_text(encoding="utf-8")
+    logger.warning(f"Prompt file not found: {path}")
+    return ""
 
-# Output JSON (ONLY valid JSON, no markdown):
-{{
-  "is_relevant": true/false,
-  "priority_score": 1-5,
-  "primary_category": "One of: LLM, Agent, AI for Science, Design Simulation, Digital Twin",
-  "secondary_category": "Optional second domain or null",
-  "chinese_title": "Concise Chinese headline under 25 chars",
-  "tldr": "One-sentence summary under 50 words",
-  "key_insights": ["Up to 3 critical points"],
-  "why_it_matters": "1-2 sentences on industry/dev significance",
-  "tags": ["tag1", "tag2"]
-}}
 
+CURATION_RULES = _load_prompt("curation-rules.md")
+DIGEST_PROMPT = _load_prompt("digest-prompt.md")
+
+CURATOR_SYSTEM = (
+    "You are a senior technology news curator and intelligence analyst "
+    "specializing in tracking global AI frontiers and industrial technology evolution. "
+    "Analyze the given news article and output ONLY valid JSON without markdown fences."
+)
+
+CURATOR_USER_TEMPLATE = """{rules}
+
+{digest}
+
+# Input
 Title: {title}
 Source: {source_name}
 Summary: {summary}
 URL: {url}
 
-JSON:"""
+Return ONLY valid JSON (no markdown fences):"""
 
 
 class FilterSummarizer:
@@ -56,11 +55,11 @@ class FilterSummarizer:
             text = (a.get("title", "") + " " + a.get("summary", "")).lower()
             if any(kw.lower() in text for kw in keywords):
                 result.append(a)
-        logger.info(f"Pre-filter: {len(articles)} → {len(result)}")
+        logger.info(f"Pre-filter: {len(articles)} -> {len(result)}")
         return result
 
     def curate_batch(self, articles: list[dict]) -> list[dict]:
-        """Unified curator: relevance + classification + enrichment in one LLM call per article"""
+        """Unified curator: relevance + classification + enrichment in one LLM call"""
         return asyncio.run(self._curate_async(articles))
 
     async def _curate_async(self, articles: list[dict]) -> list[dict]:
@@ -70,19 +69,18 @@ class FilterSummarizer:
         async def _do_one(a: dict):
             async with sem:
                 loop = asyncio.get_running_loop()
-                prompt = CURATOR_PROMPT.format(
+                user_prompt = CURATOR_USER_TEMPLATE.format(
+                    rules=CURATION_RULES,
+                    digest=DIGEST_PROMPT,
                     title=a.get("title", "")[:300],
                     source_name=a.get("source_name", ""),
                     summary=a.get("summary", "")[:800],
                     url=a.get("url", ""),
                 )
                 response = await loop.run_in_executor(
-                    None, self.llm.chat,
-                    "You are a senior technology news curator. Return ONLY valid JSON without markdown fences.",
-                    prompt,
+                    None, self.llm.chat, CURATOR_SYSTEM, user_prompt,
                 )
                 try:
-                    # Clean markdown fences
                     cleaned = response.strip()
                     for fence in ["```json", "```"]:
                         cleaned = cleaned.removeprefix(fence).removesuffix(fence).strip()
@@ -97,12 +95,13 @@ class FilterSummarizer:
                         a["key_insights"] = data.get("key_insights", [])
                         a["why_it_matters"] = data.get("why_it_matters", "")
                         a["tags"] = data.get("tags", [])
-                        a["importance"] = a["priority_score"]  # for backward compat
-                        a["ai_summary"] = a["tldr"]  # for backward compat
+                        a["original_title"] = data.get("original_title", a.get("title", ""))
+                        a["importance"] = a["priority_score"]
+                        a["ai_summary"] = a["tldr"]
                         curated.append(a)
                 except (json.JSONDecodeError, KeyError, ValueError) as e:
                     logger.warning(f"JSON parse failed for [{a.get('title','')[:60]}]: {e}")
 
         await asyncio.gather(*[_do_one(a) for a in articles[:80]])
-        logger.info(f"Curator: {len(articles)} → {len(curated)} relevant")
+        logger.info(f"Curator: {len(articles)} -> {len(curated)} relevant")
         return curated

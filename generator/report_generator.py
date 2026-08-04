@@ -7,10 +7,14 @@ from jinja2 import Environment, FileSystemLoader
 from models.llm_client import LLMClient
 
 
-def _get_trends(llm: LLMClient, articles: list[dict]) -> dict[str, str]:
-    cats = {"LLM": [], "Agent": [], "AI for Science": [], "设计仿真": [], "数字孪生": []}
+def _get_trends(llm: LLMClient, articles: list[dict], categories: list[dict]) -> dict[str, str]:
+    """LLM 生成各领域本周趋势关键词（失败安全回退）"""
+    cats: dict[str, list] = {}
+    for cat_cfg in categories:
+        cats[cat_cfg["name"]] = []
+
     for a in articles:
-        cat = a.get("category", "LLM")
+        cat = a.get("category", "")
         if cat in cats:
             cats[cat].append(a.get("title", "")[:80])
 
@@ -20,12 +24,14 @@ def _get_trends(llm: LLMClient, articles: list[dict]) -> dict[str, str]:
             trends[cat_name] = "持续关注"
             continue
         sample = "\n".join(titles[:6])
-        keyword = llm.chat(
-            system_prompt="你是AI趋势分析师。用2-4字中文关键词概括趋势。",
-            user_prompt=f"基于以下{cat_name}领域文章标题，用一个中文关键词（2-4字）概括本周趋势:\n{sample}\n关键词:",
-        )
-        trends[cat_name] = keyword.strip().replace("。", "").replace("，", "")[:6]
-
+        try:
+            keyword = llm.chat(
+                system_prompt="你是AI趋势分析师。用2-4字中文关键词概括趋势。",
+                user_prompt=f"基于以下{cat_name}领域文章标题，用一个中文关键词（2-4字）概括本周趋势:\n{sample}\n关键词:",
+            )
+            trends[cat_name] = keyword.strip().replace("。", "").replace("，", "")[:6]
+        except Exception:
+            trends[cat_name] = "持续关注"
     return trends
 
 
@@ -85,7 +91,7 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
     colors = {"LLM": "#3b82f6", "Agent": "#8b5cf6", "AI for Science": "#10b981", "设计仿真": "#f59e0b", "数字孪生": "#ef4444"}
     icons = {"LLM": "🧠", "Agent": "🤖", "AI for Science": "🔬", "设计仿真": "🎨", "数字孪生": "🏭"}
 
-    trends = _get_trends(llm, articles) if llm else {k: "持续关注" for k in categories}
+    trends = _get_trends(llm, articles, config["filter"]["categories"]) if llm else {k: "持续关注" for k in categories}
 
     env = Environment(loader=FileSystemLoader("generator/templates"))
     template = env.get_template("weekly.html")

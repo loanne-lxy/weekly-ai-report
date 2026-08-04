@@ -8,6 +8,7 @@
   # 或直接手动运行:
   # python scheduler.py
 """
+import os
 import subprocess
 import sys
 import logging
@@ -22,6 +23,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger("scheduler")
 
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 def run_weekly():
     logger.info("Starting weekly report generation...")
@@ -29,7 +32,8 @@ def run_weekly():
         [sys.executable, "-u", "main.py"],
         capture_output=True,
         text=True,
-        cwd="/home/loanne/weekly-ai-report",
+        cwd=PROJECT_DIR,
+        timeout=3600,
     )
     if result.returncode == 0:
         logger.info("Weekly report generated successfully")

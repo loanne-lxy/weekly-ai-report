@@ -6,21 +6,21 @@ from models.llm_client import LLMClient
 
 logger = logging.getLogger(__name__)
 
-ENRICH_PROMPT = """分析以下AI资讯，返回JSON（不要markdown代码块，只返回纯JSON）:
+ENRICH_PROMPT = """Analyze the following AI news article. Return ONLY raw JSON (no markdown fences):
 
 {{
-  "chinese_title": "25字以内中文标题，准确概括核心内容",
-  "summary": "80字以内中文摘要，点出关键技术/突破/数据",
-  "importance": 1-10的整数，评分标准:
-    10: 里程碑式突破(新模型架构/范式改变/行业颠覆)
-    8-9: 重大发布(GPT-5/Claude级别/顶级会议Best Paper)
-    6-7: 重要进展(新方法/新工具/大公司战略)
-    4-5: 增量改进(微调/benchmark小幅提升)
-    1-3: 一般资讯(博客/观点/应用案例)
+  "chinese_title": "Accurate Chinese title within 25 characters",
+  "summary": "Concise Chinese summary within 80 characters, highlighting key tech/breakthrough/data",
+  "importance": integer 1-10, scoring criteria:
+    10: Landmark breakthrough (new model architecture, paradigm shift, industry disruption)
+    8-9: Major release (GPT-5/Claude-level, top-conference Best Paper)
+    6-7: Significant advance (new method/tool, big-tech strategy)
+    4-5: Incremental improvement (fine-tuning, minor benchmark gains)
+    1-3: General news (blog post, opinion, application case)
 }}
 
-标题: {title}
-原文摘要: {summary}
+Title: {title}
+Original summary: {summary}
 
 JSON:"""
 
@@ -79,7 +79,7 @@ class FilterSummarizer:
                 )
                 response = await loop.run_in_executor(
                     None, self.llm.chat,
-                    "你是AI资讯分析引擎。只返回纯JSON，不包含markdown代码块。",
+                    "You are an AI analysis engine. Return ONLY raw JSON without markdown fences.",
                     prompt,
                 )
                 try:

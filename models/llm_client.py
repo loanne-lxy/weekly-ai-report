@@ -1,4 +1,4 @@
-"""统一 LLM 调用接口 — 支持 Ollama / OpenAI / DeepSeek / 自定义"""
+"""Unified LLM client — supports Ollama / OpenAI / DeepSeek / custom providers"""
 import os
 from pathlib import Path
 from openai import OpenAI
@@ -11,7 +11,7 @@ except ImportError:
 
 
 def _load_dotenv():
-    """加载项目根目录的 .env 文件"""
+    """Load .env file from project root"""
     env_path = Path(__file__).parent.parent / ".env"
     if env_path.exists():
         with open(env_path) as f:
@@ -45,7 +45,7 @@ class LLMClient:
             base_url=cfg.get("base_url", "http://localhost:11434/v1"),
         )
 
-        # LangSmith 追踪（如果已配置）
+        # LangSmith tracing (if configured)
         if _wrap_openai and os.environ.get("LANGSMITH_TRACING") == "true":
             self.client = _wrap_openai(raw_client)
         else:
@@ -71,35 +71,37 @@ class LLMClient:
         self, title: str, summary: str, categories: list[dict]
     ) -> str | None:
         cat_names = [c["name"] for c in categories]
-        prompt = f"""判断以下文章属于哪个领域。只输出领域名称，不要解释。
+        prompt = f"""Classify the following article into exactly one domain. Output ONLY the domain name, nothing else.
 
-领域定义:
-- LLM: 核心大模型技术（新模型架构/训练方法/推理优化/基准评测/对齐技术/Transformer变体/量化/蒸馏），不包含应用案例
-- Agent: AI智能体（自主决策/工具调用/多Agent协作/RAG/机器人/任务规划/人机交互Agent），不含纯模型发布
-- AI for Science: AI驱动科学发现（蛋白质结构/药物研发/材料科学/气象预测/数学证明/物理模拟）
-- 设计仿真: AI辅助工程设计（生成式设计/CAD/CAE仿真/3D生成/渲染/Omniverse/数字内容创作）
-- 数字孪生: 工业数字孪生（IoT数据集成/实时仿真/预测性维护/工业4.0/赛博物理系统）
+Domain definitions:
+- LLM: Core LLM technology (model architecture, training methods, inference optimization, benchmarks, alignment, Transformer variants, quantization, distillation). NOT application stories.
+- Agent: AI agents (autonomous decision-making, tool calling, multi-agent collaboration, RAG, robotics, task planning, human-agent interaction). NOT pure model releases.
+- AI for Science: AI-driven scientific discovery (protein structure, drug R&D, materials science, weather prediction, mathematical proofs, physics simulation).
+- 设计仿真: AI-assisted engineering design (generative design, CAD, CAE simulation, 3D generation, rendering, Omniverse, digital content creation).
+- 数字孪生: Industrial digital twins (IoT data integration, real-time simulation, predictive maintenance, Industry 4.0, cyber-physical systems).
 
-如果都不属于，输出 "NONE"。
+If none match, output "NONE".
 
-标题: {title}
-摘要: {summary[:500]}
+Title: {title}
+Summary: {summary[:500]}
 
-领域:"""
-        result = self.chat(system_prompt="你是AI资讯分类器。严格按照领域定义分类，不要将AI应用案例归入LLM。", user_prompt=prompt)
+Domain:"""
+        result = self.chat(
+            system_prompt="You are an AI article classifier. Strictly follow the domain definitions. Do NOT classify application stories as LLM.",
+            user_prompt=prompt,
+        )
         for name in cat_names:
             if name in result:
                 return name
         return None
 
     def summarize(self, title: str, content: str) -> str:
-        prompt = f"""用中文写一段100字以内的摘要，提取核心观点和关键信息。
-
-标题: {title}
-内容: {content[:2000]}
-
-摘要(中文,100字内):"""
         return self.chat(
-            system_prompt="你是AI资讯摘要员。用简洁中文总结，不超过100字。",
-            user_prompt=prompt,
+            system_prompt="You are an AI summarizer. Write concise Chinese summaries.",
+            user_prompt=(
+                f"Write a one-sentence Chinese summary (under 80 characters) capturing the key insight:\n\n"
+                f"Title: {title}\n"
+                f"Content: {content[:2000]}\n\n"
+                f"Chinese summary:"
+            ),
         )

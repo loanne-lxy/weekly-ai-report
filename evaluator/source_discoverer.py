@@ -1,17 +1,17 @@
-"""源池自动发现 — Agent 自主寻找新信息源"""
+"""Source pool auto-discovery — agent autonomously finds new sources"""
 import logging
 from models.llm_client import LLMClient
 
 logger = logging.getLogger(__name__)
 
-DISCOVERY_PROMPT = """你是AI资讯源发现助手。给出以下本周最相关的5篇文章的标题和来源，
-推荐3个新的RSS/博客/网站作为信息源，这些源应该能提供类似的高质量内容。
-只返回URL，每行一个，不要解释。
+DISCOVERY_PROMPT = """You are an AI news source discovery assistant. Based on the titles and sources of the most relevant articles this week,
+recommend 3 new RSS feeds, blogs, or websites that would provide similar high-quality content.
+Return ONLY URLs, one per line, no explanation.
 
-本周热门文章:
+Top articles this week:
 {articles}
 
-新信息源URL:"""
+New source URLs:"""
 
 
 class SourceDiscoverer:

@@ -96,7 +96,7 @@
   <header>
     <div class="week">2026-W32</div>
     <h1>AI 前沿资讯周报</h1>
-    <p class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 5 篇</p>
+    <p class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 60 篇</p>
   </header>
 
   <div class="trends">
@@ -108,19 +108,19 @@
       <div class="t">
         <div class="dot" style="background:#669df6"></div>
         <div class="label">LLM</div>
-        <div class="kw">无相关资讯</div>
+        <div class="kw">智能体AI</div>
       </div>
       
       <div class="t">
         <div class="dot" style="background:#c58af9"></div>
         <div class="label">Agent</div>
-        <div class="kw">无相关资讯</div>
+        <div class="kw">具身智能</div>
       </div>
       
       <div class="t">
         <div class="dot" style="background:#34a853"></div>
         <div class="label">AI for Science</div>
-        <div class="kw">无相关资讯</div>
+        <div class="kw">科学计算加速</div>
       </div>
       
       <div class="t">
@@ -141,13 +141,13 @@
   <div class="stats">
     
     
-    <div class="s"><div class="n" style="color:#1a73e8">2</div><div class="l">LLM</div></div>
+    <div class="s"><div class="n" style="color:#1a73e8">19</div><div class="l">LLM</div></div>
     
     
-    <div class="s"><div class="n" style="color:#9334e6">1</div><div class="l">Agent</div></div>
+    <div class="s"><div class="n" style="color:#9334e6">10</div><div class="l">Agent</div></div>
     
     
-    <div class="s"><div class="n" style="color:#0d904f">0</div><div class="l">AI for Science</div></div>
+    <div class="s"><div class="n" style="color:#0d904f">29</div><div class="l">AI for Science</div></div>
     
     
     <div class="s"><div class="n" style="color:#e37400">1</div><div class="l">设计仿真</div></div>
@@ -164,44 +164,394 @@
     <div class="sec-h b-blue">
       <span class="icon">🧠</span>
       <h2>LLM</h2>
-      <span class="badge bg-blue">2</span>
+      <span class="badge bg-blue">19</span>
     </div>
 
     
-    <div class="sec-summary">本周LLM领域两大焦点为GPT-5采用全新MoE架构发布，以及Gemma 4模型下载量突破9亿。</div>
+    <div class="sec-summary">本周LLM领域核心进展集中在NVIDIA主导的算力与架构创新上，包括GB300 NVL72刷新MoE预训练纪录、Rubin架构面向智能体AI、Exemplar Cloud优化基础设施性能，同时长上下文注意力协同设计及Nemotron 3 Ultra在开源RTL编码中登顶。</div>
     
 
     
     
-    
-    <div class="no-update">暂无新资讯，以下为上周内容</div>
     
     <div class="article-list" data-cat="blue" data-per-page="5">
       
       
-      <div class="card carried">
-        <div class="score score-hi">10</div>
+      <div class="card">
+        <div class="score score-md">5</div>
         <div class="card-body">
-          <div class="card-source">OpenAI Blog<span class="carried-badge"></span></div>
-          <h3><a href="https://openai.com/gpt5" target="_blank">GPT-5发布：全新MoE架构</a></h3>
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/setting-a-world-record-for-moe-pre-training-on-nvidia-gb300-nvl72/" target="_blank">NVIDIA GB300 NVL72创MoE预训练世界纪录</a></h3>
           
-          <div class="summary">OpenAI发布GPT-5，采用全新MoE架构，推理性能提升3倍。</div>
+          <div class="orig">Setting a World Record for MoE Pre-Training on NVIDIA GB300 NVL72</div>
           
+          <div class="summary">NVIDIA announces a world record for MoE pre-training on GB300 NVL72, showcasing significant performance gains.</div>
           
+          <ul class="insights"><li>GB300 NVL72 achieves record MoE pre-training throughput</li><li>Optimizations for MoE on GB300 NVL72 reduce training time</li><li>Demonstrates scalability for frontier model training</li></ul>
+          
+          <div class="why">This milestone sets a new benchmark for MoE training efficiency, directly impacting large-scale AI model development and infrastructure choices.</div>
+          
+          <div class="tags-row"><span class="tag">MoE</span><span class="tag">pre-training</span><span class="tag">GB300</span><span class="tag">NVIDIA</span><span class="tag">performance</span></div>
           
         </div>
       </div>
       
       
-      <div class="card carried">
-        <div class="score score-hi">8</div>
+      <div class="card">
+        <div class="score score-md">5</div>
         <div class="card-body">
-          <div class="card-source">Demis Hassabis (Nitter)<span class="carried-badge"></span></div>
-          <h3><a href="https://example.com/gemma4" target="_blank">Gemma 4模型下载量突破9亿</a></h3>
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/inside-nvidia-rubin-gpu-architecture-powering-the-era-of-agentic-ai/" target="_blank">NVIDIA Rubin GPU架构：驱动智能体AI时代</a></h3>
           
-          <div class="summary">Google Gemma 4系列开源模型累计下载量突破9亿次。</div>
+          <div class="orig">Inside NVIDIA Rubin GPU Architecture: Powering the Era of Agentic AI</div>
           
+          <div class="summary">NVIDIA Rubin GPU架构专为智能体AI设计，提供高吞吐推理与能效，支持AI工厂规模化生产智能。</div>
           
+          <ul class="insights"><li>Rubin GPU针对智能体AI优化，提升推理吞吐与能效</li><li>支持AI工厂架构，实现规模化智能生产</li><li>为多智能体协同提供硬件基础</li></ul>
+          
+          <div class="why">该架构标志着GPU从训练转向推理，为智能体AI的规模化部署提供关键硬件支撑，影响AI基础设施发展方向。</div>
+          
+          <div class="tags-row"><span class="tag">GPU</span><span class="tag">AgenticAI</span><span class="tag">Inference</span><span class="tag">Architecture</span><span class="tag">NVIDIA</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/nvidia-exemplar-cloud-lessons-for-unlocking-full-performance-on-ai-infrastructure/" target="_blank">NVIDIA Exemplar Cloud：解锁AI基础设施性能</a></h3>
+          
+          <div class="orig">NVIDIA Exemplar Cloud: Lessons for Unlocking Full Performance on AI Infrastructure</div>
+          
+          <div class="summary">NVIDIA shares lessons from Exemplar Cloud on optimizing AI infrastructure to achieve full training throughput, addressing performance variability across clusters.</div>
+          
+          <ul class="insights"><li>Identical clusters can differ in training throughput; optimization is key.</li><li>Exemplar Cloud provides best practices for maximizing AI infrastructure performance.</li><li>Focus on system-level tuning beyond hardware specs.</li></ul>
+          
+          <div class="why">This article provides actionable insights for enterprises and researchers to optimize their AI infrastructure, potentially reducing costs and improving training efficiency.</div>
+          
+          <div class="tags-row"><span class="tag">inference</span><span class="tag">serving</span><span class="tag">orchestration</span><span class="tag">performance</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/co-designing-ai-model-attention-for-fast-interactive-long-context-inference/" target="_blank">长上下文推理注意力协同设计</a></h3>
+          
+          <div class="orig">Co-Designing AI Model Attention for Fast, Interactive Long-Context Inference</div>
+          
+          <div class="summary">NVIDIA博客探讨通过协同设计模型注意力机制与推理系统，加速长上下文交互式推理，应对Agent工作负载的挑战。</div>
+          
+          <ul class="insights"><li>长上下文场景下注意力计算占比显著增加，成为推理瓶颈。</li><li>提出模型与系统协同设计策略，优化注意力机制以提升交互速度。</li><li>针对Agent工作负载，提供实用优化方法，降低延迟。</li></ul>
+          
+          <div class="why">随着Agent和长上下文应用普及，推理效率成为关键。NVIDIA的协同设计思路为开发者提供了优化方向，有助于提升交互式AI的响应速度。</div>
+          
+          <div class="tags-row"><span class="tag">attention</span><span class="tag">long-context</span><span class="tag">inference</span><span class="tag">agent</span><span class="tag">optimization</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/nvidia-nemotron-3-ultra-leads-open-models-on-accuracy-and-efficiency-in-agentic-rtl-coding/" target="_blank">Nemotron 3 Ultra登顶开源RTL编码模型</a></h3>
+          
+          <div class="orig">NVIDIA Nemotron 3 Ultra Leads Open Models on Accuracy and Efficiency in Agentic RTL Coding</div>
+          
+          <div class="summary">NVIDIA's Nemotron 3 Ultra tops open models in agentic RTL coding, boosting accuracy and efficiency for chip design.</div>
+          
+          <ul class="insights"><li>Nemotron 3 Ultra achieves SOTA accuracy on RTL coding benchmarks</li><li>Optimized for agentic workflows, improving verification efficiency</li><li>Open model, enabling integration into custom EDA pipelines</li></ul>
+          
+          <div class="why">This release demonstrates LLM specialization for hardware design, potentially reducing engineering time in chip development and setting a new standard for open models in EDA.</div>
+          
+          <div class="tags-row"><span class="tag">RTL</span><span class="tag">Agentic</span><span class="tag">ChipDesign</span><span class="tag">OpenModel</span><span class="tag">NVIDIA</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/start-customizing-nvidia-nemotron-3-nano-with-prime-intellect-lab-in-minutes/" target="_blank">NVIDIA Nemotron 3 Nano 联合 Prime Intellect 实现快速定制</a></h3>
+          
+          <div class="orig">Start Customizing NVIDIA Nemotron 3 Nano with Prime Intellect Lab in Minutes</div>
+          
+          <div class="summary">NVIDIA 与 Prime Intellect Lab 合作，使开发者能在几分钟内定制 Nemotron 3 Nano 模型，简化微调流程。</div>
+          
+          <ul class="insights"><li>利用 Prime Intellect 平台快速微调 Nemotron 3 Nano</li><li>支持多节点分布式训练，降低定制门槛</li><li>提供详细教程和代码示例，便于开发者上手</li></ul>
+          
+          <div class="why">该合作降低了 LLM 定制门槛，使中小团队也能快速适配领域模型，加速企业级 AI 应用落地。</div>
+          
+          <div class="tags-row"><span class="tag">fine-tuning</span><span class="tag">nemotron</span><span class="tag">distributed-training</span><span class="tag">nvidia</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/inside-nvidia-vera-cpu-olympus-cores-built-for-maximum-single-threaded-performance-in-agentic-ai/" target="_blank">NVIDIA Vera CPU：面向智能体的单线程性能</a></h3>
+          
+          <div class="orig">NVIDIA Vera CPU: Olympus Cores Built for Maximum Single-Thread Performance in Agentic AI</div>
+          
+          <div class="summary">NVIDIA's Vera CPU, with Olympus cores, is designed to maximize single-threaded performance for agentic AI workloads, addressing the shift of critical execution to the CPU.</div>
+          
+          <ul class="insights"><li>Vera CPU uses Olympus cores optimized for single-thread performance, crucial for agentic AI's sequential and latency-sensitive tasks.</li><li>Architecture details reveal focus on reducing latency for tool calling and code execution in sandboxes.</li><li>Targets the growing CPU bottleneck in agentic AI pipelines, complementing GPU acceleration.</li></ul>
+          
+          <div class="why">As agentic AI becomes more prevalent, CPU performance is a critical bottleneck. NVIDIA's dedicated CPU design signals a strategic move to optimize the entire AI stack, impacting developers building agent-based systems.</div>
+          
+          <div class="tags-row"><span class="tag">CPU</span><span class="tag">agentic-ai</span><span class="tag">single-thread</span><span class="tag">inference</span><span class="tag">NVIDIA</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/joshwoodward/status/2079595879808569534#m" target="_blank">Gemini 3.6 Flash发布，编码token使用量降低65%</a></h3>
+          
+          <div class="orig">RT by @demishassabis: Today’s launches are all about better performance, lower latency, and a smaller bill. + 3.6 Flash </div>
+          
+          <div class="summary">Google DeepMind releases Gemini 3.6 Flash and 3.5 Flash-Lite, with 3.6 Flash reducing token usage by up to 65% on coding tasks and 3.5 Flash-Lite achieving 350 output tokens/sec.</div>
+          
+          <ul class="insights"><li>Gemini 3.6 Flash cuts token usage by up to 65% on complex coding tasks</li><li>Gemini 3.5 Flash-Lite reaches 350 output tokens/sec for fast processing</li><li>Gemini 3.5 Pro enters partner testing, signaling upcoming release</li></ul>
+          
+          <div class="why">These launches signal a trend toward cost-efficient, low-latency models for agentic workloads, directly impacting developers building scalable AI applications.</div>
+          
+          <div class="tags-row"><span class="tag">Gemini</span><span class="tag">Flash</span><span class="tag">token-efficiency</span><span class="tag">low-latency</span><span class="tag">agentic</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/demishassabis/status/2076957440109625718#m" target="_blank">前沿AI框架与新时代曙光</a></h3>
+          
+          <div class="orig">Pinned: A Framework for Frontier AI and the Dawning of a New Age</div>
+          
+          <div class="summary">Demis Hassabis outlines a framework for frontier AI, predicting AGI within a few years and emphasizing safety and societal impact.</div>
+          
+          <ul class="insights"><li>AGI likely within a few years, requiring proactive governance</li><li>Framework emphasizes safety, ethics, and societal benefit</li><li>Calls for international cooperation on AI regulation</li></ul>
+          
+          <div class="why">As a leading AI figure, Hassabis's strategic vision shapes industry direction and policy discussions, highlighting urgent need for responsible development.</div>
+          
+          <div class="tags-row"><span class="tag">AGI</span><span class="tag">frontier-ai</span><span class="tag">safety</span><span class="tag">governance</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/ArtificialAnlys/status/2076747075036045645#m" target="_blank">Gemini Omni Flash登顶视频生成基准</a></h3>
+          
+          <div class="orig">RT by @demishassabis: Google's Gemini Omni Flash debuts at #1 on the Artificial Analysis Text to Video and Image to Vide</div>
+          
+          <div class="summary">Google's Gemini Omni Flash tops Artificial Analysis text-to-video and image-to-video leaderboards, surpassing ByteDance's Seedance 2.0.</div>
+          
+          <ul class="insights"><li>Gemini Omni Flash ranks #1 on both text-to-video and image-to-video leaderboards.</li><li>Supports native audio, conversational editing, and 3-10s clips at 720p/24FPS.</li><li>First model in Gemini Omni family, available in public preview since June 30.</li></ul>
+          
+          <div class="why">This marks Google's strong entry into multimodal video generation, setting a new SOTA and intensifying competition with ByteDance and others.</div>
+          
+          <div class="tags-row"><span class="tag">video-generation</span><span class="tag">multimodal</span><span class="tag">gemini</span><span class="tag">benchmark</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/GoogleDeepMind/status/2071988044878516466#m" target="_blank">谷歌发布Gemini图像与视频生成模型</a></h3>
+          
+          <div class="orig">RT by @demishassabis: We’re shipping 2 major releases:  🔘 Nano Banana 2 Lite: our fastest and cheapest Gemini Image mode</div>
+          
+          <div class="summary">Google DeepMind releases Nano Banana 2 Lite image model and Gemini Omni Flash video model via API.</div>
+          
+          <ul class="insights"><li>Nano Banana 2 Lite: fastest and cheapest Gemini image model</li><li>Gemini Omni Flash available via Gemini API and AI Studio</li><li>Enables developers to generate and edit high-quality videos</li></ul>
+          
+          <div class="why">These releases expand Google's generative AI offerings, providing developers with cost-effective tools for image and video generation, potentially accelerating adoption in creative and enterprise applications.</div>
+          
+          <div class="tags-row"><span class="tag">Gemini</span><span class="tag">image-generation</span><span class="tag">video-generation</span><span class="tag">API</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00004" target="_blank">廉价模型可百倍降本评判数学证明</a></h3>
+          
+          <div class="orig">Cost-Effective Automated Judging of Natural-Language Mathematical Proofs</div>
+          
+          <div class="summary">Cheap open-weight models match frontier LLM judges in grading math proofs at 100x lower cost.</div>
+          
+          <ul class="insights"><li>GPT-OSS 120B, DeepSeek-V4 Flash, Gemma-4 31B match Claude Opus 4.7 and Gemini 3.1 Pro in grading accuracy</li><li>Majority vote of three cheap judges matched but did not exceed best individual model</li><li>Up to 100x cost reduction for evaluating math-reasoning systems</li></ul>
+          
+          <div class="why">This finding enables cost-effective evaluation of math reasoning systems, democratizing access to reliable automated grading for researchers and developers.</div>
+          
+          <div class="tags-row"><span class="tag">LLM</span><span class="tag">evaluation</span><span class="tag">math-reasoning</span><span class="tag">cost-efficiency</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00013" target="_blank">跨家族VLM缩放定律：从文本能力预测视觉性能</a></h3>
+          
+          <div class="orig">What Transfers from Text to Vision? Capability Scaling Laws and Transfer Dynamics for VLMs</div>
+          
+          <div class="summary">提出首个跨模型家族的多模态缩放定律，利用文本能力分数预测VLM基准表现，为骨干模型选择提供原则性框架。</div>
+          
+          <ul class="insights"><li>提出能力驱动多模态缩放定律，基于PCA提取文本能力分数S预测VLM性能</li><li>引入每骨干迁移率和吸收率，量化数据扩展效率</li><li>跨家族框架无需训练即可预测VLM基准精度，解决计算缩放定律泛化失败问题</li></ul>
+          
+          <div class="why">该研究为VLM骨干模型选择提供了首个原则性框架，显著降低试错成本，对多模态模型开发具有直接指导意义。</div>
+          
+          <div class="tags-row"><span class="tag">scaling-laws</span><span class="tag">multimodal</span><span class="tag">VLM</span><span class="tag">LLM</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/joshwoodward/status/2077811657385079045#m" target="_blank">NotebookLM更名Notebook，用户超3000万</a></h3>
+          
+          <div class="orig">RT by @demishassabis: I still remember the exact room, watching @stevenbjohnson break down how he writes books. That was</div>
+          
+          <div class="summary">Google's NotebookLM, now officially renamed Notebook, has surpassed 30 million users and 600,000 organizations, evolving from a learning tool to an interactive workspace.</div>
+          
+          <ul class="insights"><li>NotebookLM officially renamed to Notebook, marking product maturity.</li><li>User base exceeds 30 million individuals and 600,000 organizations.</li><li>Product evolved to support audio, video, and interactive sources.</li></ul>
+          
+          <div class="why">This milestone signals the mainstream adoption of AI-powered research and learning tools, indicating a shift in how knowledge work is conducted. For developers, it highlights the growing demand for interactive, multi-source AI assistants.</div>
+          
+          <div class="tags-row"><span class="tag">NotebookLM</span><span class="tag">AI assistant</span><span class="tag">product update</span><span class="tag">user growth</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00005" target="_blank">RubricReviewer：基于显式评分标准的同行评审框架</a></h3>
+          
+          <div class="orig">RubricReviewer: From Direct Critique to Objective and Comprehensive Rubric-Driven Peer Review</div>
+          
+          <div class="summary">RubricReviewer is a rubric-driven LLM framework for peer review that separates rubric generation from judgment, improving objectivity and comprehensiveness.</div>
+          
+          <ul class="insights"><li>Separates rubric generation from judgment to make evaluation criteria explicit</li><li>Combines training-free evidence gathering with training-based discriminative judgment</li><li>Addresses limitations of existing LLM reviewers by producing structured, rubric-based reviews</li></ul>
+          
+          <div class="why">This framework enhances the reliability of AI-assisted peer review, which is critical for handling increasing submission volumes at major venues, and offers a novel approach to structuring LLM evaluation tasks.</div>
+          
+          <div class="tags-row"><span class="tag">LLM</span><span class="tag">PeerReview</span><span class="tag">Rubric</span><span class="tag">Agent</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00011" target="_blank">DLLM-TTS：块离散扩散语言模型实现高效语音合成</a></h3>
+          
+          <div class="orig">DLLM-TTS: Block Discrete Diffusion Language Model for Text-to-Speech Synthesis</div>
+          
+          <div class="summary">DLLM-TTS introduces a block discrete diffusion language model for TTS, balancing intelligibility and speed by combining masked diffusion within blocks and sequential block processing.</div>
+          
+          <ul class="insights"><li>Block discrete diffusion over X-Codec2 tokens enables parallel token prediction within blocks, improving efficiency.</li><li>Sequential block processing maintains global text-speech alignment while local acoustic coherence is learned via masked diffusion.</li><li>Achieves competitive intelligibility with autoregressive models while offering faster inference (RTF).</li></ul>
+          
+          <div class="why">This work addresses the trade-off between autoregressive TTS quality and non-autoregressive speed, offering a new paradigm that could enable real-time, high-quality speech synthesis for production systems.</div>
+          
+          <div class="tags-row"><span class="tag">diffusion</span><span class="tag">TTS</span><span class="tag">language-model</span><span class="tag">X-Codec2</span><span class="tag">efficient-inference</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00024" target="_blank">熵引导提升文本扩散模型多样性</a></h3>
+          
+          <div class="orig">Exploring More to Solve More: Boosting Diversity in Text Diffusion Models via Entropy-Based Guidance</div>
+          
+          <div class="summary">Introduces SAKE, a training-free entropy-based guidance method for text diffusion models that improves diversity without sacrificing fidelity.</div>
+          
+          <ul class="insights"><li>SAKE uses order-2 Rényi entropy on kernel Gram matrix to capture semantic interactions.</li><li>Training-free method linearizes objective for efficient sampling.</li><li>Improves diversity-fidelity balance in text generation.</li></ul>
+          
+          <div class="why">This work addresses a key limitation in text diffusion models, offering a practical guidance method that enhances output diversity—valuable for generative AI applications requiring varied and controllable text generation.</div>
+          
+          <div class="tags-row"><span class="tag">diffusion</span><span class="tag">entropy</span><span class="tag">guidance</span><span class="tag">text-generation</span><span class="tag">diversity</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">2</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/demishassabis/status/2081039623422177765#m" target="_blank">AI领袖联合声明支持开放模型生态</a></h3>
+          
+          <div class="orig">A strong and secure open ecosystem is important for the world to benefit from AI. We’ve always supported and contributed</div>
+          
+          <div class="summary">Demis Hassabis and Jensen Huang publicly endorse open models, citing security and innovation benefits.</div>
+          
+          <ul class="insights"><li>Gemma open models surpassed 300M downloads</li><li>Open models enhance safety and cybersecurity</li><li>Standards framework supports responsible deployment</li></ul>
+          
+          <div class="why">High-profile endorsement from AI leaders signals industry consensus on open model importance, potentially influencing policy and ecosystem direction.</div>
+          
+          <div class="tags-row"><span class="tag">open-source</span><span class="tag">Gemma</span><span class="tag">AI-safety</span><span class="tag">ecosystem</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">2</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/demishassabis/status/2081075346208600103#m" target="_blank">Gemma系列下载量突破9亿次</a></h3>
+          
+          <div class="orig">R to @demishassabis: just to clarify: Gemma 4 models have been downloaded 300M+ times, the Gemma open model series as a </div>
+          
+          <div class="summary">Demis Hassabis确认Gemma 4模型下载量超3亿，Gemma系列总下载量超9亿。</div>
+          
+          <ul class="insights"><li>Gemma 4模型下载量超3亿次</li><li>Gemma系列总下载量超9亿次</li><li>官方确认里程碑数据</li></ul>
+          
+          <div class="why">该数据表明Google开源模型Gemma系列在开发者社区中具有广泛采用率，反映了开源LLM生态的活跃度，对行业趋势有参考价值。</div>
+          
+          <div class="tags-row"><span class="tag">gemma</span><span class="tag">open-source</span><span class="tag">llm</span><span class="tag">downloads</span></div>
           
         </div>
       </div>
@@ -217,28 +567,214 @@
     <div class="sec-h b-purple">
       <span class="icon">🤖</span>
       <h2>Agent</h2>
-      <span class="badge bg-purple">1</span>
+      <span class="badge bg-purple">10</span>
     </div>
 
     
+    <div class="sec-summary">本周智能体领域聚焦于机器人全身体智能、人形机器人数据训练、LLM终身记忆合成、对话记忆基准及多智能体路由优化等前沿进展。</div>
+    
 
     
     
-    
-    <div class="no-update">暂无新资讯，以下为上周内容</div>
     
     <div class="article-list" data-cat="purple" data-per-page="5">
       
       
-      <div class="card carried">
-        <div class="score score-hi">9</div>
+      <div class="card">
+        <div class="score score-md">5</div>
         <div class="card-body">
-          <div class="card-source">Jim Fan (Nitter)<span class="carried-badge"></span></div>
-          <h3><a href="https://example.com/enpire" target="_blank">ENPIRE：机器人自主研究系统</a></h3>
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/demishassabis/status/2082883806323728416#m" target="_blank">Gemini Robotics 2发布，实现全身体智能</a></h3>
           
-          <div class="summary">NVIDIA发布ENPIRE系统，8个Codex Agent自主操控机器人集群。</div>
+          <div class="orig">Gemini Robotics 2 is here, with our new suite of models, robots can now reason through every movement to manage tasks th</div>
           
+          <div class="summary">Google DeepMind发布Gemini Robotics 2，新一代物理AI模型，赋予机器人全身智能、高级灵巧性和多机器人协作能力。</div>
           
+          <ul class="insights"><li>Gemini Robotics 2实现全身智能，支持人形机器人复杂动作</li><li>高级灵巧性，可完成精细任务如打结</li><li>多机器人协作，解决复杂工作流程</li></ul>
+          
+          <div class="why">这是物理AI领域的重大突破，将推动机器人从单一任务执行向复杂协作发展，对工业自动化和服务机器人有深远影响。</div>
+          
+          <div class="tags-row"><span class="tag">physicalAI</span><span class="tag">robotics</span><span class="tag">multiagent</span><span class="tag">dexterity</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/GoogleDeepMind/status/2074157282477154597#m" target="_blank">Apollo 2人形机器人数据助力Gemini Robotics训练</a></h3>
+          
+          <div class="orig">RT by @demishassabis: As @Apptronik expands their Robot Park facility, our research partnership means real-world data co</div>
+          
+          <div class="summary">DeepMind与Apptronik扩大合作，利用Apollo 2人形机器人在Robot Park收集的真实世界数据训练Gemini Robotics模型。</div>
+          
+          <ul class="insights"><li>Apollo 2平台在Robot Park设施中收集真实世界数据</li><li>数据用于训练和推进Gemini Robotics模型</li><li>研究合作聚焦于机器人学习与部署</li></ul>
+          
+          <div class="why">该合作将前沿AI模型与实体机器人结合，加速具身智能发展，为工业自动化提供新范式。</div>
+          
+          <div class="tags-row"><span class="tag">humanoid</span><span class="tag">robotics</span><span class="tag">Gemini</span><span class="tag">real-world-data</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00007" target="_blank">MemoryForge：为LLM智能体合成终身记忆</a></h3>
+          
+          <div class="orig">MemoryForge: Synthesize Lifelong Memory for Human-Like LLM Agents</div>
+          
+          <div class="summary">MemoryForge框架通过记忆条件化替代静态提示，为冻结LLM合成自传式终身记忆，提升角色扮演与用户模拟的真实性。</div>
+          
+          <ul class="insights"><li>提出记忆条件化范式，替代静态文本提示</li><li>形式化定制终身记忆合成任务</li><li>框架支持冻结LLM动态检索情境相关记忆</li></ul>
+          
+          <div class="why">该方法为构建更真实、个性化的AI智能体提供了新路径，对角色扮演、用户模拟等应用具有重要价值，推动Agent记忆机制研究。</div>
+          
+          <div class="tags-row"><span class="tag">Agent</span><span class="tag">Memory</span><span class="tag">LLM</span><span class="tag">RolePlay</span><span class="tag">UserSimulation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00009" target="_blank">AgentMemBench：对话智能体长期记忆管理基准</a></h3>
+          
+          <div class="orig">AgentMemBench: A Systematic Benchmark for Evaluating Long-Term Memory Management Strategies in Conversational AI Agents</div>
+          
+          <div class="summary">Introduces AgentMemBench, a unified benchmark comparing five long-term memory strategies for conversational agents across three datasets.</div>
+          
+          <ul class="insights"><li>Benchmark compares five memory strategies: ICW, EKV, GEM, CBS, WAM</li><li>Evaluates on LoCoMo, MultiDoc2Dial, MSC with metrics like Recall@k, MRR, F1</li><li>Provides reproducible framework for memory management research</li></ul>
+          
+          <div class="why">This benchmark fills a critical gap in evaluating long-term memory for conversational agents, offering a standardized way to compare strategies and drive progress in agent memory design.</div>
+          
+          <div class="tags-row"><span class="tag">memory</span><span class="tag">benchmark</span><span class="tag">conversational-agent</span><span class="tag">evaluation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00030" target="_blank">SLM多智能体路由：渐进式SFT与强化学习</a></h3>
+          
+          <div class="orig">SLMs as Multi-Agent Routers: A Progressive SFT and Reinforcement Learning Approach</div>
+          
+          <div class="summary">A small language model trained with progressive SFT and RL to route queries to specialized retrieval agents, improving relevance over intent-based routing.</div>
+          
+          <ul class="insights"><li>Uses hierarchical reward grounded in retrieval relevance and query-agent alignment.</li><li>Jointly performs agent selection and structured parameter generation for tool calls.</li><li>Demonstrates SLMs can effectively route to specialized agents, outperforming intent-based methods.</li></ul>
+          
+          <div class="why">This work addresses a key bottleneck in multi-agent systems—query routing—by using RL to optimize for retrieval relevance, offering a scalable approach to improve agent-based search and tool use.</div>
+          
+          <div class="tags-row"><span class="tag">MultiAgent</span><span class="tag">RL</span><span class="tag">SFT</span><span class="tag">Retrieval</span><span class="tag">SLM</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/four-ways-to-deploy-more-secure-ai-agents/" target="_blank">四招提升AI代理部署安全性</a></h3>
+          
+          <div class="orig">Four Ways to Deploy More Secure AI Agents</div>
+          
+          <div class="summary">NVIDIA outlines four practical strategies to secure AI agent deployments, focusing on architecture, access control, and monitoring.</div>
+          
+          <ul class="insights"><li>Implement least-privilege access for agent permissions.</li><li>Use sandboxing to isolate agent execution environments.</li><li>Continuously monitor agent behavior for anomalies.</li></ul>
+          
+          <div class="why">As AI agents become digital coworkers, security is critical. NVIDIA's guidance provides actionable best practices for developers to deploy agents safely, reducing risks in enterprise environments.</div>
+          
+          <div class="tags-row"><span class="tag">security</span><span class="tag">AI agents</span><span class="tag">deployment</span><span class="tag">NVIDIA</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/how-to-self-host-a-validated-ai-coding-assistant-with-nvidia-nemo-guardrails/" target="_blank">NVIDIA NeMo Guardrails实现自托管AI编程助手</a></h3>
+          
+          <div class="orig">How to Self-Host a Validated AI Coding Assistant with NVIDIA NeMo Guardrails</div>
+          
+          <div class="summary">NVIDIA博客介绍如何使用NeMo Guardrails自托管AI编程助手，解决数据安全、合规和代码质量验证问题。</div>
+          
+          <ul class="insights"><li>使用NeMo Guardrails实现输入输出过滤，防止敏感数据泄露</li><li>集成代码验证工具，确保生成代码的正确性和安全性</li><li>支持本地部署，满足主权和监管要求</li></ul>
+          
+          <div class="why">为受监管行业提供安全、合规的AI编程助手部署方案，平衡开发效率与数据安全。</div>
+          
+          <div class="tags-row"><span class="tag">guardrails</span><span class="tag">coding-assistant</span><span class="tag">self-hosted</span><span class="tag">security</span><span class="tag">nemo</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/six-agent-harness-capabilities-for-higher-model-performance/" target="_blank">提升模型性能的六大Agent框架能力</a></h3>
+          
+          <div class="orig">Six Agent Harness Capabilities for Higher Model Performance</div>
+          
+          <div class="summary">NVIDIA博客详述了Agent框架的六大关键能力，包括上下文渲染、执行等，以提升模型性能。</div>
+          
+          <ul class="insights"><li>Agent框架的架构设计对模型性能至关重要</li><li>上下文渲染和执行是框架核心能力</li><li>提供具体能力清单供开发者参考</li></ul>
+          
+          <div class="why">为开发者构建高效Agent系统提供实用指导，强调框架设计的重要性，有助于提升实际应用效果。</div>
+          
+          <div class="tags-row"><span class="tag">Agent</span><span class="tag">framework</span><span class="tag">context</span><span class="tag">performance</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00023" target="_blank">角色转向筛选：提升语言模型社会模拟角色一致性</a></h3>
+          
+          <div class="orig">Role Steering of Language Models for Social Simulations</div>
+          
+          <div class="summary">Introduces an activation-steering screening workflow for role-conditioned agents, improving role-profile alignment in social simulations.</div>
+          
+          <ul class="insights"><li>Workflow: define role profile, extract direction, sweep coefficients, evaluate alignment</li><li>Applied to OLMo-3-7B-Instruct with 275 roles and 228 questions</li><li>Role-specific directions outperform assistant-axis control in alignment</li></ul>
+          
+          <div class="why">Provides a practical method to ensure role-consistent behavior in multi-agent simulations, enhancing reliability for social science research and agent-based modeling.</div>
+          
+          <div class="tags-row"><span class="tag">activation-steering</span><span class="tag">role-conditioning</span><span class="tag">social-simulation</span><span class="tag">multiagent</span><span class="tag">alignment</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">2</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/ssamat/status/2079933042718617782#m" target="_blank">Gemini智能登陆三星折叠屏</a></h3>
+          
+          <div class="orig">RT by @demishassabis: Congrats to the @SamsungMobile team on another great #GalaxyUnpacked! Today, we introduced the fir</div>
+          
+          <div class="summary">Google DeepMind CEO announces Gemini Intelligence features for Samsung foldables, including task automation across 40+ apps and Gemini Notebook integration.</div>
+          
+          <ul class="insights"><li>Task automation across 40+ apps for life admin</li><li>Gemini Notebook pre-installed with drag-and-drop sources</li><li>Gemini on Galaxy Watch9 via wrist raise</li></ul>
+          
+          <div class="why">This marks a significant expansion of Gemini's agentic capabilities into consumer devices, showcasing real-world task automation and multimodal AI integration in mobile hardware.</div>
+          
+          <div class="tags-row"><span class="tag">Gemini</span><span class="tag">task automation</span><span class="tag">Samsung</span><span class="tag">mobile AI</span><span class="tag">agent</span></div>
           
         </div>
       </div>
@@ -254,14 +790,600 @@
     <div class="sec-h b-green">
       <span class="icon">🔬</span>
       <h2>AI for Science</h2>
-      <span class="badge bg-green">0</span>
+      <span class="badge bg-green">29</span>
     </div>
 
     
+    <div class="sec-summary">本周AI for Science领域聚焦于扩散模型误差预测、机器学习加速材料筛选、可微分海洋模型GPU化及神经ODE参数化，同时NVIDIA推动半导体材料创新。</div>
+    
 
     
     
-    <div class="empty">暂无内容</div>
+    
+    <div class="article-list" data-cat="green" data-per-page="5">
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.00675" target="_blank">双向扩散模型自预测滚动误差</a></h3>
+          
+          <div class="orig">Round-Trip Consistency: Bidirectional Diffusion Models Can Predict Their Own Rollout Errors</div>
+          
+          <div class="summary">A bidirectional diffusion model predicts its own rollout errors via round-trip consistency, validated on MHD and other systems.</div>
+          
+          <ul class="insights"><li>Train single conditional latent diffusion model with direction flag for forward/backward stepping</li><li>Round-trip discrepancy serves as self-supervised proxy for rollout error without ground truth</li><li>Validated on compressible MHD, turbulent radiative mixing layer, and natural face videos</li></ul>
+          
+          <div class="why">This provides a measurement-free error signal for autoregressive models in scientific simulations, potentially improving reliability of long rollouts in physics and other domains.</div>
+          
+          <div class="tags-row"><span class="tag">diffusion</span><span class="tag">self-supervised</span><span class="tag">error-prediction</span><span class="tag">mhd</span><span class="tag">rollout</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.01779" target="_blank">机器学习加速金属烯夹层结构筛选</a></h3>
+          
+          <div class="orig">Machine-Learning-Accelerated Metallene Stabilization from High-Throughput Sandwich Modeling</div>
+          
+          <div class="summary">Using universal machine-learning interatomic potentials, researchers screened 1620 metallene sandwich heterostructures and identified 1208 dynamically stable ones, accelerating materials discovery.</div>
+          
+          <ul class="insights"><li>Screened 1620 metallene sandwich heterostructures with ML potentials</li><li>Identified 1208 dynamically stable structures via phonon calculations</li><li>MoSe2 shown as highly effective sandwich layer for metallene stabilization</li></ul>
+          
+          <div class="why">This work demonstrates the power of machine-learning interatomic potentials in accelerating high-throughput materials discovery, potentially enabling the synthesis of novel 2D materials with unique properties.</div>
+          
+          <div class="tags-row"><span class="tag">machine-learning-potentials</span><span class="tag">high-throughput</span><span class="tag">metallene</span><span class="tag">materials-discovery</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.01546" target="_blank">FESOM2-JAX：可微分海洋模型GPU化</a></h3>
+          
+          <div class="orig">FESOM2-JAX v1.0: a differentiable shadow of the ocean-sea-ice model FESOM2, cast onto GPUs</div>
+          
+          <div class="summary">FESOM2-JAX is a differentiable Python re-implementation of the ocean-sea-ice model FESOM2 in JAX, running on GPUs and verified against the original.</div>
+          
+          <ul class="insights"><li>End-to-end differentiable ocean model enables gradient-based calibration and hybrid ML components.</li><li>Runs on up to 256 GPUs, leveraging JAX for high-performance simulation.</li><li>LLM-assisted translation from Fortran, verified kernel-by-kernel for fidelity.</li></ul>
+          
+          <div class="why">This bridges traditional ocean modeling with modern ML workflows, enabling physics-informed machine learning and efficient calibration, potentially accelerating climate research and simulation-based discovery.</div>
+          
+          <div class="tags-row"><span class="tag">JAX</span><span class="tag">DifferentiableProgramming</span><span class="tag">OceanModeling</span><span class="tag">GPU</span><span class="tag">ScientificComputing</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2512.04452" target="_blank">NORi：基于神经ODE的海洋边界层参数化</a></h3>
+          
+          <div class="orig">NORi: An ML-Augmented Ocean Boundary Layer Parameterization</div>
+          
+          <div class="summary">NORi is a physics-based ML parameterization using neural ODEs to improve ocean boundary layer turbulence modeling, trained a posteriori with LES data.</div>
+          
+          <ul class="insights"><li>Combines Richardson number closure with neural ODEs for entrainment</li><li>Trained a posteriori on large-eddy simulations, improving accuracy</li><li>Addresses limitations of local diffusive closures in ocean models</li></ul>
+          
+          <div class="why">This work demonstrates a hybrid physics-ML approach for climate modeling, potentially improving ocean circulation predictions and climate simulations.</div>
+          
+          <div class="tags-row"><span class="tag">NeuralODE</span><span class="tag">PhysicsML</span><span class="tag">ClimateModeling</span><span class="tag">OceanDynamics</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">NVIDIA Developer</div>
+          <h3><a href="https://developer.nvidia.com/blog/advancing-semiconductor-innovation-across-materials-engineering-and-manufacturing/" target="_blank">NVIDIA加速半导体材料与制造创新</a></h3>
+          
+          <div class="orig">Advancing Semiconductor Innovation Across Materials Engineering and Manufacturing</div>
+          
+          <div class="summary">NVIDIA showcases AI-accelerated semiconductor materials engineering and manufacturing innovations, addressing compute demands.</div>
+          
+          <ul class="insights"><li>AI accelerates semiconductor materials discovery and manufacturing processes</li><li>NVIDIA integrates simulation and AI for chip design and production</li><li>Addresses explosive compute demand with advanced engineering tools</li></ul>
+          
+          <div class="why">This highlights NVIDIA's strategic push to apply AI and simulation in semiconductor manufacturing, critical for meeting future compute demands and advancing chip technology.</div>
+          
+          <div class="tags-row"><span class="tag">semiconductor</span><span class="tag">materials</span><span class="tag">simulation</span><span class="tag">manufacturing</span><span class="tag">AI-for-Science</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">Demis Hassabis (Nitter)</div>
+          <h3><a href="https://nitter.net/GoogleDeepMind/status/2077721122116640969#m" target="_blank">DeepMind与Isomorphic合作推进生物安全防御</a></h3>
+          
+          <div class="orig">RT by @demishassabis: The biosecurity landscape is rapidly evolving. To stay ahead of future outbreaks, we’re partnering</div>
+          
+          <div class="summary">Google DeepMind与Isomorphic Labs合作，利用前沿AI构建主动生物安全防御体系。</div>
+          
+          <ul class="insights"><li>合作聚焦生物安全，部署前沿AI应对未来疫情</li><li>强调主动防御策略，而非被动响应</li><li>结合Isomorphic Labs的药物研发能力</li></ul>
+          
+          <div class="why">该合作展示了AI在公共卫生安全领域的实际应用，为全球健康防御提供新范式，对AI for Science领域具有战略意义。</div>
+          
+          <div class="tags-row"><span class="tag">AI for Science</span><span class="tag">biosecurity</span><span class="tag">public health</span><span class="tag">partnership</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00699" target="_blank">MoN₂/WN₂室温空穴迁移率破万</a></h3>
+          
+          <div class="orig">Ultrahigh Intrinsic Hole Mobilities in $M$N$_2$ ($M$= Mo and W) at Room Temperature</div>
+          
+          <div class="summary">First-principles screening identifies MoN₂/WN₂ as p-type semiconductors with ultrahigh hole mobility, exceeding 10⁴ cm²/V·s at room temperature.</div>
+          
+          <ul class="insights"><li>1H-WN₂ achieves room-temperature hole mobility >10⁴ cm²/V·s</li><li>Spin-valley locking reduces intervalley scattering, enhancing transport</li><li>Hierarchical screening combines DFT with Boltzmann transport theory</li></ul>
+          
+          <div class="why">This discovery addresses the scarcity of high-mobility p-type semiconductors, potentially enabling faster and more efficient electronic devices. The computational framework demonstrates AI-accelerated materials discovery for next-generation electronics.</div>
+          
+          <div class="tags-row"><span class="tag">first-principles</span><span class="tag">semiconductors</span><span class="tag">mobility</span><span class="tag">materials-discovery</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00707" target="_blank">条件图扩散实现多晶微结构逆向设计</a></h3>
+          
+          <div class="orig">Conditional grain-graph diffusion for property-guided inverse design of polycrystalline microstructures</div>
+          
+          <div class="summary">A conditional graph diffusion framework generates Ti-6Al-4V microstructures with target properties, using an enhanced GNN surrogate for stress prediction.</div>
+          
+          <ul class="insights"><li>Enhanced GNN with grain boundary edge features and multi-statistic pooling predicts stress accurately.</li><li>Conditional diffusion generates microstructures under alpha-phase fraction, modulus, and yield-stress targets.</li><li>Validated across four target regimes with independent seeds, showing robust inverse design.</li></ul>
+          
+          <div class="why">This work advances AI-driven materials design by enabling property-guided generation of polycrystalline microstructures, bridging microstructure topology and mechanical performance for industrial alloys.</div>
+          
+          <div class="tags-row"><span class="tag">diffusion</span><span class="tag">GNN</span><span class="tag">inverse design</span><span class="tag">microstructure</span><span class="tag">materials science</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00773" target="_blank">大规模并行相对论DFT实现</a></h3>
+          
+          <div class="orig">A Large-scale Parallel Implementation of Quasi-Four-Component Relativistic Density Functional Theory with Numeric Atom-c</div>
+          
+          <div class="summary">A new large-scale parallel implementation of quasi-four-component relativistic DFT with numeric atom-centered orbitals, enabling efficient calculations for molecules and solids.</div>
+          
+          <ul class="insights"><li>Domain decomposition enables order-N integration of Q4C Hamiltonian</li><li>Uses ELPA library for massively parallel eigenvalue solving</li><li>Benchmarks memory usage and parallel efficiency</li></ul>
+          
+          <div class="why">This implementation advances relativistic DFT scalability, enabling accurate simulations of heavy-element systems for materials science and chemistry.</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">relativistic</span><span class="tag">parallel</span><span class="tag">materials-science</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">4</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cs.CL</div>
+          <h3><a href="https://arxiv.org/abs/2608.00012" target="_blank">Obshazard基准：实时灾害智能评估</a></h3>
+          
+          <div class="orig">Obshazard-bench: Benchmarking Multimodal Foundation Models for Real-Time Disaster Intelligence from Raw Earth Observatio</div>
+          
+          <div class="summary">Introduces Obshazard-bench, a real-time benchmark for evaluating multimodal LLMs on raw Earth observation streams for disaster response.</div>
+          
+          <ul class="insights"><li>Benchmark uses raw satellite data, not static products</li><li>Focuses on real-time disaster intelligence evaluation</li><li>Targets MLLMs for operational emergency response</li></ul>
+          
+          <div class="why">This benchmark addresses a critical gap in evaluating MLLMs for real-time disaster response, pushing AI for Science applications toward operational readiness.</div>
+          
+          <div class="tags-row"><span class="tag">multimodal</span><span class="tag">benchmark</span><span class="tag">earth observation</span><span class="tag">disaster response</span><span class="tag">MLLM</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv q-bio</div>
+          <h3><a href="https://arxiv.org/abs/2608.01143" target="_blank">功能进化涌现漏斗状蛋白能量景观</a></h3>
+          
+          <div class="orig">Funnel-like protein energy landscapes emerge from functional evolution under thermal fluctuations</div>
+          
+          <div class="summary">A lattice model study shows that selection for protein function alone can produce funnel-like energy landscapes, without direct selection for foldability.</div>
+          
+          <ul class="insights"><li>Functional selection alone can yield funnel-like landscapes</li><li>Thermal fluctuations shape evolutionary fitness</li><li>Multicanonical sampling used to explore sequence space</li></ul>
+          
+          <div class="why">This research provides a mechanistic link between protein function and foldability, potentially informing protein design and evolutionary models.</div>
+          
+          <div class="tags-row"><span class="tag">protein-folding</span><span class="tag">evolution</span><span class="tag">lattice-model</span><span class="tag">energy-landscape</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.00194" target="_blank">张量列车压缩子空间模拟标量湍流</a></h3>
+          
+          <div class="orig">Multiscale passive scalar turbulence in a compressed subspace via tensor trains</div>
+          
+          <div class="summary">A hybrid tensor train method captures multiscale passive scalar turbulence in compressed form, matching standard decompositions while improving intermittent statistics.</div>
+          
+          <ul class="insights"><li>Hybrid TT matches Galerkin/wavelet/TT for structure functions</li><li>Improves representation of non-Gaussian intermittent fluctuations</li><li>Enables linear dynamics evolution in compressed tensor form</li></ul>
+          
+          <div class="why">This work advances reduced-order modeling for turbulent flows, with implications for efficient simulation and potential quantum algorithm applications.</div>
+          
+          <div class="tags-row"><span class="tag">tensor-trains</span><span class="tag">turbulence</span><span class="tag">reduced-order-modeling</span><span class="tag">simulation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.00521" target="_blank">多尺度气体流动模拟的内存高效确定性方法</a></h3>
+          
+          <div class="orig">A memory-efficient deterministic method for multiscale gas flows using an ensemble-of-subproblems strategy with stochast</div>
+          
+          <div class="summary">A new deterministic method for multiscale gas flows uses an ensemble-of-subproblems strategy with stochastic discrete velocities to reduce memory and computational costs.</div>
+          
+          <ul class="insights"><li>Replaces large deterministic velocity sets with multiple small random sets</li><li>Transforms expensive problem into independently solvable subproblems</li><li>Reduces memory and computational resources for high-dimensional simulations</li></ul>
+          
+          <div class="why">This method addresses the curse of dimensionality in gas flow simulations, enabling more efficient and scalable simulations for engineering and scientific applications.</div>
+          
+          <div class="tags-row"><span class="tag">simulation</span><span class="tag">multiscale</span><span class="tag">gas flows</span><span class="tag">deterministic method</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv q-bio</div>
+          <h3><a href="https://arxiv.org/abs/2608.00697" target="_blank">进化课程学习提升生物序列建模</a></h3>
+          
+          <div class="orig">Evolutionary Curriculum Learning Improves Biological Sequence Modeling</div>
+          
+          <div class="summary">A new training strategy called Evolutionary Curriculum Learning improves biological sequence modeling by progressively exposing VAEs to sequences of increasing evolutionary distance.</div>
+          
+          <ul class="insights"><li>ECL uses a power-law expansion schedule to order training sequences by evolutionary distance from anchors.</li><li>Applied to two architecturally distinct VAE models, showing broad applicability.</li><li>Improves performance on biological sequence modeling tasks like disease variant prediction and RNA design.</li></ul>
+          
+          <div class="why">This work introduces a simple yet effective training strategy that leverages evolutionary structure to improve generative models for biological sequences, potentially enhancing downstream applications in drug discovery and functional genomics.</div>
+          
+          <div class="tags-row"><span class="tag">VAE</span><span class="tag">EvolutionaryCurriculum</span><span class="tag">BiologicalSequence</span><span class="tag">GenerativeModel</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.00856" target="_blank">PINN模拟剪切流中溶质扩散</a></h3>
+          
+          <div class="orig">Physics-informed neural networks for two-dimensional wall-reactive solute dispersion in canonical shear flows</div>
+          
+          <div class="summary">A PINN framework simulates 2D wall-reactive solute dispersion in shear flows, embedding governing equations and Robin BCs.</div>
+          
+          <ul class="insights"><li>PINN embeds convection-diffusion equation and Robin BCs</li><li>Handles Couette, Poiseuille, and Couette-Poiseuille flows</li><li>Reduces computational cost vs grid-based solvers</li></ul>
+          
+          <div class="why">Demonstrates PINNs as efficient alternatives for reactive transport simulations, enabling faster and more flexible modeling in environmental and engineering applications.</div>
+          
+          <div class="tags-row"><span class="tag">PINN</span><span class="tag">Simulation</span><span class="tag">CFD</span><span class="tag">ReactiveTransport</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.01483" target="_blank">时间依赖交换关联势的空间序层级</a></h3>
+          
+          <div class="orig">Spatial-Order Hierarchy of Time-Dependent Exchange-Correlation Potential</div>
+          
+          <div class="summary">A new representability constraint links off-diagonal density matrix structure to exchange-correlation potential components in time-dependent DFT.</div>
+          
+          <ul class="insights"><li>Establishes hierarchy: linear off-diagonal term keeps kinetic-correlation HF representable</li><li>Higher-order off-diagonal terms activate kinetic-correlation component</li><li>Neglecting kinetic component suppresses density broadening in quench simulation</li></ul>
+          
+          <div class="why">This theoretical advance refines time-dependent DFT approximations, potentially improving accuracy in simulating electron dynamics for materials and chemistry.</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">exchange-correlation</span><span class="tag">time-dependent</span><span class="tag">quantum-chemistry</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.00560" target="_blank">自适应算子生成子空间加速量子多体计算</a></h3>
+          
+          <div class="orig">Adaptive operator-generated subspaces for effective many-body Hamiltonians</div>
+          
+          <div class="summary">A-CASE方法通过自适应算子生成子空间，高效构造有效多体哈密顿量，在H4分子上达到FCI精度。</div>
+          
+          <ul class="insights"><li>A-CASE使用共享泡利期望库重构重叠、哈密顿量等矩阵，减少测量开销</li><li>自适应增长评分避免对称性泄漏和近线性依赖，保证数值稳定性</li><li>在H4/STO-3G上，与FCI能量差达3.1e-15 Ha，验证高精度</li></ul>
+          
+          <div class="why">该方法为量子化学模拟提供高效、精确的哈密顿量构造方案，有望加速材料设计和药物发现中的电子结构计算。</div>
+          
+          <div class="tags-row"><span class="tag">quantum-chemistry</span><span class="tag">eigensolver</span><span class="tag">Hamiltonian</span><span class="tag">adaptive</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.02360" target="_blank">CFD模拟揭示脱水花粉气动与传热特性</a></h3>
+          
+          <div class="orig">Aerodynamic Drag and Heat Transfer Corrections for Dehydrated Pollen Particles: CFD-Based Modeling of Airborne Allergen </div>
+          
+          <div class="summary">This study uses CFD simulations to model dehydrated pollen particles, correcting drag and heat transfer for better airborne allergen transport prediction in urban environments.</div>
+          
+          <ul class="insights"><li>First CFD study on dehydrated pollen morphology effects on drag and heat transfer</li><li>Reynolds numbers 0.1-15, wind speeds 0.27-30 km/h</li><li>Improves urban air quality and allergy risk forecasting models</li></ul>
+          
+          <div class="why">Provides critical corrections for pollen dispersion models, enhancing smart-city environmental monitoring and public health preparedness.</div>
+          
+          <div class="tags-row"><span class="tag">CFD</span><span class="tag">simulation</span><span class="tag">pollen</span><span class="tag">urban</span><span class="tag">heat transfer</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2607.02746" target="_blank">CodeJeNN：物理应用C++神经网络生成器</a></h3>
+          
+          <div class="orig">CodeJeNN: A simple C++ neural network generator for physics applications</div>
+          
+          <div class="summary">CodeJeNN自动将Keras模型转换为自包含C++代码，消除Python依赖，在CFD测试中实现加速且不损失精度。</div>
+          
+          <ul class="insights"><li>自动生成自包含C++推理代码，无外部依赖</li><li>支持多种架构，兼容现有C++求解器</li><li>CFD氢空气混合层测试显示加速且精度不变</li></ul>
+          
+          <div class="why">该工具解决了Python库与高性能C++求解器集成的性能瓶颈，为物理模拟和设计仿真提供了实用的部署方案，有望加速AI在科学计算中的实际应用。</div>
+          
+          <div class="tags-row"><span class="tag">inference</span><span class="tag">CFD</span><span class="tag">C++</span><span class="tag">Keras</span><span class="tag">physics</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2409.15600" target="_blank">多原子复合体：原子系统拓扑学习表示</a></h3>
+          
+          <div class="orig">Polyatomic Complexes: A topologically-informed learning representation for atomistic systems</div>
+          
+          <div class="summary">A new representation for atomistic systems that is O(3)-invariant yet chirality-sensitive, addressing a key limitation of existing descriptors.</div>
+          
+          <ul class="insights"><li>Introduces a graded geometric map that distinguishes enantiomers while preserving O(3) invariance</li><li>Even block factors through Gram matrix, provably chirality-blind; odd block captures chirality</li><li>Provides a unique, continuous, and efficient representation for atomistic systems</li></ul>
+          
+          <div class="why">This work solves a fundamental problem in molecular representation learning, enabling more accurate ML models for chiral molecules, which is critical for drug discovery and materials design.</div>
+          
+          <div class="tags-row"><span class="tag">representation learning</span><span class="tag">chirality</span><span class="tag">molecular dynamics</span><span class="tag">AI for Science</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2505.03143" target="_blank">光致VO2相变中原子无序动力学研究</a></h3>
+          
+          <div class="orig">Ultrafast dynamics of atomic correlated disordering in photoinduced VO$_2$</div>
+          
+          <div class="summary">Using rt-TDDFT, this study reveals how lattice temperature affects atomic disordering dynamics in photoinduced phase transitions of VO2, lowering the transition threshold.</div>
+          
+          <ul class="insights"><li>Lower photoexcitation: higher lattice temperature accelerates atomic disordering, lowering phase transition threshold.</li><li>Above threshold: transition timescale and disordering become temperature-independent due to similar photoexcited hole evolution.</li><li>Mechanism: thermally excited phonons randomize lattice vibrations, driving disordering.</li></ul>
+          
+          <div class="why">Provides mechanistic understanding of photoinduced phase transitions, potentially guiding ultrafast control of materials for future electronics and photonics.</div>
+          
+          <div class="tags-row"><span class="tag">rt-TDDFT</span><span class="tag">phase transition</span><span class="tag">VO2</span><span class="tag">ultrafast dynamics</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00116" target="_blank">磁场驱动磁性纳米颗粒取向交叉与能耗研究</a></h3>
+          
+          <div class="orig">AC Field-driven orientational crossover and energy dissipation in suspended magnetic nanoparticles</div>
+          
+          <div class="summary">Theoretical study combining LLG and Brownian dynamics reveals field-driven orientational crossover in magnetic nanoparticles, impacting hyperthermia efficiency.</div>
+          
+          <ul class="insights"><li>Crossover at ~0.5H_k from perpendicular to parallel orientation</li><li>Crossover field depends on particle size and frequency</li><li>Orientational regimes link to microscopic dynamics and MFH efficiency</li></ul>
+          
+          <div class="why">Provides mechanistic understanding for optimizing magnetic hyperthermia, potentially improving cancer treatment protocols and nanoparticle design.</div>
+          
+          <div class="tags-row"><span class="tag">magnetic-nanoparticles</span><span class="tag">hyperthermia</span><span class="tag">LLG</span><span class="tag">brownian-dynamics</span><span class="tag">simulation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00131" target="_blank">随机异质膜基系统褶皱理论</a></h3>
+          
+          <div class="orig">Wrinkling of Randomly Heterogeneous Film-Substrate Systems</div>
+          
+          <div class="summary">A homogenized instability theory for wrinkling in randomly heterogeneous film-substrate systems, using strong-contrast expansion and Dyson-type dispersion relation.</div>
+          
+          <ul class="insights"><li>Develops homogenized instability theory for random bending stiffness</li><li>Uses Lippmann-Schwinger equation and strong-contrast expansion</li><li>Predicts critical load and wavenumber via Dyson-type relation</li></ul>
+          
+          <div class="why">Provides a theoretical framework for predicting wrinkling in heterogeneous materials, relevant for flexible electronics and coatings design.</div>
+          
+          <div class="tags-row"><span class="tag">mechanics</span><span class="tag">homogenization</span><span class="tag">instability</span><span class="tag">random media</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00138" target="_blank">振动光谱揭示六方金刚石键不对称性</a></h3>
+          
+          <div class="orig">Vibrational spectroscopy identifies the bond asymmetry of hexagonal diamond</div>
+          
+          <div class="summary">First-principles lattice dynamics resolves conflicting refinements of hexagonal diamond structure, showing interlayer bonds are longer and identifying a bright A1g mode as a sensitive gauge.</div>
+          
+          <ul class="insights"><li>DFT predicts interlayer bond longer by 24 mÅ, consistent across functionals</li><li>A1g mode at ~-2100 cm⁻¹/Å⁻¹ directly probes interlayer bond length</li><li>Neither existing refinement matches full measured phonon pattern</li></ul>
+          
+          <div class="why">Resolves a long-standing structural controversy in hexagonal diamond, providing a validated method for characterizing polytype materials and guiding future synthesis efforts.</div>
+          
+          <div class="tags-row"><span class="tag">first-principles</span><span class="tag">lattice dynamics</span><span class="tag">hexagonal diamond</span><span class="tag">phonon spectroscopy</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00179" target="_blank">无序体系X射线吸收谱的构型平均新方法</a></h3>
+          
+          <div class="orig">Configuration averaging of X-ray absorption spectra of disordered systems within the augmented-space full multiple-scatt</div>
+          
+          <div class="summary">提出基于增广空间全多重散射理论的新方法，统一处理化学与热无序，无需单站点近似即可精确计算XANES谱。</div>
+          
+          <ul class="insights"><li>增广空间方法将化学和热无序统一为精确矩阵元</li><li>无需单站点近似或路径展开，直接反演非随机矩阵</li><li>适用于XANES定量分析，突破传统多重散射限制</li></ul>
+          
+          <div class="why">该方法为无序材料X射线吸收谱的精确模拟提供了新理论框架，有望提升催化、能源材料等领域近边结构分析的准确性。</div>
+          
+          <div class="tags-row"><span class="tag">XAS</span><span class="tag">multiple-scattering</span><span class="tag">disordered-systems</span><span class="tag">augmented-space</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00269" target="_blank">超越DFT的共振拉曼光谱计算框架</a></h3>
+          
+          <div class="orig">Resonant Raman spectroscopies beyond density-functional theory</div>
+          
+          <div class="summary">A new finite-difference framework computes resonant Raman tensors beyond DFT, enabling accurate electron-phonon coupling predictions.</div>
+          
+          <ul class="insights"><li>Framework generalizes resonant Raman calculations to any electronic-structure method</li><li>Enables exploration of exchange-correlation sensitivity in Raman intensities</li><li>Addresses limitations of linear-response theories for electron-phonon coupling</li></ul>
+          
+          <div class="why">This framework advances computational spectroscopy, allowing researchers to predict resonant Raman intensities with higher accuracy, which is critical for materials characterization and discovery.</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">Raman</span><span class="tag">electron-phonon</span><span class="tag">finite-difference</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00362" target="_blank">中子应变测量中d0平衡法综述</a></h3>
+          
+          <div class="orig">An essay on $d_0$ in neutron-based strain measurement techniques: equilibrium-based methods for non-destructive $d_0$ es</div>
+          
+          <div class="summary">A review of non-destructive methods for estimating the stress-free lattice spacing d0 in neutron diffraction strain measurement, based on mechanical equilibrium principles.</div>
+          
+          <ul class="insights"><li>d0 varies with position and direction, not a constant</li><li>Hierarchy of equilibrium-based methods proposed</li><li>Direct coupon measurement often impractical</li></ul>
+          
+          <div class="why">Provides a systematic framework for accurate residual stress measurement in materials, critical for engineering and manufacturing quality control.</div>
+          
+          <div class="tags-row"><span class="tag">neutron-diffraction</span><span class="tag">strain-measurement</span><span class="tag">residual-stress</span><span class="tag">d0-estimation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00516" target="_blank">基于自动微分的CALPHAD热力学优化</a></h3>
+          
+          <div class="orig">Machine Learning Compatible CALPHAD-type Optimization from Phase Equilibria by Auto-differentiation</div>
+          
+          <div class="summary">A new phase equilibrium loss function enables gradient-based CALPHAD optimization via auto-differentiation in PyTorch.</div>
+          
+          <ul class="insights"><li>Derived differentiable phase equilibrium loss from thermodynamic potentials</li><li>Enables PyTorch-based gradient optimization of CALPHAD parameters</li><li>Bridges thermodynamic modeling with machine learning workflows</li></ul>
+          
+          <div class="why">This work integrates CALPHAD thermodynamic optimization with modern ML frameworks, enabling more efficient and automated materials design.</div>
+          
+          <div class="tags-row"><span class="tag">CALPHAD</span><span class="tag">auto-differentiation</span><span class="tag">thermodynamics</span><span class="tag">PyTorch</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.00593" target="_blank">不确定性引导主动学习预测流式精加工磨损场</a></h3>
+          
+          <div class="orig">Uncertainty-guided active learning for surrogate prediction of stream-finishing wear fields</div>
+          
+          <div class="summary">An uncertainty-guided active learning surrogate predicts wear fields from geometry, reducing DEM simulations for stream finishing.</div>
+          
+          <ul class="insights"><li>Surrogate predicts normal/tangential impact velocity and flux from geometry</li><li>Active learning with uncertainty reduces DEM simulations for new geometries</li><li>Combines with Finnie model to reconstruct wear-rate distribution</li></ul>
+          
+          <div class="why">This approach cuts computational cost in manufacturing simulation, enabling faster optimization of finishing processes for complex geometries.</div>
+          
+          <div class="tags-row"><span class="tag">surrogate-modeling</span><span class="tag">active-learning</span><span class="tag">simulation</span><span class="tag">manufacturing</span><span class="tag">uncertainty-quantification</span></div>
+          
+        </div>
+      </div>
+      
+    </div>
+    <div class="pagination" data-for="green"></div>
     
   </div>
   
@@ -340,7 +1462,7 @@
   </div>
   
 
-  <footer>Generated by Weekly AI Report Agent · 2026-08-04 16:48</footer>
+  <footer>Generated by Weekly AI Report Agent · 2026-08-04 17:08</footer>
 </div>
 
 <script>

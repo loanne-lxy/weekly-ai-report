@@ -57,23 +57,27 @@ async def main():
         articles = await fetch_all(sources, config["fetch"].get("concurrency", 10))
         logger.info(f"Fetched {len(articles)} raw articles")
 
-        # Time filter: only keep last 7 days
+        # Time-based weight boost: newer articles rank higher
         from datetime import timedelta
-        cutoff = datetime.now(timezone.utc) - timedelta(days=7)
-        filtered = []
+        now = datetime.now(timezone.utc)
         for a in articles:
             pub = a.get("published", "")
+            days_old = 999
             if pub:
                 try:
                     pub_dt = datetime.fromisoformat(pub.replace("Z", "+00:00"))
-                    if pub_dt >= cutoff:
-                        filtered.append(a)
+                    days_old = (now - pub_dt).days
                 except (ValueError, TypeError):
-                    filtered.append(a)  # keep if can't parse date
-            else:
-                filtered.append(a)  # keep if no date
-        articles = filtered
-        logger.info(f"Time filter (7 days): {len(articles)} kept")
+                    pass
+            # Boost: today +3, 1-2d +2, 3-4d +1, 5-7d 0, 8-14d -1, older -2
+            if days_old <= 0: boost = 3
+            elif days_old <= 2: boost = 2
+            elif days_old <= 4: boost = 1
+            elif days_old <= 7: boost = 0
+            elif days_old <= 14: boost = -1
+            else: boost = -2
+            a["time_boost"] = boost
+        logger.info(f"Time boost applied to {len(articles)} articles")
     else:
         articles = []
 
@@ -99,7 +103,7 @@ async def main():
     llm = LLMClient(config)
     fs = FilterSummarizer(llm, config)
     articles = await fs._curate_async(articles)
-    articles.sort(key=lambda a: a.get("priority_score", 3), reverse=True)
+    articles.sort(key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0), reverse=True)
 
     # 7. 生成报告
     week_num = datetime.now(timezone.utc).isocalendar()

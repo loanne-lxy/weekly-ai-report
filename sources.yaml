@@ -1,7 +1,7 @@
 sources:
 - articles_this_week: 15
   category: LLM
-  eval_score: 7
+  eval_score: 8
   name: OpenAI Blog
   streak_failures: 0
   type: rss
@@ -9,7 +9,7 @@ sources:
   weight: 9
 - articles_this_week: 3
   category: AI4Science
-  eval_score: 7
+  eval_score: 8
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
   streak_failures: 0
@@ -18,7 +18,7 @@ sources:
   weight: 7
 - articles_this_week: 14
   category: AI4Science
-  eval_score: 7
+  eval_score: 8
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
   streak_failures: 0
@@ -27,7 +27,7 @@ sources:
   weight: 7
 - articles_this_week: 9
   category: AI4Science
-  eval_score: 7
+  eval_score: 8
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
   streak_failures: 0
@@ -36,16 +36,43 @@ sources:
   weight: 7
 - articles_this_week: 1
   category: AI4Science
-  eval_score: 5
+  eval_score: 4
   name: DP Technology (深势科技) Blog
   note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
   streak_failures: 0
   type: web
   url: https://www.dp.tech/en
   weight: 8
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: openai.com
+  streak_failures: 1
+  type: rss
+  url: https://openai.com/blog/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: www.quantamagazine.org
+  streak_failures: 1
+  type: rss
+  url: https://www.quantamagazine.org/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: blog.google
+  streak_failures: 1
+  type: rss
+  url: https://blog.google/technology/ai/
+  weight: 5
 - articles_this_week: 1
   category: 数字孪生
-  eval_score: 3
+  eval_score: 2
   name: Digital Twin Consortium
   note: 全球最具影响力的数字孪生跨行业组织，发布架构指南/白皮书
   streak_failures: 0
@@ -55,60 +82,33 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: arxiv.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://arxiv.org/list/cs.LG/recent
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.nature.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.nature.com/npj-comput-mater/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: pubs.aip.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://pubs.aip.org/aip/jap
   weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: blogs.dassault-aviation.com
-  streak_failures: 2
-  type: rss
-  url: https://blogs.dassault-aviation.com/en/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.latent.space
-  streak_failures: 2
-  type: rss
-  url: https://www.latent.space/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.assemblyai.com
-  streak_failures: 2
-  type: rss
-  url: https://www.assemblyai.com/blog/
-  weight: 5
 - articles_this_week: 1
   category: 数字孪生
-  eval_score: 1
+  eval_score: 0
   name: Dassault Systèmes Blog
   note: 工业软件巨头，制造业数字孪生前沿案例
   streak_failures: 0
@@ -117,19 +117,13 @@ sources:
   weight: 7
 - category: LLM
   discovered_by: agent
-  name: openai.com
+  name: arxiv.org
   type: rss
-  url: https://openai.com/blog/
+  url: https://arxiv.org/list/cs.CE/recent
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: www.quantamagazine.org
+  name: www.science.org
   type: rss
-  url: https://www.quantamagazine.org/
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: blog.google
-  type: rss
-  url: https://blog.google/technology/ai/
+  url: https://www.science.org/journal/sciadv
   weight: 5

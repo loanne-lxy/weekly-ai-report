@@ -25,6 +25,38 @@
 - **🌍 GitHub Pages** — Auto-deployed public URL with historical archive
 - **📊 LangSmith Tracing** — All LLM calls observable
 
+## 📂 Project Structure
+
+```
+weekly-ai-report/
+├── SKILL.md                   # Standardized Agent Skill definition
+├── main.py                    # Pipeline orchestrator (7 phases)
+├── scheduler.py               # Cron entry point
+├── config.yaml                # Model & parameter config
+├── sources.yaml               # Source pool (auto-maintained)
+├── .env                       # API keys (gitignored)
+├── models/llm_client.py       # Unified LLM interface + LangSmith
+├── fetcher/fetcher.py          # Concurrent fetching (asyncio)
+├── dedup/
+│   ├── deduplicator.py        # URL dedup (SQLite)
+│   └── curator_cache.py       # SHA256 content cache
+├── filter/
+│   ├── source_priority.py     # Tier-based source weighting
+│   ├── keyword_filter.py      # Domain keywords + regex scoring
+│   ├── lightweight_classifier.py # MiniLM CPU classifier
+│   └── filter_summarizer.py   # LLM curator + modular prompts
+├── evaluator/
+│   ├── source_evaluator.py    # Source evaluation & archiving
+│   └── source_discoverer.py   # LLM-based source discovery
+├── generator/
+│   ├── report_generator.py    # Trend analysis + Jinja2 rendering
+│   └── templates/weekly.html  # Clean full-width HTML template
+├── references/
+│   ├── curation-rules.md      # Prompt: filtering rules
+│   └── digest-prompt.md       # Prompt: output format spec
+├── .github/workflows/deploy.yml # GitHub Pages deployment
+└── output/                    # Generated reports
+
 ## 🏗️ Pipeline
 
 ```
@@ -42,30 +74,18 @@ cd weekly-ai-report
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 echo "DEEPSEEK_API_KEY=***" > .env
+
+# Normal run
 python main.py
+
+# Test mode (clear dedup + cache)
+python main.py --reset
+
+# Skip fetching
+python main.py --no-fetch
 ```
 
-## 💰 Cost
-
-| Phase | Model | Cost |
-|-------|-------|------|
-| MiniLM Classifier | local CPU | Free |
-| LLM Curator (~60 calls) | DeepSeek | ~$0.03 |
-| Trends + Summaries | DeepSeek | ~$0.01 |
-| Cache hits | — | $0 saved |
-| **Total per run** | | **~$0.05** |
-
-Cache hit rate grows over time → cost trends toward ~$0.02/run.
-
-## ⚙️ Schedule
-
-```bash
-# Every Monday 08:00
-crontab -e
-# 0 8 * * 1 cd ~/weekly-ai-report && source venv/bin/activate && python scheduler.py
-```
-
-## 🔄 Model Switching
+## 🔄 Switching Models
 
 ```yaml
 # config.yaml
@@ -75,6 +95,25 @@ model:
   base_url: https://api.deepseek.com
   api_key: ${DEEPSEEK_API_KEY}
 ```
+
+## 🌍 Deployment
+
+```bash
+git add output/ && git commit -m "update report" && git push
+```
+
+Auto-deployed to https://loanne-lxy.github.io/weekly-ai-report/ via GitHub Actions.
+
+## 📈 LangSmith Tracing
+
+Set in `.env`:
+```
+LANGSMITH_TRACING=true
+LANGSMITH_API_KEY=***
+LANGSMITH_PROJECT=weekly-ai-report
+```
+
+All LLM calls automatically traced at [smith.langchain.com](https://smith.langchain.com).
 
 ## 📝 License
 

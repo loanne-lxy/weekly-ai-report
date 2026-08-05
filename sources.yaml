@@ -1,98 +1,238 @@
 sources:
 - articles_this_week: 0
-  category: AI4Science
+  category: 数字孪生
   eval_score: 6
-  name: arXiv q-bio
-  note: Quantitative biology — protein, drug discovery
+  name: Digital Twin Consortium
+  note: 全球最具影响力的数字孪生跨行业组织，发布架构指南/白皮书
   streak_failures: 1
-  type: rss
-  url: https://rss.arxiv.org/rss/q-bio.BM
-  weight: 7
+  type: web
+  url: https://www.digitaltwinconsortium.org/
+  weight: 9
 - articles_this_week: 0
-  category: AI4Science
-  eval_score: 4
-  name: arXiv physics.comp-ph
-  note: Computational physics, PINN, simulation
-  streak_failures: 1
+  category: 数字孪生
+  eval_score: 5
+  name: NVIDIA Omniverse Blog
+  note: 实时渲染/物理仿真/AI驱动数字孪生，OpenUSD协议
+  streak_failures: 2
   type: rss
-  url: https://rss.arxiv.org/rss/physics.comp-ph
-  weight: 7
-- articles_this_week: 1
+  url: https://developer.nvidia.com/blog/category/omniverse/
+  weight: 9
+- articles_this_week: 0
+  category: LLM
+  eval_score: 4
+  name: OpenAI Blog
+  streak_failures: 2
+  type: rss
+  url: https://openai.com/blog/rss.xml
+  weight: 9
+- articles_this_week: 0
   category: 设计仿真
   eval_score: 4
   name: NVIDIA Developer
-  streak_failures: 0
+  streak_failures: 2
   type: rss
   url: https://developer.nvidia.com/blog/feed/
   weight: 9
 - articles_this_week: 0
-  category: AI4Science
-  eval_score: 3
-  name: Demis Hassabis (Nitter)
-  note: DeepMind CEO
-  streak_failures: 1
-  type: nitter_rss
-  url: https://nitter.net/demishassabis/rss
-  weight: 9
+  category: 数字孪生
+  eval_score: 4
+  name: IoT Analytics (Digital Twin)
+  note: 全球领先的物联网与数字孪生市场研究机构
+  streak_failures: 2
+  type: web
+  url: https://iot-analytics.com/tag/digital-twin/
+  weight: 8
 - articles_this_week: 0
-  category: AI4Science
-  eval_score: 3
-  name: arXiv cond-mat.mtrl-sci
-  note: Materials science, crystal structure prediction
+  category: 数字孪生
+  eval_score: 4
+  name: PTC Blog
+  note: 工业制造PLM与数字孪生
   streak_failures: 1
-  type: rss
-  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  type: web
+  url: https://www.ptc.com/en/blogs
+  weight: 7
+- articles_this_week: 0
+  category: 数字孪生
+  eval_score: 4
+  name: Dassault Systèmes Blog
+  note: 工业软件巨头，制造业数字孪生前沿案例
+  streak_failures: 1
+  type: web
+  url: https://blog.3ds.com/
   weight: 7
 - articles_this_week: 0
   category: LLM
-  discovered_by: agent
   eval_score: 3
-  name: arxiv.org
-  streak_failures: 1
-  type: rss
-  url: https://arxiv.org/list/cs.LG/recent
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 3
-  name: www.nature.com
-  streak_failures: 1
-  type: rss
-  url: https://www.nature.com/natmachintell/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 3
-  name: www.science.org
-  streak_failures: 1
-  type: rss
-  url: https://www.science.org/journal/scirobotics
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  eval_score: 2
   name: arXiv cs.CL
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://rss.arxiv.org/rss/cs.CL
   weight: 8
-- category: LLM
+- articles_this_week: 0
+  category: LLM
   discovered_by: agent
-  name: blogs.nvidia.com
+  eval_score: 3
+  name: blogs.3ds.com
+  streak_failures: 1
   type: rss
-  url: https://blogs.nvidia.com/blog/
+  url: https://blogs.3ds.com/
   weight: 5
-- category: LLM
+- articles_this_week: 0
+  category: LLM
   discovered_by: agent
-  name: www.marktechpost.com
+  eval_score: 3
+  name: www.engineering.com
+  streak_failures: 1
   type: rss
-  url: https://www.marktechpost.com/
+  url: https://www.engineering.com/
   weight: 5
-- category: LLM
+- articles_this_week: 0
+  category: LLM
   discovered_by: agent
-  name: arxiv.org
+  eval_score: 3
+  name: www.designnews.com
+  streak_failures: 1
   type: rss
-  url: https://arxiv.org/list/cs.AI/recent
+  url: https://www.designnews.com/
   weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: www.techbriefs.com
+  streak_failures: 1
+  type: rss
+  url: https://www.techbriefs.com/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: www.manufacturingtomorrow.com
+  streak_failures: 1
+  type: rss
+  url: https://www.manufacturingtomorrow.com/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: www.artificialanalysis.ai
+  streak_failures: 2
+  type: rss
+  url: https://www.artificialanalysis.ai/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: simonwillison.net
+  streak_failures: 2
+  type: rss
+  url: https://simonwillison.net/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: www.latent.space
+  streak_failures: 2
+  type: rss
+  url: https://www.latent.space/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: huggingface.co
+  streak_failures: 2
+  type: rss
+  url: https://huggingface.co/blog
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: thegradient.pub
+  streak_failures: 2
+  type: rss
+  url: https://thegradient.pub/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: www.lesswrong.com
+  streak_failures: 2
+  type: rss
+  url: https://www.lesswrong.com/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: blog.research.google
+  streak_failures: 2
+  type: rss
+  url: https://blog.research.google/
+  weight: 5
+- category: AI4Science
+  name: DeepMind Science Blog
+  note: AlphaFold/GNoME/FunSearch — global AI4S leader
+  type: web
+  url: https://deepmind.google/discover/blog/
+  weight: 10
+- category: AI4Science
+  name: Microsoft Research AI4Science
+  note: Quantum chemistry, molecular dynamics, MatterSim, BioGPT
+  type: web
+  url: https://www.microsoft.com/en-us/research/theme/ai-for-science/
+  weight: 9
+- category: AI4Science
+  name: Meta AI Research (FAIR)
+  note: ESM protein language models, Open Catalyst Project
+  type: web
+  url: https://ai.meta.com/research/
+  weight: 9
+- category: AI4Science
+  name: arXiv q-bio
+  note: Quantitative biology — protein, drug discovery
+  type: rss
+  url: https://rss.arxiv.org/rss/q-bio.BM
+  weight: 7
+- category: AI4Science
+  name: arXiv physics.comp-ph
+  note: Computational physics, PINN, simulation
+  type: rss
+  url: https://rss.arxiv.org/rss/physics.comp-ph
+  weight: 7
+- category: AI4Science
+  name: arXiv cond-mat.mtrl-sci
+  note: Materials science, crystal structure prediction
+  type: rss
+  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  weight: 7
+- category: AI4Science
+  name: HuggingFace Daily Papers (AI4Science)
+  note: Daily trending AI4S papers curated by HF community
+  type: web
+  url: https://huggingface.co/papers?tag=AI4Science
+  weight: 7
+- category: AI4Science
+  name: DP Technology (深势科技) Blog
+  note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
+  type: web
+  url: https://www.dp.tech/en
+  weight: 8
+- category: AI4Science
+  name: Shanghai AI Lab
+  note: FengWu weather model, Earth science + AI
+  type: web
+  url: https://www.shlab.org.cn/
+  weight: 8
+- category: AI4Science
+  name: Nature Machine Intelligence
+  note: Top-tier AI journal with strong AI4S coverage
+  type: rss
+  url: https://www.nature.com/subjects/artificial-intelligence.rss
+  weight: 9

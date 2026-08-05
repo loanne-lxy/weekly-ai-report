@@ -105,8 +105,29 @@ async def main():
     articles = await fs._curate_async(articles)
     articles.sort(key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0), reverse=True)
 
-    # 7. 生成报告
+    # 7. 合并本周已有文章（累积而非替换）
     week_num = datetime.now(timezone.utc).isocalendar()
+    week_label = f"{week_num[0]}-W{week_num[1]:02d}"
+    week_dir = f"output/{week_label.replace(' ', '_')}"
+    import json as _json
+    acc_path = os.path.join(week_dir, "articles.json")
+    existing = []
+    if os.path.exists(acc_path):
+        try:
+            with open(acc_path) as f:
+                existing = _json.load(f)
+        except Exception:
+            pass
+    # Merge: new articles first, then deduplicate by URL
+    seen_urls = {a.get("url", "") for a in articles}
+    for old_a in existing:
+        if old_a.get("url", "") not in seen_urls:
+            articles.append(old_a)
+            seen_urls.add(old_a.get("url", ""))
+    articles.sort(key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0), reverse=True)
+    logger.info(f"Merged with existing: {len(existing)} old + new → {len(articles)} total")
+
+    # 8. 生成报告
     week_label = f"{week_num[0]}-W{week_num[1]:02d}"
     logger.info(f"=== Phase 6: Generate Report ({week_label}) ===")
     report_path = generate_report(articles, config, week_label, llm)

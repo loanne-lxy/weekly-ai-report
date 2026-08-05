@@ -92,7 +92,7 @@ async def main():
 
     # 4. Keyword lexicon + regex — score articles by domain keyword density
     logger.info("=== Phase 4: Keyword + Regex ===")
-    articles = keyword_filter(articles, min_score=2)
+    articles = keyword_filter(articles, min_score=1)
 
     # 5. MiniLM classifier — lightweight embedding-based domain classification
     logger.info("=== Phase 5: MiniLM Classifier ===")

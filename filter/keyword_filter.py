@@ -19,6 +19,12 @@ LLM_KEYWORDS = [
     "benchmark", "MMLU", "HumanEval", "ARC", "HellaSwag", "reasoning",
     "chain-of-thought", "multimodal", "vision language", "embedding",
     "open-weight", "open source model", "foundation model",
+    # Additional technical terms commonly in LLM papers
+    "language model", "decoder", "encoder", "autoregressive", "self-attention",
+    "cross-attention", "parameter", "neural network", "deep learning",
+    "pretraining", "pre-training", "supervised fine-tuning", "SFT",
+    "instruction tuning", "prompt", "few-shot", "zero-shot", "in-context learning",
+    "model", "training", "scaling", "compute", "GPU", "A100", "H100",
 ]
 
 AGENT_KEYWORDS = [

@@ -7,6 +7,9 @@ from datetime import datetime, timezone
 
 from fetcher.fetcher import fetch_all
 from dedup.deduplicator import Deduplicator
+from filter.source_priority import filter_and_weight as source_priority_filter
+from filter.keyword_filter import score_and_filter as keyword_filter
+from filter.lightweight_classifier import classify as miniLM_classify
 from filter.filter_summarizer import FilterSummarizer
 from evaluator.source_evaluator import SourceEvaluator
 from evaluator.source_discoverer import SourceDiscoverer
@@ -61,18 +64,26 @@ async def main():
     dedup = Deduplicator()
     articles = dedup.filter_new(articles)
 
-    # 3. 关键词预过滤
-    logger.info("=== Phase 3: Filter ===")
+    # 3. Source priority filter — remove noise sources, assign tier weights
+    logger.info("=== Phase 3: Source Priority ===")
+    articles = source_priority_filter(articles)
+
+    # 4. Keyword lexicon + regex — score articles by domain keyword density
+    logger.info("=== Phase 4: Keyword + Regex ===")
+    articles = keyword_filter(articles, min_score=2)
+
+    # 5. MiniLM classifier — lightweight embedding-based domain classification
+    logger.info("=== Phase 5: MiniLM Classifier ===")
+    articles = miniLM_classify(articles)
+
+    # 6. LLM curator — importance scoring + summarization
+    logger.info("=== Phase 6: Curator (score + summarize) ===")
     llm = LLMClient(config)
     fs = FilterSummarizer(llm, config)
-    articles = fs.keyword_pre_filter(articles)
-
-    # 4. LLM curator: relevance + classification + enrichment
-    logger.info("=== Phase 4: Curator (classify + score + summarize) ===")
     articles = await fs._curate_async(articles)
     articles.sort(key=lambda a: a.get("priority_score", 3), reverse=True)
 
-    # 6. 生成报告
+    # 7. 生成报告
     week_num = datetime.now(timezone.utc).isocalendar()
     week_label = f"{week_num[0]}-W{week_num[1]:02d}"
     logger.info(f"=== Phase 6: Generate Report ({week_label}) ===")

@@ -52,7 +52,7 @@ class LLMClient:
             self.client = raw_client
 
         self.model = cfg.get("name", "qwen3:14b")
-        self.temperature = cfg.get("temperature", 0.3)
+        self.temperature = 0  # deterministic for consistent results
         self.max_tokens = cfg.get("max_tokens", 2048)
 
     def chat(self, system_prompt: str, user_prompt: str) -> str:

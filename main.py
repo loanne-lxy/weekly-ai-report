@@ -56,6 +56,24 @@ async def main():
         logger.info("=== Phase 1: Fetching ===")
         articles = await fetch_all(sources, config["fetch"].get("concurrency", 10))
         logger.info(f"Fetched {len(articles)} raw articles")
+
+        # Time filter: only keep last 7 days
+        from datetime import timedelta
+        cutoff = datetime.now(timezone.utc) - timedelta(days=7)
+        filtered = []
+        for a in articles:
+            pub = a.get("published", "")
+            if pub:
+                try:
+                    pub_dt = datetime.fromisoformat(pub.replace("Z", "+00:00"))
+                    if pub_dt >= cutoff:
+                        filtered.append(a)
+                except (ValueError, TypeError):
+                    filtered.append(a)  # keep if can't parse date
+            else:
+                filtered.append(a)  # keep if no date
+        articles = filtered
+        logger.info(f"Time filter (7 days): {len(articles)} kept")
     else:
         articles = []
 

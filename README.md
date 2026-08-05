@@ -1,29 +1,38 @@
 # 📊 Weekly AI Report Agent
 
-> Autonomous agent that scrapes cutting-edge AI news across 5 domains, scores articles by importance, and generates a tech-themed weekly report webpage with auto-deployment to GitHub Pages.
+> Autonomous agent that scrapes cutting-edge AI news across 5 domains, filters through a 5-stage pipeline, scores articles by importance with LLM curation, and generates a clean weekly report webpage auto-deployed to GitHub Pages.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.11+-blue" alt="Python">
   <img src="https://img.shields.io/badge/LLM-DeepSeek-green" alt="DeepSeek">
+  <img src="https://img.shields.io/badge/Classifier-MiniLM-purple" alt="MiniLM">
+  <img src="https://img.shields.io/badge/Cache-SHA256-yellow" alt="Cache">
   <img src="https://img.shields.io/badge/LangSmith-Tracing-orange" alt="LangSmith">
   <img src="https://img.shields.io/badge/license-MIT-lightgrey" alt="License">
-  <img src="https://img.shields.io/badge/skill-standardized-blueviolet" alt="Agent Skill">
 </p>
-
----
 
 ## ✨ Features
 
-- **🌐 Multi-Source Fetching** — RSS / Web / Nitter RSS via asyncio, 50+ sources
-- **🏷️ Smart Classification** — LLM classifies into LLM / Agent / AI for Science / Design Simulation / Digital Twin
-- **📈 Quality Scoring** — 1-10 importance score + Chinese title + summary per article
-- **🔍 Trend Keywords** — LLM extracts weekly trend keywords per domain
-- **📄 Report Webpage** — Light-tech-themed HTML, ranked by importance, paginated
+- **🌐 Multi-Source Fetching** — 70+ RSS / Web / Nitter RSS sources via asyncio
+- **🔍 5-Stage Filtering Pipeline** — Source priority → Keyword+regex → MiniLM classifier → LLM curator → Cache
+- **🏷️ 3-Layer Classification** — Keywords → MiniLM semantic → LLM curator confirmation
+- **💾 SHA256 Content Cache** — Skip LLM on duplicate content, permanent cost savings
+- **🤖 MiniLM CPU Classifier** — 80MB all-MiniLM-L6-v2, zero API cost for initial classification
+- **📈 LLM Importance Scoring** — 1-5 priority, Chinese title, TL;DR, key insights, why-it-matters, tags
+- **📄 Clean Report Webpage** — Full-width design, per-domain summaries, paginated (5/page)
 - **🔄 Self-Evolving Source Pool** — Weekly evaluation, auto-discovery, auto-archive
-- **⏰ Scheduled Execution** — cron / systemd timer for weekly generation
-- **🛡️ Deduplication** — SQLite-based URL dedup, never repeats
-- **📌 Empty Category Fallback** — Carries over last week's content when no new articles
+- **🧩 Modular Prompts** — curation-rules.md + digest-prompt.md loaded at runtime
 - **🌍 GitHub Pages** — Auto-deployed public URL with historical archive
+- **📊 LangSmith Tracing** — All LLM calls observable
+
+## 🏗️ Pipeline
+
+```
+Fetch (70+ sources) → Dedup → Source Priority → Keyword+Regex
+    → MiniLM Classifier → SHA256 Cache → LLM Curator → Report → GH Pages
+                              ↓ hit               ↓ miss
+                         skip LLM (free)      score + summarize
+```
 
 ## 📦 Quick Start
 
@@ -36,80 +45,35 @@ echo "DEEPSEEK_API_KEY=***" > .env
 python main.py
 ```
 
-## ⚙️ Scheduled Execution
+## 💰 Cost
+
+| Phase | Model | Cost |
+|-------|-------|------|
+| MiniLM Classifier | local CPU | Free |
+| LLM Curator (~60 calls) | DeepSeek | ~$0.03 |
+| Trends + Summaries | DeepSeek | ~$0.01 |
+| Cache hits | — | $0 saved |
+| **Total per run** | | **~$0.05** |
+
+Cache hit rate grows over time → cost trends toward ~$0.02/run.
+
+## ⚙️ Schedule
 
 ```bash
-# Every Monday at 08:00
+# Every Monday 08:00
 crontab -e
-# Add: 0 8 * * 1 cd ~/weekly-ai-report && source venv/bin/activate && python scheduler.py
+# 0 8 * * 1 cd ~/weekly-ai-report && source venv/bin/activate && python scheduler.py
 ```
 
-## 🏗️ Architecture
-
-```
-Cron / Manual Trigger
-      │
-      ▼
-┌──────────┐   ┌──────────┐   ┌──────────────┐   ┌──────────┐
-│ Fetcher  │ → │ Dedup    │ → │ Classifier    │ → │ Report   │
-│ RSS/Web  │   │ SQLite   │   │ LLM scoring   │   │ HTML +   │
-│ Nitter   │   │ URL check│   │ CN titles     │   │ GH Pages │
-└──────────┘   └──────────┘   └──────────────┘   └──────────┘
-      │                                              │
-      └── Source Pool Self-Evolution ←───────────────┘
-```
-
-## 📂 Project Structure
-
-```
-weekly-ai-report/
-├── SKILL.md                   # Standardized Agent Skill definition
-├── main.py                    # Pipeline orchestrator (7 phases)
-├── scheduler.py               # Cron entry point
-├── config.yaml                # Model & parameter config
-├── sources.yaml               # Source pool (auto-maintained)
-├── .env                       # API keys (gitignored)
-├── models/llm_client.py       # Unified LLM interface + LangSmith
-├── fetcher/fetcher.py          # Concurrent fetching (asyncio)
-├── dedup/deduplicator.py      # SQLite dedup
-├── filter/filter_summarizer.py # Classification + scoring + CN titles
-├── evaluator/
-│   ├── source_evaluator.py    # Source evaluation & archiving
-│   └── source_discoverer.py   # LLM-based source discovery
-├── generator/
-│   ├── report_generator.py    # Trend analysis + Jinja2 rendering
-│   └── templates/weekly.html  # HTML template
-├── .github/workflows/deploy.yml # GitHub Pages deployment
-└── output/                    # Generated reports
-```
-
-## 🔄 Switching Models
-
-Edit `config.yaml`:
+## 🔄 Model Switching
 
 ```yaml
-# DeepSeek
+# config.yaml
 model:
-  provider: deepseek
+  provider: deepseek  # or ollama / openai
   name: deepseek-chat
   base_url: https://api.deepseek.com
   api_key: ${DEEPSEEK_API_KEY}
-
-# Local Ollama
-model:
-  provider: ollama
-  name: qwen3:14b
-  base_url: http://localhost:11434/v1
-  api_key: ollama
-```
-
-## 🔍 LangSmith Tracing
-
-Set in `.env`:
-```
-LANGSMITH_TRACING=true
-LANGSMITH_API_KEY=***
-LANGSMITH_PROJECT=weekly-ai-report
 ```
 
 ## 📝 License

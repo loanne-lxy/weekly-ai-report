@@ -1,25 +1,7 @@
 sources:
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 6
-  name: DeepMind Science Blog
-  note: AlphaFold/GNoME/FunSearch — global AI4S leader
-  streak_failures: 2
-  type: web
-  url: https://deepmind.google/discover/blog/
-  weight: 10
-- articles_this_week: 1
-  category: AI4Science
-  eval_score: 6
-  name: DP Technology (深势科技) Blog
-  note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
-  streak_failures: 0
-  type: web
-  url: https://www.dp.tech/en
-  weight: 8
-- articles_this_week: 9
+- articles_this_week: 15
   category: LLM
-  eval_score: 6
+  eval_score: 7
   name: OpenAI Blog
   streak_failures: 0
   type: rss
@@ -27,7 +9,7 @@ sources:
   weight: 9
 - articles_this_week: 3
   category: AI4Science
-  eval_score: 6
+  eval_score: 7
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
   streak_failures: 0
@@ -36,7 +18,7 @@ sources:
   weight: 7
 - articles_this_week: 14
   category: AI4Science
-  eval_score: 6
+  eval_score: 7
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
   streak_failures: 0
@@ -45,52 +27,25 @@ sources:
   weight: 7
 - articles_this_week: 9
   category: AI4Science
-  eval_score: 6
+  eval_score: 7
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
   streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
   weight: 7
-- articles_this_week: 0
+- articles_this_week: 1
   category: AI4Science
   eval_score: 5
-  name: Microsoft Research AI4Science
-  note: Quantum chemistry, molecular dynamics, MatterSim, BioGPT
-  streak_failures: 2
+  name: DP Technology (深势科技) Blog
+  note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
+  streak_failures: 0
   type: web
-  url: https://www.microsoft.com/en-us/research/theme/ai-for-science/
-  weight: 9
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 5
-  name: Meta AI Research (FAIR)
-  note: ESM protein language models, Open Catalyst Project
-  streak_failures: 2
-  type: web
-  url: https://ai.meta.com/research/
-  weight: 9
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 5
-  name: Nature Machine Intelligence
-  note: Top-tier AI journal with strong AI4S coverage
-  streak_failures: 2
-  type: rss
-  url: https://www.nature.com/subjects/artificial-intelligence.rss
-  weight: 9
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 4
-  name: Shanghai AI Lab
-  note: FengWu weather model, Earth science + AI
-  streak_failures: 2
-  type: web
-  url: https://www.shlab.org.cn/
+  url: https://www.dp.tech/en
   weight: 8
 - articles_this_week: 1
   category: 数字孪生
-  eval_score: 4
+  eval_score: 3
   name: Digital Twin Consortium
   note: 全球最具影响力的数字孪生跨行业组织，发布架构指南/白皮书
   streak_failures: 0
@@ -98,44 +53,62 @@ sources:
   url: https://www.digitaltwinconsortium.org/
   weight: 9
 - articles_this_week: 0
-  category: AI4Science
+  category: LLM
+  discovered_by: agent
   eval_score: 3
-  name: HuggingFace Daily Papers (AI4Science)
-  note: Daily trending AI4S papers curated by HF community
-  streak_failures: 2
-  type: web
-  url: https://huggingface.co/papers?tag=AI4Science
-  weight: 7
+  name: arxiv.org
+  streak_failures: 1
+  type: rss
+  url: https://arxiv.org/list/cs.LG/recent
+  weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
   eval_score: 3
-  name: blogs.dassault-aviation.com
+  name: www.nature.com
   streak_failures: 1
+  type: rss
+  url: https://www.nature.com/npj-comput-mater/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: pubs.aip.org
+  streak_failures: 1
+  type: rss
+  url: https://pubs.aip.org/aip/jap
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: blogs.dassault-aviation.com
+  streak_failures: 2
   type: rss
   url: https://blogs.dassault-aviation.com/en/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.latent.space
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.latent.space/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.assemblyai.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.assemblyai.com/blog/
   weight: 5
 - articles_this_week: 1
   category: 数字孪生
-  eval_score: 2
+  eval_score: 1
   name: Dassault Systèmes Blog
   note: 工业软件巨头，制造业数字孪生前沿案例
   streak_failures: 0
@@ -144,19 +117,19 @@ sources:
   weight: 7
 - category: LLM
   discovered_by: agent
-  name: arxiv.org
+  name: openai.com
   type: rss
-  url: https://arxiv.org/list/cs.LG/recent
+  url: https://openai.com/blog/
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: www.nature.com
+  name: www.quantamagazine.org
   type: rss
-  url: https://www.nature.com/npj-comput-mater/
+  url: https://www.quantamagazine.org/
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: pubs.aip.org
+  name: blog.google
   type: rss
-  url: https://pubs.aip.org/aip/jap
+  url: https://blog.google/technology/ai/
   weight: 5

@@ -4,6 +4,7 @@ import json
 import logging
 from pathlib import Path
 from models.llm_client import LLMClient
+from dedup.curator_cache import CuratorCache
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,7 @@ class FilterSummarizer:
     def __init__(self, llm: LLMClient, config: dict):
         self.llm = llm
         self.filter_config = config["filter"]
+        self.cache = CuratorCache()
 
     def keyword_pre_filter(self, articles: list[dict]) -> list[dict]:
         """Fast keyword pre-filter — no LLM calls"""
@@ -68,13 +70,25 @@ class FilterSummarizer:
 
         async def _do_one(a: dict):
             async with sem:
+                title = a.get("title", "")[:300]
+                summary = a.get("summary", "")[:800]
+                source_name = a.get("source_name", "")
+
+                # Check cache first
+                cached = self.cache.get(title, summary)
+                if cached:
+                    a.update(cached)
+                    curated.append(a)
+                    return
+
+                # Cache miss — call LLM
                 loop = asyncio.get_running_loop()
                 user_prompt = CURATOR_USER_TEMPLATE.format(
                     rules=CURATION_RULES,
                     digest=DIGEST_PROMPT,
-                    title=a.get("title", "")[:300],
-                    source_name=a.get("source_name", ""),
-                    summary=a.get("summary", "")[:800],
+                    title=title,
+                    source_name=source_name,
+                    summary=summary,
                     url=a.get("url", ""),
                 )
                 response = await loop.run_in_executor(
@@ -98,10 +112,17 @@ class FilterSummarizer:
                         a["original_title"] = data.get("original_title", a.get("title", ""))
                         a["importance"] = a["priority_score"]
                         a["ai_summary"] = a["tldr"]
+
+                        # Store in cache for future reuse
+                        self.cache.set(title, summary, data, source_name)
+
                         curated.append(a)
                 except (json.JSONDecodeError, KeyError, ValueError) as e:
                     logger.warning(f"JSON parse failed for [{a.get('title','')[:60]}]: {e}")
 
         await asyncio.gather(*[_do_one(a) for a in articles[:80]])
-        logger.info(f"Curator: {len(articles)} -> {len(curated)} relevant")
+        logger.info(
+            f"Curator: {len(articles)} → {len(curated)} relevant "
+            f"(cache: {self.cache.stats['hits']} hits, {self.cache.stats['misses']} misses)"
+        )
         return curated

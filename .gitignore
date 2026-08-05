@@ -2,6 +2,7 @@ __pycache__/
 *.pyc
 venv/
 dedup.db
+curator_cache.db
 *.log
 .env
 .DS_Store

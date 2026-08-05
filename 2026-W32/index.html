@@ -108,19 +108,19 @@
       <div class="t">
         <div class="dot" style="background:#669df6"></div>
         <div class="label">LLM</div>
-        <div class="kw">实时语音交互</div>
+        <div class="kw">多模态融合</div>
       </div>
       
       <div class="t">
         <div class="dot" style="background:#c58af9"></div>
         <div class="label">Agent</div>
-        <div class="kw">Agent商业化</div>
+        <div class="kw">多智能体协作</div>
       </div>
       
       <div class="t">
         <div class="dot" style="background:#34a853"></div>
         <div class="label">AI for Science</div>
-        <div class="kw">物理AI融合</div>
+        <div class="kw">生成式科学模拟</div>
       </div>
       
       <div class="t">
@@ -141,13 +141,13 @@
   <div class="stats">
     
     
-    <div class="s"><div class="n" style="color:#1a73e8">2</div><div class="l">LLM</div></div>
+    <div class="s"><div class="n" style="color:#1a73e8">8</div><div class="l">LLM</div></div>
     
     
-    <div class="s"><div class="n" style="color:#9334e6">2</div><div class="l">Agent</div></div>
+    <div class="s"><div class="n" style="color:#9334e6">4</div><div class="l">Agent</div></div>
     
     
-    <div class="s"><div class="n" style="color:#0d904f">27</div><div class="l">AI for Science</div></div>
+    <div class="s"><div class="n" style="color:#0d904f">19</div><div class="l">AI for Science</div></div>
     
     
     <div class="s"><div class="n" style="color:#e37400">1</div><div class="l">设计仿真</div></div>
@@ -164,17 +164,57 @@
     <div class="sec-h b-blue">
       <span class="icon">🧠</span>
       <h2>LLM</h2>
-      <span class="badge bg-blue">2</span>
+      <span class="badge bg-blue">8</span>
     </div>
 
     
-    <div class="sec-summary">本周LLM领域主要进展为GPT-Live实时语音系统架构解析及OpenAI教育插件的发布。</div>
+    <div class="sec-summary">本周LLM领域聚焦于OpenAI的教育插件发布与网络安全评估强化，同时出现实时语音系统架构解析及多项计算加速工具（如AccelNet、SU3HOB-cgvcs）的技术突破。</div>
     
 
     
     
     
     <div class="article-list" data-cat="blue" data-per-page="5">
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.03280" target="_blank">AccelNet：笛卡尔矩分解加速角描述符</a></h3>
+          
+          <div class="orig">AccelNet: Exact backward-compatible acceleration of polynomial angular descriptors through Cartesian moment factorizatio</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>利用有限秩结构将邻居对循环替换为单邻居笛卡尔矩</li><li>与原始模型输出在浮点舍入误差内一致</li><li>已在LAMMPS中验证H2O和TiO2模型</li></ul>
+          
+          <div class="why">该方法为现有分子动力学模拟提供即插即用的加速方案，无需重新训练模型，显著提升计算效率，推动大规模原子模拟应用。</div>
+          
+          <div class="tags-row"><span class="tag">neural-network-potentials</span><span class="tag">molecular-dynamics</span><span class="tag">descriptor-acceleration</span><span class="tag">LAMMPS</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.02640" target="_blank">SU3HOB-cgvcs：SU(3)基下谐振子括号计算包</a></h3>
+          
+          <div class="orig">SU3HOB-cgvcs: harmonic-oscillator brackets in the SU(3) basis with isofactors from an external SU(3)$\,\supset\,$SO(3) C</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Implements general Talmi-Moshinsky brackets for arbitrary mass-ratio parameter d</li><li>Uses SU(3)⊃SO(3) isofactors from external library via vector-coherent-state method</li><li>Reduces transformation to single sum over Wigner d-functions</li></ul>
+          
+          <div class="why">Provides a computational tool for nuclear physics and quantum many-body calculations, potentially accelerating research in nuclear structure and reactions.</div>
+          
+          <div class="tags-row"><span class="tag">nuclear physics</span><span class="tag">harmonic-oscillator</span><span class="tag">SU(3)</span><span class="tag">Fortran</span><span class="tag">computational physics</span></div>
+          
+        </div>
+      </div>
       
       
       <div class="card">
@@ -216,6 +256,86 @@
         </div>
       </div>
       
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">OpenAI Blog</div>
+          <h3><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models" target="_blank">OpenAI强化第三方网络安全评估</a></h3>
+          
+          <div class="orig">Third-party cyber evaluations involving OpenAI models</div>
+          
+          <div class="summary">OpenAI details recent third-party cyber evaluations of its models and introduces new safeguards to improve AI testing security.</div>
+          
+          <ul class="insights"><li>OpenAI implements stricter protocols for third-party cyber evaluations</li><li>New safeguards address risks in AI model testing environments</li><li>Incident response framework enhanced for evaluation-related vulnerabilities</li></ul>
+          
+          <div class="why">This announcement sets a precedent for secure AI evaluation practices, crucial for enterprises relying on external model testing and for the broader AI safety ecosystem.</div>
+          
+          <div class="tags-row"><span class="tag">security</span><span class="tag">evaluation</span><span class="tag">safety</span><span class="tag">OpenAI</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">OpenAI Blog</div>
+          <h3><a href="https://openai.com/index/disrupting-malicious-uses-of-ai-criminal-scam-operation" target="_blank">OpenAI打击柬埔寨诈骗网络</a></h3>
+          
+          <div class="orig">Disrupting a Criminal Scam Operation</div>
+          
+          <div class="summary">OpenAI disrupted a Cambodia-based scam operation that used ChatGPT for investment, romance, gambling, and impersonation fraud.</div>
+          
+          <ul class="insights"><li>OpenAI identified and disrupted a Cambodia-based scam operation using ChatGPT for fraud.</li><li>The operation targeted investment, romance, gambling, and impersonation schemes.</li><li>This demonstrates proactive AI safety measures against malicious use.</li></ul>
+          
+          <div class="why">This shows real-world application of AI safety and threat intelligence, highlighting the importance of proactive measures to prevent AI misuse in criminal activities.</div>
+          
+          <div class="tags-row"><span class="tag">AI Safety</span><span class="tag">Security</span><span class="tag">Fraud</span><span class="tag">ChatGPT</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">OpenAI Blog</div>
+          <h3><a href="https://openai.com/index/health-in-chatgpt" target="_blank">ChatGPT健康功能上线</a></h3>
+          
+          <div class="orig">Launching Health in ChatGPT</div>
+          
+          <div class="summary">OpenAI launches Health in ChatGPT, allowing U.S. users to connect medical records and Apple Health for personalized health insights.</div>
+          
+          <ul class="insights"><li>Eligible U.S. users can securely link medical records and Apple Health to ChatGPT.</li><li>Provides personalized health insights based on connected data.</li><li>Part of OpenAI's expansion into consumer health applications.</li></ul>
+          
+          <div class="why">This marks a significant step in applying LLMs to personal health management, potentially setting a precedent for AI-driven healthcare consumer tools.</div>
+          
+          <div class="tags-row"><span class="tag">health</span><span class="tag">chatgpt</span><span class="tag">personalization</span><span class="tag">privacy</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-lo">2</div>
+        <div class="card-body">
+          <div class="card-source">OpenAI Blog</div>
+          <h3><a href="https://openai.com/index/building-ai-infrastructure-with-the-effingham-county-community" target="_blank">OpenAI在佐治亚州建设AI基础设施</a></h3>
+          
+          <div class="orig">Building AI infrastructure with the Effingham County community</div>
+          
+          <div class="summary">OpenAI announces Project Camellia in Effingham County, Georgia, focusing on responsible energy, community investment, jobs, and Codex access.</div>
+          
+          <ul class="insights"><li>Project Camellia includes community investment and job creation in Effingham County.</li><li>Commitment to responsible energy use for AI infrastructure.</li><li>Provides access to Codex for local community.</li></ul>
+          
+          <div class="why">This strategic infrastructure move signals OpenAI's expansion into regional hubs, potentially influencing AI development and local economies.</div>
+          
+          <div class="tags-row"><span class="tag">infrastructure</span><span class="tag">energy</span><span class="tag">community</span><span class="tag">codex</span></div>
+          
+        </div>
+      </div>
+      
     </div>
     <div class="pagination" data-for="blue"></div>
     
@@ -227,17 +347,37 @@
     <div class="sec-h b-purple">
       <span class="icon">🤖</span>
       <h2>Agent</h2>
-      <span class="badge bg-purple">2</span>
+      <span class="badge bg-purple">4</span>
     </div>
 
     
-    <div class="sec-summary">本周AI代理领域聚焦于实时交互与工作边界扩展，avatarin利用GPT-Realtime实现零售全天候代理，OpenAI则探索AI在更广泛工作场景中的能力延伸。</div>
+    <div class="sec-summary">本周智能体领域聚焦于大模型驱动的多智能体协作（如PDE-Agents实现仿真自动化）、实时交互代理（如avatarin零售应用）及AI在电信个性化与工作边界扩展中的落地。</div>
     
 
     
     
     
     <div class="article-list" data-cat="purple" data-per-page="5">
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2606.07850" target="_blank">PDE-Agents：LLM编排多智能体实现有限元仿真自动化</a></h3>
+          
+          <div class="orig">PDE-Agents: An LLM-Orchestrated Multi-Agent Framework for Automated Finite Element Simulations with Knowledge Graph-Augm</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>三个LLM智能体（Simulation、Analytics、Database）由LangGraph监督，本地运行于双RTX PRO 6000 GPU。</li><li>GraphRAG知识库（Neo4j+768维向量）存储材料属性、失效模式及历史运行谱系。</li><li>验证显示二阶空间收敛，架构跨两代开源LLM通用。</li></ul>
+          
+          <div class="why">该框架将LLM代理与知识图谱结合，显著降低有限元仿真的使用门槛，为科学计算自动化提供新范式，对工程仿真领域具有重要参考价值。</div>
+          
+          <div class="tags-row"><span class="tag">LLM</span><span class="tag">MultiAgent</span><span class="tag">GraphRAG</span><span class="tag">FEM</span><span class="tag">Simulation</span></div>
+          
+        </div>
+      </div>
       
       
       <div class="card">
@@ -279,6 +419,26 @@
         </div>
       </div>
       
+      
+      <div class="card">
+        <div class="score score-lo">3</div>
+        <div class="card-body">
+          <div class="card-source">OpenAI Blog</div>
+          <h3><a href="https://openai.com/index/circles" target="_blank">Circles借助OpenAI提升电信个性化</a></h3>
+          
+          <div class="orig">Circles powers telco personalization with OpenAI technology</div>
+          
+          <div class="summary">Circles uses OpenAI API and Codex to build AI-native telco experiences, boosting ARPU by 22% and cutting churn by 9%.</div>
+          
+          <ul class="insights"><li>ARPU increased by 22% through AI-driven personalization</li><li>Churn reduced by 9% using OpenAI-powered customer insights</li><li>Codex accelerates development efficiency for telco solutions</li></ul>
+          
+          <div class="why">Demonstrates practical application of AI agents in telecom, showing measurable business impact and serving as a reference for industry adoption.</div>
+          
+          <div class="tags-row"><span class="tag">OpenAI</span><span class="tag">Codex</span><span class="tag">personalization</span><span class="tag">telecom</span><span class="tag">ARPU</span></div>
+          
+        </div>
+      </div>
+      
     </div>
     <div class="pagination" data-for="purple"></div>
     
@@ -290,17 +450,317 @@
     <div class="sec-h b-green">
       <span class="icon">🔬</span>
       <h2>AI for Science</h2>
-      <span class="badge bg-green">27</span>
+      <span class="badge bg-green">19</span>
     </div>
 
     
-    <div class="sec-summary">本周AI for Science领域进展显著，深势科技等平台推动AI与科学计算深度融合，智能体技术加速仿真自动化，同时OpenAI向学者免费开放工具，并涌现出弱相互作用量化新范式。</div>
+    <div class="sec-summary">本周AI for Science领域在逆散射成像、弱相互作用量化、电场材料模拟、蛋白质构象预测及沸石合成优化等方向取得突破性进展。</div>
     
 
     
     
     
     <div class="article-list" data-cat="green" data-per-page="5">
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.02937" target="_blank">ScoreField：基于分数生成先验的神经逆散射</a></h3>
+          
+          <div class="orig">ScoreField: Neural Inverse Scattering with Score-Based Generative Priors</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Dual INR parameterization for contrast and induced currents</li><li>Score-based prior gradient propagated via chain rule</li><li>Joint optimization under Lippmann-Schwinger equations</li></ul>
+          
+          <div class="why">This work advances AI-driven electromagnetic inverse scattering, offering a physics-constrained generative approach that could improve imaging and sensing applications in engineering and science.</div>
+          
+          <div class="tags-row"><span class="tag">inverse-scattering</span><span class="tag">score-based</span><span class="tag">implicit-neural-representation</span><span class="tag">electromagnetics</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv q-bio</div>
+          <h3><a href="https://arxiv.org/abs/2608.02865" target="_blank">弱相互作用量化新范式：体积控制突破浓度限制</a></h3>
+          
+          <div class="orig">A concentration-independent paradigm rendering weak interactions inherently quantifiable</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Shifts experimental control from molecular number to accessible volume</li><li>Enables quantification of millimolar-affinity interactions without extreme concentrations</li><li>Framework change, not sensitivity improvement, resolves weak-binding measurement issue</li></ul>
+          
+          <div class="why">This paradigm could transform biochemical research and drug discovery by making weak interactions measurable, opening new avenues for AI-driven molecular modeling and simulation.</div>
+          
+          <div class="tags-row"><span class="tag">weak-interaction</span><span class="tag">biophysics</span><span class="tag">molecular-dynamics</span><span class="tag">drug-discovery</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.03287" target="_blank">电场驱动载流子与晶格动力学的统一图神经网络框架</a></h3>
+          
+          <div class="orig">A Unified Graph Neural Network Framework for Non-Equilibrium Carrier and Lattice Dynamics Driven by Electric Fields</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>EFR-GNN unifies interatomic interactions, electronic states, and electric-field responses in one framework.</li><li>Predicts Born effective charges, atom-resolved charges, and magnetic moments for finite-temperature simulations.</li><li>Supports long-time field-driven molecular dynamics with atom-resolved tracking.</li></ul>
+          
+          <div class="why">This framework bridges a critical gap in machine-learning potentials by incorporating electric-field effects, enabling accurate simulations of electronic devices and materials under external fields.</div>
+          
+          <div class="tags-row"><span class="tag">GNN</span><span class="tag">MolecularDynamics</span><span class="tag">ElectricField</span><span class="tag">MachineLearningPotential</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv q-bio</div>
+          <h3><a href="https://arxiv.org/abs/2608.02866" target="_blank">蛋白质结构预测扩展至构象状态空间</a></h3>
+          
+          <div class="orig">Expanding Protein Structure Prediction into Conformational State Space</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Proposes state-space inference to capture multiple protein conformations</li><li>Reviews deep learning ensemble generators and physics-based simulations</li><li>Highlights context dependence and perturbation responses in protein dynamics</li></ul>
+          
+          <div class="why">This perspective could shift the AI for Science research agenda, moving beyond single-structure prediction to dynamic conformational ensembles, impacting drug discovery and molecular dynamics.</div>
+          
+          <div class="tags-row"><span class="tag">AlphaFold</span><span class="tag">MolecularDynamics</span><span class="tag">DrugDiscovery</span><span class="tag">ProteinStructure</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.03760" target="_blank">机器学习引导EMT沸石合成条件发现</a></h3>
+          
+          <div class="orig">Guided Synthesis of EMT Zeolites by Machine Learning</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Dataset of 174 synthesis attempts with reaction time, temperature, and composition</li><li>ML models identify conditions favoring EMT over competing FAU framework</li><li>Enables cost-effective, sustainable zeolite production without organic structure-directing agents</li></ul>
+          
+          <div class="why">This work demonstrates the application of machine learning to accelerate materials discovery, specifically for zeolite synthesis, which is critical for industrial catalysis and separation processes. It provides a data-driven approach to optimize synthesis conditions, reducing trial-and-error and enabling greener production.</div>
+          
+          <div class="tags-row"><span class="tag">machine-learning</span><span class="tag">zeolite</span><span class="tag">materials-science</span><span class="tag">synthesis</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2512.01631" target="_blank">高通量筛选极端有效质量材料</a></h3>
+          
+          <div class="orig">First-principles screening of materials with extreme effective masses</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Screened ~20,000 inorganic materials from Materials Cloud 3D database</li><li>Computed full conductivity effective mass tensors for electrons and holes</li><li>Identifies candidates for thermoelectrics and transparent conductors</li></ul>
+          
+          <div class="why">This work demonstrates a scalable computational pipeline combining DFT and Wannier functions to accelerate materials discovery, providing a valuable dataset for the AI-for-science community.</div>
+          
+          <div class="tags-row"><span class="tag">high-throughput</span><span class="tag">DFT</span><span class="tag">Wannier</span><span class="tag">materials-screening</span><span class="tag">thermoelectrics</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.02858" target="_blank">物理信息与知识驱动生成式AI用于多孔氧化物能源材料自主发现</a></h3>
+          
+          <div class="orig">Physics-Informed and Knowledge-Driven Generative AI for Autonomous Discovery of Porous Oxide Energy Materials: Opportuni</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Highlights limitations of current generative AI focusing only on crystallographic validity and thermodynamic stability</li><li>Proposes integrating physics-informed and knowledge-driven approaches to capture coupled multi-scale interactions</li><li>Outlines opportunities for autonomous discovery of porous transition-metal oxides for energy storage</li></ul>
+          
+          <div class="why">This article provides a strategic roadmap for applying generative AI to complex materials design, emphasizing the need for multi-physics integration beyond simple structure generation, which could guide future research in AI-driven materials discovery.</div>
+          
+          <div class="tags-row"><span class="tag">generative-ai</span><span class="tag">materials-discovery</span><span class="tag">energy-storage</span><span class="tag">physics-informed</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.02925" target="_blank">对称引导筛选二维交变磁体</a></h3>
+          
+          <div class="orig">Symmetry-Guided Computational Screening of Two-Dimensional Altermagnets with ab initio Hubbard Corrections</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Screened 2710 MC2D materials for altermagnetism</li><li>Combined symmetry analysis with DFT+U calculations</li><li>Identified new 2D altermagnetic candidates</li></ul>
+          
+          <div class="why">Expands the limited library of 2D altermagnets, enabling spintronic applications without stray fields.</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">altermagnetism</span><span class="tag">high-throughput</span><span class="tag">2D materials</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv q-bio</div>
+          <h3><a href="https://arxiv.org/abs/2608.02864" target="_blank">宏观实验揭示摩尔浓度盲区</a></h3>
+          
+          <div class="orig">Experimental access to molarity's blind spot in macroscopic assays</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Introduces bench-compatible method to vary local structure experimentally</li><li>Reveals chemistry-geometry crossover beyond traditional molarity</li><li>Addresses limitations of concentration-based kinetics in structured environments</li></ul>
+          
+          <div class="why">This work provides a new experimental tool for studying reactions in structured biological environments, potentially impacting drug discovery and synthetic biology by enabling more accurate kinetic measurements.</div>
+          
+          <div class="tags-row"><span class="tag">chemical kinetics</span><span class="tag">molarity</span><span class="tag">local structure</span><span class="tag">experimental method</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.03308" target="_blank">BiOI气体传感器选择性DFT研究</a></h3>
+          
+          <div class="orig">Bias Tunable Transport Modulation and Gas Selectivity in Layered BiOI: A DFT NEGF Study</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>NH3 and NO2 show strong chemisorption, CO2 weak physisorption</li><li>Bias voltage modulates transport response for gas selectivity</li><li>DFT+NEGF method links adsorption energetics to sensing performance</li></ul>
+          
+          <div class="why">Provides a computational framework for designing low-power, bias-tunable gas sensors, advancing AI-driven materials discovery for environmental monitoring.</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">NEGF</span><span class="tag">gas-sensor</span><span class="tag">materials-science</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.03478" target="_blank">四方GeS₂/GeSe₂各向异性热输运研究</a></h3>
+          
+          <div class="orig">Anisotropic Phonon Heat Flow and Thermoelectric Response in Tetragonal GeS$_2$ and GeSe$_2$</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>HSE03带隙：GeS₂为2.48 eV，GeSe₂为1.23 eV</li><li>声子频率上限从13.6降至10.3 THz（S→Se）</li><li>300K面内热导率呈显著各向异性</li></ul>
+          
+          <div class="why">为低维热电材料设计提供理论依据，推动AI辅助材料筛选与性能预测。</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">thermoelectric</span><span class="tag">phonon</span><span class="tag">anisotropy</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.03688" target="_blank">机器学习筛选锂电池固态电解质溶剂</a></h3>
+          
+          <div class="orig">Machine Learning-Guided Screening of Advantageous Solvents for Solid Polymer Electrolytes in Lithium Metal Batteries</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Universal criterion links HOMO/LUMO and dielectric/dipole/polarizability to solvent performance</li><li>Identified N-methoxy-N-methyl-2,2,2-trifluoroacetamide as top candidate</li><li>Experimental validation in PVDF-HFP electrolyte confirms improved ionic conductivity</li></ul>
+          
+          <div class="why">This work demonstrates a scalable ML-driven screening pipeline for battery materials, reducing reliance on trial-and-error and accelerating the discovery of high-performance solid electrolytes.</div>
+          
+          <div class="tags-row"><span class="tag">machine-learning</span><span class="tag">DFT</span><span class="tag">solid-electrolyte</span><span class="tag">lithium-battery</span><span class="tag">materials-screening</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.02849" target="_blank">可追踪张量网络计算新方法</a></h3>
+          
+          <div class="orig">Computing with traceable tensor networks</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>New SVD-based decomposition handles cycles and general connectivity in tensor networks.</li><li>Addition and rounding procedures enable step-rounding time integration for high-dimensional PDEs.</li><li>Graph-format representation matches or beats tensor train and hierarchical Tucker accuracy.</li></ul>
+          
+          <div class="why">This method extends tensor network techniques to arbitrary graphs, improving efficiency and accuracy for high-dimensional PDEs, relevant to scientific computing and AI-driven simulation.</div>
+          
+          <div class="tags-row"><span class="tag">tensor-networks</span><span class="tag">PDE</span><span class="tag">SVD</span><span class="tag">scientific-computing</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.03492" target="_blank">CrSBr中自旋手性驱动体光伏效应</a></h3>
+          
+          <div class="orig">Spin-Chirality-Driven Bulk Photovoltaic Effect in van der Waals Magnet CrSBr</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Spin chirality enables time-reversal-even BPVE with chiral shift and injection currents.</li><li>CSC and CIC magnitudes comparable to conventional BPVE, with magnetic-field tunability.</li><li>Bilayer AFM CrSBr as prototype demonstrates switchable and reversible photocurrents.</li></ul>
+          
+          <div class="why">This work introduces a new mechanism for photovoltaic effect in magnetic materials, potentially enabling novel optoelectronic and spintronic devices with external magnetic field control.</div>
+          
+          <div class="tags-row"><span class="tag">spin-chirality</span><span class="tag">BPVE</span><span class="tag">CrSBr</span><span class="tag">magnetic</span><span class="tag">photovoltaic</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">5</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.02968" target="_blank">第一性原理计算银金铜光学性质</a></h3>
+          
+          <div class="orig">Optical properties of Ag, Au, and Cu from first principles</div>
+          
+          <div class="summary"></div>
+          
+          <ul class="insights"><li>Combines DFT, MBPT, and Wannier interpolation for accurate optical response</li><li>Includes phonon-assisted and Drude contributions, matching experiments</li><li>Framework applicable to other metals and optoelectronic design</li></ul>
+          
+          <div class="why">Provides a validated computational method for predicting metal optical properties, enabling faster materials discovery and optoelectronic device design without costly experiments.</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">many-body perturbation theory</span><span class="tag">Wannier interpolation</span><span class="tag">optical properties</span><span class="tag">materials science</span></div>
+          
+        </div>
+      </div>
       
       
       <div class="card">
@@ -366,478 +826,18 @@
       <div class="card">
         <div class="score score-lo">4</div>
         <div class="card-body">
-          <div class="card-source">arXiv q-bio</div>
-          <h3><a href="https://arxiv.org/abs/2608.02865" target="_blank">弱相互作用量化新范式：体积控制突破浓度限制</a></h3>
+          <div class="card-source">OpenAI Blog</div>
+          <h3><a href="https://openai.com/index/ten-advances-in-mathematics" target="_blank">OpenAI公布数学与理论计算机十大进展</a></h3>
           
-          <div class="orig">A concentration-independent paradigm rendering weak interactions inherently quantifiable</div>
+          <div class="orig">Ten advances in mathematics and theoretical computer science</div>
           
-          <div class="summary">A new paradigm quantifies weak molecular interactions by controlling volume instead of concentration, overcoming a century-old measurement bottleneck.</div>
+          <div class="summary">OpenAI highlights ten new results in mathematics and theoretical computer science, covering geometry, cryptography, and complexity.</div>
           
-          <ul class="insights"><li>Shifts experimental control from molecular number to accessible volume</li><li>Enables quantification of millimolar-affinity interactions without extreme concentrations</li><li>Framework change, not sensitivity improvement, resolves weak-binding measurement issue</li></ul>
+          <ul class="insights"><li>New results in geometry, cryptography, and complexity</li><li>Advances on long-standing open problems</li><li>Demonstrates AI's role in theoretical research</li></ul>
           
-          <div class="why">This paradigm could transform biochemical research and drug discovery by making weak interactions measurable, opening new avenues for AI-driven molecular modeling and simulation.</div>
+          <div class="why">This showcases AI's expanding capability in pure mathematics and theoretical CS, potentially accelerating discovery in these fields.</div>
           
-          <div class="tags-row"><span class="tag">weak-interaction</span><span class="tag">biophysics</span><span class="tag">molecular-dynamics</span><span class="tag">drug-discovery</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2606.07850" target="_blank">PDE-Agents：LLM编排多智能体实现有限元仿真自动化</a></h3>
-          
-          <div class="orig">PDE-Agents: An LLM-Orchestrated Multi-Agent Framework for Automated Finite Element Simulations with Knowledge Graph-Augm</div>
-          
-          <div class="summary">PDE-Agents框架利用LLM多智能体与知识图谱，实现自然语言驱动的PDE/FEM仿真全流程自动化。</div>
-          
-          <ul class="insights"><li>三个LLM智能体（Simulation、Analytics、Database）由LangGraph监督，本地运行于双RTX PRO 6000 GPU。</li><li>GraphRAG知识库（Neo4j+768维向量）存储材料属性、失效模式及历史运行谱系。</li><li>验证显示二阶空间收敛，架构跨两代开源LLM通用。</li></ul>
-          
-          <div class="why">该框架将LLM代理与知识图谱结合，显著降低有限元仿真的使用门槛，为科学计算自动化提供新范式，对工程仿真领域具有重要参考价值。</div>
-          
-          <div class="tags-row"><span class="tag">LLM</span><span class="tag">MultiAgent</span><span class="tag">GraphRAG</span><span class="tag">FEM</span><span class="tag">Simulation</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.03280" target="_blank">AccelNet：笛卡尔矩分解加速角描述符</a></h3>
-          
-          <div class="orig">AccelNet: Exact backward-compatible acceleration of polynomial angular descriptors through Cartesian moment factorizatio</div>
-          
-          <div class="summary">AccelNet通过笛卡尔矩分解精确加速现有神经网络势的角描述符，无需重训练，兼容aenet和n2p2。</div>
-          
-          <ul class="insights"><li>利用有限秩结构将邻居对循环替换为单邻居笛卡尔矩</li><li>与原始模型输出在浮点舍入误差内一致</li><li>已在LAMMPS中验证H2O和TiO2模型</li></ul>
-          
-          <div class="why">该方法为现有分子动力学模拟提供即插即用的加速方案，无需重新训练模型，显著提升计算效率，推动大规模原子模拟应用。</div>
-          
-          <div class="tags-row"><span class="tag">neural-network-potentials</span><span class="tag">molecular-dynamics</span><span class="tag">descriptor-acceleration</span><span class="tag">LAMMPS</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.02937" target="_blank">ScoreField：基于分数生成先验的神经逆散射</a></h3>
-          
-          <div class="orig">ScoreField: Neural Inverse Scattering with Score-Based Generative Priors</div>
-          
-          <div class="summary">ScoreField integrates implicit neural representations with score-based generative priors for electromagnetic inverse scattering, enforcing full-wave physics via Lippmann-Schwinger equations.</div>
-          
-          <ul class="insights"><li>Dual INR parameterization for contrast and induced currents</li><li>Score-based prior gradient propagated via chain rule</li><li>Joint optimization under Lippmann-Schwinger equations</li></ul>
-          
-          <div class="why">This work advances AI-driven electromagnetic inverse scattering, offering a physics-constrained generative approach that could improve imaging and sensing applications in engineering and science.</div>
-          
-          <div class="tags-row"><span class="tag">inverse-scattering</span><span class="tag">score-based</span><span class="tag">implicit-neural-representation</span><span class="tag">electromagnetics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv q-bio</div>
-          <h3><a href="https://arxiv.org/abs/2608.02866" target="_blank">蛋白质结构预测扩展至构象状态空间</a></h3>
-          
-          <div class="orig">Expanding Protein Structure Prediction into Conformational State Space</div>
-          
-          <div class="summary">A perspective paper argues for reformulating protein structure prediction as state-space inference, covering emerging strategies like deep learning ensembles and physics-based simulations.</div>
-          
-          <ul class="insights"><li>Proposes state-space inference to capture multiple protein conformations</li><li>Reviews deep learning ensemble generators and physics-based simulations</li><li>Highlights context dependence and perturbation responses in protein dynamics</li></ul>
-          
-          <div class="why">This perspective could shift the AI for Science research agenda, moving beyond single-structure prediction to dynamic conformational ensembles, impacting drug discovery and molecular dynamics.</div>
-          
-          <div class="tags-row"><span class="tag">AlphaFold</span><span class="tag">MolecularDynamics</span><span class="tag">DrugDiscovery</span><span class="tag">ProteinStructure</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.03587" target="_blank">离散外微积分加速非线性光传播模拟百倍</a></h3>
-          
-          <div class="orig">A 100x Faster Beam Propagation Method for Nonlinear Optical Wave Propagation Based on Discrete Exterior Calculus</div>
-          
-          <div class="summary">A new computational framework based on discrete exterior calculus accelerates nonlinear Schrödinger equation simulations by over 100x while maintaining spectral accuracy.</div>
-          
-          <ul class="insights"><li>Achieves >100x speedup over conventional methods for nonlinear optical propagation</li><li>Uses discrete exterior calculus to handle complex geometries efficiently</li><li>Maintains spectral-level accuracy, enabling multiscale photonic device simulation</li></ul>
-          
-          <div class="why">This breakthrough enables practical simulation of complex nonlinear photonic devices, potentially accelerating R&D in integrated photonics and optical computing.</div>
-          
-          <div class="tags-row"><span class="tag">simulation</span><span class="tag">nonlinear-optics</span><span class="tag">discrete-exterior-calculus</span><span class="tag">photonic-devices</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.03287" target="_blank">电场驱动载流子与晶格动力学的统一图神经网络框架</a></h3>
-          
-          <div class="orig">A Unified Graph Neural Network Framework for Non-Equilibrium Carrier and Lattice Dynamics Driven by Electric Fields</div>
-          
-          <div class="summary">EFR-GNN predicts electric-field responses and atom-resolved electronic states, enabling long-time field-driven molecular dynamics simulations.</div>
-          
-          <ul class="insights"><li>EFR-GNN unifies interatomic interactions, electronic states, and electric-field responses in one framework.</li><li>Predicts Born effective charges, atom-resolved charges, and magnetic moments for finite-temperature simulations.</li><li>Supports long-time field-driven molecular dynamics with atom-resolved tracking.</li></ul>
-          
-          <div class="why">This framework bridges a critical gap in machine-learning potentials by incorporating electric-field effects, enabling accurate simulations of electronic devices and materials under external fields.</div>
-          
-          <div class="tags-row"><span class="tag">GNN</span><span class="tag">MolecularDynamics</span><span class="tag">ElectricField</span><span class="tag">MachineLearningPotential</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2606.25862" target="_blank">超导涡旋钉扎首性原理计算框架</a></h3>
-          
-          <div class="orig">First-Principles Quantum-Spectral framework for Elementary Vortex Pinning in superconductors</div>
-          
-          <div class="summary">A first-principles framework combining DFT/Wannier with Bogoliubov-de Gennes formalism computes vortex pinning energies from spectral reorganization, advancing superconductor design.</div>
-          
-          <ul class="insights"><li>Framework embeds defect-resolved DFT/Wannier into BdG free-energy formalism</li><li>Converts CdGM spectral reorganization into quantitative pinning energies</li><li>Transferable method enables materials screening for high-critical-current superconductors</li></ul>
-          
-          <div class="why">Provides a quantum-mechanical foundation for vortex pinning, enabling computational design of superconductors with higher critical currents, crucial for energy and quantum technologies.</div>
-          
-          <div class="tags-row"><span class="tag">first-principles</span><span class="tag">superconductors</span><span class="tag">DFT</span><span class="tag">vortex-pinning</span><span class="tag">BdG</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.03344" target="_blank">皮米级实时漂移校正实现原子级成像</a></h3>
-          
-          <div class="orig">Picometre-scale real-time drift correction in TEM and STEM by dynamic control of the specimen stage for atomic-resolutio</div>
-          
-          <div class="summary">A dynamic control framework for TEM/STEM achieves picometre-scale drift correction via software-only stage control, enabling atomic-resolution imaging.</div>
-          
-          <ul class="insights"><li>Software plugin enables picometre-scale drift correction without hardware changes</li><li>Real-time feedback loop monitors detector data to stabilize specimen stage</li><li>Demonstrated on TEM/STEM for atomic-resolution imaging</li></ul>
-          
-          <div class="why">This breakthrough in microscopy stabilization enhances atomic-resolution imaging, crucial for materials science and nanotechnology research, and is accessible via software-only implementation.</div>
-          
-          <div class="tags-row"><span class="tag">TEM</span><span class="tag">STEM</span><span class="tag">drift-correction</span><span class="tag">real-time</span><span class="tag">microscopy</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.03760" target="_blank">机器学习引导EMT沸石合成条件发现</a></h3>
-          
-          <div class="orig">Guided Synthesis of EMT Zeolites by Machine Learning</div>
-          
-          <div class="summary">A machine learning model trained on 174 experimental attempts guides synthesis conditions for EMT zeolites, enabling selective production under mild conditions.</div>
-          
-          <ul class="insights"><li>Dataset of 174 synthesis attempts with reaction time, temperature, and composition</li><li>ML models identify conditions favoring EMT over competing FAU framework</li><li>Enables cost-effective, sustainable zeolite production without organic structure-directing agents</li></ul>
-          
-          <div class="why">This work demonstrates the application of machine learning to accelerate materials discovery, specifically for zeolite synthesis, which is critical for industrial catalysis and separation processes. It provides a data-driven approach to optimize synthesis conditions, reducing trial-and-error and enabling greener production.</div>
-          
-          <div class="tags-row"><span class="tag">machine-learning</span><span class="tag">zeolite</span><span class="tag">materials-science</span><span class="tag">synthesis</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.03640" target="_blank">φ散度矩闭合方法用于稀薄气体动力学</a></h3>
-          
-          <div class="orig">Analysis of Moment Closures Using $\varphi$-Divergences for Rarefied Dynamics with Binary Collisions and Their Galerkin </div>
-          
-          <div class="summary">Introduces a deterministic Galerkin framework with φ-divergence closures for the Boltzmann equation, ensuring entropy dissipation via a compatible collision operator.</div>
-          
-          <ul class="insights"><li>Galerkin discretization of time, position, and velocity for Boltzmann equation</li><li>Parametric φ-divergence closures yield moment hierarchies for fluid dynamics</li><li>Compatible collision operator restores entropy dissipation property</li></ul>
-          
-          <div class="why">Provides a robust numerical method for rarefied gas dynamics, potentially improving simulations in aerospace and vacuum technology.</div>
-          
-          <div class="tags-row"><span class="tag">Boltzmann</span><span class="tag">Galerkin</span><span class="tag">MomentClosure</span><span class="tag">RarefiedDynamics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.02858" target="_blank">物理信息与知识驱动生成式AI用于多孔氧化物能源材料自主发现</a></h3>
-          
-          <div class="orig">Physics-Informed and Knowledge-Driven Generative AI for Autonomous Discovery of Porous Oxide Energy Materials: Opportuni</div>
-          
-          <div class="summary">This perspective discusses challenges and opportunities in using physics-informed and knowledge-driven generative AI for autonomous discovery of porous oxide energy materials.</div>
-          
-          <ul class="insights"><li>Highlights limitations of current generative AI focusing only on crystallographic validity and thermodynamic stability</li><li>Proposes integrating physics-informed and knowledge-driven approaches to capture coupled multi-scale interactions</li><li>Outlines opportunities for autonomous discovery of porous transition-metal oxides for energy storage</li></ul>
-          
-          <div class="why">This article provides a strategic roadmap for applying generative AI to complex materials design, emphasizing the need for multi-physics integration beyond simple structure generation, which could guide future research in AI-driven materials discovery.</div>
-          
-          <div class="tags-row"><span class="tag">generative-ai</span><span class="tag">materials-discovery</span><span class="tag">energy-storage</span><span class="tag">physics-informed</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.02925" target="_blank">对称引导筛选二维交变磁体</a></h3>
-          
-          <div class="orig">Symmetry-Guided Computational Screening of Two-Dimensional Altermagnets with ab initio Hubbard Corrections</div>
-          
-          <div class="summary">High-throughput DFT screening of 2710 2D materials identifies new altermagnets using symmetry and Hubbard corrections.</div>
-          
-          <ul class="insights"><li>Screened 2710 MC2D materials for altermagnetism</li><li>Combined symmetry analysis with DFT+U calculations</li><li>Identified new 2D altermagnetic candidates</li></ul>
-          
-          <div class="why">Expands the limited library of 2D altermagnets, enabling spintronic applications without stray fields.</div>
-          
-          <div class="tags-row"><span class="tag">DFT</span><span class="tag">altermagnetism</span><span class="tag">high-throughput</span><span class="tag">2D materials</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2512.01631" target="_blank">高通量筛选极端有效质量材料</a></h3>
-          
-          <div class="orig">First-principles screening of materials with extreme effective masses</div>
-          
-          <div class="summary">High-throughput DFT and Wannier function screening of ~20,000 materials identifies those with extreme effective masses for electronics and thermoelectrics.</div>
-          
-          <ul class="insights"><li>Screened ~20,000 inorganic materials from Materials Cloud 3D database</li><li>Computed full conductivity effective mass tensors for electrons and holes</li><li>Identifies candidates for thermoelectrics and transparent conductors</li></ul>
-          
-          <div class="why">This work demonstrates a scalable computational pipeline combining DFT and Wannier functions to accelerate materials discovery, providing a valuable dataset for the AI-for-science community.</div>
-          
-          <div class="tags-row"><span class="tag">high-throughput</span><span class="tag">DFT</span><span class="tag">Wannier</span><span class="tag">materials-screening</span><span class="tag">thermoelectrics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv q-bio</div>
-          <h3><a href="https://arxiv.org/abs/2608.02864" target="_blank">宏观实验揭示摩尔浓度盲区</a></h3>
-          
-          <div class="orig">Experimental access to molarity's blind spot in macroscopic assays</div>
-          
-          <div class="summary">A new experimental method makes local molecular structure a controllable variable, addressing the blind spot of molarity in structured biological environments.</div>
-          
-          <ul class="insights"><li>Introduces bench-compatible method to vary local structure experimentally</li><li>Reveals chemistry-geometry crossover beyond traditional molarity</li><li>Addresses limitations of concentration-based kinetics in structured environments</li></ul>
-          
-          <div class="why">This work provides a new experimental tool for studying reactions in structured biological environments, potentially impacting drug discovery and synthetic biology by enabling more accurate kinetic measurements.</div>
-          
-          <div class="tags-row"><span class="tag">chemical kinetics</span><span class="tag">molarity</span><span class="tag">local structure</span><span class="tag">experimental method</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.03996" target="_blank">电磁逆问题降阶建模：分层介质基准</a></h3>
-          
-          <div class="orig">Reduced-order modeling for electromagnetic inverse problems: a layered medium benchmark</div>
-          
-          <div class="summary">A new benchmark for reduced-order modeling in electromagnetic inverse problems, showing ROM-based inversion outperforms classical data misfit in layered media.</div>
-          
-          <ul class="insights"><li>ROM-based objective improves reconstruction in clean and structured perturbation settings.</li><li>Benchmark uses 5-layer medium with Goupillaud structure for forward problem.</li><li>ROM approach remains competitive with classical data misfit across all cases.</li></ul>
-          
-          <div class="why">This work provides a standardized benchmark for reduced-order modeling in electromagnetic inverse problems, potentially accelerating inversion algorithms in geophysics and non-destructive testing.</div>
-          
-          <div class="tags-row"><span class="tag">reduced-order-modeling</span><span class="tag">inverse-problems</span><span class="tag">electromagnetics</span><span class="tag">benchmark</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.03308" target="_blank">BiOI气体传感器选择性DFT研究</a></h3>
-          
-          <div class="orig">Bias Tunable Transport Modulation and Gas Selectivity in Layered BiOI: A DFT NEGF Study</div>
-          
-          <div class="summary">First-principles study reveals bias-tunable gas selectivity in layered BiOI, showing adsorption strength alone doesn't determine sensing performance.</div>
-          
-          <ul class="insights"><li>NH3 and NO2 show strong chemisorption, CO2 weak physisorption</li><li>Bias voltage modulates transport response for gas selectivity</li><li>DFT+NEGF method links adsorption energetics to sensing performance</li></ul>
-          
-          <div class="why">Provides a computational framework for designing low-power, bias-tunable gas sensors, advancing AI-driven materials discovery for environmental monitoring.</div>
-          
-          <div class="tags-row"><span class="tag">DFT</span><span class="tag">NEGF</span><span class="tag">gas-sensor</span><span class="tag">materials-science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.03478" target="_blank">四方GeS₂/GeSe₂各向异性热输运研究</a></h3>
-          
-          <div class="orig">Anisotropic Phonon Heat Flow and Thermoelectric Response in Tetragonal GeS$_2$ and GeSe$_2$</div>
-          
-          <div class="summary">DFT与玻尔兹曼输运计算揭示四方GeS₂和GeSe₂的强各向异性声子热导与热电性能。</div>
-          
-          <ul class="insights"><li>HSE03带隙：GeS₂为2.48 eV，GeSe₂为1.23 eV</li><li>声子频率上限从13.6降至10.3 THz（S→Se）</li><li>300K面内热导率呈显著各向异性</li></ul>
-          
-          <div class="why">为低维热电材料设计提供理论依据，推动AI辅助材料筛选与性能预测。</div>
-          
-          <div class="tags-row"><span class="tag">DFT</span><span class="tag">thermoelectric</span><span class="tag">phonon</span><span class="tag">anisotropy</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.02849" target="_blank">可追踪张量网络计算新方法</a></h3>
-          
-          <div class="orig">Computing with traceable tensor networks</div>
-          
-          <div class="summary">Introduces a new SVD-based tensor decomposition for arbitrary graph topologies, enabling efficient PDE solving with controlled rank truncation.</div>
-          
-          <ul class="insights"><li>New SVD-based decomposition handles cycles and general connectivity in tensor networks.</li><li>Addition and rounding procedures enable step-rounding time integration for high-dimensional PDEs.</li><li>Graph-format representation matches or beats tensor train and hierarchical Tucker accuracy.</li></ul>
-          
-          <div class="why">This method extends tensor network techniques to arbitrary graphs, improving efficiency and accuracy for high-dimensional PDEs, relevant to scientific computing and AI-driven simulation.</div>
-          
-          <div class="tags-row"><span class="tag">tensor-networks</span><span class="tag">PDE</span><span class="tag">SVD</span><span class="tag">scientific-computing</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.03688" target="_blank">机器学习筛选锂电池固态电解质溶剂</a></h3>
-          
-          <div class="orig">Machine Learning-Guided Screening of Advantageous Solvents for Solid Polymer Electrolytes in Lithium Metal Batteries</div>
-          
-          <div class="summary">A machine learning model trained on ~10,000 DFT-computed solvents identifies two optimal trace solvents for solid polymer electrolytes, experimentally validated to enhance lithium battery performance.</div>
-          
-          <ul class="insights"><li>Universal criterion links HOMO/LUMO and dielectric/dipole/polarizability to solvent performance</li><li>Identified N-methoxy-N-methyl-2,2,2-trifluoroacetamide as top candidate</li><li>Experimental validation in PVDF-HFP electrolyte confirms improved ionic conductivity</li></ul>
-          
-          <div class="why">This work demonstrates a scalable ML-driven screening pipeline for battery materials, reducing reliance on trial-and-error and accelerating the discovery of high-performance solid electrolytes.</div>
-          
-          <div class="tags-row"><span class="tag">machine-learning</span><span class="tag">DFT</span><span class="tag">solid-electrolyte</span><span class="tag">lithium-battery</span><span class="tag">materials-screening</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.03638" target="_blank">SiGeSn合金热电性能评估</a></h3>
-          
-          <div class="orig">Epitaxial SiGeSn alloys for CMOS-compatible thermoelectric devices</div>
-          
-          <div class="summary">研究评估了CMOS兼容的SiGeSn合金的热电性能，通过玻尔兹曼输运方程计算其优值，为绿色IT领域集成热电设备提供可能。</div>
-          
-          <ul class="insights"><li>实验测得SiGeSn/Ge/Si层热导率约1-2 W/m·K</li><li>基于玻尔兹曼输运方程计算热电优值</li><li>考虑多谷间散射过程，适用于CMOS平台</li></ul>
-          
-          <div class="why">该研究为将热电设备集成到主流微电子平台提供了材料基础，有望推动绿色IT和能量回收技术的发展。</div>
-          
-          <div class="tags-row"><span class="tag">SiGeSn</span><span class="tag">thermoelectric</span><span class="tag">CMOS</span><span class="tag">BoltzmannTransport</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.03492" target="_blank">CrSBr中自旋手性驱动体光伏效应</a></h3>
-          
-          <div class="orig">Spin-Chirality-Driven Bulk Photovoltaic Effect in van der Waals Magnet CrSBr</div>
-          
-          <div class="summary">Theoretical study shows spin chirality in CrSBr enables tunable bulk photovoltaic effect, offering new control for optoelectronic devices.</div>
-          
-          <ul class="insights"><li>Spin chirality enables time-reversal-even BPVE with chiral shift and injection currents.</li><li>CSC and CIC magnitudes comparable to conventional BPVE, with magnetic-field tunability.</li><li>Bilayer AFM CrSBr as prototype demonstrates switchable and reversible photocurrents.</li></ul>
-          
-          <div class="why">This work introduces a new mechanism for photovoltaic effect in magnetic materials, potentially enabling novel optoelectronic and spintronic devices with external magnetic field control.</div>
-          
-          <div class="tags-row"><span class="tag">spin-chirality</span><span class="tag">BPVE</span><span class="tag">CrSBr</span><span class="tag">magnetic</span><span class="tag">photovoltaic</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.02968" target="_blank">第一性原理计算银金铜光学性质</a></h3>
-          
-          <div class="orig">Optical properties of Ag, Au, and Cu from first principles</div>
-          
-          <div class="summary">A first-principles framework combining DFT, many-body perturbation theory, and Wannier interpolation accurately predicts optical properties of Ag, Au, and Cu.</div>
-          
-          <ul class="insights"><li>Combines DFT, MBPT, and Wannier interpolation for accurate optical response</li><li>Includes phonon-assisted and Drude contributions, matching experiments</li><li>Framework applicable to other metals and optoelectronic design</li></ul>
-          
-          <div class="why">Provides a validated computational method for predicting metal optical properties, enabling faster materials discovery and optoelectronic device design without costly experiments.</div>
-          
-          <div class="tags-row"><span class="tag">DFT</span><span class="tag">many-body perturbation theory</span><span class="tag">Wannier interpolation</span><span class="tag">optical properties</span><span class="tag">materials science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.02640" target="_blank">SU3HOB-cgvcs：SU(3)基下谐振子括号计算包</a></h3>
-          
-          <div class="orig">SU3HOB-cgvcs: harmonic-oscillator brackets in the SU(3) basis with isofactors from an external SU(3)$\,\supset\,$SO(3) C</div>
-          
-          <div class="summary">A Fortran 2008 package computes Talmi-Moshinsky harmonic-oscillator brackets in SU(3) basis using external Clebsch-Gordan library, enabling nuclear structure calculations.</div>
-          
-          <ul class="insights"><li>Implements general Talmi-Moshinsky brackets for arbitrary mass-ratio parameter d</li><li>Uses SU(3)⊃SO(3) isofactors from external library via vector-coherent-state method</li><li>Reduces transformation to single sum over Wigner d-functions</li></ul>
-          
-          <div class="why">Provides a computational tool for nuclear physics and quantum many-body calculations, potentially accelerating research in nuclear structure and reactions.</div>
-          
-          <div class="tags-row"><span class="tag">nuclear physics</span><span class="tag">harmonic-oscillator</span><span class="tag">SU(3)</span><span class="tag">Fortran</span><span class="tag">computational physics</span></div>
+          <div class="tags-row"><span class="tag">mathematics</span><span class="tag">theoretical-computer-science</span><span class="tag">openai</span><span class="tag">research</span></div>
           
         </div>
       </div>
@@ -922,7 +922,7 @@
   </div>
   
 
-  <footer>Generated by Weekly AI Report Agent · 2026-08-05 12:07</footer>
+  <footer>Generated by Weekly AI Report Agent · 2026-08-05 12:10</footer>
 </div>
 
 <script>

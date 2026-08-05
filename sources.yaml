@@ -1,89 +1,98 @@
 sources:
-- articles_this_week: 2
+- articles_this_week: 0
   category: AI4Science
-  eval_score: 8
+  eval_score: 6
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/q-bio.BM
   weight: 7
-- articles_this_week: 16
+- articles_this_week: 0
   category: AI4Science
-  eval_score: 6
+  eval_score: 4
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/physics.comp-ph
   weight: 7
-- articles_this_week: 15
+- articles_this_week: 1
   category: 设计仿真
-  eval_score: 5
+  eval_score: 4
   name: NVIDIA Developer
   streak_failures: 0
   type: rss
   url: https://developer.nvidia.com/blog/feed/
   weight: 9
-- articles_this_week: 11
+- articles_this_week: 0
   category: AI4Science
-  eval_score: 5
+  eval_score: 3
   name: Demis Hassabis (Nitter)
   note: DeepMind CEO
-  streak_failures: 0
+  streak_failures: 1
   type: nitter_rss
   url: https://nitter.net/demishassabis/rss
   weight: 9
-- articles_this_week: 11
+- articles_this_week: 0
   category: AI4Science
-  eval_score: 5
+  eval_score: 3
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
   weight: 7
-- articles_this_week: 10
-  category: LLM
-  eval_score: 4
-  name: arXiv cs.CL
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.CL
-  weight: 8
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: arxiv.org
-  streak_failures: 2
-  type: rss
-  url: https://arxiv.org/list/physics.chem-ph/recent
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.science.org
-  streak_failures: 2
-  type: rss
-  url: https://www.science.org/journal/sciadv
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: arxiv.org
+  streak_failures: 1
   type: rss
   url: https://arxiv.org/list/cs.LG/recent
   weight: 5
-- category: LLM
+- articles_this_week: 0
+  category: LLM
   discovered_by: agent
+  eval_score: 3
   name: www.nature.com
+  streak_failures: 1
   type: rss
   url: https://www.nature.com/natmachintell/
   weight: 5
-- category: LLM
+- articles_this_week: 0
+  category: LLM
   discovered_by: agent
+  eval_score: 3
   name: www.science.org
+  streak_failures: 1
   type: rss
   url: https://www.science.org/journal/scirobotics
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  eval_score: 2
+  name: arXiv cs.CL
+  streak_failures: 1
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.CL
+  weight: 8
+- category: LLM
+  discovered_by: agent
+  name: blogs.nvidia.com
+  type: rss
+  url: https://blogs.nvidia.com/blog/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: www.marktechpost.com
+  type: rss
+  url: https://www.marktechpost.com/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: arxiv.org
+  type: rss
+  url: https://arxiv.org/list/cs.AI/recent
   weight: 5

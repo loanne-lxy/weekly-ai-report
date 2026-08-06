@@ -1,42 +1,95 @@
 sources:
 - articles_this_week: 15
   category: LLM
-  eval_score: 8
+  eval_score: 9
   name: OpenAI Blog
   streak_failures: 0
   type: rss
   url: https://openai.com/blog/rss.xml
   weight: 9
-- articles_this_week: 3
+- articles_this_week: 4
   category: AI4Science
-  eval_score: 8
+  eval_score: 9
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
   streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/q-bio.BM
   weight: 7
-- articles_this_week: 14
+- articles_this_week: 26
   category: AI4Science
-  eval_score: 8
+  eval_score: 9
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
   streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/physics.comp-ph
   weight: 7
-- articles_this_week: 9
+- articles_this_week: 24
   category: AI4Science
-  eval_score: 8
+  eval_score: 9
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
   streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
   weight: 7
+- articles_this_week: 3
+  category: LLM
+  discovered_by: agent
+  eval_score: 9
+  github_subtype: github_trending
+  name: GitHub Trending
+  streak_failures: 0
+  type: github
+  weight: 8
+- articles_this_week: 5
+  category: Agent
+  discovered_by: agent
+  eval_score: 9
+  github_owner: langchain-ai
+  github_repo: langchain
+  github_subtype: github_repo
+  name: LangChain (GitHub)
+  streak_failures: 0
+  type: github
+  weight: 8
+- articles_this_week: 16
+  category: Agent
+  discovered_by: agent
+  eval_score: 9
+  github_owner: microsoft
+  github_repo: autogen
+  github_subtype: github_repo
+  name: AutoGen (GitHub)
+  streak_failures: 0
+  type: github
+  weight: 8
+- articles_this_week: 7
+  category: Agent
+  discovered_by: agent
+  eval_score: 8
+  github_owner: crewAIInc
+  github_repo: crewAI
+  github_subtype: github_repo
+  name: CrewAI (GitHub)
+  streak_failures: 0
+  type: github
+  weight: 7
+- articles_this_week: 1
+  category: LLM
+  discovered_by: agent
+  eval_score: 8
+  github_owner: huggingface
+  github_repo: transformers
+  github_subtype: github_repo
+  name: HuggingFace Transformers (GitHub)
+  streak_failures: 0
+  type: github
+  weight: 9
 - articles_this_week: 1
   category: AI4Science
-  eval_score: 4
+  eval_score: 3
   name: DP Technology (深势科技) Blog
   note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
   streak_failures: 0
@@ -47,65 +100,56 @@ sources:
   category: LLM
   discovered_by: agent
   eval_score: 3
-  name: openai.com
+  name: arxiv.org
   streak_failures: 1
+  type: rss
+  url: https://arxiv.org/list/cs.CE/recent
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: www.science.org
+  streak_failures: 1
+  type: rss
+  url: https://www.science.org/journal/scirobotics
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: openai.com
+  streak_failures: 2
   type: rss
   url: https://openai.com/blog/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.quantamagazine.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.quantamagazine.org/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: blog.google
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://blog.google/technology/ai/
   weight: 5
 - articles_this_week: 1
   category: 数字孪生
-  eval_score: 2
+  eval_score: 1
   name: Digital Twin Consortium
   note: 全球最具影响力的数字孪生跨行业组织，发布架构指南/白皮书
   streak_failures: 0
   type: web
   url: https://www.digitaltwinconsortium.org/
   weight: 9
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: arxiv.org
-  streak_failures: 2
-  type: rss
-  url: https://arxiv.org/list/cs.LG/recent
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.nature.com
-  streak_failures: 2
-  type: rss
-  url: https://www.nature.com/npj-comput-mater/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: pubs.aip.org
-  streak_failures: 2
-  type: rss
-  url: https://pubs.aip.org/aip/jap
-  weight: 5
 - articles_this_week: 1
   category: 数字孪生
   eval_score: 0
@@ -119,11 +163,17 @@ sources:
   discovered_by: agent
   name: arxiv.org
   type: rss
-  url: https://arxiv.org/list/cs.CE/recent
+  url: https://arxiv.org/list/physics.comp-ph/recent
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: www.science.org
+  name: www.nature.com
   type: rss
-  url: https://www.science.org/journal/sciadv
+  url: https://www.nature.com/npj-comput-mater/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: pubs.aip.org
+  type: rss
+  url: https://pubs.aip.org/aip/jcp
   weight: 5

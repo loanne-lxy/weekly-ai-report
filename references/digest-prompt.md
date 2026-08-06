@@ -8,7 +8,7 @@ Every article must be output as a single JSON object with all fields populated. 
 | Field | Type | Description | Constraints |
 |-------|------|-------------|-------------|
 | `is_relevant` | boolean | Whether article belongs to any of the 5 domains | Must be `true` for processing |
-| `priority_score` | integer 1-5 | Importance relative to other articles this week | LLM/Agent content boosted by +1 minimum |
+| `priority_score` | integer 1-10 | Importance relative to other articles this week | LLM/Agent content boosted by +2 minimum |
 | `primary_category` | string | Main domain classification | One of: LLM, Agent, AI for Science, Design Simulation, Digital Twin |
 | `secondary_category` | string or null | Cross-domain label if applicable | Optional |
 | `chinese_title` | string | Accurate Chinese headline | Under 25 characters, fact-based, no clickbait |
@@ -29,11 +29,16 @@ Every article must be output as a single JSON object with all fields populated. 
 
 | Score | Criteria | Example |
 |-------|----------|---------|
-| 5 | Paradigm-shifting breakthrough, new SOTA by wide margin, major acquisition/funding | GPT-5 architecture reveal, AlphaFold 3, $1B+ funding |
-| 4 | Significant new model/framework release, top-conference Best Paper, major partnership | Claude 4 release, LangChain v1.0, NeurIPS oral |
-| 3 | Notable improvement, new benchmark, company strategy announcement | Mixtral fine-tune, new eval dataset, product launch |
-| 2 | Incremental update, opinion piece from authority, tutorial with insight | Blog post by Karpathy, minor version bump |
-| 1 | General news, roundup, low-signal announcement | "Company X announces AI strategy" without details |
+| 10 | Paradigm-shifting breakthrough, new SOTA by wide margin, major acquisition/funding | GPT-5 architecture reveal, AlphaFold 3, $1B+ funding |
+| 9 | Major model/framework release with broad impact, top-conference Best Paper | Claude 4 release, NeurIPS oral, major open-weight release |
+| 8 | Significant new model/tool/method, important partnership or product launch | LangChain v1.0, Anthropic MCP protocol, OpenAI Realtime API |
+| 7 | Notable improvement, new benchmark result, company strategy with substance | Mixtral fine-tune, new eval dataset, NVIDIA GPU roadmap |
+| 6 | Good incremental update, solid feature addition, interesting research result | Karpathy blog post with code, arXiv paper with novel method |
+| 5 | New release with modest impact, tooling update | Minor version bump with notable changes |
+| 4 | Opinion piece with insight from authority, tutorial | Industry analysis by known researcher |
+| 3 | General news with some technical detail | Product announcement with some technical content |
+| 2 | Low-signal announcement, generic roundup | "Company X announces AI strategy" without detail |
+| 1 | Marketing fluff, pure PR, no technical substance | Press release with no technical content |
 
 ## Chinese Title Guidelines
 - Translate the core technical achievement, not the clickbait headline

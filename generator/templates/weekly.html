@@ -142,7 +142,7 @@
     {% endif %}
     <div class="article-list" data-cat="{{ c }}" data-per-page="5">
       {% for a in arts %}
-      {% set imp = a.get('importance',5)|int * 2 %}
+      {% set imp = a.get('importance',5)|int %}
       <div class="card{% if a.get('carried_over') %} carried{% endif %}">
         <div class="score {% if imp>=8 %}score-hi{% elif imp>=5 %}score-md{% else %}score-lo{% endif %}">{{ imp }}</div>
         <div class="card-body">

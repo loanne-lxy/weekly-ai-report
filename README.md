@@ -70,3 +70,7 @@ git add output/ && git commit -m "update report" && git push
 ```
 
 Auto-deployed to https://loanne-lxy.github.io/weekly-ai-report/
+
+---
+
+Built during internship at **TCL Research, Wuhan** · 2026

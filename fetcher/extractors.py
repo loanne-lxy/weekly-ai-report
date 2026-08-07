@@ -3,6 +3,7 @@
 Each extractor only implements extract(session, source) → list[RawItem].
 Retry, dedup, cache, normalize are handled by pipeline.py.
 """
+import asyncio
 import logging
 from datetime import datetime, timezone
 from typing import Optional

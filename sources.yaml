@@ -7,7 +7,7 @@ sources:
   type: rss
   url: https://openai.com/blog/rss.xml
   weight: 9
-- articles_this_week: 4
+- articles_this_week: 5
   category: AI4Science
   eval_score: 10
   name: arXiv q-bio
@@ -16,7 +16,7 @@ sources:
   type: rss
   url: https://rss.arxiv.org/rss/q-bio.BM
   weight: 7
-- articles_this_week: 26
+- articles_this_week: 41
   category: AI4Science
   eval_score: 10
   name: arXiv physics.comp-ph
@@ -25,7 +25,7 @@ sources:
   type: rss
   url: https://rss.arxiv.org/rss/physics.comp-ph
   weight: 7
-- articles_this_week: 24
+- articles_this_week: 31
   category: AI4Science
   eval_score: 10
   name: arXiv cond-mat.mtrl-sci
@@ -68,7 +68,7 @@ sources:
 - articles_this_week: 7
   category: Agent
   discovered_by: agent
-  eval_score: 9
+  eval_score: 10
   github_owner: crewAIInc
   github_repo: crewAI
   github_subtype: github_repo
@@ -79,7 +79,7 @@ sources:
 - articles_this_week: 1
   category: LLM
   discovered_by: agent
-  eval_score: 7
+  eval_score: 6
   github_owner: huggingface
   github_repo: transformers
   github_subtype: github_repo
@@ -91,56 +91,65 @@ sources:
   category: LLM
   discovered_by: agent
   eval_score: 3
-  name: arxiv.org
+  name: blog.langchain.com
   streak_failures: 1
+  type: rss
+  url: https://blog.langchain.com/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: openai.com
+  streak_failures: 1
+  type: rss
+  url: https://openai.com/blog/
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: github.com
+  streak_failures: 1
+  type: rss
+  url: https://github.com/trending/python
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: arxiv.org
+  streak_failures: 2
   type: rss
   url: https://arxiv.org/list/physics.comp-ph/recent
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.nature.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.nature.com/npj-comput-mater/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: pubs.aip.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://pubs.aip.org/aip/jcp
   weight: 5
 - articles_this_week: 1
   category: AI4Science
-  eval_score: 2
+  eval_score: 1
   name: DP Technology (深势科技) Blog
   note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
   streak_failures: 0
   type: web
   url: https://www.dp.tech/en
   weight: 8
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: arxiv.org
-  streak_failures: 2
-  type: rss
-  url: https://arxiv.org/list/cs.CE/recent
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.science.org
-  streak_failures: 2
-  type: rss
-  url: https://www.science.org/journal/scirobotics
-  weight: 5
 - articles_this_week: 1
   category: 数字孪生
   eval_score: 0
@@ -161,19 +170,19 @@ sources:
   weight: 7
 - category: LLM
   discovered_by: agent
-  name: blog.langchain.com
+  name: www.nature.com
   type: rss
-  url: https://blog.langchain.com/
+  url: https://www.nature.com/npj-comput-materials/
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: openai.com
+  name: www.materialsdesign.com
   type: rss
-  url: https://openai.com/blog/
+  url: https://www.materialsdesign.com/publications
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: github.com
+  name: www.aip.org
   type: rss
-  url: https://github.com/trending/python
+  url: https://www.aip.org/publishing/journals
   weight: 5

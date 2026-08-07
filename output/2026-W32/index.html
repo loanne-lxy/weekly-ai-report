@@ -96,7 +96,7 @@
   <header>
     <div class="week">2026-W32</div>
     <h1>AI 前沿资讯周报</h1>
-    <p class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 108 篇</p>
+    <p class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 109 篇</p>
   </header>
 
   <div class="trends">
@@ -120,7 +120,7 @@
       <div class="t">
         <div class="dot" style="background:#34a853"></div>
         <div class="label">AI for Science</div>
-        <div class="kw">第一性原理</div>
+        <div class="kw">科学智能体</div>
       </div>
       
       <div class="t">
@@ -147,7 +147,7 @@
     <div class="s"><div class="n" style="color:#9334e6">40</div><div class="l">Agent</div></div>
     
     
-    <div class="s"><div class="n" style="color:#0d904f">37</div><div class="l">AI for Science</div></div>
+    <div class="s"><div class="n" style="color:#0d904f">56</div><div class="l">AI for Science</div></div>
     
     
     <div class="s"><div class="n" style="color:#e37400">1</div><div class="l">设计仿真</div></div>
@@ -167,6 +167,8 @@
       <span class="badge bg-blue">11</span>
     </div>
 
+    
+    <div class="sec-summary">本周LLM领域聚焦GPT-5.6的Sol改进与Luna免费开放，同时深度学习与Hamilton-Jacobi理论建立精确对应，OpenAI发布全球使用趋势数据，并涌现加速角描述符与铁电钙钛矿建模精度提升等前沿进展。</div>
     
 
     
@@ -408,6 +410,8 @@
       <span class="badge bg-purple">40</span>
     </div>
 
+    
+    <div class="sec-summary">本周智能体领域聚焦开源框架与工程实践，Hermes Agent、Superpowers及.agents目录等工具推动智能体可成长性与跨平台性能优化，同时Karpathy编码经验注入Claude Code强化实战能力。</div>
     
 
     
@@ -1226,15 +1230,397 @@
     <div class="sec-h b-green">
       <span class="icon">🔬</span>
       <h2>AI for Science</h2>
-      <span class="badge bg-green">37</span>
+      <span class="badge bg-green">56</span>
     </div>
 
+    
+    <div class="sec-summary">本周AI for Science领域聚焦于小模型微调、神经算子求解、动力学重构、量子粗粒化及智能体泛化等前沿突破。</div>
     
 
     
     
     
     <div class="article-list" data-cat="green" data-per-page="5">
+      
+      
+      <div class="card">
+        <div class="score score-hi">8</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.05387" target="_blank">微调小模型生成VASP INCAR文件超越大模型</a></h3>
+          
+          <div class="orig">Fine-Tuning Small Language Models for Reliable VASP INCAR Generation</div>
+          
+          <div class="summary">Fine-tuned small language model with deterministic post-processor outperforms large models on VASP INCAR generation benchmark.</div>
+          
+          <ul class="insights"><li>INCAR-SLM (Qwen3-4B) beats all general LLMs on INCARBench</li><li>VASPGuard post-processor enforces syntax and material constraints</li><li>Enables local, private, offline high-throughput materials workflows</li></ul>
+          
+          <div class="why">Demonstrates that small, fine-tuned models with deterministic guardrails can replace large proprietary models in specialized scientific tasks, enabling private and cost-effective deployment in materials science.</div>
+          
+          <div class="tags-row"><span class="tag">fine-tuning</span><span class="tag">materials science</span><span class="tag">VASP</span><span class="tag">small language model</span><span class="tag">scientific computing</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-hi">8</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.05555" target="_blank">毫秒级神经算子求解托卡马克平衡方程</a></h3>
+          
+          <div class="orig">Millisecond-Scale Neural Operator Surrogates for Double-Null Free-Boundary Grad-Shafranov Equilibria</div>
+          
+          <div class="summary">Fourier神经算子代理模型实现毫秒级双零自由边界Grad-Shafranov平衡求解，加速等离子体模拟。</div>
+          
+          <ul class="insights"><li>FNO模型将GS方程求解从非线性迭代加速至毫秒级</li><li>几何条件化输入支持X点位置和操作参数约束</li><li>基于FreeGS生成受控双零平衡数据集训练</li></ul>
+          
+          <div class="why">该研究为托卡马克等离子体控制与优化提供实时代理模型，突破传统求解器计算瓶颈，推动聚变能研究中的AI应用。</div>
+          
+          <div class="tags-row"><span class="tag">FNO</span><span class="tag">Grad-Shafranov</span><span class="tag">tokamak</span><span class="tag">surrogate model</span><span class="tag">plasma simulation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.05477" target="_blank">基于Takens定理的动力学系统重构框架</a></h3>
+          
+          <div class="orig">Data-driven reconstruction of dynamical systems using Takens' Theorem, manifold learning, and universal function approxi</div>
+          
+          <div class="summary">A new algorithmic framework integrates Takens' theorem, manifold learning, and universal approximators to reconstruct dynamical systems from low-dimensional time series.</div>
+          
+          <ul class="insights"><li>TAR framework combines Takens' embedding, manifold learning, and universal function approximators</li><li>Validated on simulated and observed dynamical systems</li><li>Provides guidance on observable choice and embedding construction</li></ul>
+          
+          <div class="why">This framework offers a principled method for reconstructing dynamical systems from limited observations, potentially advancing scientific modeling and prediction in complex systems.</div>
+          
+          <div class="tags-row"><span class="tag">TakensTheorem</span><span class="tag">ManifoldLearning</span><span class="tag">DynamicalSystems</span><span class="tag">TimeSeries</span><span class="tag">AIForScience</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv q-bio</div>
+          <h3><a href="https://arxiv.org/abs/2608.05491" target="_blank">量子电路框架实现蛋白质系综能量学粗粒化</a></h3>
+          
+          <div class="orig">A Quantum Circuit Framework for Protein Ensemble-Level Energetics</div>
+          
+          <div class="summary">A new quantum circuit framework coarse-grains protein thermodynamics at residue level, encoding solvation states and contacts for ensemble energetics.</div>
+          
+          <ul class="insights"><li>Residue-level two-state qubit representation based on solvation energetics</li><li>Structure-informed entanglement block encodes covalent and non-covalent contacts</li><li>Aims to capture ensemble heterogeneity beyond single-structure quantum approaches</li></ul>
+          
+          <div class="why">This work bridges quantum computing and protein biophysics, offering a scalable path to model conformational ensembles, which is critical for drug discovery and understanding protein function.</div>
+          
+          <div class="tags-row"><span class="tag">quantum computing</span><span class="tag">protein dynamics</span><span class="tag">coarse-graining</span><span class="tag">drug discovery</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.05266" target="_blank">自驱动显微镜智能体基准测试揭示泛化局限</a></h3>
+          
+          <div class="orig">Agentic self-driving microscopy benchmarks support qualification but do not necessarily generalize to unseen tasks</div>
+          
+          <div class="summary">研究评估了LLM智能体控制显微镜的性能，发现基准测试虽能验证已知任务，但无法保证对未见任务的泛化能力。</div>
+          
+          <ul class="insights"><li>提出用于自驱动显微镜智能体的基准测试框架</li><li>发现智能体在已知任务上表现良好，但泛化到新任务时性能下降</li><li>强调设计智能体时需考虑泛化能力，而非仅优化基准分数</li></ul>
+          
+          <div class="why">该研究为科学仪器自动化中的智能体评估提供了方法论，提醒研究者基准测试的局限性，对AI for Science领域的智能体开发具有指导意义。</div>
+          
+          <div class="tags-row"><span class="tag">LLM</span><span class="tag">Agent</span><span class="tag">Microscopy</span><span class="tag">Benchmark</span><span class="tag">Generalization</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.05398" target="_blank">FESTIM框架模拟ARC包层氚输运</a></h3>
+          
+          <div class="orig">Multiphysics tritium transport modelling of the ARC breeding blanket with FESTIM</div>
+          
+          <div class="summary">Open-source multiphysics framework couples OpenMC, OpenFOAM, FESTIM to model tritium transport in ARC fusion blanket, predicting 243 mg inventory.</div>
+          
+          <ul class="insights"><li>Open-source coupling of OpenMC, OpenFOAM, FESTIM for tritium transport</li><li>Steady-state tritium inventory ~243 mg in ARC blanket</li><li>Blanket reaches steady-state throughput in ~30 minutes</li></ul>
+          
+          <div class="why">Provides a validated open-source tool for fusion blanket design, enabling accurate tritium inventory prediction critical for safety and efficiency in ARC-class reactors.</div>
+          
+          <div class="tags-row"><span class="tag">multiphysics</span><span class="tag">fusion</span><span class="tag">tritium</span><span class="tag">open-source</span><span class="tag">simulation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2506.03014" target="_blank">量子虚时演化收敛性证明</a></h3>
+          
+          <div class="orig">Convergence and efficiency proof of quantum imaginary time evolution for bounded order systems</div>
+          
+          <div class="summary">arXiv论文证明量子虚时演化在满足特定条件下可收敛至全局最小值，适用于物理、化学和组合优化等应用。</div>
+          
+          <ul class="insights"><li>证明量子虚时演化可避免局部极小值问题</li><li>适用于基态制备、组合优化和量子机器学习</li><li>提供收敛性保证，克服资源指数增长障碍</li></ul>
+          
+          <div class="why">该研究为量子计算在科学模拟中的可靠性提供了理论基础，可能推动量子算法在化学和物理模拟中的实际应用。</div>
+          
+          <div class="tags-row"><span class="tag">quantum computing</span><span class="tag">imaginary time evolution</span><span class="tag">convergence</span><span class="tag">optimization</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.06274" target="_blank">科学神经代理的相干函数空间后验方法</a></h3>
+          
+          <div class="orig">NestyNet. II. Coherent Function-Space Posteriors from Scientific Neural Surrogates (or How to Avoid Expensive MCMC)</div>
+          
+          <div class="summary">提出一种低维函数空间后验方法，避免昂贵MCMC，用于科学神经替代模型的不确定性量化。</div>
+          
+          <ul class="insights"><li>利用二阶优化训练的科学神经替代模型，线性化拟合过程构建测量到函数的传输映射</li><li>通过雅可比和高斯-牛顿曲率组装线性映射，主导奇异函数定义相干变形模式</li><li>独立高斯系数生成平滑函数扰动，实现高效的不确定性传播</li></ul>
+          
+          <div class="why">该方法为科学机器学习中的不确定性量化提供了可扩展的替代方案，避免了传统MCMC的计算瓶颈，有望加速科学代理模型在物理、工程等领域的可靠应用。</div>
+          
+          <div class="tags-row"><span class="tag">uncertainty quantification</span><span class="tag">neural surrogates</span><span class="tag">bayesian inference</span><span class="tag">scientific machine learning</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2604.24138" target="_blank">同步分子动力学方法模拟复杂流体薄膜流</a></h3>
+          
+          <div class="orig">Synchronized molecular dynamics method for thin-layer flows of complex fluids</div>
+          
+          <div class="summary">提出同步分子动力学方法，耦合局部MD模拟与宏观润滑理论，高效模拟复杂流体薄膜流。</div>
+          
+          <ul class="insights"><li>多尺度耦合：局部MD与宏观守恒律同步，减少计算成本</li><li>迭代更新外力以强制执行连续性方程，保证一致性</li><li>适用于复杂流体薄膜流动，提升模拟效率</li></ul>
+          
+          <div class="why">该方法为复杂流体薄膜流动提供高效多尺度模拟框架，有望加速微流控和涂层等工业应用中的设计优化。</div>
+          
+          <div class="tags-row"><span class="tag">MolecularDynamics</span><span class="tag">Multiscale</span><span class="tag">Simulation</span><span class="tag">ThinFilm</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2604.14083" target="_blank">分布逆均匀化：从宏观性质反推微观结构</a></h3>
+          
+          <div class="orig">Distributional Inverse Homogenization</div>
+          
+          <div class="summary">A new noninvasive method to recover microstructure from macroscopic properties using distributional inverse homogenization.</div>
+          
+          <ul class="insights"><li>Develops a noninvasive method for inverse homogenization</li><li>Recovers microstructure from macroscopic mechanical properties</li><li>Potential to reduce need for invasive localized investigations</li></ul>
+          
+          <div class="why">This work bridges AI and materials science, offering a noninvasive way to infer microstructure, which could accelerate materials design and reduce reliance on destructive testing.</div>
+          
+          <div class="tags-row"><span class="tag">inverse-homogenization</span><span class="tag">microstructure</span><span class="tag">materials-design</span><span class="tag">simulation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">7</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.05320" target="_blank">六方金刚石NV中心实现长相干时间</a></h3>
+          
+          <div class="orig">Nitrogen Vacancy Centers in Hexagonal Diamond Exhibit Long Coherence Times</div>
+          
+          <div class="summary">First-principles study shows NV centers in lonsdaleite can achieve ~4x longer coherence times, promising for quantum computing.</div>
+          
+          <ul class="insights"><li>AB configuration in lonsdaleite shows 4x T2 enhancement at zero field</li><li>AA configuration mimics cubic diamond NV center properties</li><li>First-principles calculations reveal reduced symmetry effects</li></ul>
+          
+          <div class="why">This research identifies a new material platform for spin qubits with significantly improved coherence, potentially advancing quantum computing and sensing technologies.</div>
+          
+          <div class="tags-row"><span class="tag">quantum computing</span><span class="tag">NV center</span><span class="tag">first-principles</span><span class="tag">spin qubit</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.05957" target="_blank">ASE2SPRKKR：集成自旋极化相对论KKR方法于原子模拟环境</a></h3>
+          
+          <div class="orig">ASE2SPRKKR: a unified Python framework integrating the Spin-Polarized Relativistic Korringa-Kohn-Rostoker method into th</div>
+          
+          <div class="summary">A new Python framework integrates the SPR-KKR ab-initio method into ASE, enabling efficient treatment of chemical disorder and finite-temperature magnetism.</div>
+          
+          <ul class="insights"><li>Provides unified Python interface for SPR-KKR within ASE</li><li>Extends Atoms object for fractional site occupations in CPA calculations</li><li>Enables accessible ab-initio simulations of disordered magnetic solids</li></ul>
+          
+          <div class="why">This integration lowers the barrier for materials scientists to use advanced KKR methods, potentially accelerating research in disordered alloys and magnetic materials.</div>
+          
+          <div class="tags-row"><span class="tag">materials-science</span><span class="tag">ab-initio</span><span class="tag">python-framework</span><span class="tag">magnetism</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.05918" target="_blank">Jsymm：磁性哈密顿量交换张量对称性分析工具</a></h3>
+          
+          <div class="orig">Jsymm: A Python package for symmetry analysis of exchange tensors in magnetic Hamiltonians</div>
+          
+          <div class="summary">Jsymm是一个Python包，直接从晶体学数据推导磁性哈密顿量中交换张量的最一般对称兼容形式，简化第一性原理计算。</div>
+          
+          <ul class="insights"><li>自动生成Dzyaloshinskii-Moriya和各向异性海森堡交换张量的符号形式</li><li>基于晶体对称性约束，显著降低磁性材料第一性原理计算成本</li><li>适用于所有磁性离子键合，并输出相关对称等价键的张量</li></ul>
+          
+          <div class="why">该工具为磁性材料研究提供了自动化对称性分析，加速了新型磁性和自旋电子学材料的计算设计，是AI for Science在凝聚态物理中的实际应用。</div>
+          
+          <div class="tags-row"><span class="tag">symmetry analysis</span><span class="tag">exchange tensor</span><span class="tag">magnetic Hamiltonian</span><span class="tag">python package</span><span class="tag">first-principles</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.05305" target="_blank">AlF3插层石墨的协同吸附与扩散捕获机制</a></h3>
+          
+          <div class="orig">Cooperative adsorption and diffusion trapping induced by AlF3 intercalation in graphite</div>
+          
+          <div class="summary">First-principles DFT study reveals how AlF3 intercalation in graphite induces cooperative adsorption and diffusion trapping, explaining a two-step self-limiting sorption mechanism.</div>
+          
+          <ul class="insights"><li>DFT-D3 shows single AlF3 intercalation causes blister-like surface deformation in graphite.</li><li>Intercalation locally alters electronic structure and diffusion behavior, enabling cooperative adsorption.</li><li>Mechanism explains two-step self-limiting sorption observed experimentally.</li></ul>
+          
+          <div class="why">Provides atomic-level understanding of intercalation-adsorption coupling in carbon electrodes, potentially guiding design of better battery and sorption materials.</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">graphite</span><span class="tag">intercalation</span><span class="tag">adsorption</span><span class="tag">materials science</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.05682" target="_blank">约束密度泛函理论的新阻尼子空间分裂算法</a></h3>
+          
+          <div class="orig">A Damped Subspace Splitting Algorithm for Constrained Density Functional Theory</div>
+          
+          <div class="summary">提出一种阻尼子空间分裂算法，用于高效求解约束密度泛函理论中的非凸优化问题，改善收敛性和约束满足精度。</div>
+          
+          <ul class="insights"><li>利用旋转不变性推导子空间分裂重构，解耦Stiefel流形与二次约束</li><li>新算法避免双循环结构，提高约束满足精度和收敛性</li><li>适用于电子激发态和电荷局域态模拟，加速材料与化学计算</li></ul>
+          
+          <div class="why">该算法为CDFT计算提供了更稳定高效的求解器，有望推动激发态和电荷转移模拟在材料科学和量子化学中的广泛应用。</div>
+          
+          <div class="tags-row"><span class="tag">CDFT</span><span class="tag">optimization</span><span class="tag">Stiefel manifold</span><span class="tag">subspace splitting</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.06118" target="_blank">氪相图计算揭示新型塑性机制</a></h3>
+          
+          <div class="orig">Calculations of the Krypton Phase Diagram and Novel Plasticity</div>
+          
+          <div class="summary">A computational study of krypton's phase diagram using multiple methods reveals novel 'greedy snake' defects in the bcc phase, offering new insights into melt-curve anomalies.</div>
+          
+          <ul class="insights"><li>Combines direct coexistence, Gibbs-Helmholtz integration, and quasiharmonic approximation for phase diagram</li><li>Identifies highly mobile 'greedy snake' defects in bcc phase, reinterpreting melt-curve anomaly</li><li>Provides benchmark for two-body potential accuracy in noble gas simulations</li></ul>
+          
+          <div class="why">This work advances computational materials science by demonstrating a robust multi-method approach for phase diagram construction and uncovering a novel defect mechanism that could inform future simulations of plasticity and phase transitions.</div>
+          
+          <div class="tags-row"><span class="tag">phase diagram</span><span class="tag">molecular dynamics</span><span class="tag">defects</span><span class="tag">simulation</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2608.05749" target="_blank">可编程电子光学横向量子态表征</a></h3>
+          
+          <div class="orig">Transverse quantum-state characterization of programmable electron optics</div>
+          
+          <div class="summary">Researchers reconstruct the transverse density matrix of a programmable electron phase plate using mixed-state ptychography, revealing significant beam purity loss with applied bias.</div>
+          
+          <ul class="insights"><li>Mixed-state ptychography reconstructs transverse density matrix from single 4D-STEM scan per state.</li><li>Beam purity drops from ~0.47 to ~0.24 as bias increases, challenging fixed source-blur model.</li><li>Real-space coherence width remains ~1 nm, enabling device calibration without added hardware.</li></ul>
+          
+          <div class="why">This work provides the first measurement of quantum state purity in programmable electron optics, critical for advancing dose-efficient phase imaging and shaped-electron X-ray sources. It offers a calibration method that could improve the design and application of such devices in materials science and beyond.</div>
+          
+          <div class="tags-row"><span class="tag">ptychography</span><span class="tag">electron optics</span><span class="tag">quantum state</span><span class="tag">coherence</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv physics.comp-ph</div>
+          <h3><a href="https://arxiv.org/abs/2607.01346" target="_blank">宏微观分解混合输运方法</a></h3>
+          
+          <div class="orig">Hybrid Two-Level Transport Method with Solution Decomposition in Macro and Micro Components</div>
+          
+          <div class="summary">提出一种混合蒙特卡罗/确定性方法，通过宏微观分解求解玻尔兹曼输运方程，数值结果验证有效性。</div>
+          
+          <ul class="insights"><li>宏分量用P1近似和低阶矩方程精确闭合</li><li>微分量用蒙特卡罗模拟求解</li><li>固定点迭代求解混合两级系统</li></ul>
+          
+          <div class="why">该方法为粒子输运模拟提供新思路，可能提升计算效率，对核工程和辐射屏蔽等领域有应用价值。</div>
+          
+          <div class="tags-row"><span class="tag">Boltzmann</span><span class="tag">MonteCarlo</span><span class="tag">transport</span><span class="tag">P1</span></div>
+          
+        </div>
+      </div>
+      
+      
+      <div class="card">
+        <div class="score score-md">6</div>
+        <div class="card-body">
+          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
+          <h3><a href="https://arxiv.org/abs/2608.06309" target="_blank">金属配位对层状单原子催化剂稳定性与活性的影响</a></h3>
+          
+          <div class="orig">Metal-Coordination Effects on the Stability and ORR/OER Activity of Layered Organometallic Single-Atom Catalysts: A Theo</div>
+          
+          <div class="summary">DFT研究揭示金属配位环境对层状有机金属单原子催化剂在ORR/OER中的稳定性与活性权衡。</div>
+          
+          <ul class="insights"><li>MN4与MO4配位影响催化剂的电化学稳定性与活性</li><li>表面Pourbaix分析评估了不同金属（Mn-Zn）的稳定性</li><li>计算氢电极方法用于评估ORR/OER活性</li></ul>
+          
+          <div class="why">该研究为设计高稳定性、高活性的单原子催化剂提供了理论指导，对清洁能源领域的催化剂开发具有重要意义。</div>
+          
+          <div class="tags-row"><span class="tag">DFT</span><span class="tag">single-atom catalysts</span><span class="tag">ORR</span><span class="tag">OER</span><span class="tag">stability</span></div>
+          
+        </div>
+      </div>
       
       
       <div class="card">
@@ -2056,7 +2442,7 @@
   </div>
   
 
-  <footer>Generated by Weekly AI Report Agent · 2026-08-07 15:23</footer>
+  <footer>Generated by Weekly AI Report Agent · 2026-08-07 16:13</footer>
 </div>
 
 <script>

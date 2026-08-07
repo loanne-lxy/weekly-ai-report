@@ -5,7 +5,7 @@ import logging
 import argparse
 from datetime import datetime, timezone
 
-from fetcher.fetcher import fetch_all
+from fetcher import fetch_all
 from dedup.deduplicator import Deduplicator
 from filter.source_priority import filter_and_weight as source_priority_filter
 from filter.keyword_filter import score_and_filter as keyword_filter

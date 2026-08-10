@@ -30,18 +30,18 @@ class LLMClient:
         cfg = config["model"]
         self.provider = cfg.get("provider", "openai")
 
-        api_key = cfg.get("api_key", "")
+        api_key = cfg.get("api_key", "") or ""
         if api_key.startswith("${") and api_key.endswith("}"):
             api_key = os.environ.get(api_key[2:-1], "")
 
-        if self.provider != "ollama" and (not api_key or api_key == "ollama"):
+        if self.provider not in ("ollama", "custom") and (not api_key or api_key == "ollama"):
             raise RuntimeError(
                 "API key not found. Set DEEPSEEK_API_KEY in .env file "
                 "or export DEEPSEEK_API_KEY=xxx"
             )
 
         raw_client = OpenAI(
-            api_key=api_key,
+            api_key=api_key or "none",  # "none" is fine for custom endpoints
             base_url=cfg.get("base_url", "http://localhost:11434/v1"),
         )
 

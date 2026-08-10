@@ -68,7 +68,7 @@ sources:
 - articles_this_week: 4
   category: Agent
   discovered_by: agent
-  eval_score: 6
+  eval_score: 8
   github_owner: langchain-ai
   github_repo: langchain
   github_subtype: github_repo
@@ -79,7 +79,7 @@ sources:
 - articles_this_week: 10
   category: LLM
   discovered_by: agent
-  eval_score: 6
+  eval_score: 8
   github_owner: huggingface
   github_repo: transformers
   github_subtype: github_repo
@@ -90,27 +90,27 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: www.nature.com
-  streak_failures: 2
+  streak_failures: 1
   type: rss
   url: https://www.nature.com/natmachintell/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: www.sciml.ai
-  streak_failures: 2
+  streak_failures: 1
   type: rss
   url: https://www.sciml.ai/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: www.aiforscience.org
-  streak_failures: 2
+  streak_failures: 1
   type: rss
   url: https://www.aiforscience.org/ -> I'll change to `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll use `https://www.aiforscience.org/`?
@@ -119,9 +119,9 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: www.aiforscience.org
-  streak_failures: 2
+  streak_failures: 1
   type: rss
   url: https://www.aiforscience.org/ -> I'll replace with `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll use `https://www.aiforscience.org/`?
@@ -130,9 +130,9 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: www.aiforscience.org
-  streak_failures: 2
+  streak_failures: 1
   type: rss
   url: https://www.aiforscience.org/ -> I'll change to `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll just use `https://www.aiforscience.org/`?
@@ -141,9 +141,9 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: www.aiforscience.org
-  streak_failures: 2
+  streak_failures: 1
   type: rss
   url: https://www.aiforscience.org/ -> I'll replace with `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll just use `https://www.aiforscience.org/`?
@@ -152,9 +152,9 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 3
   name: www.aiforscience.org
-  streak_failures: 2
+  streak_failures: 1
   type: rss
   url: https://www.aiforscience.org/ -> I'll replace with `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll just use `https://www.aiforscience.org/`?
@@ -169,3 +169,15 @@ sources:
   type: web
   url: https://www.dp.tech/en
   weight: 8
+- category: LLM
+  discovered_by: agent
+  name: arxiv.org
+  type: rss
+  url: https://arxiv.org/rss/physics.comp-ph
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: arxiv.org
+  type: rss
+  url: https://arxiv.org/rss/cond-mat.mtrl-sci
+  weight: 5

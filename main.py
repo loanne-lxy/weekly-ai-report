@@ -114,6 +114,14 @@ async def main():
         except Exception:
             pass
     # Merge: new articles first, then deduplicate by URL
+    # English → Chinese category mapping
+    _CAT_MAP = {
+        "Design Simulation": "设计仿真",
+        "Digital Twin": "数字孪生",
+        "AI for Science": "AI for Science",
+        "LLM": "LLM",
+        "Agent": "Agent",
+    }
     seen_urls = {a.get("url", "") for a in articles}
     for old_a in existing:
         if old_a.get("url", "") not in seen_urls:
@@ -122,6 +130,11 @@ async def main():
                 old_a["primary_category"] = old_a["category"]
             if not old_a.get("category") and old_a.get("primary_category"):
                 old_a["category"] = old_a["primary_category"]
+            # Normalize English → Chinese
+            for key in ("category", "primary_category"):
+                raw = old_a.get(key)
+                if raw and raw in _CAT_MAP:
+                    old_a[key] = _CAT_MAP[raw]
             articles.append(old_a)
             seen_urls.add(old_a.get("url", ""))
     articles.sort(key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0), reverse=True)

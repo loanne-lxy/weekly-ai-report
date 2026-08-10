@@ -102,8 +102,18 @@ class FilterSummarizer:
 
                     if data.get("is_relevant", False):
                         a["priority_score"] = int(data.get("priority_score", 3))
-                        a["primary_category"] = data.get("primary_category", "LLM")
-                        a["category"] = a["primary_category"]  # backward compat
+                        raw_cat = data.get("primary_category", "LLM")
+                        # Normalize English category names to Chinese
+                        cat_map = {
+                            "Design Simulation": "设计仿真",
+                            "Digital Twin": "数字孪生",
+                            "AI for Science": "AI for Science",
+                            "LLM": "LLM",
+                            "Agent": "Agent",
+                        }
+                        cat = cat_map.get(raw_cat, raw_cat)
+                        a["primary_category"] = cat
+                        a["category"] = cat  # backward compat
                         a["secondary_category"] = data.get("secondary_category")
                         a["chinese_title"] = data.get("chinese_title", a.get("title", ""))
                         a["tldr"] = data.get("tldr", "")

@@ -6,88 +6,121 @@
 <title>{{ title }}</title>
 <style>
   :root {
-    --bg: #fafbfc; --card: #fff; --border: #e8eaed;
-    --text: #202124; --sub: #5f6368; --muted: #9aa0a6;
+    --bg: #f5f7fa; --card: #fff; --border: #e2e8f0;
+    --text: #1a202c; --sub: #4a5568; --muted: #a0aec0;
     --blue: #1a73e8; --purple: #9334e6; --green: #0d904f;
     --amber: #e37400; --red: #d93025;
-    --radius: 8px; --gap: 24px;
+    --radius: 10px;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
 
-  .wrap { max-width:1200px; margin:0 auto; padding:0 32px; }
+  .wrap { max-width:1100px; margin:0 auto; padding:0 32px; }
 
   /* Header */
-  header { padding:48px 0 32px; text-align:center; }
-  header .week { display:inline-block; background:var(--blue); color:#fff; padding:4px 16px; border-radius:20px; font-size:13px; font-weight:600; letter-spacing:0.5px; margin-bottom:12px; }
-  header h1 { font-size:28px; font-weight:700; letter-spacing:-0.5px; margin-bottom:4px; }
+  header { padding:40px 0 24px; text-align:center; }
+  header .week { display:inline-block; background:linear-gradient(135deg,#1a237e,#3949ab); color:#fff; padding:4px 18px; border-radius:20px; font-size:13px; font-weight:600; letter-spacing:0.5px; margin-bottom:12px; }
+  header h1 { font-size:26px; font-weight:700; letter-spacing:-0.5px; margin-bottom:4px; }
   header .sub { color:var(--muted); font-size:14px; }
 
   /* Trend bar */
-  .trends { background:linear-gradient(135deg,#1a237e,#283593,#3949ab); border-radius:12px; padding:28px 32px; margin-bottom:40px; color:#fff; }
-  .trends h2 { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; opacity:0.6; margin-bottom:16px; }
-  .trends-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:20px; }
+  .trends { background:linear-gradient(135deg,#1a237e,#283593,#3949ab); border-radius:12px; padding:24px 32px; margin-bottom:28px; color:#fff; }
+  .trends h2 { font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; opacity:0.5; margin-bottom:14px; }
+  .trends-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
   .trends-grid .t { text-align:center; }
-  .trends-grid .t .dot { width:10px;height:10px; border-radius:50%; margin:0 auto 8px; }
-  .trends-grid .t .label { font-size:11px; opacity:0.55; margin-bottom:4px; }
-  .trends-grid .t .kw { font-size:15px; font-weight:700; }
+  .trends-grid .t .dot { width:8px;height:8px; border-radius:50%; margin:0 auto 6px; }
+  .trends-grid .t .label { font-size:10px; opacity:0.5; margin-bottom:3px; }
+  .trends-grid .t .kw { font-size:14px; font-weight:600; line-height:1.3; }
 
   /* Stats row */
-  .stats { display:flex; gap:1px; margin-bottom:40px; background:var(--border); border-radius:10px; overflow:hidden; }
-  .stats .s { flex:1; background:var(--card); text-align:center; padding:16px 8px; }
-  .stats .s .n { font-size:28px; font-weight:800; }
-  .stats .s .l { font-size:11px; color:var(--muted); margin-top:2px; }
+  .stats { display:flex; gap:1px; margin-bottom:28px; background:var(--border); border-radius:10px; overflow:hidden; }
+  .stats .s { flex:1; background:var(--card); text-align:center; padding:14px 8px; }
+  .stats .s .n { font-size:26px; font-weight:800; }
+  .stats .s .l { font-size:10px; color:var(--muted); margin-top:2px; }
+
+  /* Sticky Tabs */
+  .tabs-bar {
+    position:sticky; top:0; z-index:100;
+    background:#f8f9fa; border-bottom:1px solid var(--border);
+    padding:0 32px; margin:0 -32px;
+    display:flex; gap:0; overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .tabs-bar::-webkit-scrollbar { height:0; }
+  .tab-btn {
+    flex-shrink:0;
+    padding:14px 20px; font-size:14px; font-weight:600;
+    color:var(--muted); background:none; border:none;
+    border-bottom:2px solid transparent;
+    cursor:pointer; transition:all 0.2s;
+    display:flex; align-items:center; gap:8px;
+    white-space:nowrap;
+  }
+  .tab-btn:hover { color:var(--sub); }
+  .tab-btn.active { border-bottom-color:var(--tab-color); color:var(--tab-color); }
+  .tab-btn .tab-icon { font-size:16px; }
+  .tab-btn .tab-count { font-size:11px; background:#edf2f7; color:var(--muted); padding:1px 8px; border-radius:10px; font-weight:600; }
+  .tab-btn.active .tab-count { background:var(--tab-bg); color:var(--tab-color); }
 
   /* Section */
-  .sec { margin-bottom:40px; }
-  .sec-h { display:flex; align-items:baseline; gap:10px; padding-bottom:8px; border-bottom:2px solid; margin-bottom:16px; }
-  .sec-h .icon { font-size:20px; }
-  .sec-h h2 { font-size:18px; font-weight:700; }
+  .sec { margin-bottom:48px; scroll-margin-top:70px; }
+  .sec-h { display:flex; align-items:center; gap:10px; padding-bottom:10px; margin-bottom:12px; }
+  .sec-h .icon { font-size:22px; }
+  .sec-h h2 { font-size:18px; font-weight:700; color:var(--text); }
   .sec-h .badge { font-size:11px; padding:2px 10px; border-radius:10px; color:#fff; margin-left:auto; font-weight:600; }
-  .sec-summary { font-size:15px; color:var(--sub); margin-bottom:16px; line-height:1.7; padding-left:4px; border-left:3px solid var(--border); }
-  .b-blue { border-color:var(--blue)!important; color:var(--blue); } .bg-blue { background:var(--blue); }
-  .b-purple { border-color:var(--purple)!important; color:var(--purple); } .bg-purple { background:var(--purple); }
-  .b-green { border-color:var(--green)!important; color:var(--green); } .bg-green { background:var(--green); }
-  .b-amber { border-color:var(--amber)!important; color:var(--amber); } .bg-amber { background:var(--amber); }
-  .b-red { border-color:var(--red)!important; color:var(--red); } .bg-red { background:var(--red); }
+
+  .sec-summary { font-size:14px; color:var(--sub); margin-bottom:16px; line-height:1.7; padding:12px 16px; background:#fff; border-radius:8px; border-left:3px solid var(--border); }
+
+  .b-blue { color:var(--blue); } .bg-blue { background:var(--blue); }
+  .b-purple { color:var(--purple); } .bg-purple { background:var(--purple); }
+  .b-green { color:var(--green); } .bg-green { background:var(--green); }
+  .b-amber { color:var(--amber); } .bg-amber { background:var(--amber); }
+  .b-red { color:var(--red); } .bg-red { background:var(--red); }
 
   /* Cards */
-  .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; margin-bottom:8px; display:grid; grid-template-columns:44px 1fr; gap:16px; align-items:start; transition:box-shadow 0.15s; }
-  .card:hover { box-shadow:0 2px 8px rgba(0,0,0,0.06); }
-  .card .score { width:44px;height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; color:#fff; }
-  .score-hi { background:var(--red); } .score-md { background:var(--amber); } .score-lo { background:var(--muted); }
-  .card.carried { opacity:0.65; background:#fafafa; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; margin-bottom:8px; display:grid; grid-template-columns:44px 1fr; gap:14px; align-items:start; transition:box-shadow 0.15s, border-color 0.15s; }
+  .card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.07); }
+  .card .score { width:44px;height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; color:#fff; flex-shrink:0; }
+  .score-hi { background:linear-gradient(135deg,var(--red),#e53e3e); } .score-md { background:linear-gradient(135deg,var(--amber),#dd6b20); } .score-lo { background:var(--muted); }
+  .card.carried { opacity:0.6; background:#fafbfc; }
   .card.carried:hover { opacity:0.85; }
   .card-body { min-width:0; }
-  .card-source { font-size:11px; color:var(--muted); margin-bottom:2px; }
-  .card h3 { font-size:15px; font-weight:600; line-height:1.4; margin-bottom:4px; }
+  .card-meta { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+  .card-source { font-size:11px; color:var(--muted); }
+  .card-date { font-size:10px; color:var(--muted); }
+  .card h3 { font-size:16px; font-weight:600; line-height:1.4; margin-bottom:2px; }
   .card h3 a { color:var(--text); text-decoration:none; }
   .card h3 a:hover { color:var(--blue); }
-  .card .orig { font-size:12px; color:var(--muted); margin-bottom:4px; }
-  .card .summary { font-size:13px; color:var(--sub); line-height:1.5; margin-bottom:8px; }
+  .card .orig-title { font-size:12px; color:var(--muted); margin-bottom:6px; font-style:italic; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .card .summary { font-size:13px; color:var(--sub); line-height:1.55; margin-bottom:6px; }
   .insights { margin:4px 0; padding-left:18px; font-size:12px; color:var(--sub); }
   .insights li { margin-bottom:2px; }
-  .why { font-size:11px; color:var(--blue); font-style:italic; }
+  .why { font-size:11px; color:var(--blue); font-style:italic; margin-top:4px; }
   .tags-row { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
-  .tags-row .tag { font-size:10px; background:#e8f0fe; color:var(--blue); padding:1px 6px; border-radius:4px; }
+  .tags-row .tag { font-size:10px; background:#edf2f7; color:var(--sub); padding:2px 8px; border-radius:4px; font-weight:500; }
 
-  .no-update { background:#fef7e0; border:1px solid #f9ab00; border-radius:var(--radius); padding:8px 16px; margin-bottom:12px; font-size:13px; color:#5f4b00; }
-  .carried-badge { font-size:10px; background:var(--border); padding:1px 6px; border-radius:4px; color:var(--muted); margin-left:6px; }
-  .empty { text-align:center; color:var(--muted); padding:32px; font-size:14px; }
+  .no-update { background:#fffbeb; border:1px solid #f6e05e; border-radius:var(--radius); padding:10px 16px; margin-bottom:12px; font-size:13px; color:#975a16; }
+  .carried-badge { font-size:10px; background:#edf2f7; padding:1px 6px; border-radius:4px; color:var(--muted); margin-left:6px; }
+  .empty { text-align:center; color:var(--muted); padding:40px 20px; font-size:14px; }
+  .empty .empty-icon { font-size:32px; margin-bottom:8px; display:block; }
 
   /* Pagination */
   .pagination { display:flex; justify-content:center; gap:6px; margin-top:16px; }
-  .pagination button { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:6px 12px; cursor:pointer; font-size:13px; color:var(--text); }
+  .pagination button { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:6px 14px; cursor:pointer; font-size:13px; color:var(--sub); transition:all 0.15s; }
+  .pagination button:hover { border-color:var(--blue); color:var(--blue); }
   .pagination button.active { background:var(--blue); color:#fff; border-color:var(--blue); }
 
   footer { text-align:center; padding:32px 0; color:var(--muted); font-size:12px; border-top:1px solid var(--border); margin-top:40px; }
 
   @media(max-width:768px) {
     .wrap { padding:0 16px; }
-    .trends-grid { grid-template-columns:repeat(2,1fr); }
+    .tabs-bar { padding:0 16px; margin:0 -16px; }
+    .tab-btn { padding:12px 14px; font-size:13px; }
+    .trends-grid { grid-template-columns:repeat(3,1fr); }
     .stats { flex-wrap:wrap; }
     .stats .s { min-width:80px; }
-    .card { grid-template-columns:36px 1fr; gap:12px; padding:12px 16px; }
+    .card { grid-template-columns:1fr; gap:8px; padding:14px 16px; }
+    .card .score { width:36px;height:36px; font-size:15px; }
   }
 </style>
 </head>
@@ -100,7 +133,7 @@
   </header>
 
   <div class="trends">
-    <h2>Trends</h2>
+    <h2>Weekly Trends</h2>
     <div class="trends-grid">
       {% set cat_keys = ["LLM","Agent","AI for Science","设计仿真","数字孪生"] %}
       {% set dots = {"LLM":"#669df6","Agent":"#c58af9","AI for Science":"#34a853","设计仿真":"#f9ab00","数字孪生":"#f28b82"} %}
@@ -120,9 +153,24 @@
     <div class="s"><div class="n" style="color:{{colors[cat_name]}}">{{ stats.get(cat_name,0) }}</div><div class="l">{{ cat_name }}</div></div>
     {% endfor %}
   </div>
+</div>
 
-  {% for cat_name in cat_keys %}
+<!-- Sticky Tabs -->
+<div class="tabs-bar">
   {% set cls = {"LLM":"blue","Agent":"purple","AI for Science":"green","设计仿真":"amber","数字孪生":"red"} %}
+  {% set colors_map = {"LLM":"#1a73e8","Agent":"#9334e6","AI for Science":"#0d904f","设计仿真":"#e37400","数字孪生":"#d93025"} %}
+  {% set bg_map = {"LLM":"#e8f0fe","Agent":"#f3e8ff","AI for Science":"#e6f9f0","设计仿真":"#fff4e5","数字孪生":"#feeaea"} %}
+  {% for cat_name in cat_keys %}
+  <button class="tab-btn" data-tab="{{ cls[cat_name] }}" style="--tab-color:{{colors_map[cat_name]}};--tab-bg:{{bg_map[cat_name]}}" onclick="scrollToSection('{{ cls[cat_name] }}')">
+    <span class="tab-icon">{{ icons.get(cat_name,'') }}</span>
+    <span>{{ cat_name }}</span>
+    <span class="tab-count">{{ stats.get(cat_name,0) }}</span>
+  </button>
+  {% endfor %}
+</div>
+
+<div class="wrap">
+  {% for cat_name in cat_keys %}
   {% set c = cls[cat_name] %}
   <div class="sec" id="sec-{{ c }}">
     <div class="sec-h b-{{ c }}">
@@ -132,30 +180,36 @@
     </div>
 
     {% if domain_summaries.get(cat_name) %}
-    <div class="sec-summary">{{ domain_summaries[cat_name] }}</div>
+    <div class="sec-summary" style="border-left-color:{{colors_map[cat_name]}}">{{ domain_summaries[cat_name] }}</div>
     {% endif %}
 
     {% set arts = categories.get(cat_name,[]) %}
     {% if arts %}
     {% if cat_name in empty_cats %}
-    <div class="no-update">暂无新资讯，以下为上周内容</div>
+    <div class="no-update">暂无本周期新资讯，以下为往期内容</div>
     {% endif %}
-    <div class="article-list" data-cat="{{ c }}" data-per-page="5">
+    <div class="article-list" data-cat="{{ c }}" data-per-page="10">
       {% for a in arts %}
       {% set imp = a.get('importance',5)|int %}
       <div class="card{% if a.get('carried_over') %} carried{% endif %}">
         <div class="score {% if imp>=8 %}score-hi{% elif imp>=5 %}score-md{% else %}score-lo{% endif %}">{{ imp }}</div>
         <div class="card-body">
-          <div class="card-source">{{ a.source_name }}{% if a.get('carried_over') %}<span class="carried-badge">{{ a.get('published','')[:10] }}</span>{% endif %}</div>
+          <div class="card-meta">
+            <span class="card-source">{{ a.source_name }}</span>
+            {% if a.get('published') %}<span class="card-date">{{ a.published[:10] }}</span>{% endif %}
+            {% if a.get('carried_over') %}<span class="carried-badge">往期 · {{ a.get('published','')[:10] }}</span>{% endif %}
+          </div>
           <h3><a href="{{ a.url }}" target="_blank">{{ a.get('chinese_title', a.title) }}</a></h3>
-          {% if a.get('chinese_title') and a.get('chinese_title') != a.get('title') %}
-          <div class="orig">{{ a.title[:120] }}</div>
+          {% if a.get('chinese_title') and a.get('chinese_title') != a.get('title') and a.get('title') %}
+          <div class="orig-title">{{ a.title[:140] }}</div>
           {% endif %}
-          <div class="summary">{{ a.ai_summary }}</div>
+          {% if a.get('ai_summary') or a.get('tldr') %}
+          <div class="summary">{{ a.get('ai_summary', a.get('tldr', '')) }}</div>
+          {% endif %}
           {% if a.get('key_insights') %}
           <ul class="insights">{% for ins in a.key_insights[:3] %}<li>{{ ins }}</li>{% endfor %}</ul>
           {% endif %}
-          {% if a.get('why_it_matters') %}<div class="why">{{ a.why_it_matters }}</div>{% endif %}
+          {% if a.get('why_it_matters') %}<div class="why">💡 {{ a.why_it_matters }}</div>{% endif %}
           {% if a.get('tags') %}
           <div class="tags-row">{% for t in a.tags %}<span class="tag">{{ t }}</span>{% endfor %}</div>
           {% endif %}
@@ -165,7 +219,10 @@
     </div>
     <div class="pagination" data-for="{{ c }}"></div>
     {% else %}
-    <div class="empty">暂无内容</div>
+    <div class="empty">
+      <span class="empty-icon">{{ icons.get(cat_name,'📋') }}</span>
+      暂无本周期内容
+    </div>
     {% endif %}
   </div>
   {% endfor %}
@@ -174,28 +231,55 @@
 </div>
 
 <script>
-document.querySelectorAll('.article-list').forEach(list=>{
-  const cat=list.dataset.cat;
-  const perPage=parseInt(list.dataset.perPage)||15;
-  const cards=list.querySelectorAll('.card');
-  const total=cards.length;
-  if(total<=perPage)return;
-  let page=1;
-  const totalPages=Math.ceil(total/perPage);
-  const pagDiv=document.querySelector('.pagination[data-for="'+cat+'"]');
-  function render(){
-    cards.forEach((c,i)=>c.style.display=(i>=(page-1)*perPage&&i<page*perPage)?'':'none');
-    pagDiv.innerHTML='';
-    for(let p=1;p<=totalPages;p++){
-      const btn=document.createElement('button');
-      btn.textContent=p;
-      if(p===page)btn.classList.add('active');
-      btn.onclick=()=>{page=p;render();window.scrollTo(0,document.getElementById('sec-'+cat).offsetTop-20);};
-      pagDiv.appendChild(btn);
-    }
+// Tab-based navigation with scroll spy
+(function(){
+  const tabs = document.querySelectorAll('.tab-btn');
+  const sections = document.querySelectorAll('.sec');
+  const clsMap = {"LLM":"blue","Agent":"purple","AI for Science":"green","设计仿真":"amber","数字孪生":"red"};
+
+  function scrollToSection(c){
+    const el = document.getElementById('sec-'+c);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
   }
-  render();
-});
+  window.scrollToSection = scrollToSection;
+
+  // IntersectionObserver for active tab
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id.replace('sec-','');
+        tabs.forEach(t=>{
+          t.classList.toggle('active', t.dataset.tab===id);
+        });
+      }
+    });
+  }, {rootMargin:'-70px 0px -60% 0px', threshold:0});
+  sections.forEach(s=>observer.observe(s));
+
+  // Pagination
+  document.querySelectorAll('.article-list').forEach(list=>{
+    const cat=list.dataset.cat;
+    const perPage=parseInt(list.dataset.perPage)||10;
+    const cards=list.querySelectorAll('.card');
+    const total=cards.length;
+    if(total<=perPage)return;
+    let page=1;
+    const totalPages=Math.ceil(total/perPage);
+    const pagDiv=document.querySelector('.pagination[data-for="'+cat+'"]');
+    function render(){
+      cards.forEach((c,i)=>c.style.display=(i>=(page-1)*perPage&&i<page*perPage)?'':'none');
+      pagDiv.innerHTML='';
+      for(let p=1;p<=totalPages;p++){
+        const btn=document.createElement('button');
+        btn.textContent=p;
+        if(p===page)btn.classList.add('active');
+        btn.onclick=()=>{page=p;render();};
+        pagDiv.appendChild(btn);
+      }
+    }
+    render();
+  });
+})();
 </script>
 </body>
 </html>

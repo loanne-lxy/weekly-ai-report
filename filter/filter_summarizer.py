@@ -102,7 +102,8 @@ class FilterSummarizer:
 
                     if data.get("is_relevant", False):
                         a["priority_score"] = int(data.get("priority_score", 3))
-                        a["category"] = data.get("primary_category", "LLM")
+                        a["primary_category"] = data.get("primary_category", "LLM")
+                        a["category"] = a["primary_category"]  # backward compat
                         a["secondary_category"] = data.get("secondary_category")
                         a["chinese_title"] = data.get("chinese_title", a.get("title", ""))
                         a["tldr"] = data.get("tldr", "")

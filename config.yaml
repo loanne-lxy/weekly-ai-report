@@ -15,7 +15,7 @@ model:
   base_url: http://47.86.216.146:8848/v1
   api_key:  # 留空或填入真实 key
   temperature: 0.3
-  max_tokens: 2048
+  max_tokens: 4096
 
   # 本地 Ollama 示例:
   # provider: ollama

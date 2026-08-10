@@ -117,6 +117,9 @@ async def main():
     seen_urls = {a.get("url", "") for a in articles}
     for old_a in existing:
         if old_a.get("url", "") not in seen_urls:
+            # Normalize: old articles may use 'category' instead of 'primary_category'
+            if "primary_category" not in old_a and "category" in old_a:
+                old_a["primary_category"] = old_a["category"]
             articles.append(old_a)
             seen_urls.add(old_a.get("url", ""))
     articles.sort(key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0), reverse=True)

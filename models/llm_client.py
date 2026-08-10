@@ -65,4 +65,16 @@ class LLMClient:
             temperature=self.temperature,
             max_tokens=self.max_tokens,
         )
-        return response.choices[0].message.content.strip()
+        message = response.choices[0].message
+        # Some models (e.g. Qwen reasoning) put output in reasoning + content
+        parts = []
+        if getattr(message, "refusal", None):
+            parts.append(message.refusal)
+        if message.content:
+            parts.append(message.content)
+        # For reasoning models: append reasoning if content is empty
+        reasoning = getattr(message, "reasoning", None)
+        if not parts and reasoning:
+            parts.append(reasoning)
+        result = "\n".join(parts)
+        return result.strip() if result else ""

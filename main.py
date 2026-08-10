@@ -9,7 +9,6 @@ from fetcher import fetch_all
 from dedup.deduplicator import Deduplicator
 from filter.source_priority import filter_and_weight as source_priority_filter
 from filter.keyword_filter import score_and_filter as keyword_filter
-from filter.lightweight_classifier import classify as miniLM_classify
 from filter.filter_summarizer import FilterSummarizer
 from evaluator.source_evaluator import SourceEvaluator
 from evaluator.source_discoverer import SourceDiscoverer
@@ -94,12 +93,8 @@ async def main():
     logger.info("=== Phase 4: Keyword + Regex ===")
     articles = keyword_filter(articles, min_score=1)
 
-    # 5. MiniLM classifier — lightweight embedding-based domain classification
-    logger.info("=== Phase 5: MiniLM Classifier ===")
-    articles = miniLM_classify(articles)
-
-    # 6. LLM curator — importance scoring + summarization
-    logger.info("=== Phase 6: Curator (score + summarize) ===")
+    # 5. LLM curator — importance scoring + summarization (MiniLM removed)
+    logger.info("=== Phase 5: Curator (score + summarize) ===")
     llm = LLMClient(config)
     fs = FilterSummarizer(llm, config)
     articles = await fs._curate_async(articles)

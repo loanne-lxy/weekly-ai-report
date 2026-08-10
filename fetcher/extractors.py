@@ -56,28 +56,49 @@ class RSSExtractor:
         return items
 
 
-# ── Web ───────────────────────────────────────────────────────────
+# ── Web (trafilatura) ─────────────────────────────────────────────
 
 class WebExtractor:
     name = "web"
 
     async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[RawItem]:
         try:
+            import trafilatura
+
             async with session.get(
                 source["url"], timeout=30,
                 headers={"User-Agent": USER_AGENT}
             ) as resp:
                 html = await resp.text()
-            soup = BeautifulSoup(html, "lxml")
-            title = soup.title.string.strip() if soup.title else source.get("name", "")
-            text = " ".join(p.get_text() for p in soup.find_all("p")[:30])
-            if len(text) > 100:
-                return [{
-                    "title": title,
-                    "url": source["url"],
-                    "summary": text[:2000],
-                    "published": datetime.now(timezone.utc).isoformat(),
-                }]
+
+            # trafilatura 2.x: extract_with_metadata returns Document(title, raw_text, date, ...)
+            doc = trafilatura.extract_with_metadata(
+                html, include_comments=False, include_tables=True,
+                favor_precision=True,
+            )
+            if doc is None or not doc.raw_text or len(doc.raw_text) < 100:
+                return []
+
+            title = doc.title or source.get("name", "")
+            published = ""
+            if doc.date:
+                try:
+                    from dateutil.parser import parse as date_parse
+                    published = date_parse(doc.date, fuzzy=True).astimezone(timezone.utc).isoformat()
+                except Exception:
+                    published = datetime.now(timezone.utc).isoformat()
+            else:
+                published = datetime.now(timezone.utc).isoformat()
+
+            return [{
+                "title": title,
+                "url": source["url"],
+                "summary": doc.raw_text[:2000],
+                "published": published,
+            }]
+        except ImportError:
+            logger.warning("Web [trafilatura]: not installed, pip install trafilatura")
+            return []
         except Exception as e:
             logger.warning(f"Web [{source.get('name','?')}]: {e}")
         return []

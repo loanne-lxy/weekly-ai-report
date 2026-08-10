@@ -8,29 +8,32 @@
 # ============================================
 model:
   # 可选 provider: ollama / openai / deepseek / custom
-  provider: deepseek
-  name: deepseek-chat
+  provider: custom
+  name: Qwen3.6-27B
+
+  # 当前配置 —— TCL 内部模型
+  base_url: http://47.86.216.146:8848/v1
+  api_key:  # 留空或填入真实 key
+  temperature: 0.3
+  max_tokens: 2048
 
   # 本地 Ollama 示例:
   # provider: ollama
   # name: qwen3:14b
   # base_url: http://localhost:11434/v1
-  # api_key: ollama  # Ollama 不需要真实 key
+  # api_key: ollama
 
   # DeepSeek 示例:
   # provider: deepseek
   # name: deepseek-chat
-  # api_key_file: ~/.deepseek.key
+  # base_url: https://api.deepseek.com
+  # api_key: ${DEEPSEEK_API_KEY}
 
   # OpenAI 示例:
   # provider: openai
   # name: gpt-4o
+  # base_url: https://api.openai.com/v1
   # api_key: ${OPENAI_API_KEY}
-
-  base_url: https://api.deepseek.com
-  api_key: ${DEEPSEEK_API_KEY}           # 从环境变量读取
-  temperature: 0.3
-  max_tokens: 2048
 
 # ============================================
 # 抓取配置

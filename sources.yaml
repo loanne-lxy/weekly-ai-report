@@ -9,7 +9,7 @@ sources:
   weight: 9
 - articles_this_week: 2
   category: AI4Science
-  eval_score: 9
+  eval_score: 10
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
   streak_failures: 0
@@ -18,7 +18,7 @@ sources:
   weight: 7
 - articles_this_week: 20
   category: AI4Science
-  eval_score: 9
+  eval_score: 10
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
   streak_failures: 0
@@ -27,7 +27,7 @@ sources:
   weight: 7
 - articles_this_week: 11
   category: AI4Science
-  eval_score: 9
+  eval_score: 10
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
   streak_failures: 0
@@ -37,7 +37,7 @@ sources:
 - articles_this_week: 5
   category: LLM
   discovered_by: agent
-  eval_score: 9
+  eval_score: 10
   github_subtype: github_trending
   name: GitHub Trending
   streak_failures: 0
@@ -46,7 +46,7 @@ sources:
 - articles_this_week: 18
   category: Agent
   discovered_by: agent
-  eval_score: 9
+  eval_score: 10
   github_owner: microsoft
   github_repo: autogen
   github_subtype: github_repo
@@ -57,7 +57,7 @@ sources:
 - articles_this_week: 15
   category: Agent
   discovered_by: agent
-  eval_score: 9
+  eval_score: 10
   github_owner: crewAIInc
   github_repo: crewAI
   github_subtype: github_repo
@@ -68,7 +68,7 @@ sources:
 - articles_this_week: 4
   category: Agent
   discovered_by: agent
-  eval_score: 5
+  eval_score: 6
   github_owner: langchain-ai
   github_repo: langchain
   github_subtype: github_repo
@@ -79,7 +79,7 @@ sources:
 - articles_this_week: 10
   category: LLM
   discovered_by: agent
-  eval_score: 5
+  eval_score: 6
   github_owner: huggingface
   github_repo: transformers
   github_subtype: github_repo
@@ -90,27 +90,27 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.nature.com
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.nature.com/natmachintell/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.sciml.ai
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.sciml.ai/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.aiforscience.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.aiforscience.org/ -> I'll change to `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll use `https://www.aiforscience.org/`?
@@ -119,9 +119,9 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.aiforscience.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.aiforscience.org/ -> I'll replace with `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll use `https://www.aiforscience.org/`?
@@ -130,9 +130,9 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.aiforscience.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.aiforscience.org/ -> I'll change to `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll just use `https://www.aiforscience.org/`?
@@ -141,9 +141,9 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.aiforscience.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.aiforscience.org/ -> I'll replace with `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll just use `https://www.aiforscience.org/`?
@@ -152,40 +152,13 @@ sources:
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 1
   name: www.aiforscience.org
-  streak_failures: 1
+  streak_failures: 2
   type: rss
   url: https://www.aiforscience.org/ -> I'll replace with `https://www.aiforscience.org/`?
     No. I'll use `https://www.aiforscience.org/`? I'll just use `https://www.aiforscience.org/`?
     I'm stuck.
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.nature.com
-  streak_failures: 2
-  type: rss
-  url: https://www.nature.com/natcomputsci/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.materialstoday.com
-  streak_failures: 2
-  type: rss
-  url: https://www.materialstoday.com/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: www.nature.com
-  streak_failures: 2
-  type: rss
-  url: https://www.nature.com/natureenergy/
   weight: 5
 - articles_this_week: 1
   category: AI4Science

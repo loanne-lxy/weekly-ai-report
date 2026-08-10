@@ -118,8 +118,10 @@ async def main():
     for old_a in existing:
         if old_a.get("url", "") not in seen_urls:
             # Normalize: old articles may use 'category' instead of 'primary_category'
-            if "primary_category" not in old_a and "category" in old_a:
+            if not old_a.get("primary_category") and old_a.get("category"):
                 old_a["primary_category"] = old_a["category"]
+            if not old_a.get("category") and old_a.get("primary_category"):
+                old_a["category"] = old_a["primary_category"]
             articles.append(old_a)
             seen_urls.add(old_a.get("url", ""))
     articles.sort(key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0), reverse=True)

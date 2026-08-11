@@ -175,14 +175,14 @@ body {
   <div class="cat-header">
     <span class="icon">🤖</span>
     <h1>Agent</h1>
-    <span class="count-badge">19 篇</span>
+    <span class="count-badge">24 篇</span>
   </div>
 
   <!-- Domain Summary -->
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周多智能体系统在安全治理、分布式编排与专家混合架构方面取得突破，记忆范式转向意图编译代理，但复杂应用场景的适配能力仍显不足。
+    本周多智能体领域聚焦于MasDrift与MSEval等新型评估基准的发布、角色专家混合架构的创新，以及在极端物流调度与城市交通管理等复杂场景下的去中心化优化与鲁棒性提升。
   </div>
   
 
@@ -198,49 +198,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.09828v1" target="_blank" rel="noopener">POLIS项目提出多智能体安全治理框架，含5280轮委托实验基准</a>
+            <a href="https://arxiv.org/abs/2608.07556" target="_blank" rel="noopener">MasDrift基准测试多智能体架构授权边界漂移</a>
             
           </div>
           
-          <div class="article-subtitle">Multi-Agent AI Safety as an Institutional Design Problem</div>
+          <div class="article-subtitle">MasDrift: Benchmarking Authorization Preservation Across Multi-Agent Architectures</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-10T16:47:01+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper introduces POLIS, a research program treating multi-agent AI safety as an institutional design problem, featuring a 5,280-episode benchmark evaluating how delegation rules and authority structures impact model compliance and collective behavior.
+        Releases MasDrift, a benchmark of 600 tasks evaluating how multi-agent systems preserve authorization boundaries and constraints during task delegation.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces POLIS framework modeling AI safety via institutional design and delegation rules.</li>
+        <li>Introduces 600-task benchmark for constraint drift in multi-agent systems</li>
         
-        <li>Releases a 5,280-episode benchmark testing four model families across structured workflows.</li>
+        <li>Evaluates authorization preservation across eight domains and architectures</li>
         
-        <li>Shows how rule formulations and authority states directly impact multi-agent compliance.</li>
+        <li>Addresses safety gaps beyond traditional adversarial compromise testing</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a structured, empirical approach to multi-agent safety beyond traditional alignment techniques, offering developers a benchmark to evaluate how governance rules shape collective AI behavior in production systems.</div>
+      <div class="why-matters">💡 Provides critical evaluation tools for multi-agent safety, helping developers ensure delegated tasks respect original authorization boundaries in production systems.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#multiagent</span>
         
-        <span class="tag">#safety</span>
-        
         <span class="tag">#benchmark</span>
         
-        <span class="tag">#alignment</span>
+        <span class="tag">#safety</span>
         
-        <span class="tag">#governance</span>
+        <span class="tag">#authorization</span>
+        
+        <span class="tag">#constraint drift</span>
         
       </div>
       
@@ -254,49 +254,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.09256v1" target="_blank" rel="noopener">分布式团队编排算法提出及其拜占庭鲁棒性收敛证明</a>
+            <a href="https://arxiv.org/abs/2608.07824" target="_blank" rel="noopener">独立PPO优化飓风干扰下跨模态货运路由的多智能体强化学习</a>
             
           </div>
           
-          <div class="article-subtitle">Distributed Team Orchestration via Supervisor Networks: Convergence, Optimality, and Resilience</div>
+          <div class="article-subtitle">Per-Shipment Multi-Agent Reinforcement Learning for Intermodal Freight Routing Under Hurricane Disruption</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-10T08:14:46+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This paper proposes a distributed team-orchestrating algorithm (DTOA) for zero-sum potential games, proving convergence to a near team-Nash equilibrium and introducing Byzantine-resilient mechanisms against misreporting attacks.
+        Researchers formulate intermodal freight routing as a Dec-POMDP and train Independent PPO under CTDE to optimize logistics under hurricane disruptions, outperforming heuristic baselines.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Proposes DTOA combining team fictitious play with distributed belief learning.</li>
+        <li>Formulates freight routing as Dec-POMDP with per-shipment granularity</li>
         
-        <li>Proves belief estimate convergence and dynamics approaching near team-Nash equilibrium.</li>
+        <li>Trains Independent PPO under CTDE for decentralized execution</li>
         
-        <li>Develops Byzantine-resilient mechanisms to counter joint action misreporting attacks.</li>
+        <li>Outperforms privileged-state heuristics on 15-hub network under hurricane scenarios</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides theoretical guarantees for decentralized multi-agent coordination under uncertainty and adversarial conditions, offering a robust foundation for scalable agent orchestration frameworks.</div>
+      <div class="why-matters">💡 Provides a robust MARL framework for climate-resilient supply chain optimization, demonstrating how decentralized execution can handle extreme weather disruptions without centralized bottlenecks.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#multiagent</span>
+        <span class="tag">#marl</span>
         
-        <span class="tag">#orchestration</span>
+        <span class="tag">#dec-pomdp</span>
         
-        <span class="tag">#gametheory</span>
+        <span class="tag">#ppo</span>
         
-        <span class="tag">#byzantine</span>
+        <span class="tag">#supplychain</span>
         
-        <span class="tag">#convergence</span>
+        <span class="tag">#climateresilience</span>
         
       </div>
       
@@ -310,47 +310,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.09251v1" target="_blank" rel="noopener">MoRSE提出角色与子任务专家混合的多智能体系统架构</a>
+            <a href="https://arxiv.org/abs/2608.08035" target="_blank" rel="noopener">基于时空移动性规划的去中心化多智能体城市交通管理</a>
             
           </div>
           
-          <div class="article-subtitle">MoRSE: Task-Oriented Multi-Agent System with Mixture of Role-Subtask Experts</div>
+          <div class="article-subtitle">Decentralized Multi-Agent Urban Traffic Management via Spatio-Temporal Mobility Profile Planning</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-10T08:11:24+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This paper introduces MoRSE, a multi-agent framework that enhances LLM-based systems by implementing parameter-level specialization and dependency-aware task decomposition for complex, long-horizon tasks.
+        Proposes a decentralized multi-agent system for urban traffic management using spatio-temporal mobility profile planning to optimize CAV coordination and reduce communication overhead.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Adds parameter-level specialization for agents by role and subtask, surpassing prompt-only methods.</li>
+        <li>Reduces communication overhead and localized optimization limits in CAV traffic control</li>
         
-        <li>Decomposes tasks into dependency-aware DAGs to clarify agent roles and execution order.</li>
+        <li>Introduces spatio-temporal mobility profile planning for system-wide efficiency</li>
         
-        <li>Boosts long-horizon task performance by enhancing inter-agent heterogeneity and specialization.</li>
+        <li>Enables deterministic, decentralized coordination for next-gen intelligent traffic management</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a concrete architectural blueprint for overcoming the homogeneity bottleneck in current LLM-based multi-agent systems, enabling more robust and specialized collaboration for complex workflows.</div>
+      <div class="why-matters">💡 Advances scalable traffic control architectures for connected vehicles, offering a pathway to reduce congestion and communication latency in smart city deployments.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#multiagent</span>
+        <span class="tag">#marl</span>
         
-        <span class="tag">#moe</span>
+        <span class="tag">#trafficcontrol</span>
         
-        <span class="tag">#taskdecomposition</span>
+        <span class="tag">#cav</span>
         
-        <span class="tag">#llm</span>
+        <span class="tag">#decentralized</span>
+        
+        <span class="tag">#spatiotemporal</span>
         
       </div>
       
@@ -364,49 +366,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08995v1" target="_blank" rel="noopener">智能体记忆新范式：将用户意图编译为专用代理替代动态检索</a>
+            <a href="https://arxiv.org/abs/2608.09251" target="_blank" rel="noopener">基于角色子任务专家混合架构的MoRSE多智能体系统</a>
             
           </div>
           
-          <div class="article-subtitle">Muscle Memory for Agents: Compile not Merely Retrieve</div>
+          <div class="article-subtitle">MoRSE: Task-Oriented Multi-Agent System with Mixture of Role-Subtask Experts</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-10T01:30:55+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper proposes 'Muscle Memory,' an agent architecture that compiles recurring user intents into specialized agents rather than relying on runtime retrieval, reducing multi-turn correction overhead.
+        Introduces MoRSE, a task-oriented multi-agent system using a Mixture of Role-Subtask Experts to enable parameter-level adaptation and improve inter-agent heterogeneity.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Replace runtime retrieval with intent compilation to reduce personalization latency</li>
+        <li>Replaces coarse prompt differentiation with parameter-level adaptation</li>
         
-        <li>Pre-build domain-specific specialist agents to eliminate multi-turn correction overhead</li>
+        <li>Uses Mixture of Role-Subtask Experts to enhance agent specialization</li>
         
-        <li>Adopt the four-phase compilation pipeline for empirically validated agent memory</li>
+        <li>Addresses performance bottlenecks in complex long-horizon tasks</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Shifts agent memory from passive retrieval to active compilation, offering a scalable path to highly personalized assistants without the latency and error rates of dynamic RAG.</div>
+      <div class="why-matters">💡 Advances multi-agent architectures by integrating MoE principles, enabling more specialized and efficient collaboration for complex tasks without relying solely on prompt engineering.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#agent</span>
+        <span class="tag">#multiagent</span>
         
-        <span class="tag">#memory</span>
-        
-        <span class="tag">#compilation</span>
-        
-        <span class="tag">#personalization</span>
+        <span class="tag">#moe</span>
         
         <span class="tag">#llm</span>
+        
+        <span class="tag">#taskplanning</span>
+        
+        <span class="tag">#architecture</span>
         
       </div>
       
@@ -420,49 +422,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08852v1" target="_blank" rel="noopener">教学怪兽挑战赛首版结果：AI智能体在学情适配与教学呈现上仍显薄弱</a>
+            <a href="https://arxiv.org/abs/2607.27877" target="_blank" rel="noopener">MSEval基准发布：基于真实全栈项目的多智能体从零编码评估</a>
             
           </div>
           
-          <div class="article-subtitle">Findings of the First Teaching Monster Challenge: A Benchmark of Pedagogical Content Knowledge in AI Agents</div>
+          <div class="article-subtitle">An Empirical Study of Coordination Mode as the First-Class Citizen in From-Scratch Multi-Agent Coding</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-09T18:28:01+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers introduce the Teaching Monster Challenge, a new benchmark evaluating AI agents' pedagogical content knowledge, revealing that current models excel at content accuracy but struggle with learner adaptation and instructional presentation.
+        Introduces MSEval, a new benchmark evaluating multi-agent coding on real-world full-stack projects to address limitations of synthetic environments.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>推出首个评估AI智能体教学知识（PCK）与学情适配能力的基准测试</li>
+        <li>Introduces MSEval benchmark for real-world multi-agent coding</li>
         
-        <li>构建结合LLM裁判、众包投票与专家终审的多阶段视频评测管线</li>
+        <li>Evaluates coordination modes as first-class citizens</li>
         
-        <li>验证当前模型内容生成准确，但在个性化教学呈现上存在明显短板</li>
+        <li>Addresses cost and reasoning-communication conflation in existing benchmarks</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 This benchmark establishes a critical evaluation standard for educational AI, exposing the performance gap between factual generation and pedagogical adaptation, which will directly guide the development of next-generation adaptive tutoring agents.</div>
+      <div class="why-matters">💡 Provides a more realistic evaluation framework for multi-agent coding systems, crucial for advancing practical AI software development tools.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#agent</span>
+        <span class="tag">#multiagent</span>
         
         <span class="tag">#benchmark</span>
         
-        <span class="tag">#education</span>
+        <span class="tag">#codegen</span>
         
-        <span class="tag">#llmjudge</span>
-        
-        <span class="tag">#adaptivelearning</span>
+        <span class="tag">#evaluation</span>
         
       </div>
       
@@ -476,47 +476,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08601v1" target="_blank" rel="noopener">构建职场AI智能体风险多层框架并生成八千余风险场景</a>
+            <a href="https://arxiv.org/abs/2608.07542" target="_blank" rel="noopener">防漂移AI科学家：基于假设检验的四足机器人导航自主研究闭环</a>
             
           </div>
           
-          <div class="article-subtitle">Unaccountable Delegation, Fading Skills: Mapping the Risks of Workplace AI Agents</div>
+          <div class="article-subtitle">An AI Scientist that Doesn't Drift: Taste, Structure, and Falsifiable Findings in a Quadruped Navigation Research Loop</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-09T09:28:51+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose a multi-layer framework to classify workplace AI agent risks, generating and validating over 8,000 risk scenarios across 2,000 job tasks to address gaps in existing taxonomies.
+        Proposes a structured AI Scientist framework that prevents metric-driven drift in autonomous research loops by enforcing hypothesis testing and falsifiable findings.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Deploy a multi-layer framework modeling agent-goal-environment interactions to assess workplace AI risks.</li>
+        <li>Introduces structural safeguards against local metric optimization drift</li>
         
-        <li>Use 8,356 validated risk scenarios across 2,078 job tasks to categorize severity and deployment modes.</li>
+        <li>Enforces hypothesis-driven experimentation over blind parameter tuning</li>
         
-        <li>Apply structured prompts to systematically map socio-technical risks before agent deployment.</li>
+        <li>Demonstrates effective autonomous research in quadruped navigation simulation</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Offers organizations a concrete, scalable methodology to anticipate and mitigate job-specific AI agent risks, moving beyond generic safety guidelines to actionable deployment taxonomies.</div>
+      <div class="why-matters">💡 Solves a fundamental limitation in autonomous AI research systems, enabling more reliable and scientifically rigorous self-directed experimentation.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#agent</span>
+        <span class="tag">#aiscientist</span>
         
-        <span class="tag">#safety</span>
+        <span class="tag">#autonomousresearch</span>
         
-        <span class="tag">#risk_taxonomy</span>
+        <span class="tag">#hypothesistesting</span>
         
-        <span class="tag">#framework</span>
+        <span class="tag">#robotics</span>
+        
+        <span class="tag">#simulation</span>
         
       </div>
       
@@ -530,49 +532,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08303v1" target="_blank" rel="noopener">轨迹投毒引发自演化智能体技能后门攻击研究</a>
+            <a href="https://arxiv.org/abs/2608.07585" target="_blank" rel="noopener">LAVE框架引入潜在视觉证据，优化视频工具智能体规划机制</a>
             
           </div>
           
-          <div class="article-subtitle">Query-Only Backdoor Attacks on Self-Evolving Skills via Trajectory Poisoning</div>
+          <div class="article-subtitle">LAVE: Latent Visual Evidence-Enhanced Planning for Video Tool-use Agents</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-08T19:31:19+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper introduces a novel trajectory poisoning attack that exploits execution logs of self-evolving LLM agents to inject backdoors into their automatically generated skills.
+        Introduces LAVE, a planning framework for video tool-use agents that leverages latent visual evidence to overcome the information loss of text-only tool-planner interfaces.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>部署自演化智能体前需严格验证轨迹来源</li>
+        <li>Adopt latent visual evidence to bypass text-only tool interfaces</li>
         
-        <li>引入对抗性过滤机制阻断轨迹投毒攻击</li>
+        <li>Implement temporal-scale planning for long-video understanding</li>
         
-        <li>技能生成管道应增加后门检测与沙箱测试</li>
+        <li>Reduce computational overhead in video agent tool invocation</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Highlights a critical security blind spot in autonomous agent development, urging engineers to implement robust trajectory sanitization and skill verification before deploying self-evolving systems in production.</div>
+      <div class="why-matters">💡 Provides a novel architectural approach to long-video understanding for agents, reducing computational overhead and improving planning reliability in complex visual tasks.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#agent</span>
         
-        <span class="tag">#security</span>
+        <span class="tag">#videounderstanding</span>
         
-        <span class="tag">#backdoor</span>
+        <span class="tag">#toolcalling</span>
         
-        <span class="tag">#trajectory-poisoning</span>
+        <span class="tag">#planning</span>
         
-        <span class="tag">#llm</span>
+        <span class="tag">#multimodal</span>
         
       </div>
       
@@ -586,47 +588,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08240v1" target="_blank" rel="noopener">提出人类赋能保留型AI的公平目标函数与行为分析</a>
+            <a href="https://arxiv.org/abs/2608.07627" target="_blank" rel="noopener">面向医院信息系统的智能体编排框架与治理模式目录发布</a>
             
           </div>
           
-          <div class="article-subtitle">A Fair Objective for Human-Empowerment-Preserving AI: Desiderata, Design, and Likely Behavioral Consequences</div>
+          <div class="article-subtitle">From Single Chatbots to Governed Agent Ecosystems: An Agentic AI Pattern Catalogue and Orchestration Framework for Mission-Critical Hospital Information Management Systems</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-08T17:07:39+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper proposes a formal, axiomatic objective function for AI agents that prioritizes human empowerment and power balance, proving how specific desiderata shape the function's parameters and analyzing its behavioral consequences in human-AI interactions.
+        Presents a pattern catalogue and orchestration framework for governing multi-agent ecosystems in hospital information systems, addressing fragmentation and operational risks.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>采用公理化方法构建可参数化目标函数，量化人类长期权力与风险规避</li>
+        <li>Deploy pattern catalogue to standardize hospital AI agent workflows</li>
         
-        <li>推导安全准则对函数形式与参数范围的约束条件，确保人类目标多样性</li>
+        <li>Implement orchestration framework to replace fragmented chatbot pilots</li>
         
-        <li>在典型人机交互场景中验证目标函数的行为后果，提供对齐设计参考</li>
+        <li>Establish governance protocols to mitigate operational and technical risks</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a formal mathematical framework for AI alignment and safety, offering developers a principled way to design agents that preserve human agency rather than override it.</div>
+      <div class="why-matters">💡 Offers a structured approach to deploying reliable, governed AI agents in high-stakes environments like healthcare, moving beyond experimental chatbots to production-ready ecosystems.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#alignment</span>
-        
-        <span class="tag">#safety</span>
-        
         <span class="tag">#agent</span>
         
-        <span class="tag">#formalmethods</span>
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#orchestration</span>
+        
+        <span class="tag">#healthcare</span>
+        
+        <span class="tag">#governance</span>
         
       </div>
       
@@ -640,47 +644,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08175v1" target="_blank" rel="noopener">AOC-CBS提出广义多智能体路径规划任意时最优求解器</a>
+            <a href="https://arxiv.org/abs/2608.07746" target="_blank" rel="noopener">LUCID 框架利用想象动力学实现人形机器人长程操控控制</a>
             
           </div>
           
-          <div class="article-subtitle">AOC-CBS: Anytime-Optimal Continuous-time Conflict-Based Search for Generalised Multi-Agent Path Finding</div>
+          <div class="article-subtitle">LUCID: Latent-Skill Unified Control via Imagined Dynamics for Long-Horizon Humanoid Loco-Manipulation</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.MA</span>
-        <span>2026-08-08T15:11:32+00:00</span>
+        <span class="source">arxiv.org</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose AOC-CBS, an anytime-optimal and solution-complete solver that generalizes Multi-Agent Path Finding to continuous time and heterogeneous fleets, enabling exact coordination for complex real-world applications.
+        Proposes LUCID, a hierarchical model-based RL framework using imagined dynamics and latent skills for long-horizon humanoid loco-manipulation.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Adopt AOC-CBS for exact, continuous-time multi-agent path planning without discrete-time constraints.</li>
+        <li>Introduces hierarchical model-based RL with imagined dynamics</li>
         
-        <li>Leverage anytime-optimality guarantees to scale coordination for heterogeneous robot fleets.</li>
+        <li>Unifies latent skills for complex whole-body loco-manipulation</li>
         
-        <li>Apply solution-complete search to warehouse, traffic, and airport logistics routing.</li>
+        <li>Overcomes limitations of scripted planners and task-specific policies</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a theoretically sound, exact solver for continuous-time MAPF, bridging the gap between simplified academic models and complex real-world multi-agent logistics and robotics deployments.</div>
+      <div class="why-matters">💡 Advances humanoid robotics by enabling reliable, long-horizon task execution through unified skill composition and model-based planning.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#multiagent</span>
+        <span class="tag">#rl</span>
         
-        <span class="tag">#planning</span>
+        <span class="tag">#humanoidrobotics</span>
         
-        <span class="tag">#pathfinding</span>
+        <span class="tag">#modelbasedrl</span>
         
-        <span class="tag">#optimization</span>
+        <span class="tag">#locomanipulation</span>
+        
+        <span class="tag">#agent</span>
         
       </div>
       
@@ -690,53 +696,53 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">7</div>
+        <div class="score-badge score-high">8</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.09790v1" target="_blank" rel="noopener">CARD框架：基于规划与校准循环的Reddit讨论智能体模拟</a>
+            <a href="https://arxiv.org/abs/2608.07855" target="_blank" rel="noopener">CommitKV通过生命周期感知压缩KV缓存，优化多轮Agent推理效率</a>
             
           </div>
           
-          <div class="article-subtitle">CARD: Controlled Agentic Reddit Discussions for Credit Card Simulation</div>
+          <div class="article-subtitle">CommitKV: Lifecycle-Aware KV Cache Compression via Commit Transitions for Multi-Turn Agents</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.MA</span>
-        <span>2026-08-10T16:12:45+00:00</span>
+        <span class="source">arxiv.org</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        CARD is a novel agentic framework that simulates realistic Reddit credit card discussion threads using a planner-writer architecture and a calibration loop to align generated comment distributions with real user interactions.
+        Proposes CommitKV, a lifecycle-aware KV cache compression method that uses commit transitions to retain temporarily inactive but future-critical states in multi-turn ReAct agents.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces a planner-writer architecture for controlled multi-turn discussion generation.</li>
+        <li>Solves KV cache bloat in long-horizon multi-turn agents</li>
         
-        <li>Implements a calibration loop to align synthetic thread distributions with real Reddit data.</li>
+        <li>Lifecycle-aware compression preserves future-relevant states</li>
         
-        <li>Enables fine-grained control over reply structure, stance, tone, and conversational variation.</li>
+        <li>Reduces memory and attention costs without degrading reasoning</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a structured approach to simulating realistic financial discussions, advancing agentic evaluation and synthetic data generation for consumer behavior modeling.</div>
+      <div class="why-matters">💡 Directly tackles a critical inference bottleneck for autonomous agents, enabling longer, more reliable multi-turn interactions with lower compute overhead.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#agent</span>
+        <span class="tag">#Agent</span>
         
-        <span class="tag">#multiagent</span>
+        <span class="tag">#KVCache</span>
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#Inference</span>
         
-        <span class="tag">#syntheticdata</span>
+        <span class="tag">#MultiTurn</span>
         
-        <span class="tag">#planning</span>
+        <span class="tag">#ReAct</span>
         
       </div>
       
@@ -750,49 +756,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.09885v1" target="_blank" rel="noopener">SHE框架通过轨迹学习实现LLM智能体安全组件的局部演化</a>
+            <a href="https://arxiv.org/abs/2608.08995" target="_blank" rel="noopener">提出智能体肌肉记忆范式，将重复用户意图编译为专用代理替代检索</a>
             
           </div>
           
-          <div class="article-subtitle">SHE: Trajectory-driven Safety Harness Evolution for LLM Agents</div>
+          <div class="article-subtitle">Muscle Memory for Agents: Compile not Merely Retrieve</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.CV</span>
-        <span>2026-08-10T17:35:08+00:00</span>
+        <span class="source">arXiv cs.MA</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        SHE is a trajectory-driven framework that decomposes LLM agent harnesses into four distinct safety artifacts, enabling localized evolution and clear responsibility attribution for runtime safety.
+        Challenges standard retrieval-based memory for LLM agents by proposing a muscle memory paradigm that compiles recurring user intents into purpose-built specialist agents.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Decompose agent harness into four explicit safety artifacts to isolate responsibility attribution.</li>
+        <li>Critiques text/embedding retrieval as default memory</li>
         
-        <li>Train safety boundaries using rollout trajectories instead of static rule sets.</li>
+        <li>Introduces compilation of intents into specialist agents</li>
         
-        <li>Enable localized component updates without breaking coupled agent runtime functions.</li>
+        <li>Offers distinct paradigm for personalization</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Shifts agent safety from static configurations to dynamic, trajectory-driven evolution, enabling robust adaptation to emerging runtime risks without disrupting core agent functions.</div>
+      <div class="why-matters">💡 Shifts agent memory design from passive retrieval to active compilation, potentially reducing latency and improving personalization in long-running interactions.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#agent</span>
         
-        <span class="tag">#safety</span>
+        <span class="tag">#memory</span>
+        
+        <span class="tag">#personalization</span>
+        
+        <span class="tag">#compilation</span>
         
         <span class="tag">#llm</span>
-        
-        <span class="tag">#runtime-control</span>
-        
-        <span class="tag">#framework</span>
         
       </div>
       
@@ -806,47 +812,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08516v1" target="_blank" rel="noopener">面向智能体原生组织的分层架构设计：解耦持久记录与动态协调</a>
+            <a href="https://arxiv.org/abs/2608.09256" target="_blank" rel="noopener">基于监督网络的分布式团队编排算法：收敛性与抗拜占庭分析</a>
             
           </div>
           
-          <div class="article-subtitle">Fluid Structure, Rigid Record: A Layered Organizational Design Framework for Agent-Native Organizations</div>
+          <div class="article-subtitle">Distributed Team Orchestration via Supervisor Networks: Convergence, Optimality, and Resilience</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-09T06:28:59+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper proposes a layered organizational framework for multi-agent systems, separating persistent record architectures from dynamic coordination layers using permission and privilege mechanisms to define agent operational boundaries.
+        Proposes a distributed team-orchestrating algorithm (DTOA) for supervisor networks, ensuring convergence and resilience against belief-estimation errors and Byzantine misreporting.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>提出智能体组织分层架构，将持久记录与动态协调解耦</li>
+        <li>Introduces DTOA algorithm combining team fictitious play with supervisor networks</li>
         
-        <li>引入权限与特权机制，精确定义智能体操作边界与状态变更</li>
+        <li>Guarantees convergence and optimality under inaccurate belief information</li>
         
-        <li>结合外部工作流协议与隔离运行时，提升多智能体系统可扩展性</li>
+        <li>Provides resilience against Byzantine team misreporting in distributed settings</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a formal architectural blueprint for scaling multi-agent systems beyond simple role-playing or fixed workflows, enabling more robust and secure enterprise-grade agent orchestration.</div>
+      <div class="why-matters">💡 Offers theoretical guarantees and robust algorithms for distributed multi-agent orchestration, critical for deploying reliable agent teams in adversarial or uncertain environments.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#multiagent</span>
         
-        <span class="tag">#agentarchitecture</span>
-        
-        <span class="tag">#workflowprotocol</span>
-        
         <span class="tag">#orchestration</span>
+        
+        <span class="tag">#gametheory</span>
+        
+        <span class="tag">#distributedsystems</span>
+        
+        <span class="tag">#byzantinefault</span>
         
       </div>
       
@@ -860,36 +868,36 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08497v1" target="_blank" rel="noopener">SocialFiVis 基于大模型构建多智能体仿真沙盒，支持社交金融治理推演</a>
+            <a href="https://arxiv.org/abs/2608.07498" target="_blank" rel="noopener">LLM智能体实现近完美社交媒体反应预测：基于用户画像一致性的实证研究</a>
             
           </div>
           
-          <div class="article-subtitle">SocialFiVis: A Visual Analytics Sandbox for LLM-Grounded Multi-Agent Simulation in Social Finance</div>
+          <div class="article-subtitle">Knowing You Is Everything: LLM Agents Achieve Near-Perfect Profile-Consistent Reaction Prediction in Social Media Simulation</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-09T05:30:55+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers introduce SocialFiVis, a visual analytics sandbox leveraging LLM-grounded multi-agent simulation to model and test governance strategies in complex social finance ecosystems.
+        Demonstrates that persona-prompted LLM agents can achieve near-perfect accuracy in predicting individual social media reactions based on profile completeness.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces SocialFiVis, a visual analytics sandbox for counterfactual simulation in social finance ecosystems.</li>
+        <li>LLM agents achieve near-perfect profile-consistent reaction prediction</li>
         
-        <li>Grounds multi-agent behaviors in LLMs to capture non-linear dynamics between governance rules and economic outcomes.</li>
+        <li>Accuracy heavily depends on profile completeness and model choice</li>
         
-        <li>Operationalizes the IAD framework to systematically evaluate policy interventions without real-world costs.</li>
+        <li>Enables pre-deployment testing for recommender systems</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a scalable, low-risk environment for testing socio-economic governance policies, bridging the gap between theoretical institutional analysis and practical AI-driven simulation.</div>
+      <div class="why-matters">💡 Validates LLM agents for realistic social simulation, offering tools for platform governance testing while highlighting risks to democratic discourse.</div>
       
       
       <div class="article-tags">
@@ -900,7 +908,9 @@ body {
         
         <span class="tag">#simulation</span>
         
-        <span class="tag">#visualanalytics</span>
+        <span class="tag">#socialmedia</span>
+        
+        <span class="tag">#evaluation</span>
         
       </div>
       
@@ -914,47 +924,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08389v1" target="_blank" rel="noopener">深度研究智能体上下文剪枝策略对比：早期剪枝实现最大成本节约</a>
+            <a href="https://arxiv.org/abs/2608.07541" target="_blank" rel="noopener">NeuroPilot：基于多智能体编排的神经影像自动化处理与质控管线</a>
             
           </div>
           
-          <div class="article-subtitle">Not Worth Another Token: Marginal Value Estimation for Efficient Deep Research Agents</div>
+          <div class="article-subtitle">NeuroPilot: An Agent-Driven Smart Pipeline for Processing, Quality Control, and Managing Neuroimages</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cs.MA</span>
-        <span>2026-08-09T00:56:37+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper introduces marginal value estimation for context management in deep research agents, demonstrating that early-stage pruning yields the greatest token savings and latency reduction regardless of the scoring method used.
+        Presents NeuroPilot, a multi-agent system that automates and orchestrates neuroimage standardization, preprocessing, and quality control workflows.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Apply context pruning at pre-retrieval stages for maximum token and latency savings.</li>
+        <li>Multi-agent architecture replaces brittle project-specific scripts</li>
         
-        <li>Pruning location matters more than the specific scoring heuristic or learned value model.</li>
+        <li>Automates modality-specific preprocessing and manual QC tasks</li>
         
-        <li>Use stage-aware marginal value estimation to filter low-value evidence before synthesis.</li>
+        <li>Digitalizes domain expertise into reusable pipeline components</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Reduces computational costs and latency for long-horizon AI agents by optimizing context window usage, enabling more scalable and efficient autonomous research workflows.</div>
+      <div class="why-matters">💡 Standardizes and accelerates neuroimaging workflows, significantly reducing manual labor and environment-specific tuning for researchers.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#agent</span>
+        <span class="tag">#multiagent</span>
         
-        <span class="tag">#contextmanagement</span>
+        <span class="tag">#pipelineorchestration</span>
         
-        <span class="tag">#pruning</span>
+        <span class="tag">#neuroimaging</span>
         
-        <span class="tag">#efficiency</span>
+        <span class="tag">#automation</span>
+        
+        <span class="tag">#qualitycontrol</span>
         
       </div>
       
@@ -968,49 +980,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08131v1" target="_blank" rel="noopener">面向LLM智能体潜伏妥协攻击的组合威胁分析框架</a>
+            <a href="https://arxiv.org/abs/2603.29139" target="_blank" rel="noopener">SciVisAgentBench 发布：科学数据分析与可视化智能体评估基准</a>
             
           </div>
           
-          <div class="article-subtitle">Compositional Threat Analysis of Latent Compromise in LLM Agent Systems: The Order 66 Scenario</div>
+          <div class="article-subtitle">SciVisAgentBench: A Benchmark for Evaluating Scientific Data Analysis and Visualization Agents</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.MA</span>
-        <span>2026-08-08T13:35:35+00:00</span>
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper introduces a compositional threat model for tool-using LLM agents, analyzing how dormant rules in shared memory can be activated by external triggers to cause correlated destructive actions.
+        Introduces SciVisAgentBench, a comprehensive benchmark for evaluating AI agents that translate natural language into executable scientific visualization and multi-step data analysis tasks.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>提出组合威胁模型，揭示独立安全组件叠加可能引发系统性破坏</li>
+        <li>Establishes reproducible benchmark for SciVis agents</li>
         
-        <li>分析潜伏规则通过共享记忆或部署工件被外部指令激活的路径</li>
+        <li>Evaluates multi-step analysis and visualization workflows</li>
         
-        <li>为智能体权限管理与恢复机制设计提供安全架构参考</li>
+        <li>Provides extensible framework for future agent research</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 As LLM agents gain operational authority in production systems, understanding compositional security risks is critical for preventing cascading failures and designing robust guardrails.</div>
+      <div class="why-matters">💡 Establishes a standardized evaluation metric for scientific AI agents, accelerating reliable deployment in research and data-intensive industries.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#agent</span>
         
-        <span class="tag">#security</span>
+        <span class="tag">#benchmark</span>
         
-        <span class="tag">#llm</span>
+        <span class="tag">#scientificvisualization</span>
         
-        <span class="tag">#toolcalling</span>
+        <span class="tag">#evaluation</span>
         
-        <span class="tag">#threatmodel</span>
+        <span class="tag">#multistep</span>
         
       </div>
       
@@ -1024,49 +1036,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.09127v1" target="_blank" rel="noopener">基于接触区域的高保真人类演示捕获与机器人辅助沐浴控制框架</a>
+            <a href="https://arxiv.org/abs/2608.07565" target="_blank" rel="noopener">面向图像编辑对话系统的视觉对齐后续编辑建议生成方法</a>
             
           </div>
           
-          <div class="article-subtitle">High Fidelity Capture, Reconstruction, and Transfer of Human Demonstrations for Robot-Assisted Bathing</div>
+          <div class="article-subtitle">What to Edit Next: Visually Aligned Image-Editing Follow-Up Suggestions in Conversational Systems</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.GR</span>
-        <span>2026-08-10T05:07:08+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose a contact-region-based framework to capture and transfer high-fidelity human bathing demonstrations, enabling safe control of soft robotic hands for clinical assistance.
+        A new framework and dataset for conversational AI that generates visually aligned follow-up image editing suggestions to streamline creative workflows.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Uses contact regions as a core primitive to capture dynamic, contact-rich human demonstrations.</li>
+        <li>Introduces a 100k multi-turn image-creation conversation dataset</li>
         
-        <li>Releases a novel dataset of clinician-performed bathing demonstrations on human subjects.</li>
+        <li>Proposes a visually aligned suggestion model for conversational image editing</li>
         
-        <li>Transfers learned policies to an arm-mounted soft hand for safe, contact-rich clinical interaction.</li>
+        <li>Enhances user workflow continuity in generative AI interfaces</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Addresses a critical gap in safe human-robot physical interaction for healthcare. Provides a reproducible framework and dataset for contact-rich imitation learning.</div>
+      <div class="why-matters">💡 Advances conversational AI agents for creative workflows, improving usability and efficiency in image generation and editing tools.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#imitation_learning</span>
+        <span class="tag">#agent</span>
         
-        <span class="tag">#soft_robotics</span>
+        <span class="tag">#conversationalai</span>
         
-        <span class="tag">#human_robot_interaction</span>
+        <span class="tag">#imageediting</span>
         
         <span class="tag">#dataset</span>
         
-        <span class="tag">#embodied_ai</span>
+        <span class="tag">#multimodal</span>
         
       </div>
       
@@ -1076,53 +1088,53 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">6</div>
+        <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.09894v1" target="_blank" rel="noopener">竞争中介博弈理论及其在城市自动驾驶路由市场的应用</a>
+            <a href="https://arxiv.org/abs/2608.07639" target="_blank" rel="noopener">基于双向图对齐的智能体技能一致性检测方法</a>
             
           </div>
           
-          <div class="article-subtitle">Competitive mediator games and urban CAV routing markets</div>
+          <div class="article-subtitle">SkillConsist: Detecting Inconsistencies in Agent Skills via Bidirectional Graph Alignment</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.MA</span>
-        <span>2026-08-10T17:42:40+00:00</span>
+        <span class="source">arxiv.org</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This paper introduces competitive mediator games to model autonomous routing markets, proving that market-share maximizing mediators naturally lead to monopoly equilibria in congestion games.
+        Proposes SkillConsist, a bidirectional graph alignment method to detect inconsistencies in LLM agent skills, preventing dangerous behavior and incorrect skill selection.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>提出竞争中介博弈框架，推广相关均衡概念</li>
+        <li>Introduces graph-based alignment to verify agent skill consistency beyond metadata.</li>
         
-        <li>证明市场份额最大化中介在拥塞博弈中必然形成垄断均衡</li>
+        <li>Detects hidden dangerous behaviors and mismatched skill scopes.</li>
         
-        <li>为自动驾驶路由服务市场的多智能体学习动态提供理论依据</li>
+        <li>Outperforms existing LLM-based consistency evaluation methods.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides theoretical foundations for designing fair multi-agent routing markets in autonomous driving. Helps platform designers anticipate and mitigate monopolistic outcomes in future ARAD ecosystems.</div>
+      <div class="why-matters">💡 Addresses a critical reliability gap in modular agent architectures, ensuring safe and accurate skill invocation in complex workflows.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#multiagent</span>
+        <span class="tag">#agent</span>
         
-        <span class="tag">#gametheory</span>
+        <span class="tag">#skillconsistency</span>
         
-        <span class="tag">#routing</span>
+        <span class="tag">#graphalignment</span>
         
-        <span class="tag">#autonomousdriving</span>
+        <span class="tag">#safety</span>
         
-        <span class="tag">#equilibrium</span>
+        <span class="tag">#llmagent</span>
         
       </div>
       
@@ -1132,53 +1144,51 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">6</div>
+        <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.08897v1" target="_blank" rel="noopener">基于约束Horn子句与多面体计算的无限域投票方法合成</a>
+            <a href="https://arxiv.org/abs/2608.07772" target="_blank" rel="noopener">μ重置协议下策略学习的样本复杂度理论分析</a>
             
           </div>
           
-          <div class="article-subtitle">Voting Method Synthesis on an Infinite Domain: A Possibility Theorem for Positive Involvement</div>
+          <div class="article-subtitle">The Sample Complexity of Policy Learning with Mu-Resets</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.MA</span>
-        <span>2026-08-09T20:16:56+00:00</span>
+        <span class="source">arxiv.org</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose a formal method using constrained Horn clauses and polyhedral computation to synthesize and verify voting methods on infinite domains, proving a possibility theorem for positive involvement.
+        Resolves sample complexity bounds for policy-based RL under μ-resets, clarifying the impact of policy realizability on training efficiency.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces constrained Horn clauses and polyhedral computation for infinite-domain voting synthesis</li>
+        <li>Resolves horizon H dependence in sample complexity</li>
         
-        <li>Uses SMT and Lean to formally verify voting method properties</li>
+        <li>Clarifies role of policy realizability</li>
         
-        <li>Proves a possibility theorem for positive involvement across four standard criteria</li>
+        <li>Provides theoretical guarantees for μ-resets protocol</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Advances formal methods in multi-agent systems by enabling rigorous synthesis and verification of social choice mechanisms beyond finite domains, bridging theoretical computer science and AI alignment.</div>
+      <div class="why-matters">💡 Strengthens theoretical foundations for sample-efficient RL, directly informing the design of robust and data-efficient AI agents.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#multiagent</span>
+        <span class="tag">#rl</span>
         
-        <span class="tag">#formalverification</span>
+        <span class="tag">#samplecomplexity</span>
         
-        <span class="tag">#smt</span>
+        <span class="tag">#policylearning</span>
         
-        <span class="tag">#socialchoice</span>
-        
-        <span class="tag">#theoreticalcs</span>
+        <span class="tag">#theoreticalai</span>
         
       </div>
       
@@ -1192,49 +1202,317 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="http://arxiv.org/abs/2608.07745v1" target="_blank" rel="noopener">基于贝叶斯博弈与认知层级的物联网分布式功率控制框架</a>
+            <a href="https://arxiv.org/abs/2608.08175" target="_blank" rel="noopener">AOC-CBS算法实现多智能体路径规划的连续时间最优搜索</a>
             
           </div>
           
-          <div class="article-subtitle">EBGT: Epistemology-aided Bayesian Game Theory for Uplink Power Control in Stochastically Distributed IoT Tiers</div>
+          <div class="article-subtitle">AOC-CBS: Anytime-Optimal Continuous-time Conflict-Based Search for Generalised Multi-Agent Path Finding</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cs.CE</span>
-        <span>2026-08-07T20:24:41+00:00</span>
+        <span class="source">arXiv cs.MA</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Proposes EBGT, a decentralized Bayesian game-theoretic framework using belief hierarchies to optimize uplink power control in dense IoT networks without inter-node feedback.
+        Introduces AOC-CBS, an anytime-optimal algorithm for continuous-time multi-agent path finding that improves coordination in dynamic environments beyond discrete-time assumptions.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>采用双层认知信念层级实现无反馈分布式功率均衡</li>
+        <li>Proposes AOC-CBS for continuous-time MAPF</li>
         
-        <li>利用泊松点过程建模空间随机干扰以适配低功耗设备</li>
+        <li>Achieves anytime-optimality in generalized scenarios</li>
         
-        <li>消除节点间重复反馈开销，显著降低通信与计算负担</li>
+        <li>Handles dynamic environments beyond discrete time</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 为高密度物联网部署提供了低通信开销的分布式资源分配方法，推动了不确定性环境下的多智能体协同决策研究。</div>
+      <div class="why-matters">💡 Advances foundational multi-agent planning algorithms, enabling more efficient coordination in real-world logistics, traffic, and robotics applications.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#multiagent</span>
         
-        <span class="tag">#gametheory</span>
+        <span class="tag">#pathfinding</span>
         
-        <span class="tag">#iot</span>
+        <span class="tag">#planning</span>
         
-        <span class="tag">#decentralizedcontrol</span>
+        <span class="tag">#algorithm</span>
         
-        <span class="tag">#optimization</span>
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="19">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.08516" target="_blank" rel="noopener">提出分层架构设计原生智能体组织，分离持久记录与动态运行层</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Fluid Structure, Rigid Record: A Layered Organizational Design Framework for Agent-Native Organizations</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a layered framework for agent-native organizations that separates persistent record architectures from dynamic operational layers to improve multi-agent coordination.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces four-store record architecture for persistence</li>
+        
+        <li>Separates dynamic operations from static structure</li>
+        
+        <li>Moves beyond role-prompt or fixed-workflow MAS</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a structural blueprint for scaling multi-agent systems in enterprise settings, addressing current limitations in conversational-topology MAS.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#architecture</span>
+        
+        <span class="tag">#organization</span>
+        
+        <span class="tag">#framework</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="20">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.09127" target="_blank" rel="noopener">面向辅助洗浴机器人的人体演示高保真捕捉与迁移方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">High Fidelity Capture, Reconstruction, and Transfer of Human Demonstrations for Robot-Assisted Bathing</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces a high-fidelity pipeline for capturing and transferring contact-rich human bathing demonstrations to improve robot safety and reliability in clinical care.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Captures contact-rich human demonstrations with high fidelity</li>
+        
+        <li>Transfers complex motion data to robotic control systems</li>
+        
+        <li>Enhances safety for clinical bathing assistance tasks</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances embodied AI for healthcare by bridging the gap between human demonstration and safe robotic execution in complex physical interactions.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#Robotics</span>
+        
+        <span class="tag">#ImitationLearning</span>
+        
+        <span class="tag">#HumanRobotInteraction</span>
+        
+        <span class="tag">#HealthcareAI</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="21">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07577" target="_blank" rel="noopener">自动驾驶开放世界感知：基于层级分类的超纲目标安全处理机制</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Open-World Hierarchical Perception: Taxonomic Abstraction over Class-Agnostic Proposals for the Safe Handling of Out-of-Vocabulary Road Objects</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a hierarchical taxonomy and runtime abstraction rule to safely handle out-of-vocabulary objects in autonomous driving perception, avoiding forced misclassification.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Replaces flat label sets with hierarchical taxonomy</li>
+        
+        <li>Handles OOV objects via runtime abstraction</li>
+        
+        <li>Improves safety for autonomous driving perception</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses a critical safety gap in autonomous driving where closed-set detectors fail on rare or unseen objects, enabling more robust real-world deployment of driving agents.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#computer_vision</span>
+        
+        <span class="tag">#autonomous_driving</span>
+        
+        <span class="tag">#open_world</span>
+        
+        <span class="tag">#perception</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="22">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07725" target="_blank" rel="noopener">平均奖励强化学习 regret 界常数分析与可审计证书构建</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Finite Constant Frontiers and Auditable Regret Certificates for Average-Reward Reinforcement Learning</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces a constant-aware comparison protocol and derives explicit finite lower regret certificates for average-reward RL in communicating MDPs.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Proposes constant-aware comparison protocol for RL regret bounds</li>
+        
+        <li>Derives explicit finite lower certificates for communicating MDPs</li>
+        
+        <li>Addresses comparability issues in theoretical RL guarantees</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides rigorous, comparable theoretical guarantees for average-reward RL, enabling more reliable deployment in long-horizon agent systems.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#rl</span>
+        
+        <span class="tag">#theoreticalai</span>
+        
+        <span class="tag">#mdp</span>
+        
+        <span class="tag">#regretbounds</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="23">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07870" target="_blank" rel="noopener">V-Simba架构通过优化网络设计显著提升视觉强化学习样本效率</a>
+            
+          </div>
+          
+          <div class="article-subtitle">V-Simba: Unleashing the Architectural Potential of RL in Visual Continuous Control</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces V-Simba, an architectural approach to visual continuous control RL that improves sample efficiency by leveraging structural priors over algorithmic tweaks.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Shifts focus from algorithmic fixes to architectural design for visual RL</li>
+        
+        <li>Demonstrates substantial sample efficiency gains in continuous control</li>
+        
+        <li>Bridges performance gap between state-based and visual RL methods</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a scalable architectural blueprint for deploying RL in robotics and real-world control where visual data collection is costly.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#ReinforcementLearning</span>
+        
+        <span class="tag">#VisualRL</span>
+        
+        <span class="tag">#Robotics</span>
+        
+        <span class="tag">#SampleEfficiency</span>
         
       </div>
       
@@ -1311,7 +1589,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-11 21:45 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-11 22:59 · Weekly AI Report Agent</div>
 
 </div>
 </body>

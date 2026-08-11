@@ -40,25 +40,22 @@ class IngestionManager:
         sem = asyncio.Semaphore(self.concurrency)
         stats = {"success": 0, "failed": 0, "total": 0}
 
-        # Map source_type to valid RawArticle types (Pydantic pattern)
-        TYPE_MAP = {"arxiv": "arxiv", "github": "github", "hf": "hf", "rsshub": "web", "web": "web", "rss": "web"}
-
         async with aiohttp.ClientSession(connector=connector) as session:
             async def fetch_one(source: dict) -> list[RawArticle]:
-                source_type = source.get("type", "rss")
+                original_type = source.get("type", "rss")
                 url = source.get("url", "")
 
-                # Infer actual source_type from URL (RSS sources may be arXiv feeds)
-                if source_type == "rss":
-                    if "arxiv.org" in url:
-                        source_type = "arxiv"
-                    elif "huggingface.co" in url:
-                        source_type = "hf"
-                    else:
-                        source_type = "web"
+                # 1) Choose extractor by original type (registry keys: rss, web, github, arxiv)
+                #    RSS feeds → feedparser (fast), NOT trafilatura (slow web scraping)
+                #    arxiv library has 3s built-in delays per request — avoid for RSS feeds
+                extractor_type = original_type  # "rss", "web", "github", etc.
 
-                raw_type = TYPE_MAP.get(source_type, "web")
-                extractor = get_extractor(raw_type)
+                # 2) Pydantic source_type must match pattern ^(github|hf|wechat|web|arxiv)$
+                #    Map: rss→web, hf→hf, everything else→web
+                pydantic_type = {"arxiv": "arxiv", "github": "github", "hf": "hf",
+                                 "rsshub": "web", "web": "web", "rss": "web"}.get(extractor_type, "web")
+
+                extractor = get_extractor(extractor_type)
                 stats["total"] += 1
 
                 async with sem:
@@ -76,24 +73,24 @@ class IngestionManager:
                                 "published": r.get("published"),
                                 "author": r.get("author"),
                                 "source_name": source.get("name", ""),
-                                "source_type": raw_type,
+                                "source_type": pydantic_type,
                                 "feed_url": source.get("url"),
-                                "content_preview": r.get("summary", "")[:BaseExtractor.get_preview_limit(raw_type)],
+                                "content_preview": r.get("summary", "")[:BaseExtractor.get_preview_limit(pydantic_type)],
                                 "raw_extra": {k: v for k, v in r.items() if k not in {"url", "title", "summary", "published", "author"}},
                             } for r in raw
                         ])
                         if validated:
-                            logger.info(f"[{source_type}] {source.get('name', '?')}: {len(validated)} articles")
+                            logger.info(f"[{extractor_type}] {source.get('name', '?')}: {len(validated)} articles")
                             stats["success"] += 1
                         else:
                             stats["failed"] += 1
                         return validated
                     except asyncio.TimeoutError:
-                        logger.warning(f"[{source_type}] {source.get('name', '?')}: timeout after {self.timeout}s")
+                        logger.warning(f"[{extractor_type}] {source.get('name', '?')}: timeout after {self.timeout}s")
                         stats["failed"] += 1
                         return []
                     except Exception as e:
-                        logger.warning(f"[{source_type}] {source.get('name', '?')}: {e}")
+                        logger.warning(f"[{extractor_type}] {source.get('name', '?')}: {e}")
                         stats["failed"] += 1
                         return []
 

@@ -29,7 +29,9 @@ CURATION_RULES = _load_prompt("curation-rules.md")
 DIGEST_PROMPT = _load_prompt("digest-prompt.md")
 
 # Batch size per LLM call
-BATCH_SIZE = 5
+BATCH_SIZE = 3
+# Summary length for batch mode
+BATCH_SUMMARY_LEN = 500
 
 CURATOR_SYSTEM = (
     "You are a senior technology news curator and intelligence analyst "
@@ -37,6 +39,19 @@ CURATOR_SYSTEM = (
     "You will be given multiple articles. For each, decide if it is relevant to AI frontiers "
     "and if so, produce a structured analysis. Output ONLY a valid JSON array without markdown fences."
 )
+
+# Template for a single article (fallback when batch fails)
+CURATOR_USER_TEMPLATE_SINGLE = """{rules}
+
+{digest}
+
+# Input
+Title: {title}
+Source: {source_name}
+URL: {url}
+Summary: {summary}
+
+Return ONLY valid JSON (no markdown fences):"""
 
 # Template for a single article inside a batch
 _ARTICLE_TEMPLATE = """--- Article {idx} ---
@@ -136,13 +151,44 @@ class FilterSummarizer:
             for i in range(0, len(uncached), BATCH_SIZE)
         ]
 
+        loop = asyncio.get_running_loop()
+
+        async def _do_one(a: dict):
+            """Process a single article via LLM (used as fallback when batch fails)."""
+            async with sem:
+                title = a.get("title", "")[:300]
+                summary = a.get("summary", "")[:800]
+                source_name = a.get("source_name", "")
+                user_prompt = CURATOR_USER_TEMPLATE_SINGLE.format(
+                    rules=CURATION_RULES,
+                    digest=DIGEST_PROMPT,
+                    title=title,
+                    source_name=source_name,
+                    summary=summary,
+                    url=a.get("url", ""),
+                )
+                response = await loop.run_in_executor(
+                    None, self.llm.chat, CURATOR_SYSTEM, user_prompt,
+                )
+                try:
+                    cleaned = response.strip()
+                    for fence in ["```json", "```"]:
+                        cleaned = cleaned.removeprefix(fence).removesuffix(fence).strip()
+                    data = json.loads(cleaned)
+                    if data.get("is_relevant", False):
+                        self._apply_result(a, data)
+                        self.cache.set(title, summary, data, source_name)
+                        curated.append(a)
+                except (json.JSONDecodeError, KeyError, ValueError) as e:
+                    logger.warning(f"Single JSON parse failed for [{title[:60]}]: {e}")
+
         async def _do_batch(batch: list[dict]):
             async with sem:
                 # Build batch prompt
                 article_blocks = []
                 for idx, a in enumerate(batch):
                     title = a.get("title", "")[:300]
-                    summary = a.get("summary", "")[:800]
+                    summary = a.get("summary", "")[:BATCH_SUMMARY_LEN]
                     source_name = a.get("source_name", "")
                     article_blocks.append(_ARTICLE_TEMPLATE.format(
                         idx=idx,
@@ -171,11 +217,10 @@ class FilterSummarizer:
                         cleaned = cleaned.removeprefix(fence).removesuffix(fence).strip()
                     results = json.loads(cleaned)
                 except (json.JSONDecodeError, ValueError) as e:
-                    logger.warning(f"Batch JSON parse failed ({len(batch)} articles): {e}")
-                    # Fallback: try to process each article individually
+                    logger.warning(f"Batch JSON parse failed ({len(batch)} articles): {e}. Fallback: process individually.")
+                    # Fallback: process each article individually
                     for a in batch:
-                        title = a.get("title", "")[:300]
-                        logger.warning(f"  Skipping uncached article: {title[:60]}")
+                        await _do_one(a)
                     return
 
                 if isinstance(results, dict):

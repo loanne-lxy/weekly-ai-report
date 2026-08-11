@@ -81,7 +81,7 @@ model:
   api_key: dummy
   base_url: http://8.130.169.133:8088/v1
   max_retries: 5
-  max_tokens: 4096
+  max_tokens: 8192
   name: Qwen3.6-27B
   provider: custom
   temperature: 0.3

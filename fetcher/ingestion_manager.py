@@ -40,10 +40,25 @@ class IngestionManager:
         sem = asyncio.Semaphore(self.concurrency)
         stats = {"success": 0, "failed": 0, "total": 0}
 
+        # Map source_type to valid RawArticle types (Pydantic pattern)
+        TYPE_MAP = {"arxiv": "arxiv", "github": "github", "hf": "hf", "rsshub": "web", "web": "web", "rss": "web"}
+
         async with aiohttp.ClientSession(connector=connector) as session:
             async def fetch_one(source: dict) -> list[RawArticle]:
                 source_type = source.get("type", "rss")
-                extractor = get_extractor(source_type)
+                url = source.get("url", "")
+
+                # Infer actual source_type from URL (RSS sources may be arXiv feeds)
+                if source_type == "rss":
+                    if "arxiv.org" in url:
+                        source_type = "arxiv"
+                    elif "huggingface.co" in url:
+                        source_type = "hf"
+                    else:
+                        source_type = "web"
+
+                raw_type = TYPE_MAP.get(source_type, "web")
+                extractor = get_extractor(raw_type)
                 stats["total"] += 1
 
                 async with sem:
@@ -61,9 +76,9 @@ class IngestionManager:
                                 "published": r.get("published"),
                                 "author": r.get("author"),
                                 "source_name": source.get("name", ""),
-                                "source_type": source_type,
+                                "source_type": raw_type,
                                 "feed_url": source.get("url"),
-                                "content_preview": r.get("summary", "")[:BaseExtractor.get_preview_limit(source_type)],
+                                "content_preview": r.get("summary", "")[:BaseExtractor.get_preview_limit(raw_type)],
                                 "raw_extra": {k: v for k, v in r.items() if k not in {"url", "title", "summary", "published", "author"}},
                             } for r in raw
                         ])

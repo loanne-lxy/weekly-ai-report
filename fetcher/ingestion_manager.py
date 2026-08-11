@@ -98,7 +98,7 @@ def _register_builtins():
     except Exception as e:
         logger.debug(f"Could not register arxiv extractor: {e}")
 
-    # RSS
+    # RSS — 通用 RSS 连接器，根据 URL 自动推断 source_type
     try:
         from fetcher.extractors import RSSExtractor
         class _RSSAdapter(BaseExtractor):
@@ -106,7 +106,8 @@ def _register_builtins():
             async def extract(self, session, source):
                 re_ = RSSExtractor()
                 raw = await re_.extract(session, source)
-                st = source.get("type", "web")  # 默认 web 长度
+                # RSS 是连接器，source_type 根据 URL 自动推断
+                st = self._infer_source_type(source.get("source_type"), source.get("url", ""))
                 return BaseExtractor.batch_validate([{
                     "url": r.get("url", ""),
                     "title": r.get("title", ""),
@@ -119,6 +120,18 @@ def _register_builtins():
                     "content_preview": r.get("summary", "")[:BaseExtractor.get_preview_limit(st)],
                     "raw_extra": {k: v for k, v in r.items() if k not in {"url", "title", "summary", "published", "author"}},
                 } for r in raw])
+
+            @staticmethod
+            def _infer_source_type(explicit: str | None, url: str) -> str:
+                """根据显式配置或 URL 特征推断 source_type。"""
+                if explicit and explicit in BaseExtractor.CONTENT_PREVIEW_LIMITS:
+                    return explicit
+                url_lower = url.lower()
+                if "arxiv.org" in url_lower:
+                    return "arxiv"
+                if "huggingface.co" in url_lower:
+                    return "hf"
+                return "web"  # fallback
         register_extractor("rss", _RSSAdapter)
     except Exception as e:
         logger.debug(f"Could not register rss extractor: {e}")

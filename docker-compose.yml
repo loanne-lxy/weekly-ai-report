@@ -1,0 +1,79 @@
+version: "3.9"
+
+# Weekly AI Report Agent — Docker Compose 编排
+# 启动: docker compose up -d
+# 停止: docker compose down
+# 查看日志: docker compose logs -f app
+
+services:
+  # ───────────────────────────────────────────
+  # 主应用
+  # ───────────────────────────────────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: weekly-ai-report
+    restart: unless-stopped
+    working_dir: /app
+    command: ["main.py", "--no-fetch"]  # 默认不抓取，手动跑 python main.py
+    volumes:
+      - ./:/app                              # 开发模式：挂载源码
+      - ./output:/app/output                 # 周报输出持久化
+      - ./sources.yaml:/app/sources.yaml:ro   # 源配置只读挂载
+      - ./config.yaml:/app/config.yaml:ro     # 模型配置只读挂载
+      - ./dedup:/app/dedup                   # 去重数据库
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=Asia/Shanghai
+      # 内网模型地址（根据实际修改）
+      - MODEL_BASE_URL=http://host.docker.internal:8848/v1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # WSL/Windows 访问宿主机
+    networks:
+      - report-net
+
+  # ───────────────────────────────────────────
+  # 微信公众号 RSS 服务
+  # 部署方式: 本地运行 we-mp-rss 容器
+  # 文档: https://github.com/rachelos/we-mp-rss
+  # ───────────────────────────────────────────
+  # we-mp-rss:
+  #   image: rachelos/we-mp-rss:latest
+  #   container_name: we-mp-rss
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - ./data/we-mp-rss:/app/data
+  #   environment:
+  #     - TZ=Asia/Shanghai
+  #   networks:
+  #     - report-net
+
+  # ───────────────────────────────────────────
+  # Crawl4AI — 可选，用于 JS 渲染页面抓取
+  # 文档: https://github.com/unclecode/crawl4ai
+  # ───────────────────────────────────────────
+  # crawl4ai:
+  #   image: unclecode/crawl4ai:latest
+  #   container_name: crawl4ai
+  #   restart: unless-stopped
+  #   ports:
+  #     - "11235:11235"
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 2G
+  #   networks:
+  #     - report-net
+
+# ─── 网络 ───────────────────────────────────
+networks:
+  report-net:
+    driver: bridge
+
+# ─── 数据卷（持久化） ───────────────────────
+volumes:
+  we-mp-rss-data:
+  dedup-db:

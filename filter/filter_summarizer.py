@@ -65,7 +65,7 @@ class FilterSummarizer:
         return asyncio.run(self._curate_async(articles))
 
     async def _curate_async(self, articles: list[dict]) -> list[dict]:
-        sem = asyncio.Semaphore(5)
+        sem = asyncio.Semaphore(3)
         curated = []
 
         async def _do_one(a: dict):
@@ -131,7 +131,7 @@ class FilterSummarizer:
                 except (json.JSONDecodeError, KeyError, ValueError) as e:
                     logger.warning(f"JSON parse failed for [{a.get('title','')[:60]}]: {e}")
 
-        await asyncio.gather(*[_do_one(a) for a in articles[:80]])
+        await asyncio.gather(*[_do_one(a) for a in articles[:120]])
         logger.info(
             f"Curator: {len(articles)} → {len(curated)} relevant "
             f"(cache: {self.cache.stats['hits']} hits, {self.cache.stats['misses']} misses)"

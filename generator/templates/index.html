@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ title }}</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+/* ── Hero Header ── */
+.hero {
+  text-align: center;
+  padding: 48px 32px 40px;
+  background: linear-gradient(180deg, #e8f4f8 0%, #f5f7fa 100%);
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 32px;
+}
+.hero .week-badge {
+  display: inline-block; background: #1a5276; color: #fff;
+  font-size: 13px; padding: 0 20px; height: 28px; line-height: 28px;
+  border-radius: 14px; margin-bottom: 16px; font-weight: 500;
+}
+.hero h1 {
+  font-size: 36px; font-weight: 700; color: #1a5276; margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+.hero .date {
+  font-size: 14px; color: #8c8c8c; margin-bottom: 24px;
+}
+.hero .summary {
+  max-width: 800px; margin: 0 auto; text-align: left;
+  background: #fff; border-radius: 8px; padding: 20px 24px;
+  border-left: 4px solid #1677ff; font-size: 14px; color: #434343;
+  line-height: 1.7; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.hero .summary strong { color: #1a5276; }
+
+/* ── Stats Bar ── */
+.stats-bar {
+  display: flex; gap: 1px; background: #e8e8e8; border-radius: 8px;
+  overflow: hidden; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.stat-item {
+  flex: 1; text-align: center; padding: 16px 8px; background: #fff;
+  transition: background 0.15s;
+}
+.stat-item:hover { background: #f0f5ff; }
+.stat-item .num { font-size: 24px; font-weight: 700; color: #1a5276; }
+.stat-item .label { font-size: 12px; color: #8c8c8c; margin-top: 4px; }
+
+/* ── Layout ── */
+.layout { display: flex; gap: 24px; }
+.main { flex: 1; min-width: 0; }
+.sidebar { width: 280px; flex-shrink: 0; }
+
+/* ── Category Card ── */
+.cat-card {
+  border: 1px solid #e8e8e8; border-radius: 8px; margin-bottom: 16px;
+  background: #fff; transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer; display: block; text-decoration: none; color: inherit;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.cat-card-header {
+  display: flex; align-items: center; padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.cat-card-header .icon { font-size: 20px; margin-right: 12px; }
+.cat-card-header .name { font-size: 16px; font-weight: 600; flex: 1; }
+.cat-card-header .count {
+  font-size: 24px; font-weight: 700; color: #1a5276; margin-right: 8px;
+}
+.cat-card-header .unit { font-size: 12px; color: #8c8c8c; }
+.cat-card-body { padding: 16px 20px; }
+.cat-card-body p { font-size: 14px; color: #595959; line-height: 1.6; }
+.cat-card-footer {
+  padding: 8px 20px 16px; font-size: 13px; color: #1677ff; font-weight: 500;
+}
+
+/* Empty card */
+.cat-card.empty { opacity: 0.55; cursor: default; }
+.cat-card.empty:hover { border-color: #e8e8e8; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Sidebar ── */
+.sidebar-section {
+  border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
+  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.sidebar-section h3 {
+  font-size: 14px; font-weight: 600; color: #1a5276; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;
+}
+.mini-stat {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0;
+}
+.mini-stat + .mini-stat { border-top: 1px solid #f5f5f5; }
+.mini-stat .label { font-size: 13px; color: #595959; }
+.mini-stat .value { font-size: 16px; font-weight: 600; }
+.mini-stat .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; }
+  .hero h1 { font-size: 28px; }
+  .hero { padding: 32px 24px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="week-badge">{{ week }}</div>
+  <h1>{{ title }}</h1>
+  <div class="date">{{ generated_at }}</div>
+  <div class="summary">
+    <strong>📋 整体摘要</strong><br>
+    本周 AI 领域持续呈现高速发展态势，共收录 {{ stats.values() | sum }} 篇高质量资讯。{% for cat_name, cat_articles in categories.items() %}{% if cat_articles and domain_summaries.get(cat_name) %}【{{ cat_name }}】{{ domain_summaries[cat_name] }}{% endif %}{% endfor %}{% if empty_cats %} 本周 {{ empty_cats | join("、") }} 等领域产出较少，后续将引入往期精选内容保持信息连续性。{% endif %}
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    {% for cat_name in categories.keys() %}
+    <div class="stat-item">
+      <div class="num">{{ stats[cat_name] }}</div>
+      <div class="label">{{ icons.get(cat_name, "") }} {{ cat_name }}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Main + Sidebar -->
+  <div class="layout">
+    <div class="main">
+      {% for cat_name in categories.keys() %}
+      {% set cat_articles = categories[cat_name] %}
+      {% set cat_count = stats[cat_name] %}
+      {% set cat_slug = category_slugs.get(cat_name, cat_name.lower().replace(" ", "-")) %}
+      {% if cat_articles %}
+      <a class="cat-card" href="{{ cat_slug }}.html" aria-label="查看{{ cat_name }}分类的{{ cat_count }}篇文章">
+        <div class="cat-card-header">
+          <span class="icon">{{ icons.get(cat_name, "") }}</span>
+          <span class="name">{{ cat_name }}</span>
+          <span class="count">{{ cat_count }}</span><span class="unit">篇</span>
+        </div>
+        <div class="cat-card-body">
+          <p>{{ domain_summaries.get(cat_name, "暂无摘要") }}</p>
+        </div>
+        <div class="cat-card-footer">查看全部 {{ cat_count }} 篇 →</div>
+      </a>
+      {% else %}
+      <div class="cat-card empty" aria-label="{{ cat_name }}本周无新内容">
+        <div class="cat-card-header">
+          <span class="icon">{{ icons.get(cat_name, "") }}</span>
+          <span class="name">{{ cat_name }}</span>
+          <span class="count" style="color:#bfbfbf;">0</span><span class="unit">篇</span>
+        </div>
+        <div class="cat-card-body">
+          <p style="color:#bfbfbf;">本周暂无新内容，将回填往期精选文章。</p>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <h3>📈 本周统计</h3>
+        {% for cat_name in categories.keys() %}
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:{{ colors.get(cat_name, '#1677ff') }};"></span>{{ cat_name }}</span>
+          <span class="value">{{ stats[cat_name] }}</span>
+        </div>
+        {% endfor %}
+        <div style="border-top:2px solid #1a5276; margin-top:8px; padding-top:8px;">
+          <div class="mini-stat">
+            <span class="label" style="font-weight:600;color:#1a5276;">合计</span>
+            <span class="value" style="color:#1a5276;">{{ stats.values() | sum }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>🔥 本周趋势</h3>
+        {% for cat_name in categories.keys() %}
+        {% if trends.get(cat_name) %}
+        <div style="padding:8px 0;">
+          <div style="font-size:13px;color:#595959;">{{ icons.get(cat_name, "") }} {{ cat_name }}</div>
+          <div style="font-size:14px;color:#1a5276;font-weight:500;">{{ trends[cat_name] }}</div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

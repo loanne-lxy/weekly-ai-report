@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ cat_name }} — {{ title }}</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+.back-nav .arrow { font-size: 16px; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid {{ cat_color }};
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: {{ cat_color }}15; color: {{ cat_color }};
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Article Card ── */
+.article-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.article-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+
+.article-card.carried { opacity: 0.65; }
+.article-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+.article-header {
+  display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
+}
+.score-badge {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; color: #fff;
+}
+.score-high { background: linear-gradient(135deg, #ff4d4f, #ff7875); }
+.score-mid { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+.score-low { background: linear-gradient(135deg, #8c8c8c, #bfbfbf); }
+
+.article-title-area { flex: 1; }
+.article-title {
+  font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;
+  line-height: 1.4;
+}
+.article-title a { color: inherit; text-decoration: none; }
+.article-title a:hover { color: #1677ff; }
+.article-subtitle {
+  font-size: 13px; color: #8c8c8c; font-style: italic; line-height: 1.4;
+}
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; height: 22px; line-height: 22px; border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.article-meta {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.article-meta .source { font-weight: 500; color: #595959; }
+
+.article-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+.why-matters {
+  font-size: 13px; color: #1677ff; font-style: italic;
+  padding: 8px 12px; background: #f0f5ff; border-radius: 4px;
+  margin-bottom: 12px; line-height: 1.5;
+}
+
+.article-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Pagination ── */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 32px 0;
+}
+.page-btn {
+  width: 32px; height: 32px; border-radius: 6px; border: 1px solid #e8e8e8;
+  background: #fff; color: #595959; font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.15s;
+}
+.page-btn:hover { border-color: #1677ff; color: #1677ff; }
+.page-btn.active {
+  background: #1677ff; color: #fff; border-color: #1677ff;
+}
+.page-btn.disabled {
+  background: #f5f5f5; color: #d9d9d9; cursor: not-allowed;
+}
+.page-btn.disabled:hover { border-color: #e8e8e8; color: #d9d9d9; }
+.page-ellipsis { color: #bfbfbf; font-size: 13px; padding: 0 4px; }
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .article-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">{{ cat_icon }}</span>
+    <h1>{{ cat_name }}</h1>
+    <span class="count-badge">{{ article_count }} 篇</span>
+  </div>
+
+  <!-- Domain Summary -->
+  {% if domain_summary %}
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    {{ domain_summary }}
+  </div>
+  {% endif %}
+
+  <!-- Articles Container -->
+  {% if articles %}
+  <div class="articles-container" id="articles">
+    {% for article in articles %}
+    <div class="article-card{% if article.get('carried_over') %} carried{% endif %}" data-index="{{ loop.index0 }}">
+      <div class="article-header">
+        {% set score = article.get('priority_score', article.get('importance', 5)) %}
+        {% if score >= 8 %}
+        <div class="score-badge score-high">{{ score }}</div>
+        {% elif score >= 5 %}
+        <div class="score-badge score-mid">{{ score }}</div>
+        {% else %}
+        <div class="score-badge score-low">{{ score }}</div>
+        {% endif %}
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="{{ article.get('url', '#') }}" target="_blank" rel="noopener">{{ article.get('chinese_title', article.get('title', '未命名文章')) }}</a>
+            {% if article.get('carried_over') %}
+            <span class="carried-badge" style="margin-left:8px;">往期</span>
+            {% endif %}
+          </div>
+          {% if article.get('title') and article.get('title') != article.get('chinese_title') %}
+          <div class="article-subtitle">{{ article.title }}</div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">{{ article.get('source_name', 'Unknown') }}</span>
+        <span>{{ article.get('published', '') }}</span>
+      </div>
+      {% if article.get('ai_summary') or article.get('tldr') %}
+      <div class="article-summary">
+        {{ article.get('ai_summary', article.get('tldr', '')) }}
+      </div>
+      {% endif %}
+      {% if article.get('key_insights') %}
+      <ul class="key-insights">
+        {% for insight in article.key_insights[:3] %}
+        <li>{{ insight }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+      {% if article.get('why_it_matters') %}
+      <div class="why-matters">💡 {{ article.why_it_matters }}</div>
+      {% endif %}
+      {% if article.get('tags') %}
+      <div class="article-tags">
+        {% for tag in article.tags %}
+        <span class="tag">#{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+    (function() {
+      const PER_PAGE = 10;
+      const cards = document.querySelectorAll('.article-card');
+      const total = cards.length;
+      const totalPages = Math.ceil(total / PER_PAGE);
+      let currentPage = 1;
+
+      function showPage(page) {
+        currentPage = page;
+        cards.forEach((card, i) => {
+          const pageStart = (page - 1) * PER_PAGE;
+          const pageEnd = page * PER_PAGE;
+          card.style.display = (i >= pageStart && i < pageEnd) ? '' : 'none';
+        });
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const container = document.getElementById('pagination');
+        if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+        let html = '';
+        // Prev
+        html += `<button class="page-btn${currentPage === 1 ? ' disabled' : ''}" data-page="${currentPage - 1}" aria-label="上一页">‹</button>`;
+
+        // Page numbers
+        const pages = getPageNumbers(currentPage, totalPages);
+        pages.forEach(p => {
+          if (p === '...') {
+            html += `<span class="page-ellipsis">…</span>`;
+          } else {
+            html += `<button class="page-btn${p === currentPage ? ' active' : ''}" data-page="${p}" aria-label="第${p}页">${p}</button>`;
+          }
+        });
+
+        // Next
+        html += `<button class="page-btn${currentPage === totalPages ? ' disabled' : ''}" data-page="${currentPage + 1}" aria-label="下一页">›</button>`;
+
+        container.innerHTML = html;
+
+        // Bind clicks
+        container.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+          btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
+        });
+      }
+
+      function getPageNumbers(current, total) {
+        if (total <= 7) return Array.from({length: total}, (_, i) => i + 1);
+        const pages = [];
+        pages.push(1);
+        if (current > 3) pages.push('...');
+        for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+          pages.push(i);
+        }
+        if (current < total - 2) pages.push('...');
+        pages.push(total);
+        return pages;
+      }
+
+      // Init
+      showPage(1);
+    })();
+  </script>
+  {% else %}
+  <div class="empty-state">
+    <div class="icon">📭</div>
+    <h3>暂无本周新内容</h3>
+    <p>本周 {{ cat_name }} 领域暂无新资讯，将回填往期精选文章。</p>
+  </div>
+  {% endif %}
+
+  <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

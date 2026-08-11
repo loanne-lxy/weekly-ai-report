@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+.back-nav .arrow { font-size: 16px; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #3b82f615; color: #3b82f6;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Article Card ── */
+.article-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.article-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+
+.article-card.carried { opacity: 0.65; }
+.article-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+.article-header {
+  display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
+}
+.score-badge {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; color: #fff;
+}
+.score-high { background: linear-gradient(135deg, #ff4d4f, #ff7875); }
+.score-mid { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+.score-low { background: linear-gradient(135deg, #8c8c8c, #bfbfbf); }
+
+.article-title-area { flex: 1; }
+.article-title {
+  font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;
+  line-height: 1.4;
+}
+.article-title a { color: inherit; text-decoration: none; }
+.article-title a:hover { color: #1677ff; }
+.article-subtitle {
+  font-size: 13px; color: #8c8c8c; font-style: italic; line-height: 1.4;
+}
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; height: 22px; line-height: 22px; border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.article-meta {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.article-meta .source { font-weight: 500; color: #595959; }
+
+.article-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+.why-matters {
+  font-size: 13px; color: #1677ff; font-style: italic;
+  padding: 8px 12px; background: #f0f5ff; border-radius: 4px;
+  margin-bottom: 12px; line-height: 1.5;
+}
+
+.article-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Pagination ── */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 32px 0;
+}
+.page-btn {
+  width: 32px; height: 32px; border-radius: 6px; border: 1px solid #e8e8e8;
+  background: #fff; color: #595959; font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.15s;
+}
+.page-btn:hover { border-color: #1677ff; color: #1677ff; }
+.page-btn.active {
+  background: #1677ff; color: #fff; border-color: #1677ff;
+}
+.page-btn.disabled {
+  background: #f5f5f5; color: #d9d9d9; cursor: not-allowed;
+}
+.page-btn.disabled:hover { border-color: #e8e8e8; color: #d9d9d9; }
+.page-ellipsis { color: #bfbfbf; font-size: 13px; padding: 0 4px; }
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .article-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🧠</span>
+    <h1>LLM</h1>
+    <span class="count-badge">23 篇</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周 LLM 领域聚焦于推理效率优化
+  </div>
+  
+
+  <!-- Articles Container -->
+  
+  <div class="articles-container" id="articles">
+    
+    <div class="article-card" data-index="0">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/commit/81df408ab7c166bc96563c9ad2d4a1c2441a357a" target="_blank" rel="noopener">Transformers库弃用Mistral分词隐式字段</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[MistralCommonBackend] Stop relying on mistral-common's Tokenized.tex…</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-08-10T07:41:25+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        HuggingFace Transformers updates the MistralCommonBackend to explicitly decode tokens instead of relying on the deprecated Tokenized.text field, improving tokenization reliability and preventing subtle pipeline bugs.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Update tokenization pipelines to use explicit decoding instead of Tokenized.text</li>
+        
+        <li>Verify Mistral model outputs for consistency after upgrading Transformers</li>
+        
+        <li>Check custom backend implementations for deprecated field dependencies</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures more robust and predictable tokenization for Mistral models in the Transformers library, preventing subtle bugs in downstream inference and training pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#tokenization</span>
+        
+        <span class="tag">#mistral</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#backend</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/commit/b7e0c20b9ff7c2abfa2eed95ada9051307401158" target="_blank" rel="noopener">HF库回退CodeLlama分词器修复</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Revert "Fix CodeLlama tokenizer dropping leading whitespace on decode…</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-08-10T07:54:27+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        HuggingFace Transformers reverts a CodeLlama tokenizer fix that inadvertently broke special token matching in existing checkpoints due to normalization changes.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Reverts tokenizer normalization change that broke special token matching</li>
+        
+        <li>Fixes checkpoint compatibility issues for CodeLlama and related models</li>
+        
+        <li>Highlights risks of modifying pre-tokenizers without full backward compatibility tests</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures stability for developers deploying CodeLlama and other models via Transformers, preventing silent tokenization mismatches that degrade model performance.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#tokenizer</span>
+        
+        <span class="tag">#codellama</span>
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="2">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt" target="_blank" rel="noopener">GPT-5.6 Sol升级与Luna免费开放</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Improving GPT‑5.6 Sol in ChatGPT—and expanding access to GPT-5.6 Luna for free users</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-06T10:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI updates ChatGPT with improved GPT-5.6 Sol for better accuracy and consistency, while expanding free-tier access to GPT-5.6 Luna for unlimited everyday chats.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>GPT-5.6 Sol receives accuracy and consistency upgrades in ChatGPT.</li>
+        
+        <li>Free users gain expanded access to GPT-5.6 Luna for unlimited daily chats.</li>
+        
+        <li>Update reflects OpenAI's strategy to tier model capabilities across user plans.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates OpenAI's continued iteration on the GPT-5.6 architecture and its push to democratize access to advanced reasoning models, setting a new baseline for consumer AI interactions.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#modelupdate</span>
+        
+        <span class="tag">#openai</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="3">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/continuous-voice-interaction-with-gpt-live" target="_blank" rel="noopener">OpenAI发布GPT-Live实时语音架构</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How we built a realtime system for responsive voice AI in six months</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-03T07:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI introduces GPT-Live, a low-latency, turnless speech model architecture enabling continuous, natural real-time voice interactions with AI.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces GPT-Live with a turnless speech model for continuous voice interaction</li>
+        
+        <li>Features low-latency architecture optimized for responsive, natural conversations</li>
+        
+        <li>Details six-month development cycle focusing on real-time system engineering</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances real-time AI interaction by removing conversational turns. This enables seamless voice interfaces that could redefine human-AI communication and agent deployment.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#voiceAI</span>
+        
+        <span class="tag">#realtime</span>
+        
+        <span class="tag">#speechModel</span>
+        
+        <span class="tag">#lowLatency</span>
+        
+        <span class="tag">#LLM</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="4">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">9</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores" target="_blank" rel="noopener">调整两项API设置使ARC-AGI-3得分提升三倍</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How enabling two settings tripled our scores on the ARC-AGI-3 benchmark</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-29T15:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Enabling reasoning retention and compaction in GPT-5.6's API tripled performance on the ARC-AGI-3 benchmark while improving efficiency.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Enable reasoning retention and compaction settings to boost performance on complex tasks.</li>
+        
+        <li>Configure GPT-5.6 API parameters to triple ARC-AGI-3 scores without retraining.</li>
+        
+        <li>Apply compaction to reduce token overhead while preserving critical reasoning steps.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates that strategic API configuration can yield massive benchmark gains without new model training, offering a cost-effective path for developers to maximize current LLM capabilities on hard reasoning tasks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#reasoning</span>
+        
+        <span class="tag">#benchmark</span>
+        
+        <span class="tag">#api</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="5">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">9</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency" target="_blank" rel="noopener">OpenAI发布GPT-5.6：提升模型与智能体效率</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How GPT-5.6 fuses frontier intelligence with frontier efficiency</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-29T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI releases GPT-5.6, a new model architecture that significantly improves computational efficiency across inference and agentic workflows while maintaining frontier-level intelligence.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopt GPT-5.6 for cost-effective agentic workflows and faster inference.</li>
+        
+        <li>Leverage improved model efficiency to scale multi-agent systems without proportional compute costs.</li>
+        
+        <li>Benchmark new efficiency metrics against previous GPT versions for deployment planning.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 This release directly addresses the primary bottleneck in AI deployment—compute costs—enabling developers to run complex agentic workflows at scale. It sets a new industry standard for balancing model capability with operational efficiency.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#efficiency</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="6">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models" target="_blank" rel="noopener">OpenAI公布第三方AI模型安全评估新规</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Third-party cyber evaluations involving OpenAI models</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-04T19:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI addresses recent third-party cybersecurity evaluation incidents and introduces new safeguards to secure and standardize AI model testing protocols.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Monitor OpenAI's updated evaluation protocols before conducting third-party security tests.</li>
+        
+        <li>Implement new safeguard requirements to prevent unauthorized model access during red-teaming.</li>
+        
+        <li>Align internal AI testing workflows with OpenAI's published cybersecurity evaluation standards.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Sets a new industry standard for responsible AI security testing, directly impacting how researchers and developers conduct red-teaming and vulnerability assessments on frontier models.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#alignment</span>
+        
+        <span class="tag">#security</span>
+        
+        <span class="tag">#evaluation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="7">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6" target="_blank" rel="noopener">OpenAI发布GPT-5.6高效模型降低部署成本</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Advancing the price-performance frontier with GPT-5.6</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-30T10:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI introduces lower pricing for GPT-5.6 Luna and Terra variants, emphasizing improved efficiency to help enterprises scale AI workflows cost-effectively.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>GPT-5.6 Luna and Terra variants offer reduced pricing for enterprise deployment</li>
+        
+        <li>Optimized model efficiency lowers compute costs while maintaining performance</li>
+        
+        <li>Targets scalable AI workflow integration for business applications</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Reduces the financial barrier for enterprise AI adoption, enabling broader deployment of advanced LLM capabilities without proportional compute cost increases.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#LLM</span>
+        
+        <span class="tag">#Inference</span>
+        
+        <span class="tag">#Serving</span>
+        
+        <span class="tag">#CostOptimization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="8">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/circles" target="_blank" rel="noopener">Circles利用OpenAI API优化电信服务</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Circles powers telco personalization with OpenAI technology</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-03T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Circles leverages OpenAI API and Codex to deliver AI-native telecom experiences, boosting ARPU by 22% and cutting churn by 9% while streamlining development.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Circles integrates OpenAI API and Codex for personalized telecom experiences</li>
+        
+        <li>Implementation drives 22% ARPU increase and 9% churn reduction</li>
+        
+        <li>AI-native workflow significantly improves internal development efficiency</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates tangible ROI and operational efficiency gains from integrating foundational LLM APIs into legacy telecom infrastructure, providing a benchmark for enterprise AI adoption.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#api</span>
+        
+        <span class="tag">#enterprise-ai</span>
+        
+        <span class="tag">#codex</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="9">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/how-the-world-is-putting-chatgpt-to-work" target="_blank" rel="noopener">OpenAI发布全球ChatGPT使用趋势数据</a>
+            
+          </div>
+          
+          <div class="article-subtitle">From asking to doing: How the world is putting ChatGPT to work</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-06T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI Signals data reveals global ChatGPT usage patterns, highlighting adoption trends and evolving user behavior across countries.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Global usage data shows ChatGPT adoption varies by country, with emerging markets leading growth.</li>
+        
+        <li>Usage patterns shift from simple queries to complex tasks, indicating deeper integration into workflows.</li>
+        
+        <li>Data provides insights for developers to tailor applications to regional user needs.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 This data offers a rare glimpse into real-world LLM adoption, guiding developers and businesses in optimizing deployment strategies and understanding market readiness.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#chatgpt</span>
+        
+        <span class="tag">#adoption</span>
+        
+        <span class="tag">#usage-trends</span>
+        
+        <span class="tag">#openai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="10">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.13.0" target="_blank" rel="noopener">Transformers 5.13.0 集成 KimiK</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Release v5.13.0</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-07-03T16:06:27+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.13.0 introduces native support for the KimiK 2.5, 2.6, and 2.7 model families, expanding the library's coverage of recent open-weight architectures.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Add KimiK 2.5/2.6/2.7 models to your pipeline using the updated Transformers library.</li>
+        
+        <li>Update to v5.13.0 via pip to access native tokenization and inference support.</li>
+        
+        <li>Review release notes for dependency updates before upgrading production environments.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands the open-source ecosystem's compatibility with emerging model families, allowing developers to quickly integrate and fine-tune KimiK architectures without custom code.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#model-integration</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#open-source</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="11">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.10.1" target="_blank" rel="noopener">HF库v5.10.1发布：新增Gemma4支持</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Release v5.10.1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-06-03T15:37:41+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.10.1 replaces a yanked release and introduces official support for Gemma4 unified and MTP architectures.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Replaces yanked v5.10.0 due to corrupted branch</li>
+        
+        <li>Adds native support for Gemma4 unified and MTP models</li>
+        
+        <li>Stabilizes core NLP library for latest Google models</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures developers can immediately integrate Google's latest Gemma4 architectures into their pipelines without waiting for third-party implementations, stabilizing the core NLP library.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#gemma</span>
+        
+        <span class="tag">#model-support</span>
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#huggingface</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.12.0" target="_blank" rel="noopener">Transformers v5.12.0 发布</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Release v5.12.0</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-06-12T14:39:40+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.12.0 introduces official support for the MiniMax-M3-VL vision-language model, expanding the library's multi-modal capabilities.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Update to v5.12.0 to access MiniMax-M3-VL support</li>
+        
+        <li>Integrate the new VLM into existing HF pipelines</li>
+        
+        <li>Leverage updated multi-modal inference optimizations</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands the open-source ecosystem's access to cutting-edge vision-language models, allowing developers to deploy MiniMax-M3-VL with standard HF tooling and pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#multimodal</span>
+        
+        <span class="tag">#vlm</span>
+        
+        <span class="tag">#model-release</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/chatgpt-for-academic-researchers" target="_blank" rel="noopener">OpenAI向10万名学者开放ChatGPT高级模型</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Accelerating scientific discovery with ChatGPT for Academic Researchers</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-29T10:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI announces free access to advanced ChatGPT models for 100,000 academic researchers to support scientific collaboration and discovery.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Apply for free access to advanced ChatGPT models as an academic researcher.</li>
+        
+        <li>Integrate ChatGPT into research workflows to accelerate data analysis and collaboration.</li>
+        
+        <li>Track OpenAI's academic program for updates on model access and usage guidelines.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands the ecosystem of advanced AI users in academia, potentially driving new research methodologies and open-source contributions. Provides a benchmark for how major AI labs support scientific communities.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#research</span>
+        
+        <span class="tag">#access</span>
+        
+        <span class="tag">#openai</span>
+        
+        <span class="tag">#science</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="14">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.13.1" target="_blank" rel="noopener">Transformers v5.13.1 发布</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Patch release v5.13.1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-07-11T09:15:36+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.13.1 patch release improves compatibility with the latest vLLM version and fixes layer mapping and auto-registration bugs for custom models.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Update to v5.13.1 to ensure seamless integration with the latest vLLM release.</li>
+        
+        <li>Fixes legacy layer type remapping and auto-mapping registration for custom models.</li>
+        
+        <li>Resolves compatibility issues with new linear layer type names in custom code.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures developers using the Transformers library can leverage the latest vLLM optimizations without encountering layer mapping or registration errors, maintaining stability in high-throughput inference pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#vllm</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#patch</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="15">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.14.0" target="_blank" rel="noopener">Transformers 5.14.0 新增 Inkling</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Release v5.14.0</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-07-15T19:02:19+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.14.0 adds support for Thinking Machines' Inkling, a 975B-parameter Mixture-of-Experts model with 41B active parameters.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Update to v5.14.0 to integrate Inkling MoE support</li>
+        
+        <li>Benchmark 975B total parameter model with 41B active</li>
+        
+        <li>Deploy efficient inference using standard HF pipelines</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands the open-source ecosystem's access to large-scale MoE architectures, enabling developers to benchmark and deploy highly efficient inference workloads using standard Hugging Face pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#moe</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#opensource</span>
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#llm</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.11.0" target="_blank" rel="noopener">Transformers v5.11.0发布：集成DiffusionGemma</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Release v5.11.0</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-06-10T16:32:44+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.11.0 introduces native support for DiffusionGemma, expanding the library's generative model capabilities with improved integration and inference optimizations.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adds native DiffusionGemma model support to the library</li>
+        
+        <li>Includes pipeline updates and inference optimizations for diffusion workflows</li>
+        
+        <li>Maintains backward compatibility with existing transformer architectures</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands the standard toolkit for developers working with hybrid diffusion-language models, streamlining deployment and fine-tuning workflows in the Hugging Face ecosystem.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#diffusion</span>
+        
+        <span class="tag">#model-release</span>
+        
+        <span class="tag">#huggingface</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="17">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.10.3" target="_blank" rel="noopener">Transformers v5.10.4 更新</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Patch release v5.10.4</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-06-19T13:25:50+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        HuggingFace Transformers v5.10.4 patch release addresses regression issues and improves compatibility with vLLM for smoother model serving.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fixes regression bugs from recent PRs to stabilize the library</li>
+        
+        <li>Improves synchronization with vLLM for better inference compatibility</li>
+        
+        <li>Notes a PyPI version skip where 5.10.3 was replaced by 5.10.4</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures stable integration between the widely-used Transformers library and vLLM. Prevents deployment issues for developers relying on high-throughput inference.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#vllm</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#patch-release</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="18">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.12.1" target="_blank" rel="noopener">Transformers v5.12.1 发布：修复分词器与 PEFT 依赖</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Patch release v5.12.1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-06-15T17:29:59+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.12.1 patch release fixes auto tokenizer resolution for Mistral models and updates the PEFT dependency lower bound.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fixes auto tokenizer resolution for Mistral when mistral-common is installed</li>
+        
+        <li>Updates PEFT library lower bound to resolve dependency conflicts</li>
+        
+        <li>Aligns with v5.10.3 fixes, noted as a target baseline for vLLM compatibility</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures stable integration of Mistral models and PEFT fine-tuning workflows in the broader Hugging Face ecosystem, preventing dependency conflicts for developers.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#peft</span>
+        
+        <span class="tag">#mistral</span>
+        
+        <span class="tag">#tokenizer</span>
+        
+        <span class="tag">#patch</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="19">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.14.1" target="_blank" rel="noopener">Transformers v5.14.1 修复缓存与辅助生成问题</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Patch release: v5.14.1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-07-16T09:41:36+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Hugging Face Transformers v5.14.1 patches critical bugs in assisted generation and static cache handling for models using position bias.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fixes EncoderDecoderCache issues during assisted generation</li>
+        
+        <li>Resolves StaticCache and sdpa prefill bugs for position_bias models</li>
+        
+        <li>Improves stability for Inkling and OlmoHybrid model integrations</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures reliable inference and generation for advanced caching mechanisms and assisted decoding in the widely used Transformers library.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#assisted-generation</span>
+        
+        <span class="tag">#static-cache</span>
+        
+        <span class="tag">#sdpa</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="20">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.10.2" target="_blank" rel="noopener">Transformers v5.10.2 修复 CLIP 模型转换缺陷</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Patch release v5.10.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-06-04T18:43:06+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        HuggingFace Transformers v5.10.2 patch fixes a critical bug in CLIP-based model conversion, impacting SAM3 and other architectures.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fixes CLIP model conversion bug affecting SAM3</li>
+        
+        <li>Update recommended to prevent pipeline failures</li>
+        
+        <li>Addresses architecture mapping errors in PR #46406</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures reliable deployment of vision-language models and prevents silent failures in model conversion pipelines for developers using the latest Transformers library.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#clip</span>
+        
+        <span class="tag">#model-conversion</span>
+        
+        <span class="tag">#bugfix</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="21">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/disrupting-malicious-uses-of-ai-criminal-scam-operation" target="_blank" rel="noopener">OpenAI打击柬埔寨AI诈骗团伙</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Disrupting a Criminal Scam Operation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-31T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI details the takedown of a Cambodia-based criminal network that leveraged ChatGPT for investment, romance, and impersonation scams.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Monitor ChatGPT usage patterns for automated phishing indicators.</li>
+        
+        <li>Implement stricter cross-border enforcement protocols for AI misuse.</li>
+        
+        <li>Track scam evolution to update model safety guardrails.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates real-world AI safety enforcement capabilities and the evolving threat landscape of generative AI in cybercrime.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#alignment</span>
+        
+        <span class="tag">#chatgpt</span>
+        
+        <span class="tag">#cybersecurity</span>
+        
+        <span class="tag">#misuse-detection</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="22">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">2</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/learn-teach-chatgpt-work-codex" target="_blank" rel="noopener">OpenAI发布教育插件</a>
+            
+          </div>
+          
+          <div class="article-subtitle">New ways to learn and teach with ChatGPT Work and Codex</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-04T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI introduces new education plugins for ChatGPT Work and Codex to support teaching and learning.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>New plugins for K-12 and college educators</li>
+        
+        <li>Integrates with ChatGPT Work and Codex</li>
+        
+        <li>Aims to enhance learning and teaching workflows</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands ChatGPT's utility in education, potentially influencing how AI tools are adopted in academic settings.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#education</span>
+        
+        <span class="tag">#ChatGPT</span>
+        
+        <span class="tag">#Codex</span>
+        
+        <span class="tag">#plugins</span>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+    (function() {
+      const PER_PAGE = 10;
+      const cards = document.querySelectorAll('.article-card');
+      const total = cards.length;
+      const totalPages = Math.ceil(total / PER_PAGE);
+      let currentPage = 1;
+
+      function showPage(page) {
+        currentPage = page;
+        cards.forEach((card, i) => {
+          const pageStart = (page - 1) * PER_PAGE;
+          const pageEnd = page * PER_PAGE;
+          card.style.display = (i >= pageStart && i < pageEnd) ? '' : 'none';
+        });
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const container = document.getElementById('pagination');
+        if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+        let html = '';
+        // Prev
+        html += `<button class="page-btn${currentPage === 1 ? ' disabled' : ''}" data-page="${currentPage - 1}" aria-label="上一页">‹</button>`;
+
+        // Page numbers
+        const pages = getPageNumbers(currentPage, totalPages);
+        pages.forEach(p => {
+          if (p === '...') {
+            html += `<span class="page-ellipsis">…</span>`;
+          } else {
+            html += `<button class="page-btn${p === currentPage ? ' active' : ''}" data-page="${p}" aria-label="第${p}页">${p}</button>`;
+          }
+        });
+
+        // Next
+        html += `<button class="page-btn${currentPage === totalPages ? ' disabled' : ''}" data-page="${currentPage + 1}" aria-label="下一页">›</button>`;
+
+        container.innerHTML = html;
+
+        // Bind clicks
+        container.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+          btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
+        });
+      }
+
+      function getPageNumbers(current, total) {
+        if (total <= 7) return Array.from({length: total}, (_, i) => i + 1);
+        const pages = [];
+        pages.push(1);
+        if (current > 3) pages.push('...');
+        for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+          pages.push(i);
+        }
+        if (current < total - 2) pages.push('...');
+        pages.push(total);
+        return pages;
+      }
+
+      // Init
+      showPage(1);
+    })();
+  </script>
+  
+
+  <div class="footer">生成于 2026-08-10 18:50 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

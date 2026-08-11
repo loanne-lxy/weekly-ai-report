@@ -5,2229 +5,336 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI 前沿资讯周报</title>
 <style>
-  :root {
-    --bg: #fafbfc; --card: #fff; --border: #e8eaed;
-    --text: #202124; --sub: #5f6368; --muted: #9aa0a6;
-    --blue: #1a73e8; --purple: #9334e6; --green: #0d904f;
-    --amber: #e37400; --red: #d93025;
-    --radius: 8px; --gap: 24px;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 
-  .wrap { max-width:1200px; margin:0 auto; padding:0 32px; }
+/* ── Hero Header ── */
+.hero {
+  text-align: center;
+  padding: 48px 32px 40px;
+  background: linear-gradient(180deg, #e8f4f8 0%, #f5f7fa 100%);
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 32px;
+}
+.hero .week-badge {
+  display: inline-block; background: #1a5276; color: #fff;
+  font-size: 13px; padding: 0 20px; height: 28px; line-height: 28px;
+  border-radius: 14px; margin-bottom: 16px; font-weight: 500;
+}
+.hero h1 {
+  font-size: 36px; font-weight: 700; color: #1a5276; margin-bottom: 12px;
+  letter-spacing: -0.5px;
+}
+.hero .date {
+  font-size: 14px; color: #8c8c8c; margin-bottom: 24px;
+}
+.hero .summary {
+  max-width: 800px; margin: 0 auto; text-align: left;
+  background: #fff; border-radius: 8px; padding: 20px 24px;
+  border-left: 4px solid #1677ff; font-size: 14px; color: #434343;
+  line-height: 1.7; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.hero .summary strong { color: #1a5276; }
 
-  /* Header */
-  header { padding:48px 0 32px; text-align:center; }
-  header .week { display:inline-block; background:var(--blue); color:#fff; padding:4px 16px; border-radius:20px; font-size:13px; font-weight:600; letter-spacing:0.5px; margin-bottom:12px; }
-  header h1 { font-size:28px; font-weight:700; letter-spacing:-0.5px; margin-bottom:4px; }
-  header .sub { color:var(--muted); font-size:14px; }
+/* ── Stats Bar ── */
+.stats-bar {
+  display: flex; gap: 1px; background: #e8e8e8; border-radius: 8px;
+  overflow: hidden; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.stat-item {
+  flex: 1; text-align: center; padding: 16px 8px; background: #fff;
+  transition: background 0.15s;
+}
+.stat-item:hover { background: #f0f5ff; }
+.stat-item .num { font-size: 24px; font-weight: 700; color: #1a5276; }
+.stat-item .label { font-size: 12px; color: #8c8c8c; margin-top: 4px; }
 
-  /* Trend bar */
-  .trends { background:linear-gradient(135deg,#1a237e,#283593,#3949ab); border-radius:12px; padding:28px 32px; margin-bottom:40px; color:#fff; }
-  .trends h2 { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; opacity:0.6; margin-bottom:16px; }
-  .trends-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:20px; }
-  .trends-grid .t { text-align:center; }
-  .trends-grid .t .dot { width:10px;height:10px; border-radius:50%; margin:0 auto 8px; }
-  .trends-grid .t .label { font-size:11px; opacity:0.55; margin-bottom:4px; }
-  .trends-grid .t .kw { font-size:15px; font-weight:700; }
+/* ── Layout ── */
+.layout { display: flex; gap: 24px; }
+.main { flex: 1; min-width: 0; }
+.sidebar { width: 280px; flex-shrink: 0; }
 
-  /* Stats row */
-  .stats { display:flex; gap:1px; margin-bottom:40px; background:var(--border); border-radius:10px; overflow:hidden; }
-  .stats .s { flex:1; background:var(--card); text-align:center; padding:16px 8px; }
-  .stats .s .n { font-size:28px; font-weight:800; }
-  .stats .s .l { font-size:11px; color:var(--muted); margin-top:2px; }
+/* ── Category Card ── */
+.cat-card {
+  border: 1px solid #e8e8e8; border-radius: 8px; margin-bottom: 16px;
+  background: #fff; transition: border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer; display: block; text-decoration: none; color: inherit;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.cat-card-header {
+  display: flex; align-items: center; padding: 16px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.cat-card-header .icon { font-size: 20px; margin-right: 12px; }
+.cat-card-header .name { font-size: 16px; font-weight: 600; flex: 1; }
+.cat-card-header .count {
+  font-size: 24px; font-weight: 700; color: #1a5276; margin-right: 8px;
+}
+.cat-card-header .unit { font-size: 12px; color: #8c8c8c; }
+.cat-card-body { padding: 16px 20px; }
+.cat-card-body p { font-size: 14px; color: #595959; line-height: 1.6; }
+.cat-card-footer {
+  padding: 8px 20px 16px; font-size: 13px; color: #1677ff; font-weight: 500;
+}
 
-  /* Section */
-  .sec { margin-bottom:40px; }
-  .sec-h { display:flex; align-items:baseline; gap:10px; padding-bottom:8px; border-bottom:2px solid; margin-bottom:16px; }
-  .sec-h .icon { font-size:20px; }
-  .sec-h h2 { font-size:18px; font-weight:700; }
-  .sec-h .badge { font-size:11px; padding:2px 10px; border-radius:10px; color:#fff; margin-left:auto; font-weight:600; }
-  .sec-summary { font-size:15px; color:var(--sub); margin-bottom:16px; line-height:1.7; padding-left:4px; border-left:3px solid var(--border); }
-  .b-blue { border-color:var(--blue)!important; color:var(--blue); } .bg-blue { background:var(--blue); }
-  .b-purple { border-color:var(--purple)!important; color:var(--purple); } .bg-purple { background:var(--purple); }
-  .b-green { border-color:var(--green)!important; color:var(--green); } .bg-green { background:var(--green); }
-  .b-amber { border-color:var(--amber)!important; color:var(--amber); } .bg-amber { background:var(--amber); }
-  .b-red { border-color:var(--red)!important; color:var(--red); } .bg-red { background:var(--red); }
+/* Empty card */
+.cat-card.empty { opacity: 0.55; cursor: default; }
+.cat-card.empty:hover { border-color: #e8e8e8; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
 
-  /* Cards */
-  .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; margin-bottom:8px; display:grid; grid-template-columns:44px 1fr; gap:16px; align-items:start; transition:box-shadow 0.15s; }
-  .card:hover { box-shadow:0 2px 8px rgba(0,0,0,0.06); }
-  .card .score { width:44px;height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:800; color:#fff; }
-  .score-hi { background:var(--red); } .score-md { background:var(--amber); } .score-lo { background:var(--muted); }
-  .card.carried { opacity:0.65; background:#fafafa; }
-  .card.carried:hover { opacity:0.85; }
-  .card-body { min-width:0; }
-  .card-source { font-size:11px; color:var(--muted); margin-bottom:2px; }
-  .card h3 { font-size:15px; font-weight:600; line-height:1.4; margin-bottom:4px; }
-  .card h3 a { color:var(--text); text-decoration:none; }
-  .card h3 a:hover { color:var(--blue); }
-  .card .orig { font-size:12px; color:var(--muted); margin-bottom:4px; }
-  .card .summary { font-size:13px; color:var(--sub); line-height:1.5; margin-bottom:8px; }
-  .insights { margin:4px 0; padding-left:18px; font-size:12px; color:var(--sub); }
-  .insights li { margin-bottom:2px; }
-  .why { font-size:11px; color:var(--blue); font-style:italic; }
-  .tags-row { display:flex; gap:4px; flex-wrap:wrap; margin-top:6px; }
-  .tags-row .tag { font-size:10px; background:#e8f0fe; color:var(--blue); padding:1px 6px; border-radius:4px; }
+/* ── Sidebar ── */
+.sidebar-section {
+  border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
+  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.sidebar-section h3 {
+  font-size: 14px; font-weight: 600; color: #1a5276; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;
+}
+.mini-stat {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 0;
+}
+.mini-stat + .mini-stat { border-top: 1px solid #f5f5f5; }
+.mini-stat .label { font-size: 13px; color: #595959; }
+.mini-stat .value { font-size: 16px; font-weight: 600; }
+.mini-stat .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
 
-  .no-update { background:#fef7e0; border:1px solid #f9ab00; border-radius:var(--radius); padding:8px 16px; margin-bottom:12px; font-size:13px; color:#5f4b00; }
-  .carried-badge { font-size:10px; background:var(--border); padding:1px 6px; border-radius:4px; color:var(--muted); margin-left:6px; }
-  .empty { text-align:center; color:var(--muted); padding:32px; font-size:14px; }
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
 
-  /* Pagination */
-  .pagination { display:flex; justify-content:center; gap:6px; margin-top:16px; }
-  .pagination button { background:var(--card); border:1px solid var(--border); border-radius:6px; padding:6px 12px; cursor:pointer; font-size:13px; color:var(--text); }
-  .pagination button.active { background:var(--blue); color:#fff; border-color:var(--blue); }
-
-  footer { text-align:center; padding:32px 0; color:var(--muted); font-size:12px; border-top:1px solid var(--border); margin-top:40px; }
-
-  @media(max-width:768px) {
-    .wrap { padding:0 16px; }
-    .trends-grid { grid-template-columns:repeat(2,1fr); }
-    .stats { flex-wrap:wrap; }
-    .stats .s { min-width:80px; }
-    .card { grid-template-columns:36px 1fr; gap:12px; padding:12px 16px; }
-  }
+@media (max-width: 768px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; }
+  .hero h1 { font-size: 28px; }
+  .hero { padding: 32px 24px 24px; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="week">2026-W33</div>
-    <h1>AI 前沿资讯周报</h1>
-    <p class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 97 篇</p>
-  </header>
 
-  <div class="trends">
-    <h2>Trends</h2>
-    <div class="trends-grid">
-      
-      
-      
-      <div class="t">
-        <div class="dot" style="background:#669df6"></div>
-        <div class="label">LLM</div>
-        <div class="kw">高效推理</div>
-      </div>
-      
-      <div class="t">
-        <div class="dot" style="background:#c58af9"></div>
-        <div class="label">Agent</div>
-        <div class="kw">Agent框架</div>
-      </div>
-      
-      <div class="t">
-        <div class="dot" style="background:#34a853"></div>
-        <div class="label">AI for Science</div>
-        <div class="kw">生成式科学</div>
-      </div>
-      
-      <div class="t">
-        <div class="dot" style="background:#f9ab00"></div>
-        <div class="label">设计仿真</div>
-        <div class="kw">无相关资讯</div>
-      </div>
-      
-      <div class="t">
-        <div class="dot" style="background:#f28b82"></div>
-        <div class="label">数字孪生</div>
-        <div class="kw">无相关资讯</div>
-      </div>
-      
-    </div>
+<!-- Hero -->
+<header class="hero">
+  <div class="week-badge">2026-W33</div>
+  <h1>AI 前沿资讯周报</h1>
+  <div class="date">2026-08-10 18:50</div>
+  <div class="summary">
+    <strong>📋 整体摘要</strong><br>
+    本周 AI 领域持续呈现高速发展态势，共收录 101 篇高质量资讯。【LLM】本周 LLM 领域聚焦于推理效率优化【Agent】Agent 工具调用标准化成为本周热点【AI for Science】AI 驱动的科学发现加速【设计仿真】生成式 AI 在工业设计仿真中的应用 本周 数字孪生 等领域产出较少，后续将引入往期精选内容保持信息连续性。
   </div>
+</header>
 
-  <div class="stats">
+<div class="container">
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
     
+    <div class="stat-item">
+      <div class="num">23</div>
+      <div class="label">🧠 LLM</div>
+    </div>
     
-    <div class="s"><div class="n" style="color:#1a73e8">20</div><div class="l">LLM</div></div>
+    <div class="stat-item">
+      <div class="num">43</div>
+      <div class="label">🤖 Agent</div>
+    </div>
     
+    <div class="stat-item">
+      <div class="num">34</div>
+      <div class="label">🔬 AI for Science</div>
+    </div>
     
-    <div class="s"><div class="n" style="color:#9334e6">43</div><div class="l">Agent</div></div>
+    <div class="stat-item">
+      <div class="num">1</div>
+      <div class="label">🎨 设计仿真</div>
+    </div>
     
-    
-    <div class="s"><div class="n" style="color:#0d904f">34</div><div class="l">AI for Science</div></div>
-    
-    
-    <div class="s"><div class="n" style="color:#e37400">0</div><div class="l">设计仿真</div></div>
-    
-    
-    <div class="s"><div class="n" style="color:#d93025">0</div><div class="l">数字孪生</div></div>
+    <div class="stat-item">
+      <div class="num">0</div>
+      <div class="label">🏭 数字孪生</div>
+    </div>
     
   </div>
 
-  
-  
-  
-  <div class="sec" id="sec-blue">
-    <div class="sec-h b-blue">
-      <span class="icon">🧠</span>
-      <h2>LLM</h2>
-      <span class="badge bg-blue">20</span>
+  <!-- Main + Sidebar -->
+  <div class="layout">
+    <div class="main">
+      
+      
+      
+      
+      
+      <a class="cat-card" href="llm.html" aria-label="查看LLM分类的23篇文章">
+        <div class="cat-card-header">
+          <span class="icon">🧠</span>
+          <span class="name">LLM</span>
+          <span class="count">23</span><span class="unit">篇</span>
+        </div>
+        <div class="cat-card-body">
+          <p>本周 LLM 领域聚焦于推理效率优化</p>
+        </div>
+        <div class="cat-card-footer">查看全部 23 篇 →</div>
+      </a>
+      
+      
+      
+      
+      
+      
+      <a class="cat-card" href="agent.html" aria-label="查看Agent分类的43篇文章">
+        <div class="cat-card-header">
+          <span class="icon">🤖</span>
+          <span class="name">Agent</span>
+          <span class="count">43</span><span class="unit">篇</span>
+        </div>
+        <div class="cat-card-body">
+          <p>Agent 工具调用标准化成为本周热点</p>
+        </div>
+        <div class="cat-card-footer">查看全部 43 篇 →</div>
+      </a>
+      
+      
+      
+      
+      
+      
+      <a class="cat-card" href="ai-for-science.html" aria-label="查看AI for Science分类的34篇文章">
+        <div class="cat-card-header">
+          <span class="icon">🔬</span>
+          <span class="name">AI for Science</span>
+          <span class="count">34</span><span class="unit">篇</span>
+        </div>
+        <div class="cat-card-body">
+          <p>AI 驱动的科学发现加速</p>
+        </div>
+        <div class="cat-card-footer">查看全部 34 篇 →</div>
+      </a>
+      
+      
+      
+      
+      
+      
+      <a class="cat-card" href="design-simulation.html" aria-label="查看设计仿真分类的1篇文章">
+        <div class="cat-card-header">
+          <span class="icon">🎨</span>
+          <span class="name">设计仿真</span>
+          <span class="count">1</span><span class="unit">篇</span>
+        </div>
+        <div class="cat-card-body">
+          <p>生成式 AI 在工业设计仿真中的应用</p>
+        </div>
+        <div class="cat-card-footer">查看全部 1 篇 →</div>
+      </a>
+      
+      
+      
+      
+      
+      
+      <div class="cat-card empty" aria-label="数字孪生本周无新内容">
+        <div class="cat-card-header">
+          <span class="icon">🏭</span>
+          <span class="name">数字孪生</span>
+          <span class="count" style="color:#bfbfbf;">0</span><span class="unit">篇</span>
+        </div>
+        <div class="cat-card-body">
+          <p style="color:#bfbfbf;">本周暂无新内容，将回填往期精选文章。</p>
+        </div>
+      </div>
+      
+      
     </div>
 
-    
-    <div class="sec-summary">本周OpenAI密集推出GPT-5.6系列与GPT-Live实时语音架构，显著提升推理与智能体效率并开放Luna模型，同步发布第三方安全评估新规，而社区配置优化亦使ARC-AGI-3基准得分实现三倍跃升。</div>
-    
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <h3>📈 本周统计</h3>
+        
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:#3b82f6;"></span>LLM</span>
+          <span class="value">23</span>
+        </div>
+        
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:#8b5cf6;"></span>Agent</span>
+          <span class="value">43</span>
+        </div>
+        
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:#10b981;"></span>AI for Science</span>
+          <span class="value">34</span>
+        </div>
+        
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:#f59e0b;"></span>设计仿真</span>
+          <span class="value">1</span>
+        </div>
+        
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:#ef4444;"></span>数字孪生</span>
+          <span class="value">0</span>
+        </div>
+        
+        <div style="border-top:2px solid #1a5276; margin-top:8px; padding-top:8px;">
+          <div class="mini-stat">
+            <span class="label" style="font-weight:600;color:#1a5276;">合计</span>
+            <span class="value" style="color:#1a5276;">101</span>
+          </div>
+        </div>
+      </div>
 
-    
-    
-    
-    <div class="article-list" data-cat="blue" data-per-page="5">
-      
-      
-      <div class="card">
-        <div class="score score-hi">9</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores" target="_blank">两项设置使ARC-AGI-3得分提升三倍</a></h3>
-          
-          <div class="orig">How enabling two settings tripled our scores on the ARC-AGI-3 benchmark</div>
-          
-          <div class="summary">OpenAI reveals that enabling reasoning retention and compaction in the API triples GPT-5.6's performance on the ARC-AGI-3 benchmark while improving efficiency.</div>
-          
-          <ul class="insights"><li>Enable reasoning retention and compaction in API calls to boost complex task performance.</li><li>Apply context compaction to cut token overhead while preserving critical reasoning steps.</li><li>Prioritize API configuration tuning over raw model scaling for cost-effective benchmark gains.</li></ul>
-          
-          <div class="why">Demonstrates that inference-time configuration and context management are as critical as model architecture for high-level reasoning, offering a cost-effective optimization path for developers.</div>
-          
-          <div class="tags-row"><span class="tag">llm</span><span class="tag">reasoning</span><span class="tag">inference</span><span class="tag">contextmanagement</span><span class="tag">benchmark</span></div>
-          
+      <div class="sidebar-section">
+        <h3>🔥 本周趋势</h3>
+        
+        
+        <div style="padding:8px 0;">
+          <div style="font-size:13px;color:#595959;">🧠 LLM</div>
+          <div style="font-size:14px;color:#1a5276;font-weight:500;">推理优化</div>
         </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-hi">9</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency" target="_blank">GPT-5.6发布：提升模型推理与智能体效率</a></h3>
-          
-          <div class="orig">How GPT-5.6 fuses frontier intelligence with frontier efficiency</div>
-          
-          <div class="summary">OpenAI releases GPT-5.6, a new model architecture that significantly improves computational efficiency across inference and agentic workflows while maintaining frontier-level intelligence.</div>
-          
-          <ul class="insights"><li>Adopt GPT-5.6 for cost-effective inference in production pipelines.</li><li>Leverage optimized agentic workflows for complex multi-step tasks.</li><li>Benchmark efficiency gains against previous GPT-5 series models.</li></ul>
-          
-          <div class="why">This release directly addresses the rising cost of AI inference, enabling developers to deploy more capable agents and models at scale without proportional compute increases.</div>
-          
-          <div class="tags-row"><span class="tag">llm</span><span class="tag">inference</span><span class="tag">efficiency</span><span class="tag">agent</span></div>
-          
+        
+        
+        
+        <div style="padding:8px 0;">
+          <div style="font-size:13px;color:#595959;">🤖 Agent</div>
+          <div style="font-size:14px;color:#1a5276;font-weight:500;">多智能体</div>
         </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/improving-gpt-5-6-sol-in-chatgpt" target="_blank">GPT-5.6 Sol升级与Luna免费开放</a></h3>
-          
-          <div class="orig">Improving GPT‑5.6 Sol in ChatGPT—and expanding access to GPT-5.6 Luna for free users</div>
-          
-          <div class="summary">OpenAI updates ChatGPT with improved GPT-5.6 Sol for better accuracy and consistency, while expanding free-tier access to GPT-5.6 Luna for unlimited everyday chats.</div>
-          
-          <ul class="insights"><li>GPT-5.6 Sol receives accuracy and consistency upgrades in ChatGPT.</li><li>Free users gain expanded access to GPT-5.6 Luna for unlimited daily chats.</li><li>Update reflects OpenAI's strategy to tier model capabilities across user plans.</li></ul>
-          
-          <div class="why">Demonstrates OpenAI's continued iteration on the GPT-5.6 architecture and its push to democratize access to advanced reasoning models, setting a new baseline for consumer AI interactions.</div>
-          
-          <div class="tags-row"><span class="tag">llm</span><span class="tag">modelupdate</span><span class="tag">openai</span><span class="tag">inference</span></div>
-          
+        
+        
+        
+        <div style="padding:8px 0;">
+          <div style="font-size:13px;color:#595959;">🔬 AI for Science</div>
+          <div style="font-size:14px;color:#1a5276;font-weight:500;">蛋白质设计</div>
         </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/continuous-voice-interaction-with-gpt-live" target="_blank">OpenAI发布GPT-Live实时语音交互架构</a></h3>
-          
-          <div class="orig">How we built a realtime system for responsive voice AI in six months</div>
-          
-          <div class="summary">OpenAI details the architecture behind GPT-Live, a low-latency, turnless speech model enabling continuous, natural voice interactions with AI.</div>
-          
-          <ul class="insights"><li>Introduces GPT-Live with a turnless speech model for continuous voice interaction</li><li>Features low-latency architecture optimized for responsive, natural conversations</li><li>Details the six-month engineering pipeline for building responsive voice AI</li></ul>
-          
-          <div class="why">Advances real-time AI interaction by removing conversational turns, setting a new standard for latency and naturalness in voice-based LLM applications.</div>
-          
-          <div class="tags-row"><span class="tag">voiceAI</span><span class="tag">realtime</span><span class="tag">speechModel</span><span class="tag">lowLatency</span><span class="tag">LLM</span></div>
-          
+        
+        
+        
+        <div style="padding:8px 0;">
+          <div style="font-size:13px;color:#595959;">🎨 设计仿真</div>
+          <div style="font-size:14px;color:#1a5276;font-weight:500;">CAD仿真</div>
         </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models" target="_blank">OpenAI公布第三方AI模型安全评估新规</a></h3>
-          
-          <div class="orig">Third-party cyber evaluations involving OpenAI models</div>
-          
-          <div class="summary">OpenAI addresses recent third-party cybersecurity evaluation incidents and introduces new safeguards to secure and standardize AI model testing protocols.</div>
-          
-          <ul class="insights"><li>Monitor OpenAI's updated evaluation protocols before conducting third-party security tests.</li><li>Implement new safeguard requirements to prevent unauthorized model access during red-teaming.</li><li>Align internal AI testing workflows with OpenAI's published cybersecurity evaluation standards.</li></ul>
-          
-          <div class="why">Sets a new industry standard for responsible AI security testing, directly impacting how researchers and developers conduct red-teaming and vulnerability assessments on frontier models.</div>
-          
-          <div class="tags-row"><span class="tag">llm</span><span class="tag">alignment</span><span class="tag">security</span><span class="tag">evaluation</span></div>
-          
+        
+        
+        
+        <div style="padding:8px 0;">
+          <div style="font-size:13px;color:#595959;">🏭 数字孪生</div>
+          <div style="font-size:14px;color:#1a5276;font-weight:500;">持续关注</div>
         </div>
+        
+        
       </div>
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6" target="_blank">OpenAI发布GPT-5.6高效模型降低部署成本</a></h3>
-          
-          <div class="orig">Advancing the price-performance frontier with GPT-5.6</div>
-          
-          <div class="summary">OpenAI introduces lower pricing for GPT-5.6 Luna and Terra variants, emphasizing improved efficiency to help enterprises scale AI workflows cost-effectively.</div>
-          
-          <ul class="insights"><li>GPT-5.6 Luna and Terra variants offer reduced pricing for enterprise deployment</li><li>Optimized model efficiency lowers compute costs while maintaining performance</li><li>Targets scalable AI workflow integration for business applications</li></ul>
-          
-          <div class="why">Reduces the financial barrier for enterprise AI adoption, enabling broader deployment of advanced LLM capabilities without proportional compute cost increases.</div>
-          
-          <div class="tags-row"><span class="tag">LLM</span><span class="tag">Inference</span><span class="tag">Serving</span><span class="tag">CostOptimization</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.10.1" target="_blank">Transformers v5.10.1 新增 Gemma4</a></h3>
-          
-          <div class="orig">Release v5.10.1</div>
-          
-          <div class="summary">Hugging Face Transformers v5.10.1 replaces a yanked release and adds official support for Gemma4 unified and MTP models.</div>
-          
-          <ul class="insights"><li>Update to v5.10.1 to resolve corrupted branch issues</li><li>Add native support for Gemma4 unified and MTP models</li><li>Ensure stable model loading across Hugging Face ecosystem</li></ul>
-          
-          <div class="why">Ensures stable integration of Google's latest Gemma4 models into the widely used Transformers library, enabling immediate community access and fine-tuning capabilities.</div>
-          
-          <div class="tags-row"><span class="tag">transformers</span><span class="tag">gemma</span><span class="tag">model-integration</span><span class="tag">llm</span><span class="tag">huggingface</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.14.0" target="_blank">Transformers 5.14.0 新增 Inkling</a></h3>
-          
-          <div class="orig">Release v5.14.0</div>
-          
-          <div class="summary">Hugging Face Transformers v5.14.0 adds support for Thinking Machines' Inkling, a 975B-parameter Mixture-of-Experts model with 41B active parameters.</div>
-          
-          <ul class="insights"><li>Update to v5.14.0 to integrate Inkling MoE support</li><li>Benchmark 975B total parameter model with 41B active</li><li>Deploy efficient inference using standard HF pipelines</li></ul>
-          
-          <div class="why">Expands the open-source ecosystem's access to large-scale MoE architectures, enabling developers to benchmark and deploy highly efficient inference workloads using standard Hugging Face pipelines.</div>
-          
-          <div class="tags-row"><span class="tag">moe</span><span class="tag">inference</span><span class="tag">opensource</span><span class="tag">transformers</span><span class="tag">llm</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.11.0" target="_blank">Transformers 5.11.0 发布：集成 DiffusionGemma 模型</a></h3>
-          
-          <div class="orig">Release v5.11.0</div>
-          
-          <div class="summary">Hugging Face Transformers v5.11.0 introduces native support for DiffusionGemma, expanding the library's capabilities for vision-language diffusion models.</div>
-          
-          <ul class="insights"><li>Adds native DiffusionGemma integration to the Transformers library</li><li>Enables streamlined training and inference for vision-language diffusion workflows</li><li>Maintains backward compatibility with existing model pipelines</li></ul>
-          
-          <div class="why">Expands the open-source ecosystem's support for hybrid vision-language diffusion architectures, allowing developers to deploy DiffusionGemma with standard Hugging Face tooling.</div>
-          
-          <div class="tags-row"><span class="tag">diffusion</span><span class="tag">visionlanguage</span><span class="tag">modelintegration</span><span class="tag">opensource</span><span class="tag">transformers</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/circles" target="_blank">Circles利用OpenAI API优化电信服务</a></h3>
-          
-          <div class="orig">Circles powers telco personalization with OpenAI technology</div>
-          
-          <div class="summary">Circles leverages OpenAI API and Codex to deliver AI-native telecom experiences, boosting ARPU by 22% and cutting churn by 9% while streamlining development.</div>
-          
-          <ul class="insights"><li>Circles integrates OpenAI API and Codex for personalized telecom experiences</li><li>Implementation drives 22% ARPU increase and 9% churn reduction</li><li>AI-native workflow significantly improves internal development efficiency</li></ul>
-          
-          <div class="why">Demonstrates tangible ROI and operational efficiency gains from integrating foundational LLM APIs into legacy telecom infrastructure, providing a benchmark for enterprise AI adoption.</div>
-          
-          <div class="tags-row"><span class="tag">llm</span><span class="tag">api</span><span class="tag">enterprise-ai</span><span class="tag">codex</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.13.0" target="_blank">Transformers 5.13.0 新增 KimiK 模型支持</a></h3>
-          
-          <div class="orig">Release v5.13.0</div>
-          
-          <div class="summary">Hugging Face Transformers v5.13.0 introduces official support for the KimiK 2.5, 2.6, and 2.7 model architectures, streamlining integration and deployment for developers.</div>
-          
-          <ul class="insights"><li>Adds native support for KimiK 2.5, 2.6, and 2.7 model architectures</li><li>Streamlines deployment and fine-tuning workflows within the Hugging Face ecosystem</li><li>Includes routine library optimizations and bug fixes for stable inference</li></ul>
-          
-          <div class="why">Expands open-source compatibility with emerging architectures, reducing integration overhead for developers adopting KimiK models.</div>
-          
-          <div class="tags-row"><span class="tag">transformers</span><span class="tag">model-integration</span><span class="tag">open-source</span><span class="tag">inference</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.12.0" target="_blank">Transformers 5.12.0 支持 MiniMax</a></h3>
-          
-          <div class="orig">Release v5.12.0</div>
-          
-          <div class="summary">Hugging Face Transformers v5.12.0 adds native support for the MiniMax-M3-VL multimodal model, enabling immediate integration for developers.</div>
-          
-          <ul class="insights"><li>Adds native support for MiniMax-M3-VL multimodal architecture</li><li>Includes standard library optimizations and dependency updates</li><li>Enables immediate integration for developers using the ecosystem</li></ul>
-          
-          <div class="why">Expands the open-source multimodal toolkit, allowing developers to quickly deploy and fine-tune MiniMax's latest vision-language model without custom implementation.</div>
-          
-          <div class="tags-row"><span class="tag">multimodal</span><span class="tag">inference</span><span class="tag">opensource</span><span class="tag">transformers</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.13.1" target="_blank">Transformers v5.13.1 发布：优化 vLLM 兼容</a></h3>
-          
-          <div class="orig">Patch release v5.13.1</div>
-          
-          <div class="summary">Hugging Face Transformers v5.13.1 patch improves vLLM compatibility and fixes custom model layer mapping bugs.</div>
-          
-          <ul class="insights"><li>Upgrade to v5.13.1 to enable seamless integration with the latest vLLM inference engine.</li><li>Apply fixes for legacy layer type remapping to prevent crashes in custom model pipelines.</li><li>Resolve _LazyAutoMapping string key registration errors for reliable dynamic model loading.</li></ul>
-          
-          <div class="why">Maintains stability for developers deploying custom LLMs on vLLM, ensuring high-throughput inference pipelines remain compatible with framework updates.</div>
-          
-          <div class="tags-row"><span class="tag">transformers</span><span class="tag">vllm</span><span class="tag">inference</span><span class="tag">llm-serving</span><span class="tag">patch</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.12.1" target="_blank">Transformers v5.12.1 发布：修复分词器与 PEFT 依赖</a></h3>
-          
-          <div class="orig">Patch release v5.12.1</div>
-          
-          <div class="summary">Hugging Face Transformers v5.12.1 patch release fixes auto tokenizer resolution for Mistral models and updates the PEFT dependency lower bound.</div>
-          
-          <ul class="insights"><li>Fixes auto tokenizer resolution for Mistral when mistral-common is installed</li><li>Updates PEFT library lower bound to resolve dependency conflicts</li><li>Aligns with v5.10.3 fixes, noted as a target baseline for vLLM compatibility</li></ul>
-          
-          <div class="why">Ensures stable integration of Mistral models and PEFT fine-tuning workflows in the broader Hugging Face ecosystem, preventing dependency conflicts for developers.</div>
-          
-          <div class="tags-row"><span class="tag">transformers</span><span class="tag">peft</span><span class="tag">mistral</span><span class="tag">tokenizer</span><span class="tag">patch</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/how-the-world-is-putting-chatgpt-to-work" target="_blank">OpenAI发布全球ChatGPT使用趋势数据</a></h3>
-          
-          <div class="orig">From asking to doing: How the world is putting ChatGPT to work</div>
-          
-          <div class="summary"></div>
-          
-          <ul class="insights"><li>Global usage data shows ChatGPT adoption varies by country, with emerging markets leading growth.</li><li>Usage patterns shift from simple queries to complex tasks, indicating deeper integration into workflows.</li><li>Data provides insights for developers to tailor applications to regional user needs.</li></ul>
-          
-          <div class="why">This data offers a rare glimpse into real-world LLM adoption, guiding developers and businesses in optimizing deployment strategies and understanding market readiness.</div>
-          
-          <div class="tags-row"><span class="tag">chatgpt</span><span class="tag">adoption</span><span class="tag">usage-trends</span><span class="tag">openai</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.14.1" target="_blank">Transformers v5.14.1 修复缓存与辅助生成问题</a></h3>
-          
-          <div class="orig">Patch release: v5.14.1</div>
-          
-          <div class="summary">Hugging Face Transformers v5.14.1 patches critical bugs in assisted generation and static cache handling for models using position bias.</div>
-          
-          <ul class="insights"><li>Fixes EncoderDecoderCache issues during assisted generation</li><li>Resolves StaticCache and sdpa prefill bugs for position_bias models</li><li>Improves stability for Inkling and OlmoHybrid model integrations</li></ul>
-          
-          <div class="why">Ensures reliable inference and generation for advanced caching mechanisms and assisted decoding in the widely used Transformers library.</div>
-          
-          <div class="tags-row"><span class="tag">transformers</span><span class="tag">inference</span><span class="tag">assisted-generation</span><span class="tag">static-cache</span><span class="tag">sdpa</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.10.3" target="_blank">Transformers v5.10.4 修复 vLLM 同步</a></h3>
-          
-          <div class="orig">Patch release v5.10.4</div>
-          
-          <div class="summary">HuggingFace Transformers v5.10.4 patch release addresses regression issues and improves compatibility with vLLM for smoother model serving.</div>
-          
-          <ul class="insights"><li>Apply patch to fix regression bugs from recent PRs</li><li>Update to v5.10.4 for stable vLLM inference compatibility</li><li>Note PyPI version skip from 5.10.3 to 5.10.4 during installation</li></ul>
-          
-          <div class="why">Ensures stable integration between the widely-used Transformers library and vLLM, preventing deployment issues for developers relying on high-throughput inference.</div>
-          
-          <div class="tags-row"><span class="tag">transformers</span><span class="tag">vllm</span><span class="tag">inference</span><span class="tag">patch-release</span><span class="tag">llm</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">HuggingFace Transformers (GitHub)</div>
-          <h3><a href="https://github.com/huggingface/transformers/releases/tag/v5.10.2" target="_blank">Transformers v5.10.2 修复 CLIP 模型转换缺陷</a></h3>
-          
-          <div class="orig">Patch release v5.10.2</div>
-          
-          <div class="summary">HuggingFace Transformers v5.10.2 patch fixes a critical bug in CLIP-based model conversion, impacting SAM3 and other architectures.</div>
-          
-          <ul class="insights"><li>Fixes CLIP model conversion bug affecting SAM3</li><li>Update recommended to prevent pipeline failures</li><li>Addresses architecture mapping errors in PR #46406</li></ul>
-          
-          <div class="why">Ensures reliable deployment of vision-language models and prevents silent failures in model conversion pipelines for developers using the latest Transformers library.</div>
-          
-          <div class="tags-row"><span class="tag">transformers</span><span class="tag">clip</span><span class="tag">model-conversion</span><span class="tag">bugfix</span><span class="tag">inference</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/learn-teach-chatgpt-work-codex" target="_blank">OpenAI发布教育插件</a></h3>
-          
-          <div class="orig">New ways to learn and teach with ChatGPT Work and Codex</div>
-          
-          <div class="summary"></div>
-          
-          <ul class="insights"><li>New plugins for K-12 and college educators</li><li>Integrates with ChatGPT Work and Codex</li><li>Aims to enhance learning and teaching workflows</li></ul>
-          
-          <div class="why">Expands ChatGPT's utility in education, potentially influencing how AI tools are adopted in academic settings.</div>
-          
-          <div class="tags-row"><span class="tag">education</span><span class="tag">ChatGPT</span><span class="tag">Codex</span><span class="tag">plugins</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/disrupting-malicious-uses-of-ai-criminal-scam-operation" target="_blank">OpenAI打击柬埔寨AI诈骗团伙</a></h3>
-          
-          <div class="orig">Disrupting a Criminal Scam Operation</div>
-          
-          <div class="summary">OpenAI details the takedown of a Cambodia-based criminal network that leveraged ChatGPT for investment, romance, and impersonation scams.</div>
-          
-          <ul class="insights"><li>Monitor ChatGPT usage patterns for automated phishing indicators.</li><li>Implement stricter cross-border enforcement protocols for AI misuse.</li><li>Track scam evolution to update model safety guardrails.</li></ul>
-          
-          <div class="why">Demonstrates real-world AI safety enforcement capabilities and the evolving threat landscape of generative AI in cybercrime.</div>
-          
-          <div class="tags-row"><span class="tag">alignment</span><span class="tag">chatgpt</span><span class="tag">cybersecurity</span><span class="tag">misuse-detection</span></div>
-          
-        </div>
-      </div>
-      
     </div>
-    <div class="pagination" data-for="blue"></div>
-    
   </div>
-  
-  
-  
-  <div class="sec" id="sec-purple">
-    <div class="sec-h b-purple">
-      <span class="icon">🤖</span>
-      <h2>Agent</h2>
-      <span class="badge bg-purple">43</span>
-    </div>
 
-    
-    <div class="sec-summary">本周AI智能体领域开源生态持续繁荣，多款聚焦性能优化、技能开发与自适应能力的框架相继发布，同时主流平台积极修复底层路由问题以强化系统稳定性。</div>
-    
+  <div class="footer">生成于 2026-08-10 18:50 · Weekly AI Report Agent</div>
 
-    
-    
-    
-    <div class="article-list" data-cat="purple" data-per-page="5">
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">GitHub Trending</div>
-          <h3><a href="https://github.com/affaan-m/ECC" target="_blank">ECC：多代码AI代理性能优化框架</a></h3>
-          
-          <div class="orig">affaan-m/ECC</div>
-          
-          <div class="summary">ECC is a JavaScript-based performance optimization framework for AI coding agents, enhancing skills, memory, and security across tools like Claude Code and Cursor.</div>
-          
-          <ul class="insights"><li>Integrates with Claude Code, Cursor, and Codex to boost agent execution speed and reliability.</li><li>Implements modular skills, long-term memory, and security protocols for autonomous workflows.</li><li>Open-source JavaScript harness designed for research-first development and rapid prototyping.</li></ul>
-          
-          <div class="why">Provides a standardized optimization layer that addresses common bottlenecks in autonomous coding agents, enabling developers to deploy more reliable and secure AI workflows without rebuilding core agent logic.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">memory</span><span class="tag">security</span><span class="tag">javascript</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">GitHub Trending</div>
-          <h3><a href="https://github.com/mattpocock/skills" target="_blank">AI Agent实用技能库开源获21万星</a></h3>
-          
-          <div class="orig">mattpocock/skills</div>
-          
-          <div class="summary">A highly starred open-source repository providing practical shell scripts and skills for AI agents, extracted directly from a developer's .agents directory.</div>
-          
-          <ul class="insights"><li>Integrate pre-built shell skills directly into AI agent workflows</li><li>Leverage real-world .agents directory patterns for robust tooling</li><li>Adopt community-vetted scripts to accelerate agent development cycles</li></ul>
-          
-          <div class="why">Offers developers a curated, battle-tested collection of agent skills, accelerating the integration of practical tools into AI agent frameworks without reinventing the wheel.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">shell</span><span class="tag">opensource</span><span class="tag">workflow</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">GitHub Trending</div>
-          <h3><a href="https://github.com/obra/superpowers" target="_blank">Superpowers：开源智能体技能开发框架</a></h3>
-          
-          <div class="orig">obra/superpowers</div>
-          
-          <div class="summary">obra/superpowers is a rapidly growing open-source framework that provides a structured methodology and shell-based tools for building and deploying agentic AI skills.</div>
-          
-          <ul class="insights"><li>Adopt the framework to standardize agent skill definitions and execution pipelines.</li><li>Leverage the built-in methodology to reduce boilerplate in agentic workflow development.</li><li>Monitor the repository for updates given its rapid 270k-star adoption rate.</li></ul>
-          
-          <div class="why">Standardizes how developers build and manage AI agent capabilities, reducing boilerplate and improving reliability in agentic workflows. Its rapid adoption signals a shift toward practical, tool-driven agent development.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">framework</span><span class="tag">toolcalling</span><span class="tag">workflow</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">GitHub Trending</div>
-          <h3><a href="https://github.com/NousResearch/hermes-agent" target="_blank">NousResearch开源自适应智能体框架Hermes-Agent</a></h3>
-          
-          <div class="orig">NousResearch/hermes-agent</div>
-          
-          <div class="summary">NousResearch releases Hermes-Agent, an open-source Python framework for building autonomous AI agents that adapt and scale with user interactions.</div>
-          
-          <ul class="insights"><li>Deploy modular autonomous agents using the open-source Python framework</li><li>Integrate adaptive learning loops to continuously improve agent performance</li><li>Leverage Hermes model architecture for enhanced reasoning and tool use</li></ul>
-          
-          <div class="why">Offers a transparent, community-driven alternative to proprietary agent stacks, enabling developers to build scalable, self-improving AI systems without vendor lock-in.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">python</span><span class="tag">opensource</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/commit/e264e058a714a5ced02612f0f0a8d211898ebbee" target="_blank">CrewAI修复LiteLLM路由模型提供商识别问题</a></h3>
-          
-          <div class="orig">fix: preserve provider on LiteLLM-routed models (#6849)</div>
-          
-          <div class="summary">CrewAI fixes a bug where LiteLLM-routed models incorrectly defaulted to OpenAI, ensuring correct provider identification and preventing double-prefixing in instructor calls.</div>
-          
-          <ul class="insights"><li>Fixes provider routing bug in LiteLLM integration</li><li>Prevents double-prefixing in Instructor model strings</li><li>Ensures accurate provider reporting for policy engines</li></ul>
-          
-          <div class="why">Improves reliability and compatibility for developers using multi-provider LLM routing within the CrewAI agent framework.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">litellm</span><span class="tag">framework</span><span class="tag">routing</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">LangChain (GitHub)</div>
-          <h3><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.4.2" target="_blank">LangChain-OpenAI 1.4.2：修复上下文超限与API兼容</a></h3>
-          
-          <div class="orig">langchain-openai==1.4.2</div>
-          
-          <div class="summary">LangChain-OpenAI v1.4.2 patches context window error handling, filters generated content block IDs, and preserves text options for the OpenAI Responses API.</div>
-          
-          <ul class="insights"><li>Fixes ContextWindowExceededError handling for robust long-context agent workflows</li><li>Filters LangChain-generated content block IDs to prevent API routing conflicts</li><li>Preserves text formatting options in OpenAI Responses API integration</li></ul>
-          
-          <div class="why">Enhances stability for developers deploying OpenAI-backed agents, particularly when managing extended context windows and leveraging the latest Responses API endpoints.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">openai</span><span class="tag">errorhandling</span><span class="tag">api</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.12" target="_blank">CrewAI 1.15.12 更新：新增 URL 读取工具</a></h3>
-          
-          <div class="orig">1.15.12</div>
-          
-          <div class="summary">CrewAI 1.15.12 introduces a URLReadTool for web extraction, unifies scaffolding under a single CLI command, and fixes route collision errors.</div>
-          
-          <ul class="insights"><li>Adds URLReadTool for direct web content extraction in agent workflows</li><li>Unifies project scaffolding to `crewai create` for streamlined setup</li><li>Fixes conversational route/handler name collision errors</li></ul>
-          
-          <div class="why">Enhances agent web interaction capabilities and simplifies developer onboarding through unified CLI scaffolding, supporting more robust multi-agent workflows.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">framework</span><span class="tag">cli</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/commit/fef32f43a0aeb3c23ff98d25337b0ed2507b1633" target="_blank">CrewAI CLI统一脚手架创建命令</a></h3>
-          
-          <div class="orig">feat(cli): unify scaffolding under `crewai create <resource>` (#6821)</div>
-          
-          <div class="summary">CrewAI unifies its CLI scaffolding commands under crewai create <resource>, deprecating legacy syntax while maintaining backward compatibility and updating documentation.</div>
-          
-          <ul class="insights"><li>Unify CLI scaffolding using crewai create <resource> for tools, skills, and templates.</li><li>Legacy commands are deprecated with warnings but remain functional for backward compatibility.</li><li>Documentation updated to reflect the new canonical command structure.</li></ul>
-          
-          <div class="why">Streamlines developer workflow and reduces CLI fragmentation in the CrewAI framework, ensuring a consistent experience for building multi-agent systems.</div>
-          
-          <div class="tags-row"><span class="tag">cli</span><span class="tag">agent</span><span class="tag">framework</span><span class="tag">scaffolding</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.11" target="_blank">CrewAI 1.15.11 发布：新增 Db2 工具</a></h3>
-          
-          <div class="orig">1.15.11</div>
-          
-          <div class="summary">CrewAI v1.15.11 introduces an IBM Db2 search tool, enterprise account linking, and enhanced telemetry, alongside security patches and CI improvements.</div>
-          
-          <ul class="insights"><li>Adds IBM Db2 search tool for expanded database integration</li><li>Introduces enterprise project_id linking and enhanced telemetry tracking</li><li>Patches security vulnerabilities in aiohttp and cryptography dependencies</li></ul>
-          
-          <div class="why">Enhances CrewAI's enterprise readiness and database connectivity while addressing critical security dependencies, making it more robust for production agent deployments.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">telemetry</span><span class="tag">security</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.7" target="_blank">CrewAI 1.15.7更新：修复工具调用与API路由</a></h3>
-          
-          <div class="orig">1.15.7</div>
-          
-          <div class="summary">CrewAI v1.15.7 patch release fixes tool calling on the Responses API, resolves GPT-5.6 compatibility errors, patches a CVE, and adds runtime skill usage observability.</div>
-          
-          <ul class="insights"><li>Fixes tool calling compatibility with OpenAI Responses API and GPT-5.6 reasoning models</li><li>Patches CVE-2026-16796 in bedrock-agentcore dependency for improved security</li><li>Adds runtime observability events for tracking skill usage in agent workflows</li></ul>
-          
-          <div class="why">Ensures stable multi-agent orchestration with latest OpenAI API changes while improving security and monitoring for production deployments.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">observability</span><span class="tag">framework</span><span class="tag">openai</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/avatarin" target="_blank">GPT-Realtime构建全天候零售客服Agent</a></h3>
-          
-          <div class="orig">How avatarin built a 24/7 retail agent with GPT-Realtime</div>
-          
-          <div class="summary">avatarin deployed a 24/7 multilingual retail agent for Yamada Denki using OpenAI's GPT-Realtime, serving 30,000 users in two weeks with a 92% positive feedback rate.</div>
-          
-          <ul class="insights"><li>Deploy GPT-Realtime for low-latency multilingual customer service.</li><li>Track rapid adoption metrics and satisfaction rates within weeks.</li><li>Implement 24/7 automated retail support to scale shopper assistance.</li></ul>
-          
-          <div class="why">Demonstrates the practical viability of real-time LLM APIs in high-volume retail, providing a benchmark for latency, multilingual handling, and user satisfaction in production agent deployments.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">realtime-api</span><span class="tag">customer-service</span><span class="tag">multilingual</span><span class="tag">production-deployment</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.9" target="_blank">CrewAI 1.15.9发布：优化工具失败处理与技能渐进披露</a></h3>
-          
-          <div class="orig">1.15.9</div>
-          
-          <div class="summary">CrewAI v1.15.9 introduces improved error handling for tool failures, adds flow execution failure events, and implements progressive disclosure for agent skills.</div>
-          
-          <ul class="insights"><li>Handle tool failures explicitly instead of masking them as successes</li><li>Capture flow execution errors using the new FlowFailedEvent emitter</li><li>Manage complex agent capabilities with progressive skill disclosure</li></ul>
-          
-          <div class="why">Improves reliability and debugging for multi-agent workflows by exposing underlying tool errors and providing better event tracking for execution flows.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">multiagent</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.8" target="_blank">CrewAI 1.15.8 发布：新增 WaitTool 暂停长任务</a></h3>
-          
-          <div class="orig">1.15.8</div>
-          
-          <div class="summary">CrewAI 1.15.8 introduces the WaitTool for pausing long-running agent jobs, fixes FileWriterTool issues, and updates documentation for model availability.</div>
-          
-          <ul class="insights"><li>Introduces WaitTool to pause execution during long-running agent tasks</li><li>Fixes FileWriterTool write operations and marks E2B_API_KEY as required</li><li>Updates documentation to reflect current model availability guidance</li></ul>
-          
-          <div class="why">Improves reliability and control for multi-agent workflows handling asynchronous or lengthy operations, while stabilizing core file I/O tools.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">multiagent</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.2" target="_blank">AutoGen 0.7.2 发布：文档更新与 API 清理</a></h3>
-          
-          <div class="orig">python-v0.7.2</div>
-          
-          <div class="summary">Microsoft's AutoGen framework releases v0.7.2, featuring documentation updates for OpenAIAssistantAgent and API cleanup by removing deprecated assistant methods from OpenAIAgent.</div>
-          
-          <ul class="insights"><li>AutoGen v0.7.2 updates OpenAIAssistantAgent documentation</li><li>Removes deprecated assistant methods from OpenAIAgent</li><li>Improves framework stability and clarifies API boundaries</li></ul>
-          
-          <div class="why">Maintains the reliability of Microsoft's leading open-source multi-agent framework, ensuring developers have clear API boundaries and up-to-date documentation for building LLM-based agent workflows.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">framework</span><span class="tag">api</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.1" target="_blank">AutoGen 0.7.1：支持嵌套团队与Redis</a></h3>
-          
-          <div class="orig">python-v0.7.1</div>
-          
-          <div class="summary">AutoGen v0.7.1 introduces nested team orchestration, Redis-based memory extension, and full built-in tool support for OpenAIAgent.</div>
-          
-          <ul class="insights"><li>Enables nested Team structures for complex multi-agent hierarchies</li><li>Adds RedisMemory extension for persistent, scalable agent state</li><li>OpenAIAgent now supports all framework built-in tools natively</li></ul>
-          
-          <div class="why">Enhances AutoGen's capability for building scalable, stateful multi-agent systems, directly addressing orchestration and memory bottlenecks in complex workflows.</div>
-          
-          <div class="tags-row"><span class="tag">multiagent</span><span class="tag">orchestration</span><span class="tag">memory</span><span class="tag">toolcalling</span><span class="tag">autogen</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.3" target="_blank">AutoGen 0.7.3 发布：优化 MCP 与 Pydantic</a></h3>
-          
-          <div class="orig">python-v0.7.3</div>
-          
-          <div class="summary">AutoGen v0.7.3 release includes MCP example fixes, Pydantic model extensions for anyOf/oneOf, and documentation updates.</div>
-          
-          <ul class="insights"><li>Fixes MCP integration example in README for reliable tool calling</li><li>Extends Pydantic model support for anyOf/oneOf schema validation</li><li>Updates documentation and resolves minor tracing provider typos</li></ul>
-          
-          <div class="why">Improves reliability of MCP tool integration and schema validation in multi-agent workflows, crucial for developers building robust agent systems.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">mcp</span><span class="tag">pydantic</span><span class="tag">toolcalling</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.4" target="_blank">AutoGen 0.7.4更新：Agent工具化与Redis修复</a></h3>
-          
-          <div class="orig">python-v0.7.4</div>
-          
-          <div class="summary">AutoGen v0.7.4 introduces agent-as-tool capabilities, fixes Redis deserialization issues, and updates documentation for improved multi-agent orchestration.</div>
-          
-          <ul class="insights"><li>Introduces agent-as-tool pattern for flexible multi-agent workflows</li><li>Fixes critical Redis deserialization and streaming compatibility issues</li><li>Updates documentation and README to reflect latest framework capabilities</li></ul>
-          
-          <div class="why">Enhances AutoGen's flexibility for building complex multi-agent systems while improving reliability for distributed state management via Redis.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">toolcalling</span><span class="tag">framework</span><span class="tag">redis</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.0" target="_blank">微软AutoGen框架升级至0.7.0</a></h3>
-          
-          <div class="orig">python-v0.7.0</div>
-          
-          <div class="summary">Microsoft AutoGen releases version 0.7.0, delivering updates to its open-source multi-agent conversation framework for LLM application development.</div>
-          
-          <ul class="insights"><li>Upgrade to v0.7.0 for latest agent orchestration features.</li><li>Review changelog for dependency updates and breaking changes.</li><li>Integrate updated SDK to leverage improved multi-agent workflows.</li></ul>
-          
-          <div class="why">AutoGen is a foundational open-source framework for multi-agent systems. This release provides developers with critical stability improvements and feature enhancements for building complex AI workflows.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multagent</span><span class="tag">framework</span><span class="tag">orchestration</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">LangChain (GitHub)</div>
-          <h3><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.5.2" target="_blank">LangChain-Anthropic 1.5.2 支持 Claude Opus 5</a></h3>
-          
-          <div class="orig">langchain-anthropic==1.5.2</div>
-          
-          <div class="summary">LangChain-Anthropic 1.5.2 release adds official support for Claude Opus 5, enabling developers to integrate the latest Anthropic model into their agent workflows.</div>
-          
-          <ul class="insights"><li>Integrate Claude Opus 5 directly via updated LangChain-Anthropic package</li><li>Upgrade agent workflows to leverage latest Anthropic model capabilities</li><li>Apply 1.5.2 patch for backward-compatible API adjustments</li></ul>
-          
-          <div class="why">Provides immediate compatibility for developers building on LangChain to leverage Claude Opus 5's enhanced capabilities without waiting for third-party wrappers or manual API adjustments.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">langchain</span><span class="tag">anthropic</span><span class="tag">claude</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">LangChain (GitHub)</div>
-          <h3><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.4.1" target="_blank">LangChain-OpenAI 1.4.1 支持 LangSmith 网关</a></h3>
-          
-          <div class="orig">langchain-openai==1.4.1</div>
-          
-          <div class="summary">LangChain-OpenAI v1.4.1 adds LangSmith gateway support via environment variables for OpenAI, Anthropic, and Fireworks, and fixes the GPT-5.3-chat-latest model profile.</div>
-          
-          <ul class="insights"><li>Set LangSmith gateway routing via env vars for OpenAI, Anthropic, and Fireworks</li><li>Apply fix for gpt-5.3-chat-latest model profile configuration</li><li>Upgrade to v1.4.1 for improved enterprise traffic routing and model compatibility</li></ul>
-          
-          <div class="why">Simplifies enterprise deployment by enabling seamless traffic routing through LangSmith's gateway, while ensuring accurate model routing for the latest OpenAI profiles.</div>
-          
-          <div class="tags-row"><span class="tag">langchain</span><span class="tag">gateway</span><span class="tag">inference</span><span class="tag">openai</span><span class="tag">tooling</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.5" target="_blank">AutoGen v0.7.5 发布：修复流式调用与内存</a></h3>
-          
-          <div class="orig">python-v0.7.5</div>
-          
-          <div class="summary">AutoGen Python v0.7.5 patches AWS Bedrock streaming tool calls and introduces linear memory support for RedisMemory.</div>
-          
-          <ul class="insights"><li>Fixes AWS Bedrock streaming responses with empty tool arguments</li><li>Adds linear memory support to the RedisMemory component</li><li>Resolves documentation typos and core library bugs</li></ul>
-          
-          <div class="why">Enhances stability for cloud-based agent deployments and expands memory management options, directly improving reliability for production multi-agent systems.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">memory</span><span class="tag">awsbedrock</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/c02791282b405d83632274274f31236b496ea3c6" target="_blank">AutoGen新增MCP会话主机支持</a></h3>
-          
-          <div class="orig">Support MCP Elicitation, Sampling, and Roots via new McpSessionHost (…</div>
-          
-          <div class="summary">Microsoft's AutoGen framework adds a new McpSessionHost to support MCP elicitation, sampling, and roots, enhancing multi-agent tool integration.</div>
-          
-          <ul class="insights"><li>Adopt McpSessionHost to standardize MCP protocol integration</li><li>Leverage elicitation, sampling, and roots for complex agent tasks</li><li>Optimize multi-agent tool calling and shared context handling</li></ul>
-          
-          <div class="why">Standardizes how AutoGen agents interact with external tools via MCP, reducing integration friction and aligning with the emerging industry standard for AI agent connectivity.</div>
-          
-          <div class="tags-row"><span class="tag">mcp</span><span class="tag">multiagent</span><span class="tag">toolcalling</span><span class="tag">autogen</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">GitHub Trending</div>
-          <h3><a href="https://github.com/multica-ai/andrej-karpathy-skills" target="_blank">Karpathy总结的Claude Code优化配置</a></h3>
-          
-          <div class="orig">multica-ai/andrej-karpathy-skills</div>
-          
-          <div class="summary">A highly starred GitHub repository provides a single CLAUDE.md configuration file to optimize Claude Code's behavior, incorporating Andrej Karpathy's insights on avoiding common LLM coding pitfalls.</div>
-          
-          <ul class="insights"><li>Implement CLAUDE.md to standardize coding agent behavior and reduce hallucination.</li><li>Adopt Karpathy's guidelines to mitigate common LLM coding pitfalls and improve output quality.</li><li>Leverage community-vetted prompt engineering for faster, more reliable AI-assisted development.</li></ul>
-          
-          <div class="why">Standardizes prompt engineering for AI coding agents, directly improving developer productivity and code reliability without requiring custom model fine-tuning.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">promptengineering</span><span class="tag">codegen</span><span class="tag">claude</span><span class="tag">llm</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/commit/988f060c9335b7ebe5004d108a9c4cef931f378d" target="_blank">CrewAI修复Anthropic缓存Token统计偏差</a></h3>
-          
-          <div class="orig">Fix Anthropic cache token usage underreporting (#6844)</div>
-          
-          <div class="summary">CrewAI updates its Anthropic provider to correctly include cache read and creation tokens in input and total token counts, preventing underreported billing usage.</div>
-          
-          <ul class="insights"><li>Fold Anthropic cache read/creation tokens into input totals</li><li>Update UsageMetrics to prevent double-counting across providers</li><li>Ensure accurate billing tracking for cached agent workloads</li></ul>
-          
-          <div class="why">Accurate token accounting is critical for developers managing LLM costs and monitoring agent performance, especially as context caching becomes standard for reducing latency and expenses.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">anthropic</span><span class="tag">tokencounting</span><span class="tag">crewai</span><span class="tag">costoptimization</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.6.2" target="_blank">AutoGen v0.6.2发布：支持流式工具与事件透传</a></h3>
-          
-          <div class="orig">python-v0.6.2</div>
-          
-          <div class="summary">AutoGen v0.6.2 introduces streaming tools and run_json_stream support, enabling real-time event propagation across nested agents and teams.</div>
-          
-          <ul class="insights"><li>Implement streaming tools by subclassing BaseStreamTool</li><li>Use run_json_stream in AgentTool/TeamTool to expose nested events</li><li>Leverage automatic streaming in AssistantAgent for supported tools</li></ul>
-          
-          <div class="why">Enhances real-time responsiveness and debugging for multi-agent systems by allowing granular event streaming across nested agent hierarchies.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">streaming</span><span class="tag">multiagent</span><span class="tag">toolcalling</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.6.4" target="_blank">AutoGen 0.6.4：GraphFlow 状态保留优化</a></h3>
-          
-          <div class="orig">python-v0.6.4</div>
-          
-          <div class="summary">AutoGen v0.6.4 enhances GraphFlow by retaining execution state after termination, removes the inner StopAgent, and routes stop messages through TaskResult.stop_reason.</div>
-          
-          <ul class="insights"><li>GraphFlow retains execution state post-termination for seamless task resumption</li><li>Inner StopAgent removed; termination messages now use TaskResult.stop_reason</li><li>Improves state management and workflow continuity in multi-agent orchestration</li></ul>
-          
-          <div class="why">Enhances state persistence and control in AutoGen's graph-based orchestration, enabling more robust and resumable multi-agent pipelines for complex workflows.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">graphflow</span><span class="tag">statemanagement</span><span class="tag">microsoft</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/e04564390361665325b2df9bf9e696ab72fe6946" target="_blank">AutoGen框架新增GPT-5推理力度参数支持</a></h3>
-          
-          <div class="orig">Add missing reasoning_effort parameter support for OpenAI GPT-5 model…</div>
-          
-          <div class="summary">Microsoft's AutoGen framework adds support for the reasoning_effort parameter to enable fine-grained control over OpenAI GPT-5 model inference.</div>
-          
-          <ul class="insights"><li>Add reasoning_effort parameter to AutoGen for GPT-5 model control.</li><li>Configure dynamic reasoning depth to optimize compute and latency.</li><li>Merge community PR to align framework with latest OpenAI API specs.</li></ul>
-          
-          <div class="why">Enhances AutoGen's compatibility with latest OpenAI models, giving developers precise control over inference cost and reasoning quality in multi-agent workflows.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">openai</span><span class="tag">gpt-5</span><span class="tag">framework</span><span class="tag">inference</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/17d3aef9f558727057bc1819a468fea8699c2b7c" target="_blank">AutoGen默认Docker执行代码并增安全警告</a></h3>
-          
-          <div class="orig">Add security warnings and default to DockerCommandLineCodeExecutor (#…</div>
-          
-          <div class="summary">AutoGen framework now defaults to DockerCommandLineCodeExecutor for enhanced security and adds explicit security warnings to prevent unsafe code execution.</div>
-          
-          <ul class="insights"><li>Defaults to DockerCommandLineCodeExecutor to sandbox code execution</li><li>Adds explicit security warnings to mitigate prompt injection risks</li><li>Improves out-of-the-box safety for autonomous agent deployments</li></ul>
-          
-          <div class="why">Addresses critical security vulnerabilities in AI agent code execution by enforcing containerization by default, reducing the attack surface for malicious prompts.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">security</span><span class="tag">docker</span><span class="tag">codeexecution</span><span class="tag">autogen</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/commit/92012aec55314e09450a9a6a8d9d3251cc849a13" target="_blank">CrewAI重构遥测：分离运行时上下文与代理</a></h3>
-          
-          <div class="orig">feat: split runtime context from coding agent, add project id (#6867)</div>
-          
-          <div class="summary">CrewAI refactors its telemetry system by splitting coding agent detection from runtime context identification, improving accuracy across CI, serverless, and host environments.</div>
-          
-          <ul class="insights"><li>Splits telemetry into agent detection and runtime context</li><li>Improves accuracy for CI, serverless, and host environments</li><li>Adds project ID tracking for better run attribution</li></ul>
-          
-          <div class="why">Enhances telemetry precision for developers deploying CrewAI across diverse environments, enabling more accurate debugging and usage analytics.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">framework</span><span class="tag">telemetry</span><span class="tag">devops</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.13" target="_blank">CrewAI 1.15.13更新：修复路由与缓存统计</a></h3>
-          
-          <div class="orig">1.15.13</div>
-          
-          <div class="summary">CrewAI 1.15.13 release fixes LiteLLM provider routing, Anthropic cache token reporting, and patches a security vulnerability in the h2 library.</div>
-          
-          <ul class="insights"><li>Fixes LiteLLM provider preservation and Anthropic cache token underreporting</li><li>Patches h2 library security vulnerability (GHSA-6hr6-w5qg-qmwg)</li><li>Improves documentation localization and fixes broken links</li></ul>
-          
-          <div class="why">Ensures stable multi-provider routing and accurate cost tracking for developers using CrewAI with LiteLLM and Anthropic, while addressing a known security risk.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">framework</span><span class="tag">litellm</span><span class="tag">security</span><span class="tag">tooling</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.14" target="_blank">CrewAI 1.15.14：解耦运行时上下文</a></h3>
-          
-          <div class="orig">1.15.14</div>
-          
-          <div class="summary">CrewAI v1.15.14 introduces a runtime context split from the coding agent and adds project ID support to improve multi-agent orchestration.</div>
-          
-          <ul class="insights"><li>Splits runtime context from coding agent for cleaner state management</li><li>Adds project ID support to enhance multi-agent workflow tracking</li><li>Minor version update focused on architectural decoupling</li></ul>
-          
-          <div class="why">Decoupling runtime context from coding agents improves scalability and state management in complex multi-agent workflows, a key step for production-grade CrewAI deployments.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">framework</span><span class="tag">coding</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/commit/0c74f23596b592832a5ee60f8d55c9d457f6acf8" target="_blank">CrewAI新增URL读取工具支持多格式解析</a></h3>
-          
-          <div class="orig">feat(tools): add URLReadTool for reading arbitrary URLs (#6834)</div>
-          
-          <div class="summary">CrewAI framework introduces URLReadTool, enabling agents to securely fetch and parse content from HTTP(S) URLs, including PDF, DOCX, and HTML formats.</div>
-          
-          <ul class="insights"><li>Integrate URLReadTool to enable agents to fetch live web content directly.</li><li>Leverage built-in parsers for PDF, DOCX, HTML, and structured text formats.</li><li>Enforce explicit network egress controls by separating web and local file tools.</li></ul>
-          
-          <div class="why">Streamlines autonomous research and RAG pipelines by natively supporting live document ingestion, while the explicit separation from local file tools enforces stricter security boundaries for network access.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">rag</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.7a1" target="_blank">CrewAI 1.15.7a1 发布：修复工具调用与API路由问题</a></h3>
-          
-          <div class="orig">1.15.7a1</div>
-          
-          <div class="summary">CrewAI v1.15.7a1 introduces bug fixes for tool calling and API routing, patches a security vulnerability, and adds runtime skill usage observability.</div>
-          
-          <ul class="insights"><li>Fixes GPT-5.6 tool/reasoning errors and Responses API routing</li><li>Patches CVE-2026-16796 in bedrock-agentcore dependency</li><li>Adds runtime skill usage event emission for better observability</li></ul>
-          
-          <div class="why">Improves stability and security for multi-agent workflows, ensuring reliable tool execution and better debugging capabilities for developers using the CrewAI framework.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">multiagent</span><span class="tag">framework</span><span class="tag">security</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">LangChain (GitHub)</div>
-          <h3><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-fireworks%3D%3D1.5.2" target="_blank">LangChain-Fireworks 1.5.2 版本更新</a></h3>
-          
-          <div class="orig">langchain-fireworks==1.5.2</div>
-          
-          <div class="summary">LangChain releases version 1.5.2 of its Fireworks AI integration, primarily refreshing model profile data without adding new features.</div>
-          
-          <ul class="insights"><li>Upgrade to v1.5.2 to sync latest Fireworks AI model profiles</li><li>Apply patch to maintain stable LangChain agent integration</li><li>No new features; focuses on internal metadata refresh</li></ul>
-          
-          <div class="why">Ensures developers using LangChain with Fireworks AI have access to the latest model metadata and endpoint configurations for stable integration.</div>
-          
-          <div class="tags-row"><span class="tag">langchain</span><span class="tag">fireworks</span><span class="tag">agent</span><span class="tag">tooling</span><span class="tag">integration</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.10" target="_blank">CrewAI 1.15.10 发布：新增技能使用事件收集</a></h3>
-          
-          <div class="orig">1.15.10</div>
-          
-          <div class="summary">CrewAI v1.15.10 introduces skill usage event collection for improved agent observability, alongside documentation cleanup and updated security reporting guidelines.</div>
-          
-          <ul class="insights"><li>Adds skill usage event collection for agent telemetry</li><li>Updates security reporting guidelines and documentation</li><li>Patch release enhances framework stability and monitoring</li></ul>
-          
-          <div class="why">Enhances observability for multi-agent systems by tracking skill execution, enabling better debugging and performance monitoring in production deployments.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">observability</span><span class="tag">telemetry</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/b0477309d2a0baf489aa256646e41e513ab3bfe8" target="_blank">AutoGen弃用FunctionTool并加固MCP</a></h3>
-          
-          <div class="orig">fix: Improve AutoGen Studio: deprecate FunctionTool, harden MCP WebSo…</div>
-          
-          <div class="summary">Microsoft's AutoGen Studio updates its framework by deprecating the legacy FunctionTool class and implementing security hardening for the MCP WebSocket endpoint.</div>
-          
-          <ul class="insights"><li>Deprecates FunctionTool to streamline agent tool-calling workflows.</li><li>Hardens MCP WebSocket endpoint for improved connection stability.</li><li>Updates AutoGen Studio's core orchestration infrastructure.</li></ul>
-          
-          <div class="why">This update strengthens the reliability and security of Microsoft's open-source agent framework, aligning it with the emerging MCP standard and simplifying tool integration for developers.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">mcp</span><span class="tag">toolcalling</span><span class="tag">autogen</span><span class="tag">framework</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/29846cb26b588d4a977991f9f967805751ea65a3" target="_blank">AutoGen框架新增Copilot开发指引</a></h3>
-          
-          <div class="orig">Add comprehensive GitHub Copilot instructions for AutoGen development…</div>
-          
-          <div class="summary">Microsoft's AutoGen repository adds comprehensive GitHub Copilot instructions to streamline multi-agent development workflows.</div>
-          
-          <ul class="insights"><li>Integrate standardized Copilot prompts to accelerate AutoGen codebase navigation</li><li>Utilize copilot-swe-agent co-authorship to demonstrate AI-assisted dev workflows</li><li>Reduce contributor onboarding friction with embedded framework instructions</li></ul>
-          
-          <div class="why">Enhances developer experience and contribution velocity for the widely-used AutoGen multi-agent framework. It also demonstrates practical AI-coding integration in open-source projects.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">devtools</span><span class="tag">githubcopilot</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/pyautogen-v0.10.0" target="_blank">AutoGen v0.10.0 框架发布</a></h3>
-          
-          <div class="orig">pyautogen-v0.10.0</div>
-          
-          <div class="summary">Microsoft AutoGen releases v0.10.0, focusing on updating the pyautogen package publishing setup and framework maintenance.</div>
-          
-          <ul class="insights"><li>Update pyautogen to v0.10.0 for latest publishing fixes</li><li>Review PR #6813 for package pipeline changes</li><li>Verify multi-agent workflows against new release</li></ul>
-          
-          <div class="why">AutoGen is a widely adopted open-source framework for multi-agent orchestration; version updates ensure compatibility and stability for developers building agent workflows.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">framework</span><span class="tag">opensource</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/29931b37af6ead5d5eafa72c01f96f01792c6d23" target="_blank">AutoGen修复MCP会话失败时的命令挂起问题</a></h3>
-          
-          <div class="orig">Fix(mcp): drain pending command futures on McpSessionActor failure (#…</div>
-          
-          <div class="summary">AutoGen framework patches a bug in the MCP session actor to properly drain pending command futures during failure states, improving agent reliability.</div>
-          
-          <ul class="insights"><li>Fixes pending command future handling in AutoGen's MCP session actor</li><li>Prevents resource leaks and hangs during session failures</li><li>Enhances stability for multi-agent workflows using MCP</li></ul>
-          
-          <div class="why">Improves the robustness of Microsoft's AutoGen framework for developers building MCP-compliant agents, reducing runtime failures in production deployments.</div>
-          
-          <div class="tags-row"><span class="tag">mcp</span><span class="tag">autogen</span><span class="tag">agent</span><span class="tag">bugfix</span><span class="tag">toolcalling</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/14809f51dd55637a9dcffb039196fcd62d2da433" target="_blank">AutoGen修复GraphFlow循环检测递归状态清理问题</a></h3>
-          
-          <div class="orig">Fix GraphFlow cycle detection to properly clean up recursion state (#…</div>
-          
-          <div class="summary">Microsoft AutoGen repository patches a bug in GraphFlow's cycle detection to ensure proper cleanup of recursion states during agent workflow execution.</div>
-          
-          <ul class="insights"><li>Patch GraphFlow cycle detection to prevent recursion state leaks</li><li>Stabilize multi-agent workflow loops in AutoGen framework</li><li>Monitor Copilot SWE agent contributions to core repository</li></ul>
-          
-          <div class="why">Enhances reliability of AutoGen's workflow orchestration, preventing state corruption in recursive agent interactions.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">multiagent</span><span class="tag">workflow</span><span class="tag">bugfix</span><span class="tag">autogen</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">5</div>
-        <div class="card-body">
-          <div class="card-source">CrewAI (GitHub)</div>
-          <h3><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.6" target="_blank">CrewAI 1.15.6发布：修复工具调用与异步加载</a></h3>
-          
-          <div class="orig">1.15.6</div>
-          
-          <div class="summary">CrewAI v1.15.6 release addresses critical bugs in Anthropic tool-use detection, strict schema preservation, and async agent loading, alongside dependency and hook execution fixes.</div>
-          
-          <ul class="insights"><li>Fixes Anthropic preview tool-use block detection</li><li>Preserves strict tool schema property names</li><li>Resolves async agent loading and dependency issues</li></ul>
-          
-          <div class="why">Improves reliability for developers using CrewAI with Anthropic models and complex tool schemas, ensuring smoother multi-agent workflow execution.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">toolcalling</span><span class="tag">framework</span><span class="tag">bugfix</span><span class="tag">crewai</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.1.post1" target="_blank">AutoGen发布v0.7.1.post1：更新Agent文档</a></h3>
-          
-          <div class="orig">python-v0.7.1.post1</div>
-          
-          <div class="summary">Microsoft AutoGen releases patch v0.7.1.post1, primarily updating documentation for the OpenAIAssistantAgent component.</div>
-          
-          <ul class="insights"><li>Update AutoGen to v0.7.1.post1 for latest OpenAIAssistantAgent docs</li><li>Patch focuses solely on documentation improvements</li><li>No breaking changes or new features introduced</li></ul>
-          
-          <div class="why">Maintains framework documentation accuracy for developers integrating OpenAI Assistants API with AutoGen, ensuring smoother onboarding and usage.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">autogen</span><span class="tag">openai</span><span class="tag">documentation</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">2</div>
-        <div class="card-body">
-          <div class="card-source">AutoGen (GitHub)</div>
-          <h3><a href="https://github.com/microsoft/autogen/commit/c469fc0d8ce3f7e8ad2a25e48293a58dd4da8ea9" target="_blank">AutoGen修复Ollama客户端加载错误</a></h3>
-          
-          <div class="orig">Fix OllamaChatCompletionClient load_component() error by adding to WE…</div>
-          
-          <div class="summary">Microsoft AutoGen repository patches a load_component() error for OllamaChatCompletionClient by registering it in WELL_KNOWN_PROVIDERS.</div>
-          
-          <ul class="insights"><li>Fixes Ollama integration bug in AutoGen framework</li><li>Adds OllamaChatCompletionClient to known providers list</li><li>Improves local LLM compatibility for AutoGen users</li></ul>
-          
-          <div class="why">Resolves a runtime error for developers using Ollama with AutoGen, ensuring smoother local model integration without manual workarounds.</div>
-          
-          <div class="tags-row"><span class="tag">agent</span><span class="tag">ollama</span><span class="tag">framework</span><span class="tag">bugfix</span></div>
-          
-        </div>
-      </div>
-      
-    </div>
-    <div class="pagination" data-for="purple"></div>
-    
-  </div>
-  
-  
-  
-  <div class="sec" id="sec-green">
-    <div class="sec-h b-green">
-      <span class="icon">🔬</span>
-      <h2>AI for Science</h2>
-      <span class="badge bg-green">34</span>
-    </div>
-
-    
-    <div class="sec-summary">本周AI for Science领域在数学理论、材料模拟、高能物理与蛋白质生成等方向取得突破，生成式、扩散及量子模型显著提升了跨学科科学计算的精度与泛化能力。</div>
-    
-
-    
-    
-    
-    <div class="article-list" data-cat="green" data-per-page="5">
-      
-      
-      <div class="card">
-        <div class="score score-hi">8</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/ten-advances-in-mathematics" target="_blank">OpenAI发布数学与理论计算机科学十大进展</a></h3>
-          
-          <div class="orig">Ten advances in mathematics and theoretical computer science</div>
-          
-          <div class="summary">OpenAI details ten breakthroughs in long-standing open problems across geometry, cryptography, and computational complexity.</div>
-          
-          <ul class="insights"><li>Reports novel proofs and algorithmic improvements in geometry and cryptography</li><li>Highlights AI's expanding role in solving foundational theoretical computer science problems</li><li>Provides open-access mathematical results that could influence future cryptographic standards</li></ul>
-          
-          <div class="why">Demonstrates AI's capability to tackle fundamental research, potentially accelerating breakthroughs in cryptography and algorithm design that underpin secure computing.</div>
-          
-          <div class="tags-row"><span class="tag">mathematics</span><span class="tag">cryptography</span><span class="tag">complexitytheory</span><span class="tag">aiforscience</span><span class="tag">openai</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.06662" target="_blank">机器学习原子势跨几何结构迁移性评估</a></h3>
-          
-          <div class="orig">Cross-Geometry Transferability Assessment of Universal Machine Learning Interatomic Potentials: From Bulk Materials to A</div>
-          
-          <div class="summary">Benchmarks 26 pretrained MLIPs on ZrO2 across diverse geometries, revealing significant zero-shot degradation and demonstrating that simple reference-energy alignment substantially improves cross-geometry transferability.</div>
-          
-          <ul class="insights"><li>Validate MLIP zero-shot limits by testing across bulk, slab, and nanowire geometries.</li><li>Apply reference-energy alignment to boost cross-geometry accuracy without retraining.</li><li>Monitor geometry-dependent degradation when deploying foundation potentials for nanoscale design.</li></ul>
-          
-          <div class="why">Provides crucial validation metrics for foundation MLIPs, guiding developers on when zero-shot deployment is safe and how to mitigate geometry-dependent failures in materials discovery.</div>
-          
-          <div class="tags-row"><span class="tag">simulation</span><span class="tag">benchmark</span><span class="tag">zeroshot</span><span class="tag">materialsscience</span><span class="tag">physics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2605.16044" target="_blank">QFAN量子生成模型突破高能物理模拟瓶颈</a></h3>
-          
-          <div class="orig">Quantum Feature Amplification Network (QFAN) as An Autoregressive Quantum Generative Model</div>
-          
-          <div class="summary">Researchers propose QFAN, an autoregressive quantum generative model that decouples qubit count from image size, enabling efficient simulation of high-energy physics calorimeter showers.</div>
-          
-          <ul class="insights"><li>Adopt block-wise autoregressive generation to decouple qubit register size from image dimensions.</li><li>Leverage fixed-length pixel summaries to condition small quantum circuits for scalable simulation.</li><li>Deploy QFAN to overcome resource bottlenecks in high-energy physics calorimeter shower modeling.</li></ul>
-          
-          <div class="why">Solves a critical scaling bottleneck in quantum machine learning for high-energy physics, making quantum generative models viable for realistic detector simulation workloads.</div>
-          
-          <div class="tags-row"><span class="tag">quantumml</span><span class="tag">generativemodel</span><span class="tag">simulation</span><span class="tag">autoregressive</span><span class="tag">hep</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">7</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.07401" target="_blank">DynaCrys：动态空间群扩散晶体生成模型</a></h3>
-          
-          <div class="orig">DynaCrys: Crystal Generation with Dynamic Space-Group Diffusion</div>
-          
-          <div class="summary">DynaCrys introduces a coupled symbolic diffusion model that jointly generates crystal symmetry, composition, and geometry by co-evolving space groups with Wyckoff occupations.</div>
-          
-          <ul class="insights"><li>Introduces coupled symbolic diffusion for joint crystal symmetry and geometry generation.</li><li>Space-group transitions follow crystallographic group-subgroup relations during diffusion.</li><li>Uses a pretrained symmetry codebook to enforce legality constraints and shared representations.</li></ul>
-          
-          <div class="why">Advances AI-driven materials discovery by natively handling discrete crystallographic symmetries, enabling more physically valid and diverse crystal structure generation for computational chemistry and solid-state physics.</div>
-          
-          <div class="tags-row"><span class="tag">diffusion</span><span class="tag">aiforscience</span><span class="tag">generativemodel</span><span class="tag">materialsscience</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv q-bio</div>
-          <h3><a href="https://arxiv.org/abs/2603.20115" target="_blank">基于Hopfield模式多重性的蛋白质生成方法</a></h3>
-          
-          <div class="orig">Conditioning Protein Generation via Hopfield Pattern Multiplicity</div>
-          
-          <div class="summary">Researchers propose a training-free stochastic-attention sampler that conditions protein generation on specific Pfam subsets by adjusting Hopfield pattern multiplicities, achieving exact latent-space conditioning.</div>
-          
-          <ul class="insights"><li>Introduces training-free stochastic-attention sampler for conditional protein generation</li><li>Uses Hopfield pattern multiplicity to shift Boltzmann distribution toward target subsets</li><li>Validates method across five Pfam families with exact latent-space conditioning</li></ul>
-          
-          <div class="why">Provides a mathematically grounded, training-free approach to fine-tune protein generation for specific families, reducing computational overhead and improving precision in computational biology workflows.</div>
-          
-          <div class="tags-row"><span class="tag">protein_generation</span><span class="tag">hopfield_network</span><span class="tag">generative_models</span><span class="tag">computational_biology</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2512.13138" target="_blank">量子计算与神经网络联合推导普适泛函</a></h3>
-          
-          <div class="orig">A Joint Quantum Computing, Neural Network and Embedding Theory Approach for the Derivation of the Universal Functional</div>
-          
-          <div class="summary">Researchers propose a hybrid quantum-classical method using deep neural networks and density matrix embedding theory to derive reusable universal functionals for simulating interacting quantum particles.</div>
-          
-          <ul class="insights"><li>Apply hybrid quantum-DNN training to derive universal functionals for particle simulations.</li><li>Use density matrix embedding to expand Hamiltonian coverage without extra quantum resources.</li><li>Reuse derived functionals across systems with identical embedded fragment interactions.</li></ul>
-          
-          <div class="why">Advances AI-driven quantum simulation by reducing computational overhead and enabling reusable functionals, potentially accelerating materials science and quantum chemistry research.</div>
-          
-          <div class="tags-row"><span class="tag">quantumcomputing</span><span class="tag">scientificml</span><span class="tag">simulation</span><span class="tag">dnn</span><span class="tag">physics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2601.18780" target="_blank">物理信息GAN加速PET探测器光子传输模拟</a></h3>
-          
-          <div class="orig">OptiGAN for Crystal Arrays: Physics-Informed Generative Modeling of Optical Photon Transport in PET Detector Arrays</div>
-          
-          <div class="summary">Researchers propose a physics-informed conditional GAN that replaces computationally expensive Monte Carlo simulations for optical photon transport in 3x3 PET detector arrays, using Fourier feature encoding and spherical constraints.</div>
-          
-          <ul class="insights"><li>Replace costly Monte Carlo simulations for PET array photon transport using a conditional GAN.</li><li>Implement Fourier feature encoding and latent mapping to stabilize training on array geometries.</li><li>Apply a soft physics-informed loss to constrain generated propagation directions to a unit sphere.</li></ul>
-          
-          <div class="why">Accelerates computationally prohibitive optical simulations for medical imaging hardware, enabling faster design and optimization of PET detector arrays without sacrificing physical accuracy.</div>
-          
-          <div class="tags-row"><span class="tag">physicsinformedml</span><span class="tag">gan</span><span class="tag">simulation</span><span class="tag">medicalimaging</span><span class="tag">opticaltransport</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.06413" target="_blank">分子动力学揭示PIM膜气体渗透机制</a></h3>
-          
-          <div class="orig">Competing Energetics Govern Gas Permeation in Polymer of Intrinsic Microporosity (PIM) Membranes</div>
-          
-          <div class="summary">Researchers use non-equilibrium molecular dynamics simulations to reveal how temperature and gas-solid interactions govern permeation mechanisms in PIM-1 polymer membranes, challenging the traditional solution-diffusion model.</div>
-          
-          <ul class="insights"><li>NEMD simulations reveal temperature-driven shifts in PIM-1 gas transport mechanisms.</li><li>Gas-solid interactions, not just pore size, dictate permeability scaling with molecular mass.</li><li>Results enable data-driven, bottom-up design of high-performance polymer separation membranes.</li></ul>
-          
-          <div class="why">Provides a mechanistic understanding that bridges computational modeling and materials engineering, enabling more rational design of next-generation gas separation membranes beyond empirical trial-and-error.</div>
-          
-          <div class="tags-row"><span class="tag">molecular_dynamics</span><span class="tag">materials_science</span><span class="tag">gas_separation</span><span class="tag">computational_physics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2602.04891" target="_blank">微分方程参数估计的广义剖面计算方法</a></h3>
-          
-          <div class="orig">Parameter Estimation for Differential Equation Models Using Generalized Profiling: A Computational Tutorial</div>
-          
-          <div class="summary">This arXiv tutorial introduces generalized profiling for parameter estimation in differential equation models, offering a penalized likelihood approach that directly links governing equations to data without repeated numerical solves.</div>
-          
-          <ul class="insights"><li>Introduces generalized profiling as an alternative to MLE/MCMC for differential equation parameter estimation.</li><li>Uses penalized likelihood to directly link governing equations to observational data.</li><li>Provides a computational tutorial to lower adoption barriers for this underutilized method.</li></ul>
-          
-          <div class="why">Offers a computationally efficient alternative to iterative solvers for scientific modeling, potentially accelerating parameter calibration in physics, biology, and engineering simulations.</div>
-          
-          <div class="tags-row"><span class="tag">scientificcomputing</span><span class="tag">differentialequations</span><span class="tag">parameterestimation</span><span class="tag">computationalphysics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.07081" target="_blank">机器学习势函数解析hcp锌局部晶格动力学</a></h3>
-          
-          <div class="orig">Local lattice dynamics of hcp zinc from EXAFS and machine-learning interatomic potentials</div>
-          
-          <div class="summary">Researchers combine EXAFS spectroscopy with machine-learning interatomic potentials to map the anisotropic lattice dynamics and interatomic force constants of hexagonal close-packed zinc across multiple coordination shells.</div>
-          
-          <ul class="insights"><li>Extract shell-resolved thermal motion data for hcp zinc using reverse Monte Carlo and EXAFS.</li><li>Apply ML interatomic potentials to quantify in-plane vs out-of-plane force constants.</li><li>Use correlated Einstein model to reveal pronounced structural anisotropy in zinc.</li></ul>
-          
-          <div class="why">Demonstrates how ML interatomic potentials bridge experimental spectroscopy and atomistic simulations, improving accuracy in modeling anisotropic materials for advanced manufacturing and materials discovery.</div>
-          
-          <div class="tags-row"><span class="tag">interatomic_potentials</span><span class="tag">lattice_dynamics</span><span class="tag">machine_learning</span><span class="tag">materials_science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.06395" target="_blank">二维SSH声子晶体高阶拓扑模态的梁格约化模型</a></h3>
-          
-          <div class="orig">Predictive beam-lattice reduction for higher-order topological modes in a 2D SSH phononic crystal</div>
-          
-          <div class="summary">Researchers develop a computationally efficient 12-DOF beam-lattice reduction model for 2D SSH phononic crystals, accurately capturing topological phase transitions and higher-order modes beyond traditional mass-spring approximations.</div>
-          
-          <ul class="insights"><li>Derives 12-DOF dynamical matrix using Euler-Bernoulli beam theory for accurate phononic crystal modeling.</li><li>Captures ligament eccentricity and rotational effects missing in scalar mass-spring SSH models.</li><li>Enables efficient simulation of topological phase transitions and higher-order boundary modes.</li></ul>
-          
-          <div class="why">Provides a computationally tractable yet physically faithful framework for designing topological phononic materials, bridging the gap between simplified lattice models and expensive full FEM simulations.</div>
-          
-          <div class="tags-row"><span class="tag">computationalphysics</span><span class="tag">topologicalmaterials</span><span class="tag">phononiccrystals</span><span class="tag">modelreduction</span><span class="tag">simulation</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.06570" target="_blank">狄拉克方程量子格子玻尔兹曼精确电路</a></h3>
-          
-          <div class="orig">Exact quantum circuits for lattice Boltzmann realization of the Dirac equation</div>
-          
-          <div class="summary">Researchers present an exact gate-level quantum circuit mapping for the 3D Dirac quantum lattice Boltzmann scheme, enabling precise quantum simulation of relativistic particle dynamics.</div>
-          
-          <ul class="insights"><li>Maps 3D Dirac QLB operations to exact quantum gates</li><li>Implements collision, streaming, and potential phases unitarily</li><li>Enables precise quantum simulation of relativistic dynamics</li></ul>
-          
-          <div class="why">Provides a rigorous bridge between lattice Boltzmann methods and quantum computing, offering a pathway for efficient quantum simulation of relativistic quantum field theories.</div>
-          
-          <div class="tags-row"><span class="tag">quantumsimulation</span><span class="tag">latticeboltzmann</span><span class="tag">diracequation</span><span class="tag">computationalphysics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.07445" target="_blank">置换不变神经网络预测FCC高熵合金空位形成能</a></h3>
-          
-          <div class="orig">Permutation invariant neural network prediction of vacancy formation under deformation and varying chemical environment </div>
-          
-          <div class="summary">Researchers propose a permutation-invariant neural network framework to efficiently predict strain-dependent vacancy formation energies in FCC high-entropy alloys, capturing coupled chemical and mechanical effects.</div>
-          
-          <ul class="insights"><li>Leverage permutation-invariant NNs to predict vacancy energies in HEAs efficiently.</li><li>Combine geometric descriptors with deformation invariants to model coupled effects.</li><li>Replace costly atomistic simulations with fast ML for strain-dependent phase stability.</li></ul>
-          
-          <div class="why">Accelerates materials discovery for high-entropy alloys by replacing expensive atomistic simulations with fast ML predictions. This approach is crucial for designing radiation-resistant and mechanically robust alloys.</div>
-          
-          <div class="tags-row"><span class="tag">ai_for_science</span><span class="tag">materials_science</span><span class="tag">neural_network</span><span class="tag">high_entropy_alloys</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06877" target="_blank">自主优化复杂氧化物用于热化学燃料生产</a></h3>
-          
-          <div class="orig">Autonomous Optimization of Complex Oxides for Thermochemical Fuel Production</div>
-          
-          <div class="summary">Researchers propose an autonomous optimization framework for designing complex multi-cation oxides to maximize thermochemical fuel production efficiency from H2O and CO2 splitting.</div>
-          
-          <ul class="insights"><li>Introduces autonomous optimization for multi-cation oxides in thermochemical fuel cycles.</li><li>Targets simultaneous thermodynamic and kinetic constraints for H2O/CO2 splitting.</li><li>Addresses limitations of traditional methods in high-dimensional materials design.</li></ul>
-          
-          <div class="why">Accelerates discovery of sustainable fuel production materials by automating the co-optimization of composition, defects, and phase stability in complex oxides.</div>
-          
-          <div class="tags-row"><span class="tag">materialsdiscovery</span><span class="tag">autonomousoptimization</span><span class="tag">thermochemicalfuel</span><span class="tag">highentropyoxides</span><span class="tag">aiforscience</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2512.10755" target="_blank">一维Z2格点规范理论相结构研究</a></h3>
-          
-          <div class="orig">Phase structure of the one-dimensional $\mathbb{Z}_2$ lattice gauge theory with second nearest-neighbor interactions</div>
-          
-          <div class="summary">Researchers use DMRG and matrix product states to map the phase diagram of a 1D Z2 lattice gauge theory with second nearest-neighbor interactions, identifying transitions between Luttinger liquid and Mott insulator phases.</div>
-          
-          <ul class="insights"><li>Maps ground-state phase diagram using DMRG and matrix product states</li><li>Analyzes impact of second nearest-neighbor coupling on LL and MI phases</li><li>Computes charge gap, entanglement entropy, and correlation functions</li></ul>
-          
-          <div class="why">Provides precise numerical benchmarks for quantum many-body systems, advancing computational methods for simulating lattice gauge theories relevant to quantum computing and condensed matter physics.</div>
-          
-          <div class="tags-row"><span class="tag">latticegaugetheory</span><span class="tag">dmrg</span><span class="tag">tensornetworks</span><span class="tag">quantummanybody</span><span class="tag">computationalphysics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2602.18685" target="_blank">极化光传输随机矩阵模拟新框架</a></h3>
-          
-          <div class="orig">Extended scattering channels for random matrix simulations of polarized light transport</div>
-          
-          <div class="summary">Presents a random matrix simulation framework using extended scattering channels to model polarized light transport through disordered media, offering rigorous scattering matrix correlation analysis.</div>
-          
-          <ul class="insights"><li>Implements extended scattering channels for angular spectral decomposition in optical simulations</li><li>Delivers rigorous scattering matrix correlation analysis for disordered media</li><li>Reveals geometric insights into the optical memory effect across arbitrary scatterers</li></ul>
-          
-          <div class="why">Advances computational optics by enabling accurate, flexible modeling of polarized light in complex disordered media, benefiting photonics research and optical engineering.</div>
-          
-          <div class="tags-row"><span class="tag">simulation</span><span class="tag">computational-physics</span><span class="tag">optics</span><span class="tag">random-matrix-theory</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.06739" target="_blank">高温CO2同位素拉曼光谱的高精度模拟</a></h3>
-          
-          <div class="orig">High-temperature simulation of the Raman spectra of the isotopologues $^{13}$C$^{16}$O$_2$ and $^{16}$O$^{13}$C$^{18}$O</div>
-          
-          <div class="summary">Researchers simulate high-temperature Raman spectra for CO2 isotopologues using a dynamical group framework, achieving spectroscopic-quality fits with RMS deviations under 0.07 cm⁻¹.</div>
-          
-          <ul class="insights"><li>Apply SU1(2)×U(3)×SU2(2) dynamical group framework to derive accurate vibrational wave functions</li><li>Target RMS deviations under 0.07 cm⁻¹ for spectroscopic term value fitting</li><li>Compute Raman spectra using cubic curvilinear coordinate polarizability expansions</li></ul>
-          
-          <div class="why">Delivers a precise computational method for molecular spectroscopy, reducing reliance on high-temperature experiments for atmospheric and combustion research.</div>
-          
-          <div class="tags-row"><span class="tag">computationalphysics</span><span class="tag">molecularsimulation</span><span class="tag">spectroscopy</span><span class="tag">quantumchemistry</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2410.23517" target="_blank">异构伊辛机多处理架构HETRI</a></h3>
-          
-          <div class="orig">HETRI: Heterogeneous Ising Multiprocessing</div>
-          
-          <div class="summary">Researchers propose HETRI, a heterogeneous multiprocessing architecture for Ising machines that leverages physical spin networks to solve complex combinatorial optimization problems more efficiently.</div>
-          
-          <ul class="insights"><li>Adopt HETRI architecture for heterogeneous Ising machine multiprocessing.</li><li>Map combinatorial optimization tasks to physical spin networks.</li><li>Leverage hardware-accelerated Ising solvers for complex problem solving.</li></ul>
-          
-          <div class="why">Offers a scalable hardware-software co-design approach for combinatorial optimization, potentially accelerating solutions in logistics, materials science, and quantum computing workflows.</div>
-          
-          <div class="tags-row"><span class="tag">isingmachine</span><span class="tag">combinatorialoptimization</span><span class="tag">hardwareacceleration</span><span class="tag">quantumcomputing</span><span class="tag">aiforscience</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2511.16603" target="_blank">贝特晶格上扩展哈巴德模型的电荷有序态与相图</a></h3>
-          
-          <div class="orig">Charge-Ordered States and the Phase Diagram of the Extended Hubbard Model on the Bethe lattice</div>
-          
-          <div class="summary">Researchers map the finite-temperature phase diagram of the extended Hubbard model on a Bethe lattice using Hartree mean-field approximation, identifying charge-ordered insulating, metallic, and non-ordered ground states.</div>
-          
-          <ul class="insights"><li>Identifies three distinct ground states: charge-ordered insulating, metallic, and non-ordered phases.</li><li>Constructs finite-temperature phase diagrams via Hartree mean-field approximation.</li><li>Quantifies metallicity through spectral functions and thermally-excited carrier concentrations.</li></ul>
-          
-          <div class="why">Provides fundamental insights into strongly correlated electron systems, offering a rigorous baseline for understanding charge ordering in quantum materials and informing future computational modeling approaches.</div>
-          
-          <div class="tags-row"><span class="tag">computationalphysics</span><span class="tag">condensedmatter</span><span class="tag">phasediagram</span><span class="tag">meanfieldtheory</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06759" target="_blank">DFT+U+V泛函预测钙钛矿光学各向异性研究</a></h3>
-          
-          <div class="orig">Optical Anisotropy and Phase Matching in Non-Centrosymmetric Perovskite Oxides from DFT+U and DFT+U+V Functionals</div>
-          
-          <div class="summary">Evaluates DFT+U vs DFT+U+V for predicting optical anisotropy in perovskite oxides, finding intersite corrections essential for accurate optoelectronic modeling.</div>
-          
-          <ul class="insights"><li>DFT+U alone suppresses optical anisotropy in non-centrosymmetric perovskites</li><li>DFT+U+V intersite corrections restore accurate optoelectronic response predictions</li><li>Orbital manifold selection critically impacts phase matching calculations</li></ul>
-          
-          <div class="why">Provides critical guidance for computational materials scientists selecting DFT functionals to accurately model photonic and quantum device materials.</div>
-          
-          <div class="tags-row"><span class="tag">dft</span><span class="tag">materialsscience</span><span class="tag">opticalanisotropy</span><span class="tag">computationalphysics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06895" target="_blank">ML势函数揭示固态电解质结构与传输性能关联</a></h3>
-          
-          <div class="orig">Local Structure Dictates Ionic Transport and Mechanical Properties in Glassy Solid Electrolytes for Lithium Batteries</div>
-          
-          <div class="summary">Researchers use machine learning interatomic potentials and molecular dynamics simulations to uncover how local atomic structures in glassy solid electrolytes dictate ionic conductivity and mechanical stability for lithium batteries.</div>
-          
-          <ul class="insights"><li>Leverage ML interatomic potentials to accurately simulate complex glassy electrolyte networks.</li><li>Target B-S and P-S network configurations to directly optimize ionic transport and mechanical stability.</li><li>Apply this computational framework to accelerate high-performance solid-state battery material design.</li></ul>
-          
-          <div class="why">Bridges computational materials science and battery development, offering a data-driven pathway to optimize solid electrolytes without costly trial-and-error experimentation.</div>
-          
-          <div class="tags-row"><span class="tag">ai_for_science</span><span class="tag">molecular_dynamics</span><span class="tag">materials_discovery</span><span class="tag">battery_research</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06643" target="_blank">矩形样品全电导率张量提取新方法</a></h3>
-          
-          <div class="orig">Extracting the full conductivity tensor in a rectangular sample</div>
-          
-          <div class="summary">Researchers propose a conformal mapping-based analytical method to extract the full conductivity tensor and principal axes angle from rectangular 2D material samples, validated against COMSOL simulations.</div>
-          
-          <ul class="insights"><li>Adopt conformal mapping to extract full conductivity tensors from rectangular samples</li><li>Use derived analytical expressions for perimeter point source/drain potentials</li><li>Cross-validate experimental setups with COMSOL simulations for accuracy</li></ul>
-          
-          <div class="why">Enables precise characterization of anisotropic 2D materials using standard rectangular geometries, simplifying experimental workflows and improving simulation accuracy in materials science.</div>
-          
-          <div class="tags-row"><span class="tag">materialsscience</span><span class="tag">conformalmapping</span><span class="tag">comsol</span><span class="tag">anisotropicconductivity</span><span class="tag">computationalphysics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv q-bio</div>
-          <h3><a href="https://arxiv.org/abs/2602.21787" target="_blank">蛋白质骨架谱分析揭示螺旋-卷曲边界</a></h3>
-          
-          <div class="orig">Spectral analysis of protein backbone geometry reveals abrupt helix--coil boundaries</div>
-          
-          <div class="summary">Researchers apply discrete Hasimoto mapping to protein Cα backbones, using spectral entropy and integrability residuals to accurately distinguish helix-coil boundaries with ROC AUC >0.71.</div>
-          
-          <ul class="insights"><li>Apply discrete Hasimoto map to convert 3D Cα geometry into 1D effective potential</li><li>Use spectral entropy to distinguish low-entropy helical states from broadband coil fluctuations</li><li>Leverage integrability residuals to achieve ROC AUC of 0.783 for precise boundary detection</li></ul>
-          
-          <div class="why">Resolves persistent ambiguities in secondary structure assignment, providing a robust mathematical tool for studying protein allostery and conformational dynamics.</div>
-          
-          <div class="tags-row"><span class="tag">proteinstructure</span><span class="tag">spectralanalysis</span><span class="tag">computationalbiology</span><span class="tag">conformationaldynamics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2608.06669" target="_blank">耦合簇方程的高效鲁棒求解器</a></h3>
-          
-          <div class="orig">A robust and efficient solver for coupled cluster equations</div>
-          
-          <div class="summary">Introduces a gauge-invariant preconditioned Newton-Krylov solver that improves convergence and efficiency for coupled-cluster equations in quantum chemistry.</div>
-          
-          <ul class="insights"><li>Generalizes preconditioned Newton-Krylov methods to arbitrary gauges for coupled-cluster equations.</li><li>Replaces energy denominator with gauge-invariant formulation to fix convergence issues.</li><li>Combines with Krylov-based approximate Jacobian inversion for robust performance.</li></ul>
-          
-          <div class="why">Provides a more reliable and efficient computational foundation for high-accuracy quantum chemistry simulations, enabling better material and molecular modeling.</div>
-          
-          <div class="tags-row"><span class="tag">simulation</span><span class="tag">quantumchemistry</span><span class="tag">solver</span><span class="tag">computationalphysics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2602.20621" target="_blank">机器学习DFT+U结合QP-GW评估半金属性</a></h3>
-          
-          <div class="orig">Combining Quasiparticle Self-Consistent $GW$ and Machine-Learned DFT+$U$ to Assess Half-Metallicity in Co- and Ni-Based </div>
-          
-          <div class="summary">Researchers combine quasiparticle self-consistent GW calculations with machine-learned DFT+U corrections optimized via Bayesian inference to accurately predict half-metallic properties in Co- and Ni-based Heusler compounds for spintronics.</div>
-          
-          <ul class="insights"><li>Adopt ML-calibrated DFT+U to match QP-GW accuracy for spintronic material screening.</li><li>Apply Bayesian optimization to tune Hubbard U parameters against high-level GW benchmarks.</li><li>Target lattice-matched Co/Ni Heuslers on InAs for next-generation spintronic device fabrication.</li></ul>
-          
-          <div class="why">Provides a computationally efficient ML-augmented workflow to achieve QP-GW accuracy for spintronic material screening, accelerating the discovery of viable half-metallic compounds.</div>
-          
-          <div class="tags-row"><span class="tag">ai_for_science</span><span class="tag">materials_discovery</span><span class="tag">dft</span><span class="tag">bayesian_optimization</span><span class="tag">spintronics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06737" target="_blank">铟砷化铕拓扑磁体巨交换耦合与矢量控制研究</a></h3>
-          
-          <div class="orig">Giant-exchange-driven Vectorial Control of a Minimal Topological Magnet in Eu3In2As4</div>
-          
-          <div class="summary">Theoretical study reveals giant exchange coupling in Eu3In2As4, enabling precise magnetic tuning of topological phases with 300 meV band shifts.</div>
-          
-          <ul class="insights"><li>Identifies giant exchange coupling in Eu3In2As4 topological magnet</li><li>Demonstrates 300 meV magnetization-dependent band shifts</li><li>Maps magneto-topological phase evolution under applied fields</li></ul>
-          
-          <div class="why">Advances fundamental understanding of magneto-topological materials, providing a theoretical foundation for future quantum device design and computational materials discovery.</div>
-          
-          <div class="tags-row"><span class="tag">topological_materials</span><span class="tag">condensed_matter</span><span class="tag">magnetism</span><span class="tag">computational_physics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06902" target="_blank">机器学习势函数揭示ZIF玻璃电解质快速锂离子扩散</a></h3>
-          
-          <div class="orig">Fast Isotropic Li-Ion Diffusion in Zeolitic Imidazolate Framework Glass Electrolytes for Batteries</div>
-          
-          <div class="summary">Researchers use machine learning interatomic potentials to demonstrate that structural disorder in ZIF glass electrolytes enables fast, isotropic lithium-ion diffusion, lowering migration activation energy for solid-state batteries.</div>
-          
-          <ul class="insights"><li>Apply ML interatomic potentials to model Li+ transport in amorphous ZIF-4 and ZIF-62 frameworks.</li><li>Leverage structural disorder to reduce Li+ migration activation energy from ~0.35 eV for faster diffusion.</li><li>Explore ZIF glasses as grainboundary-free, tunable electrolytes for next-generation solid-state batteries.</li></ul>
-          
-          <div class="why">Advances AI-driven materials discovery for energy storage by providing a computationally validated pathway to design high-performance solid electrolytes, accelerating the development of safer, faster-charging solid-state batteries.</div>
-          
-          <div class="tags-row"><span class="tag">molecular_dynamics</span><span class="tag">materials_discovery</span><span class="tag">energy_storage</span><span class="tag">interatomic_potentials</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.07097" target="_blank">氮化钨实现超高室温空穴迁移率</a></h3>
-          
-          <div class="orig">Net and Hidden Spin-Valley Locking Enable Ultrahigh Hole Mobility in Covalent Bulk WN$_2$</div>
-          
-          <div class="summary">Researchers demonstrate ultrahigh room-temperature hole mobility in bulk WN2 via net and hidden spin-valley locking using ab initio calculations.</div>
-          
-          <ul class="insights"><li>Ab initio calculations reveal ultrahigh hole mobility in hexagonal WN2 phases</li><li>Net and hidden spin-valley locking suppress intervalley scattering</li><li>Breaks inversion symmetry constraints for high-performance bulk semiconductors</li></ul>
-          
-          <div class="why">Provides a new materials pathway for high-speed electronics by overcoming traditional mobility limits in bulk semiconductors through quantum spin-valley effects.</div>
-          
-          <div class="tags-row"><span class="tag">computational_materials</span><span class="tag">quantum_transport</span><span class="tag">semiconductors</span><span class="tag">ab_initio</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2601.07926" target="_blank">长棱柱几何下自旋玻璃临界维度计算方法</a></h3>
-          
-          <div class="orig">Low energy excitations in a long prism geometry: testing the lower critical dimension of the Ising spin glass</div>
-          
-          <div class="summary">Proposes a computational scaling method using prism geometry to determine the lower critical dimension and multifractal spectrum for Ising spin glasses.</div>
-          
-          <ul class="insights"><li>Introduces prism geometry scaling to extract lower critical dimension from correlation length decay</li><li>Computes multifractal spectrum for Ising spin glass correlation functions at zero field</li><li>Provides a general framework for analyzing low-energy excitations in low-temperature phases</li></ul>
-          
-          <div class="why">Offers a robust computational framework for statistical physics simulations, enabling precise determination of critical dimensions in complex disordered systems.</div>
-          
-          <div class="tags-row"><span class="tag">simulation</span><span class="tag">computationalphysics</span><span class="tag">statisticalmechanics</span><span class="tag">spinglass</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">arXiv physics.comp-ph</div>
-          <h3><a href="https://arxiv.org/abs/2607.18019" target="_blank">中蒙稀土能源供应链计算模型研究</a></h3>
-          
-          <div class="orig">Modeling rare-earth and energy materials supply chains under theoretical China-outer-Mongolia political reunification sc</div>
-          
-          <div class="summary">This arXiv paper introduces a dynamic Stackelberg supply chain model simulating rare-earth and energy material flows under a theoretical China-Outer Mongolia reunification scenario, analyzing infrastructure and processing constraints.</div>
-          
-          <ul class="insights"><li>Develops a 10-year dynamic Stackelberg model for rare-earth and energy supply chains.</li><li>Integrates infrastructure constraints, capital accumulation, and Leontief production functions.</li><li>Simulates cross-border mineral trade impacts under theoretical geopolitical reunification scenarios.</li></ul>
-          
-          <div class="why">Provides a computational framework for assessing critical mineral security and supply chain resilience, offering data-driven insights for energy transition and industrial policy planning.</div>
-          
-          <div class="tags-row"><span class="tag">simulation</span><span class="tag">materialsscience</span><span class="tag">supplychain</span><span class="tag">computationalphysics</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-md">6</div>
-        <div class="card-body">
-          <div class="card-source">OpenAI Blog</div>
-          <h3><a href="https://openai.com/index/chatgpt-for-academic-researchers" target="_blank">开放10万学者免费使用ChatGPT高级模型</a></h3>
-          
-          <div class="orig">Accelerating scientific discovery with ChatGPT for Academic Researchers</div>
-          
-          <div class="summary">OpenAI grants 100,000 academic researchers free access to advanced ChatGPT models to accelerate scientific research and collaboration.</div>
-          
-          <ul class="insights"><li>Access advanced ChatGPT models free for 100k academic researchers</li><li>Integrate AI tools into scientific discovery and collaboration workflows</li><li>Leverage program to lower barriers for cutting-edge academic research</li></ul>
-          
-          <div class="why">Democratizes access to state-of-the-art AI for academia, potentially accelerating research cycles and fostering open scientific collaboration across disciplines.</div>
-          
-          <div class="tags-row"><span class="tag">llm</span><span class="tag">aiforscience</span><span class="tag">accessprogram</span><span class="tag">research</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">4</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06787" target="_blank">非共线磁体隐藏自旋极化对称性分类</a></h3>
-          
-          <div class="orig">Symmetry Classification of Non-Relativistic Hidden Spin Polarization in Noncollinear Magnets</div>
-          
-          <div class="summary">Theoretical study establishes a symmetry framework for hidden spin polarization in noncollinear magnets, defining four distinct spin-texture types.</div>
-          
-          <ul class="insights"><li>Defines unified symmetry framework for HSP in noncollinear magnets</li><li>Classifies four split spin-texture types (SST-1 to SST-4)</li><li>Links spin symmetries to nonrelativistic spin polarization constraints</li></ul>
-          
-          <div class="why">Advances fundamental understanding of magnetic materials, providing theoretical benchmarks for future computational and AI-driven materials discovery.</div>
-          
-          <div class="tags-row"><span class="tag">condensed-matter</span><span class="tag">spintronics</span><span class="tag">symmetry-analysis</span><span class="tag">materials-science</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">arXiv cond-mat.mtrl-sci</div>
-          <h3><a href="https://arxiv.org/abs/2608.06964" target="_blank">共线铁磁体自旋轨道力矩对称理论</a></h3>
-          
-          <div class="orig">Spin-group theory on Edelstein effect and spin-orbit torque in Collinear Ferromagnets</div>
-          
-          <div class="summary">Develops a spin-group symmetry theory to rigorously derive field-like and damping-like spin-orbit torques in collinear ferromagnets, resolving the role of spin-orbit coupling.</div>
-          
-          <ul class="insights"><li>Derives full torque forms for C4v symmetry using spin-group theory</li><li>Treats spin-orbit coupling as a symmetry-breaking perturbation</li><li>Provides rigorous foundation for Edelstein effect in spintronics</li></ul>
-          
-          <div class="why">Establishes a rigorous symmetry-based framework for spin-orbit torques, enabling more precise design of spintronic devices and magnetic memory technologies.</div>
-          
-          <div class="tags-row"><span class="tag">spintronics</span><span class="tag">symmetry-theory</span><span class="tag">condensed-matter</span><span class="tag">magnetic-torque</span></div>
-          
-        </div>
-      </div>
-      
-      
-      <div class="card">
-        <div class="score score-lo">3</div>
-        <div class="card-body">
-          <div class="card-source">DP Technology (深势科技) Blog</div>
-          <h3><a href="https://www.dp.tech/en" target="_blank">深势科技发布“粒子宇宙”AI科研平台</a></h3>
-          
-          <div class="orig">DP Technology</div>
-          
-          <div class="summary">DP Technology unveils its 'Particle Universe' AI engine and a comprehensive Science-as-a-Service toolkit designed to automate the end-to-end scientific research workflow.</div>
-          
-          <ul class="insights"><li>Introduces 'Particle Universe' engine for autonomous scientific discovery</li><li>Deploys integrated SaaS platform covering literature, computation, and lab work</li><li>Features specialized tools like Bohrium, Hermite, and Piloteye for R&D</li></ul>
-          
-          <div class="why">Consolidates fragmented AI research tools into a unified platform, accelerating hypothesis generation and experimental validation for scientific teams.</div>
-          
-          <div class="tags-row"><span class="tag">aiforscience</span><span class="tag">scientificcomputing</span><span class="tag">researchautomation</span><span class="tag">saas</span></div>
-          
-        </div>
-      </div>
-      
-    </div>
-    <div class="pagination" data-for="green"></div>
-    
-  </div>
-  
-  
-  
-  <div class="sec" id="sec-amber">
-    <div class="sec-h b-amber">
-      <span class="icon">🎨</span>
-      <h2>设计仿真</h2>
-      <span class="badge bg-amber">0</span>
-    </div>
-
-    
-
-    
-    
-    <div class="empty">暂无内容</div>
-    
-  </div>
-  
-  
-  
-  <div class="sec" id="sec-red">
-    <div class="sec-h b-red">
-      <span class="icon">🏭</span>
-      <h2>数字孪生</h2>
-      <span class="badge bg-red">0</span>
-    </div>
-
-    
-
-    
-    
-    <div class="empty">暂无内容</div>
-    
-  </div>
-  
-
-  <footer>Generated by Weekly AI Report Agent · 2026-08-10 15:18</footer>
 </div>
-
-<script>
-document.querySelectorAll('.article-list').forEach(list=>{
-  const cat=list.dataset.cat;
-  const perPage=parseInt(list.dataset.perPage)||15;
-  const cards=list.querySelectorAll('.card');
-  const total=cards.length;
-  if(total<=perPage)return;
-  let page=1;
-  const totalPages=Math.ceil(total/perPage);
-  const pagDiv=document.querySelector('.pagination[data-for="'+cat+'"]');
-  function render(){
-    cards.forEach((c,i)=>c.style.display=(i>=(page-1)*perPage&&i<page*perPage)?'':'none');
-    pagDiv.innerHTML='';
-    for(let p=1;p<=totalPages;p++){
-      const btn=document.createElement('button');
-      btn.textContent=p;
-      if(p===page)btn.classList.add('active');
-      btn.onclick=()=>{page=p;render();window.scrollTo(0,document.getElementById('sec-'+cat).offsetTop-20);};
-      pagDiv.appendChild(btn);
-    }
-  }
-  render();
-});
-</script>
 </body>
 </html>

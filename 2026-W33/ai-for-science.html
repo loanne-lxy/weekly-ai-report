@@ -1,0 +1,2126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Science — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+.back-nav .arrow { font-size: 16px; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #10b981;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #10b98115; color: #10b981;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Article Card ── */
+.article-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.article-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+
+.article-card.carried { opacity: 0.65; }
+.article-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+.article-header {
+  display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
+}
+.score-badge {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 600; color: #fff;
+}
+.score-high { background: linear-gradient(135deg, #ff4d4f, #ff7875); }
+.score-mid { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+.score-low { background: linear-gradient(135deg, #8c8c8c, #bfbfbf); }
+
+.article-title-area { flex: 1; }
+.article-title {
+  font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px;
+  line-height: 1.4;
+}
+.article-title a { color: inherit; text-decoration: none; }
+.article-title a:hover { color: #1677ff; }
+.article-subtitle {
+  font-size: 13px; color: #8c8c8c; font-style: italic; line-height: 1.4;
+}
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; height: 22px; line-height: 22px; border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.article-meta {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.article-meta .source { font-weight: 500; color: #595959; }
+
+.article-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+.why-matters {
+  font-size: 13px; color: #1677ff; font-style: italic;
+  padding: 8px 12px; background: #f0f5ff; border-radius: 4px;
+  margin-bottom: 12px; line-height: 1.5;
+}
+
+.article-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Pagination ── */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; padding: 32px 0;
+}
+.page-btn {
+  width: 32px; height: 32px; border-radius: 6px; border: 1px solid #e8e8e8;
+  background: #fff; color: #595959; font-size: 13px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.15s;
+}
+.page-btn:hover { border-color: #1677ff; color: #1677ff; }
+.page-btn.active {
+  background: #1677ff; color: #fff; border-color: #1677ff;
+}
+.page-btn.disabled {
+  background: #f5f5f5; color: #d9d9d9; cursor: not-allowed;
+}
+.page-btn.disabled:hover { border-color: #e8e8e8; color: #d9d9d9; }
+.page-ellipsis { color: #bfbfbf; font-size: 13px; padding: 0 4px; }
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .article-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🔬</span>
+    <h1>AI for Science</h1>
+    <span class="count-badge">34 篇</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    AI 驱动的科学发现加速
+  </div>
+  
+
+  <!-- Articles Container -->
+  
+  <div class="articles-container" id="articles">
+    
+    <div class="article-card" data-index="0">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06662" target="_blank" rel="noopener">MLIP跨几何结构零样本预测基准测试</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Cross-Geometry Transferability Assessment of Universal Machine Learning Interatomic Potentials: From Bulk Materials to Atomic Nanowires</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers benchmark 26 pretrained machine-learning interatomic potentials on a ZrO2 DFT dataset, revealing significant zero-shot performance degradation across different structural geometries, with ORB-V3 showing the best alignment-adjusted results.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Benchmark 26 MLIPs on ZrO2 DFT data to assess zero-shot transferability across bulk to nanowire geometries.</li>
+        
+        <li>Identify pronounced geometry-dependent performance degradation in foundation MLIPs without fine-tuning.</li>
+        
+        <li>Apply reference-energy alignment to improve zero-shot predictions, with ORB-V3 achieving top metrics.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Highlights critical limitations in current foundation MLIPs for cross-geometry applications, guiding developers toward necessary alignment techniques or fine-tuning strategies for reliable atomistic simulations.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#MLIP</span>
+        
+        <span class="tag">#ZeroShot</span>
+        
+        <span class="tag">#MaterialsScience</span>
+        
+        <span class="tag">#Benchmark</span>
+        
+        <span class="tag">#DFT</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2605.16044" target="_blank" rel="noopener">QFAN量子生成模型突破高能物理模拟资源限制</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Quantum Feature Amplification Network (QFAN) as An Autoregressive Quantum Generative Model</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose QFAN, an autoregressive quantum generative model that decouples qubit count from image size, enabling efficient simulation of high-energy physics calorimeter showers on near-term quantum hardware.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopt block-wise autoregressive generation to decouple qubit count from image size.</li>
+        
+        <li>Use fixed-length pixel summaries to condition quantum circuits for scalable simulation.</li>
+        
+        <li>Apply QFAN architecture to accelerate high-energy physics calorimeter shower modeling.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses a major computational bottleneck in high-energy physics data simulation. Provides a scalable quantum architecture that could accelerate Monte Carlo simulations for particle detectors.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#quantumcomputing</span>
+        
+        <span class="tag">#generativemodel</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#autoregressive</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="2">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07401" target="_blank" rel="noopener">DynaCrys：动态空间群扩散晶体生成模型</a>
+            
+          </div>
+          
+          <div class="article-subtitle">DynaCrys: Crystal Generation with Dynamic Space-Group Diffusion</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        DynaCrys introduces a coupled symbolic diffusion model that jointly generates crystal symmetry, composition, and geometry by co-evolving space groups with Wyckoff occupations.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopt coupled symbolic diffusion to jointly model crystal symmetry, composition, and geometry.</li>
+        
+        <li>Leverage group-subgroup relations to ensure physically valid space-group transitions during generation.</li>
+        
+        <li>Utilize a pretrained symmetry codebook to enforce legality constraints in the stochastic decoder.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances computational materials discovery by enabling physically consistent, symmetry-aware crystal structure generation, accelerating the search for novel functional materials.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#diffusion</span>
+        
+        <span class="tag">#materialdiscovery</span>
+        
+        <span class="tag">#generativedesign</span>
+        
+        <span class="tag">#ai4science</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="3">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2601.18780" target="_blank" rel="noopener">物理信息GAN加速PET探测器光子传输模拟</a>
+            
+          </div>
+          
+          <div class="article-subtitle">OptiGAN for Crystal Arrays: Physics-Informed Generative Modeling of Optical Photon Transport in PET Detector Arrays</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose a physics-informed conditional GAN with Fourier feature encoding to accelerate optical photon transport simulations for PET detector arrays, replacing computationally expensive Monte Carlo methods.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Replaces Monte Carlo simulations for PET detector arrays using a conditional GAN.</li>
+        
+        <li>Introduces Fourier feature encoding and learnable latent mapping for stable array-level training.</li>
+        
+        <li>Enforces unit-sphere state space constraints via a physics-informed loss term.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Accelerates optical simulation for medical imaging hardware design, enabling faster iteration on PET detector arrays without sacrificing physical accuracy.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#physicsinformedml</span>
+        
+        <span class="tag">#gan</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#medicalimaging</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="4">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2603.20115" target="_blank" rel="noopener">基于Hopfield模式多重性的蛋白质生成方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Conditioning Protein Generation via Hopfield Pattern Multiplicity</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv q-bio</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose a training-free stochastic-attention sampler that conditions protein generation on specific Pfam subsets by adjusting Hopfield pattern multiplicities, achieving exact latent-space conditioning.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Implement training-free stochastic-attention sampler for conditional protein generation.</li>
+        
+        <li>Adjust Hopfield pattern multiplicity ratios to shift Boltzmann distributions toward target subsets.</li>
+        
+        <li>Validate latent-space conditioning across five Pfam families to isolate sampling losses.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a mathematically grounded, training-free approach to condition protein generation on limited labeled data, advancing computational biology and generative AI for molecular design.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#proteingeneration</span>
+        
+        <span class="tag">#hopfieldnetwork</span>
+        
+        <span class="tag">#generativeai</span>
+        
+        <span class="tag">#computationalbiology</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="5">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2512.13138" target="_blank" rel="noopener">量子计算与神经网络结合推导普适泛函</a>
+            
+          </div>
+          
+          <div class="article-subtitle">A Joint Quantum Computing, Neural Network and Embedding Theory Approach for the Derivation of the Universal Functional</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose a hybrid quantum-classical neural network method combined with density matrix embedding theory to derive reusable universal functionals for simulating interacting quantum particles.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Merges quantum algorithms and deep neural networks to derive universal functionals.</li>
+        
+        <li>Uses embedding theory to broaden Hamiltonian coverage without extra quantum resources.</li>
+        
+        <li>Enables functional reuse across identical fragment systems, boosting simulation efficiency.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances AI-driven quantum chemistry simulations by reducing quantum resource overhead. Enables transferable functionals that accelerate materials and molecular modeling.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#quantumcomputing</span>
+        
+        <span class="tag">#neuralnetworks</span>
+        
+        <span class="tag">#scientificml</span>
+        
+        <span class="tag">#simulation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="6">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07081" target="_blank" rel="noopener">ML势函数结合EXAFS解析hcp锌晶格动力学</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Local lattice dynamics of hcp zinc from EXAFS and machine-learning interatomic potentials</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers combine EXAFS spectroscopy with machine-learning interatomic potentials and reverse Monte Carlo simulations to map the anisotropic lattice dynamics and force constants of hcp zinc.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Integrates EXAFS spectroscopy with ML interatomic potentials for shell-resolved thermal motion analysis.</li>
+        
+        <li>Applies reverse Monte Carlo to quantify force constant anisotropy in hcp zinc.</li>
+        
+        <li>Validates ML-driven atomistic modeling against experimental data for complex metal characterization.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Shows how ML interatomic potentials can bridge experimental spectroscopy and atomistic simulations, enabling precise mapping of anisotropic lattice dynamics in complex metals.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#materials_science</span>
+        
+        <span class="tag">#interatomic_potentials</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#physics</span>
+        
+        <span class="tag">#machine_learning</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="7">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06413" target="_blank" rel="noopener">分子动力学揭示PIM膜气体渗透机制</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Competing Energetics Govern Gas Permeation in Polymer of Intrinsic Microporosity (PIM) Membranes</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers use non-equilibrium molecular dynamics simulations to reveal how temperature and gas-solid interactions govern permeation mechanisms in PIM-1 polymer membranes, challenging the traditional solution-diffusion model.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Use NEMD simulations to map temperature-dependent gas transport shifts in PIM-1 membranes.</li>
+        
+        <li>Leverage gas-solid interaction data to bypass traditional solution-diffusion model limitations.</li>
+        
+        <li>Apply findings to guide bottom-up design of high-efficiency polymer separation membranes.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a mechanistic understanding that bridges computational modeling and materials engineering, enabling more rational design of next-generation gas separation membranes beyond empirical trial-and-error.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#molecular_dynamics</span>
+        
+        <span class="tag">#materials_science</span>
+        
+        <span class="tag">#gas_separation</span>
+        
+        <span class="tag">#computational_physics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="8">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07445" target="_blank" rel="noopener">置换不变神经网络预测FCC高熵合金空位形成能</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Permutation invariant neural network prediction of vacancy formation under deformation and varying chemical environment in FCC high entropy alloys</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose a permutation-invariant neural network framework to efficiently predict strain-dependent vacancy formation energies in FCC high-entropy alloys, capturing coupled chemical and mechanical effects.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Deploy permutation-invariant NN framework to predict vacancy energies in FCC HEAs.</li>
+        
+        <li>Combine geometric descriptors with deformation invariants to model coupled strain-chemistry effects.</li>
+        
+        <li>Replace costly atomistic simulations with scalable ML for diffusion and phase stability analysis.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Accelerates materials discovery for high-entropy alloys by replacing expensive atomistic simulations with fast ML predictions. This enables efficient screening of radiation-resistant and mechanically robust alloy compositions.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#ai_for_science</span>
+        
+        <span class="tag">#materials_science</span>
+        
+        <span class="tag">#neural_network</span>
+        
+        <span class="tag">#high_entropy_alloys</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="9">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2601.07926" target="_blank" rel="noopener">长棱柱几何下自旋玻璃临界维度计算方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Low energy excitations in a long prism geometry: testing the lower critical dimension of the Ising spin glass</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a computational scaling method using prism geometry to determine the lower critical dimension and multifractal spectrum for Ising spin glasses.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces prism geometry scaling to extract lower critical dimension from correlation length decay</li>
+        
+        <li>Computes multifractal spectrum for Ising spin glass correlation functions at zero field</li>
+        
+        <li>Provides a general framework for analyzing low-energy excitations in low-temperature phases</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Offers a robust computational framework for statistical physics simulations, enabling precise determination of critical dimensions in complex disordered systems.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#statisticalmechanics</span>
+        
+        <span class="tag">#spinglass</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="10">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06877" target="_blank" rel="noopener">自主优化复杂氧化物用于热化学燃料生产</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Autonomous Optimization of Complex Oxides for Thermochemical Fuel Production</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose an autonomous optimization framework for designing complex multi-cation oxides to maximize thermochemical fuel production efficiency from H2O and CO2 splitting.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Deploys autonomous optimization to co-optimize composition and defects in multi-cation oxides.</li>
+        
+        <li>Targets simultaneous thermodynamic and kinetic constraints for efficient H2O/CO2 splitting.</li>
+        
+        <li>Bypasses traditional trial-and-error limits in high-dimensional materials design space.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Accelerates discovery of sustainable fuel production materials by automating the co-optimization of composition, defects, and phase stability in complex oxides.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#materialsdiscovery</span>
+        
+        <span class="tag">#autonomousoptimization</span>
+        
+        <span class="tag">#thermochemicalfuel</span>
+        
+        <span class="tag">#highentropyoxides</span>
+        
+        <span class="tag">#aiforscience</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="11">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06910" target="_blank" rel="noopener">振荡稀薄气体流动的伴随形状优化方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Adjoint shape optimization of oscillatory rarefied gas flows</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        A new asymptotic-preserving adjoint shape optimization method accelerates Boltzmann kinetic equation convergence for drag reduction in vibrating MEMS, ensuring stability and high kinetic accuracy across rarefaction regimes.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Implement asymptotic-preserving adjoint method for MEMS drag reduction</li>
+        
+        <li>Accelerate Boltzmann equation convergence via macroscopic synthetic equations</li>
+        
+        <li>Validate numerical stability with spectral radius analysis below 0.5</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a robust computational framework for simulating multiscale rarefied gas flows, enabling more efficient design of micro-electro-mechanical systems without sacrificing kinetic accuracy.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#cfd</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#kinetictheory</span>
+        
+        <span class="tag">#shapeoptimization</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2512.10755" target="_blank" rel="noopener">一维Z2格点规范理论相结构研究</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Phase structure of the one-dimensional $\mathbb{Z}_2$ lattice gauge theory with second nearest-neighbor interactions</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers use DMRG and matrix product states to map the phase diagram of a 1D Z2 lattice gauge theory with second nearest-neighbor interactions, identifying transitions between Luttinger liquid and Mott insulator phases.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Maps ground-state phase diagram using DMRG and matrix product states</li>
+        
+        <li>Analyzes impact of second nearest-neighbor coupling on LL and MI phases</li>
+        
+        <li>Computes charge gap, entanglement entropy, and correlation functions</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides precise numerical benchmarks for quantum many-body systems, advancing computational methods for simulating lattice gauge theories relevant to quantum computing and condensed matter physics.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#dmrg</span>
+        
+        <span class="tag">#tensornetworks</span>
+        
+        <span class="tag">#quantummanybody</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#latticegaugetheory</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2602.18685" target="_blank" rel="noopener">极化光传输随机矩阵模拟新框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Extended scattering channels for random matrix simulations of polarized light transport</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Presents a random matrix simulation framework using extended scattering channels to model polarized light transport through disordered media, offering rigorous scattering matrix correlation analysis.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces extended scattering channels for angular spectral decomposition</li>
+        
+        <li>Provides rigorous treatment of scattering matrix correlations in disordered media</li>
+        
+        <li>Offers novel geometric insights into the optical memory effect</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances computational optics by enabling accurate, flexible modeling of polarized light in complex scattering environments, with direct applications in biomedical imaging and material characterization.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#computational-physics</span>
+        
+        <span class="tag">#optics</span>
+        
+        <span class="tag">#random-matrix</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="14">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2410.23517" target="_blank" rel="noopener">异构伊辛机多处理架构HETRI</a>
+            
+          </div>
+          
+          <div class="article-subtitle">HETRI: Heterogeneous Ising Multiprocessing</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose HETRI, a heterogeneous multiprocessing architecture for Ising machines that leverages physical spin networks to solve complex combinatorial optimization problems more efficiently.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Implement HETRI for heterogeneous Ising machine multiprocessing.</li>
+        
+        <li>Map optimization problems to physical spin networks.</li>
+        
+        <li>Deploy hardware-accelerated Ising solvers for complex tasks.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a concrete hardware-software co-design pathway for combinatorial optimization, enabling faster convergence for logistics, materials discovery, and quantum-classical hybrid workflows.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#isingmachine</span>
+        
+        <span class="tag">#combinatorialoptimization</span>
+        
+        <span class="tag">#hardwareacceleration</span>
+        
+        <span class="tag">#quantumcomputing</span>
+        
+        <span class="tag">#aiforscience</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="15">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2607.18019" target="_blank" rel="noopener">中蒙稀土能源供应链动态计算模型</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Modeling rare-earth and energy materials supply chains under theoretical China-outer-Mongolia political reunification scenarios</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper presents a 10-year dynamic Stackelberg supply chain model analyzing rare-earth and energy material flows under theoretical China-Outer Mongolia reunification scenarios.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Develops a 10-year dynamic partial equilibrium Stackelberg model for critical mineral supply chains.</li>
+        
+        <li>Integrates infrastructure constraints, capital accumulation, and Leontief production functions.</li>
+        
+        <li>Quantifies supply volatility and security risks across Mongolian, Chinese, and global markets.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a rigorous computational framework for assessing geopolitical impacts on critical mineral supply chains, aiding policy and industrial planning for clean energy transitions.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#supplychain</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#energymaterials</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2511.16603" target="_blank" rel="noopener">扩展哈巴德模型电荷有序态与相图研究</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Charge-Ordered States and the Phase Diagram of the Extended Hubbard Model on the Bethe lattice</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers map the finite-temperature phase diagram of the extended Hubbard model on a Bethe lattice, identifying charge-ordered insulating, metallic, and non-ordered states using Hartree mean-field approximation.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Identifies three ground states: charge-ordered insulating, metallic, and non-ordered phases.</li>
+        
+        <li>Maps finite-temperature phase diagrams using Hartree mean-field approximation.</li>
+        
+        <li>Shows onsite repulsion suppresses charge ordering and alters metallicity.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides fundamental insights into strongly correlated electron systems, informing materials design and quantum simulation benchmarks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#condensedmatter</span>
+        
+        <span class="tag">#phasediagram</span>
+        
+        <span class="tag">#meanfieldapproximation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="17">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06895" target="_blank" rel="noopener">ML势函数揭示固态电解质结构与传输性能关联</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Local Structure Dictates Ionic Transport and Mechanical Properties in Glassy Solid Electrolytes for Lithium Batteries</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers use machine learning interatomic potentials and molecular dynamics simulations to uncover how local atomic structures in glassy solid electrolytes dictate ionic transport and mechanical stability for lithium batteries.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>ML interatomic potentials enable accurate MD simulations of complex glassy electrolyte networks.</li>
+        
+        <li>Local B-S and P-S network configurations directly control ionic conductivity and mechanical stability.</li>
+        
+        <li>Provides a computational framework for designing next-gen solid-state battery materials.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Bridges computational materials science and battery development, offering a data-driven pathway to optimize solid electrolytes without costly trial-and-error experimentation.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#ai_for_science</span>
+        
+        <span class="tag">#molecular_dynamics</span>
+        
+        <span class="tag">#materials_discovery</span>
+        
+        <span class="tag">#solid_state_batteries</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="18">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06759" target="_blank" rel="noopener">DFT+U+V修正精准预测钙钛矿光学各向异性</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Optical Anisotropy and Phase Matching in Non-Centrosymmetric Perovskite Oxides from DFT+U and DFT+U+V Functionals</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Study shows DFT+U+V functionals accurately restore optical anisotropy in perovskite oxides, outperforming standard DFT+U for photonic material modeling.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Use DFT+U+V over DFT+U to accurately model optical anisotropy in perovskite oxides.</li>
+        
+        <li>Incorporate intersite Hubbard corrections to prevent suppression of optoelectronic responses.</li>
+        
+        <li>Select appropriate orbital manifolds to improve phase-matching predictions in non-centrosymmetric crystals.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Establishes a reliable computational protocol for photonic material design, enabling faster discovery of quantum and optical components without costly experimental iteration.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#dft</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#materialsscience</span>
+        
+        <span class="tag">#simulation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="19">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2602.21787" target="_blank" rel="noopener">蛋白质骨架谱分析揭示螺旋-卷曲边界</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Spectral analysis of protein backbone geometry reveals abrupt helix--coil boundaries</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv q-bio</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers apply discrete Hasimoto mapping to protein Cα backbones, using spectral entropy and integrability residuals to accurately distinguish helix-coil boundaries with ROC AUC >0.71.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Apply discrete Hasimoto map to convert 3D Cα geometry into 1D effective potential</li>
+        
+        <li>Use spectral entropy to distinguish low-entropy helical segments from broadband coil fluctuations</li>
+        
+        <li>Leverage integrability residual and spectral entropy to achieve ROC AUC >0.71 for phase separation</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a novel mathematical framework for resolving persistent ambiguities in protein secondary structure assignment, directly impacting studies of allostery and conformational dynamics.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#proteinstructure</span>
+        
+        <span class="tag">#spectralanalysis</span>
+        
+        <span class="tag">#computationalbiology</span>
+        
+        <span class="tag">#aiforscience</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="20">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06669" target="_blank" rel="noopener">耦合簇方程的高效鲁棒求解器</a>
+            
+          </div>
+          
+          <div class="article-subtitle">A robust and efficient solver for coupled cluster equations</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces a gauge-invariant preconditioned Newton-Krylov solver for coupled-cluster equations, overcoming convergence issues in non-canonical gauges and improving computational efficiency.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Generalizes preconditioned Newton-Krylov methods to arbitrary gauges for coupled-cluster equations.</li>
+        
+        <li>Replaces energy denominator with gauge-invariant formulation to ensure robust convergence.</li>
+        
+        <li>Combines with Krylov-based Jacobian inversion for substantial wall-time advantages.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a mathematically rigorous, gauge-independent solver for quantum chemistry simulations, enabling more reliable and faster calculations for complex molecular systems.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#quantumchemistry</span>
+        
+        <span class="tag">#scientificcomputing</span>
+        
+        <span class="tag">#numericalmethods</span>
+        
+        <span class="tag">#hpc</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="21">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2602.20621" target="_blank" rel="noopener">机器学习修正DFT+U结合QP-GW评估Heusler合金半金属性</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Combining Quasiparticle Self-Consistent $GW$ and Machine-Learned DFT+$U$ to Assess Half-Metallicity in Co- and Ni-Based Heuslers</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers combine machine-learned DFT+U corrections with QP$GW$ calculations to accurately predict half-metallic properties in spintronic Heusler compounds.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Uses Bayesian optimization to calibrate ML-derived Hubbard U parameters against QP$GW$ benchmarks.</li>
+        
+        <li>Validates DFT+U accuracy for predicting band structures and magnetism in Co- and Ni-based Heusler alloys.</li>
+        
+        <li>Offers an efficient workflow for screening spintronic materials lattice-matched to InAs substrates.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Bridges the accuracy gap between standard DFT and expensive QP$GW$ calculations using ML, enabling faster, reliable screening of next-generation spintronic materials for semiconductor integration.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#aiforscience</span>
+        
+        <span class="tag">#materialsdiscovery</span>
+        
+        <span class="tag">#dft</span>
+        
+        <span class="tag">#bayesianoptimization</span>
+        
+        <span class="tag">#spintronics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="22">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06787" target="_blank" rel="noopener">非共线磁体隐藏自旋极化对称性分类</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Symmetry Classification of Non-Relativistic Hidden Spin Polarization in Noncollinear Magnets</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Establishes a symmetry framework for hidden spin polarization in noncollinear magnets, identifying four distinct spin-texture types constrained by spin-group theory.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces unified symmetry framework for HSP in noncollinear magnets</li>
+        
+        <li>Identifies four split spin-texture types (SST-1 to SST-4)</li>
+        
+        <li>Demonstrates spin symmetries systematically constrain nonrelativistic polarization</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a foundational theoretical framework for understanding spin textures in complex magnetic materials, enabling targeted design of spintronic devices and advanced magnetic materials.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#materialsscience</span>
+        
+        <span class="tag">#spintronics</span>
+        
+        <span class="tag">#theoreticalphysics</span>
+        
+        <span class="tag">#symmetryanalysis</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="23">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06902" target="_blank" rel="noopener">机器学习势函数揭示ZIF玻璃电解质快速锂离子扩散</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Fast Isotropic Li-Ion Diffusion in Zeolitic Imidazolate Framework Glass Electrolytes for Batteries</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers use machine learning interatomic potentials to demonstrate that structural disorder in ZIF glass electrolytes enables fast, isotropic lithium-ion diffusion, lowering migration activation energy for solid-state batteries.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Apply ML interatomic potentials to simulate Li+ transport in amorphous ZIF-4 and ZIF-62 frameworks.</li>
+        
+        <li>Leverage structural disorder to reduce Li+ migration activation energy from ~0.35 eV for fast diffusion.</li>
+        
+        <li>Utilize ZIF glasses as a grainboundary-free, tunable platform for next-gen solid-state battery electrolytes.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances AI-driven materials discovery for energy storage by providing a computationally validated pathway to design high-performance solid electrolytes, accelerating the development of safer, faster-charging solid-state batteries.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#ai_for_science</span>
+        
+        <span class="tag">#materials_discovery</span>
+        
+        <span class="tag">#interatomic_potential</span>
+        
+        <span class="tag">#solid_state_battery</span>
+        
+        <span class="tag">#simulation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="24">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07097" target="_blank" rel="noopener">WN₂体相材料实现超高室温空穴迁移率</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Net and Hidden Spin-Valley Locking Enable Ultrahigh Hole Mobility in Covalent Bulk WN$_2$</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Ab initio calculations reveal that hexagonal bulk WN₂ exhibits net and hidden spin-valley locking, enabling ultrahigh room-temperature hole mobility for advanced electronics.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Ab initio modeling identifies hexagonal WN₂ phases with net and hidden spin-valley locking</li>
+        
+        <li>Spin-valley locking suppresses intervalley scattering to significantly boost hole mobility</li>
+        
+        <li>Ultrahigh room-temperature hole mobility demonstrated for next-generation bulk semiconductors</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 This computational discovery addresses a critical bottleneck in semiconductor physics by identifying a bulk material with exceptional hole mobility, paving the way for faster, more efficient electronic and spintronic devices.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#materialsdiscovery</span>
+        
+        <span class="tag">#abinitio</span>
+        
+        <span class="tag">#spintronics</span>
+        
+        <span class="tag">#semiconductors</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="25">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06739" target="_blank" rel="noopener">高温CO2同位素拉曼光谱的高精度模拟</a>
+            
+          </div>
+          
+          <div class="article-subtitle">High-temperature simulation of the Raman spectra of the isotopologues $^{13}$C$^{16}$O$_2$ and $^{16}$O$^{13}$C$^{18}$O</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers simulate high-temperature Raman spectra for CO2 isotopologues using a dynamical group framework, achieving spectroscopic-quality fits with RMS deviations under 0.07 cm⁻¹.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Implements SU1(2)×U(3)×SU2(2) dynamical group for vibrational wave functions</li>
+        
+        <li>Achieves RMS deviations of 0.06–0.07 cm⁻¹ for spectroscopic term values</li>
+        
+        <li>Computes Raman spectra via cubic curvilinear expansion of polarizability</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a high-accuracy computational framework for molecular spectroscopy, enabling precise prediction of isotopic gas behavior under extreme conditions for climate and atmospheric modeling.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#molecularsimulation</span>
+        
+        <span class="tag">#spectroscopy</span>
+        
+        <span class="tag">#quantumchemistry</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="26">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2602.04891" target="_blank" rel="noopener">微分方程参数估计的广义剖面计算方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Parameter Estimation for Differential Equation Models Using Generalized Profiling: A Computational Tutorial</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv tutorial introduces generalized profiling for parameter estimation in differential equation models, offering a penalized likelihood approach that directly links governing equations to data without repeated numerical solves.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces generalized profiling as an alternative to MLE/MCMC for differential equation parameter estimation.</li>
+        
+        <li>Uses penalized likelihood to directly link governing equations to observational data.</li>
+        
+        <li>Provides a computational tutorial to lower adoption barriers for this underutilized method.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Offers a computationally efficient alternative to iterative solvers for scientific modeling, potentially accelerating parameter calibration in physics, biology, and engineering simulations.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#scientificcomputing</span>
+        
+        <span class="tag">#differentialequations</span>
+        
+        <span class="tag">#parameterestimation</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="27">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06395" target="_blank" rel="noopener">二维SSH声子晶体高阶拓扑模态的梁格约化模型</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Predictive beam-lattice reduction for higher-order topological modes in a 2D SSH phononic crystal</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers develop a computationally efficient 12-DOF beam-lattice reduction model for 2D SSH phononic crystals, accurately capturing topological phase transitions and higher-order modes beyond traditional mass-spring approximations.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Derives 12-DOF dynamical matrix using Euler-Bernoulli beam theory for accurate phononic crystal modeling.</li>
+        
+        <li>Captures ligament eccentricity and rotational effects missing in scalar mass-spring SSH models.</li>
+        
+        <li>Enables efficient simulation of topological phase transitions and higher-order boundary modes.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a computationally tractable yet physically faithful framework for designing topological phononic materials, bridging the gap between simplified lattice models and expensive full FEM simulations.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#topologicalmaterials</span>
+        
+        <span class="tag">#phononiccrystals</span>
+        
+        <span class="tag">#modelreduction</span>
+        
+        <span class="tag">#simulation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="28">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06570" target="_blank" rel="noopener">狄拉克方程量子格子玻尔兹曼精确电路</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Exact quantum circuits for lattice Boltzmann realization of the Dirac equation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers present an exact gate-level quantum circuit mapping for the 3D Dirac quantum lattice Boltzmann scheme, enabling precise quantum simulation of relativistic particle dynamics.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Maps 3D Dirac QLB operations to exact quantum gates</li>
+        
+        <li>Implements collision, streaming, and potential phases unitarily</li>
+        
+        <li>Enables precise quantum simulation of relativistic dynamics</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a rigorous bridge between lattice Boltzmann methods and quantum computing, offering a pathway for efficient quantum simulation of relativistic quantum field theories.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#quantumsimulation</span>
+        
+        <span class="tag">#latticeboltzmann</span>
+        
+        <span class="tag">#diracequation</span>
+        
+        <span class="tag">#computationalphysics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="29">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06737" target="_blank" rel="noopener">铟砷化铕拓扑磁体巨交换耦合与矢量控制研究</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Giant-exchange-driven Vectorial Control of a Minimal Topological Magnet in Eu3In2As4</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Theoretical study reveals giant exchange coupling in Eu3In2As4, enabling precise magnetic tuning of topological phases with 300 meV band shifts.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Identifies giant exchange coupling in Eu3In2As4 topological magnet</li>
+        
+        <li>Demonstrates 300 meV magnetization-dependent band shifts</li>
+        
+        <li>Maps magneto-topological phase evolution under applied fields</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances fundamental understanding of magneto-topological materials, providing a theoretical foundation for future quantum device design and computational materials discovery.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#topological_materials</span>
+        
+        <span class="tag">#condensed_matter</span>
+        
+        <span class="tag">#magnetism</span>
+        
+        <span class="tag">#computational_physics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="30">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06643" target="_blank" rel="noopener">矩形样品全电导率张量提取新方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Extracting the full conductivity tensor in a rectangular sample</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a conformal mapping-based experimental procedure to extract the full conductivity tensor and principal axes angle for 2D materials in rectangular geometries, validated against COMSOL simulations.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces analytical conformal mapping method for full tensor extraction</li>
+        
+        <li>Validates approach with COMSOL numerical simulations</li>
+        
+        <li>Simplifies experimental setup for anisotropic 2D material characterization</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a robust, experimentally feasible method for characterizing anisotropic conductivity in 2D materials, aiding materials science and device engineering.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#computationalPhysics</span>
+        
+        <span class="tag">#COMSOL</span>
+        
+        <span class="tag">#2DMaterials</span>
+        
+        <span class="tag">#tensorAnalysis</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="31">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/ten-advances-in-mathematics" target="_blank" rel="noopener">OpenAI发布数学与理论计算机科学十大进展</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Ten advances in mathematics and theoretical computer science</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-01T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI details ten breakthroughs in long-standing open problems across geometry, cryptography, and computational complexity.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Reports novel proofs and algorithmic improvements in geometry and cryptography</li>
+        
+        <li>Highlights AI's expanding role in solving foundational theoretical computer science problems</li>
+        
+        <li>Provides open-access mathematical results that could influence future cryptographic standards</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates AI's capability to tackle fundamental research, potentially accelerating breakthroughs in cryptography and algorithm design that underpin secure computing.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#mathematics</span>
+        
+        <span class="tag">#cryptography</span>
+        
+        <span class="tag">#complexitytheory</span>
+        
+        <span class="tag">#aiforscience</span>
+        
+        <span class="tag">#openai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="32">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.06964" target="_blank" rel="noopener">共线铁磁体自旋轨道力矩对称理论</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Spin-group theory on Edelstein effect and spin-orbit torque in Collinear Ferromagnets</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Develops a spin-group symmetry theory to rigorously derive field-like and damping-like spin-orbit torques in collinear ferromagnets, resolving the role of spin-orbit coupling.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Derives full torque forms for C4v symmetry using spin-group theory</li>
+        
+        <li>Treats spin-orbit coupling as a symmetry-breaking perturbation</li>
+        
+        <li>Provides rigorous foundation for Edelstein effect in spintronics</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Establishes a rigorous symmetry-based framework for spin-orbit torques, enabling more precise design of spintronic devices and magnetic memory technologies.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#spintronics</span>
+        
+        <span class="tag">#symmetry-theory</span>
+        
+        <span class="tag">#condensed-matter</span>
+        
+        <span class="tag">#magnetic-torque</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="33">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.dp.tech/en" target="_blank" rel="noopener">深势科技推出“粒子宇宙”AI科研引擎</a>
+            
+          </div>
+          
+          <div class="article-subtitle">DP Technology</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">DP Technology (深势科技) Blog</span>
+        <span>2021-04-07T16:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        DP Technology unveils its 'Particle Universe' AI engine and a comprehensive Science-as-a-Service toolkit designed to automate the end-to-end scientific research workflow.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces 'Particle Universe' engine for autonomous scientific discovery</li>
+        
+        <li>Deploys integrated SaaS platform covering literature, computation, and lab work</li>
+        
+        <li>Features specialized tools like Bohrium, Hermite, and Piloteye for R&D</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Consolidates fragmented AI research tools into a unified workflow, accelerating hypothesis generation and experimental validation for scientific teams.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#aiforscience</span>
+        
+        <span class="tag">#scientificcomputing</span>
+        
+        <span class="tag">#researchautomation</span>
+        
+        <span class="tag">#saas</span>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+    (function() {
+      const PER_PAGE = 10;
+      const cards = document.querySelectorAll('.article-card');
+      const total = cards.length;
+      const totalPages = Math.ceil(total / PER_PAGE);
+      let currentPage = 1;
+
+      function showPage(page) {
+        currentPage = page;
+        cards.forEach((card, i) => {
+          const pageStart = (page - 1) * PER_PAGE;
+          const pageEnd = page * PER_PAGE;
+          card.style.display = (i >= pageStart && i < pageEnd) ? '' : 'none';
+        });
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const container = document.getElementById('pagination');
+        if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+        let html = '';
+        // Prev
+        html += `<button class="page-btn${currentPage === 1 ? ' disabled' : ''}" data-page="${currentPage - 1}" aria-label="上一页">‹</button>`;
+
+        // Page numbers
+        const pages = getPageNumbers(currentPage, totalPages);
+        pages.forEach(p => {
+          if (p === '...') {
+            html += `<span class="page-ellipsis">…</span>`;
+          } else {
+            html += `<button class="page-btn${p === currentPage ? ' active' : ''}" data-page="${p}" aria-label="第${p}页">${p}</button>`;
+          }
+        });
+
+        // Next
+        html += `<button class="page-btn${currentPage === totalPages ? ' disabled' : ''}" data-page="${currentPage + 1}" aria-label="下一页">›</button>`;
+
+        container.innerHTML = html;
+
+        // Bind clicks
+        container.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+          btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
+        });
+      }
+
+      function getPageNumbers(current, total) {
+        if (total <= 7) return Array.from({length: total}, (_, i) => i + 1);
+        const pages = [];
+        pages.push(1);
+        if (current > 3) pages.push('...');
+        for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+          pages.push(i);
+        }
+        if (current < total - 2) pages.push('...');
+        pages.push(total);
+        return pages;
+      }
+
+      // Init
+      showPage(1);
+    })();
+  </script>
+  
+
+  <div class="footer">生成于 2026-08-10 18:50 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

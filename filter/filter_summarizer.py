@@ -1,10 +1,15 @@
-"""Filtering & enrichment — keyword pre-filter + unified LLM curator evaluation"""
+"""Filtering & enrichment — unified LLM curator evaluation.
+
+Outputs: list[CuratedArticle] (type-safe via Pydantic).
+Handles: relevance check + classification + scoring + summarization + title generation.
+"""
 import asyncio
 import json
 import logging
 from pathlib import Path
 from models.llm_client import LLMClient
 from dedup.curator_cache import CuratorCache
+from extractors.contract import CuratedArticle
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +18,6 @@ PROMPT_DIR = Path(__file__).parent.parent / "references"
 
 
 def _load_prompt(filename: str) -> str:
-    """Load a prompt module from references/ directory"""
     path = PROMPT_DIR / filename
     if path.exists():
         return path.read_text(encoding="utf-8")
@@ -42,31 +46,39 @@ URL: {url}
 
 Return ONLY valid JSON (no markdown fences):"""
 
+# English → Chinese category normalization
+_CAT_MAP = {
+    "Design Simulation": "设计仿真",
+    "Digital Twin": "数字孪生",
+    "AI for Science": "AI for Science",
+    "LLM": "LLM",
+    "Agent": "Agent",
+}
+
 
 class FilterSummarizer:
+    """LLM-powered curator: relevance + classification + enrichment."""
+
     def __init__(self, llm: LLMClient, config: dict):
         self.llm = llm
-        self.filter_config = config["filter"]
         self.cache = CuratorCache()
 
-    def keyword_pre_filter(self, articles: list[dict]) -> list[dict]:
-        """Fast keyword pre-filter — no LLM calls"""
-        keywords = self.filter_config.get("pre_filter_keywords", [])
-        result = []
-        for a in articles:
-            text = (a.get("title", "") + " " + a.get("summary", "")).lower()
-            if any(kw.lower() in text for kw in keywords):
-                result.append(a)
-        logger.info(f"Pre-filter: {len(articles)} -> {len(result)}")
-        return result
-
-    def curate_batch(self, articles: list[dict]) -> list[dict]:
-        """Unified curator: relevance + classification + enrichment in one LLM call"""
+    def curate_batch(self, articles: list[dict]) -> list[CuratedArticle]:
+        """Sync wrapper for _curate_async."""
         return asyncio.run(self._curate_async(articles))
 
-    async def _curate_async(self, articles: list[dict]) -> list[dict]:
+    async def _curate_async(self, articles: list[dict]) -> list[CuratedArticle]:
+        """
+        Process all articles through LLM curator with concurrency=3.
+
+        Args:
+            articles: list of RawArticle dicts
+
+        Returns:
+            list of CuratedArticle (type-safe Pydantic models)
+        """
         sem = asyncio.Semaphore(3)
-        curated = []
+        curated: list[dict] = []
 
         async def _do_one(a: dict):
             async with sem:
@@ -77,7 +89,7 @@ class FilterSummarizer:
                 # Check cache first
                 cached = self.cache.get(title, summary)
                 if cached:
-                    a.update(cached)
+                    self._apply_result(a, cached)
                     curated.append(a)
                     return
 
@@ -101,39 +113,35 @@ class FilterSummarizer:
                     data = json.loads(cleaned)
 
                     if data.get("is_relevant", False):
-                        a["priority_score"] = int(data.get("priority_score", 3))
-                        raw_cat = data.get("primary_category", "LLM")
-                        # Normalize English category names to Chinese
-                        cat_map = {
-                            "Design Simulation": "设计仿真",
-                            "Digital Twin": "数字孪生",
-                            "AI for Science": "AI for Science",
-                            "LLM": "LLM",
-                            "Agent": "Agent",
-                        }
-                        cat = cat_map.get(raw_cat, raw_cat)
-                        a["primary_category"] = cat
-                        a["category"] = cat  # backward compat
-                        a["secondary_category"] = data.get("secondary_category")
-                        a["chinese_title"] = data.get("chinese_title", a.get("title", ""))
-                        a["tldr"] = data.get("tldr", "")
-                        a["key_insights"] = data.get("key_insights", [])
-                        a["why_it_matters"] = data.get("why_it_matters", "")
-                        a["tags"] = data.get("tags", [])
-                        a["original_title"] = data.get("original_title", a.get("title", ""))
-                        a["importance"] = a["priority_score"]
-                        a["ai_summary"] = a["tldr"]
-
-                        # Store in cache for future reuse
+                        self._apply_result(a, data)
                         self.cache.set(title, summary, data, source_name)
-
                         curated.append(a)
                 except (json.JSONDecodeError, KeyError, ValueError) as e:
-                    logger.warning(f"JSON parse failed for [{a.get('title','')[:60]}]: {e}")
+                    logger.warning(f"JSON parse failed for [{title[:60]}]: {e}")
 
-        await asyncio.gather(*[_do_one(a) for a in articles[:120]])
+        # Process ALL articles (removed [:120] limit)
+        await asyncio.gather(*[_do_one(a) for a in articles])
         logger.info(
-            f"Curator: {len(articles)} → {len(curated)} relevant "
+            f"Curator: {len(articles)} -> {len(curated)} relevant "
             f"(cache: {self.cache.stats['hits']} hits, {self.cache.stats['misses']} misses)"
         )
         return curated
+
+    @staticmethod
+    def _apply_result(a: dict, data: dict):
+        """Apply LLM result to article dict (mutates in-place)."""
+        raw_cat = data.get("primary_category", "LLM")
+        cat = _CAT_MAP.get(raw_cat, raw_cat)
+
+        a["priority_score"] = int(data.get("priority_score", 3))
+        a["primary_category"] = cat
+        a["category"] = cat  # backward compat
+        a["secondary_category"] = data.get("secondary_category")
+        a["chinese_title"] = data.get("chinese_title", a.get("title", ""))
+        a["tldr"] = data.get("tldr", "")
+        a["key_insights"] = data.get("key_insights", [])
+        a["why_it_matters"] = data.get("why_it_matters", "")
+        a["tags"] = data.get("tags", [])
+        a["original_title"] = data.get("original_title", a.get("title", ""))
+        a["importance"] = a["priority_score"]
+        a["ai_summary"] = a["tldr"]

@@ -175,22 +175,201 @@ body {
   <div class="cat-header">
     <span class="icon">🏭</span>
     <h1>数字孪生</h1>
-    <span class="count-badge">0 篇</span>
+    <span class="count-badge">2 篇</span>
   </div>
 
   <!-- Domain Summary -->
   
-
-  <!-- Articles Container -->
-  
-  <div class="empty-state">
-    <div class="icon">📭</div>
-    <h3>暂无本周新内容</h3>
-    <p>本周 数字孪生 领域暂无新资讯，将回填往期精选文章。</p>
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周数字孪生研究聚焦于声明式拓扑驱动的模型自动生成框架与因果证伪导向的准确性评估方法，有效提升了孪生系统的构建效率与验证可靠性。
   </div>
   
 
-  <div class="footer">生成于 2026-08-11 17:15 · Weekly AI Report Agent</div>
+  <!-- Articles Container -->
+  
+  <div class="articles-container" id="articles">
+    
+    <div class="article-card" data-index="0">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.08967" target="_blank" rel="noopener">声明式拓扑驱动的实验验证型干燥剂空调数字孪生自动生成框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Automated generation of experimentally validated digital twins for desiccant-based low-dew-point air-conditioning systems from declarative topology specifications</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose a framework that automatically generates physics-based digital twins for desiccant HVAC systems from declarative topology specs, validated experimentally for battery manufacturing dry rooms.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>框架通过声明式拓扑规范自动生成HVAC系统数字孪生，集成物理组件库与求解器</li>
+        
+        <li>模型包含转轮除湿等设备级热质传递物理机制，支持遥测数据自动合成</li>
+        
+        <li>经实验验证，可显著降低电池制造干燥室空调系统的建模与校准门槛</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Automates the complex process of building and calibrating physics-based digital twins, accelerating deployment in energy-intensive industrial HVAC applications like battery manufacturing.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#digitaltwin</span>
+        
+        <span class="tag">#physicsbasedmodeling</span>
+        
+        <span class="tag">#hvac</span>
+        
+        <span class="tag">#simulation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2301.07210" target="_blank" rel="noopener">数字孪生模型准确性的因果证伪与评估方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Causal Falsification of Digital Twins</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This paper formulates digital twin accuracy assessment as a causal inference problem, demonstrating that observational data alone cannot certify twins without strong assumptions, and proposes a causal falsification framework to validate them rigorously.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Frames twin validation as a causal inference problem for rigorous correctness.</li>
+        
+        <li>Proves observational data cannot certify twins without unconfoundedness assumptions.</li>
+        
+        <li>Introduces a causal falsification method to assess twin accuracy using real-world data.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a rigorous mathematical foundation for validating digital twins in safety-critical applications, moving beyond heuristic accuracy checks to causal falsification.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#digitaltwin</span>
+        
+        <span class="tag">#causalinference</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#validation</span>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" id="pagination"></div>
+
+  <script>
+    (function() {
+      const PER_PAGE = 10;
+      const cards = document.querySelectorAll('.article-card');
+      const total = cards.length;
+      const totalPages = Math.ceil(total / PER_PAGE);
+      let currentPage = 1;
+
+      function showPage(page) {
+        currentPage = page;
+        cards.forEach((card, i) => {
+          const pageStart = (page - 1) * PER_PAGE;
+          const pageEnd = page * PER_PAGE;
+          card.style.display = (i >= pageStart && i < pageEnd) ? '' : 'none';
+        });
+        renderPagination();
+      }
+
+      function renderPagination() {
+        const container = document.getElementById('pagination');
+        if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+        let html = '';
+        // Prev
+        html += `<button class="page-btn${currentPage === 1 ? ' disabled' : ''}" data-page="${currentPage - 1}" aria-label="上一页">‹</button>`;
+
+        // Page numbers
+        const pages = getPageNumbers(currentPage, totalPages);
+        pages.forEach(p => {
+          if (p === '...') {
+            html += `<span class="page-ellipsis">…</span>`;
+          } else {
+            html += `<button class="page-btn${p === currentPage ? ' active' : ''}" data-page="${p}" aria-label="第${p}页">${p}</button>`;
+          }
+        });
+
+        // Next
+        html += `<button class="page-btn${currentPage === totalPages ? ' disabled' : ''}" data-page="${currentPage + 1}" aria-label="下一页">›</button>`;
+
+        container.innerHTML = html;
+
+        // Bind clicks
+        container.querySelectorAll('.page-btn:not(.disabled)').forEach(btn => {
+          btn.addEventListener('click', () => showPage(parseInt(btn.dataset.page)));
+        });
+      }
+
+      function getPageNumbers(current, total) {
+        if (total <= 7) return Array.from({length: total}, (_, i) => i + 1);
+        const pages = [];
+        pages.push(1);
+        if (current > 3) pages.push('...');
+        for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+          pages.push(i);
+        }
+        if (current < total - 2) pages.push('...');
+        pages.push(total);
+        return pages;
+      }
+
+      // Init
+      showPage(1);
+    })();
+  </script>
+  
+
+  <div class="footer">生成于 2026-08-11 20:02 · Weekly AI Report Agent</div>
 
 </div>
 </body>

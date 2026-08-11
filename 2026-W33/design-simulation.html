@@ -175,10 +175,15 @@ body {
   <div class="cat-header">
     <span class="icon">🎨</span>
     <h1>设计仿真</h1>
-    <span class="count-badge">1 篇</span>
+    <span class="count-badge">5 篇</span>
   </div>
 
   <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周设计仿真领域聚焦多物理场建模、拓扑优化与大规模可视化，通过引入混合域知识融合、投影梯度下降及自适应参数化等新框架，显著提升了复杂系统仿真精度、计算可扩展性与几何处理质量。
+  </div>
   
 
   <!-- Articles Container -->
@@ -193,49 +198,269 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.07345" target="_blank" rel="noopener">球极坐标RKDG方法时间步长限制缓解滤波</a>
+            <a href="https://arxiv.org/abs/2608.08116" target="_blank" rel="noopener">功能梯度可磨涂层热粘弹性损伤多物理场与概率公差建模</a>
             
           </div>
           
-          <div class="article-subtitle">Mesh-Based Filtering to Alleviate Time-Step Restrictions in Runge--Kutta Discontinuous Galerkin Methods in Spherical-polar Coordinates: Application to the Euler Equations</div>
+          <div class="article-subtitle">Multiphysics Modeling of Thermo-Viscoelastic Damage in Functionally Graded Abradable Coatings with Probabilistic Geometric Tolerance Analysis</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        A new mesh-based filtering technique stabilizes explicit Runge-Kutta discontinuous Galerkin methods in spherical-polar coordinates by eliminating cell anisotropies near singularities, enabling larger time steps.
+        This study introduces a unified multiphysics-probabilistic framework for modeling thermo-viscoelastic damage in functionally graded abradable coatings, demonstrating that periodic property modulation increases end-of-cycle damage compared to monotonic gradients.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces mesh-based filtering to relax timestep limits in spherical-polar RKDG methods</li>
+        <li>Integrates viscoelastic softening, progressive damage, and geometric tolerances into a single framework.</li>
         
-        <li>Uses auxiliary merged mesh to resolve extreme cell anisotropies near coordinate singularities</li>
+        <li>Simulates coating columns under prescribed strain and thermal mismatch histories.</li>
         
-        <li>Easily integrates as post-processing in existing structured-mesh DG frameworks</li>
+        <li>Periodic property modulation increases end-of-cycle damage versus monotonic gradients.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Improves computational efficiency and stability for CFD simulations on spherical grids, benefiting weather modeling, astrophysics, and geophysical fluid dynamics without requiring complex mesh restructuring.</div>
+      <div class="why-matters">💡 Enables more accurate durability predictions for high-temperature aerospace components, supporting optimized coating design and tolerance specifications.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#cfd</span>
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#multiphysics</span>
+        
+        <span class="tag">#aerospace</span>
+        
+        <span class="tag">#damagemodeling</span>
+        
+        <span class="tag">#probabilisticanalysis</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2604.23094" target="_blank" rel="noopener">FusionRelight 提出混合域知识融合框架，实现实时人像重光照</a>
+            
+          </div>
+          
+          <div class="article-subtitle">FusionRelight: Relighting Portraits in Real Time via Hybrid Domain Knowledge Fusion</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose HDKF, a training framework that fuses physics, reflectance, and realism priors from diverse datasets to enable deterministic, real-time portrait relighting with strong identity preservation.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces HDKF framework combining synthetic, OLAT, and in-the-wild data priors</li>
+        
+        <li>Uses source-routed distillation to enable deterministic real-time inference</li>
+        
+        <li>Balances physical plausibility, identity preservation, and computational efficiency</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a practical solution for real-time portrait relighting in AR/VR and content creation, overcoming the latency and stochasticity of diffusion models while maintaining physical accuracy.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#rendering</span>
+        
+        <span class="tag">#distillation</span>
+        
+        <span class="tag">#realtimeinference</span>
+        
+        <span class="tag">#computervision</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="2">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2511.13905" target="_blank" rel="noopener">PGD-TO框架：基于投影梯度下降的多约束拓扑优化新方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">PGD-TO: A Scalable Alternative to MMA Using Projected Gradient Descent for Multi-Constraint Topology Optimization</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        PGD-TO introduces a scalable topology optimization framework using projected gradient descent, reformulating the projection step to eliminate active-set search and ensure robust convergence for multi-constraint problems.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Reformulates projection step into regularized convex quadratic problem</li>
+        
+        <li>Eliminates active-set search, ensuring well-posedness for infeasible constraints</li>
+        
+        <li>Integrates semismooth Newton solver and spectral step-size adaptation</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a computationally efficient and robust alternative to the widely used MMA algorithm for complex topology optimization, enabling faster design iterations in engineering and generative design workflows.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#topologyoptimization</span>
+        
+        <span class="tag">#generativedesign</span>
+        
+        <span class="tag">#cad</span>
         
         <span class="tag">#simulation</span>
         
-        <span class="tag">#numericalmethods</span>
+        <span class="tag">#optimization</span>
         
-        <span class="tag">#pde</span>
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="3">
+      <div class="article-header">
         
-        <span class="tag">#rkdg</span>
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.08166" target="_blank" rel="noopener">大规模可视化算法弱可扩展性评估与优化方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Evaluating and Improving Weak Scalability Analysis of Visualization Algorithms</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes improved methodology for weak scalability analysis of visualization algorithms, addressing limitations of traditional input-size scaling techniques.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Addresses limitations of traditional input-size scaling for weak scalability</li>
+        
+        <li>Proposes improved evaluation methodology for visualization algorithms</li>
+        
+        <li>Focuses on workload factors beyond raw dataset size</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a more accurate framework for assessing visualization tool performance at scale, crucial for handling modern large-scale scientific and industrial datasets.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#visualization</span>
+        
+        <span class="tag">#scalability</span>
+        
+        <span class="tag">#algorithm_analysis</span>
+        
+        <span class="tag">#computer_graphics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="4">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.08672" target="_blank" rel="noopener">自适应三维流形体参数化框架优化局部形状与质量失真</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Adaptive Volumetric Parameterization of Simply Connected 3-Manifolds with Applications</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This paper introduces a novel volumetric parameterization framework for simply connected 3-manifolds that dynamically adapts the target domain to minimize local shape and mass distortions, improving accuracy for downstream graphics and simulation tasks.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Proposes adaptive target domain optimization instead of fixed standardized shapes</li>
+        
+        <li>Jointly minimizes local shape and mass distortions during parameterization</li>
+        
+        <li>Enhances accuracy for downstream 3D processing, simulation, and imaging tasks</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves foundational geometry processing techniques, enabling more accurate simulations and graphics pipelines by reducing distortion inherent in traditional fixed-domain parameterization methods.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#3dgeometry</span>
+        
+        <span class="tag">#volumetricparameterization</span>
+        
+        <span class="tag">#computergraphics</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#optimization</span>
         
       </div>
       
@@ -312,7 +537,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-11 17:15 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-11 20:02 · Weekly AI Report Agent</div>
 
 </div>
 </body>

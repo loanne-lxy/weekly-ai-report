@@ -98,3 +98,62 @@ sources:
   type: rss
   url: https://www.airesearchnews.com/
   weight: 5
+# ── GitHub sources (require GITHUB_TOKEN in .env for full access) ──
+- category: Agent
+  github_owner: microsoft
+  github_repo: autogen
+  github_subtype: github_repo
+  name: AutoGen (GitHub)
+  type: github
+  weight: 7
+- category: Agent
+  github_owner: crewAIInc
+  github_repo: crewAI
+  github_subtype: github_repo
+  name: CrewAI (GitHub)
+  type: github
+  weight: 7
+- category: LLM
+  github_owner: huggingface
+  github_repo: transformers
+  github_subtype: github_repo
+  name: HuggingFace Transformers (GitHub)
+  type: github
+  weight: 7
+- category: Agent
+  github_subtype: github_trending
+  name: GitHub Trending
+  type: github
+  weight: 5
+- category: Agent
+  github_owner: langchain-ai
+  github_repo: langchain
+  github_subtype: github_repo
+  name: LangChain (GitHub)
+  type: github
+  weight: 7
+- category: LLM
+  name: OpenAI Blog
+  type: rss
+  url: https://openai.com/blog/rss.xml
+  weight: 8
+- category: LLM
+  name: Anthropic Research
+  type: rss
+  url: https://www.anthropic.com/index.xml
+  weight: 8
+- category: DesignSimulation
+  name: Digital Twin Magazine
+  type: rss
+  url: https://digitaltwinmagazine.com/feed/
+  weight: 5
+- category: AI4Science
+  name: DP Technology (深势科技) Blog
+  type: web
+  url: https://www.dp.tech/en
+  weight: 6
+- category: AI4Science
+  name: www.nature.com
+  type: rss
+  url: https://www.nature.com/natmachintell/
+  weight: 8

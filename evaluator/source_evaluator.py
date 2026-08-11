@@ -10,9 +10,13 @@ class SourceEvaluator:
         self.sources_path = sources_path
         self.min_weekly = config.get("evaluator", {}).get("min_weekly_output", 0)
         self.stale_weeks = config.get("evaluator", {}).get("stale_weeks", 4)
+        self.protected_types = set(config.get("evaluator", {}).get("protect_types", []))
 
     def evaluate(self, articles: list[dict], current_sources: list[dict]) -> list[dict]:
         """根据本周产出评估源池质量，返回更新后的源列表"""
+        # Protected source types — never auto-archive (rate-limited ≠ stale)
+        protect_types = self.protected_types
+
         # 统计每个源的产出
         stats: dict[str, int] = {}
         for a in articles:
@@ -21,8 +25,13 @@ class SourceEvaluator:
 
         for s in current_sources:
             name = s.get("name", "")
+            source_type = s.get("type", "")
             count = stats.get(name, 0)
             s["articles_this_week"] = count
+
+            # Skip evaluation for protected types (rate-limited ≠ stale)
+            if source_type in protect_types:
+                continue
 
             # 更新评估分
             prev_score = s.get("eval_score", s.get("weight", 5))

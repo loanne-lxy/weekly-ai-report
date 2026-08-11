@@ -175,43 +175,956 @@ body {
   <div class="cat-header">
     <span class="icon">🎨</span>
     <h1>设计仿真</h1>
-    <span class="count-badge">1 篇</span>
+    <span class="count-badge">17 篇</span>
   </div>
 
   <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周设计仿真领域聚焦AI驱动的CAD生成与神经渲染优化、面向大模型的芯片互连架构探索，以及基于伴随微分与高分辨率格式的高效隐式求解与流场计算，整体呈现算法智能化与数值求解高效化的深度融合趋势。
+  </div>
   
 
   <!-- Articles Container -->
   
   <div class="articles-container" id="articles">
     
-    <div class="article-card carried" data-index="0">
+    <div class="article-card" data-index="0">
       <div class="article-header">
         
         
-        <div class="score-badge score-high">8</div>
+        <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://example.com/design" target="_blank" rel="noopener">AI驱动的生成式设计工具</a>
-            
-            <span class="carried-badge" style="margin-left:8px;">往期</span>
+            <a href="http://arxiv.org/abs/2608.09706v1" target="_blank" rel="noopener">基于无验证器共识选择的CAD生成测试时扩展方法</a>
             
           </div>
+          
+          <div class="article-subtitle">Test-Time Scaling for CAD Generation via Verifier-Free Consensus Selection</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">Autodesk Research</span>
-        <span></span>
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-10T15:10:44+00:00</span>
       </div>
       
       <div class="article-summary">
-        Autodesk推出基于扩散模型的3D生成式设计工具。
+        This paper introduces a training-free, verifier-free consensus selection method for text-to-CAD generation that scales test-time compute by selecting the most consistent candidate from a sampled pool.
       </div>
       
       
+      <ul class="key-insights">
+        
+        <li>采用无验证器共识选择优化文本转CAD生成流程</li>
+        
+        <li>通过采样候选池并选取一致性最高的模型扩展测试时计算</li>
+        
+        <li>免训练设计消除对独立视觉语言裁判的依赖</li>
+        
+      </ul>
       
+      
+      <div class="why-matters">💡 Reduces dependency on expensive verifier models for CAD generation, enabling more efficient and scalable test-time compute allocation for parametric design tasks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#cad</span>
+        
+        <span class="tag">#testtimescaling</span>
+        
+        <span class="tag">#consensusselection</span>
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#generativedesign</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09604v1" target="_blank" rel="noopener">混合神经微面元BRDF模型实现复杂光学效果的高效实时渲染</a>
+            
+          </div>
+          
+          <div class="article-subtitle">A Hybrid Neural-Microfacet BRDF Model for Real-Time Rendering</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-10T13:46:33+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This paper introduces a hybrid neural-microfacet BRDF model that combines traditional microfacet versatility with neural network accuracy, enabling high-fidelity real-time rendering of complex light-surface interactions without prohibitive computational costs.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Merges microfacet BRDF versatility with neural accuracy for complex optics</li>
+        
+        <li>Cuts compute costs vs pure neural BRDFs for real-time rendering pipelines</li>
+        
+        <li>Overcomes specialized physics model limits for diverse material simulation</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances real-time rendering by bridging the gap between physically accurate but slow neural models and fast but limited traditional BRDFs, enabling realistic material simulation in interactive applications.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#neuralrendering</span>
+        
+        <span class="tag">#brdf</span>
+        
+        <span class="tag">#realtime</span>
+        
+        <span class="tag">#microfacet</span>
+        
+        <span class="tag">#computergraphics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="2">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08611v1" target="_blank" rel="noopener">C2C-Explorer 提出面向大模型的片间互连架构贝叶斯探索框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">C2C-Explorer: An Exploration Framework for Chip-to-Chip Interconnect Architectures in LLM Cloud Computing Systems</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-09T09:49:40+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        C2C-Explorer is a Bayesian design space exploration framework that integrates workload-driven traffic generation and scalable simulation to optimize chip-to-chip interconnect architectures for large-scale LLM systems.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces adaptive Bayesian DSE for chip-to-chip interconnect co-design</li>
+        
+        <li>Features LLM-workload-driven traffic generator and 512-chip simulator</li>
+        
+        <li>Enables systematic hardware optimization under realistic LLM communication patterns</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses critical hardware bottlenecks in scaling LLMs by providing a systematic framework to optimize multi-chip interconnects, reducing design complexity and improving communication efficiency for cloud AI infrastructure.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#bayesianoptimization</span>
+        
+        <span class="tag">#designspaceexploration</span>
+        
+        <span class="tag">#interconnect</span>
+        
+        <span class="tag">#llminfrastructure</span>
+        
+        <span class="tag">#simulation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="3">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08559v1" target="_blank" rel="noopener">提出求解器级微分方法，通过反向扫描伴随实现块隐式仿真高效梯度计算</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Differentiate the Solver, Not the Equation: Reverse-Sweep Adjoints for Block Implicit Simulation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-09T08:03:02+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This paper introduces solver-level differentiation for block implicit simulations, using a reverse-sweep adjoint formulation to compute gradients efficiently without assembling global Jacobians or unrolling solver steps.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>采用求解器级微分替代方程级微分，避免全局雅可比矩阵组装与高内存开销。</li>
+        
+        <li>设计反向扫描伴随公式，直接对块隐式求解器的实际执行步骤进行梯度计算。</li>
+        
+        <li>保留前向求解器局部性，显著提升可微仿真在物理控制与逆问题中的计算效率。</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enables memory-efficient gradient computation for complex implicit solvers, accelerating differentiable simulation workflows in physics-based learning and inverse design without sacrificing solver locality.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#differentiablephysics</span>
+        
+        <span class="tag">#adjointmethod</span>
+        
+        <span class="tag">#inverseproblems</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="4">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08117v1" target="_blank" rel="noopener">面向曲线网格可压缩流的高分辨率WENO紧致最小二乘格式</a>
+            
+          </div>
+          
+          <div class="article-subtitle">High-Resolution Weighted Essentially Non-Oscillatory Compact Least-Squares Schemes with Implicit Time Integration for Compressible Navier-Stokes Equations on Curvilinear Grids</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-08T13:07:12+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This paper introduces a high-resolution WENO compact least-squares scheme with implicit time integration for compressible Navier-Stokes equations on curvilinear grids, improving accuracy near discontinuities and reducing computational complexity.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces accuracy-preserving weighting strategy to suppress high-frequency oscillations near discontinuities.</li>
+        
+        <li>Restricts reconstruction matrix construction to smooth lines, enhancing resolution for compressible flows.</li>
+        
+        <li>Simplifies implicit time integration workflow for improved computational efficiency on curvilinear grids.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a robust numerical framework for high-fidelity CFD simulations, enabling more accurate and efficient modeling of complex compressible flows in engineering design.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#cfd</span>
+        
+        <span class="tag">#numericalmethods</span>
+        
+        <span class="tag">#weno</span>
+        
+        <span class="tag">#implicitintegration</span>
+        
+        <span class="tag">#curvilineargrids</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="5">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09323v1" target="_blank" rel="noopener">基于斐波那契球模拟的无应力开启式Halbach磁体设计与实验验证</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Openable Force-Balanced Halbach Magnets: From Fibonacci Sphere Simulations to Icosahedral Realizations</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-10T09:04:47+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers derive theoretical conditions and experimentally validate icosahedral Halbach magnet spheres that can be opened with near-zero tensile force.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Derives geometric conditions for force-free opening of discrete Halbach spheres</li>
+        
+        <li>Validates theory with icosahedral approximations</li>
+        
+        <li>Enables practical access to homogeneous magnetic fields without mechanical resistance</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances precision magnet design for scientific instruments by solving the challenge of accessing enclosed homogeneous fields without mechanical resistance.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#magnetDesign</span>
+        
+        <span class="tag">#physics</span>
+        
+        <span class="tag">#experimentalValidation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="6">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09110v1" target="_blank" rel="noopener">提出视点自适应渲染框架，实现单图转3D的高一致性重建</a>
+            
+          </div>
+          
+          <div class="article-subtitle">View-Adaptive Renderer for View-Consistent 2D-to-3D Generation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-10T04:28:08+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces a viewpoint-adaptive neural rendering framework that overcomes projective ambiguities in traditional NeRF pipelines, enabling robust 3D reconstruction from single images with partially inconsistent multi-view inputs.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Addresses visual discontinuities in monocular 3D generation caused by projective ambiguities.</li>
+        
+        <li>Introduces a viewpoint-adaptive neural rendering framework for robust reconstruction.</li>
+        
+        <li>Handles partially inconsistent multi-view inputs without heavy computational overhead.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves the reliability of single-image 3D reconstruction, a critical bottleneck for rapid prototyping and digital content creation, by resolving cross-view inconsistencies inherent in NeRF-based pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#3dgeneration</span>
+        
+        <span class="tag">#nerf</span>
+        
+        <span class="tag">#neuralrendering</span>
+        
+        <span class="tag">#computervision</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="7">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08986v1" target="_blank" rel="noopener">基于罗德里格斯向量空间拉普拉斯优化的平滑运动拼接框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Smooth Motion Stitching via Laplacian Optimization in Rodrigues Vector Space</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-10T01:11:41+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This paper introduces a non-learning motion editing framework that formulates motion stitching as a temporal Laplacian optimization problem in Rodrigues vector space, enabling smooth, computationally efficient transitions between motion segments without manual tuning.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Uses temporal Laplacian optimization in Rodrigues space for continuous joint rotation stitching.</li>
+        
+        <li>Enables smooth cross-category motion transitions without learning models or complex manual tuning.</li>
+        
+        <li>Delivers efficient interactive editing with coherent results outperforming linear interpolation.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a lightweight, mathematically grounded alternative to learning-based motion editing, enabling real-time character animation and kinematic simulation without heavy training overhead or dataset dependencies.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#kinematicSimulation</span>
+        
+        <span class="tag">#motionEditing</span>
+        
+        <span class="tag">#laplacianOptimization</span>
+        
+        <span class="tag">#computerGraphics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="8">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08672v1" target="_blank" rel="noopener">简单连通三维流形自适应体参数化框架，联合优化形状与质量畸变</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Adaptive Volumetric Parameterization of Simply Connected 3-Manifolds with Applications</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-09T12:37:46+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper introduces a novel volumetric parameterization framework for simply connected 3-manifolds that adaptively optimizes the target domain to minimize local shape and mass distortions in computer graphics and imaging.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopts adaptive target domain optimization to minimize geometric distortion in 3-manifold parameterization.</li>
+        
+        <li>Jointly optimizes local shape and mass distortions during the mapping process.</li>
+        
+        <li>Supports three progressively flexible target domains for enhanced shape analysis.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Reduces geometric distortion in 3D modeling and imaging pipelines, enabling more accurate downstream tasks like simulation, mesh generation, and medical image analysis.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#3dmodeling</span>
+        
+        <span class="tag">#geometryprocessing</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#computergraphics</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="9">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08166v1" target="_blank" rel="noopener">可视化算法弱可扩展性评估与改进方法研究</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Evaluating and Improving Weak Scalability Analysis of Visualization Algorithms</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-08T14:49:03+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper proposes improved methodologies for evaluating the weak scalability of visualization algorithms, addressing inaccuracies caused by oversimplified data scaling techniques.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Identifies flaws in traditional scalability tests that ignore data complexity and output size.</li>
+        
+        <li>Proposes refined scaling techniques to accurately measure algorithm performance at scale.</li>
+        
+        <li>Provides empirical benchmarks to guide optimization of large-scale visualization pipelines.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Helps developers and researchers accurately benchmark visualization tools for massive datasets, preventing misleading performance claims and guiding better algorithmic design for high-performance computing environments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#visualization</span>
+        
+        <span class="tag">#scalability</span>
+        
+        <span class="tag">#performanceanalysis</span>
+        
+        <span class="tag">#benchmarking</span>
+        
+        <span class="tag">#scientificcomputing</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="10">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08116v1" target="_blank" rel="noopener">功能梯度可磨涂层热粘弹性损伤多物理场与概率公差建模</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Multiphysics Modeling of Thermo-Viscoelastic Damage in Functionally Graded Abradable Coatings with Probabilistic Geometric Tolerance Analysis</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-08T12:56:57+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper presents a unified multiphysics-probabilistic framework for modeling thermo-viscoelastic damage in functionally graded abradable coatings, revealing that periodic property modulation increases end-of-cycle damage and localizes peak stress.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Integrates viscoelastic softening, progressive damage, and geometric tolerances into a single multiphysics framework.</li>
+        
+        <li>Periodic property modulation in coatings increases end-of-cycle damage compared to monotonic gradients.</li>
+        
+        <li>Probabilistic tolerance analysis reveals localized stress concentration under thermal-mechanical loading.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a more accurate computational framework for predicting coating durability in aerospace engines, enabling better material design and tolerance specifications for high-temperature components.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#multiphysics</span>
+        
+        <span class="tag">#materialmodeling</span>
+        
+        <span class="tag">#aerospace</span>
+        
+        <span class="tag">#probabilisticanalysis</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="11">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.07011v1" target="_blank" rel="noopener">语言模式驱动设施布局优化：引入空间均匀性准则与NCS评估指标</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Linguistic Pattern Based Optimization of Economic and Spatial Uniformity Criteria in Facility Layout Problems</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-07T09:23:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper enhances the LP Alinks framework for facility layout optimization by introducing a Normalized Coverage Score (NCS) to balance economic flow costs with spatial uniformity, validated through a comprehensive 324-condition factorial experiment.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces Normalized Coverage Score (NCS) to quantify spatial evenness in facility layouts.</li>
+        
+        <li>Extends LP Alinks framework to optimize cost-uniformity trade-offs using linguistic patterns.</li>
+        
+        <li>Validates approach via 324-condition factorial experiment across problem size and link density.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a quantifiable metric for spatial uniformity in automated facility layout, enabling more balanced industrial design optimization beyond pure cost minimization.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#optimization</span>
+        
+        <span class="tag">#agentbased</span>
+        
+        <span class="tag">#industrialengineering</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.06874v1" target="_blank" rel="noopener">耦合SPH-FEM模拟钢筋混凝土梁偏心冲击载荷重分布与损伤不对称性</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Load-Path Redistribution and Damage Asymmetry in Reinforced Concrete Beams under Eccentric Drop-Weight Impact: A Coupled SPH--FEM Study</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-07T06:58:56+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This study uses a coupled SPH-FEM model to analyze how eccentric impact alters force transfer and damage patterns in reinforced concrete beams, revealing significant asymmetry compared to central impacts.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Coupled SPH-FEM model accurately captures concrete damage and reinforcement behavior under impact</li>
+        
+        <li>Eccentric impact significantly alters load paths and creates asymmetric damage despite similar initial force peaks</li>
+        
+        <li>Shorter shear spans under eccentric loading exhibit distinct failure modes compared to central impact benchmarks</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides critical insights for structural impact engineering and simulation validation, improving predictive accuracy for real-world off-center impact scenarios in civil infrastructure.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#fem</span>
+        
+        <span class="tag">#sph</span>
+        
+        <span class="tag">#structuralengineering</span>
+        
+        <span class="tag">#impactanalysis</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.07307v1" target="_blank" rel="noopener">基于Vulkan的GPU加速高精度太阳辐射压力轨道传播模型</a>
+            
+          </div>
+          
+          <div class="article-subtitle">GPU-Accelerated Orbit Propagation with High-Fidelity Solar Radiation Pressure Modeling</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-07T15:02:26+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper presents a Vulkan-based GPU implementation to accelerate high-fidelity Solar Radiation Pressure modeling for spacecraft orbit propagation, alongside an extended model accounting for dynamic solar panel orientation.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Deploys Vulkan GPU acceleration to drastically reduce SRP force evaluation latency.</li>
+        
+        <li>Integrates dynamic solar panel orientation tracking into high-fidelity SRP models.</li>
+        
+        <li>Enables real-time, high-precision orbit propagation for complex spacecraft missions.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Accurate and fast SRP modeling is critical for precise spacecraft trajectory prediction. This GPU-accelerated approach bridges the gap between physical fidelity and computational feasibility in orbital dynamics simulations.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#gpuacceleration</span>
+        
+        <span class="tag">#vulkan</span>
+        
+        <span class="tag">#orbitpropagation</span>
+        
+        <span class="tag">#spacesimulation</span>
+        
+        <span class="tag">#highfidelitymodeling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="14">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.06827v1" target="_blank" rel="noopener">R2S-EGO提出双代理架构优化稀疏采集现实到仿真场景渲染</a>
+            
+          </div>
+          
+          <div class="article-subtitle">R2S-EGO: Dual-Proxy Refinement for Sparse-Capture Real-to-Sim</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-07T05:37:26+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        R2S-EGO introduces a dual-proxy architecture that combines simulator-derived robot queries with capture-anchored geometry to efficiently generate missing views for sparse real-to-sim transfer.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces dual-proxy system coupling robot behavior queries with scene geometry</li>
+        
+        <li>Optimizes fixed-budget view synthesis to fill sparse capture gaps in R2S</li>
+        
+        <li>Enables efficient real-to-sim transfer without dense multi-view data collection</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses the high cost and inefficiency of dense scene capture for robotics simulation, enabling faster deployment of real-to-sim pipelines with limited data.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#realtosim</span>
+        
+        <span class="tag">#scenereconstruction</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#robotics</span>
+        
+        <span class="tag">#geometryproxy</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="15">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.07181v1" target="_blank" rel="noopener">基于四面体剖分的双变量场特征诱导合并树精确计算</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Exact Computation of Trait-induced Merge Trees for Bivariate Fields</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-07T12:51:46+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This paper presents an exact computational method for trait-induced merge trees in piecewise-linear bivariate fields, correcting topological inaccuracies caused by traditional vertex sampling and linear interpolation assumptions.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Identifies topological errors in traditional TIMT sampling methods</li>
+        
+        <li>Proves convexity of restricted sublevel sets within tetrahedra</li>
+        
+        <li>Enables exact computation for precise feature extraction in multivariate data</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a mathematically rigorous foundation for topological data analysis in computational geometry, improving accuracy for simulation preprocessing and scientific visualization pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#topologicaldataanalysis</span>
+        
+        <span class="tag">#computationalgeometry</span>
+        
+        <span class="tag">#meshprocessing</span>
+        
+        <span class="tag">#exactcomputation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.04842v1" target="_blank" rel="noopener">RORA 实现单静态视频重建带有关节运动的仿真就绪资产</a>
+            
+          </div>
+          
+          <div class="article-subtitle">RORA: Realistic Object Reconstruction with Articulation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-05T13:36:58+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        RORA introduces an end-to-end pipeline that reconstructs simulation-ready assets with accurate articulation from a single static video, addressing the sim-to-real gap in robot learning without requiring dynamic motion scans.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Proposes first end-to-end pipeline for articulation reconstruction from static video</li>
+        
+        <li>Eliminates need for complex dynamic motion scanning in real-to-sim workflows</li>
+        
+        <li>Uses human-in-the-loop suggestion to handle complex multi-joint kinematic structures</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Simplifies the creation of high-fidelity simulation assets for robot learning, significantly reducing the data collection burden and accelerating sim-to-real transfer for articulated objects.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#3dgs</span>
+        
+        <span class="tag">#nerf</span>
+        
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#robotlearning</span>
+        
+        <span class="tag">#articulation</span>
+        
+      </div>
       
     </div>
     
@@ -286,7 +1199,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-11 20:25 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-11 21:45 · Weekly AI Report Agent</div>
 
 </div>
 </body>

@@ -132,9 +132,20 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
     else:
         domain_summaries = {k: "" for k in categories}
 
+    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+    category_slugs = {
+        "LLM": "llm", "Agent": "agent", "AI for Science": "ai-for-science",
+        "设计仿真": "design-simulation", "数字孪生": "digital-twin",
+    }
+
     env = Environment(loader=FileSystemLoader("generator/templates"))
-    template = env.get_template("weekly.html")
-    html = template.render(
+
+    week_dir = f"output/{week_label.replace(' ', '_')}"
+    os.makedirs(week_dir, exist_ok=True)
+
+    # --- Render index.html (homepage) ---
+    tpl_index = env.get_template("index.html")
+    html_index = tpl_index.render(
         title="AI 前沿资讯周报",
         subtitle=f"LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 {total} 篇",
         week=week_label,
@@ -146,18 +157,36 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
         empty_cats=empty_cats,
         has_carried=has_carried,
         domain_summaries=domain_summaries,
-        generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
+        category_slugs=category_slugs,
+        generated_at=generated_at,
     )
+    index_path = os.path.join(week_dir, "index.html")
+    with open(index_path, "w", encoding="utf-8") as f:
+        f.write(html_index)
 
-    week_dir = f"output/{week_label.replace(' ', '_')}"
-    os.makedirs(week_dir, exist_ok=True)
-    filepath = os.path.join(week_dir, "index.html")
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(html)
+    # --- Render each category sub-page ---
+    tpl_cat = env.get_template("category.html")
+    for cat_name, cat_articles in categories.items():
+        cat_count = len(cat_articles)
+        cat_slug = category_slugs.get(cat_name, cat_name.lower().replace(" ", "-"))
+        html_cat = tpl_cat.render(
+            cat_name=cat_name,
+            cat_icon=icons.get(cat_name, ""),
+            cat_color=colors.get(cat_name, "#1677ff"),
+            articles=cat_articles,
+            article_count=cat_count,
+            domain_summary=domain_summaries.get(cat_name, ""),
+            week=week_label,
+            generated_at=generated_at,
+            title="AI 前沿资讯周报",
+        )
+        cat_path = os.path.join(week_dir, f"{cat_slug}.html")
+        with open(cat_path, "w", encoding="utf-8") as f:
+            f.write(html_cat)
 
     # 保存 articles.json 供下周回填
     json_path = os.path.join(week_dir, "articles.json")
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(articles, f, ensure_ascii=False, default=str)
 
-    return filepath
+    return index_path

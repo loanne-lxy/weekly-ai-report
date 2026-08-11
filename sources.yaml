@@ -87,6 +87,36 @@ sources:
   streak_failures: 0
   type: github
   weight: 9
+- active: false
+  articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 0
+  name: arxiv.org
+  streak_failures: 3
+  type: rss
+  url: https://arxiv.org/rss/physics.comp-ph
+  weight: 5
+- active: false
+  articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 0
+  name: arxiv.org
+  streak_failures: 3
+  type: rss
+  url: https://arxiv.org/rss/cond-mat.mtrl-sci
+  weight: 5
+- active: false
+  articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 0
+  name: www.nature.com
+  streak_failures: 3
+  type: rss
+  url: https://www.nature.com/natmachintell/
+  weight: 5
 - articles_this_week: 1
   category: AI4Science
   eval_score: 0
@@ -96,21 +126,3 @@ sources:
   type: web
   url: https://www.dp.tech/en
   weight: 8
-- category: LLM
-  discovered_by: agent
-  name: arxiv.org
-  type: rss
-  url: https://arxiv.org/rss/physics.comp-ph
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: arxiv.org
-  type: rss
-  url: https://arxiv.org/rss/cond-mat.mtrl-sci
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: www.nature.com
-  type: rss
-  url: https://www.nature.com/natmachintell/
-  weight: 5

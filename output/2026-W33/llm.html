@@ -180,11 +180,6 @@ body {
 
   <!-- Domain Summary -->
   
-  <div class="domain-summary">
-    <strong>📋 领域摘要</strong><br>
-    本周 LLM 领域聚焦于推理效率优化
-  </div>
-  
 
   <!-- Articles Container -->
   
@@ -194,53 +189,53 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">7</div>
+        <div class="score-badge score-high">9</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://github.com/huggingface/transformers/commit/81df408ab7c166bc96563c9ad2d4a1c2441a357a" target="_blank" rel="noopener">Transformers库弃用Mistral分词隐式字段</a>
+            <a href="https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores" target="_blank" rel="noopener">调整两项API设置使ARC-AGI-3得分提升三倍</a>
             
           </div>
           
-          <div class="article-subtitle">[MistralCommonBackend] Stop relying on mistral-common's Tokenized.tex…</div>
+          <div class="article-subtitle">How enabling two settings tripled our scores on the ARC-AGI-3 benchmark</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">HuggingFace Transformers (GitHub)</span>
-        <span>2026-08-10T07:41:25+00:00</span>
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-29T15:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        HuggingFace Transformers updates the MistralCommonBackend to explicitly decode tokens instead of relying on the deprecated Tokenized.text field, improving tokenization reliability and preventing subtle pipeline bugs.
+        Enabling reasoning retention and compaction in GPT-5.6's API tripled performance on the ARC-AGI-3 benchmark while improving efficiency.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Update tokenization pipelines to use explicit decoding instead of Tokenized.text</li>
+        <li>Enable reasoning retention and compaction settings to boost performance on complex tasks.</li>
         
-        <li>Verify Mistral model outputs for consistency after upgrading Transformers</li>
+        <li>Configure GPT-5.6 API parameters to triple ARC-AGI-3 scores without retraining.</li>
         
-        <li>Check custom backend implementations for deprecated field dependencies</li>
+        <li>Apply compaction to reduce token overhead while preserving critical reasoning steps.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Ensures more robust and predictable tokenization for Mistral models in the Transformers library, preventing subtle bugs in downstream inference and training pipelines.</div>
+      <div class="why-matters">💡 Demonstrates that strategic API configuration can yield massive benchmark gains without new model training, offering a cost-effective path for developers to maximize current LLM capabilities on hard reasoning tasks.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#transformers</span>
+        <span class="tag">#llm</span>
         
-        <span class="tag">#tokenization</span>
+        <span class="tag">#reasoning</span>
         
-        <span class="tag">#mistral</span>
+        <span class="tag">#benchmark</span>
+        
+        <span class="tag">#api</span>
         
         <span class="tag">#inference</span>
-        
-        <span class="tag">#backend</span>
         
       </div>
       
@@ -250,53 +245,51 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">6</div>
+        <div class="score-badge score-high">9</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://github.com/huggingface/transformers/commit/b7e0c20b9ff7c2abfa2eed95ada9051307401158" target="_blank" rel="noopener">HF库回退CodeLlama分词器修复</a>
+            <a href="https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency" target="_blank" rel="noopener">OpenAI发布GPT-5.6：提升模型与智能体效率</a>
             
           </div>
           
-          <div class="article-subtitle">Revert "Fix CodeLlama tokenizer dropping leading whitespace on decode…</div>
+          <div class="article-subtitle">How GPT-5.6 fuses frontier intelligence with frontier efficiency</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">HuggingFace Transformers (GitHub)</span>
-        <span>2026-08-10T07:54:27+00:00</span>
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-29T00:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        HuggingFace Transformers reverts a CodeLlama tokenizer fix that inadvertently broke special token matching in existing checkpoints due to normalization changes.
+        OpenAI releases GPT-5.6, a new model architecture that significantly improves computational efficiency across inference and agentic workflows while maintaining frontier-level intelligence.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Reverts tokenizer normalization change that broke special token matching</li>
+        <li>Adopt GPT-5.6 for cost-effective agentic workflows and faster inference.</li>
         
-        <li>Fixes checkpoint compatibility issues for CodeLlama and related models</li>
+        <li>Leverage improved model efficiency to scale multi-agent systems without proportional compute costs.</li>
         
-        <li>Highlights risks of modifying pre-tokenizers without full backward compatibility tests</li>
+        <li>Benchmark new efficiency metrics against previous GPT versions for deployment planning.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Ensures stability for developers deploying CodeLlama and other models via Transformers, preventing silent tokenization mismatches that degrade model performance.</div>
+      <div class="why-matters">💡 This release directly addresses the primary bottleneck in AI deployment—compute costs—enabling developers to run complex agentic workflows at scale. It sets a new industry standard for balancing model capability with operational efficiency.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#llm</span>
         
-        <span class="tag">#tokenizer</span>
-        
-        <span class="tag">#codellama</span>
-        
-        <span class="tag">#transformers</span>
-        
         <span class="tag">#inference</span>
+        
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#efficiency</span>
         
       </div>
       
@@ -416,116 +409,6 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-high">9</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://openai.com/index/how-two-settings-tripled-our-arc-agi-3-scores" target="_blank" rel="noopener">调整两项API设置使ARC-AGI-3得分提升三倍</a>
-            
-          </div>
-          
-          <div class="article-subtitle">How enabling two settings tripled our scores on the ARC-AGI-3 benchmark</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span>2026-07-29T15:00:00+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        Enabling reasoning retention and compaction in GPT-5.6's API tripled performance on the ARC-AGI-3 benchmark while improving efficiency.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Enable reasoning retention and compaction settings to boost performance on complex tasks.</li>
-        
-        <li>Configure GPT-5.6 API parameters to triple ARC-AGI-3 scores without retraining.</li>
-        
-        <li>Apply compaction to reduce token overhead while preserving critical reasoning steps.</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Demonstrates that strategic API configuration can yield massive benchmark gains without new model training, offering a cost-effective path for developers to maximize current LLM capabilities on hard reasoning tasks.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#llm</span>
-        
-        <span class="tag">#reasoning</span>
-        
-        <span class="tag">#benchmark</span>
-        
-        <span class="tag">#api</span>
-        
-        <span class="tag">#inference</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="5">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-high">9</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://openai.com/index/gpt-5-6-frontier-intelligence-efficiency" target="_blank" rel="noopener">OpenAI发布GPT-5.6：提升模型与智能体效率</a>
-            
-          </div>
-          
-          <div class="article-subtitle">How GPT-5.6 fuses frontier intelligence with frontier efficiency</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span>2026-07-29T00:00:00+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        OpenAI releases GPT-5.6, a new model architecture that significantly improves computational efficiency across inference and agentic workflows while maintaining frontier-level intelligence.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Adopt GPT-5.6 for cost-effective agentic workflows and faster inference.</li>
-        
-        <li>Leverage improved model efficiency to scale multi-agent systems without proportional compute costs.</li>
-        
-        <li>Benchmark new efficiency metrics against previous GPT versions for deployment planning.</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 This release directly addresses the primary bottleneck in AI deployment—compute costs—enabling developers to run complex agentic workflows at scale. It sets a new industry standard for balancing model capability with operational efficiency.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#llm</span>
-        
-        <span class="tag">#inference</span>
-        
-        <span class="tag">#multiagent</span>
-        
-        <span class="tag">#efficiency</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="6">
-      <div class="article-header">
-        
-        
         <div class="score-badge score-high">8</div>
         
         <div class="article-title-area">
@@ -576,7 +459,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="7">
+    <div class="article-card" data-index="5">
       <div class="article-header">
         
         
@@ -630,115 +513,63 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="8">
+    <div class="article-card" data-index="6">
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">6</div>
+        <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://openai.com/index/circles" target="_blank" rel="noopener">Circles利用OpenAI API优化电信服务</a>
+            <a href="https://github.com/huggingface/transformers/commit/81df408ab7c166bc96563c9ad2d4a1c2441a357a" target="_blank" rel="noopener">Transformers库弃用Mistral分词隐式字段</a>
             
           </div>
           
-          <div class="article-subtitle">Circles powers telco personalization with OpenAI technology</div>
+          <div class="article-subtitle">[MistralCommonBackend] Stop relying on mistral-common's Tokenized.tex…</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span>2026-08-03T00:00:00+00:00</span>
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-08-10T07:41:25+00:00</span>
       </div>
       
       <div class="article-summary">
-        Circles leverages OpenAI API and Codex to deliver AI-native telecom experiences, boosting ARPU by 22% and cutting churn by 9% while streamlining development.
+        HuggingFace Transformers updates the MistralCommonBackend to explicitly decode tokens instead of relying on the deprecated Tokenized.text field, improving tokenization reliability and preventing subtle pipeline bugs.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Circles integrates OpenAI API and Codex for personalized telecom experiences</li>
+        <li>Update tokenization pipelines to use explicit decoding instead of Tokenized.text</li>
         
-        <li>Implementation drives 22% ARPU increase and 9% churn reduction</li>
+        <li>Verify Mistral model outputs for consistency after upgrading Transformers</li>
         
-        <li>AI-native workflow significantly improves internal development efficiency</li>
+        <li>Check custom backend implementations for deprecated field dependencies</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Demonstrates tangible ROI and operational efficiency gains from integrating foundational LLM APIs into legacy telecom infrastructure, providing a benchmark for enterprise AI adoption.</div>
+      <div class="why-matters">💡 Ensures more robust and predictable tokenization for Mistral models in the Transformers library, preventing subtle bugs in downstream inference and training pipelines.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#llm</span>
+        <span class="tag">#transformers</span>
         
-        <span class="tag">#api</span>
+        <span class="tag">#tokenization</span>
         
-        <span class="tag">#enterprise-ai</span>
+        <span class="tag">#mistral</span>
         
-        <span class="tag">#codex</span>
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#backend</span>
         
       </div>
       
     </div>
     
-    <div class="article-card" data-index="9">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://openai.com/index/how-the-world-is-putting-chatgpt-to-work" target="_blank" rel="noopener">OpenAI发布全球ChatGPT使用趋势数据</a>
-            
-          </div>
-          
-          <div class="article-subtitle">From asking to doing: How the world is putting ChatGPT to work</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span>2026-08-06T00:00:00+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        OpenAI Signals data reveals global ChatGPT usage patterns, highlighting adoption trends and evolving user behavior across countries.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Global usage data shows ChatGPT adoption varies by country, with emerging markets leading growth.</li>
-        
-        <li>Usage patterns shift from simple queries to complex tasks, indicating deeper integration into workflows.</li>
-        
-        <li>Data provides insights for developers to tailor applications to regional user needs.</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 This data offers a rare glimpse into real-world LLM adoption, guiding developers and businesses in optimizing deployment strategies and understanding market readiness.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#chatgpt</span>
-        
-        <span class="tag">#adoption</span>
-        
-        <span class="tag">#usage-trends</span>
-        
-        <span class="tag">#openai</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="10">
+    <div class="article-card" data-index="7">
       <div class="article-header">
         
         
@@ -792,7 +623,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="11">
+    <div class="article-card" data-index="8">
       <div class="article-header">
         
         
@@ -848,7 +679,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="12">
+    <div class="article-card" data-index="9">
       <div class="article-header">
         
         
@@ -902,63 +733,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="13">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">6</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://openai.com/index/chatgpt-for-academic-researchers" target="_blank" rel="noopener">OpenAI向10万名学者开放ChatGPT高级模型</a>
-            
-          </div>
-          
-          <div class="article-subtitle">Accelerating scientific discovery with ChatGPT for Academic Researchers</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span>2026-07-29T10:00:00+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        OpenAI announces free access to advanced ChatGPT models for 100,000 academic researchers to support scientific collaboration and discovery.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Apply for free access to advanced ChatGPT models as an academic researcher.</li>
-        
-        <li>Integrate ChatGPT into research workflows to accelerate data analysis and collaboration.</li>
-        
-        <li>Track OpenAI's academic program for updates on model access and usage guidelines.</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Expands the ecosystem of advanced AI users in academia, potentially driving new research methodologies and open-source contributions. Provides a benchmark for how major AI labs support scientific communities.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#llm</span>
-        
-        <span class="tag">#research</span>
-        
-        <span class="tag">#access</span>
-        
-        <span class="tag">#openai</span>
-        
-        <span class="tag">#science</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="14">
+    <div class="article-card" data-index="10">
       <div class="article-header">
         
         
@@ -1012,7 +787,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="15">
+    <div class="article-card" data-index="11">
       <div class="article-header">
         
         
@@ -1068,7 +843,173 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="16">
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/commit/b7e0c20b9ff7c2abfa2eed95ada9051307401158" target="_blank" rel="noopener">HF库回退CodeLlama分词器修复</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Revert "Fix CodeLlama tokenizer dropping leading whitespace on decode…</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span>2026-08-10T07:54:27+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        HuggingFace Transformers reverts a CodeLlama tokenizer fix that inadvertently broke special token matching in existing checkpoints due to normalization changes.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Reverts tokenizer normalization change that broke special token matching</li>
+        
+        <li>Fixes checkpoint compatibility issues for CodeLlama and related models</li>
+        
+        <li>Highlights risks of modifying pre-tokenizers without full backward compatibility tests</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures stability for developers deploying CodeLlama and other models via Transformers, preventing silent tokenization mismatches that degrade model performance.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#tokenizer</span>
+        
+        <span class="tag">#codellama</span>
+        
+        <span class="tag">#transformers</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/circles" target="_blank" rel="noopener">Circles利用OpenAI API优化电信服务</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Circles powers telco personalization with OpenAI technology</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-03T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Circles leverages OpenAI API and Codex to deliver AI-native telecom experiences, boosting ARPU by 22% and cutting churn by 9% while streamlining development.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Circles integrates OpenAI API and Codex for personalized telecom experiences</li>
+        
+        <li>Implementation drives 22% ARPU increase and 9% churn reduction</li>
+        
+        <li>AI-native workflow significantly improves internal development efficiency</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates tangible ROI and operational efficiency gains from integrating foundational LLM APIs into legacy telecom infrastructure, providing a benchmark for enterprise AI adoption.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#api</span>
+        
+        <span class="tag">#enterprise-ai</span>
+        
+        <span class="tag">#codex</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="14">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/chatgpt-for-academic-researchers" target="_blank" rel="noopener">OpenAI向10万名学者开放ChatGPT高级模型</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Accelerating scientific discovery with ChatGPT for Academic Researchers</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-29T10:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI announces free access to advanced ChatGPT models for 100,000 academic researchers to support scientific collaboration and discovery.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Apply for free access to advanced ChatGPT models as an academic researcher.</li>
+        
+        <li>Integrate ChatGPT into research workflows to accelerate data analysis and collaboration.</li>
+        
+        <li>Track OpenAI's academic program for updates on model access and usage guidelines.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands the ecosystem of advanced AI users in academia, potentially driving new research methodologies and open-source contributions. Provides a benchmark for how major AI labs support scientific communities.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#research</span>
+        
+        <span class="tag">#access</span>
+        
+        <span class="tag">#openai</span>
+        
+        <span class="tag">#science</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="15">
       <div class="article-header">
         
         
@@ -1124,7 +1065,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="17">
+    <div class="article-card" data-index="16">
       <div class="article-header">
         
         
@@ -1178,7 +1119,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="18">
+    <div class="article-card" data-index="17">
       <div class="article-header">
         
         
@@ -1229,6 +1170,60 @@ body {
         <span class="tag">#tokenizer</span>
         
         <span class="tag">#patch</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="18">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/how-the-world-is-putting-chatgpt-to-work" target="_blank" rel="noopener">OpenAI发布全球ChatGPT使用趋势数据</a>
+            
+          </div>
+          
+          <div class="article-subtitle">From asking to doing: How the world is putting ChatGPT to work</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-08-06T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI Signals data reveals global ChatGPT usage patterns, highlighting adoption trends and evolving user behavior across countries.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Global usage data shows ChatGPT adoption varies by country, with emerging markets leading growth.</li>
+        
+        <li>Usage patterns shift from simple queries to complex tasks, indicating deeper integration into workflows.</li>
+        
+        <li>Data provides insights for developers to tailor applications to regional user needs.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 This data offers a rare glimpse into real-world LLM adoption, guiding developers and businesses in optimizing deployment strategies and understanding market readiness.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#chatgpt</span>
+        
+        <span class="tag">#adoption</span>
+        
+        <span class="tag">#usage-trends</span>
+        
+        <span class="tag">#openai</span>
         
       </div>
       
@@ -1350,60 +1345,6 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-low">3</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://openai.com/index/disrupting-malicious-uses-of-ai-criminal-scam-operation" target="_blank" rel="noopener">OpenAI打击柬埔寨AI诈骗团伙</a>
-            
-          </div>
-          
-          <div class="article-subtitle">Disrupting a Criminal Scam Operation</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span>2026-07-31T00:00:00+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        OpenAI details the takedown of a Cambodia-based criminal network that leveraged ChatGPT for investment, romance, and impersonation scams.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Monitor ChatGPT usage patterns for automated phishing indicators.</li>
-        
-        <li>Implement stricter cross-border enforcement protocols for AI misuse.</li>
-        
-        <li>Track scam evolution to update model safety guardrails.</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Demonstrates real-world AI safety enforcement capabilities and the evolving threat landscape of generative AI in cybercrime.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#alignment</span>
-        
-        <span class="tag">#chatgpt</span>
-        
-        <span class="tag">#cybersecurity</span>
-        
-        <span class="tag">#misuse-detection</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="22">
-      <div class="article-header">
-        
-        
         <div class="score-badge score-low">2</div>
         
         <div class="article-title-area">
@@ -1449,6 +1390,60 @@ body {
         <span class="tag">#Codex</span>
         
         <span class="tag">#plugins</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="22">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/disrupting-malicious-uses-of-ai-criminal-scam-operation" target="_blank" rel="noopener">OpenAI打击柬埔寨AI诈骗团伙</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Disrupting a Criminal Scam Operation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+        <span>2026-07-31T00:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI details the takedown of a Cambodia-based criminal network that leveraged ChatGPT for investment, romance, and impersonation scams.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Monitor ChatGPT usage patterns for automated phishing indicators.</li>
+        
+        <li>Implement stricter cross-border enforcement protocols for AI misuse.</li>
+        
+        <li>Track scam evolution to update model safety guardrails.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates real-world AI safety enforcement capabilities and the evolving threat landscape of generative AI in cybercrime.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#alignment</span>
+        
+        <span class="tag">#chatgpt</span>
+        
+        <span class="tag">#cybersecurity</span>
+        
+        <span class="tag">#misuse-detection</span>
         
       </div>
       
@@ -1525,7 +1520,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-10 18:50 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-11 17:15 · Weekly AI Report Agent</div>
 
 </div>
 </body>

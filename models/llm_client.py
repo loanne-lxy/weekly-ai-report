@@ -44,7 +44,7 @@ class LLMClient:
             api_key=api_key or "none",  # "none" is fine for custom endpoints
             base_url=cfg.get("base_url", "http://localhost:11434/v1"),
             timeout=cfg.get("timeout", 120),  # seconds per LLM call
-            max_retries=2,  # retry on transient failures
+            max_retries=5,  # retry on transient failures
         )
 
         # LangSmith tracing (if configured)

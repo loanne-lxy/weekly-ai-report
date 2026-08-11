@@ -175,10 +175,15 @@ body {
   <div class="cat-header">
     <span class="icon">🔬</span>
     <h1>AI for Science</h1>
-    <span class="count-badge">34 篇</span>
+    <span class="count-badge">36 篇</span>
   </div>
 
   <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周AI for Science领域在分子相互作用表征、基因调控网络推断、材料缺陷预测、隐式模拟反向传播及变几何方程求解等方面取得突破，多项新型机器学习与算子学习方法显著提升了跨学科科学计算的精度、效率与泛化能力。
+  </div>
   
 
   <!-- Articles Container -->
@@ -189,53 +194,51 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-high">8</div>
+        <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://openai.com/index/ten-advances-in-mathematics" target="_blank" rel="noopener">OpenAI发布数学与理论计算机科学十大进展</a>
+            <a href="https://arxiv.org/abs/2608.02865" target="_blank" rel="noopener">提出浓度无关新范式，实现弱分子相互作用定量表征</a>
             
           </div>
           
-          <div class="article-subtitle">Ten advances in mathematics and theoretical computer science</div>
+          <div class="article-subtitle">A concentration-independent paradigm rendering weak interactions inherently quantifiable</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span>2026-08-01T00:00:00+00:00</span>
+        <span class="source">arXiv q-bio</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        OpenAI details ten breakthroughs in long-standing open problems across geometry, cryptography, and computational complexity.
+        Researchers propose a concentration-independent experimental paradigm that shifts control from molecule count to accessible volume, enabling quantitative measurement of weak millimolar-affinity molecular interactions previously limited by bulk concentration constraints.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Reports novel proofs and algorithmic improvements in geometry and cryptography</li>
+        <li>Shift experimental control from molecule count to accessible volume to bypass concentration limits</li>
         
-        <li>Highlights AI's expanding role in solving foundational theoretical computer science problems</li>
+        <li>Quantify weak millimolar-affinity interactions previously inaccessible to bulk methods</li>
         
-        <li>Provides open-access mathematical results that could influence future cryptographic standards</li>
+        <li>Apply new paradigm to improve cellular function modeling and drug target analysis</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Demonstrates AI's capability to tackle fundamental research, potentially accelerating breakthroughs in cryptography and algorithm design that underpin secure computing.</div>
+      <div class="why-matters">💡 Breaks a century-old biochemical measurement bottleneck, enabling precise quantification of weak interactions critical for drug discovery and cellular modeling.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#mathematics</span>
+        <span class="tag">#drugdiscovery</span>
         
-        <span class="tag">#cryptography</span>
+        <span class="tag">#moleculardynamics</span>
         
-        <span class="tag">#complexitytheory</span>
+        <span class="tag">#biochemistry</span>
         
-        <span class="tag">#aiforscience</span>
-        
-        <span class="tag">#openai</span>
+        <span class="tag">#quantification</span>
         
       </div>
       
@@ -249,49 +252,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06662" target="_blank" rel="noopener">MLIP跨几何结构零样本预测基准测试</a>
+            <a href="https://arxiv.org/abs/2608.09798" target="_blank" rel="noopener">FlowGRN 基于流匹配实现抗 dropout 的基因调控网络推断</a>
             
           </div>
           
-          <div class="article-subtitle">Cross-Geometry Transferability Assessment of Universal Machine Learning Interatomic Potentials: From Bulk Materials to Atomic Nanowires</div>
+          <div class="article-subtitle">FlowGRN: Scalable and Dropout-Robust Gene Regulatory Network Inference via Flow Matching-Based Trajectory Reconstruction (Technical Report)</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers benchmark 26 pretrained machine-learning interatomic potentials on a ZrO2 DFT dataset, revealing significant zero-shot performance degradation across different structural geometries, with ORB-V3 showing the best alignment-adjusted results.
+        FlowGRN combines conditional flow matching and score matching with dynGENIE3 to robustly infer gene regulatory networks from noisy scRNA-seq data, achieving state-of-the-art results on the BEELINE benchmark.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Benchmark 26 MLIPs on ZrO2 DFT data to assess zero-shot transferability across bulk to nanowire geometries.</li>
+        <li>Integrates conditional flow matching and score matching for robust trajectory reconstruction in scRNA-seq data.</li>
         
-        <li>Identify pronounced geometry-dependent performance degradation in foundation MLIPs without fine-tuning.</li>
+        <li>Introduces a dropout-resilient cell similarity measure to handle high-dimensional noise.</li>
         
-        <li>Apply reference-energy alignment to improve zero-shot predictions, with ORB-V3 achieving top metrics.</li>
+        <li>Achieves state-of-the-art performance on the BEELINE benchmark across synthetic and experimental datasets.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Highlights critical limitations in current foundation MLIPs for cross-geometry applications, guiding developers toward necessary alignment techniques or fine-tuning strategies for reliable atomistic simulations.</div>
+      <div class="why-matters">💡 Provides a scalable, noise-robust framework for GRN inference, enabling more accurate modeling of cellular dynamics from single-cell data without requiring temporal sequencing.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#MLIP</span>
+        <span class="tag">#aiforscience</span>
         
-        <span class="tag">#ZeroShot</span>
+        <span class="tag">#flowmatching</span>
         
-        <span class="tag">#MaterialsScience</span>
+        <span class="tag">#genomics</span>
         
-        <span class="tag">#Benchmark</span>
+        <span class="tag">#scrnaseq</span>
         
-        <span class="tag">#DFT</span>
+        <span class="tag">#benchmark</span>
         
       </div>
       
@@ -305,47 +308,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2605.16044" target="_blank" rel="noopener">QFAN量子生成模型突破高能物理模拟资源限制</a>
+            <a href="https://arxiv.org/abs/2608.07997" target="_blank" rel="noopener">小超胞电荷密度机器学习模型高效预测大超胞缺陷形成能</a>
             
           </div>
           
-          <div class="article-subtitle">Quantum Feature Amplification Network (QFAN) as An Autoregressive Quantum Generative Model</div>
+          <div class="article-subtitle">Predicting large-supercell defect formation energies from machine-learning charge density models trained on small supercells</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose QFAN, an autoregressive quantum generative model that decouples qubit count from image size, enabling efficient simulation of high-energy physics calorimeter showers on near-term quantum hardware.
+        Researchers propose a machine-learning charge density (MLCD) method that predicts large-supercell defect formation energies using only 96 small supercells, significantly improving data efficiency over traditional DFT and MLIP approaches.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Adopt block-wise autoregressive generation to decouple qubit count from image size.</li>
+        <li>Introduces MLCD method leveraging charge density for defect energy prediction</li>
         
-        <li>Use fixed-length pixel summaries to condition quantum circuits for scalable simulation.</li>
+        <li>Achieves high accuracy with only 96 small supercells (16-96 atoms)</li>
         
-        <li>Apply QFAN architecture to accelerate high-energy physics calorimeter shower modeling.</li>
+        <li>Overcomes DFT computational costs and MLIP data inefficiency bottlenecks</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Addresses a major computational bottleneck in high-energy physics data simulation. Provides a scalable quantum architecture that could accelerate Monte Carlo simulations for particle detectors.</div>
+      <div class="why-matters">💡 Provides a highly data-efficient pathway for computational materials science, enabling faster defect analysis without prohibitive DFT costs or massive MLIP training datasets.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#quantumcomputing</span>
+        <span class="tag">#ai_for_science</span>
         
-        <span class="tag">#generativemodel</span>
+        <span class="tag">#materials_science</span>
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#dft</span>
         
-        <span class="tag">#autoregressive</span>
+        <span class="tag">#charge_density</span>
+        
+        <span class="tag">#defect_prediction</span>
         
       </div>
       
@@ -359,47 +364,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.07401" target="_blank" rel="noopener">DynaCrys：动态空间群扩散晶体生成模型</a>
+            <a href="https://arxiv.org/abs/2608.08559" target="_blank" rel="noopener">提出求解器级微分方法，实现块隐式模拟的高效反向传播</a>
             
           </div>
           
-          <div class="article-subtitle">DynaCrys: Crystal Generation with Dynamic Space-Group Diffusion</div>
+          <div class="article-subtitle">Differentiate the Solver, Not the Equation: Reverse-Sweep Adjoints for Block Implicit Simulation</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        DynaCrys introduces a coupled symbolic diffusion model that jointly generates crystal symmetry, composition, and geometry by co-evolving space groups with Wyckoff occupations.
+        This paper introduces solver-level differentiation for block implicit simulation, computing discrete adjoints via reverse-sweep updates to overcome the memory and locality limitations of existing unrolled and equation-level implicit differentiation methods.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Adopt coupled symbolic diffusion to jointly model crystal symmetry, composition, and geometry.</li>
+        <li>提出求解器级微分框架，直接对执行求解器求导而非收敛方程</li>
         
-        <li>Leverage group-subgroup relations to ensure physically valid space-group transitions during generation.</li>
+        <li>采用反向扫描伴随更新，保留前向求解器的局部性并降低内存开销</li>
         
-        <li>Utilize a pretrained symmetry codebook to enforce legality constraints in the stochastic decoder.</li>
+        <li>适用于学习、控制与逆问题中的非线性隐式求解器梯度计算</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Advances computational materials discovery by enabling physically consistent, symmetry-aware crystal structure generation, accelerating the search for novel functional materials.</div>
+      <div class="why-matters">💡 Enables efficient gradient computation for complex implicit simulations without unrolling overhead or global Jacobian assembly, advancing differentiable physics and inverse design workflows.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#diffusion</span>
+        <span class="tag">#differentiablesimulation</span>
         
-        <span class="tag">#materialdiscovery</span>
+        <span class="tag">#adjointmethod</span>
         
-        <span class="tag">#generativedesign</span>
+        <span class="tag">#physicsml</span>
         
-        <span class="tag">#ai4science</span>
+        <span class="tag">#inversedesign</span>
         
       </div>
       
@@ -409,51 +414,51 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">6</div>
+        <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2601.18780" target="_blank" rel="noopener">物理信息GAN加速PET探测器光子传输模拟</a>
+            <a href="https://arxiv.org/abs/2608.08608" target="_blank" rel="noopener">ADEx-FNO提出环境域扩展框架，实现变几何傅里叶神经算子统一求解</a>
             
           </div>
           
-          <div class="article-subtitle">OptiGAN for Crystal Arrays: Physics-Informed Generative Modeling of Optical Photon Transport in PET Detector Arrays</div>
+          <div class="article-subtitle">ADEx-FNO: A Unified Ambient-Domain Framework for Fourier Neural Operators on Varying Geometries</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose a physics-informed conditional GAN with Fourier feature encoding to accelerate optical photon transport simulations for PET detector arrays, replacing computationally expensive Monte Carlo methods.
+        Researchers propose ADEx-FNO, a deterministic framework that extends Fourier neural operators to handle varying geometries and independent discretizations by embedding domains in a fixed ambient hypercube using signed distance functions.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Replaces Monte Carlo simulations for PET detector arrays using a conditional GAN.</li>
+        <li>Introduces ADEx-FNO to handle varying geometries without modifying core FNO layers.</li>
         
-        <li>Introduces Fourier feature encoding and learnable latent mapping for stable array-level training.</li>
+        <li>Uses signed distance functions to embed domains in a fixed ambient hypercube.</li>
         
-        <li>Enforces unit-sphere state space constraints via a physics-informed loss term.</li>
+        <li>Enables deterministic extension, latent grid processing, and interpolation to target discretizations.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Accelerates optical simulation for medical imaging hardware design, enabling faster iteration on PET detector arrays without sacrificing physical accuracy.</div>
+      <div class="why-matters">💡 This framework overcomes a major limitation of FNOs in scientific computing, enabling efficient spectral learning across complex, non-uniform geometries without retraining or architectural changes.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#physicsinformedml</span>
+        <span class="tag">#fourier_neural_operators</span>
         
-        <span class="tag">#gan</span>
+        <span class="tag">#scientific_ml</span>
         
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#pde_solving</span>
         
-        <span class="tag">#medicalimaging</span>
+        <span class="tag">#simulation</span>
         
       </div>
       
@@ -467,47 +472,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2603.20115" target="_blank" rel="noopener">基于Hopfield模式多重性的蛋白质生成方法</a>
+            <a href="https://arxiv.org/abs/2608.08479" target="_blank" rel="noopener">SuperNeuroMAT 开源脉冲神经网络模拟器，单机高效仿真十万神经元</a>
             
           </div>
           
-          <div class="article-subtitle">Conditioning Protein Generation via Hopfield Pattern Multiplicity</div>
+          <div class="article-subtitle">SuperNeuroMAT: An Efficient Matrix-based Simulator for Spiking Neural Networks</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv q-bio</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose a training-free stochastic-attention sampler that conditions protein generation on specific Pfam subsets by adjusting Hopfield pattern multiplicities, achieving exact latent-space conditioning.
+        SuperNeuroMAT is an open-source Python simulator for spiking neural networks that uses a matrix-based approach to efficiently simulate up to 100,000 neurons on standard hardware, outperforming existing frameworks.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Implement training-free stochastic-attention sampler for conditional protein generation.</li>
+        <li>Introduces matrix-based LIF neuron modeling for dense/sparse execution</li>
         
-        <li>Adjust Hopfield pattern multiplicity ratios to shift Boltzmann distributions toward target subsets.</li>
+        <li>Simulates 10k-100k neurons on standard laptops without specialized hardware</li>
         
-        <li>Validate latent-space conditioning across five Pfam families to isolate sampling losses.</li>
+        <li>Open-source Python framework outperforming four established SNN simulators</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a mathematically grounded, training-free approach to condition protein generation on limited labeled data, advancing computational biology and generative AI for molecular design.</div>
+      <div class="why-matters">💡 Lowers the barrier to entry for neuromorphic AI research by enabling large-scale SNN simulation on commodity hardware, accelerating brain-inspired computing development.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#proteingeneration</span>
+        <span class="tag">#snn</span>
         
-        <span class="tag">#hopfieldnetwork</span>
+        <span class="tag">#simulation</span>
         
-        <span class="tag">#generativeai</span>
+        <span class="tag">#opensource</span>
         
-        <span class="tag">#computationalbiology</span>
+        <span class="tag">#neuromorphiccomputing</span>
         
       </div>
       
@@ -521,47 +526,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2512.13138" target="_blank" rel="noopener">量子计算与神经网络结合推导普适泛函</a>
+            <a href="https://arxiv.org/abs/2608.07570" target="_blank" rel="noopener">COMEX基准：基于构图的可解释美学图像裁剪框架</a>
             
           </div>
           
-          <div class="article-subtitle">A Joint Quantum Computing, Neural Network and Embedding Theory Approach for the Derivation of the Universal Functional</div>
+          <div class="article-subtitle">COMEX: A Composition-Grounded Benchmark and Learning Framework for Explainable Aesthetic Image Cropping</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose a hybrid quantum-classical neural network method combined with density matrix embedding theory to derive reusable universal functionals for simulating interacting quantum particles.
+        Introduces COMEX, a benchmark and framework for explainable aesthetic image cropping that jointly learns crop localization, composition categorization, and grounded explanations.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Merges quantum algorithms and deep neural networks to derive universal functionals.</li>
+        <li>Introduces COMEX benchmark with 33k quadruples for crop-composition-explanation</li>
         
-        <li>Uses embedding theory to broaden Hamiltonian coverage without extra quantum resources.</li>
+        <li>Reformulates aesthetic cropping as a structured joint learning problem</li>
         
-        <li>Enables functional reuse across identical fragment systems, boosting simulation efficiency.</li>
+        <li>Addresses post-hoc explanation limitations by grounding reasoning in composition</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Advances AI-driven quantum chemistry simulations by reducing quantum resource overhead. Enables transferable functionals that accelerate materials and molecular modeling.</div>
+      <div class="why-matters">💡 Provides a structured approach to explainable image cropping, bridging the gap between aesthetic localization and interpretable composition-based reasoning.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#quantumcomputing</span>
+        <span class="tag">#computervision</span>
         
-        <span class="tag">#neuralnetworks</span>
+        <span class="tag">#imagecropping</span>
         
-        <span class="tag">#scientificml</span>
+        <span class="tag">#explainability</span>
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#benchmark</span>
+        
+        <span class="tag">#aesthetics</span>
         
       </div>
       
@@ -575,49 +582,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.07081" target="_blank" rel="noopener">ML势函数结合EXAFS解析hcp锌晶格动力学</a>
+            <a href="https://arxiv.org/abs/2608.08415" target="_blank" rel="noopener">基于DFT与MD模拟的二维六方硼磷化物热力学与力学特性研究</a>
             
           </div>
           
-          <div class="article-subtitle">Local lattice dynamics of hcp zinc from EXAFS and machine-learning interatomic potentials</div>
+          <div class="article-subtitle">Thermo-mechanical Characterization of 2D hexagonal Boron Phosphide (h-BP)</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers combine EXAFS spectroscopy with machine-learning interatomic potentials and reverse Monte Carlo simulations to map the anisotropic lattice dynamics and force constants of hcp zinc.
+        This arXiv paper presents a DFT-derived molecular dynamics study of 2D hexagonal boron phosphide, revealing significant temperature-dependent mechanical anisotropy under tensile loading.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Integrates EXAFS spectroscopy with ML interatomic potentials for shell-resolved thermal motion analysis.</li>
+        <li>DFT-derived MD potential enables accurate thermo-mechanical simulation of 2D h-BP.</li>
         
-        <li>Applies reverse Monte Carlo to quantify force constant anisotropy in hcp zinc.</li>
+        <li>Tensile tests from 300K to 900K reveal strong directional anisotropy in strength and modulus.</li>
         
-        <li>Validates ML-driven atomistic modeling against experimental data for complex metal characterization.</li>
+        <li>Findings support h-BP's viability for high-temperature electronic and sensing applications.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Shows how ML interatomic potentials can bridge experimental spectroscopy and atomistic simulations, enabling precise mapping of anisotropic lattice dynamics in complex metals.</div>
+      <div class="why-matters">💡 Provides foundational computational data for integrating 2D h-BP into next-gen flexible electronics and high-temperature sensors, guiding experimental synthesis and device design.</div>
       
       
       <div class="article-tags">
         
+        <span class="tag">#molecular_dynamics</span>
+        
+        <span class="tag">#dft</span>
+        
         <span class="tag">#materials_science</span>
         
-        <span class="tag">#interatomic_potentials</span>
-        
         <span class="tag">#simulation</span>
-        
-        <span class="tag">#physics</span>
-        
-        <span class="tag">#machine_learning</span>
         
       </div>
       
@@ -631,47 +636,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06413" target="_blank" rel="noopener">分子动力学揭示PIM膜气体渗透机制</a>
+            <a href="https://arxiv.org/abs/2604.21431" target="_blank" rel="noopener">JAX-BEM：基于可微边界元法的声学形状梯度优化</a>
             
           </div>
           
-          <div class="article-subtitle">Competing Energetics Govern Gas Permeation in Polymer of Intrinsic Microporosity (PIM) Membranes</div>
+          <div class="article-subtitle">JAX-BEM: Gradient-Based Acoustic Shape Optimisation via a Differentiable Boundary Element Method</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers use non-equilibrium molecular dynamics simulations to reveal how temperature and gas-solid interactions govern permeation mechanisms in PIM-1 polymer membranes, challenging the traditional solution-diffusion model.
+        Researchers introduce JAX-BEM, a differentiable Boundary Element Method built on JAX that enables efficient gradient-based acoustic shape optimization and inverse problem solving.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Use NEMD simulations to map temperature-dependent gas transport shifts in PIM-1 membranes.</li>
+        <li>Leverages JAX automatic differentiation for differentiable BEM implementation</li>
         
-        <li>Leverage gas-solid interaction data to bypass traditional solution-diffusion model limitations.</li>
+        <li>Enables fast gradient-based optimization of acoustic geometry and materials</li>
         
-        <li>Apply findings to guide bottom-up design of high-efficiency polymer separation membranes.</li>
+        <li>Facilitates solving complex inverse problems in engineering design</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a mechanistic understanding that bridges computational modeling and materials engineering, enabling more rational design of next-generation gas separation membranes beyond empirical trial-and-error.</div>
+      <div class="why-matters">💡 Bridges differentiable programming with classical numerical methods, offering a scalable path for physics-informed design optimization without relying on traditional finite element solvers.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#molecular_dynamics</span>
+        <span class="tag">#differentiablephysics</span>
         
-        <span class="tag">#materials_science</span>
+        <span class="tag">#jax</span>
         
-        <span class="tag">#gas_separation</span>
+        <span class="tag">#acousticoptimization</span>
         
-        <span class="tag">#computational_physics</span>
+        <span class="tag">#simulation</span>
+        
+        <span class="tag">#inversesolving</span>
         
       </div>
       
@@ -685,47 +692,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.07445" target="_blank" rel="noopener">置换不变神经网络预测FCC高熵合金空位形成能</a>
+            <a href="https://arxiv.org/abs/2608.07760" target="_blank" rel="noopener">XClipGS提出医学体数据高斯泼溅精确半空间裁剪算法</a>
             
           </div>
           
-          <div class="article-subtitle">Permutation invariant neural network prediction of vacancy formation under deformation and varying chemical environment in FCC high entropy alloys</div>
+          <div class="article-subtitle">XClipGS: Exact Half-Space Clipping for Medical Volume Gaussian Splatting</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose a permutation-invariant neural network framework to efficiently predict strain-dependent vacancy formation energies in FCC high-entropy alloys, capturing coupled chemical and mechanical effects.
+        XClipGS introduces a closed-form, parameter-free clipping operator for medical volume Gaussian splatting, enabling exact half-space rendering without auxiliary networks.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Deploy permutation-invariant NN framework to predict vacancy energies in FCC HEAs.</li>
+        <li>Decouples render-time clipping from interior supervision for medical volumes</li>
         
-        <li>Combine geometric descriptors with deformation invariants to model coupled strain-chemistry effects.</li>
+        <li>Derives closed-form per-pixel operator using conditional Gaussian CDF</li>
         
-        <li>Replace costly atomistic simulations with scalable ML for diffusion and phase stability analysis.</li>
+        <li>Eliminates learned clipping parameters and auxiliary networks</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Accelerates materials discovery for high-entropy alloys by replacing expensive atomistic simulations with fast ML predictions. This enables efficient screening of radiation-resistant and mechanically robust alloy compositions.</div>
+      <div class="why-matters">💡 Enables precise, interactive 3D visualization of medical scans without the artifacts or computational overhead of conventional splatting clipping methods, advancing AI-driven medical imaging tools.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#ai_for_science</span>
+        <span class="tag">#gaussiansplatting</span>
         
-        <span class="tag">#materials_science</span>
+        <span class="tag">#medicalimaging</span>
         
-        <span class="tag">#neural_network</span>
+        <span class="tag">#3drendering</span>
         
-        <span class="tag">#high_entropy_alloys</span>
+        <span class="tag">#closedform</span>
+        
+        <span class="tag">#computervision</span>
         
       </div>
       
@@ -739,47 +748,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2601.07926" target="_blank" rel="noopener">长棱柱几何下自旋玻璃临界维度计算方法</a>
+            <a href="https://arxiv.org/abs/2608.07559" target="_blank" rel="noopener">MVMD多视角镜面检测算法优化三维重建流程并开源首套数据集</a>
             
           </div>
           
-          <div class="article-subtitle">Low energy excitations in a long prism geometry: testing the lower critical dimension of the Ising spin glass</div>
+          <div class="article-subtitle">MVMD: A Multi-View Approach for Enhanced Mirror Detection</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Proposes a computational scaling method using prism geometry to determine the lower critical dimension and multifractal spectrum for Ising spin glasses.
+        Researchers introduce MVMD, a multi-view mirror detection method that leverages cross-view associations to prevent 3D reconstruction artifacts, accompanied by the first dedicated benchmark dataset.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces prism geometry scaling to extract lower critical dimension from correlation length decay</li>
+        <li>Proposes MVMD to detect mirrors across multiple views before 3D reconstruction</li>
         
-        <li>Computes multifractal spectrum for Ising spin glass correlation functions at zero field</li>
+        <li>Exploits geometric consistency between views to overcome single-image detection limits</li>
         
-        <li>Provides a general framework for analyzing low-energy excitations in low-temperature phases</li>
+        <li>Releases the first benchmark dataset tailored for multi-view mirror detection tasks</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Offers a robust computational framework for statistical physics simulations, enabling precise determination of critical dimensions in complex disordered systems.</div>
+      <div class="why-matters">💡 Addresses a persistent failure mode in photogrammetry and neural rendering pipelines, enabling more robust 3D scene modeling for simulation and digital twin workflows.</div>
       
       
       <div class="article-tags">
         
+        <span class="tag">#3dreconstruction</span>
+        
+        <span class="tag">#computervision</span>
+        
+        <span class="tag">#multiview</span>
+        
+        <span class="tag">#dataset</span>
+        
         <span class="tag">#simulation</span>
-        
-        <span class="tag">#computationalphysics</span>
-        
-        <span class="tag">#statisticalmechanics</span>
-        
-        <span class="tag">#spinglass</span>
         
       </div>
       
@@ -793,49 +804,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06877" target="_blank" rel="noopener">自主优化复杂氧化物用于热化学燃料生产</a>
+            <a href="https://arxiv.org/abs/2608.07554" target="_blank" rel="noopener">数据集构成对紧凑型YOLO无人机野火检测性能的影响研究</a>
             
           </div>
           
-          <div class="article-subtitle">Autonomous Optimization of Complex Oxides for Thermochemical Fuel Production</div>
+          <div class="article-subtitle">Impact of Dataset Composition on Embedded Real-Time UAV Wildfire Detection Using Compact YOLO Models</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose an autonomous optimization framework for designing complex multi-cation oxides to maximize thermochemical fuel production efficiency from H2O and CO2 splitting.
+        This arXiv study evaluates how mixing real and AI-generated wildfire images with augmentation affects compact YOLO performance on resource-constrained UAVs, demonstrating that hybrid datasets significantly improve real-time detection accuracy.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Deploys autonomous optimization to co-optimize composition and defects in multi-cation oxides.</li>
+        <li>Hybrid datasets combining real and AI-generated images outperform purely real-world training sets.</li>
         
-        <li>Targets simultaneous thermodynamic and kinetic constraints for efficient H2O/CO2 splitting.</li>
+        <li>Image augmentation paired with synthetic data mixing optimizes detection under edge constraints.</li>
         
-        <li>Bypasses traditional trial-and-error limits in high-dimensional materials design space.</li>
+        <li>Compact YOLO architectures maintain real-time inference speeds while leveraging diverse training data.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Accelerates discovery of sustainable fuel production materials by automating the co-optimization of composition, defects, and phase stability in complex oxides.</div>
+      <div class="why-matters">💡 Validates synthetic data as a cost-effective strategy for data-scarce edge deployment, offering a practical blueprint for critical monitoring systems like wildfire detection.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#materialsdiscovery</span>
+        <span class="tag">#computervision</span>
         
-        <span class="tag">#autonomousoptimization</span>
+        <span class="tag">#syntheticdata</span>
         
-        <span class="tag">#thermochemicalfuel</span>
+        <span class="tag">#edgeai</span>
         
-        <span class="tag">#highentropyoxides</span>
+        <span class="tag">#yolo</span>
         
-        <span class="tag">#aiforscience</span>
+        <span class="tag">#dataaugmentation</span>
         
       </div>
       
@@ -849,49 +860,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06910" target="_blank" rel="noopener">振荡稀薄气体流动的伴随形状优化方法</a>
+            <a href="https://arxiv.org/abs/2608.07561" target="_blank" rel="noopener">XEns-CKD：基于可解释集成ViT的慢性肾病分期超声检测方法</a>
             
           </div>
           
-          <div class="article-subtitle">Adjoint shape optimization of oscillatory rarefied gas flows</div>
+          <div class="article-subtitle">XEns-CKD: An Explainable Ensemble-Based Approach for Chronic Kidney Disease Stage Detection</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        A new asymptotic-preserving adjoint shape optimization method accelerates Boltzmann kinetic equation convergence for drag reduction in vibrating MEMS, ensuring stability and high kinetic accuracy across rarefaction regimes.
+        Researchers propose XEns-CKD, an explainable ensemble Vision Transformer model that classifies chronic kidney disease stages from ultrasound images with high diagnostic accuracy.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Implement asymptotic-preserving adjoint method for MEMS drag reduction</li>
+        <li>Deploy XEns-CKD ensemble ViT model for automated CKD stage classification via ultrasound.</li>
         
-        <li>Accelerate Boltzmann equation convergence via macroscopic synthetic equations</li>
+        <li>Utilize built-in explainability modules to highlight clinically relevant regions in scans.</li>
         
-        <li>Validate numerical stability with spectral radius analysis below 0.5</li>
+        <li>Leverage high macro F1 and Youden index scores to support early clinical intervention.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a robust computational framework for simulating multiscale rarefied gas flows, enabling more efficient design of micro-electro-mechanical systems without sacrificing kinetic accuracy.</div>
+      <div class="why-matters">💡 Delivers a transparent, high-accuracy diagnostic tool for early CKD detection, directly addressing the clinical demand for interpretable medical AI.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#cfd</span>
+        <span class="tag">#visiontransformer</span>
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#explainableai</span>
         
-        <span class="tag">#kinetictheory</span>
+        <span class="tag">#medicalimaging</span>
         
-        <span class="tag">#shapeoptimization</span>
-        
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#ensemblearning</span>
         
       </div>
       
@@ -905,49 +914,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2512.10755" target="_blank" rel="noopener">一维Z2格点规范理论相结构研究</a>
+            <a href="https://arxiv.org/abs/2608.07572" target="_blank" rel="noopener">BRACE方法通过重心有理预测优化扩散Transformer推理</a>
             
           </div>
           
-          <div class="article-subtitle">Phase structure of the one-dimensional $\mathbb{Z}_2$ lattice gauge theory with second nearest-neighbor interactions</div>
+          <div class="article-subtitle">BRACE: Taming Sharp Irregularities via Barycentric Rational Forecasting for Fast Diffusion Transformers Inference</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers use DMRG and matrix product states to map the phase diagram of a 1D Z2 lattice gauge theory with second nearest-neighbor interactions, identifying transitions between Luttinger liquid and Mott insulator phases.
+        Researchers propose BRACE, a barycentric rational forecasting method that stabilizes temporal feature caching to accelerate Diffusion Transformer inference without quality degradation.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Maps ground-state phase diagram using DMRG and matrix product states</li>
+        <li>Replaces unstable polynomial forecasting with barycentric rational functions</li>
         
-        <li>Analyzes impact of second nearest-neighbor coupling on LL and MI phases</li>
+        <li>Handles sharp irregularities in DiT feature trajectories for high-speed generation</li>
         
-        <li>Computes charge gap, entanglement entropy, and correlation functions</li>
+        <li>Enables faster inference while maintaining high-fidelity image/video output</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides precise numerical benchmarks for quantum many-body systems, advancing computational methods for simulating lattice gauge theories relevant to quantum computing and condensed matter physics.</div>
+      <div class="why-matters">💡 Addresses the critical compute bottleneck in DiT deployment, enabling practical high-speed generation without sacrificing visual quality.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#dmrg</span>
+        <span class="tag">#diffusion</span>
         
-        <span class="tag">#tensornetworks</span>
+        <span class="tag">#inference</span>
         
-        <span class="tag">#quantummanybody</span>
+        <span class="tag">#acceleration</span>
         
-        <span class="tag">#computationalphysics</span>
-        
-        <span class="tag">#latticegaugetheory</span>
+        <span class="tag">#dit</span>
         
       </div>
       
@@ -961,47 +968,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2602.18685" target="_blank" rel="noopener">极化光传输随机矩阵模拟新框架</a>
+            <a href="https://arxiv.org/abs/2608.08357" target="_blank" rel="noopener">基于高斯过程与主动学习扩展S0方法计算多组分混合物化学势</a>
             
           </div>
           
-          <div class="article-subtitle">Extended scattering channels for random matrix simulations of polarized light transport</div>
+          <div class="article-subtitle">Chemical potentials from structure factors: I. Neutral multi-component mixtures</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Presents a random matrix simulation framework using extended scattering channels to model polarized light transport through disordered media, offering rigorous scattering matrix correlation analysis.
+        Researchers generalize the S0 method to compute chemical potentials in neutral multi-component mixtures using molecular dynamics, Gaussian process integration, and active learning.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces extended scattering channels for angular spectral decomposition</li>
+        <li>Extend S0 method to neutral multi-component mixtures for accurate chemical potential extraction from MD simulations.</li>
         
-        <li>Provides rigorous treatment of scattering matrix correlations in disordered media</li>
+        <li>Implement Gaussian process integration with active learning to efficiently sample high-dimensional compositional spaces.</li>
         
-        <li>Offers novel geometric insights into the optical memory effect</li>
+        <li>Provide a scalable statistical framework for thermodynamic property prediction in complex material systems.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Advances computational optics by enabling accurate, flexible modeling of polarized light in complex scattering environments, with direct applications in biomedical imaging and material characterization.</div>
+      <div class="why-matters">💡 This method accelerates accurate thermodynamic property prediction for complex materials and chemical systems, reducing reliance on expensive free energy calculations in computational chemistry and materials science.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#moleculardynamics</span>
         
-        <span class="tag">#computational-physics</span>
+        <span class="tag">#activelearning</span>
         
-        <span class="tag">#optics</span>
+        <span class="tag">#gaussianprocess</span>
         
-        <span class="tag">#random-matrix</span>
+        <span class="tag">#thermodynamics</span>
         
       </div>
       
@@ -1015,49 +1022,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2410.23517" target="_blank" rel="noopener">异构伊辛机多处理架构HETRI</a>
+            <a href="https://arxiv.org/abs/2608.08088" target="_blank" rel="noopener">基于随机森林与SOAP描述符的铈基化合物磁候选材料筛选框架</a>
             
           </div>
           
-          <div class="article-subtitle">HETRI: Heterogeneous Ising Multiprocessing</div>
+          <div class="article-subtitle">Machine Learning Framework for Magnetic Candidate Discovery in Cerium-Based Compounds</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers propose HETRI, a heterogeneous multiprocessing architecture for Ising machines that leverages physical spin networks to solve complex combinatorial optimization problems more efficiently.
+        Researchers propose a physics-guided machine learning framework using Random Forest and SOAP descriptors to efficiently screen cerium-based crystal structures for promising Ising ferromagnets.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Implement HETRI for heterogeneous Ising machine multiprocessing.</li>
+        <li>部署随机森林模型结合SOAP描述符快速筛选铈基晶体结构</li>
         
-        <li>Map optimization problems to physical spin networks.</li>
+        <li>构建物理引导计算框架精准预测单轴磁各向异性特征</li>
         
-        <li>Deploy hardware-accelerated Ising solvers for complex tasks.</li>
+        <li>提供可复现的自动化流程加速高性能磁体材料研发</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a concrete hardware-software co-design pathway for combinatorial optimization, enabling faster convergence for logistics, materials discovery, and quantum-classical hybrid workflows.</div>
+      <div class="why-matters">💡 Provides a scalable, physics-informed ML approach to accelerate the discovery of abundant-lanthanide magnetic materials, significantly reducing computational costs compared to traditional DFT screening.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#isingmachine</span>
-        
-        <span class="tag">#combinatorialoptimization</span>
-        
-        <span class="tag">#hardwareacceleration</span>
-        
-        <span class="tag">#quantumcomputing</span>
-        
         <span class="tag">#aiforscience</span>
+        
+        <span class="tag">#materialsdiscovery</span>
+        
+        <span class="tag">#randomforest</span>
+        
+        <span class="tag">#physicsinformedml</span>
         
       </div>
       
@@ -1071,47 +1076,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2607.18019" target="_blank" rel="noopener">中蒙稀土能源供应链动态计算模型</a>
+            <a href="https://arxiv.org/abs/2608.07567" target="_blank" rel="noopener">fNIRS自闭症分类跨时间窗口迁移基准与视觉架构评估</a>
             
           </div>
           
-          <div class="article-subtitle">Modeling rare-earth and energy materials supply chains under theoretical China-outer-Mongolia political reunification scenarios</div>
+          <div class="article-subtitle">Temporal Generalization in fNIRS-Based Autism Classification: A Cross-Time-Window Transfer Benchmark</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv paper presents a 10-year dynamic Stackelberg supply chain model analyzing rare-earth and energy material flows under theoretical China-Outer Mongolia reunification scenarios.
+        Researchers formalize a cross-time-window transfer benchmark for fNIRS-based autism classification, evaluating vision architectures and adaptation strategies to address temporal distribution shifts in hemodynamic responses.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Develops a 10-year dynamic partial equilibrium Stackelberg model for critical mineral supply chains.</li>
+        <li>Introduces cross-time-window transfer protocol to handle hemodynamic delay variations in fNIRS data.</li>
         
-        <li>Integrates infrastructure constraints, capital accumulation, and Leontief production functions.</li>
+        <li>Benchmarks three vision architectures with zero-shot baselines and eight adaptation strategies.</li>
         
-        <li>Quantifies supply volatility and security risks across Mongolian, Chinese, and global markets.</li>
+        <li>Evaluates temporal distribution shift impacts on ASD classification and tests mitigation strategies.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a rigorous computational framework for assessing geopolitical impacts on critical mineral supply chains, aiding policy and industrial planning for clean energy transitions.</div>
+      <div class="why-matters">💡 Addresses a critical real-world challenge in neuroimaging AI where temporal misalignment degrades model performance, providing a standardized benchmark for robust clinical deployment.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#ai_for_science</span>
         
-        <span class="tag">#supplychain</span>
+        <span class="tag">#transfer_learning</span>
         
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#biomedical_ai</span>
         
-        <span class="tag">#energymaterials</span>
+        <span class="tag">#benchmark</span>
         
       </div>
       
@@ -1125,47 +1130,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2511.16603" target="_blank" rel="noopener">扩展哈巴德模型电荷有序态与相图研究</a>
+            <a href="https://arxiv.org/abs/2608.07574" target="_blank" rel="noopener">融合Swin Transformer与临床元数据的皮肤病变多模态分类框架</a>
             
           </div>
           
-          <div class="article-subtitle">Charge-Ordered States and the Phase Diagram of the Extended Hubbard Model on the Bethe lattice</div>
+          <div class="article-subtitle">Multimodal Skin Lesion Classification with Swin Transformer and Clinical Metadata Fusion</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers map the finite-temperature phase diagram of the extended Hubbard model on a Bethe lattice, identifying charge-ordered insulating, metallic, and non-ordered states using Hartree mean-field approximation.
+        A new multimodal framework fuses Swin Transformer image features with clinical metadata to improve skin lesion classification, achieving 92.55% accuracy and 91.33% macro F1-score on public datasets.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Identifies three ground states: charge-ordered insulating, metallic, and non-ordered phases.</li>
+        <li>Adopt Swin Transformer with clinical metadata fusion to mitigate class imbalance in dermatology.</li>
         
-        <li>Maps finite-temperature phase diagrams using Hartree mean-field approximation.</li>
+        <li>Leverage temperature scaling post-hoc calibration to enhance model confidence and reliability.</li>
         
-        <li>Shows onsite repulsion suppresses charge ordering and alters metallicity.</li>
+        <li>Achieve 92.55% accuracy and 91.33% macro F1-score on public skin lesion datasets.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides fundamental insights into strongly correlated electron systems, informing materials design and quantum simulation benchmarks.</div>
+      <div class="why-matters">💡 Addresses critical challenges in automated dermatology like class imbalance and intra-class variability, providing a reliable, calibrated diagnostic aid that could streamline early skin cancer detection workflows.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#multimodal</span>
         
-        <span class="tag">#condensedmatter</span>
+        <span class="tag">#transformer</span>
         
-        <span class="tag">#phasediagram</span>
+        <span class="tag">#medicalai</span>
         
-        <span class="tag">#meanfieldapproximation</span>
+        <span class="tag">#classification</span>
         
       </div>
       
@@ -1179,47 +1184,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06895" target="_blank" rel="noopener">ML势函数揭示固态电解质结构与传输性能关联</a>
+            <a href="https://arxiv.org/abs/2608.09382" target="_blank" rel="noopener">坐标残差物理驱动神经网络实现三维电磁逆散射重建</a>
             
           </div>
           
-          <div class="article-subtitle">Local Structure Dictates Ionic Transport and Mechanical Properties in Glassy Solid Electrolytes for Lithium Batteries</div>
+          <div class="article-subtitle">Coordinate-Residual Physics-Driven Neural Network for Electromagnetic Inverse Scattering</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers use machine learning interatomic potentials and molecular dynamics simulations to uncover how local atomic structures in glassy solid electrolytes dictate ionic transport and mechanical stability for lithium batteries.
+        Researchers propose CRPDNN, a coordinate-residual physics-driven neural network that directly reconstructs 3D electromagnetic inverse scattering problems without unstable preliminary region selection.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>ML interatomic potentials enable accurate MD simulations of complex glassy electrolyte networks.</li>
+        <li>Introduces CRPDNN to solve 3D electromagnetic inverse scattering without preliminary region selection.</li>
         
-        <li>Local B-S and P-S network configurations directly control ionic conductivity and mechanical stability.</li>
+        <li>Uses normalized spatial coordinates and residual convolution to stabilize reconstruction.</li>
         
-        <li>Provides a computational framework for designing next-gen solid-state battery materials.</li>
+        <li>Reduces computational cost and improves accuracy under noisy measurement conditions.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Bridges computational materials science and battery development, offering a data-driven pathway to optimize solid electrolytes without costly trial-and-error experimentation.</div>
+      <div class="why-matters">💡 Provides a stable, data-efficient framework for solving ill-posed electromagnetic inverse problems, accelerating computational physics and radar imaging applications.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#ai_for_science</span>
+        <span class="tag">#pin</span>
         
-        <span class="tag">#molecular_dynamics</span>
+        <span class="tag">#inverse_scattering</span>
         
-        <span class="tag">#materials_discovery</span>
+        <span class="tag">#electromagnetics</span>
         
-        <span class="tag">#solid_state_batteries</span>
+        <span class="tag">#3d_imaging</span>
         
       </div>
       
@@ -1233,47 +1238,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06759" target="_blank" rel="noopener">DFT+U+V修正精准预测钙钛矿光学各向异性</a>
+            <a href="https://arxiv.org/abs/2608.08419" target="_blank" rel="noopener">FORTVSH开源模块发布：支持矢量球谐函数高效计算与MHD模拟</a>
             
           </div>
           
-          <div class="article-subtitle">Optical Anisotropy and Phase Matching in Non-Centrosymmetric Perovskite Oxides from DFT+U and DFT+U+V Functionals</div>
+          <div class="article-subtitle">FORTVSH: A Fortran Module For Vector Spherical Harmonics Computations</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Study shows DFT+U+V functionals accurately restore optical anisotropy in perovskite oxides, outperforming standard DFT+U for photonic material modeling.
+        Researchers release FORTVSH, an open-source Fortran module providing efficient numerical routines for vector spherical harmonics computations to accelerate MHD simulations in geophysics and astrophysics.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Use DFT+U+V over DFT+U to accurately model optical anisotropy in perovskite oxides.</li>
+        <li>Provides open-source Fortran routines for efficient vector spherical harmonics evaluation</li>
         
-        <li>Incorporate intersite Hubbard corrections to prevent suppression of optoelectronic responses.</li>
+        <li>Optimized for HPC spectral analysis and magnetohydrodynamics simulations</li>
         
-        <li>Select appropriate orbital manifolds to improve phase-matching predictions in non-centrosymmetric crystals.</li>
+        <li>Establishes theoretical foundation and addresses computational bottlenecks in curvilinear coordinates</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Establishes a reliable computational protocol for photonic material design, enabling faster discovery of quantum and optical components without costly experimental iteration.</div>
+      <div class="why-matters">💡 Enables faster, more accurate spectral analysis and MHD simulations in geophysics and astrophysics by providing optimized, accessible computational routines for vector spherical harmonics.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#dft</span>
+        <span class="tag">#ScientificComputing</span>
         
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#HPC</span>
         
-        <span class="tag">#materialsscience</span>
+        <span class="tag">#MHD</span>
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#Fortran</span>
         
       </div>
       
@@ -1287,47 +1292,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2602.21787" target="_blank" rel="noopener">蛋白质骨架谱分析揭示螺旋-卷曲边界</a>
+            <a href="https://arxiv.org/abs/2608.08071" target="_blank" rel="noopener">多模态深度学习预测Mg/LPSO合金三维应变局部化分布</a>
             
           </div>
           
-          <div class="article-subtitle">Spectral analysis of protein backbone geometry reveals abrupt helix--coil boundaries</div>
+          <div class="article-subtitle">Multimodal deep learning framework to predict strain localization of Mg/LPSO two-phase alloys</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv q-bio</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers apply discrete Hasimoto mapping to protein Cα backbones, using spectral entropy and integrability residuals to accurately distinguish helix-coil boundaries with ROC AUC >0.71.
+        Researchers propose a multimodal deep learning framework that predicts 3D strain localization in Mg/LPSO alloys using X-ray CT microstructure images and topological descriptors.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Apply discrete Hasimoto map to convert 3D Cα geometry into 1D effective potential</li>
+        <li>Predicts 3D strain distribution from X-ray CT microstructure images</li>
         
-        <li>Use spectral entropy to distinguish low-entropy helical segments from broadband coil fluctuations</li>
+        <li>Extracts phase volume, persistence diagrams, and spatial correlation</li>
         
-        <li>Leverage integrability residual and spectral entropy to achieve ROC AUC >0.71 for phase separation</li>
+        <li>Enables data-driven mechanical prediction for two-phase alloys</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a novel mathematical framework for resolving persistent ambiguities in protein secondary structure assignment, directly impacting studies of allostery and conformational dynamics.</div>
+      <div class="why-matters">💡 Bridges computational materials science and deep learning, offering a faster alternative to traditional finite element simulations for predicting alloy deformation behavior.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#proteinstructure</span>
-        
-        <span class="tag">#spectralanalysis</span>
-        
-        <span class="tag">#computationalbiology</span>
-        
         <span class="tag">#aiforscience</span>
+        
+        <span class="tag">#deeplearning</span>
+        
+        <span class="tag">#materialsscience</span>
+        
+        <span class="tag">#microstructure</span>
         
       </div>
       
@@ -1341,47 +1346,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06669" target="_blank" rel="noopener">耦合簇方程的高效鲁棒求解器</a>
+            <a href="https://arxiv.org/abs/2608.07831" target="_blank" rel="noopener">多尺度有限元模型揭示视神经髓鞘分布对轴突生物力学的影响</a>
             
           </div>
           
-          <div class="article-subtitle">A robust and efficient solver for coupled cluster equations</div>
+          <div class="article-subtitle">Myelin Distribution at the Optic Nerve Myelination Transition Zone Influences Axonal Biomechanics</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Introduces a gauge-invariant preconditioned Newton-Krylov solver for coupled-cluster equations, overcoming convergence issues in non-canonical gauges and improving computational efficiency.
+        Researchers develop a multiscale finite element framework to model how myelin distribution at the optic nerve transition zone affects axonal stress under intraocular pressure, offering new insights into glaucoma mechanisms.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Generalizes preconditioned Newton-Krylov methods to arbitrary gauges for coupled-cluster equations.</li>
+        <li>开发多尺度有限元框架模拟眼压下的视神经盘变形</li>
         
-        <li>Replaces energy denominator with gauge-invariant formulation to ensure robust convergence.</li>
+        <li>揭示髓鞘过渡区分布对视网膜神经节细胞轴突应力的影响</li>
         
-        <li>Combines with Krylov-based Jacobian inversion for substantial wall-time advantages.</li>
+        <li>为青光眼早期损伤机制提供计算生物力学依据</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a mathematically rigorous, gauge-independent solver for quantum chemistry simulations, enabling more reliable and faster calculations for complex molecular systems.</div>
+      <div class="why-matters">💡 Provides a computational framework for understanding glaucoma pathogenesis at the microstructural level, enabling better predictive models for retinal nerve damage and potential therapeutic targets.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#quantumchemistry</span>
+        <span class="tag">#biomechanics</span>
         
-        <span class="tag">#scientificcomputing</span>
+        <span class="tag">#computationalmodeling</span>
         
-        <span class="tag">#numericalmethods</span>
+        <span class="tag">#medicalsimulation</span>
         
-        <span class="tag">#hpc</span>
+        <span class="tag">#glaucoma</span>
         
       </div>
       
@@ -1395,49 +1400,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2602.20621" target="_blank" rel="noopener">机器学习修正DFT+U结合QP-GW评估Heusler合金半金属性</a>
+            <a href="https://arxiv.org/abs/2503.20713" target="_blank" rel="noopener">基于连续介质混合理论的纤维增强气凝胶三相热力学模型</a>
             
           </div>
           
-          <div class="article-subtitle">Combining Quasiparticle Self-Consistent $GW$ and Machine-Learned DFT+$U$ to Assess Half-Metallicity in Co- and Ni-Based Heuslers</div>
+          <div class="article-subtitle">Technical Note: Continuum Theory of Mixture for Three-phase Thermomechanical Model of Fiber-reinforced Aerogel Composites</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers combine machine-learned DFT+U corrections with QP$GW$ calculations to accurately predict half-metallic properties in spintronic Heusler compounds.
+        This paper introduces a thermodynamically consistent three-phase thermomechanical model for fiber-reinforced aerogel composites, integrating Knudsen-effect thermal transport and phase momentum exchange via mixed finite elements.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Uses Bayesian optimization to calibrate ML-derived Hubbard U parameters against QP$GW$ benchmarks.</li>
+        <li>提出基于连续介质混合理论的三相热力学耦合模型</li>
         
-        <li>Validates DFT+U accuracy for predicting band structures and magnetism in Co- and Ni-based Heusler alloys.</li>
+        <li>引入克努森效应修正多孔介质流体热导率计算</li>
         
-        <li>Offers an efficient workflow for screening spintronic materials lattice-matched to InAs substrates.</li>
+        <li>采用混合有限元方法求解固-固与固-流体动量交换</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Bridges the accuracy gap between standard DFT and expensive QP$GW$ calculations using ML, enabling faster, reliable screening of next-generation spintronic materials for semiconductor integration.</div>
+      <div class="why-matters">💡 Provides a rigorous computational framework for predicting thermomechanical behavior in advanced porous composites, enabling more accurate material design and simulation for aerospace and thermal insulation applications.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#aiforscience</span>
+        <span class="tag">#multiphysics</span>
         
-        <span class="tag">#materialsdiscovery</span>
+        <span class="tag">#finiteelement</span>
         
-        <span class="tag">#dft</span>
+        <span class="tag">#materialmodeling</span>
         
-        <span class="tag">#bayesianoptimization</span>
+        <span class="tag">#thermodynamics</span>
         
-        <span class="tag">#spintronics</span>
+        <span class="tag">#computationalmechanics</span>
         
       </div>
       
@@ -1451,47 +1456,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06787" target="_blank" rel="noopener">非共线磁体隐藏自旋极化对称性分类</a>
+            <a href="https://arxiv.org/abs/2608.07537" target="_blank" rel="noopener">VLM主观评价驱动虚拟软体机器人形态与运动协同进化</a>
             
           </div>
           
-          <div class="article-subtitle">Symmetry Classification of Non-Relativistic Hidden Spin Polarization in Noncollinear Magnets</div>
+          <div class="article-subtitle">An evolutionary model of animats with VLM-based subjective evaluation</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.MA</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Establishes a symmetry framework for hidden spin polarization in noncollinear magnets, identifying four distinct spin-texture types constrained by spin-group theory.
+        Researchers propose a genetic algorithm framework that uses a Vision-Language Model to subjectively evaluate virtual soft robots, accelerating the co-evolution of morphology and locomotion through pairwise comparisons.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces unified symmetry framework for HSP in noncollinear magnets</li>
+        <li>Integrates VLM subjective feedback into genetic algorithm fitness evaluation</li>
         
-        <li>Identifies four split spin-texture types (SST-1 to SST-4)</li>
+        <li>Enables simultaneous evolution of soft robot morphology and locomotion</li>
         
-        <li>Demonstrates spin symmetries systematically constrain nonrelativistic polarization</li>
+        <li>Pairwise VLM comparisons accelerate population convergence and diversity</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a foundational theoretical framework for understanding spin textures in complex magnetic materials, enabling targeted design of spintronic devices and advanced magnetic materials.</div>
+      <div class="why-matters">💡 Demonstrates how subjective VLM evaluations can replace rigid mathematical fitness functions in evolutionary robotics, opening new pathways for open-ended AI-driven design and biological simulation.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#materialsscience</span>
+        <span class="tag">#vlm</span>
         
-        <span class="tag">#spintronics</span>
+        <span class="tag">#multimodal</span>
         
-        <span class="tag">#theoreticalphysics</span>
+        <span class="tag">#evolutionarycomputation</span>
         
-        <span class="tag">#symmetryanalysis</span>
+        <span class="tag">#softrobotics</span>
         
       </div>
       
@@ -1505,49 +1510,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06902" target="_blank" rel="noopener">机器学习势函数揭示ZIF玻璃电解质快速锂离子扩散</a>
+            <a href="https://arxiv.org/abs/2608.07478" target="_blank" rel="noopener">PragyaDoc：面向低资源场景的多语种医疗文档智能理解框架</a>
             
           </div>
           
-          <div class="article-subtitle">Fast Isotropic Li-Ion Diffusion in Zeolitic Imidazolate Framework Glass Electrolytes for Batteries</div>
+          <div class="article-subtitle">PragyaDoc: A Universal Document Intelligence Framework for Multilingual Medical Document Understanding in Low-Resource Settings</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers use machine learning interatomic potentials to demonstrate that structural disorder in ZIF glass electrolytes enables fast, isotropic lithium-ion diffusion, lowering migration activation energy for solid-state batteries.
+        PragyaDoc introduces a four-layer pipeline combining ensemble OCR, geometric-lexical fusion, and dual-LLM reasoning to enable multilingual medical document understanding in low-resource settings.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Apply ML interatomic potentials to simulate Li+ transport in amorphous ZIF-4 and ZIF-62 frameworks.</li>
+        <li>提出四层流水线架构，整合并行OCR与几何词汇融合技术</li>
         
-        <li>Leverage structural disorder to reduce Li+ migration activation energy from ~0.35 eV for fast diffusion.</li>
+        <li>采用双LLM协同进行医学推理与多语种本地化翻译</li>
         
-        <li>Utilize ZIF glasses as a grainboundary-free, tunable platform for next-gen solid-state battery electrolytes.</li>
+        <li>针对印度22种官方语言的低资源医疗文档场景优化</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Advances AI-driven materials discovery for energy storage by providing a computationally validated pathway to design high-performance solid electrolytes, accelerating the development of safer, faster-charging solid-state batteries.</div>
+      <div class="why-matters">💡 Addresses critical healthcare accessibility gaps in multilingual regions by automating accurate medical document translation and structuring, enabling broader patient access to vital health information.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#ai_for_science</span>
+        <span class="tag">#ocr</span>
         
-        <span class="tag">#materials_discovery</span>
+        <span class="tag">#llm</span>
         
-        <span class="tag">#interatomic_potential</span>
+        <span class="tag">#medicalai</span>
         
-        <span class="tag">#solid_state_battery</span>
+        <span class="tag">#multilingual</span>
         
-        <span class="tag">#simulation</span>
+        <span class="tag">#documentunderstanding</span>
         
       </div>
       
@@ -1561,49 +1566,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.07097" target="_blank" rel="noopener">WN₂体相材料实现超高室温空穴迁移率</a>
+            <a href="https://arxiv.org/abs/2608.02864" target="_blank" rel="noopener">突破宏观实验摩尔浓度局限，引入局部结构变量研究生物反应动力学</a>
             
           </div>
           
-          <div class="article-subtitle">Net and Hidden Spin-Valley Locking Enable Ultrahigh Hole Mobility in Covalent Bulk WN$_2$</div>
+          <div class="article-subtitle">Experimental access to molarity's blind spot in macroscopic assays</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv q-bio</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Ab initio calculations reveal that hexagonal bulk WN₂ exhibits net and hidden spin-valley locking, enabling ultrahigh room-temperature hole mobility for advanced electronics.
+        Researchers propose a bench-compatible experimental framework that treats local structural geometry as a direct variable, overcoming traditional molarity limitations in studying biological reactions within structured environments.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Ab initio modeling identifies hexagonal WN₂ phases with net and hidden spin-valley locking</li>
+        <li>Introduces a chemistry-geometry crossover method to directly measure local structural effects in biological assays.</li>
         
-        <li>Spin-valley locking suppresses intervalley scattering to significantly boost hole mobility</li>
+        <li>Replaces traditional concentration-only readouts with geometry-aware experimental variables for structured environments.</li>
         
-        <li>Ultrahigh room-temperature hole mobility demonstrated for next-generation bulk semiconductors</li>
+        <li>Provides a bench-compatible protocol to validate computational models of non-well-mixed chemical kinetics.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 This computational discovery addresses a critical bottleneck in semiconductor physics by identifying a bulk material with exceptional hole mobility, paving the way for faster, more efficient electronic and spintronic devices.</div>
+      <div class="why-matters">💡 This framework bridges the gap between theoretical chemical kinetics and real-world biological complexity, enabling more accurate modeling of cellular processes where traditional molarity assumptions fail.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#materialsdiscovery</span>
+        <span class="tag">#chemicalkinetics</span>
         
-        <span class="tag">#abinitio</span>
+        <span class="tag">#biophysics</span>
         
-        <span class="tag">#spintronics</span>
+        <span class="tag">#experimentaldesign</span>
         
-        <span class="tag">#semiconductors</span>
-        
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#computationalbiology</span>
         
       </div>
       
@@ -1617,47 +1620,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06739" target="_blank" rel="noopener">高温CO2同位素拉曼光谱的高精度模拟</a>
+            <a href="https://arxiv.org/abs/2608.07577" target="_blank" rel="noopener">开放世界分层感知：基于类无关提议处理自动驾驶未知物体</a>
             
           </div>
           
-          <div class="article-subtitle">High-temperature simulation of the Raman spectra of the isotopologues $^{13}$C$^{16}$O$_2$ and $^{16}$O$^{13}$C$^{18}$O</div>
+          <div class="article-subtitle">Open-World Hierarchical Perception: Taxonomic Abstraction over Class-Agnostic Proposals for the Safe Handling of Out-of-Vocabulary Road Objects</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers simulate high-temperature Raman spectra for CO2 isotopologues using a dynamical group framework, achieving spectroscopic-quality fits with RMS deviations under 0.07 cm⁻¹.
+        This paper introduces a hierarchical perception framework that applies taxonomic abstraction to class-agnostic region proposals, enabling autonomous driving systems to safely detect and classify out-of-vocabulary road objects.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Implements SU1(2)×U(3)×SU2(2) dynamical group for vibrational wave functions</li>
+        <li>Replaces flat label sets with hierarchical taxonomy for OOV objects</li>
         
-        <li>Achieves RMS deviations of 0.06–0.07 cm⁻¹ for spectroscopic term values</li>
+        <li>Uses class-agnostic proposals to catch objects missed by closed detectors</li>
         
-        <li>Computes Raman spectra via cubic curvilinear expansion of polarizability</li>
+        <li>Evaluates three open-world signals including segmentation and appearance</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a high-accuracy computational framework for molecular spectroscopy, enabling precise prediction of isotopic gas behavior under extreme conditions for climate and atmospheric modeling.</div>
+      <div class="why-matters">💡 Addresses a critical safety gap in autonomous driving where closed-set detectors fail on rare or novel objects, improving robustness in real-world deployment.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#ComputerVision</span>
         
-        <span class="tag">#molecularsimulation</span>
+        <span class="tag">#ObjectDetection</span>
         
-        <span class="tag">#spectroscopy</span>
+        <span class="tag">#OpenWorld</span>
         
-        <span class="tag">#quantumchemistry</span>
+        <span class="tag">#HierarchicalPerception</span>
+        
+        <span class="tag">#AutonomousDriving</span>
         
       </div>
       
@@ -1671,47 +1676,49 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2602.04891" target="_blank" rel="noopener">微分方程参数估计的广义剖面计算方法</a>
+            <a href="https://arxiv.org/abs/2608.09808" target="_blank" rel="noopener">非幺正动力学自主Lindblad实现与格子玻尔兹曼应用</a>
             
           </div>
           
-          <div class="article-subtitle">Parameter Estimation for Differential Equation Models Using Generalized Profiling: A Computational Tutorial</div>
+          <div class="article-subtitle">Autonomous Lindblad Realizability of Nonunitary Linear Dynamics with a Carleman Lattice Boltzmann Application</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        This arXiv tutorial introduces generalized profiling for parameter estimation in differential equation models, offering a penalized likelihood approach that directly links governing equations to data without repeated numerical solves.
+        Proves invertibility and power boundedness enable autonomous GKSL realization of nonunitary dynamics via Carleman lifting, applied to D2Q9 lattice Boltzmann simulation.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces generalized profiling as an alternative to MLE/MCMC for differential equation parameter estimation.</li>
+        <li>Proves invertibility and power boundedness enable autonomous GKSL realization</li>
         
-        <li>Uses penalized likelihood to directly link governing equations to observational data.</li>
+        <li>Explicit construction avoids postselection, using single encoding/decoding across timesteps</li>
         
-        <li>Provides a computational tutorial to lower adoption barriers for this underutilized method.</li>
+        <li>Compiles D2Q9 lattice Boltzmann collision and streaming into one Carleman endpoint</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Offers a computationally efficient alternative to iterative solvers for scientific modeling, potentially accelerating parameter calibration in physics, biology, and engineering simulations.</div>
+      <div class="why-matters">💡 Provides a rigorous mathematical bridge between nonlinear polynomial dynamics and open quantum systems, enabling physically consistent and computationally efficient lattice Boltzmann simulations without postselection overhead.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#scientificcomputing</span>
+        <span class="tag">#physics_simulation</span>
         
-        <span class="tag">#differentialequations</span>
+        <span class="tag">#quantum_dynamics</span>
         
-        <span class="tag">#parameterestimation</span>
+        <span class="tag">#lattice_boltzmann</span>
         
-        <span class="tag">#computationalphysics</span>
+        <span class="tag">#carleman_lifting</span>
+        
+        <span class="tag">#open_quantum_systems</span>
         
       </div>
       
@@ -1725,49 +1732,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06395" target="_blank" rel="noopener">二维SSH声子晶体高阶拓扑模态的梁格约化模型</a>
+            <a href="https://arxiv.org/abs/2608.09039" target="_blank" rel="noopener">非谐三声子相互作用下的电子-声子耦合散射率推导与实现</a>
             
           </div>
           
-          <div class="article-subtitle">Predictive beam-lattice reduction for higher-order topological modes in a 2D SSH phononic crystal</div>
+          <div class="article-subtitle">Anharmonic dephasing in the electron-phonon interaction</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers develop a computationally efficient 12-DOF beam-lattice reduction model for 2D SSH phononic crystals, accurately capturing topological phase transitions and higher-order modes beyond traditional mass-spring approximations.
+        This paper derives a new expression for electron-phonon coupling scattering rates that accounts for anharmonic three-phonon interactions and finite phonon lifetimes, alongside a first-principles computational implementation.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Derives 12-DOF dynamical matrix using Euler-Bernoulli beam theory for accurate phononic crystal modeling.</li>
+        <li>Derives scattering rate expressions incorporating anharmonic three-phonon interactions</li>
         
-        <li>Captures ligament eccentricity and rotational effects missing in scalar mass-spring SSH models.</li>
+        <li>Accounts for finite phonon lifetimes and dephasing effects in electron-phonon coupling</li>
         
-        <li>Enables efficient simulation of topological phase transitions and higher-order boundary modes.</li>
+        <li>Provides a first-principles computational implementation for condensed matter simulations</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a computationally tractable yet physically faithful framework for designing topological phononic materials, bridging the gap between simplified lattice models and expensive full FEM simulations.</div>
+      <div class="why-matters">💡 Improves accuracy of first-principles simulations in condensed matter physics by moving beyond the infinite phonon lifetime approximation, enabling more precise modeling of thermal and electronic transport properties.</div>
       
       
       <div class="article-tags">
         
+        <span class="tag">#firstprinciples</span>
+        
+        <span class="tag">#condensedmatter</span>
+        
+        <span class="tag">#anharmonic</span>
+        
         <span class="tag">#computationalphysics</span>
-        
-        <span class="tag">#topologicalmaterials</span>
-        
-        <span class="tag">#phononiccrystals</span>
-        
-        <span class="tag">#modelreduction</span>
-        
-        <span class="tag">#simulation</span>
         
       </div>
       
@@ -1781,47 +1786,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06570" target="_blank" rel="noopener">狄拉克方程量子格子玻尔兹曼精确电路</a>
+            <a href="https://arxiv.org/abs/2608.08546" target="_blank" rel="noopener">基于李杨理论的相图引导力场参数自动优化方法</a>
             
           </div>
           
-          <div class="article-subtitle">Exact quantum circuits for lattice Boltzmann realization of the Dirac equation</div>
+          <div class="article-subtitle">Lee-Yang Theory Guided Force Field Refinement Based on Phase Diagrams</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv physics.comp-ph</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Researchers present an exact gate-level quantum circuit mapping for the 3D Dirac quantum lattice Boltzmann scheme, enabling precise quantum simulation of relativistic particle dynamics.
+        Researchers propose a universal framework for automatic force field refinement using Lee-Yang phase transition theory, optimizing partition function modulus to bypass numerical challenges in zero-finding.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Maps 3D Dirac QLB operations to exact quantum gates</li>
+        <li>Use partition function modulus as direct optimization target for phase transitions.</li>
         
-        <li>Implements collision, streaming, and potential phases unitarily</li>
+        <li>Eliminate system-specific order parameters to enable universal material application.</li>
         
-        <li>Enables precise quantum simulation of relativistic dynamics</li>
+        <li>Avoid numerical instability by skipping explicit Lee-Yang zero calculation.</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a rigorous bridge between lattice Boltzmann methods and quantum computing, offering a pathway for efficient quantum simulation of relativistic quantum field theories.</div>
+      <div class="why-matters">💡 Provides a robust, theory-grounded method for automating force field parameterization in computational materials science, reducing manual tuning and improving accuracy across diverse phase transitions.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#quantumsimulation</span>
+        <span class="tag">#forcefield</span>
         
-        <span class="tag">#latticeboltzmann</span>
-        
-        <span class="tag">#diracequation</span>
+        <span class="tag">#phasetransition</span>
         
         <span class="tag">#computationalphysics</span>
+        
+        <span class="tag">#optimization</span>
         
       </div>
       
@@ -1835,47 +1840,47 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06737" target="_blank" rel="noopener">铟砷化铕拓扑磁体巨交换耦合与矢量控制研究</a>
+            <a href="https://arxiv.org/abs/2608.09773" target="_blank" rel="noopener">基于储层计算与图论的体外神经元网络连通性分析方法</a>
             
           </div>
           
-          <div class="article-subtitle">Giant-exchange-driven Vectorial Control of a Minimal Topological Magnet in Eu3In2As4</div>
+          <div class="article-subtitle">Graph Analysis of Neuronal-Culture Connectivity Derived from a Reservoir-Computing Model</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span class="source">arXiv physics.comp-ph</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Theoretical study reveals giant exchange coupling in Eu3In2As4, enabling precise magnetic tuning of topological phases with 300 meV band shifts.
+        Researchers propose a graph-theoretical pipeline using reservoir computing to extract and analyze intrinsic connectivity maps from in vitro cortical culture electrophysiological recordings.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Identifies giant exchange coupling in Eu3In2As4 topological magnet</li>
+        <li>提供基于储层计算的体外神经元连通性图谱提取流程</li>
         
-        <li>Demonstrates 300 meV magnetization-dependent band shifts</li>
+        <li>利用图论中心性指标量化网络节点与边的动力学贡献</li>
         
-        <li>Maps magneto-topological phase evolution under applied fields</li>
+        <li>建立局部与全局图指标与集体神经活动的定量映射</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Advances fundamental understanding of magneto-topological materials, providing a theoretical foundation for future quantum device design and computational materials discovery.</div>
+      <div class="why-matters">💡 Provides a principled, data-driven framework for mapping neural circuit dynamics, bridging reservoir computing with computational neuroscience to advance brain-inspired AI and neurobiology research.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#topological_materials</span>
+        <span class="tag">#reservoircomputing</span>
         
-        <span class="tag">#condensed_matter</span>
+        <span class="tag">#graphtheory</span>
         
-        <span class="tag">#magnetism</span>
+        <span class="tag">#computationalneuroscience</span>
         
-        <span class="tag">#computational_physics</span>
+        <span class="tag">#neuraldynamics</span>
         
       </div>
       
@@ -1885,51 +1890,51 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">5</div>
+        <div class="score-badge score-mid">6</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06643" target="_blank" rel="noopener">矩形样品全电导率张量提取新方法</a>
+            <a href="https://arxiv.org/abs/2608.08474" target="_blank" rel="noopener">实空间密度泛函理论开放边界静电学统一计算方法</a>
             
           </div>
           
-          <div class="article-subtitle">Extracting the full conductivity tensor in a rectangular sample</div>
+          <div class="article-subtitle">Unified open-boundary electrostatics in real-space density functional theory</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Proposes a conformal mapping-based experimental procedure to extract the full conductivity tensor and principal axes angle for 2D materials in rectangular geometries, validated against COMSOL simulations.
+        This paper introduces a unified electrostatic formulation for real-space DFT that systematically handles open-boundary conditions and applied electric fields using a local energy functional and Green's function approach.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces analytical conformal mapping method for full tensor extraction</li>
+        <li>提出实空间DFT开放边界静电学统一能量泛函，兼容周期与狄利克雷边界条件</li>
         
-        <li>Validates approach with COMSOL numerical simulations</li>
+        <li>基于格林函数推导总电荷密度对应的狄利克雷边界值解析表达式</li>
         
-        <li>Simplifies experimental setup for anisotropic 2D material characterization</li>
+        <li>支持外加均匀电场下的孤立与部分周期系统精确静电势计算</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Provides a robust, experimentally feasible method for characterizing anisotropic conductivity in 2D materials, aiding materials science and device engineering.</div>
+      <div class="why-matters">💡 Provides a rigorous mathematical framework for handling mixed boundary conditions in DFT, improving accuracy for nanomaterials and surface simulations without artificial periodicity artifacts.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#computationalPhysics</span>
+        <span class="tag">#dft</span>
         
-        <span class="tag">#COMSOL</span>
+        <span class="tag">#computationalphysics</span>
         
-        <span class="tag">#2DMaterials</span>
+        <span class="tag">#greenfunction</span>
         
-        <span class="tag">#tensorAnalysis</span>
+        <span class="tag">#boundaryconditions</span>
         
       </div>
       
@@ -1939,51 +1944,51 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-low">3</div>
+        <div class="score-badge score-mid">6</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://arxiv.org/abs/2608.06964" target="_blank" rel="noopener">共线铁磁体自旋轨道力矩对称理论</a>
+            <a href="https://arxiv.org/abs/2608.08000" target="_blank" rel="noopener">基于第一性原理与键价分析揭示ε-LiMnO2中锂离子迁移网络拓扑特征</a>
             
           </div>
           
-          <div class="article-subtitle">Spin-group theory on Edelstein effect and spin-orbit torque in Collinear Ferromagnets</div>
+          <div class="article-subtitle">Local coordination and migration-network topology shape Li-ion transport and delithiation in the low-energy $\varepsilon$-LiMnO$_2$ polymorph</div>
           
         </div>
       </div>
       <div class="article-meta">
         <span class="source">arXiv cond-mat.mtrl-sci</span>
-        <span>2026-08-10T04:00:00+00:00</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        Develops a spin-group symmetry theory to rigorously derive field-like and damping-like spin-orbit torques in collinear ferromagnets, resolving the role of spin-orbit coupling.
+        This study uses first-principles calculations and bond-valence analysis to map Li-ion migration pathways and delithiation mechanisms in the ε-LiMnO2 polymorph, revealing how local coordination and network topology govern transport properties.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Derives full torque forms for C4v symmetry using spin-group theory</li>
+        <li>结合第一性原理与键价路径分析，构建ε-LiMnO2锂离子迁移能垒图</li>
         
-        <li>Treats spin-orbit coupling as a symmetry-breaking perturbation</li>
+        <li>揭示四面体中间态配位环境与网络拓扑对脱锂过程的关键影响</li>
         
-        <li>Provides rigorous foundation for Edelstein effect in spintronics</li>
+        <li>对比四种LiMnO2多晶型物，明确迁移维度与局部结构的定量关系</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Establishes a rigorous symmetry-based framework for spin-orbit torques, enabling more precise design of spintronic devices and magnetic memory technologies.</div>
+      <div class="why-matters">💡 Provides computational design principles for optimizing rocksalt-derived oxide cathodes, accelerating the development of high-energy-density Li-ion batteries through topology-aware material screening.</div>
       
       
       <div class="article-tags">
         
-        <span class="tag">#spintronics</span>
+        <span class="tag">#materialsScience</span>
         
-        <span class="tag">#symmetry-theory</span>
+        <span class="tag">#firstPrinciples</span>
         
-        <span class="tag">#condensed-matter</span>
+        <span class="tag">#batteryResearch</span>
         
-        <span class="tag">#magnetic-torque</span>
+        <span class="tag">#computationalChemistry</span>
         
       </div>
       
@@ -1993,51 +1998,161 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-low">3</div>
+        <div class="score-badge score-mid">6</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://www.dp.tech/en" target="_blank" rel="noopener">深势科技推出“粒子宇宙”AI科研引擎</a>
+            <a href="https://arxiv.org/abs/2608.08647" target="_blank" rel="noopener">面向铁电薄膜沉积的自动化磁控溅射腔体升级与数据采集方案</a>
             
           </div>
           
-          <div class="article-subtitle">DP Technology</div>
+          <div class="article-subtitle">An Automated Magnetron Sputtering Chamber for Ferroelectric Thin Film Deposition</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">DP Technology (深势科技) Blog</span>
-        <span>2021-04-07T16:00:00+00:00</span>
+        <span class="source">arXiv cond-mat.mtrl-sci</span>
+        <span>2026-08-11T04:00:00+00:00</span>
       </div>
       
       <div class="article-summary">
-        DP Technology unveils its 'Particle Universe' AI engine and a comprehensive Science-as-a-Service toolkit designed to automate the end-to-end scientific research workflow.
+        Researchers present a template for upgrading manual magnetron sputtering chambers to enable automated, data-driven ferroelectric thin film deposition and synchronized data collection.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Introduces 'Particle Universe' engine for autonomous scientific discovery</li>
+        <li>Provides a modular upgrade template for converting manual sputtering chambers to autonomous systems</li>
         
-        <li>Deploys integrated SaaS platform covering literature, computation, and lab work</li>
+        <li>Integrates synchronized instrumentation control and automated data collection for materials synthesis</li>
         
-        <li>Features specialized tools like Bohrium, Hermite, and Piloteye for R&D</li>
+        <li>Enables digital dataset generation to accelerate next-generation ferroelectric materials discovery</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Consolidates fragmented AI research tools into a unified workflow, accelerating hypothesis generation and experimental validation for scientific teams.</div>
+      <div class="why-matters">💡 Bridges the gap between manual lab infrastructure and autonomous materials discovery, enabling scalable, data-driven optimization of thin film synthesis processes.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">#aiforscience</span>
         
-        <span class="tag">#scientificcomputing</span>
+        <span class="tag">#materialsdiscovery</span>
         
-        <span class="tag">#researchautomation</span>
+        <span class="tag">#autonomouslab</span>
         
-        <span class="tag">#saas</span>
+        <span class="tag">#datacollection</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="34">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07484" target="_blank" rel="noopener">基于游戏与用户数据的VR晕动症预测模型及数据集</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Using the gameplay and user data to predict and identify causes of cybersickness manifestation in virtual reality games</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose a random forest-based model to predict VR cybersickness using gameplay and user profile data, validated against 16 ML techniques with a newly created dataset.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Proposes a random forest classifier to predict VR cybersickness onset</li>
+        
+        <li>Validates approach against 16 ML techniques, showing superior performance</li>
+        
+        <li>Introduces a novel cybersickness profile questionnaire and custom dataset</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses a critical barrier to VR adoption by enabling real-time sickness prediction, allowing developers to dynamically adjust gameplay or warn users before symptoms escalate.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#vr</span>
+        
+        <span class="tag">#random_forest</span>
+        
+        <span class="tag">#dataset</span>
+        
+        <span class="tag">#human_factors</span>
+        
+        <span class="tag">#prediction</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="35">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.08386" target="_blank" rel="noopener">FZ-VIS框架实现科学模拟数据有损压缩的交互式视觉分析</a>
+            
+          </div>
+          
+          <div class="article-subtitle">FZ-VIS: A Visual Analytics Framework for Quantities-of-Interest-Aware Scientific Lossy Compression</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.GR</span>
+        <span>2026-08-11T04:00:00+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        FZ-VIS is an interactive web-based framework enabling human-in-the-loop visual analytics for designing lossy compression of scientific simulation data while preserving critical quantities of interest.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces FZ-VIS for interactive lossy compression design in scientific simulations.</li>
+        
+        <li>Enables human-in-the-loop trade-off analysis between compression ratio and QoI fidelity.</li>
+        
+        <li>Provides visual analytics to guide scientists in preserving critical simulation features.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses the critical bottleneck of managing massive scientific simulation data by providing a practical, interactive tool that balances storage efficiency with domain-specific accuracy requirements.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#lossyCompression</span>
+        
+        <span class="tag">#visualAnalytics</span>
+        
+        <span class="tag">#scientificComputing</span>
+        
+        <span class="tag">#humanInTheLoop</span>
         
       </div>
       
@@ -2114,7 +2229,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-11 17:15 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-11 20:02 · Weekly AI Report Agent</div>
 
 </div>
 </body>

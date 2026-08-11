@@ -5,7 +5,8 @@ import logging
 import argparse
 from datetime import datetime, timezone
 
-from fetcher import fetch_all
+from fetcher.ingestion_manager import IngestionManager
+from extractors.contract import RawArticle
 from dedup.deduplicator import Deduplicator
 from filter.source_priority import filter_and_weight as source_priority_filter
 from filter.keyword_filter import score_and_filter as keyword_filter
@@ -53,7 +54,13 @@ async def main():
     # 1. 抓取
     if not args.no_fetch:
         logger.info("=== Phase 1: Fetching ===")
-        articles = await fetch_all(sources, config["fetch"].get("concurrency", 10))
+        manager = IngestionManager(
+            concurrency=config["fetch"].get("concurrency", 10),
+            timeout=config["fetch"].get("timeout", 30),
+        )
+        raw_articles = await manager.fetch(sources)
+        # RawArticle → dict 兼容下游 pipeline
+        articles = [a.model_dump() for a in raw_articles]
         logger.info(f"Fetched {len(articles)} raw articles")
 
         # Time-based weight boost: newer articles rank higher

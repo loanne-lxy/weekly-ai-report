@@ -197,6 +197,37 @@ def _register_builtins():
     except Exception as e:
         logger.debug(f"Could not register twitter extractor: {e}")
 
+    # WeChat — 需要 we-mp-rss 服务运行
+    try:
+        from fetcher.wechat_extractor import WechatExtractor
+        register_extractor("wechat", WechatExtractor)
+    except Exception as e:
+        logger.debug(f"Could not register wechat extractor: {e}")
+
+    # RSSHub — 复用 RSS
+    try:
+        from fetcher.extractors import RSSExtractor
+        class _RSSHubAdapter(BaseExtractor):
+            name = "rsshub"
+            async def extract(self, session, source):
+                re_ = RSSExtractor()
+                raw = await re_.extract(session, source)
+                return BaseExtractor.batch_validate([{
+                    "url": r.get("url", ""),
+                    "title": r.get("title", ""),
+                    "summary": r.get("summary", ""),
+                    "published": r.get("published"),
+                    "author": r.get("author"),
+                    "source_name": source.get("name", "RSSHub"),
+                    "source_type": "web",
+                    "feed_url": source.get("url"),
+                    "content_preview": r.get("summary", "")[:BaseExtractor.get_preview_limit("web")],
+                    "raw_extra": {k: v for k, v in r.items() if k not in {"url", "title", "summary", "published", "author"}},
+                } for r in raw])
+        register_extractor("rsshub", _RSSHubAdapter)
+    except Exception as e:
+        logger.debug(f"Could not register rsshub extractor: {e}")
+
 # 模块加载时注册
 _register_builtins()
 

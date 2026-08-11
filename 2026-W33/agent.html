@@ -180,11 +180,6 @@ body {
 
   <!-- Domain Summary -->
   
-  <div class="domain-summary">
-    <strong>📋 领域摘要</strong><br>
-    Agent 工具调用标准化成为本周热点
-  </div>
-  
 
   <!-- Articles Container -->
   
@@ -304,6 +299,62 @@ body {
       <div class="article-header">
         
         
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.1" target="_blank" rel="noopener">AutoGen 0.7.1 支持嵌套团队与Redis</a>
+            
+          </div>
+          
+          <div class="article-subtitle">python-v0.7.1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+        <span>2025-07-28T08:43:20+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen v0.7.1 introduces nested team orchestration, Redis-based memory extension, and full built-in tool support for OpenAIAgent.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Nested Team support enables hierarchical multi-agent orchestration</li>
+        
+        <li>RedisMemory extension adds persistent, scalable state management</li>
+        
+        <li>OpenAIAgent now natively supports all built-in framework tools</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enhances AutoGen's capability for complex, stateful multi-agent workflows, making it more viable for production-grade enterprise applications requiring persistent memory and hierarchical agent structures.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#toolcalling</span>
+        
+        <span class="tag">#memory</span>
+        
+        <span class="tag">#orchestration</span>
+        
+        <span class="tag">#framework</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="3">
+      <div class="article-header">
+        
+        
         <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
@@ -356,7 +407,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="3">
+    <div class="article-card" data-index="4">
       <div class="article-header">
         
         
@@ -410,7 +461,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="4">
+    <div class="article-card" data-index="5">
       <div class="article-header">
         
         
@@ -464,7 +515,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="5">
+    <div class="article-card" data-index="6">
       <div class="article-header">
         
         
@@ -515,60 +566,6 @@ body {
         <span class="tag">#errorhandling</span>
         
         <span class="tag">#api</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="6">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">6</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/crewAIInc/crewAI/commit/e264e058a714a5ced02612f0f0a8d211898ebbee" target="_blank" rel="noopener">CrewAI修复LiteLLM路由模型提供商识别问题</a>
-            
-          </div>
-          
-          <div class="article-subtitle">fix: preserve provider on LiteLLM-routed models (#6849)</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">CrewAI (GitHub)</span>
-        <span>2026-08-07T15:20:28+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        CrewAI fixes a bug where LiteLLM-routed models incorrectly defaulted to OpenAI, ensuring correct provider identification and preventing double-prefixing in instructor calls.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Fixes provider routing bug in LiteLLM integration</li>
-        
-        <li>Prevents double-prefixing in Instructor model strings</li>
-        
-        <li>Ensures accurate provider reporting for policy engines</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Improves reliability and compatibility for developers using multi-provider LLM routing within the CrewAI agent framework.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#litellm</span>
-        
-        <span class="tag">#framework</span>
-        
-        <span class="tag">#routing</span>
         
       </div>
       
@@ -686,172 +683,6 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/crewAIInc/crewAI/commit/92012aec55314e09450a9a6a8d9d3251cc849a13" target="_blank" rel="noopener">CrewAI重构遥测：分离运行时上下文与代理</a>
-            
-          </div>
-          
-          <div class="article-subtitle">feat: split runtime context from coding agent, add project id (#6867)</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">CrewAI (GitHub)</span>
-        <span>2026-08-08T00:28:52+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        CrewAI refactors its telemetry system by splitting coding agent detection from runtime context identification, improving accuracy across CI, serverless, and host environments.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Splits telemetry field into agent detection and runtime context</li>
-        
-        <li>Improves accuracy for CI, serverless, and host environments</li>
-        
-        <li>Adds project ID tracking for better run attribution</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Enhances observability for developers deploying CrewAI across diverse environments. Ensures accurate telemetry data collection by isolating agent detection from runtime context.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#telemetry</span>
-        
-        <span class="tag">#framework</span>
-        
-        <span class="tag">#crewai</span>
-        
-        <span class="tag">#observability</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="10">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/crewAIInc/crewAI/commit/988f060c9335b7ebe5004d108a9c4cef931f378d" target="_blank" rel="noopener">CrewAI修复Anthropic缓存Token统计偏差</a>
-            
-          </div>
-          
-          <div class="article-subtitle">Fix Anthropic cache token usage underreporting (#6844)</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">CrewAI (GitHub)</span>
-        <span>2026-08-07T11:37:02+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        CrewAI updates its Anthropic provider to correctly include cache read and creation tokens in input and total token counts, preventing underreported billing usage.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Fold Anthropic cache read/creation tokens into input totals</li>
-        
-        <li>Update UsageMetrics to prevent double-counting across providers</li>
-        
-        <li>Ensure accurate billing tracking for cached agent workloads</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Accurate token accounting is critical for developers managing LLM costs and monitoring agent performance, especially as context caching becomes standard for reducing latency and expenses.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#anthropic</span>
-        
-        <span class="tag">#tokencounting</span>
-        
-        <span class="tag">#crewai</span>
-        
-        <span class="tag">#costoptimization</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="11">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.13" target="_blank" rel="noopener">CrewAI 1.15.13 发布：修复 LiteLLM 路由与缓存统计</a>
-            
-          </div>
-          
-          <div class="article-subtitle">1.15.13</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">CrewAI (GitHub)</span>
-        <span>2026-08-07T21:13:23+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        CrewAI releases version 1.15.13, fixing LiteLLM provider routing, Anthropic cache token reporting, and patching a critical h2 security vulnerability.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Fixes LiteLLM provider preservation and Anthropic cache token underreporting</li>
-        
-        <li>Patches h2 library to address GHSA-6hr6-w5qg-qmwg security vulnerability</li>
-        
-        <li>Improves documentation localization workflow and fixes broken links</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Ensures stable multi-provider routing and accurate cost tracking for developers using CrewAI, while mitigating a known HTTP/2 security risk in production deployments.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#framework</span>
-        
-        <span class="tag">#security</span>
-        
-        <span class="tag">#inference</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="12">
-      <div class="article-header">
-        
-        
         <div class="score-badge score-mid">7</div>
         
         <div class="article-title-area">
@@ -902,173 +733,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="13">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.14" target="_blank" rel="noopener">CrewAI 1.15.14：解耦运行时上下文</a>
-            
-          </div>
-          
-          <div class="article-subtitle">1.15.14</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">CrewAI (GitHub)</span>
-        <span>2026-08-08T22:57:37+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        CrewAI v1.15.14 introduces a runtime context split from the coding agent and adds project ID support to improve multi-agent orchestration.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Splits runtime context from coding agent for cleaner state management</li>
-        
-        <li>Adds project ID support to enhance multi-agent workflow tracking</li>
-        
-        <li>Minor version update focused on architectural decoupling</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Decoupling runtime context from coding agents improves scalability and state management in complex multi-agent workflows, a key step for production-grade CrewAI deployments.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#multiagent</span>
-        
-        <span class="tag">#framework</span>
-        
-        <span class="tag">#coding</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="14">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-high">8</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.1" target="_blank" rel="noopener">AutoGen 0.7.1 支持嵌套团队与Redis</a>
-            
-          </div>
-          
-          <div class="article-subtitle">python-v0.7.1</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">AutoGen (GitHub)</span>
-        <span>2025-07-28T08:43:20+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        AutoGen v0.7.1 introduces nested team orchestration, Redis-based memory extension, and full built-in tool support for OpenAIAgent.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Nested Team support enables hierarchical multi-agent orchestration</li>
-        
-        <li>RedisMemory extension adds persistent, scalable state management</li>
-        
-        <li>OpenAIAgent now natively supports all built-in framework tools</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Enhances AutoGen's capability for complex, stateful multi-agent workflows, making it more viable for production-grade enterprise applications requiring persistent memory and hierarchical agent structures.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#multiagent</span>
-        
-        <span class="tag">#toolcalling</span>
-        
-        <span class="tag">#memory</span>
-        
-        <span class="tag">#orchestration</span>
-        
-        <span class="tag">#framework</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="15">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/crewAIInc/crewAI/commit/0c74f23596b592832a5ee60f8d55c9d457f6acf8" target="_blank" rel="noopener">CrewAI新增URL读取工具支持多格式解析</a>
-            
-          </div>
-          
-          <div class="article-subtitle">feat(tools): add URLReadTool for reading arbitrary URLs (#6834)</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">CrewAI (GitHub)</span>
-        <span>2026-08-05T22:38:36+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        CrewAI framework introduces URLReadTool, enabling agents to securely fetch and parse content from HTTP(S) URLs, including PDF, DOCX, and HTML formats.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Add URLReadTool to CrewAI agents for direct HTTP(S) content fetching.</li>
-        
-        <li>Supports automatic text extraction from PDF, DOCX, HTML, and structured text formats.</li>
-        
-        <li>Separates network egress from local file access for improved security control.</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Enables agents to autonomously access and process live web documents without external wrappers, streamlining RAG and research workflows while maintaining explicit security boundaries for network access.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#toolcalling</span>
-        
-        <span class="tag">#rag</span>
-        
-        <span class="tag">#webaccess</span>
-        
-        <span class="tag">#framework</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="16">
+    <div class="article-card" data-index="10">
       <div class="article-header">
         
         
@@ -1122,7 +787,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="17">
+    <div class="article-card" data-index="11">
       <div class="article-header">
         
         
@@ -1178,7 +843,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="18">
+    <div class="article-card" data-index="12">
       <div class="article-header">
         
         
@@ -1232,7 +897,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="19">
+    <div class="article-card" data-index="13">
       <div class="article-header">
         
         
@@ -1286,7 +951,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="20">
+    <div class="article-card" data-index="14">
       <div class="article-header">
         
         
@@ -1342,7 +1007,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="21">
+    <div class="article-card" data-index="15">
       <div class="article-header">
         
         
@@ -1393,6 +1058,336 @@ body {
         <span class="tag">#inference</span>
         
         <span class="tag">#framework</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.4" target="_blank" rel="noopener">AutoGen 0.7.4：Agent工具化与Redis修复</a>
+            
+          </div>
+          
+          <div class="article-subtitle">python-v0.7.4</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+        <span>2025-08-19T18:50:49+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen v0.7.4 release introduces agent-as-tool functionality, fixes Redis deserialization errors, and updates documentation for improved multi-agent orchestration.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces agent-as-tool pattern for enhanced multi-agent workflows</li>
+        
+        <li>Fixes critical Redis deserialization and streaming compatibility issues</li>
+        
+        <li>Updates documentation and README to reflect latest framework capabilities</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves reliability and composability of AutoGen-based multi-agent systems, particularly for developers using Redis for state management or tool routing.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#toolcalling</span>
+        
+        <span class="tag">#framework</span>
+        
+        <span class="tag">#redis</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="17">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/commit/c02791282b405d83632274274f31236b496ea3c6" target="_blank" rel="noopener">AutoGen新增McpSessionHost支持MCP协议</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Support MCP Elicitation, Sampling, and Roots via new McpSessionHost (…</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+        <span>2025-10-02T16:35:12+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen introduces McpSessionHost to natively support MCP Elicitation, Sampling, and Roots, enhancing multi-agent tool integration and context management.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces McpSessionHost for native MCP protocol integration</li>
+        
+        <li>Adds support for Elicitation, Sampling, and Roots features</li>
+        
+        <li>Improves multi-agent context sharing and tool orchestration</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Standardizes MCP integration in AutoGen, enabling more robust and interoperable multi-agent systems with better context and tool management.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#mcp</span>
+        
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#toolcalling</span>
+        
+        <span class="tag">#framework</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="18">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.0" target="_blank" rel="noopener">微软AutoGen框架升级至0.7.0</a>
+            
+          </div>
+          
+          <div class="article-subtitle">python-v0.7.0</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+        <span>2025-07-28T06:23:50+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Microsoft AutoGen releases version 0.7.0, delivering updates to its open-source multi-agent conversation framework for LLM application development.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Upgrade to v0.7.0 for latest agent orchestration features.</li>
+        
+        <li>Review changelog for dependency updates and breaking changes.</li>
+        
+        <li>Integrate updated SDK to leverage improved multi-agent workflows.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 AutoGen is a foundational open-source framework for multi-agent systems. This release provides developers with critical stability improvements and feature enhancements for building complex AI workflows.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#multagent</span>
+        
+        <span class="tag">#framework</span>
+        
+        <span class="tag">#orchestration</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="19">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.5.2" target="_blank" rel="noopener">LangChain-Anthropic 1.5.2 支持 Claude Opus 5</a>
+            
+          </div>
+          
+          <div class="article-subtitle">langchain-anthropic==1.5.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+        <span>2026-07-24T19:08:23+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain-Anthropic 1.5.2 release adds official support for Claude Opus 5, enabling developers to integrate the latest Anthropic model into their agent workflows.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Integrate Claude Opus 5 directly via updated LangChain-Anthropic package</li>
+        
+        <li>Upgrade agent workflows to leverage latest Anthropic model capabilities</li>
+        
+        <li>Apply 1.5.2 patch for backward-compatible API adjustments</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides immediate compatibility for developers building on LangChain to leverage Claude Opus 5's enhanced capabilities without waiting for third-party wrappers or manual API adjustments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#toolcalling</span>
+        
+        <span class="tag">#langchain</span>
+        
+        <span class="tag">#anthropic</span>
+        
+        <span class="tag">#claude</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="20">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.4.1" target="_blank" rel="noopener">LangChain-OpenAI 1.4.1 支持 LangSmith 网关</a>
+            
+          </div>
+          
+          <div class="article-subtitle">langchain-openai==1.4.1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+        <span>2026-07-23T20:31:30+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain-OpenAI v1.4.1 adds LangSmith gateway support via environment variables for OpenAI, Anthropic, and Fireworks, and fixes the GPT-5.3-chat-latest model profile.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Set LangSmith gateway routing via env vars for OpenAI, Anthropic, and Fireworks</li>
+        
+        <li>Apply fix for gpt-5.3-chat-latest model profile configuration</li>
+        
+        <li>Upgrade to v1.4.1 for improved enterprise traffic routing and model compatibility</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Simplifies enterprise deployment by enabling seamless traffic routing through LangSmith's gateway, while ensuring accurate model routing for the latest OpenAI profiles.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#langchain</span>
+        
+        <span class="tag">#gateway</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#openai</span>
+        
+        <span class="tag">#tooling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="21">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/commit/e264e058a714a5ced02612f0f0a8d211898ebbee" target="_blank" rel="noopener">CrewAI修复LiteLLM路由模型提供商识别问题</a>
+            
+          </div>
+          
+          <div class="article-subtitle">fix: preserve provider on LiteLLM-routed models (#6849)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+        <span>2026-08-07T15:20:28+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI fixes a bug where LiteLLM-routed models incorrectly defaulted to OpenAI, ensuring correct provider identification and preventing double-prefixing in instructor calls.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fixes provider routing bug in LiteLLM integration</li>
+        
+        <li>Prevents double-prefixing in Instructor model strings</li>
+        
+        <li>Ensures accurate provider reporting for policy engines</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves reliability and compatibility for developers using multi-provider LLM routing within the CrewAI agent framework.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#litellm</span>
+        
+        <span class="tag">#framework</span>
+        
+        <span class="tag">#routing</span>
         
       </div>
       
@@ -1458,282 +1453,6 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">7</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.4" target="_blank" rel="noopener">AutoGen 0.7.4：Agent工具化与Redis修复</a>
-            
-          </div>
-          
-          <div class="article-subtitle">python-v0.7.4</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">AutoGen (GitHub)</span>
-        <span>2025-08-19T18:50:49+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        AutoGen v0.7.4 release introduces agent-as-tool functionality, fixes Redis deserialization errors, and updates documentation for improved multi-agent orchestration.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Introduces agent-as-tool pattern for enhanced multi-agent workflows</li>
-        
-        <li>Fixes critical Redis deserialization and streaming compatibility issues</li>
-        
-        <li>Updates documentation and README to reflect latest framework capabilities</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Improves reliability and composability of AutoGen-based multi-agent systems, particularly for developers using Redis for state management or tool routing.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#multiagent</span>
-        
-        <span class="tag">#toolcalling</span>
-        
-        <span class="tag">#framework</span>
-        
-        <span class="tag">#redis</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="24">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">7</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/microsoft/autogen/commit/c02791282b405d83632274274f31236b496ea3c6" target="_blank" rel="noopener">AutoGen新增McpSessionHost支持MCP协议</a>
-            
-          </div>
-          
-          <div class="article-subtitle">Support MCP Elicitation, Sampling, and Roots via new McpSessionHost (…</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">AutoGen (GitHub)</span>
-        <span>2025-10-02T16:35:12+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        AutoGen introduces McpSessionHost to natively support MCP Elicitation, Sampling, and Roots, enhancing multi-agent tool integration and context management.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Introduces McpSessionHost for native MCP protocol integration</li>
-        
-        <li>Adds support for Elicitation, Sampling, and Roots features</li>
-        
-        <li>Improves multi-agent context sharing and tool orchestration</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Standardizes MCP integration in AutoGen, enabling more robust and interoperable multi-agent systems with better context and tool management.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#mcp</span>
-        
-        <span class="tag">#multiagent</span>
-        
-        <span class="tag">#toolcalling</span>
-        
-        <span class="tag">#framework</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="25">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">7</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.0" target="_blank" rel="noopener">微软AutoGen框架升级至0.7.0</a>
-            
-          </div>
-          
-          <div class="article-subtitle">python-v0.7.0</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">AutoGen (GitHub)</span>
-        <span>2025-07-28T06:23:50+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        Microsoft AutoGen releases version 0.7.0, delivering updates to its open-source multi-agent conversation framework for LLM application development.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Upgrade to v0.7.0 for latest agent orchestration features.</li>
-        
-        <li>Review changelog for dependency updates and breaking changes.</li>
-        
-        <li>Integrate updated SDK to leverage improved multi-agent workflows.</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 AutoGen is a foundational open-source framework for multi-agent systems. This release provides developers with critical stability improvements and feature enhancements for building complex AI workflows.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#multagent</span>
-        
-        <span class="tag">#framework</span>
-        
-        <span class="tag">#orchestration</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="26">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">7</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.5.2" target="_blank" rel="noopener">LangChain-Anthropic 1.5.2 支持 Claude Opus 5</a>
-            
-          </div>
-          
-          <div class="article-subtitle">langchain-anthropic==1.5.2</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">LangChain (GitHub)</span>
-        <span>2026-07-24T19:08:23+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        LangChain-Anthropic 1.5.2 release adds official support for Claude Opus 5, enabling developers to integrate the latest Anthropic model into their agent workflows.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Integrate Claude Opus 5 directly via updated LangChain-Anthropic package</li>
-        
-        <li>Upgrade agent workflows to leverage latest Anthropic model capabilities</li>
-        
-        <li>Apply 1.5.2 patch for backward-compatible API adjustments</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Provides immediate compatibility for developers building on LangChain to leverage Claude Opus 5's enhanced capabilities without waiting for third-party wrappers or manual API adjustments.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#toolcalling</span>
-        
-        <span class="tag">#langchain</span>
-        
-        <span class="tag">#anthropic</span>
-        
-        <span class="tag">#claude</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="27">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">7</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.4.1" target="_blank" rel="noopener">LangChain-OpenAI 1.4.1 支持 LangSmith 网关</a>
-            
-          </div>
-          
-          <div class="article-subtitle">langchain-openai==1.4.1</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">LangChain (GitHub)</span>
-        <span>2026-07-23T20:31:30+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        LangChain-OpenAI v1.4.1 adds LangSmith gateway support via environment variables for OpenAI, Anthropic, and Fireworks, and fixes the GPT-5.3-chat-latest model profile.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Set LangSmith gateway routing via env vars for OpenAI, Anthropic, and Fireworks</li>
-        
-        <li>Apply fix for gpt-5.3-chat-latest model profile configuration</li>
-        
-        <li>Upgrade to v1.4.1 for improved enterprise traffic routing and model compatibility</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Simplifies enterprise deployment by enabling seamless traffic routing through LangSmith's gateway, while ensuring accurate model routing for the latest OpenAI profiles.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#langchain</span>
-        
-        <span class="tag">#gateway</span>
-        
-        <span class="tag">#inference</span>
-        
-        <span class="tag">#openai</span>
-        
-        <span class="tag">#tooling</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="28">
-      <div class="article-header">
-        
-        
         <div class="score-badge score-mid">6</div>
         
         <div class="article-title-area">
@@ -1786,7 +1505,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="29">
+    <div class="article-card" data-index="24">
       <div class="article-header">
         
         
@@ -1842,7 +1561,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="30">
+    <div class="article-card" data-index="25">
       <div class="article-header">
         
         
@@ -1896,7 +1615,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="31">
+    <div class="article-card" data-index="26">
       <div class="article-header">
         
         
@@ -1952,63 +1671,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="32">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-fireworks%3D%3D1.5.2" target="_blank" rel="noopener">LangChain-Fireworks 1.5.2 版本更新</a>
-            
-          </div>
-          
-          <div class="article-subtitle">langchain-fireworks==1.5.2</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">LangChain (GitHub)</span>
-        <span>2026-07-27T16:59:57+00:00</span>
-      </div>
-      
-      <div class="article-summary">
-        LangChain releases version 1.5.2 of its Fireworks AI integration, primarily refreshing model profile data without adding new features.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Upgrade to v1.5.2 to sync latest Fireworks AI model profiles</li>
-        
-        <li>Apply patch to maintain stable LangChain agent integration</li>
-        
-        <li>No new features; focuses on internal metadata refresh</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Ensures developers using LangChain with Fireworks AI have access to the latest model metadata and endpoint configurations for stable integration.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">#langchain</span>
-        
-        <span class="tag">#fireworks</span>
-        
-        <span class="tag">#agent</span>
-        
-        <span class="tag">#tooling</span>
-        
-        <span class="tag">#integration</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="33">
+    <div class="article-card" data-index="27">
       <div class="article-header">
         
         
@@ -2059,6 +1722,338 @@ body {
         <span class="tag">#codeexecution</span>
         
         <span class="tag">#autogen</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="28">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/commit/92012aec55314e09450a9a6a8d9d3251cc849a13" target="_blank" rel="noopener">CrewAI重构遥测：分离运行时上下文与代理</a>
+            
+          </div>
+          
+          <div class="article-subtitle">feat: split runtime context from coding agent, add project id (#6867)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+        <span>2026-08-08T00:28:52+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI refactors its telemetry system by splitting coding agent detection from runtime context identification, improving accuracy across CI, serverless, and host environments.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Splits telemetry field into agent detection and runtime context</li>
+        
+        <li>Improves accuracy for CI, serverless, and host environments</li>
+        
+        <li>Adds project ID tracking for better run attribution</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enhances observability for developers deploying CrewAI across diverse environments. Ensures accurate telemetry data collection by isolating agent detection from runtime context.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#telemetry</span>
+        
+        <span class="tag">#framework</span>
+        
+        <span class="tag">#crewai</span>
+        
+        <span class="tag">#observability</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="29">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/commit/988f060c9335b7ebe5004d108a9c4cef931f378d" target="_blank" rel="noopener">CrewAI修复Anthropic缓存Token统计偏差</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Fix Anthropic cache token usage underreporting (#6844)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+        <span>2026-08-07T11:37:02+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI updates its Anthropic provider to correctly include cache read and creation tokens in input and total token counts, preventing underreported billing usage.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fold Anthropic cache read/creation tokens into input totals</li>
+        
+        <li>Update UsageMetrics to prevent double-counting across providers</li>
+        
+        <li>Ensure accurate billing tracking for cached agent workloads</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Accurate token accounting is critical for developers managing LLM costs and monitoring agent performance, especially as context caching becomes standard for reducing latency and expenses.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#anthropic</span>
+        
+        <span class="tag">#tokencounting</span>
+        
+        <span class="tag">#crewai</span>
+        
+        <span class="tag">#costoptimization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="30">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.13" target="_blank" rel="noopener">CrewAI 1.15.13 发布：修复 LiteLLM 路由与缓存统计</a>
+            
+          </div>
+          
+          <div class="article-subtitle">1.15.13</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+        <span>2026-08-07T21:13:23+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI releases version 1.15.13, fixing LiteLLM provider routing, Anthropic cache token reporting, and patching a critical h2 security vulnerability.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fixes LiteLLM provider preservation and Anthropic cache token underreporting</li>
+        
+        <li>Patches h2 library to address GHSA-6hr6-w5qg-qmwg security vulnerability</li>
+        
+        <li>Improves documentation localization workflow and fixes broken links</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures stable multi-provider routing and accurate cost tracking for developers using CrewAI, while mitigating a known HTTP/2 security risk in production deployments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#framework</span>
+        
+        <span class="tag">#security</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="31">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.14" target="_blank" rel="noopener">CrewAI 1.15.14：解耦运行时上下文</a>
+            
+          </div>
+          
+          <div class="article-subtitle">1.15.14</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+        <span>2026-08-08T22:57:37+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI v1.15.14 introduces a runtime context split from the coding agent and adds project ID support to improve multi-agent orchestration.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Splits runtime context from coding agent for cleaner state management</li>
+        
+        <li>Adds project ID support to enhance multi-agent workflow tracking</li>
+        
+        <li>Minor version update focused on architectural decoupling</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Decoupling runtime context from coding agents improves scalability and state management in complex multi-agent workflows, a key step for production-grade CrewAI deployments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#multiagent</span>
+        
+        <span class="tag">#framework</span>
+        
+        <span class="tag">#coding</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="32">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/commit/0c74f23596b592832a5ee60f8d55c9d457f6acf8" target="_blank" rel="noopener">CrewAI新增URL读取工具支持多格式解析</a>
+            
+          </div>
+          
+          <div class="article-subtitle">feat(tools): add URLReadTool for reading arbitrary URLs (#6834)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+        <span>2026-08-05T22:38:36+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI framework introduces URLReadTool, enabling agents to securely fetch and parse content from HTTP(S) URLs, including PDF, DOCX, and HTML formats.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Add URLReadTool to CrewAI agents for direct HTTP(S) content fetching.</li>
+        
+        <li>Supports automatic text extraction from PDF, DOCX, HTML, and structured text formats.</li>
+        
+        <li>Separates network egress from local file access for improved security control.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enables agents to autonomously access and process live web documents without external wrappers, streamlining RAG and research workflows while maintaining explicit security boundaries for network access.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#toolcalling</span>
+        
+        <span class="tag">#rag</span>
+        
+        <span class="tag">#webaccess</span>
+        
+        <span class="tag">#framework</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="33">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-fireworks%3D%3D1.5.2" target="_blank" rel="noopener">LangChain-Fireworks 1.5.2 版本更新</a>
+            
+          </div>
+          
+          <div class="article-subtitle">langchain-fireworks==1.5.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+        <span>2026-07-27T16:59:57+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain releases version 1.5.2 of its Fireworks AI integration, primarily refreshing model profile data without adding new features.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Upgrade to v1.5.2 to sync latest Fireworks AI model profiles</li>
+        
+        <li>Apply patch to maintain stable LangChain agent integration</li>
+        
+        <li>No new features; focuses on internal metadata refresh</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures developers using LangChain with Fireworks AI have access to the latest model metadata and endpoint configurations for stable integration.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#langchain</span>
+        
+        <span class="tag">#fireworks</span>
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#tooling</span>
+        
+        <span class="tag">#integration</span>
         
       </div>
       
@@ -2631,7 +2626,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-10 18:50 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-11 17:15 · Weekly AI Report Agent</div>
 
 </div>
 </body>

@@ -1,270 +1,249 @@
-"""Lightweight extractors — one class per source type, each ~30 lines
+"""Extractors — thin wrappers around mature libraries.
 
-Each extractor only implements extract(session, source) → list[RawItem].
-Retry, dedup, cache, normalize are handled by pipeline.py.
+Each extractor: ~15 lines. Uses arxiv, PyGithub, feedparser, trafilatura.
+No raw HTTP for sources that have dedicated libraries.
 """
-import asyncio
 import logging
-from datetime import datetime, timezone
 from typing import Optional
-import feedparser
 import aiohttp
-from bs4 import BeautifulSoup
+from aiohttp import ClientTimeout
+import feedparser
+import arxiv  # py-arxiv wrapper
+import trafilatura
+from github import Github
 
 logger = logging.getLogger(__name__)
-USER_AGENT = "Weekly-AI-Report-Agent/1.0"
+_TIMEOUT = ClientTimeout(total=30)
 
 
-def _parse_date(entry) -> str:
+def _parse_iso_date(entry) -> str:
+    """feedparser entry → ISO 8601."""
     for attr in ["published_parsed", "updated_parsed"]:
         tp = getattr(entry, attr, None)
         if tp:
+            from datetime import datetime, timezone
             return datetime(*tp[:6], tzinfo=timezone.utc).isoformat()
+    from datetime import datetime, timezone
     return datetime.now(timezone.utc).isoformat()
 
 
-# ── Raw Item ─────────────────────────────────────────────────────
+def _parse_datetime(dt) -> str:
+    """datetime → ISO 8601."""
+    if isinstance(dt, str):
+        return dt
+    try:
+        from datetime import timezone
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt.isoformat()
+    except Exception:
+        return ""
 
-class RawItem(dict):
-    """{title, url, summary, published, source_name, source_category, source_type}"""
-    pass
 
-
-# ── RSS ───────────────────────────────────────────────────────────
+# ── RSS ──────────────────────────────────────────────────────────
 
 class RSSExtractor:
+    """RSS/Atom feeds via feedparser (mature, battle-tested)."""
     name = "rss"
 
-    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[RawItem]:
+    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[dict]:
+        url = source["url"]
+        try:
+            async with session.get(url, timeout=_TIMEOUT,
+                                   headers={"User-Agent": source.get("user_agent", "Weekly-AI-Report-Agent/1.0"),
+                                            "Accept": "application/rss+xml"}) as resp:
+                feed = feedparser.parse(await resp.text())
+            return [{"title": e.get("title", ""),
+                     "url": e.get("link", ""),
+                     "summary": e.get("summary", e.get("description", "")),
+                     "published": _parse_iso_date(e),
+                     "author": e.get("author")}
+                    for e in feed.entries[:source.get("max_results", 20)]]
+        except Exception as e:
+            logger.warning(f"RSS [{source.get('name', '?')}]: {e}")
+            return []
+
+
+# ── arXiv ────────────────────────────────────────────────────────
+
+class ArxivExtractor:
+    """arXiv via py-arxiv library (official wrapper)."""
+    name = "arxiv"
+
+    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[dict]:
+        topic = source.get("arxiv_topic", source.get("url", "").split("/")[-1] if "arxiv" in source.get("url", "") else "cs.AI")
+        max_results = source.get("max_results", 20)
+        try:
+            search = arxiv.Search(
+                query=f"cat:{topic}",
+                max_results=max_results,
+                sort_by=arxiv.SortCriterion.SubmittedDate,
+                sort_order=arxiv.SortOrder.Descending,
+            )
+            items = []
+            for p in arxiv.Client().results(search):
+                items.append({
+                    "title": p.title.replace("\n", " ").strip(),
+                    "url": p.entry_id,
+                    "summary": p.summary.replace("\n", " ")[:2000],
+                    "published": _parse_datetime(p.published),
+                    "author": ", ".join(str(a) for a in p.authors[:3]),
+                })
+            return items
+        except Exception as e:
+            logger.warning(f"arXiv [{source.get('name', '?')}]: {e}")
+            return []
+
+
+# ── GitHub ───────────────────────────────────────────────────────
+
+class GitHubExtractor:
+    """GitHub via PyGithub library (official wrapper)."""
+    name = "github"
+    _token: Optional[str] = None
+
+    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[dict]:
+        subtype = source.get("github_subtype", "github_trending")
+        token = source.get("github_token") or self._token
+        g = Github(token) if token else Github()
+
+        if subtype == "github_repo":
+            return await self._repo(g, source)
+        elif subtype == "github_org":
+            return await self._org(g, source)
+        elif subtype == "github_user":
+            return await self._user(g, source)
+        elif subtype == "github_trending":
+            return await self._trending(g)
+        return []
+
+    async def _repo(self, g, source) -> list[dict]:
+        owner, repo = source.get("github_owner", ""), source.get("github_repo", "")
+        if not owner or not repo:
+            return []
+        gh_repo = g.get_repo(f"{owner}/{repo}")
         items = []
         try:
-            async with session.get(
-                source["url"], timeout=30,
-                headers={"User-Agent": USER_AGENT, "Accept": "application/rss+xml"}
-            ) as resp:
-                text = await resp.text()
-            feed = feedparser.parse(text)
-            for entry in feed.entries[:20]:
+            for rel in gh_repo.get_releases(per_page=10):
                 items.append({
-                    "title": entry.get("title", ""),
-                    "url": entry.get("link", ""),
-                    "summary": entry.get("summary", entry.get("description", "")),
-                    "published": _parse_date(entry),
+                    "title": f"[Release] {rel.tag_name}: {rel.title}",
+                    "url": rel.html_url,
+                    "summary": (rel.body or "")[:2000],
+                    "published": _parse_datetime(rel.created_at),
+                    "author": owner,
+                })
+        except Exception:
+            pass
+        try:
+            for commit in gh_repo.get_commits(per_page=10):
+                if commit.commit.message:
+                    items.append({
+                        "title": commit.commit.message[:100],
+                        "url": commit.html_url,
+                        "summary": commit.commit.message,
+                        "published": _parse_datetime(commit.commit.author.date) if commit.commit.author else "",
+                        "author": (commit.commit.author.name if commit.commit.author else owner),
+                    })
+        except Exception:
+            pass
+        return items
+
+    async def _org(self, g, source) -> list[dict]:
+        org_name = source.get("github_org", "")
+        if not org_name:
+            return []
+        org = g.get_organization(org_name)
+        items = []
+        for r in org.get_repos(sort="updated", direction="desc")[0:10]:
+            for commit in r.get_commits(per_page=2):
+                if commit.commit.message:
+                    items.append({
+                        "title": f"[{r.full_name}] {commit.commit.message[:80]}",
+                        "url": commit.html_url,
+                        "summary": commit.commit.message,
+                        "published": _parse_datetime(commit.commit.author.date) if commit.commit.author else "",
+                        "author": r.full_name,
+                    })
+        return items
+
+    async def _user(self, g, source) -> list[dict]:
+        user_name = source.get("github_user", "")
+        if not user_name:
+            return []
+        user = g.get_user(user_name)
+        items = []
+        for r in user.get_repos(sort="updated")[0:10]:
+            items.append({
+                "title": r.full_name,
+                "url": r.html_url,
+                "summary": (r.description or "")[:2000],
+                "published": _parse_datetime(r.pushed_at) if r.pushed_at else "",
+                "author": user_name,
+            })
+        return items
+
+    async def _trending(self, g) -> list[dict]:
+        """GitHub Trending via search API."""
+        from datetime import datetime, timezone
+        since = datetime.now(timezone.utc).replace(year=datetime.now().year).strftime("%Y-%m-%d")
+        items = []
+        try:
+            search = g.search_repositories(
+                query=f"stars:>100 pushed:>{since}",
+                sort="stars", order="desc", per_page=20
+            )
+            for r in search[:20]:
+                s = f"Stars: {r.stargazers_count}"
+                if r.language:
+                    s += f" | {r.language}"
+                if r.description:
+                    s += f" — {r.description[:200]}"
+                items.append({
+                    "title": r.full_name,
+                    "url": r.html_url,
+                    "summary": s,
+                    "published": _parse_datetime(r.pushed_at) if r.pushed_at else "",
+                    "author": r.owner.login if r.owner else "",
                 })
         except Exception as e:
-            logger.warning(f"RSS [{source.get('name','?')}]: {e}")
+            logger.warning(f"GitHub Trending: {e}")
         return items
 
 
-# ── Web (trafilatura) ─────────────────────────────────────────────
+# ── Web ──────────────────────────────────────────────────────────
 
 class WebExtractor:
+    """Web pages via trafilatura (best-in-class content extraction)."""
     name = "web"
 
-    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[RawItem]:
+    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[dict]:
+        url = source["url"]
         try:
-            import trafilatura
-
-            async with session.get(
-                source["url"], timeout=30,
-                headers={"User-Agent": USER_AGENT}
-            ) as resp:
+            async with session.get(url, timeout=_TIMEOUT,
+                                   headers={"User-Agent": "Weekly-AI-Report-Agent/1.0"}) as resp:
                 html = await resp.text()
-
-            # trafilatura 2.x: extract_with_metadata returns Document(title, raw_text, date, ...)
             doc = trafilatura.extract_with_metadata(
-                html, include_comments=False, include_tables=True,
-                favor_precision=True,
+                html, include_comments=False, include_tables=True, favor_precision=True,
             )
-            if doc is None or not doc.raw_text or len(doc.raw_text) < 100:
+            if not doc or not doc.raw_text or len(doc.raw_text) < 100:
                 return []
-
-            title = doc.title or source.get("name", "")
             published = ""
             if doc.date:
                 try:
                     from dateutil.parser import parse as date_parse
+                    from datetime import timezone
                     published = date_parse(doc.date, fuzzy=True).astimezone(timezone.utc).isoformat()
                 except Exception:
-                    published = datetime.now(timezone.utc).isoformat()
-            else:
-                published = datetime.now(timezone.utc).isoformat()
-
+                    pass
             return [{
-                "title": title,
-                "url": source["url"],
+                "title": doc.title or source.get("name", ""),
+                "url": url,
                 "summary": doc.raw_text[:2000],
                 "published": published,
             }]
-        except ImportError:
-            logger.warning("Web [trafilatura]: not installed, pip install trafilatura")
-            return []
         except Exception as e:
-            logger.warning(f"Web [{source.get('name','?')}]: {e}")
-        return []
-
-
-# ── arXiv ─────────────────────────────────────────────────────────
-
-class ArxivExtractor:
-    name = "arxiv"
-
-    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[RawItem]:
-        topic = source.get("arxiv_topic", "cs.AI")
-        max_results = source.get("max_results", 20)
-        api_url = (
-            f"http://export.arxiv.org/api/query?"
-            f"search_query=cat:{topic}&start=0&max_results={max_results}"
-            f"&sortBy=submittedDate&sortOrder=descending"
-        )
-        items = []
-        try:
-            async with session.get(api_url, timeout=30) as resp:
-                text = await resp.text()
-            feed = feedparser.parse(text)
-            for entry in feed.entries[:max_results]:
-                items.append({
-                    "title": entry.get("title", "").replace("\n", " ").strip(),
-                    "url": entry.get("id", ""),
-                    "summary": entry.get("summary", "").replace("\n", " ")[:2000],
-                    "published": _parse_date(entry),
-                })
-        except Exception as e:
-            logger.warning(f"ArXiv [{source.get('name','?')}]: {e}")
-        return items
-
-
-# ── GitHub ────────────────────────────────────────────────────────
-
-class GitHubExtractor:
-    name = "github"
-    GITHUB_API = "https://api.github.com"
-    GITHUB_TOKEN: Optional[str] = None
-
-    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[RawItem]:
-        subtype = source.get("github_subtype", "github_trending")
-        headers = {"User-Agent": USER_AGENT, "Accept": "application/vnd.github+json"}
-        token = source.get("github_token") or self.GITHUB_TOKEN
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
-
-        if subtype == "github_repo":
-            return await self._repo(session, source, headers)
-        elif subtype == "github_org":
-            return await self._org(session, source, headers)
-        elif subtype == "github_user":
-            return await self._user(session, source, headers)
-        elif subtype == "github_trending":
-            return await self._trending(session, headers)
-        return []
-
-    async def _atom(self, session, url: str, headers: dict) -> list[RawItem]:
-        try:
-            h = {**headers, "Accept": "application/atom+xml"}
-            async with session.get(url, timeout=30, headers=h) as resp:
-                if resp.status != 200:
-                    return []
-                feed = feedparser.parse(await resp.text())
-            return [{"title": e.get("title", ""), "url": e.get("link", ""),
-                     "summary": e.get("summary", ""), "published": _parse_date(e)}
-                    for e in feed.entries[:20]]
-        except Exception:
+            logger.warning(f"Web [{source.get('name', '?')}]: {e}")
             return []
-
-    async def _api(self, session, url: str, headers: dict) -> Optional[list | dict]:
-        try:
-            async with session.get(url, timeout=30, headers=headers) as resp:
-                return await resp.json() if resp.status == 200 else None
-        except Exception:
-            return None
-
-    async def _repo(self, session, source, headers):
-        owner, repo = source.get("github_owner", ""), source.get("github_repo", "")
-        if not owner or not repo:
-            return []
-        branch = source.get("github_branch", "main")
-        rel, com = await asyncio.gather(
-            self._atom(session, f"https://github.com/{owner}/{repo}/releases.atom", headers),
-            self._atom(session, f"https://github.com/{owner}/{repo}/commits/{branch}.atom", headers)
-        )
-        return rel + com
-
-    async def _org(self, session, source, headers):
-        org = source.get("github_org", "")
-        if not org:
-            return []
-        repos = await self._api(session, f"{self.GITHUB_API}/orgs/{org}/repos?sort=updated&per_page=10", headers)
-        if not repos or not isinstance(repos, list):
-            return []
-        tasks = [self._atom(session, f"https://github.com/{r.get('owner',{}).get('login',org)}/{r['name']}/commits/{r.get('default_branch','main')}.atom", headers) for r in repos[:10] if isinstance(r, dict) and r.get('name')]
-        results = await asyncio.gather(*tasks)
-        return [a for r in results for a in r]
-
-    async def _user(self, session, source, headers):
-        user = source.get("github_user", "")
-        if not user:
-            return []
-        repos = await self._api(session, f"{self.GITHUB_API}/users/{user}/repos?sort=updated&per_page=10", headers)
-        if not repos or not isinstance(repos, list):
-            return []
-        return [{"title": r.get("full_name", r.get("name", "")),
-                 "url": r.get("html_url", ""),
-                 "summary": r.get("description") or "",
-                 "published": r.get("updated_at") or r.get("pushed_at") or ""}
-                for r in repos if isinstance(r, dict)]
-
-    async def _trending(self, session, headers):
-        data = await self._api(session,
-            f"{self.GITHUB_API}/search/repositories?q=stars:>100+pushed:>2026-01-01&sort=stars&order=desc&per_page=20",
-            headers)
-        if not data or not isinstance(data, dict):
-            return []
-        items = []
-        for r in data.get("items", []):
-            if not isinstance(r, dict):
-                continue
-            s = f"Star {r.get('stargazers_count',0)}"
-            if r.get("language"):
-                s += f" | {r['language']}"
-            if r.get("description"):
-                s += f" — {r['description']}"
-            items.append({"title": r.get("full_name", ""), "url": r.get("html_url", ""),
-                          "summary": s[:2000], "published": r.get("updated_at", "")})
-        return items
-
-
-# ── Twitter ───────────────────────────────────────────────────────
-
-class TwitterExtractor:
-    name = "twitter"
-    INSTANCES = ["https://rsshub.app", "https://nitter.tiekoetter.com"]
-
-    async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[RawItem]:
-        username = source.get("twitter_user", source.get("url", "").rstrip("/").split("/")[-1])
-        if not username:
-            return []
-        for instance in self.INSTANCES:
-            try:
-                url = f"{instance}/twitter/user/{username}"
-                async with session.get(url, timeout=20) as resp:
-                    if resp.status == 200:
-                        feed = feedparser.parse(await resp.text())
-                        if feed.entries:
-                            return [{"title": self._clean_title(e.get("title", "")),
-                                     "url": e.get("link", ""),
-                                     "summary": e.get("summary", "")[:2000],
-                                     "published": _parse_date(e)}
-                                    for e in feed.entries[:20]]
-            except Exception:
-                continue
-        return []
-
-    @staticmethod
-    def _clean_title(title: str) -> str:
-        if title.startswith("@"):
-            parts = title.split(":", 1)
-            return parts[1].strip() if len(parts) > 1 else title
-        return title
 
 
 # ── Registry ──────────────────────────────────────────────────────
@@ -274,9 +253,6 @@ EXTRACTOR_REGISTRY = {
     "web": WebExtractor(),
     "arxiv": ArxivExtractor(),
     "github": GitHubExtractor(),
-    "twitter": TwitterExtractor(),
-    "nitter_rss": TwitterExtractor(),  # legacy
-    "rsshub": RSSExtractor(),          # legacy
 }
 
 

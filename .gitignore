@@ -7,3 +7,5 @@ curator_cache.db
 .env
 .DS_Store
 .idea/
+data/
+sketches/

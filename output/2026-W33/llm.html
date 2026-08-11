@@ -175,14 +175,14 @@ body {
   <div class="cat-header">
     <span class="icon">🧠</span>
     <h1>LLM</h1>
-    <span class="count-badge">2 篇</span>
+    <span class="count-badge">18 篇</span>
   </div>
 
   <!-- Domain Summary -->
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周大模型领域呈现架构创新与开源普及并进态势，GPT-5搭载全新MoE架构正式发布，同时Gemma 4下载量突破9亿大关。
+    本周大模型研究在高效分布式微调、无验证器测试时扩展、多模态特征控制及推理成本优化上取得显著进展，同时暴露出专有模型推理轨迹遭跨模型窃取的安全隐患。
   </div>
   
 
@@ -190,37 +190,7 @@ body {
   
   <div class="articles-container" id="articles">
     
-    <div class="article-card carried" data-index="0">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-high">10</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://openai.com/gpt5" target="_blank" rel="noopener">GPT-5发布：全新MoE架构</a>
-            
-            <span class="carried-badge" style="margin-left:8px;">往期</span>
-            
-          </div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-        <span></span>
-      </div>
-      
-      <div class="article-summary">
-        OpenAI发布GPT-5，采用全新MoE架构，推理性能提升3倍。
-      </div>
-      
-      
-      
-      
-    </div>
-    
-    <div class="article-card carried" data-index="1">
+    <div class="article-card" data-index="0">
       <div class="article-header">
         
         
@@ -228,25 +198,993 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://example.com/gemma4" target="_blank" rel="noopener">Gemma 4模型下载量突破9亿</a>
-            
-            <span class="carried-badge" style="margin-left:8px;">往期</span>
+            <a href="http://arxiv.org/abs/2608.09928v1" target="_blank" rel="noopener">MMDiff 利用多模态 SAE 差分实现 MLLM 特征发现与控制</a>
             
           </div>
+          
+          <div class="article-subtitle">Multimodal Model Diffing for Feature Discovery and Control</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">Demis Hassabis (Nitter)</span>
-        <span></span>
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-10T17:59:30+00:00</span>
       </div>
       
       <div class="article-summary">
-        Google Gemma 4系列开源模型累计下载量突破9亿次。
+        MMDiff introduces a multimodal model-diffing framework using sparse autoencoders to isolate and control features altered during multimodal training in large language models.
       </div>
       
       
+      <ul class="key-insights">
+        
+        <li>Introduces MMDiff framework to diff base-LM and multimodal SAEs for feature isolation</li>
+        
+        <li>Enables targeted control of multimodal behaviors by identifying training-altered features</li>
+        
+        <li>Provides interpretable feature-level interfaces for auditing MLLM internal states</li>
+        
+      </ul>
       
+      
+      <div class="why-matters">💡 Advances MLLM interpretability by providing a systematic method to isolate and control multimodal features, crucial for improving model transparency, safety, and targeted fine-tuning.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#sae</span>
+        
+        <span class="tag">#interpretability</span>
+        
+        <span class="tag">#multimodal</span>
+        
+        <span class="tag">#featurecontrol</span>
+        
+        <span class="tag">#llm</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09907v1" target="_blank" rel="noopener">DistMoE提出免重放路由机制，实现分布式视觉指令微调</a>
+            
+          </div>
+          
+          <div class="article-subtitle">DistMoE: Private-data Rehearsal-free Routing in Mixture-of-Experts for Distributed Instruction Tuning</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-10T17:52:14+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        DistMoE introduces a rehearsal-free MoE routing method for distributed visual instruction tuning, enabling private data adaptation without centralized training or data sharing.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Augments public FFN with client-specific private experts for domain knowledge</li>
+        
+        <li>Solves representation scale mismatch to enable seamless expert merging</li>
+        
+        <li>Enables distributed MLLM tuning without data centralization or rehearsal</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses critical privacy and scalability bottlenecks in MLLM fine-tuning by allowing decentralized training on siloed data, making enterprise and cross-institutional model adaptation feasible.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#moe</span>
+        
+        <span class="tag">#multimodal</span>
+        
+        <span class="tag">#distributedtraining</span>
+        
+        <span class="tag">#instructiontuning</span>
+        
+        <span class="tag">#privacy</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="2">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09898v1" target="_blank" rel="noopener">提出一致性机制优化大模型无验证器测试时扩展</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Consilience for Verifier-Free Test-Time Scaling</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T17:45:44+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper introduces a consistency-based approach to address critical limitations in confidence-based verifier-free test-time scaling for LLM reasoning.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopt consistency checks to fix confidence-based VF-TTS flaws</li>
+        
+        <li>Select high-quality rollouts without external verifiers</li>
+        
+        <li>Deploy across tasks with near-zero evaluation overhead</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a practical pathway to enhance LLM reasoning without external verifiers, crucial for real-world applications where ground truth is unavailable.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#testtimescaling</span>
+        
+        <span class="tag">#reasoning</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#research</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="3">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09888v1" target="_blank" rel="noopener">BDH-CQ结合上下文学习与循环隐式推理，刷新ARC-AGI-1成本精度前沿</a>
+            
+          </div>
+          
+          <div class="article-subtitle">BDH-CQ: In-Context Learning with Recurrent Latent Reasoning</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T17:39:16+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        BDH-CQ introduces a 150M-parameter reasoning model using recurrent latent memory for in-context learning, achieving 29.5% pass@2 on ARC-AGI-1 at $0.0007/task and breaking the cost-accuracy Pareto frontier.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopt recurrent latent memory to update representations at inference without verbalizing steps.</li>
+        
+        <li>Deploy 150M-parameter config to achieve 29.5% pass@2 on ARC-AGI-1 at $0.0007/task.</li>
+        
+        <li>Leverage latent-space iterative computation to break cost-accuracy Pareto frontiers.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a highly efficient alternative to chain-of-thought reasoning by performing iterative computation in latent space, significantly reducing inference costs while maintaining strong performance on complex reasoning benchmarks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#incontextlearning</span>
+        
+        <span class="tag">#reasoning</span>
+        
+        <span class="tag">#latentspace</span>
+        
+        <span class="tag">#arc-agi</span>
+        
+        <span class="tag">#efficientinference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="4">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09867v1" target="_blank" rel="noopener">利用跨模型加密块漏洞窃取专有大模型推理轨迹</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Stealing Reasoning Traces from Proprietary LLM APIs</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T17:24:50+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers demonstrate a decryption jailbreak that exploits interchangeable encrypted reasoning blocks across LLM API sessions to extract proprietary chain-of-thought traces from weaker models.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Encrypted CoT blocks are interchangeable across sessions, users, and models.</li>
+        
+        <li>Injecting strong model traces into weaker models forces decryption and leakage.</li>
+        
+        <li>Exposes critical API security flaw in proprietary LLM reasoning implementations.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 This finding exposes a critical flaw in how providers secure chain-of-thought data, urging immediate architectural reviews of API state management and encryption practices to prevent intellectual property leakage.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#security</span>
+        
+        <span class="tag">#chainofthought</span>
+        
+        <span class="tag">#api</span>
+        
+        <span class="tag">#jailbreak</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="5">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09819v1" target="_blank" rel="noopener">Macaron-V1 采用混合 LoRA 架构实现 744B 模型持续学习与自进化</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Macaron-V1: Towards Open Continual Learning with Self-Improvement and Mixture-of-LoRA</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T16:39:55+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Macaron-V1 introduces a Mixture-of-LoRA architecture for open continual learning, enabling a 744B base model to dynamically route specialist adapters for self-improving agent capabilities.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces Mixture-of-LoRA to dynamically route specialist adapters per turn.</li>
+        
+        <li>Enables recursive self-improvement via versioned model-harness pairs and external contract evaluation.</li>
+        
+        <li>Releases 744B GLM-5.2 and 50B Qwen3.6 variants for chat, coding, and GenUI tasks.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a scalable, open framework for post-deployment continual learning without full fine-tuning, reducing compute costs while maintaining specialized agent performance across diverse tasks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#lora</span>
+        
+        <span class="tag">#continuallearning</span>
+        
+        <span class="tag">#agent</span>
+        
+        <span class="tag">#selfimprovement</span>
+        
+        <span class="tag">#openweight</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="6">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09805v1" target="_blank" rel="noopener">基于变分学习的参数空间探索方法，有效缓解大模型强化训练发散问题</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Parameter Exploration for RLVR via Variational Learning</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T16:28:07+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper introduces parameter-space exploration via variational learning for LLM reinforcement training, addressing the limitations of action-space methods like temperature scaling that often cause training divergence or stalling.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>提出参数空间探索替代传统动作空间探索，通过从后验分布采样策略控制探索多样性。</li>
+        
+        <li>解决温度缩放等方法无法重排Token且易导致训练发散或停滞的痛点。</li>
+        
+        <li>为LLM强化学习提供互补的探索控制杠杆，提升下游任务性能稳定性。</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses a critical bottleneck in scaling RL for LLMs by replacing heuristic temperature scaling with a mathematically grounded parameter-space approach. This method directly tackles training instability and exploration inefficiency, paving the way for more robust RLVR/RLHF pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#rlhf</span>
+        
+        <span class="tag">#variationallearning</span>
+        
+        <span class="tag">#exploration</span>
+        
+        <span class="tag">#llmtraining</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="7">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.08744v1" target="_blank" rel="noopener">引入可微碳排代理优化大模型微调目标实现推理零碳平衡</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Can We Optimize the Performance-Carbon Emission Break-Even Point?: The Quest for Greener LLMs</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-09T14:47:35+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper proposes integrating a differentiable carbon-emission surrogate into the LLM fine-tuning objective, enabling models like Llama-3.1 and Qwen-2.5 to achieve task accuracy at near-zero additional carbon cost during inference.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>将硬件能耗数据拟合为可微代理，直接嵌入LLM微调损失函数</li>
+        
+        <li>在Gemma-2、Llama-3.1与Qwen-2.5上验证，实现推理阶段零碳成本性能平衡</li>
+        
+        <li>提供参数范数、FLOPs与内存占用的线性代理模型，支持绿色AI部署优化</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses the growing environmental cost of LLM inference by shifting efficiency optimization from post-hoc compression to the fine-tuning phase, offering a practical pathway for sustainable AI deployment without sacrificing accuracy.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#fine-tuning</span>
+        
+        <span class="tag">#inference</span>
+        
+        <span class="tag">#optimization</span>
+        
+        <span class="tag">#green-ai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="8">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09155v1" target="_blank" rel="noopener">基于谓词动作分解的多调用LLM工作流模型替换与路由优化</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Beyond Tier Labels: Role- and Deployment-Dependent Model Substitution in Multi-Call LLM Workflows</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+        <span>2026-08-10T06:02:32+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper introduces predicate-action factorization to optimize model substitution in multi-call LLM workflows, demonstrating that routing decisions must account for computational position and deployment context to minimize error rates.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>采用谓词动作分解解耦路由决策与模型替换收益，优化多调用工作流编排。</li>
+        
+        <li>模型价值高度依赖其在依赖计算链中的位置及部署环境，传统查询级路由存在局限。</li>
+        
+        <li>实验表明全强模型策略在特定混合模型梯次中可将RMSE降低近70%，验证位置敏感性。</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a rigorous framework for optimizing cost-performance tradeoffs in complex LLM pipelines, enabling developers to dynamically substitute models based on workflow position rather than static tier labels.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#routing</span>
+        
+        <span class="tag">#orchestration</span>
+        
+        <span class="tag">#inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="9">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.07304v1" target="_blank" rel="noopener">提出令牌效率指数 TEI：标准化 AI 模型调用成本与效率评估</a>
+            
+          </div>
+          
+          <div class="article-subtitle">The Token Efficiency Index: A Peer-Benchmarked Composite Indicator for AI Token Efficiency</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CE</span>
+        <span>2026-08-07T15:00:46+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose the Token Efficiency Index (TEI), a provider-agnostic 0-100 scoring framework to standardize and benchmark AI token consumption costs across organizations.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>TEI 提供 0-100 标准化评分，统一衡量不同模型与供应商的 AI 令牌消耗效率</li>
+        
+        <li>解决输入/输出/推理令牌价格差异导致的跨组织成本对比难题</li>
+        
+        <li>支持独立于底层供应商的数据接入，便于企业优化 AI 预算分配</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a standardized metric for enterprises to track and optimize AI spending, crucial as token-based pricing becomes the industry standard. Helps developers and CTOs benchmark efficiency across different models and agentic workflows.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#benchmarking</span>
+        
+        <span class="tag">#token_efficiency</span>
+        
+        <span class="tag">#cost_optimization</span>
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#infrastructure</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="10">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09931v1" target="_blank" rel="noopener">CVPD提出多模态大模型视觉自蒸馏新框架，精准定位反事实盲点</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Perception Before Supervision: Self-Contained Visual Distillation from Counterfactual Blind Spots</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-10T17:59:56+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose CVPD, a self-contained framework that uses counterfactual visual blind spots to enable dense, token-level self-distillation for multimodal large language models.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopt CVPD for dense token-level visual self-distillation in MLLMs without external annotations.</li>
+        
+        <li>Leverage answer distribution shifts from region zooming to identify visual blind spots.</li>
+        
+        <li>Implement on-policy self-improvement to surpass coarse reward-based feedback limits.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a scalable, annotation-free method to enhance MLLM visual reasoning and self-correction, reducing reliance on expensive external supervision or stronger teacher models.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#multimodal</span>
+        
+        <span class="tag">#distillation</span>
+        
+        <span class="tag">#selfimprovement</span>
+        
+        <span class="tag">#visionlanguage</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="11">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09880v1" target="_blank" rel="noopener">FinATOM 利用大模型词元生成实现金融预测与动态资产配置</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Financial Numerical Prediction and Allocation as Token Generation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-10T17:33:10+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        FinATOM proposes a head-free causal language model framework that directly generates volatility-standardized return tokens and ETF allocation weights, optimizing financial forecasting and portfolio management through constrained token generation and GRPO-based policy learning.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Replaces traditional regression heads with direct token generation for stock returns and ETF weights.</li>
+        
+        <li>Uses ordinal/ranking supervision and DAPO-augmented GRPO to optimize 21-day Sharpe ratios.</li>
+        
+        <li>Demonstrates a unified, head-free interface for multi-step forecasting and dynamic allocation.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates that causal language models can natively handle numerical financial tasks without specialized heads, streamlining architecture while leveraging RL techniques like GRPO for direct portfolio optimization.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#token_generation</span>
+        
+        <span class="tag">#grpo</span>
+        
+        <span class="tag">#quantitative_finance</span>
+        
+        <span class="tag">#reinforcement_learning</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09842v1" target="_blank" rel="noopener">TableParseMap 基准揭示现实表格解析瓶颈，DEC 方法提升还原精度</a>
+            
+          </div>
+          
+          <div class="article-subtitle">From Diagnosis to Correction: Benchmarking and Improving Real-World Table Parsing</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-10T16:59:30+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers introduce TableParseMap, a diagnostic benchmark exposing persistent failures in real-world table parsing, and propose the DEC method to address structural and visual inconsistencies.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>TableParseMap benchmark reveals top parsers drop to 85.03 TEDS on complex real-world tables.</li>
+        
+        <li>Failures stem from scale limits, weak visual cues, and visual-structural inconsistencies.</li>
+        
+        <li>DEC (Decompose-Enhance-Correct) framework addresses these gaps through iterative refinement.</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Highlights the gap between benchmark scores and real-world performance in document AI, providing a diagnostic tool and correction method crucial for reliable RAG and data extraction pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#documentai</span>
+        
+        <span class="tag">#benchmark</span>
+        
+        <span class="tag">#multimodal</span>
+        
+        <span class="tag">#tableparsing</span>
+        
+        <span class="tag">#rag</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09789v1" target="_blank" rel="noopener">ADOPD：面向MLLM工业异常检测的参考特权在线策略蒸馏框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">ADOPD: Reference-Privileged On-Policy Distillation for MLLM-Based Industrial Anomaly Detection</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-10T16:12:39+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose ADOPD, a reference-privileged on-policy distillation framework that internalizes reference comparison benefits into MLLM parameters for efficient industrial anomaly detection without inference-time retrieval.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces ADOPD framework to internalize reference comparison into MLLM weights</li>
+        
+        <li>Uses reference-aware teacher to supervise query-only student during training</li>
+        
+        <li>Mitigates teacher bias toward language priors via on-policy rollout evaluation</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enables efficient, retrieval-free industrial anomaly detection using MLLMs by compressing reference-guided reasoning into model parameters, significantly reducing inference latency and computational overhead.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#mllm</span>
+        
+        <span class="tag">#distillation</span>
+        
+        <span class="tag">#anomalydetection</span>
+        
+        <span class="tag">#onpolicy</span>
+        
+        <span class="tag">#industrialai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="14">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09826v1" target="_blank" rel="noopener">SKALD提出技能锚定自蒸馏框架，将提示技能转化为模型权重</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Distill Skills into Weights, Not Prompts: Abstract Skills as Privileged Signals for On-Policy Self-Distillation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T16:43:18+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        SKALD is an on-policy self-distillation framework that transfers skill-induced advantages from prompt-conditioned teachers into model weights, stabilizing training with an annealed exponentially tilted objective.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Addresses RL reward signal collapse when rollout groups are uniformly correct/wrong</li>
+        
+        <li>Uses skill cards as privileged teacher signals to distill capabilities into base model weights</li>
+        
+        <li>Stabilizes training via annealed tilted objective that downweights low-likelihood teacher tokens</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a practical method to internalize external skill prompts into model weights, improving RL training stability and reducing test-time dependency on privileged context.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#selfdistillation</span>
+        
+        <span class="tag">#rl</span>
+        
+        <span class="tag">#fine-tuning</span>
+        
+        <span class="tag">#llm</span>
+        
+        <span class="tag">#skilltransfer</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="15">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09765v1" target="_blank" rel="noopener">REFRAMED 提出电影音频描述新范式，实现描述内容与插入时机联合决策</a>
+            
+          </div>
+          
+          <div class="article-subtitle">REFRAMED: Towards Realistic Audio Description Generation for Movies</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.CV</span>
+        <span>2026-08-10T15:55:56+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces REFRAMED, a new framework for movie audio description that jointly optimizes what to describe and when, addressing limitations of pre-specified timing and noisy pipelines in existing methods.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Implement joint content-timing decision models to replace pre-specified gap captioning</li>
+        
+        <li>Eliminate noisy transcription pipelines by training directly on narrative-aware data</li>
+        
+        <li>Adopt REFRAMED formulation for realistic, context-aware movie audio description</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances accessibility AI by moving from artificial clip-level captioning to realistic, narrative-aware audio description generation, enabling more natural support for visually impaired audiences.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#multimodal</span>
+        
+        <span class="tag">#video_understanding</span>
+        
+        <span class="tag">#accessibility</span>
+        
+        <span class="tag">#generative_ai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09870v1" target="_blank" rel="noopener">统一稳定算法消除对数因子的泛化界理论证明</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Logarithmic-Free Moment and Generalization Bounds for Uniformly Stable Algorithms</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T17:25:27+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        This arXiv paper removes the logarithmic factor from generalization bounds for uniformly stable algorithms, providing tighter theoretical guarantees for machine learning models.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Proves logarithmic-free moment bounds for uniformly stable algorithms</li>
+        
+        <li>Resolves open question from Bousquet et al. (2020) on removing log n factor</li>
+        
+        <li>Provides tighter generalization error guarantees for independent coordinate models</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Tighter generalization bounds improve theoretical understanding of model convergence and stability, which is foundational for training reliable large-scale models and reducing overfitting risks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#generalization</span>
+        
+        <span class="tag">#theoreticalml</span>
+        
+        <span class="tag">#bounds</span>
+        
+        <span class="tag">#stability</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="17">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="http://arxiv.org/abs/2608.09834v1" target="_blank" rel="noopener">RA-FinBERT：融合规则特征与LoRA的低资源金融情感分类框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">RA-FinBERT: Rule-aware LoRA adaptation for low-resource financial sentiment classification</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+        <span>2026-08-10T16:52:19+00:00</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers propose RA-FinBERT, a parameter-efficient framework that combines LoRA with VADER-derived sentiment features and metadata to improve low-resource financial sentiment classification.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Integrates LoRA with continuous VADER sentiment proportions and metadata</li>
+        
+        <li>Concatenates 4D rule features with FinBERT [CLS] for efficient adaptation</li>
+        
+        <li>Targets low-resource financial NLP tasks with improved parameter efficiency</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a practical, parameter-efficient approach for domain-specific financial NLP, reducing compute costs while leveraging interpretable rule-based signals alongside contextual embeddings.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">#lora</span>
+        
+        <span class="tag">#fine-tuning</span>
+        
+        <span class="tag">#nlp</span>
+        
+        <span class="tag">#sentiment-analysis</span>
+        
+        <span class="tag">#parameter-efficient</span>
+        
+      </div>
       
     </div>
     
@@ -321,7 +1259,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-11 20:25 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-11 21:45 · Weekly AI Report Agent</div>
 
 </div>
 </body>

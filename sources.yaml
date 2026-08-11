@@ -1,178 +1,100 @@
 sources:
-- articles_this_week: 0
+- articles_this_week: 19
   category: AI4Science
-  eval_score: 8
+  eval_score: 7
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/q-bio.BM
   weight: 7
-- articles_this_week: 0
+- articles_this_week: 18
   category: AI4Science
-  eval_score: 8
+  eval_score: 7
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/physics.comp-ph
   weight: 7
-- articles_this_week: 0
+- articles_this_week: 12
   category: AI4Science
-  eval_score: 8
+  eval_score: 7
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
   weight: 7
-- articles_this_week: 0
-  category: Agent
-  discovered_by: agent
-  eval_score: 8
-  github_owner: microsoft
-  github_repo: autogen
-  github_subtype: github_repo
-  name: AutoGen (GitHub)
-  streak_failures: 1
-  type: github
-  weight: 8
-- articles_this_week: 0
-  category: Agent
-  discovered_by: agent
-  eval_score: 8
-  github_owner: crewAIInc
-  github_repo: crewAI
-  github_subtype: github_repo
-  name: CrewAI (GitHub)
-  streak_failures: 1
-  type: github
-  weight: 7
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 8
-  github_owner: huggingface
-  github_repo: transformers
-  github_subtype: github_repo
-  name: HuggingFace Transformers (GitHub)
-  streak_failures: 1
-  type: github
-  weight: 9
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 7
-  github_subtype: github_trending
-  name: GitHub Trending
-  streak_failures: 1
-  type: github
-  weight: 8
-- articles_this_week: 0
+- articles_this_week: 18
   category: DigitalTwin
-  eval_score: 7
+  eval_score: 6
   name: arXiv cs.CE
   note: Computational Engineering, digital twin research
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cs.CE
   weight: 7
-- articles_this_week: 0
+- articles_this_week: 17
   category: DigitalTwin
-  eval_score: 7
+  eval_score: 6
   name: arXiv cs.MA
   note: Multiagent systems, digital twin applications
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cs.MA
   weight: 7
-- articles_this_week: 0
+- articles_this_week: 18
   category: DesignSimulation
-  eval_score: 7
+  eval_score: 6
   name: arXiv cs.GR
   note: Computer graphics, simulation, visualization
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cs.GR
   weight: 7
-- articles_this_week: 0
-  category: LLM
-  eval_score: 6
-  name: OpenAI Blog
-  streak_failures: 2
-  type: rss
-  url: https://openai.com/blog/rss.xml
-  weight: 9
-- articles_this_week: 0
-  category: LLM
-  eval_score: 6
-  name: Anthropic Research
-  streak_failures: 2
-  type: rss
-  url: https://www.anthropic.com/index.xml
-  weight: 9
-- articles_this_week: 0
-  category: Agent
-  discovered_by: agent
-  eval_score: 6
-  github_owner: langchain-ai
-  github_repo: langchain
-  github_subtype: github_repo
-  name: LangChain (GitHub)
-  streak_failures: 2
-  type: github
-  weight: 8
-- articles_this_week: 0
+- articles_this_week: 16
   category: DesignSimulation
-  eval_score: 6
+  eval_score: 5
   name: arXiv cs.CV
   note: Computer vision, 3D reconstruction, NeRF
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cs.CV
   weight: 7
-- articles_this_week: 0
-  category: DigitalTwin
-  eval_score: 3
-  name: Digital Twin Magazine
-  note: Industry news and case studies
-  streak_failures: 2
-  type: rss
-  url: https://digitaltwinmagazine.com/feed/
-  weight: 6
-- articles_this_week: 0
+- articles_this_week: 13
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 2
   name: arxiv.org
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://arxiv.org/rss/cs.LG
   weight: 5
-- articles_this_week: 0
+- articles_this_week: 13
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 2
   name: arxiv.org
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://arxiv.org/rss/physics.comp-ph
   weight: 5
-- articles_this_week: 0
-  category: LLM
+- category: LLM
   discovered_by: agent
-  eval_score: 3
-  name: www.nature.com
-  streak_failures: 1
+  name: thegradient.pub
   type: rss
-  url: https://www.nature.com/natmachintell/
+  url: https://thegradient.pub/
   weight: 5
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 0
-  name: DP Technology (深势科技) Blog
-  note: AI-aided drug design (AIDD), AI-aided material design (AIMD), Bohrium platform
-  streak_failures: 2
-  type: web
-  url: https://www.dp.tech/en
-  weight: 8
+- category: LLM
+  discovered_by: agent
+  name: paperswithcode.com
+  type: rss
+  url: https://paperswithcode.com/
+  weight: 5
+- category: LLM
+  discovered_by: agent
+  name: www.airesearchnews.com
+  type: rss
+  url: https://www.airesearchnews.com/
+  weight: 5

@@ -104,7 +104,12 @@ class GitHubExtractor:
 
     async def extract(self, session: aiohttp.ClientSession, source: dict) -> list[dict]:
         subtype = source.get("github_subtype", "github_trending")
+        # Lazy token read — .env is loaded by llm_client, which imports after extractors
         token = source.get("github_token") or self._token
+        if token is None:
+            import os
+            token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GITHUB_ACCESS_TOKEN")
+            self._token = token
         g = Github(token) if token else Github()
 
         if subtype == "github_repo":
@@ -123,29 +128,40 @@ class GitHubExtractor:
             return []
         gh_repo = g.get_repo(f"{owner}/{repo}")
         items = []
+        # Releases (get_releases no longer accepts per_page in PyGithub 2.9+)
         try:
-            for rel in gh_repo.get_releases(per_page=10):
+            count = 0
+            for rel in gh_repo.get_releases():
                 items.append({
-                    "title": f"[Release] {rel.tag_name}: {rel.title}",
+                    "title": f"[Release] {rel.tag_name}: {rel.name or rel.tag_name}",
                     "url": rel.html_url,
                     "summary": (rel.body or "")[:2000],
                     "published": _parse_datetime(rel.created_at),
                     "author": owner,
                 })
-        except Exception:
-            pass
+                count += 1
+                if count >= 10:
+                    break
+        except Exception as e:
+            logger.warning(f"[GitHub] {owner}/{repo} releases: {e}")
+        # Recent commits
         try:
-            for commit in gh_repo.get_commits(per_page=10):
-                if commit.commit.message:
+            count = 0
+            for commit in gh_repo.get_commits():
+                msg = commit.commit.message or ""
+                if msg:
                     items.append({
-                        "title": commit.commit.message[:100],
+                        "title": msg.split("\n")[0][:100],
                         "url": commit.html_url,
-                        "summary": commit.commit.message,
+                        "summary": msg[:500],
                         "published": _parse_datetime(commit.commit.author.date) if commit.commit.author else "",
                         "author": (commit.commit.author.name if commit.commit.author else owner),
                     })
-        except Exception:
-            pass
+                    count += 1
+                    if count >= 10:
+                        break
+        except Exception as e:
+            logger.warning(f"[GitHub] {owner}/{repo} commits: {e}")
         return items
 
     async def _org(self, g, source) -> list[dict]:

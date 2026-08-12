@@ -151,7 +151,13 @@ async def main():
     week_label = f"{week_num[0]}-W{week_num[1]:02d}"
     week_dir = f"output/{week_label.replace(' ', '_')}"
     acc_path = os.path.join(week_dir, "articles.json")
-    has_accumulator = os.path.exists(acc_path)
+    has_accumulator = False
+    if os.path.exists(acc_path):
+        try:
+            with open(acc_path) as f:
+                has_accumulator = len(json.load(f)) > 0
+        except Exception:
+            pass
 
     if not articles and not has_accumulator:
         cleared = deduplicator.reset_today()

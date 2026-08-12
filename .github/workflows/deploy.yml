@@ -3,12 +3,24 @@ name: Deploy Weekly Report to GitHub Pages
 on:
   push:
     branches: [master]
+    paths:
+      - "output/**"
+      - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
 
 jobs:
   deploy:
@@ -16,26 +28,34 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy output/ to deploy directory
+      - uses: actions/configure-pages@v4
+
+      - name: Prepare deploy directory
         run: |
-          mkdir -p deploy
+          mkdir -p build
+
+          # Copy all week directories
           if [ -d output ]; then
-            cp -r output/* deploy/
-            echo "Copied output/ to deploy/ (all weeks)"
+            cp -r output/* build/
+            echo "Copied output/* to build/"
           else
-            echo "No output/ directory found"
+            echo "No output/ directory found, skipping"
+            exit 0
           fi
 
-      - name: Create root index.html (redirect to latest week)
-        run: |
-          LATEST_WEEK=$(ls -d deploy/*/index.html 2>/dev/null | sort -r | head -1 | grep -oP '\d{4}-W\d{2}')
+          # Create root index redirecting to latest week
+          LATEST_WEEK=$(ls -d build/????-W??/ 2>/dev/null | sort -r | head -1 | sed 's|/||g' | sed 's|.*/||')
+          if [ -z "$LATEST_WEEK" ]; then
+            echo "No week directories found"
+            exit 0
+          fi
 
-          cat > deploy/index.html << HTML
+          cat > build/index.html << HTML
           <!DOCTYPE html>
           <html lang="zh-CN">
           <head>
           <meta charset="UTF-8">
-          <meta http-equiv="refresh" content="0;url=/weekly-ai-report/${LATEST_WEEK}/">
+          <meta http-equiv="refresh" content="0;url=/$LATEST_WEEK/">
           <title>Weekly AI Report</title>
           <style>
             body { font-family: sans-serif; background: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
@@ -47,20 +67,18 @@ jobs:
           </head>
           <body>
           <div class="box">
-            <h1>📊 Weekly AI Report</h1>
+            <h1>Weekly AI Report</h1>
             <p>正在跳转到最新一期周报...</p>
-            <p><a href="/${LATEST_WEEK}/">如果未跳转，点击这里</a></p>
-            <p style="margin-top:2rem;font-size:0.85rem">历史周报: ${LATEST_WEEK}</p>
+            <p><a href="/$LATEST_WEEK/">如果未跳转，点击这里</a></p>
           </div>
           </body>
           </html>
           HTML
-          echo "Root index created, redirecting to: /${LATEST_WEEK}/"
+          echo "Root index created, redirecting to: /$LATEST_WEEK/"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./build
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./deploy
-          publish_branch: gh-pages
-          keep_files: false
+        uses: actions/deploy-pages@v4

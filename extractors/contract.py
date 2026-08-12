@@ -31,6 +31,10 @@ class RawArticle(BaseModel):
         description="来源平台类型: github | hf | wechat | web | arxiv",
         pattern=r"^(github|hf|wechat|web|arxiv)$",
     )
+    default_category: str | None = Field(
+        None,
+        description="源默认分类先验 — 垂直源设置后传给 LLM 作为分类 Prior",
+    )
     feed_url: str | None = Field(None, description="RSS/Atom feed URL，可追溯原始源")
     content_preview: str | None = Field(
         None,

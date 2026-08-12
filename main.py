@@ -3,8 +3,10 @@
 Pipeline:
   Phase 1  : Fetching (RSS / GitHub / web)
   Phase 2  : Hard Dedup (URL + source_type + date_bucket)
+  Phase 2.3: Blacklist Filter (zero-token keyword matching)
   Phase 2.5: Semantic Dedup (FastEmbed vector similarity)
-  Phase 3  : LLM Curator (classify + score + summarize)
+  Phase 3  : LLM Curator (classify + score + summarize, BATCH_SIZE=5)
+  Phase 3.5: Top-K Reranking (pairwise comparison for top articles)
   Phase 4  : Merge with existing (cumulative per week)
   Phase 5  : Generate Report (HTML frontend)
   Phase 6  : Source Evaluation & Auto-Discovery
@@ -108,15 +110,23 @@ async def main():
         a["time_boost"] = _time_boost(days_old)
     logger.info(f"Time boost applied to {len(articles)} articles")
 
-    # ── Phase 2: Dedup (URL + date_bucket) ──────────────────────
+    # Phase 2: Hard dedup (URL + source_type + date_bucket)
     logger.info("=== Phase 2: Hard Dedup ===")
     articles = Deduplicator().filter_new(articles)
 
-    # ── Phase 2.5: Semantic Dedup (vector + LLM judge) ──────────
+    # Phase 2.3: Blacklist filter (zero-token keyword matching) — before semantic dedup to save tokens
+    logger.info("=== Phase 2.3: Blacklist Filter ===")
+    try:
+        from filter.blacklist_filter import BlacklistFilter
+        articles = BlacklistFilter(config).filter(articles)
+    except Exception as e:
+        logger.warning(f"Blacklist filter failed (continuing): {e}")
+
+    # Phase 2.5: Semantic dedup (vector similarity)
     logger.info("=== Phase 2.5: Semantic Dedup ===")
     try:
         from dedup.semantic_deduplicator import SemanticDeduplicator
-        sdd = SemanticDeduplicator(llm=None)  # No LLM for gray zone yet
+        sdd = SemanticDeduplicator(llm=None)
         articles = sdd.filter(articles)
     except Exception as e:
         logger.warning(f"Semantic dedup failed (continuing without it): {e}")
@@ -130,6 +140,15 @@ async def main():
         reverse=True,
     )
     logger.info(f"Curator result: {len(articles)} relevant articles")
+
+    # ── Phase 3.5: Top-K Reranking (pairwise) ────────────────────
+    logger.info("=== Phase 3.5: Top-K Reranking ===")
+    try:
+        from filter.topk_reranker import TopKReranker
+        reranker = TopKReranker(llm, k=config.get("filter", {}).get("top_k", 5))
+        articles = await reranker.rerank(articles)
+    except Exception as e:
+        logger.warning(f"Top-K rerank failed (continuing without it): {e}")
 
     # ── Phase 4: Merge with existing (cumulative) ────────────────
     week_num = datetime.now(timezone.utc).isocalendar()

@@ -29,7 +29,7 @@ CURATION_RULES = _load_prompt("curation-rules.md")
 DIGEST_PROMPT = _load_prompt("digest-prompt.md")
 
 # Batch size per LLM call
-BATCH_SIZE = 3
+BATCH_SIZE = 5
 # Summary length for batch mode
 BATCH_SUMMARY_LEN = 500
 
@@ -37,7 +37,13 @@ CURATOR_SYSTEM = (
     "You are a senior technology news curator and intelligence analyst "
     "specializing in tracking global AI frontiers and industrial technology evolution. "
     "You will be given multiple articles. For each, decide if it is relevant to AI frontiers "
-    "and if so, produce a structured analysis. Output ONLY a valid JSON array without markdown fences."
+    "and if so, produce a structured analysis.\n"
+    "Classification prior: some articles carry a source hint like "
+    "'(Source specializes in: X)'. Use this as a Bayesian prior — prefer "
+    "category X when the article content is ambiguous, but override it when "
+    "the content clearly belongs elsewhere. The article itself is always the "
+    "ultimate authority, not the source.\n"
+    "Output ONLY a valid JSON array without markdown fences."
 )
 
 # Template for a single article (fallback when batch fails)
@@ -47,7 +53,7 @@ CURATOR_USER_TEMPLATE_SINGLE = """{rules}
 
 # Input
 Title: {title}
-Source: {source_name}
+Source: {source_name}{prior_hint}
 URL: {url}
 Summary: {summary}
 
@@ -56,7 +62,7 @@ Return ONLY valid JSON (no markdown fences):"""
 # Template for a single article inside a batch
 _ARTICLE_TEMPLATE = """--- Article {idx} ---
 Title: {title}
-Source: {source_name}
+Source: {source_name}{prior_hint}
 URL: {url}
 Summary: {summary}"""
 
@@ -95,6 +101,14 @@ _CAT_MAP = {
     "LLM": "LLM",
     "Agent": "Agent",
 }
+
+
+def _prior_hint(article: dict) -> str:
+    """Build source prior hint for LLM — empty if no default_category."""
+    cat = article.get("default_category")
+    if cat:
+        return f" (Source specializes in: {cat})"
+    return ""
 
 
 class FilterSummarizer:
@@ -164,6 +178,7 @@ class FilterSummarizer:
                     digest=DIGEST_PROMPT,
                     title=title,
                     source_name=source_name,
+                    prior_hint=_prior_hint(a),
                     summary=summary,
                     url=a.get("url", ""),
                 )
@@ -190,10 +205,12 @@ class FilterSummarizer:
                     title = a.get("title", "")[:300]
                     summary = a.get("summary", "")[:BATCH_SUMMARY_LEN]
                     source_name = a.get("source_name", "")
+                    prior = _prior_hint(a)
                     article_blocks.append(_ARTICLE_TEMPLATE.format(
                         idx=idx,
                         title=title,
                         source_name=source_name,
+                        prior_hint=prior,
                         url=a.get("url", ""),
                         summary=summary,
                     ))

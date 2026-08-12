@@ -1,5 +1,4 @@
 """语义去重模块 — FastEmbed 向量相似度 + 双门槛 LLM 裁决
-
 三级去重流水线：
   1. 硬哈希去重 (deduplicator.py) — URL + source_type + date_bucket
   2. 向量相似度 — FastEmbed (BAAI/bge-small-zh-v1.5) + cosine similarity
@@ -96,7 +95,7 @@ class SemanticDeduplicator:
         embeddings = list(self.embed_model.embed(texts))
 
         unique_articles: List[dict] = []
-        kept_metadata: List[tuple] = []  # (title, summary) for LLM judge
+        kept_indices: List[int] = []  # indices into articles/embeddings
 
         skipped_total = 0
         skipped_hard = 0
@@ -105,7 +104,12 @@ class SemanticDeduplicator:
         for idx, (article, new_vec) in enumerate(zip(articles, embeddings)):
             is_duplicate = False
 
-            for exist_vec, exist_title, exist_summary in kept_metadata:
+            for ki in kept_indices:
+                exist_vec = embeddings[ki]
+                exist_article = articles[ki]
+                exist_title = exist_article.get("title", "")
+                exist_summary = exist_article.get("summary", "") or ""
+
                 similarity = self._cosine_similarity(new_vec, exist_vec)
 
                 if similarity >= self.high_threshold:
@@ -117,18 +121,15 @@ class SemanticDeduplicator:
 
                 elif similarity >= self.low_threshold:
                     summary_a = article.get("summary", "") or ""
-                    summary_b = exist_summary or ""
                     if self.llm and self._llm_judge_duplicate(
-                        article.get("title", ""), summary_a, exist_title, summary_b
+                        article.get("title", ""), summary_a, exist_title, exist_summary
                     ):
                         skipped_llm += 1
                         break
 
             if not is_duplicate:
                 unique_articles.append(article)
-                kept_metadata.append(
-                    (article.get("title", ""), article.get("summary", "") or "")
-                )
+                kept_indices.append(idx)
             else:
                 skipped_total += 1
 

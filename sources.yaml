@@ -9,6 +9,7 @@ sources:
   weight: 8
 - articles_this_week: 7
   category: AI4Science
+  default_category: AI for Science
   eval_score: 6
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
@@ -18,6 +19,7 @@ sources:
   weight: 7
 - articles_this_week: 5
   category: AI4Science
+  default_category: AI for Science
   eval_score: 6
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
@@ -175,15 +177,6 @@ sources:
   streak_failures: 0
   type: rss
   url: https://arxiv.org/rss/cs.LG
-  weight: 5
-- articles_this_week: 19
-  category: LLM
-  discovered_by: agent
-  eval_score: 1
-  name: arxiv.org
-  streak_failures: 0
-  type: rss
-  url: https://arxiv.org/rss/physics.comp-ph
   weight: 5
 - category: LLM
   discovered_by: agent

@@ -64,6 +64,7 @@ class IngestionManager:
                             extractor.extract(session, source),
                             timeout=self.timeout,
                         )
+                        default_cat = source.get("default_category")
                         # Validate as RawArticle
                         validated = BaseExtractor.batch_validate([
                             {
@@ -74,6 +75,7 @@ class IngestionManager:
                                 "author": r.get("author"),
                                 "source_name": source.get("name", ""),
                                 "source_type": pydantic_type,
+                                "default_category": default_cat,
                                 "feed_url": source.get("url"),
                                 "content_preview": r.get("summary", "")[:BaseExtractor.get_preview_limit(pydantic_type)],
                                 "raw_extra": {k: v for k, v in r.items() if k not in {"url", "title", "summary", "published", "author"}},

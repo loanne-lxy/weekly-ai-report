@@ -214,3 +214,34 @@ sources:
   type: rss
   url: https://paperswithcode.com/rss
   weight: 5
+
+# Digital Twin sources
+- articles_this_week: 0
+  category: DigitalTwin
+  default_category: 数字孪生
+  name: arXiv cs.SY
+  note: Systems & control, digital twin core research
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.SY
+  weight: 7
+- articles_this_week: 0
+  category: DigitalTwin
+  default_category: 数字孪生
+  name: arXiv cs.RO
+  note: Robotics, digital twin in autonomous systems
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.RO
+  weight: 7
+
+# Design Simulation source
+- articles_this_week: 0
+  category: DesignSimulation
+  default_category: 设计仿真
+  name: arXiv cs.MS
+  note: Mathematical software, simulation tools
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.MS
+  weight: 7

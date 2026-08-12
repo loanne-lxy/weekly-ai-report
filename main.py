@@ -1,7 +1,13 @@
 """主流程 — 端到端周报生成
 
-Refactored: Phase 3 (Source Priority) and Phase 4 (Keyword Filter) removed.
-LLM Curator now handles all relevance judgment, classification, and scoring.
+Pipeline:
+  Phase 1  : Fetching (RSS / GitHub / web)
+  Phase 2  : Hard Dedup (URL + source_type + date_bucket)
+  Phase 2.5: Semantic Dedup (FastEmbed vector similarity)
+  Phase 3  : LLM Curator (classify + score + summarize)
+  Phase 4  : Merge with existing (cumulative per week)
+  Phase 5  : Generate Report (HTML frontend)
+  Phase 6  : Source Evaluation & Auto-Discovery
 """
 import os
 import json
@@ -102,11 +108,20 @@ async def main():
         a["time_boost"] = _time_boost(days_old)
     logger.info(f"Time boost applied to {len(articles)} articles")
 
-    # ── Phase 2: Dedup ───────────────────────────────────────────
-    logger.info("=== Phase 2: Dedup ===")
+    # ── Phase 2: Dedup (URL + date_bucket) ──────────────────────
+    logger.info("=== Phase 2: Hard Dedup ===")
     articles = Deduplicator().filter_new(articles)
 
-    # ── Phase 3: LLM Curator (replaces old Phase 3+4) ────────────
+    # ── Phase 2.5: Semantic Dedup (vector + LLM judge) ──────────
+    logger.info("=== Phase 2.5: Semantic Dedup ===")
+    try:
+        from dedup.semantic_deduplicator import SemanticDeduplicator
+        sdd = SemanticDeduplicator(llm=None)  # No LLM for gray zone yet
+        articles = sdd.filter(articles)
+    except Exception as e:
+        logger.warning(f"Semantic dedup failed (continuing without it): {e}")
+
+    # ── Phase 3: LLM Curator ─────────────────────────────────────
     logger.info("=== Phase 3: LLM Curator ===")
     llm = LLMClient(config)
     articles = await FilterSummarizer(llm, config)._curate_async(articles)
@@ -151,7 +166,7 @@ async def main():
     logger.info(f"Merged: {len(existing)} old + {len(articles) - len(existing)} new → {len(articles)} total")
 
     # ── Phase 5: Generate Report ─────────────────────────────────
-    logger.info(f"=== Phase 4: Generate Report ({week_label}) ===")
+    logger.info(f"=== Phase 5: Generate Report ({week_label}) ===")
     report_path = generate_report(articles, config, week_label, llm)
     logger.info(f"Report saved to: {report_path}")
 
@@ -161,7 +176,7 @@ async def main():
     logger.info(f"本地打开: {abs_path}")
 
     # ── Phase 6: Source Evaluation & Discovery ───────────────────
-    logger.info("=== Phase 5: Evaluate & Discover Sources ===")
+    logger.info("=== Phase 6: Evaluate & Discover Sources ===")
     evaluator = SourceEvaluator("sources.yaml", config)
     sources = evaluator.evaluate(articles, sources)
 

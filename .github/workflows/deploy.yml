@@ -9,18 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
-defaults:
-  run:
-    shell: bash
+  contents: write
 
 jobs:
   deploy:
@@ -28,57 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/configure-pages@v4
-
-      - name: Prepare deploy directory
-        run: |
-          mkdir -p build
-
-          # Copy all week directories
-          if [ -d output ]; then
-            cp -r output/* build/
-            echo "Copied output/* to build/"
-          else
-            echo "No output/ directory found, skipping"
-            exit 0
-          fi
-
-          # Create root index redirecting to latest week
-          LATEST_WEEK=$(ls -d build/????-W??/ 2>/dev/null | sort -r | head -1 | sed 's|/||g' | sed 's|.*/||')
-          if [ -z "$LATEST_WEEK" ]; then
-            echo "No week directories found"
-            exit 0
-          fi
-
-          cat > build/index.html << HTML
-          <!DOCTYPE html>
-          <html lang="zh-CN">
-          <head>
-          <meta charset="UTF-8">
-          <meta http-equiv="refresh" content="0;url=/$LATEST_WEEK/">
-          <title>Weekly AI Report</title>
-          <style>
-            body { font-family: sans-serif; background: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-            .box { text-align: center; }
-            h1 { color: #2563eb; }
-            p { color: #64748b; }
-            a { color: #2563eb; }
-          </style>
-          </head>
-          <body>
-          <div class="box">
-            <h1>Weekly AI Report</h1>
-            <p>正在跳转到最新一期周报...</p>
-            <p><a href="/$LATEST_WEEK/">如果未跳转，点击这里</a></p>
-          </div>
-          </body>
-          </html>
-          HTML
-          echo "Root index created, redirecting to: /$LATEST_WEEK/"
-
-      - uses: actions/upload-pages-artifact@v3
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: ./build
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          publish_branch: gh-pages
+          keep_files: true
+          force_orphan: false

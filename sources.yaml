@@ -1,12 +1,41 @@
 sources:
-- articles_this_week: 9
+- articles_this_week: 2
+  category: DigitalTwin
+  default_category: 数字孪生
+  eval_score: 8
+  name: arXiv cs.SY
+  note: Systems & control, digital twin core research
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.SY
+  weight: 7
+- articles_this_week: 10
   category: LLM
-  eval_score: 6
+  eval_score: 7
   name: OpenAI Blog
   streak_failures: 0
   type: rss
   url: https://openai.com/blog/rss.xml
   weight: 8
+- articles_this_week: 2
+  category: AI4Science
+  default_category: AI for Science
+  eval_score: 6
+  name: arXiv physics.comp-ph
+  note: Computational physics, PINN, simulation
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/physics.comp-ph
+  weight: 7
+- articles_this_week: 16
+  category: LLM
+  discovered_by: agent
+  eval_score: 6
+  name: blog.langchain.dev
+  streak_failures: 0
+  type: rss
+  url: https://blog.langchain.dev/rss.xml
+  weight: 5
 - articles_this_week: 6
   category: Agent
   github_owner: microsoft
@@ -23,7 +52,7 @@ sources:
   name: CrewAI (GitHub)
   type: github
   weight: 7
-- articles_this_week: 9
+- articles_this_week: 10
   category: LLM
   github_owner: huggingface
   github_repo: transformers
@@ -37,7 +66,7 @@ sources:
   name: GitHub Trending
   type: github
   weight: 5
-- articles_this_week: 4
+- articles_this_week: 8
   category: Agent
   github_owner: langchain-ai
   github_repo: langchain
@@ -45,19 +74,9 @@ sources:
   name: LangChain (GitHub)
   type: github
   weight: 7
-- articles_this_week: 2
-  category: AI4Science
-  default_category: AI for Science
-  eval_score: 5
-  name: arXiv physics.comp-ph
-  note: Computational physics, PINN, simulation
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/physics.comp-ph
-  weight: 7
 - articles_this_week: 4
   category: DigitalTwin
-  eval_score: 4
+  eval_score: 5
   name: arXiv cs.CE
   note: Computational Engineering, digital twin research
   streak_failures: 0
@@ -66,7 +85,7 @@ sources:
   weight: 7
 - articles_this_week: 3
   category: DigitalTwin
-  eval_score: 4
+  eval_score: 5
   name: arXiv cs.MA
   note: Multiagent systems, digital twin applications
   streak_failures: 0
@@ -76,25 +95,35 @@ sources:
 - articles_this_week: 6
   category: LLM
   discovered_by: agent
-  eval_score: 4
+  eval_score: 5
   name: www.nature.com
   streak_failures: 0
   type: rss
   url: https://www.nature.com/natmachintell/rss
   weight: 5
-- articles_this_week: 1
-  category: AI4Science
-  default_category: AI for Science
-  eval_score: 3
-  name: arXiv cond-mat.mtrl-sci
-  note: Materials science, crystal structure prediction
-  streak_failures: 0
+- articles_this_week: 0
+  category: DigitalTwin
+  default_category: 数字孪生
+  eval_score: 5
+  name: arXiv cs.RO
+  note: Robotics, digital twin in autonomous systems
+  streak_failures: 1
   type: rss
-  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  url: https://rss.arxiv.org/rss/cs.RO
+  weight: 7
+- articles_this_week: 0
+  category: DesignSimulation
+  default_category: 设计仿真
+  eval_score: 5
+  name: arXiv cs.MS
+  note: Mathematical software, simulation tools
+  streak_failures: 1
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.MS
   weight: 7
 - articles_this_week: 6
   category: AI4Science
-  eval_score: 3
+  eval_score: 4
   name: www.nature.com
   streak_failures: 0
   type: rss
@@ -102,7 +131,7 @@ sources:
   weight: 8
 - articles_this_week: 2
   category: DesignSimulation
-  eval_score: 3
+  eval_score: 4
   name: arXiv cs.CV
   note: Computer vision, 3D reconstruction, NeRF
   streak_failures: 0
@@ -110,26 +139,54 @@ sources:
   url: https://rss.arxiv.org/rss/cs.CV
   weight: 7
 - articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: arxiv.org
+  streak_failures: 1
+  type: rss
+  url: https://arxiv.org/rss/cs.AI
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: paperswithcode.com
+  streak_failures: 1
+  type: rss
+  url: https://paperswithcode.com/rss
+  weight: 5
+- articles_this_week: 1
+  category: AI4Science
+  default_category: AI for Science
+  eval_score: 2
+  name: arXiv cond-mat.mtrl-sci
+  note: Materials science, crystal structure prediction
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  weight: 7
+- articles_this_week: 0
   category: DesignSimulation
-  eval_score: 1
+  eval_score: 0
   name: arXiv cs.GR
   note: Computer graphics, simulation, visualization
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://rss.arxiv.org/rss/cs.GR
   weight: 7
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 0
   name: www.aimagazine.com
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://www.aimagazine.com/rss
   weight: 5
 - articles_this_week: 1
   category: AI4Science
-  eval_score: 1
+  eval_score: 0
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
   streak_failures: 0
@@ -140,7 +197,7 @@ sources:
   category: LLM
   eval_score: 0
   name: Anthropic Research
-  streak_failures: 4
+  streak_failures: 5
   type: rss
   url: https://www.anthropic.com/index.xml
   weight: 8
@@ -148,7 +205,7 @@ sources:
   category: AI4Science
   eval_score: 0
   name: DP Technology (深势科技) Blog
-  streak_failures: 4
+  streak_failures: 5
   type: web
   url: https://www.dp.tech/en
   weight: 6
@@ -157,7 +214,7 @@ sources:
   discovered_by: agent
   eval_score: 0
   name: thegradient.pub
-  streak_failures: 4
+  streak_failures: 5
   type: rss
   url: https://thegradient.pub/
   weight: 5
@@ -166,7 +223,7 @@ sources:
   discovered_by: agent
   eval_score: 0
   name: paperswithcode.com
-  streak_failures: 4
+  streak_failures: 5
   type: rss
   url: https://paperswithcode.com/
   weight: 5
@@ -175,7 +232,7 @@ sources:
   discovered_by: agent
   eval_score: 0
   name: www.airesearchnews.com
-  streak_failures: 4
+  streak_failures: 5
   type: rss
   url: https://www.airesearchnews.com/
   weight: 5
@@ -183,7 +240,7 @@ sources:
   category: DesignSimulation
   eval_score: 0
   name: Digital Twin Magazine
-  streak_failures: 4
+  streak_failures: 5
   type: rss
   url: https://digitaltwinmagazine.com/feed/
   weight: 5
@@ -192,56 +249,25 @@ sources:
   discovered_by: agent
   eval_score: 0
   name: arxiv.org
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://arxiv.org/rss/cs.LG
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: arxiv.org
+  name: lilianweng.github.io
   type: rss
-  url: https://arxiv.org/rss/cs.AI
+  url: https://lilianweng.github.io/
   weight: 5
 - category: LLM
   discovered_by: agent
   name: blog.langchain.dev
   type: rss
-  url: https://blog.langchain.dev/rss.xml
+  url: https://blog.langchain.dev/
   weight: 5
 - category: LLM
   discovered_by: agent
-  name: paperswithcode.com
+  name: huggingface.co
   type: rss
-  url: https://paperswithcode.com/rss
+  url: https://huggingface.co/blog
   weight: 5
-
-# Digital Twin sources
-- articles_this_week: 0
-  category: DigitalTwin
-  default_category: 数字孪生
-  name: arXiv cs.SY
-  note: Systems & control, digital twin core research
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.SY
-  weight: 7
-- articles_this_week: 0
-  category: DigitalTwin
-  default_category: 数字孪生
-  name: arXiv cs.RO
-  note: Robotics, digital twin in autonomous systems
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.RO
-  weight: 7
-
-# Design Simulation source
-- articles_this_week: 0
-  category: DesignSimulation
-  default_category: 设计仿真
-  name: arXiv cs.MS
-  note: Mathematical software, simulation tools
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.MS
-  weight: 7

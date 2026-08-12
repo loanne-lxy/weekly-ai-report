@@ -175,10 +175,15 @@ body {
   <div class="cat-header">
     <span class="icon">🤖</span>
     <h1>Agent</h1>
-    <span class="count-badge">26 篇</span>
+    <span class="count-badge">45 篇</span>
   </div>
 
   <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周AI智能体领域聚焦评测基准构建、模型路由降本、运行时安全治理与输入Token优化，同时抗冲击自主机器人技术亦取得突破。
+  </div>
   
 
   <!-- Articles Container -->
@@ -186,6 +191,114 @@ body {
   <div class="articles-container" id="articles">
     
     <div class="article-card" data-index="0">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/evaluating-code-review-agents-with-reviewbench" target="_blank" rel="noopener">LangChain 发布 ReviewBench，以真实 PR 反馈评估代码审查智能体</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Evaluating code review agents with ReviewBench</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain introduces ReviewBench, a new evaluation benchmark that measures code review agents against real-world pull request feedback from trusted human reviewers.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces ReviewBench for standardized code review agent evaluation</li>
+        
+        <li>Uses real PR feedback as ground truth for higher fidelity testing</li>
+        
+        <li>Addresses critical gap in assessing AI coding assistant quality</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Establishes a rigorous, real-world standard for evaluating code review agents, moving beyond synthetic benchmarks to measure actual engineering impact.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">benchmark</span>
+        
+        <span class="tag">codegen</span>
+        
+        <span class="tag">evaluation</span>
+        
+        <span class="tag">langchain</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/switchyard-agent-routing-benchmark" target="_blank" rel="noopener">LangChain 基准测试显示仅 7% 智能体调用需前沿模型，路由降本 74%</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How many of your agent's calls actually need a frontier model?</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        Benchmarking NVIDIA NeMo Switchyard on 145 agent tasks reveals that only 7% of turns require frontier models, with routing reducing costs by 74% while maintaining accuracy.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Routing cuts agent inference costs by 74%</li>
+        
+        <li>Only 7% of agent turns actually need frontier models</li>
+        
+        <li>NVIDIA NeMo Switchyard benchmarked across 145 tasks</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides empirical data for optimizing agent inference costs, proving that intelligent routing to smaller models is highly effective for most tasks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">routing</span>
+        
+        <span class="tag">inference</span>
+        
+        <span class="tag">benchmark</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="2">
       <div class="article-header">
         
         
@@ -238,7 +351,115 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="1">
+    <div class="article-card" data-index="3">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/introducing-llm-gateway" target="_blank" rel="noopener">LangSmith 推出 LLM 网关，集成运行时治理与 PII 脱敏功能</a>
+            
+          </div>
+          
+          <div class="article-subtitle">LangSmith LLM Gateway: runtime governance built into the agent lifecycle</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain introduces LangSmith LLM Gateway, embedding runtime governance like spend limits, PII redaction, and trace continuity directly into the agent lifecycle.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces runtime governance for AI agents</li>
+        
+        <li>Features spend limits and automatic PII redaction</li>
+        
+        <li>Ensures trace continuity across agent workflows</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses critical production challenges for agents like cost control, data privacy, and observability, enabling safer enterprise deployment.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">governance</span>
+        
+        <span class="tag">observability</span>
+        
+        <span class="tag">pii</span>
+        
+        <span class="tag">langsmith</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="4">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/deep-agents-v0-7" target="_blank" rel="noopener">Deep Agents v0.7 发布，基础输入 Token 减少 65%</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Deep Agents v0.7</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        Deep Agents v0.7 release simplifies the base harness architecture, cutting base input tokens by 65% while maintaining comparable agent performance.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Deep Agents v0.7 simplifies base harness architecture</li>
+        
+        <li>Reduces base input tokens by 65% without performance loss</li>
+        
+        <li>Optimizes cost and latency for complex agent workflows</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Token efficiency directly impacts agent deployment costs and speed; this optimization makes complex multi-step agent tasks more viable for production.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">deepagents</span>
+        
+        <span class="tag">tokenoptimization</span>
+        
+        <span class="tag">framework</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="5">
       <div class="article-header">
         
         
@@ -291,7 +512,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="2">
+    <div class="article-card" data-index="6">
       <div class="article-header">
         
         
@@ -344,7 +565,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="3">
+    <div class="article-card" data-index="7">
       <div class="article-header">
         
         
@@ -397,7 +618,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="4">
+    <div class="article-card" data-index="8">
       <div class="article-header">
         
         
@@ -450,7 +671,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="5">
+    <div class="article-card" data-index="9">
       <div class="article-header">
         
         
@@ -503,7 +724,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="6">
+    <div class="article-card" data-index="10">
       <div class="article-header">
         
         
@@ -556,7 +777,170 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="7">
+    <div class="article-card" data-index="11">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta" target="_blank" rel="noopener">LangChain 推出托管 Deep Agents 公测，支持持久化执行与沙箱环境</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Managed Deep Agents is now in public beta</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain launches public beta for Managed Deep Agents, offering a production-ready runtime with durable execution, memory, sandboxes, and LangSmith observability.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Public beta enables managed deployment of Deep Agents</li>
+        
+        <li>Includes durable execution, memory, and sandboxed tool access</li>
+        
+        <li>Integrated LangSmith observability and evals for production</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Lowers the barrier to deploying complex, long-running agents in production by abstracting away runtime infrastructure and observability setup.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">infrastructure</span>
+        
+        <span class="tag">langsmith</span>
+        
+        <span class="tag">production</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/how-we-build-an-autonomous-sre-agent-for-kubernetes-deployments" target="_blank" rel="noopener">基于 Deep Agents 构建 Kubernetes 自主 SRE 智能体实践</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How we built an autonomous SRE agent for Kubernetes</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain demonstrates building an autonomous SRE agent for Kubernetes, featuring human-in-the-loop approval, LangSmith tracing, and automated evaluations.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Implements human approval gates for critical K8s changes</li>
+        
+        <li>Integrates LangSmith for full lifecycle tracing and evals</li>
+        
+        <li>Showcases practical autonomous SRE agent architecture</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a concrete blueprint for deploying autonomous agents in high-stakes infrastructure environments with safety controls.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">sre</span>
+        
+        <span class="tag">kubernetes</span>
+        
+        <span class="tag">human_in_the_loop</span>
+        
+        <span class="tag">langsmith</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/how-to-evaluate-voice-agents-execution-outcomes-and-experience" target="_blank" rel="noopener">基于 LangSmith 的语音智能体多维评估方法与实践</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How to Evaluate Voice Agents with LangSmith</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        A guide to evaluating voice agents using LangSmith, combining execution traces, code evaluators, LLM judges, and human review for comprehensive assessment.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Combines execution, outcome, and experience metrics</li>
+        
+        <li>Utilizes LLM judges and code evaluators for automation</li>
+        
+        <li>Integrates human review for nuanced voice agent quality</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Establishes a robust evaluation framework for voice agents, critical for ensuring reliability and user satisfaction before deployment.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">voiceai</span>
+        
+        <span class="tag">evaluation</span>
+        
+        <span class="tag">llmjudge</span>
+        
+        <span class="tag">langsmith</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="14">
       <div class="article-header">
         
         
@@ -609,7 +993,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="8">
+    <div class="article-card" data-index="15">
       <div class="article-header">
         
         
@@ -662,7 +1046,115 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="9">
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/how-stripe-built-their-knowledge-ai-platform-on-deep-agents" target="_blank" rel="noopener">Stripe 基于 LangGraph 与 Deep Agents 一周构建企业级 AI 平台 Kai</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How Stripe Built Kai on Deep Agents in 1 Week</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        Stripe leveraged LangChain, LangGraph, and Deep Agents to rapidly develop Kai, an internal AI agent platform that onboarded 5,000 users within four weeks.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Rapid 1-week development cycle using LangGraph orchestration</li>
+        
+        <li>Scaled to 5,000 internal users in 4 weeks</li>
+        
+        <li>Demonstrates practical enterprise deployment of deep agent architectures</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a concrete blueprint for enterprises to rapidly prototype and scale internal AI agents using established orchestration frameworks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">langgraph</span>
+        
+        <span class="tag">enterpriseai</span>
+        
+        <span class="tag">casestudy</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="17">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/agent-data-stack" target="_blank" rel="noopener">LangChain 构建智能体优先数据栈，实现自助分析效率提升 40 倍</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How LangChain Built an Agent-First Data Stack</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain demonstrates an agent-first data stack architecture using Hex, dbt, and semantic models to scale self-service data analysis by 40x.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Integrates Hex, dbt, and semantic models into a unified agent workflow</li>
+        
+        <li>Achieves 40x scaling in self-service data analysis</li>
+        
+        <li>Highlights observability as critical for trusted data agents</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Shows how combining semantic layering with agent orchestration can dramatically accelerate enterprise data workflows while maintaining reliability.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">datastack</span>
+        
+        <span class="tag">observability</span>
+        
+        <span class="tag">enterpriseai</span>
+        
+        <span class="tag">langchain</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="18">
       <div class="article-header">
         
         
@@ -717,7 +1209,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="10">
+    <div class="article-card" data-index="19">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/full-text-search-in-smithdb-designing-an-inverted-index-for-object-storage" target="_blank" rel="noopener">SmithDB 构建对象存储倒排索引，追踪查询延迟降至 400ms</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Full Text Search in SmithDB: Designing an Inverted Index for Object Storage</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        SmithDB implements a custom inverted index for object storage, enabling full-text search and JSON filtering on agent traces with 400ms median latency.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Custom inverted index design for object storage</li>
+        
+        <li>Achieves 400ms P50 latency for nested JSON trace queries</li>
+        
+        <li>Enables efficient full-text search and filtering for agent debugging</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Solves a critical bottleneck in agent observability by making large-scale trace data searchable and filterable without expensive database migrations.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">observability</span>
+        
+        <span class="tag">database</span>
+        
+        <span class="tag">langsmith</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="20">
       <div class="article-header">
         
         
@@ -770,7 +1315,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="11">
+    <div class="article-card" data-index="21">
       <div class="article-header">
         
         
@@ -823,7 +1368,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="12">
+    <div class="article-card" data-index="22">
       <div class="article-header">
         
         
@@ -876,7 +1421,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="13">
+    <div class="article-card" data-index="23">
       <div class="article-header">
         
         
@@ -931,7 +1476,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="14">
+    <div class="article-card" data-index="24">
       <div class="article-header">
         
         
@@ -986,7 +1531,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="15">
+    <div class="article-card" data-index="25">
       <div class="article-header">
         
         
@@ -1039,7 +1584,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="16">
+    <div class="article-card" data-index="26">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/commit/0727992d4a0da611502ba453fe55f4b5d7fdc719" target="_blank" rel="noopener">LangChain 修复 Anthropic 模型结构化输出与推理元数据</a>
+            
+          </div>
+          
+          <div class="article-subtitle">fix(anthropic): correct model profile data for Fable 5, Sonnet 5, Opus 4.1 (#39604)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain 修复 ChatAnthropic 模型配置，纠正 Fable 5 和 Sonnet 5 的结构化输出与推理能力报告。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修正 Claude Fable 5 和 Sonnet 5 结构化输出支持状态</li>
+        
+        <li>补充 Fable 5 推理努力级别配置</li>
+        
+        <li>移除已退役的 Opus 4.1 配置</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 确保开发者通过 LangChain 调用 Anthropic 模型时能准确获取能力边界，避免功能调用失败。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">anthropic</span>
+        
+        <span class="tag">modelprofiles</span>
+        
+        <span class="tag">toolcalling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="27">
       <div class="article-header">
         
         
@@ -1092,7 +1690,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="17">
+    <div class="article-card" data-index="28">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.4.3" target="_blank" rel="noopener">LangChain OpenAI 1.4.3 修复工具调用过滤与 API 指南</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] langchain-openai==1.4.3: langchain-openai==1.4.3</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain 发布 langchain-openai 1.4.3 版本，修复无效工具调用过滤问题并更新 Responses API 指南。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修复无效工具调用过滤逻辑</li>
+        
+        <li>更新 OpenAI 兼容提供商的 Responses API 指南</li>
+        
+        <li>优化响应头包含文档说明</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 提升 LangChain 与 OpenAI API 集成的稳定性，改善 Agent 工具调用的可靠性。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">toolcalling</span>
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">openai</span>
+        
+        <span class="tag">agent</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="29">
       <div class="article-header">
         
         
@@ -1145,7 +1796,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="18">
+    <div class="article-card" data-index="30">
       <div class="article-header">
         
         
@@ -1200,7 +1851,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="19">
+    <div class="article-card" data-index="31">
       <div class="article-header">
         
         
@@ -1253,7 +1904,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="20">
+    <div class="article-card" data-index="32">
       <div class="article-header">
         
         
@@ -1306,7 +1957,278 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="21">
+    <div class="article-card" data-index="33">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/deep-agents-vs-langchain-vs-langgraph" target="_blank" rel="noopener">Deep Agents、LangChain 与 LangGraph 架构对比与选型指南</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Deep Agents vs LangChain vs LangGraph</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        A technical comparison of Deep Agents, LangChain, and LangGraph, outlining their distinct architectural approaches and use cases for building AI agents.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Compares architectural paradigms of three major agent frameworks</li>
+        
+        <li>Guides developers on framework selection based on use case</li>
+        
+        <li>Highlights trade-offs in flexibility vs. structure</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Helps developers navigate the fragmented agent ecosystem by clarifying when to use each framework, reducing integration overhead.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">framework</span>
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">langgraph</span>
+        
+        <span class="tag">deepagents</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="34">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/fix-your-coding-agent-bill" target="_blank" rel="noopener">编码智能体成本失控应对指南：跨平台追踪与治理方案</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Your coding agent bill doubled. Here’s how to fix it.</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        The post analyzes why coding agent costs escalate and provides strategies to trace, compare, and govern spending across tools like Claude Code, Cursor, and Copilot.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Identifies common cost escalation patterns in autonomous coding agents</li>
+        
+        <li>Provides cross-platform tracing and governance methodologies</li>
+        
+        <li>Offers actionable steps to optimize spend across major coding tools</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses a critical operational pain point for engineering teams adopting AI coding assistants, providing practical frameworks for cost control and observability.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">costoptimization</span>
+        
+        <span class="tag">observability</span>
+        
+        <span class="tag">codegen</span>
+        
+        <span class="tag">devops</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="35">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/how-similarweb-evaluates-long-form-agent-research-reports-with-langsmith" target="_blank" rel="noopener">Similarweb 利用 LangSmith 评估长文本智能体研究报告</a>
+            
+          </div>
+          
+          <div class="article-subtitle">How Similarweb Evaluates Agent Reports with LangSmith</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        Similarweb leverages LangSmith to evaluate long-form agent research reports using rubrics, faithfulness checks, and trace analysis for quality assurance.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Demonstrates enterprise use of LangSmith for agent report evaluation</li>
+        
+        <li>Implements rubrics and faithfulness checks for long-form outputs</li>
+        
+        <li>Uses trace analysis and baselines to ensure report quality</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a practical blueprint for enterprises to validate complex, long-context agent outputs, addressing a key reliability challenge in production AI.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">evaluation</span>
+        
+        <span class="tag">langsmith</span>
+        
+        <span class="tag">enterpriseai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="36">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">4</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/commit/7cdf9658f0a78d2267cf1fdd547d9ff1a8186673" target="_blank" rel="noopener">LangChain 核心修复 DictPromptTemplate 列表类型保留</a>
+            
+          </div>
+          
+          <div class="article-subtitle">fix(core): preserve non-str/non-dict items in `DictPromptTemplate` list values (#39588)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain 修复核心模块 DictPromptTemplate，确保列表值中的非字符串和非字典类型数据不被意外转换。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修复 DictPromptTemplate 类型转换逻辑</li>
+        
+        <li>保留列表中的非字符串/字典元素</li>
+        
+        <li>提升提示词模板数据完整性</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 增强 LangChain 核心提示词引擎的健壮性，防止复杂数据结构在模板渲染时丢失。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">promptengineering</span>
+        
+        <span class="tag">core</span>
+        
+        <span class="tag">bugfix</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="37">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">4</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/customer-experience-cx-agents-in-production-lessons-from-lyft-vodafone-and-latam-airlines" target="_blank" rel="noopener">Lyft 与 Vodafone 等 CX 智能体生产部署经验总结</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Customer Experience (CX) Agents in Production: Lessons from Lyft, Vodafone, and LATAM Airlines</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        Production lessons from Lyft, Vodafone, and LATAM Airlines on deploying Customer Experience agents, covering scaling, reliability, and user trust.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Shares real-world scaling strategies for CX agents</li>
+        
+        <li>Highlights reliability and fallback mechanisms in production</li>
+        
+        <li>Emphasizes user trust and transparency in agent interactions</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Offers actionable insights for enterprises moving CX agents from pilot to production, addressing common failure points.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">cx</span>
+        
+        <span class="tag">production</span>
+        
+        <span class="tag">casestudy</span>
+        
+        <span class="tag">enterprise</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="38">
       <div class="article-header">
         
         
@@ -1359,7 +2281,62 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="22">
+    <div class="article-card" data-index="39">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">4</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.langchain.com/blog/own-your-intelligence" target="_blank" rel="noopener">企业构建持久 AI 优势需掌握智能体系统治理与反馈闭环</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Own Your Intelligence: The Key to Lasting AI Advantage</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">blog.langchain.dev</span>
+      </div>
+      
+      <div class="article-summary">
+        The article argues that sustainable AI advantage requires companies to own their agent architectures, governance frameworks, and continuous feedback loops rather than relying on generic models.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Emphasizes proprietary agent governance over off-the-shelf model reliance</li>
+        
+        <li>Stresses importance of closed-loop feedback systems for continuous improvement</li>
+        
+        <li>Outlines strategic roadmap for institutionalizing AI capabilities</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Shifts focus from model acquisition to system ownership, highlighting governance and feedback as the true differentiators for long-term AI ROI.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">governance</span>
+        
+        <span class="tag">strategy</span>
+        
+        <span class="tag">feedbackloop</span>
+        
+        <span class="tag">enterpriseai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="40">
       <div class="article-header">
         
         
@@ -1412,7 +2389,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="23">
+    <div class="article-card" data-index="41">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">4</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-fireworks%3D%3D1.5.2" target="_blank" rel="noopener">LangChain Fireworks 1.5.2 更新模型配置文件数据</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] langchain-fireworks==1.5.2: langchain-fireworks==1.5.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain 发布 langchain-fireworks 1.5.2 版本，主要刷新底层模型配置文件数据。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>更新 Fireworks AI 模型配置文件</li>
+        
+        <li>同步最新模型元数据</li>
+        
+        <li>维持框架兼容性</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 确保 LangChain 生态能准确获取 Fireworks 托管模型的最新能力参数。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">modelprofiles</span>
+        
+        <span class="tag">fireworks</span>
+        
+        <span class="tag">agent</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="42">
       <div class="article-header">
         
         
@@ -1467,7 +2497,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="24">
+    <div class="article-card" data-index="43">
       <div class="article-header">
         
         
@@ -1520,7 +2550,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="25">
+    <div class="article-card" data-index="44">
       <div class="article-header">
         
         
@@ -1644,7 +2674,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-12 17:50 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-12 18:21 · Weekly AI Report Agent</div>
 
 </div>
 </body>

@@ -175,10 +175,15 @@ body {
   <div class="cat-header">
     <span class="icon">🧠</span>
     <h1>LLM</h1>
-    <span class="count-badge">18 篇</span>
+    <span class="count-badge">21 篇</span>
   </div>
 
   <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周大模型领域聚焦能力跃升与生态拓展，OpenAI密集推出GPT-5.6系列及GPT-Live实时语音系统，脑信号引导技术突破推理对齐瓶颈，Transformers库同步集成Meta多模态智能体，共同推动大模型向安全、实时与多模态方向加速演进。
+  </div>
   
 
   <!-- Articles Container -->
@@ -189,7 +194,7 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-high">9.9</div>
+        <div class="score-badge score-high">9.6</div>
         
         <div class="article-title-area">
           <div class="article-title">
@@ -570,50 +575,50 @@ body {
       <div class="article-header">
         
         
-        <div class="score-badge score-mid">5</div>
+        <div class="score-badge score-mid">6</div>
         
         <div class="article-title-area">
           <div class="article-title">
-            <a href="https://github.com/huggingface/transformers/commit/fd9d88d652d1cbc5bad6327222352022f0774b17" target="_blank" rel="noopener">Transformers 库新增点号路径解析与字段拼接功能</a>
+            <a href="https://www.langchain.com/blog/introducing-align-evals" target="_blank" rel="noopener">LangSmith 发布 Align Evals 优化大模型评估器校准</a>
             
           </div>
           
-          <div class="article-subtitle">Transform paths and repeat joining for response parsing (#47648)</div>
+          <div class="article-subtitle">Introducing Align Evals: Streamlining LLM Application Evaluation</div>
           
         </div>
       </div>
       <div class="article-meta">
-        <span class="source">HuggingFace Transformers (GitHub)</span>
+        <span class="source">blog.langchain.dev</span>
       </div>
       
       <div class="article-summary">
-        HuggingFace Transformers adds dotted path extraction and join mode for response templates, simplifying tool-call parsing and handling repeated model outputs.
+        LangSmith introduces Align Evals to calibrate automated evaluators, aligning them more closely with human preference judgments for LLM applications.
       </div>
       
       
       <ul class="key-insights">
         
-        <li>Supports dotted paths like {content.args} for nested dict extraction</li>
+        <li>Introduces Align Evals for calibrating LLM evaluators</li>
         
-        <li>Adds join mode to concatenate repeated fields into single strings</li>
+        <li>Improves alignment between automated scoring and human preferences</li>
         
-        <li>Reduces custom code needed for non-standard tool-call envelopes</li>
+        <li>Streamlines evaluation workflows in LangSmith</li>
         
       </ul>
       
       
-      <div class="why-matters">💡 Streamlines integration of diverse LLM outputs into agent workflows by standardizing response parsing without custom wrappers.</div>
+      <div class="why-matters">💡 Reliable evaluation is critical for LLM deployment; this tool reduces the gap between automated metrics and human judgment, improving development efficiency.</div>
       
       
       <div class="article-tags">
         
         <span class="tag">llm</span>
         
-        <span class="tag">toolcalling</span>
+        <span class="tag">evaluation</span>
         
-        <span class="tag">inference</span>
+        <span class="tag">langsmith</span>
         
-        <span class="tag">transformers</span>
+        <span class="tag">alignment</span>
         
       </div>
       
@@ -680,6 +685,59 @@ body {
         
         <div class="article-title-area">
           <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/commit/fd9d88d652d1cbc5bad6327222352022f0774b17" target="_blank" rel="noopener">Transformers 库新增点号路径解析与字段拼接功能</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Transform paths and repeat joining for response parsing (#47648)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        HuggingFace Transformers adds dotted path extraction and join mode for response templates, simplifying tool-call parsing and handling repeated model outputs.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Supports dotted paths like {content.args} for nested dict extraction</li>
+        
+        <li>Adds join mode to concatenate repeated fields into single strings</li>
+        
+        <li>Reduces custom code needed for non-standard tool-call envelopes</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Streamlines integration of diverse LLM outputs into agent workflows by standardizing response parsing without custom wrappers.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">llm</span>
+        
+        <span class="tag">toolcalling</span>
+        
+        <span class="tag">inference</span>
+        
+        <span class="tag">transformers</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="10">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
             <a href="https://openai.com/index/putting-frontier-cyber-models-in-more-trusted-hands" target="_blank" rel="noopener">OpenAI 向 Daybreak 合作伙伴开放前沿网络安全模型</a>
             
           </div>
@@ -725,7 +783,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="10">
+    <div class="article-card" data-index="11">
       <div class="article-header">
         
         
@@ -778,7 +836,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="11">
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/huggingface/transformers/commit/8cea47515703cb1768213cde60f4701ca4a777f7" target="_blank" rel="noopener">HuggingFace Transformers 更新 AutoRound XPU/CPU 量化后端</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Update AutoRound XPU/CPU backend (#47826)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HuggingFace Transformers (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        HuggingFace Transformers 库更新了 AutoRound 量化后端，优化了 Intel XPU 和 CPU 的文档与配置支持。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>更新 AutoRound 量化后端文档与配置</li>
+        
+        <li>增强 Intel XPU 和 CPU 硬件支持</li>
+        
+        <li>优化 Transformers 库量化工作流</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 提升主流开源框架在 Intel 硬件上的量化推理效率，降低开发者部署成本。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">quantization</span>
+        
+        <span class="tag">inference</span>
+        
+        <span class="tag">transformers</span>
+        
+        <span class="tag">xpu</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
       <div class="article-header">
         
         
@@ -831,7 +942,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="12">
+    <div class="article-card" data-index="14">
       <div class="article-header">
         
         
@@ -886,7 +997,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="13">
+    <div class="article-card" data-index="15">
       <div class="article-header">
         
         
@@ -941,7 +1052,62 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="14">
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">4</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/circles" target="_blank" rel="noopener">Circles 基于 OpenAI API 与 Codex 优化电信个性化，ARPU 提升 22%</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Circles powers telco personalization with OpenAI technology</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+      </div>
+      
+      <div class="article-summary">
+        Circles leverages OpenAI's API and Codex to build AI-native telecom experiences, achieving a 22% ARPU increase and 9% churn reduction.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Circles integrates OpenAI API and Codex for AI-native telecom personalization</li>
+        
+        <li>Implementation drives 22% ARPU growth and 9% churn reduction</li>
+        
+        <li>Highlights practical ROI of LLM integration in legacy telecom workflows</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates measurable business impact of integrating foundational LLM APIs into vertical-specific workflows, providing a benchmark for ROI in telecom personalization.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">llm</span>
+        
+        <span class="tag">api</span>
+        
+        <span class="tag">telecom</span>
+        
+        <span class="tag">personalization</span>
+        
+        <span class="tag">codex</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="17">
       <div class="article-header">
         
         
@@ -996,7 +1162,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="15">
+    <div class="article-card" data-index="18">
       <div class="article-header">
         
         
@@ -1049,7 +1215,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="16">
+    <div class="article-card" data-index="19">
       <div class="article-header">
         
         
@@ -1104,7 +1270,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="17">
+    <div class="article-card" data-index="20">
       <div class="article-header">
         
         
@@ -1230,7 +1396,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-12 17:50 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-12 18:21 · Weekly AI Report Agent</div>
 
 </div>
 </body>

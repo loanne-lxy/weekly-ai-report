@@ -214,7 +214,6 @@ body {
       </div>
       <div class="article-meta">
         <span class="source">{{ article.get('source_name', 'Unknown') }}</span>
-        <span>{{ article.get('published', '') }}</span>
       </div>
       {% if article.get('ai_summary') or article.get('tldr') %}
       <div class="article-summary">
@@ -234,7 +233,7 @@ body {
       {% if article.get('tags') %}
       <div class="article-tags">
         {% for tag in article.tags %}
-        <span class="tag">#{{ tag }}</span>
+        <span class="tag">{{ tag }}</span>
         {% endfor %}
       </div>
       {% endif %}

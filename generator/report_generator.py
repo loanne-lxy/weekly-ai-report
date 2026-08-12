@@ -84,6 +84,37 @@ def _load_last_week_articles() -> dict[str, list[dict]]:
     return result
 
 
+def _find_fallback_articles(empty_cats: list[str]) -> dict[str, list[dict]]:
+    """从历史周报查找空领域的回填文章，最多回溯4周"""
+    pattern = "output/*/articles.json"
+    files = sorted(glob.glob(pattern), reverse=True)
+    if len(files) < 2:
+        return {}
+
+    remaining = set(empty_cats)
+    fallback: dict[str, list[dict]] = {}
+
+    for json_file in files[1:]:
+        if not remaining:
+            break
+        try:
+            with open(json_file) as f:
+                all_arts = json.load(f)
+        except Exception:
+            continue
+        for a in all_arts:
+            cat = a.get("category", "")
+            if cat in remaining and cat not in fallback:
+                fallback[cat] = []
+        for a in all_arts:
+            cat = a.get("category", "")
+            if cat in fallback:
+                fallback[cat].append(a)
+                remaining.discard(cat)
+
+    return fallback
+
+
 def generate_report(articles: list[dict], config: dict, week_label: str, llm: LLMClient = None) -> str:
     categories: dict[str, list] = {}
     for cat_cfg in config["filter"]["categories"]:
@@ -94,15 +125,14 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
         if cat in categories:
             categories[cat].append(a)
 
-    # 空模块回填——从上周报告拉取内容
+    # 空模块回填——回溯历史周报最多4周
     empty_cats = [k for k, v in categories.items() if not v]
     if empty_cats:
-        last_week = _load_last_week_articles()
-        for cat_name in empty_cats:
-            if cat_name in last_week and last_week[cat_name]:
-                for a in last_week[cat_name]:
-                    a["carried_over"] = True
-                categories[cat_name] = last_week[cat_name]
+        fallback = _find_fallback_articles(empty_cats)
+        for cat_name, arts in fallback.items():
+            for a in arts:
+                a["carried_over"] = True
+            categories[cat_name] = arts
 
     # Sort each category by importance desc
     for cat_name in categories:
@@ -124,7 +154,7 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
     domain_summaries = {}
     if llm:
         for cat_name, arts in categories.items():
-            if arts and len(arts) >= 2:
+            if arts:
                 titles = [a.get("chinese_title", a.get("title", "")) for a in arts[:5]]
                 domain_summaries[cat_name] = _domain_summary(llm, cat_name, titles)
             else:

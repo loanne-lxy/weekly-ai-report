@@ -47,7 +47,7 @@ class Deduplicator:
         for a in articles:
             url = a.get("url", "")
             source_type = a.get("source_type", "web")
-            
+
             if not url:
                 continue
 
@@ -55,8 +55,20 @@ class Deduplicator:
             if self.is_new(key):
                 self.mark_seen(key, url, a.get("source_name", ""), self.date_bucket)
                 new_articles.append(a)
-        
+
         logger.info(
             f"Dedup (bucket={self.date_bucket}): {len(articles)} → {len(new_articles)} new"
         )
         return new_articles
+
+    def reset_today(self) -> int:
+        """Remove all entries for today's bucket. Returns count removed."""
+        cursor = self.conn.execute(
+            "DELETE FROM seen_items WHERE date_bucket = ?",
+            (self.date_bucket,),
+        )
+        self.conn.commit()
+        removed = cursor.rowcount
+        if removed:
+            logger.info(f"Dedup reset: cleared {removed} entries for bucket {self.date_bucket}")
+        return removed

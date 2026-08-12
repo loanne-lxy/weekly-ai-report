@@ -1,32 +1,12 @@
 sources:
-- articles_this_week: 6
+- articles_this_week: 0
   category: LLM
-  eval_score: 7
+  eval_score: 5
   name: OpenAI Blog
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://openai.com/blog/rss.xml
   weight: 8
-- articles_this_week: 7
-  category: AI4Science
-  default_category: AI for Science
-  eval_score: 6
-  name: arXiv physics.comp-ph
-  note: Computational physics, PINN, simulation
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/physics.comp-ph
-  weight: 7
-- articles_this_week: 5
-  category: AI4Science
-  default_category: AI for Science
-  eval_score: 6
-  name: arXiv cond-mat.mtrl-sci
-  note: Materials science, crystal structure prediction
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
-  weight: 7
 - articles_this_week: 0
   category: Agent
   github_owner: microsoft
@@ -65,128 +45,154 @@ sources:
   name: LangChain (GitHub)
   type: github
   weight: 7
-- articles_this_week: 16
+- articles_this_week: 0
+  category: AI4Science
+  default_category: AI for Science
+  eval_score: 4
+  name: arXiv physics.comp-ph
+  note: Computational physics, PINN, simulation
+  streak_failures: 1
+  type: rss
+  url: https://rss.arxiv.org/rss/physics.comp-ph
+  weight: 7
+- articles_this_week: 0
+  category: AI4Science
+  default_category: AI for Science
+  eval_score: 4
+  name: arXiv cond-mat.mtrl-sci
+  note: Materials science, crystal structure prediction
+  streak_failures: 1
+  type: rss
+  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  weight: 7
+- articles_this_week: 0
   category: DigitalTwin
-  eval_score: 5
+  eval_score: 3
   name: arXiv cs.CE
   note: Computational Engineering, digital twin research
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/cs.CE
   weight: 7
-- articles_this_week: 19
+- articles_this_week: 0
   category: DigitalTwin
-  eval_score: 5
+  eval_score: 3
   name: arXiv cs.MA
   note: Multiagent systems, digital twin applications
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/cs.MA
   weight: 7
-- articles_this_week: 16
+- articles_this_week: 0
   category: DesignSimulation
-  eval_score: 5
+  eval_score: 3
   name: arXiv cs.GR
   note: Computer graphics, simulation, visualization
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/cs.GR
   weight: 7
 - articles_this_week: 0
   category: LLM
-  eval_score: 4
+  discovered_by: agent
+  eval_score: 3
+  name: www.nature.com
+  streak_failures: 1
+  type: rss
+  url: https://www.nature.com/natmachintell/rss
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: www.aimagazine.com
+  streak_failures: 1
+  type: rss
+  url: https://www.aimagazine.com/rss
+  weight: 5
+- articles_this_week: 0
+  category: LLM
+  eval_score: 2
   name: Anthropic Research
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://www.anthropic.com/index.xml
   weight: 8
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 4
+  eval_score: 2
   name: www.nature.com
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://www.nature.com/natmachintell/
   weight: 8
-- articles_this_week: 1
+- articles_this_week: 0
   category: AI4Science
-  eval_score: 4
+  eval_score: 2
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/q-bio.BM
   weight: 7
-- articles_this_week: 13
+- articles_this_week: 0
   category: DesignSimulation
-  eval_score: 4
+  eval_score: 2
   name: arXiv cs.CV
   note: Computer vision, 3D reconstruction, NeRF
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://rss.arxiv.org/rss/cs.CV
   weight: 7
 - articles_this_week: 0
   category: AI4Science
-  eval_score: 2
+  eval_score: 0
   name: DP Technology (深势科技) Blog
-  streak_failures: 2
+  streak_failures: 3
   type: web
   url: https://www.dp.tech/en
   weight: 6
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 0
   name: thegradient.pub
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://thegradient.pub/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 0
   name: paperswithcode.com
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://paperswithcode.com/
   weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 0
   name: www.airesearchnews.com
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://www.airesearchnews.com/
   weight: 5
 - articles_this_week: 0
   category: DesignSimulation
-  eval_score: 1
+  eval_score: 0
   name: Digital Twin Magazine
-  streak_failures: 2
+  streak_failures: 3
   type: rss
   url: https://digitaltwinmagazine.com/feed/
   weight: 5
-- articles_this_week: 19
+- articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 1
+  eval_score: 0
   name: arxiv.org
-  streak_failures: 0
+  streak_failures: 1
   type: rss
   url: https://arxiv.org/rss/cs.LG
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: www.nature.com
-  type: rss
-  url: https://www.nature.com/natmachintell/rss
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: www.aimagazine.com
-  type: rss
-  url: https://www.aimagazine.com/rss
   weight: 5

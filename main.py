@@ -110,9 +110,13 @@ async def main():
         a["time_boost"] = _time_boost(days_old)
     logger.info(f"Time boost applied to {len(articles)} articles")
 
+    # Keep a reference for auto-retry if dedup blocks everything
+    all_articles = list(articles)
+
     # Phase 2: Hard dedup (URL + source_type + date_bucket)
     logger.info("=== Phase 2: Hard Dedup ===")
-    articles = Deduplicator().filter_new(articles)
+    deduplicator = Deduplicator()
+    articles = deduplicator.filter_new(articles)
 
     # Phase 2.3: Blacklist filter (zero-token keyword matching) — before semantic dedup to save tokens
     logger.info("=== Phase 2.3: Blacklist Filter ===")
@@ -131,7 +135,7 @@ async def main():
     except Exception as e:
         logger.warning(f"Semantic dedup failed (continuing without it): {e}")
 
-    # ── Phase 3: LLM Curator ─────────────────────────────────────
+    # Phase 3: LLM Curator
     logger.info("=== Phase 3: LLM Curator ===")
     llm = LLMClient(config)
     articles = await FilterSummarizer(llm, config)._curate_async(articles)
@@ -140,6 +144,37 @@ async def main():
         reverse=True,
     )
     logger.info(f"Curator result: {len(articles)} relevant articles")
+
+    # ── Auto-retry: if curator got 0 and no accumulator exists,
+    # clear today's dedup and re-run dedup chain (avoids lost work) ──
+    week_num = datetime.now(timezone.utc).isocalendar()
+    week_label = f"{week_num[0]}-W{week_num[1]:02d}"
+    week_dir = f"output/{week_label.replace(' ', '_')}"
+    acc_path = os.path.join(week_dir, "articles.json")
+    has_accumulator = os.path.exists(acc_path)
+
+    if not articles and not has_accumulator:
+        cleared = deduplicator.reset_today()
+        if cleared:
+            logger.info("Dedup reset — re-running through pipeline with %d articles", len(all_articles))
+            articles = deduplicator.filter_new(all_articles)
+            try:
+                from filter.blacklist_filter import BlacklistFilter
+                articles = BlacklistFilter(config).filter(articles)
+            except Exception:
+                pass
+            try:
+                from dedup.semantic_deduplicator import SemanticDeduplicator
+                sdd = SemanticDeduplicator(llm=None)
+                articles = sdd.filter(articles)
+            except Exception as e:
+                logger.warning(f"Semantic dedup retry failed: {e}")
+            articles = await FilterSummarizer(llm, config)._curate_async(articles)
+            articles.sort(
+                key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0),
+                reverse=True,
+            )
+            logger.info(f"Curator retry result: {len(articles)} relevant articles")
 
     # ── Phase 3.5: Top-K Reranking (pairwise) ────────────────────
     logger.info("=== Phase 3.5: Top-K Reranking ===")

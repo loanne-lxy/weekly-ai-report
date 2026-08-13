@@ -7,7 +7,7 @@ Autonomous agent that fetches AI news from multi-source feeds, filters, classifi
 ## Pipeline
 
 ```
-Sources (23+)
+Sources (34)
   │
   ├── Phase 1:   Fetch (RSS / GitHub / Web, asyncio concurrency=10)
   ├── Phase 2:   Hard Dedup (md5 url+source+date, SQLite)
@@ -16,8 +16,8 @@ Sources (23+)
   ├── Phase 3:   LLM Curator (classify + score + summarize, batch=5)
   ├── Phase 3.5: Top-K Rerank (pairwise comparison for top articles)
   ├── Phase 4:   Merge (cumulative per week, carry-over fallback)
-  ├── Phase 5:   Generate Report (Jinja2 HTML, 5 categories)
-  └── Phase 6:   Source Eval & Auto-Discovery
+  ├── Phase 6:   Source Eval & Discovery (LLM + link miner + Exa search)
+  └── Phase 5:   Generate Report (Jinja2 HTML, 5 categories)
 ```
 
 ## Quick Start
@@ -29,7 +29,7 @@ python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 
 # Configure
-cp .env.example .env  # set DEEPSEEK_API_KEY, GITHUB_TOKEN
+cp .env.example .env  # set DEEPSEEK_API_KEY, GITHUB_TOKEN, EXA_API_KEY
 
 # Run
 python main.py
@@ -43,33 +43,39 @@ Output: `output/<YEAR>-W<WEEK>/index.html` — open in browser or push for GitHu
 weekly-ai-report/
 ├── main.py                  # End-to-end pipeline orchestrator
 ├── config.yaml              # Model, filter, evaluator settings
-├── sources.yaml             # 23+ source definitions with default_category
-├── .env                     # API keys (DEEPSEEK_API_KEY, GITHUB_TOKEN)
+├── sources.yaml             # 34 source definitions with default_category
+├── .env                     # API keys (DEEPSEEK_API_KEY, GITHUB_TOKEN, EXA_API_KEY)
+├── .env.example             # Template with all required keys
 ├── scheduler.py             # Cron entry point (optional)
 │
 ├── fetcher/
 │   ├── base_extractor.py    # Base extractor interface
-│   ├── extractors.py        # RSS / GitHub / Web / arXiv extractors
+│   ├── extractors.py        # RSS / GitHub / Web / arXiv / HF extractors
 │   └── ingestion_manager.py # Async orchestrator, concurrency control
 │
 ├── dedup/
 │   ├── deduplicator.py      # URL+source+date bucket dedup (SQLite)
-│   ├── semantic_deduplicator.py  # FastEmbed vector dedup
+│   ├── semantic_deduplicator.py  # FastEmbed vector dedup + LLM gray-zone
 │   └── curator_cache.py     # SHA256 LLM result cache + prompt versioning
 │
 ├── filter/
 │   ├── blacklist_filter.py  # Zero-token keyword pre-filter
 │   ├── filter_summarizer.py # LLM curator (batch classification + scoring)
-│   └── topk_reranker.py     # Pairwise reranking for top articles
+│   ├── topk_reranker.py     # Pairwise reranking for top articles
+│   ├── link_miner.py        # Outbound link extraction from high-score articles
+│   └── exa_discoverer.py    # Exa API neural search for source discovery
 │
 ├── extractors/
-│   └── contract.py          # RawArticle Pydantic schema
+│   └── contract.py          # RawArticle / CuratedArticle Pydantic schemas
 │
 ├── generator/
-│   └── report_generator.py  # Jinja2 HTML report (index + 5 category pages)
+│   ├── report_generator.py  # Jinja2 HTML report (index + 5 category pages)
+│   └── templates/
+│       ├── index.html       # Homepage with sidebar stats & source dynamics
+│       └── category.html    # Category sub-pages with pagination
 │
 ├── evaluator/
-│   ├── source_evaluator.py  # Weekly source scoring & archival
+│   ├── source_evaluator.py  # Weekly source scoring, archival (stale_weeks=4)
 │   └── source_discoverer.py # LLM-based new source recommendations
 │
 ├── models/
@@ -97,14 +103,16 @@ weekly-ai-report/
 ## Key Features
 
 - **6-stage pipeline** — Fetch → Hard Dedup → Blacklist → Semantic Dedup → Curator → Rerank
-- **Semantic dedup** — FastEmbed (`BAAI/bge-small-zh-v1.5`) cosine similarity, ≥0.88 hard filter
+- **Triple dedup** — Hard hash (md5) + keyword blacklist (zero-token) + semantic (FastEmbed cosine ≥0.88)
 - **LLM caching** — SHA256 content hash + prompt versioning (auto-invalidate on prompt change)
-- **Auto-retry** — If curator returns 0 and no accumulator exists, resets dedup and retries
+- **Auto-retry** — If curator returns 0 and no accumulator, resets dedup and retries
 - **Source prior** — `default_category` on vertical sources passed as Bayesian prior to LLM
 - **Top-K rerank** — Pairwise comparison (C(K,2)) for top 5 articles after curator
 - **Cumulative per week** — Multiple runs within same week merge, newest-first
-- **Empty category fallback** — No new articles → carry over from last week
-- **Source self-evolution** — Weekly eval + auto-discover new sources via LLM
+- **Empty category fallback** — No new articles → carry over from up to 4 previous weeks
+- **3-channel source discovery** — LLM recommendation + outbound link mining (zero-token) + Exa neural search
+- **Source self-evolution** — Weekly eval + auto-archive stale sources (stale_weeks=4)
+- **Frontend source dynamics** — Sidebar shows newly discovered / archived source counts
 
 ## Configuration
 

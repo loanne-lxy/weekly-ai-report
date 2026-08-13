@@ -2,7 +2,7 @@ sources:
 - articles_this_week: 2
   category: DigitalTwin
   default_category: 数字孪生
-  eval_score: 8
+  eval_score: 9
   name: arXiv cs.SY
   note: Systems & control, digital twin core research
   streak_failures: 0
@@ -11,7 +11,7 @@ sources:
   weight: 7
 - articles_this_week: 10
   category: LLM
-  eval_score: 7
+  eval_score: 8
   name: OpenAI Blog
   streak_failures: 0
   type: rss
@@ -20,7 +20,7 @@ sources:
 - articles_this_week: 2
   category: AI4Science
   default_category: AI for Science
-  eval_score: 6
+  eval_score: 7
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
   streak_failures: 0
@@ -30,13 +30,85 @@ sources:
 - articles_this_week: 16
   category: LLM
   discovered_by: agent
-  eval_score: 6
+  eval_score: 7
   name: blog.langchain.dev
   streak_failures: 0
   type: rss
   url: https://blog.langchain.dev/rss.xml
   weight: 5
-- articles_this_week: 6
+- articles_this_week: 10
+  category: LLM
+  eval_score: 7
+  name: HackerNews Best
+  streak_failures: 0
+  type: rss
+  url: https://hnrss.org/best
+  weight: 6
+- articles_this_week: 11
+  category: LLM
+  eval_score: 7
+  name: Reddit r/LocalLLaMA
+  streak_failures: 0
+  type: rss
+  url: https://www.reddit.com/r/LocalLLaMA/top/.rss?t=week
+  weight: 6
+- articles_this_week: 3
+  category: DigitalTwin
+  eval_score: 6
+  name: arXiv cs.CE
+  note: Computational Engineering, digital twin research
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.CE
+  weight: 7
+- articles_this_week: 20
+  category: DigitalTwin
+  eval_score: 6
+  name: arXiv cs.MA
+  note: Multiagent systems, digital twin applications
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.MA
+  weight: 7
+- articles_this_week: 8
+  category: LLM
+  discovered_by: agent
+  eval_score: 6
+  name: www.nature.com
+  streak_failures: 0
+  type: rss
+  url: https://www.nature.com/natmachintell/rss
+  weight: 5
+- articles_this_week: 16
+  category: DigitalTwin
+  default_category: 数字孪生
+  eval_score: 6
+  name: arXiv cs.RO
+  note: Robotics, digital twin in autonomous systems
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.RO
+  weight: 7
+- articles_this_week: 4
+  category: DesignSimulation
+  default_category: 设计仿真
+  eval_score: 6
+  name: arXiv cs.MS
+  note: Mathematical software, simulation tools
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.MS
+  weight: 7
+- articles_this_week: 16
+  category: LLM
+  discovered_by: agent
+  eval_score: 6
+  name: blog.langchain.dev
+  streak_failures: 0
+  type: rss
+  url: https://blog.langchain.dev/
+  weight: 5
+- articles_this_week: 14
   category: Agent
   github_owner: microsoft
   github_repo: autogen
@@ -44,7 +116,7 @@ sources:
   name: AutoGen (GitHub)
   type: github
   weight: 7
-- articles_this_week: 10
+- articles_this_week: 11
   category: Agent
   github_owner: crewAIInc
   github_repo: crewAI
@@ -52,7 +124,7 @@ sources:
   name: CrewAI (GitHub)
   type: github
   weight: 7
-- articles_this_week: 10
+- articles_this_week: 15
   category: LLM
   github_owner: huggingface
   github_repo: transformers
@@ -66,7 +138,7 @@ sources:
   name: GitHub Trending
   type: github
   weight: 5
-- articles_this_week: 8
+- articles_this_week: 13
   category: Agent
   github_owner: langchain-ai
   github_repo: langchain
@@ -74,56 +146,9 @@ sources:
   name: LangChain (GitHub)
   type: github
   weight: 7
-- articles_this_week: 4
-  category: DigitalTwin
-  eval_score: 5
-  name: arXiv cs.CE
-  note: Computational Engineering, digital twin research
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.CE
-  weight: 7
-- articles_this_week: 3
-  category: DigitalTwin
-  eval_score: 5
-  name: arXiv cs.MA
-  note: Multiagent systems, digital twin applications
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.MA
-  weight: 7
-- articles_this_week: 6
-  category: LLM
-  discovered_by: agent
-  eval_score: 5
-  name: www.nature.com
-  streak_failures: 0
-  type: rss
-  url: https://www.nature.com/natmachintell/rss
-  weight: 5
-- articles_this_week: 0
-  category: DigitalTwin
-  default_category: 数字孪生
-  eval_score: 5
-  name: arXiv cs.RO
-  note: Robotics, digital twin in autonomous systems
-  streak_failures: 1
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.RO
-  weight: 7
-- articles_this_week: 0
-  category: DesignSimulation
-  default_category: 设计仿真
-  eval_score: 5
-  name: arXiv cs.MS
-  note: Mathematical software, simulation tools
-  streak_failures: 1
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.MS
-  weight: 7
-- articles_this_week: 6
+- articles_this_week: 8
   category: AI4Science
-  eval_score: 4
+  eval_score: 5
   name: www.nature.com
   streak_failures: 0
   type: rss
@@ -131,35 +156,26 @@ sources:
   weight: 8
 - articles_this_week: 2
   category: DesignSimulation
-  eval_score: 4
+  eval_score: 5
   name: arXiv cs.CV
   note: Computer vision, 3D reconstruction, NeRF
   streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/cs.CV
   weight: 7
-- articles_this_week: 0
+- articles_this_week: 16
   category: LLM
   discovered_by: agent
-  eval_score: 3
+  eval_score: 4
   name: arxiv.org
-  streak_failures: 1
+  streak_failures: 0
   type: rss
   url: https://arxiv.org/rss/cs.AI
   weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 3
-  name: paperswithcode.com
-  streak_failures: 1
-  type: rss
-  url: https://paperswithcode.com/rss
-  weight: 5
-- articles_this_week: 1
+- articles_this_week: 3
   category: AI4Science
   default_category: AI for Science
-  eval_score: 2
+  eval_score: 3
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
   streak_failures: 0
@@ -167,123 +183,149 @@ sources:
   url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
   weight: 7
 - articles_this_week: 0
-  category: DesignSimulation
-  eval_score: 0
-  name: arXiv cs.GR
-  note: Computer graphics, simulation, visualization
-  streak_failures: 3
+  category: LLM
+  discovered_by: agent
+  eval_score: 3
+  name: lilianweng.github.io
+  streak_failures: 1
   type: rss
-  url: https://rss.arxiv.org/rss/cs.GR
-  weight: 7
+  url: https://lilianweng.github.io/
+  weight: 5
 - articles_this_week: 0
   category: LLM
   discovered_by: agent
-  eval_score: 0
-  name: www.aimagazine.com
-  streak_failures: 3
+  eval_score: 3
+  name: huggingface.co
+  streak_failures: 1
   type: rss
-  url: https://www.aimagazine.com/rss
+  url: https://huggingface.co/blog
   weight: 5
-- articles_this_week: 1
+- articles_this_week: 0
+  category: LLM
+  discovered_by: agent
+  eval_score: 1
+  name: paperswithcode.com
+  streak_failures: 2
+  type: rss
+  url: https://paperswithcode.com/rss
+  weight: 5
+- articles_this_week: 6
+  category: DesignSimulation
+  eval_score: 1
+  name: arXiv cs.GR
+  note: Computer graphics, simulation, visualization
+  streak_failures: 0
+  type: rss
+  url: https://rss.arxiv.org/rss/cs.GR
+  weight: 7
+- articles_this_week: 3
   category: AI4Science
-  eval_score: 0
+  eval_score: 1
   name: arXiv q-bio
   note: Quantitative biology — protein, drug discovery
   streak_failures: 0
   type: rss
   url: https://rss.arxiv.org/rss/q-bio.BM
   weight: 7
-- articles_this_week: 0
-  category: LLM
-  eval_score: 0
-  name: Anthropic Research
-  streak_failures: 5
-  type: rss
-  url: https://www.anthropic.com/index.xml
-  weight: 8
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 0
-  name: DP Technology (深势科技) Blog
-  streak_failures: 5
-  type: web
-  url: https://www.dp.tech/en
-  weight: 6
-- articles_this_week: 0
+- articles_this_week: 16
   category: LLM
   discovered_by: agent
-  eval_score: 0
-  name: thegradient.pub
-  streak_failures: 5
-  type: rss
-  url: https://thegradient.pub/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 0
-  name: paperswithcode.com
-  streak_failures: 5
-  type: rss
-  url: https://paperswithcode.com/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 0
-  name: www.airesearchnews.com
-  streak_failures: 5
-  type: rss
-  url: https://www.airesearchnews.com/
-  weight: 5
-- articles_this_week: 0
-  category: DesignSimulation
-  eval_score: 0
-  name: Digital Twin Magazine
-  streak_failures: 5
-  type: rss
-  url: https://digitaltwinmagazine.com/feed/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: agent
-  eval_score: 0
+  eval_score: 1
   name: arxiv.org
-  streak_failures: 3
+  streak_failures: 0
   type: rss
   url: https://arxiv.org/rss/cs.LG
   weight: 5
 - category: LLM
-  discovered_by: agent
-  name: lilianweng.github.io
-  type: rss
-  url: https://lilianweng.github.io/
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: blog.langchain.dev
-  type: rss
-  url: https://blog.langchain.dev/
-  weight: 5
-- category: LLM
-  discovered_by: agent
-  name: huggingface.co
-  type: rss
-  url: https://huggingface.co/blog
-  weight: 5
-
-# Trend hotlists
-- articles_this_week: 0
-  category: LLM
-  name: HackerNews Best
-  streak_failures: 0
-  type: rss
-  url: https://hnrss.org/best
+  discovered_by: link_miner
+  name: ycombinator.com
+  referenced_by:
+  - 英伟达发布Nemotron 3.5 Lightning模型与NeMo Switc
+  - 阿里通义发布 Qwen3.8-2.4T 混合专家架构大模型
+  - 腾讯发布智能体驱动的 3D 开放世界生成框架 WorldClaw
+  type: web
+  url: https://ycombinator.com
   weight: 6
-- articles_this_week: 0
-  category: LLM
-  name: Reddit r/LocalLLaMA
-  streak_failures: 0
-  type: rss
-  url: https://www.reddit.com/r/LocalLLaMA/top/.rss?t=week
+- category: LLM
+  discovered_by: link_miner
+  name: external-preview.redd.it
+  referenced_by:
+  - Qwen 3.8-2.4T-A95B 混合专家模型发布，参数量达 2.4T
+  - 阿里通义千问Qwen3.8-Max开源，2.4万亿参数MoE架构
+  - NVIDIA开源Nemotron-3.5-Lightning-30B模型，采用M
+  type: web
+  url: https://external-preview.redd.it
+  weight: 6
+- category: Agent
+  discovered_by: link_miner
+  name: fact-wam.github.io
+  referenced_by:
+  - FACT：面向世界-动作模型的失败感知因果训练框架
+  type: web
+  url: https://fact-wam.github.io
+  weight: 6
+- category: Agent
+  discovered_by: link_miner
+  name: nav-ps-balance.github.io
+  referenced_by:
+  - 人群环境中机器人跟随的约束分解与安全导航方法
+  type: web
+  url: https://nav-ps-balance.github.io
+  weight: 6
+- category: 设计仿真
+  discovered_by: link_miner
+  name: tencent-hunyuan.github.io
+  referenced_by:
+  - 腾讯发布智能体驱动的 3D 开放世界生成框架 WorldClaw
+  type: web
+  url: https://tencent-hunyuan.github.io
+  weight: 6
+- category: LLM
+  discovered_by: link_miner
+  name: blogs.nvidia.com
+  referenced_by:
+  - 英伟达发布Nemotron 3.5 Lightning模型与NeMo Switc
+  type: web
+  url: https://blogs.nvidia.com
+  weight: 6
+- category: LLM
+  discovered_by: link_miner
+  name: preview.redd.it
+  referenced_by:
+  - 通义千问 Qwen 3.8-27b 模型即将开源发布
+  - 阿里通义千问Qwen3.8-Max开源，2.4万亿参数MoE架构
+  type: web
+  url: https://preview.redd.it
+  weight: 6
+- category: LLM
+  discovered_by: link_miner
+  name: i.redd.it
+  referenced_by:
+  - 通义千问 Qwen 3.8-27b 模型即将开源发布
+  type: web
+  url: https://i.redd.it
+  weight: 6
+- category: LLM
+  discovered_by: link_miner
+  name: modelscope.cn
+  referenced_by:
+  - 阿里通义千问Qwen3.8-Max开源，2.4万亿参数MoE架构
+  type: web
+  url: https://modelscope.cn
+  weight: 6
+- category: Agent
+  discovered_by: link_miner
+  name: artificialanalysis.ai
+  referenced_by:
+  - Qwen 3.8 Max 登顶 AI 智能体基准测试，综合性能超越 Opus 5
+  type: web
+  url: https://artificialanalysis.ai
+  weight: 6
+- category: LLM
+  discovered_by: link_miner
+  name: kimi.com
+  referenced_by:
+  - Transformers 5.13.0 集成 KimiK 2.5-2.7 原生多
+  type: web
+  url: https://kimi.com
   weight: 6

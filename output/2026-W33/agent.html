@@ -175,14 +175,14 @@ body {
   <div class="cat-header">
     <span class="icon">🤖</span>
     <h1>Agent</h1>
-    <span class="count-badge">45 篇</span>
+    <span class="count-badge">92 篇</span>
   </div>
 
   <!-- Domain Summary -->
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周AI智能体领域聚焦评测基准构建、模型路由降本、运行时安全治理与输入Token优化，同时抗冲击自主机器人技术亦取得突破。
+    本周智能体领域在因果鲁棒训练、具身狭小空间规划、软件自主演进及多智能体协同记忆等方面取得关键突破，推动智能系统向高可靠、自演化与强协同方向加速迈进。
   </div>
   
 
@@ -191,6 +191,766 @@ body {
   <div class="articles-container" id="articles">
     
     <div class="article-card" data-index="0">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">9.3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10232" target="_blank" rel="noopener">FACT：面向世界-动作模型的失败感知因果训练框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">FACT: Failure-Aware Causal Training for World-Action Models</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces FACT, a failure-aware causal training method for world-action models that improves physical priors and action generation by learning from both successful and failed demonstrations.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Addresses bias in WAMs trained only on successful data</li>
+        
+        <li>Integrates causal training to handle failure modes</li>
+        
+        <li>Enhances future prediction and action recovery</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves the robustness and generalization of world models for robotics, enabling safer and more reliable autonomous decision-making in unpredictable environments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">worldmodels</span>
+        
+        <span class="tag">causallearning</span>
+        
+        <span class="tag">robotics</span>
+        
+        <span class="tag">failureaware</span>
+        
+        <span class="tag">actiongeneration</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="1">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">9</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10220" target="_blank" rel="noopener">基于自碰撞规避参考的人形机器人狭小空间全身规划方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Whole-Body Planning for Humanoids Navigating Confined Spaces via Self-Collision Avoidance References</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a three-stage whole-body planning framework for humanoids to navigate confined spaces while avoiding self-collisions and maintaining dynamic feasibility.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Overcomes local minima in traditional trajectory optimizers</li>
+        
+        <li>Uses self-collision avoidance references for complex bounds</li>
+        
+        <li>Ensures multi-contact dynamic feasibility</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enables robust humanoid operation in cluttered real-world environments, advancing the practical deployment of bipedal robots.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">humanoidrobotics</span>
+        
+        <span class="tag">wholebodyplanning</span>
+        
+        <span class="tag">collisionavoidance</span>
+        
+        <span class="tag">trajectoryoptimization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="2">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10450" target="_blank" rel="noopener">EvoX Genesis架构通过持久递归世界实现软件自主演进</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Persistent Recursive Worlds Enable Autonomous Software Evolution</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces EvoX Genesis, a framework that treats software projects as persistent recursive worlds, allowing finite-lived agents to autonomously evolve code over long timescales.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Adopt persistent recursive world architecture to decouple agent lifespan from project continuity</li>
+        
+        <li>Enable long-term autonomous software evolution without relying on persistent agent memory</li>
+        
+        <li>Improve codebase scalability by localizing agent interactions to recursive project states</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Overcomes the memory and context limits of current agentic coding systems, paving the way for truly autonomous, long-horizon software development pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">codegen</span>
+        
+        <span class="tag">autonomouscoding</span>
+        
+        <span class="tag">softwareengineering</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="3">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10494" target="_blank" rel="noopener">GeoForge: 面向地球观测的非参数自演化智能体架构</a>
+            
+          </div>
+          
+          <div class="article-subtitle">GeoForge: Non-Parametric Self-Evolving Agents for Earth-Observation Reasoning</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces GeoForge, a self-evolving agent framework that constructs scientifically valid tool workflows for earth observation by grounding conclusions in geospatial evidence.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces self-evolving architecture for EO workflows</li>
+        
+        <li>Handles spatial/temporal compatibility constraints</li>
+        
+        <li>Grounds reasoning in current geospatial evidence</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances autonomous scientific discovery in geospatial domains by enabling agents to dynamically adapt workflows without manual reprogramming.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">MultiAgent</span>
+        
+        <span class="tag">ToolCalling</span>
+        
+        <span class="tag">EarthObservation</span>
+        
+        <span class="tag">SelfEvolution</span>
+        
+        <span class="tag">AIforScience</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="4">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10509" target="_blank" rel="noopener">MAP-Graph: 面向多智能体工作流的溯源感知共享内存</a>
+            
+          </div>
+          
+          <div class="article-subtitle">MAP-Graph: Provenance-Aware Shared Memory for Multi-Agent Workflows</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes MAP-Graph, a provenance-aware shared memory system for multi-agent workflows that tracks data lineage to prevent unauthorized access and unsafe actions.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces provenance-aware shared memory for LLM agents</li>
+        
+        <li>Tracks data lineage to enforce access restrictions</li>
+        
+        <li>Prevents poisoning and unauthorized reads in workflows</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Solves a critical scalability and security bottleneck in multi-agent systems by ensuring safe, auditable information sharing across long workflows.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">MultiAgent</span>
+        
+        <span class="tag">SharedMemory</span>
+        
+        <span class="tag">Provenance</span>
+        
+        <span class="tag">Security</span>
+        
+        <span class="tag">LLMAgents</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="5">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2607.26598" target="_blank" rel="noopener">Living-Harness: 支持交互智能体自演化与持续反馈的框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Living-Harness Is an Interactive-Agent Evolver</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces Living-Harness, a self-evolving framework that updates persistent agent structures based on post-episode feedback to prevent recurring execution failures.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Proposes self-evolving harness architecture for LLM agents</li>
+        
+        <li>Uses post-episode feedback to update persistent workflows</li>
+        
+        <li>Addresses recurring failure patterns in agent execution</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances agent reliability by enabling continuous structural adaptation, moving beyond static prompt and tool configurations.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">SelfEvolution</span>
+        
+        <span class="tag">AgentFramework</span>
+        
+        <span class="tag">FeedbackLoop</span>
+        
+        <span class="tag">LLMAgents</span>
+        
+        <span class="tag">Reliability</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="6">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10056" target="_blank" rel="noopener">人群环境中机器人跟随的约束分解与安全导航方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Navigating the Proximity-Safety Balance: Constraint Decomposition for Human Following in Pedestrian Crowds</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces a constraint decomposition method for RL-based robot navigation to balance proximity to a target human and collision avoidance in dense crowds.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Decomposes complex navigation constraints for RL training</li>
+        
+        <li>Improves safety margins without losing target tracking</li>
+        
+        <li>Addresses unpredictable pedestrian dynamics</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances safe human-robot interaction in crowded spaces, a key challenge for service robots and autonomous systems operating in public areas.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">reinforcementlearning</span>
+        
+        <span class="tag">robotnavigation</span>
+        
+        <span class="tag">constraintdecomposition</span>
+        
+        <span class="tag">humanrobotinteraction</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="7">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10484" target="_blank" rel="noopener">视觉语言动作模型中动作表征与语言语义的对齐方法研究</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Lost in Reconstruction: Aligning Action Representations with Language in Vision-Language-Action Models</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Identifies misalignment between action representations and linguistic semantics in VLA models, proposing a method to ground action trajectories in verb semantics for better robotic control.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Reveals L1/L2 reconstruction losses fail to capture linguistic distinctions</li>
+        
+        <li>Demonstrates verb-grounding information exists in action trajectories</li>
+        
+        <li>Proposes semantic alignment for VLA action spaces</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves the semantic understanding and control precision of vision-language-action models, crucial for developing more capable and interpretable AI agents.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">vla</span>
+        
+        <span class="tag">actionalignment</span>
+        
+        <span class="tag">semanticgrounding</span>
+        
+        <span class="tag">robotics</span>
+        
+        <span class="tag">agent</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="8">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10756" target="_blank" rel="noopener">基于语义3D高斯溅射的开放词汇移动机器人多模态定位框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Embodied Multimodal Grounding for Open-Vocabulary Mobile Manipulation via Semantic 3D Gaussian Splatting</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces an embodied multimodal grounding framework that fuses Semantic 3D Gaussian Splatting with reachability-aware positioning and diffusion policies for open-vocabulary mobile manipulation.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fuses Semantic 3DGS with diffusion-based policies for open-vocabulary grounding</li>
+        
+        <li>Integrates reachability-aware base positioning to ensure action feasibility</li>
+        
+        <li>Enables few-shot manipulation in unstructured household environments</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Bridges the gap between high-fidelity 3D scene representation and actionable robot policies, significantly advancing open-vocabulary embodied AI for real-world navigation and manipulation.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">3dgaussiansplatting</span>
+        
+        <span class="tag">embodiedai</span>
+        
+        <span class="tag">diffusionpolicy</span>
+        
+        <span class="tag">openvocabulary</span>
+        
+        <span class="tag">mobilemanipulation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="9">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10780" target="_blank" rel="noopener">JEPA-WAM 基于阶段级联合嵌入预测的机器人世界动作模型</a>
+            
+          </div>
+          
+          <div class="article-subtitle">JEPA-WAM: Stage-Level Joint-Embedding Prediction for World-Action Models in Robot Manipulation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes JEPA-WAM, a world-action model that uses stage-level joint-embedding prediction to map multimodal observations and instructions to long-horizon robot manipulation actions.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Replaces short video-action chunks with stage-level future prediction for better task progression</li>
+        
+        <li>Leverages JEPA architecture for robust joint-embedding prediction in manipulation</li>
+        
+        <li>Improves generalist robot policy performance across diverse, multi-stage tasks</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses the short-horizon limitation of current world models in robotics, enabling more coherent and strategic long-term planning for generalist embodied agents.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">worldmodels</span>
+        
+        <span class="tag">jepa</span>
+        
+        <span class="tag">robotlearning</span>
+        
+        <span class="tag">generalistpolicy</span>
+        
+        <span class="tag">stageplanning</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="10">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10037" target="_blank" rel="noopener">DOCSCHISEL框架自适应优化工具文档，提升智能体调用准确率</a>
+            
+          </div>
+          
+          <div class="article-subtitle">DOCSCHISEL: Adaptive Tool Documentation Optimization Framework for LLM Agents</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces DOCSCHISEL, an adaptive framework that dynamically optimizes tool documentation to improve LLM agents' tool-use accuracy and grounding.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Dynamically rewrites tool docs based on agent context</li>
+        
+        <li>Reduces hallucination in tool selection and parameter filling</li>
+        
+        <li>Framework adapts documentation detail to task complexity</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Tool documentation quality is a major bottleneck for reliable agent execution; this framework automates optimization, boosting real-world agent reliability.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">toolcalling</span>
+        
+        <span class="tag">documentationoptimization</span>
+        
+        <span class="tag">llm</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="11">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10039" target="_blank" rel="noopener">FlowScout利用执行反馈自动生成可靠工具调用智能体工作流</a>
+            
+          </div>
+          
+          <div class="article-subtitle">FlowScout: From Execution Feedback to Reliable Tool-Using Agent Workflows</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+      </div>
+      
+      <div class="article-summary">
+        Presents FlowScout, a system that automatically generates and refines reliable agentic workflows using execution feedback from historical task records.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Automates workflow construction from past execution traces</li>
+        
+        <li>Leverages feedback loops to correct control logic and routing</li>
+        
+        <li>Reduces manual engineering for complex agent pipelines</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Solves the high manual cost of building robust agent workflows, enabling scalable, self-improving automation systems for enterprise use.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">workflow</span>
+        
+        <span class="tag">feedbackloop</span>
+        
+        <span class="tag">automation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="12">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.nature.com/articles/s42256-026-01292-y" target="_blank" rel="noopener">面向杂乱场景通用机器人抓取的环境接触表征学习方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Learning contact representations in real-world clutter for universal robotic grasping</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">www.nature.com</span>
+      </div>
+      
+      <div class="article-summary">
+        Presents a novel contact representation learning method enabling robust, generalizable robotic grasping across diverse cluttered environments and hand models.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Learns efficient robot-environment interaction representations</li>
+        
+        <li>Generalizes across articulated hand models</li>
+        
+        <li>Improves adaptability in cluttered real-world scenarios</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances embodied AI by solving a fundamental challenge in dexterous manipulation, paving the way for general-purpose service robots.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">robotics</span>
+        
+        <span class="tag">grasping</span>
+        
+        <span class="tag">representationlearning</span>
+        
+        <span class="tag">embodiedai</span>
+        
+        <span class="tag">generalization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="13">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-high">8</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1vhd416/qwen_38_max_now_ranked_as_best_overall_model/" target="_blank" rel="noopener">Qwen 3.8 Max 登顶 AI 智能体基准测试，综合性能超越 Opus 5</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Qwen 3.8 Max now ranked as best overall model ahead of Opus 5 by Artificial Analysis agentic index</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">Reddit r/LocalLLaMA</span>
+      </div>
+      
+      <div class="article-summary">
+        Qwen 3.8 Max achieves top ranking on the Artificial Analysis agentic index, surpassing Opus 5 in overall autonomous task execution and tool-use benchmarks.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Tops Artificial Analysis agentic benchmark suite</li>
+        
+        <li>Surpasses Opus 5 in autonomous planning and tool integration</li>
+        
+        <li>Highlights rapid progress in open-weight agentic reasoning</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Validates Qwen's architecture for complex agentic workflows, setting a new reference point for autonomous AI system evaluation and deployment.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">benchmark</span>
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">qwen</span>
+        
+        <span class="tag">tool-calling</span>
+        
+        <span class="tag">autonomous-planning</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="14">
       <div class="article-header">
         
         
@@ -245,7 +1005,490 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="1">
+    <div class="article-card" data-index="15">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10175" target="_blank" rel="noopener">多智能体框架突破传统现金流模型，实现临床阶段生物科技估值</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Beyond Cash Flows: A Multi-Agent AI Framework for Valuing Clinical-Stage, Cross-Border Biotechnology</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces a multi-agent AI framework that overcomes traditional cash flow limitations to value clinical-stage biotech companies through collaborative analyst, researcher, and risk manager agents.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Multi-agent team structure replaces traditional cash flow valuation</li>
+        
+        <li>Specialized agents handle clinical-stage biotech uncertainty</li>
+        
+        <li>Framework enables cross-border biotech investment analysis</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a novel computational approach for high-risk biotech valuation, demonstrating how specialized agent roles can model complex, non-traditional financial assets.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">finance</span>
+        
+        <span class="tag">biotech</span>
+        
+        <span class="tag">framework</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="16">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.11033" target="_blank" rel="noopener">多智能体系统实现面向不同受众的AI可解释性叙事生成</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Who Are You Explaining To? A Multi-Agent System for Audience-Aware XAI Narratives</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a multi-agent framework that tailors AI model explanations to specific audiences to prevent LLM hallucination and misinterpretation in high-stakes domains.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Implement multi-agent XAI pipelines to adapt explanations for diverse expertise levels</li>
+        
+        <li>Mitigate LLM hallucination risks in medical AI through audience-aware prompting</li>
+        
+        <li>Enhance clinical trust by aligning explanation formats with user risk tolerance</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Bridges the gap between technical model outputs and real-world stakeholder needs, crucial for safe deployment of AI in healthcare and regulated industries.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">alignment</span>
+        
+        <span class="tag">xai</span>
+        
+        <span class="tag">llm</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="17">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10030" target="_blank" rel="noopener">AEROBAT多智能体系统自动化执行AI智能体行为科学研究</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Automating and Scaling Behavioral Scientific Research on AI Agents</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Presents AEROBAT, a multi-agent system that automates the entire behavioral research pipeline for AI agents, including hypothesis generation, experimentation, and analysis.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Deploy AEROBAT to automate hypothesis generation and experimental design for agent evaluation</li>
+        
+        <li>Scale behavioral research by replacing manual labor with autonomous multi-agent pipelines</li>
+        
+        <li>Standardize agent behavior analysis through reproducible computational workflows</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Dramatically reduces the manual overhead of evaluating AI agents, enabling rigorous, scalable behavioral science methodologies for next-generation autonomous systems.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">planning</span>
+        
+        <span class="tag">automatedresearch</span>
+        
+        <span class="tag">agentevaluation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="18">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2509.05624" target="_blank" rel="noopener">大规模行为推理揭示动机与信念系统的根本不对称性</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Behavioral Inference at Scale: The Fundamental Asymmetry Between Motivations and Belief Systems</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Investigates behavioral inference at scale using LLM agents, revealing a fundamental asymmetry where motivations are easier to recover from actions than beliefs.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Conducts large-scale behavioral inference with LLM agents</li>
+        
+        <li>Reveals asymmetry between recovering motivations vs beliefs</li>
+        
+        <li>Uses 1.5M grid-world sequences across 36 profiles</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides critical insights for AI alignment and interpretability, showing limitations in reverse-engineering agent values from observable actions.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">BehavioralInference</span>
+        
+        <span class="tag">LLMAgents</span>
+        
+        <span class="tag">Alignment</span>
+        
+        <span class="tag">Interpretability</span>
+        
+        <span class="tag">GridWorld</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="19">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.07556" target="_blank" rel="noopener">MasDrift基准测试多智能体架构中的授权边界保持能力</a>
+            
+          </div>
+          
+          <div class="article-subtitle">MasDrift: Benchmarking Authorization Preservation Across Multi-Agent Architectures</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces MasDrift, a benchmark evaluating how multi-agent systems preserve authorization boundaries across delegated tasks.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Focuses on constraint drift in multi-agent systems</li>
+        
+        <li>Covers 600 tasks across 8 productivity domains</li>
+        
+        <li>Addresses safety gaps beyond adversarial attacks</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Critical for deploying safe, reliable multi-agent systems in production where permission boundaries must be strictly maintained.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">benchmark</span>
+        
+        <span class="tag">safety</span>
+        
+        <span class="tag">constraintpreservation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="20">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2602.02035" target="_blank" rel="noopener">基于信息瓶颈与向量量化的多智能体高效通信框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Bandwidth-Efficient Multi-Agent Communication through Information Bottleneck and Vector Quantization</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a communication framework for multi-agent RL that uses information bottleneck theory and vector quantization to reduce bandwidth while preserving coordination.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Combines IB theory with VQ for message compression</li>
+        
+        <li>Targets real-world robotics communication constraints</li>
+        
+        <li>Maintains coordination effectiveness under bandwidth limits</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Solves a critical bottleneck in deploying multi-agent robotics systems where communication bandwidth is limited.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">reinforcementlearning</span>
+        
+        <span class="tag">robotics</span>
+        
+        <span class="tag">communication</span>
+        
+        <span class="tag">vectorquantization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="21">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10383" target="_blank" rel="noopener">基于单目视觉的实物双臂协同灵巧抓取大物体方法</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Real-World Cooperative Bimanual Dexterous Grasp of Large Objects from Single-View Observations</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces a real-world bimanual dexterous grasping system for large objects using single-view observations, overcoming simulation-to-reality gaps and 3D modeling challenges.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Achieves cooperative bimanual grasping in real-world settings</li>
+        
+        <li>Bypasses need for full 3D object models</li>
+        
+        <li>Generates physically plausible grasping actions from single-view data</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances robotic manipulation capabilities for complex, large-scale tasks, bridging the gap between simulated training and real-world deployment.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">robotics</span>
+        
+        <span class="tag">manipulation</span>
+        
+        <span class="tag">bimanual</span>
+        
+        <span class="tag">sim2real</span>
+        
+        <span class="tag">perception</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="22">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10618" target="_blank" rel="noopener">基于世界模型的自动驾驶赛车智能体探索具身智能认知物理极限</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Toward the Cognitive--Physical Limits of Embodied Intelligence through a World-Model-Centric Autonomous Racing Agent</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a world-model-centric autonomous racing agent to rigorously test the cognitive and physical boundaries of embodied AI under extreme, high-frequency interaction conditions.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Uses autonomous racing as a stringent testbed for embodied AI limits</li>
+        
+        <li>Integrates world models to handle high-frequency perception and decision-making</li>
+        
+        <li>Reveals capability boundaries under extreme physical interaction regimes</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a novel evaluation paradigm for embodied intelligence, pushing beyond conservative safety margins to understand true AI capability limits in dynamic physical environments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">worldModels</span>
+        
+        <span class="tag">embodiedAI</span>
+        
+        <span class="tag">autonomousRacing</span>
+        
+        <span class="tag">agentEvaluation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="23">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10042" target="_blank" rel="noopener">UserToolBench评测基准聚焦大模型工具调用中的个性化决策</a>
+            
+          </div>
+          
+          <div class="article-subtitle">UserToolBench: A User-Profile-Hidden Benchmark for Personalized Decision Making in Tool-Use LLMs</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arxiv.org</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces UserToolBench, a benchmark evaluating how well tool-use LLMs infer latent user preferences and make personalized, aligned decisions.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Tests latent preference inference from interaction history</li>
+        
+        <li>Evaluates clarification-seeking behavior before tool execution</li>
+        
+        <li>Measures user-aligned tool-call accuracy over generic recall</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Fills a critical gap in agent evaluation by focusing on personalized decision-making, which is essential for deploying trustworthy personal assistants.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">toolcalling</span>
+        
+        <span class="tag">benchmark</span>
+        
+        <span class="tag">personalization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="24">
       <div class="article-header">
         
         
@@ -298,7 +1541,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="2">
+    <div class="article-card" data-index="25">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://x.ai/bot" target="_blank" rel="noopener">x.ai 推出 Grok Bot 智能体平台</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Grok Bot</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HackerNews Best</span>
+      </div>
+      
+      <div class="article-summary">
+        X.ai releases Grok Bot, a new AI agent platform leveraging Grok models for interactive tasks and automated workflows.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>基于 Grok 架构构建交互式智能体工作流</li>
+        
+        <li>集成 X 平台实时数据与工具调用能力</li>
+        
+        <li>提供开发者 API 与自动化部署方案</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Expands X's AI ecosystem and provides a new baseline for social media-integrated agents with real-time data access.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">llm</span>
+        
+        <span class="tag">xai</span>
+        
+        <span class="tag">toolcalling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="26">
       <div class="article-header">
         
         
@@ -351,7 +1647,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="3">
+    <div class="article-card" data-index="27">
       <div class="article-header">
         
         
@@ -406,7 +1702,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="4">
+    <div class="article-card" data-index="28">
       <div class="article-header">
         
         
@@ -459,7 +1755,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="5">
+    <div class="article-card" data-index="29">
       <div class="article-header">
         
         
@@ -512,7 +1808,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="6">
+    <div class="article-card" data-index="30">
       <div class="article-header">
         
         
@@ -565,7 +1861,115 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="7">
+    <div class="article-card" data-index="31">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.6.0" target="_blank" rel="noopener">AutoGen 0.6.0 引入 GraphFlow 并发代理与多说话人选择</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.6.0: python-v0.6.0</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.6.0 updates BaseGroupChatManager to return multiple speaker names, enabling concurrent agent execution in GraphFlow fan-out-fan-in patterns.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>select_speaker 支持返回代理名称列表</li>
+        
+        <li>GraphFlow 原生支持并发执行模式</li>
+        
+        <li>优化多智能体并行编排效率</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Facilitates complex parallel agent orchestration, significantly improving throughput and scalability for multi-agent systems.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">orchestration</span>
+        
+        <span class="tag">graphflow</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="32">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">7</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.1" target="_blank" rel="noopener">AutoGen 0.7.1 支持嵌套团队编排与 Redis 持久化存储</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.7.1: python-v0.7.1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.7.1 introduces nested team orchestration, Redis memory extension, and full built-in tool support for OpenAIAgent.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Enable nested Team structures for complex multi-agent hierarchies</li>
+        
+        <li>Add RedisMemory class for scalable state persistence</li>
+        
+        <li>Integrate all built-in tools directly into OpenAIAgent</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enables developers to build highly scalable, hierarchical agent systems with robust memory management and native tool access.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">framework</span>
+        
+        <span class="tag">redis</span>
+        
+        <span class="tag">multiteam</span>
+        
+        <span class="tag">toolcalling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="33">
       <div class="article-header">
         
         
@@ -618,7 +2022,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="8">
+    <div class="article-card" data-index="34">
       <div class="article-header">
         
         
@@ -671,7 +2075,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="9">
+    <div class="article-card" data-index="35">
       <div class="article-header">
         
         
@@ -724,7 +2128,380 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="10">
+    <div class="article-card" data-index="36">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10646" target="_blank" rel="noopener">ASCon模型实现多智能体系统故障归因的方向感知与步骤上下文关联</a>
+            
+          </div>
+          
+          <div class="article-subtitle">ASCon: A Direction-Aware Reciprocal Agent--Step Contextualization Model for Failure Attribution in Multi-Agent Systems</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes ASCon, a direction-aware contextualization model that maps evidential dependencies among agents, steps, and failure modes to improve failure attribution in multi-agent systems.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Models evidential dependencies across agents, steps, and failure modes</li>
+        
+        <li>Direction-aware reciprocal contextualization improves attribution accuracy</li>
+        
+        <li>Addresses fragmentation in existing MAS debugging methods</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances MAS reliability by providing a unified framework for pinpointing failure origins, crucial for deploying complex agent teams in production environments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">debugging</span>
+        
+        <span class="tag">reliability</span>
+        
+        <span class="tag">contextualization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="37">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10662" target="_blank" rel="noopener">QLWF平台实现自然语言到量化句法研究工作流的AI辅助转换</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Reifying Research Logic: AI-Assisted Workflow Construction and Incremental Refinement for Quantitative Syntax</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces QLWF, a visual platform that converts natural language research descriptions into executable workflows via a five-stage AI pipeline for quantitative syntax analysis.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Deploy QLWF to automate research workflow generation from natural language</li>
+        
+        <li>Utilize five-stage AI pipeline for incremental refinement of syntax analysis</li>
+        
+        <li>Improve reproducibility by externalizing hidden computational logic</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses the reproducibility crisis in computational linguistics by making complex analysis pipelines transparent, shareable, and easily modifiable.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">planning</span>
+        
+        <span class="tag">workflowautomation</span>
+        
+        <span class="tag">nlp</span>
+        
+        <span class="tag">researchtools</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="38">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10016" target="_blank" rel="noopener">基于层论的联邦表示学习框架实现异构智能体特征对齐</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Sheaf-Based Federated Representation Learning</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces SFRL, a framework using sheaf theory and manifold-constrained alignment to enable heterogeneous agents to exchange representations across different data and architectures.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Apply sheaf-based alignment to synchronize representations across heterogeneous federated agents</li>
+        
+        <li>Optimize local objectives while maintaining global geometric consistency</li>
+        
+        <li>Enable cross-modal and cross-architecture knowledge sharing in decentralized systems</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Solves a fundamental bottleneck in federated learning where data and model heterogeneity typically prevent effective collaborative representation learning.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">multiagent</span>
+        
+        <span class="tag">federatedlearning</span>
+        
+        <span class="tag">representationlearning</span>
+        
+        <span class="tag">geometricml</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="39">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10714" target="_blank" rel="noopener">面向有机6G网络的对话式编排架构研究</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Conversational Orchestration for Organic 6G</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.MA</span>
+      </div>
+      
+      <div class="article-summary">
+        Explores conversational orchestration for Organic 6G networks, enabling simple, scalable service provisioning across edge-cloud domains without heavy integration fabrics.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Proposes conversational orchestration for 6G management</li>
+        
+        <li>Enables scalable cross-domain service provisioning</li>
+        
+        <li>Reduces reliance on heavy integration fabrics</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Demonstrates how conversational AI can simplify complex telecom infrastructure management, paving the way for autonomous 6G networks.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">ConversationalAI</span>
+        
+        <span class="tag">NetworkOrchestration</span>
+        
+        <span class="tag">6G</span>
+        
+        <span class="tag">EdgeCloud</span>
+        
+        <span class="tag">Agent</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="40">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10600" target="_blank" rel="noopener">BooST框架实现机器人技能语义与运动解耦，提升跨域迁移效率</a>
+            
+          </div>
+          
+          <div class="article-subtitle">BooST: Bridging Semantics and Motions for Efficient Skill Transfer</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Introduces BooST, a robot learning framework that bridges semantic understanding and motion control to enable efficient, robust skill transfer across diverse tasks and real-world domains.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Decouples semantic reasoning from low-level motion control for better generalization</li>
+        
+        <li>Improves sample efficiency and robustness against visual/dynamic perturbations</li>
+        
+        <li>Enables practical deployment of learned skills on physical robots</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Addresses a core bottleneck in embodied AI by making learned skills transferable and robust, accelerating real-world robot deployment.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">robotLearning</span>
+        
+        <span class="tag">skillTransfer</span>
+        
+        <span class="tag">embodiedAI</span>
+        
+        <span class="tag">generalization</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="41">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10651" target="_blank" rel="noopener">人机无人机遥操作中语音引导的三阶段动态演化分析</a>
+            
+          </div>
+          
+          <div class="article-subtitle">OAA: Three Phases of Vocal Guidance in Human-Drone Teleoperation</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Researchers identify three distinct phases in vocal guidance during human-drone teleoperation, showing that adaptive systems must account for evolving communicative dynamics rather than treating commands as static.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Identifies three distinct phases in vocal guidance during teleoperation</li>
+        
+        <li>Demonstrates that static command processing fails to capture evolving human dynamics</li>
+        
+        <li>Provides motion capture and speech dataset for adaptive voice-controlled systems</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves human-robot interaction by enabling teleoperation systems to dynamically adapt to how operators naturally change their communication style as tasks progress.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">teleoperation</span>
+        
+        <span class="tag">humanrobotinteraction</span>
+        
+        <span class="tag">voicecontrol</span>
+        
+        <span class="tag">embodiedai</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="42">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10718" target="_blank" rel="noopener">WBCD 2026 可变形物体自主操作冠军系统 TCAM 技术解析</a>
+            
+          </div>
+          
+          <div class="article-subtitle">TCAM for Autonomous Deformable Manipulation: The RMC2 Champion System for WBCD 2026 Track 4</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Details the champion system for the WBCD 2026 deformable manipulation challenge, achieving reliable T-shirt separation, transport, alignment, and surface smoothing through a robust autonomous pipeline.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Wins WBCD 2026 Track 4 with a complete pipeline for deformable object manipulation</li>
+        
+        <li>Solves single-layer separation, precise placement, and contact-rich surface adjustment</li>
+        
+        <li>Demonstrates practical autonomy in handling highly deformable textiles</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides a benchmark solution for deformable object manipulation, a longstanding robotics challenge critical for logistics, manufacturing, and domestic service robots.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">deformablemanipulation</span>
+        
+        <span class="tag">roboticscompetition</span>
+        
+        <span class="tag">autonomouspipeline</span>
+        
+        <span class="tag">textilehandling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="43">
       <div class="article-header">
         
         
@@ -777,7 +2554,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="11">
+    <div class="article-card" data-index="44">
       <div class="article-header">
         
         
@@ -830,7 +2607,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="12">
+    <div class="article-card" data-index="45">
       <div class="article-header">
         
         
@@ -885,7 +2662,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="13">
+    <div class="article-card" data-index="46">
       <div class="article-header">
         
         
@@ -940,7 +2717,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="14">
+    <div class="article-card" data-index="47">
       <div class="article-header">
         
         
@@ -993,60 +2770,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="15">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">6</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.8" target="_blank" rel="noopener">CrewAI 1.15.8 新增长任务暂停工具并修复文件写入缺陷</a>
-            
-          </div>
-          
-          <div class="article-subtitle">[Release] 1.15.8: 1.15.8</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">CrewAI (GitHub)</span>
-      </div>
-      
-      <div class="article-summary">
-        CrewAI v1.15.8 adds a WaitTool for pausing long-running jobs, fixes FileWriterTool issues, and clarifies E2B environment variable requirements.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Introduces WaitTool to handle long-running asynchronous jobs</li>
-        
-        <li>Fixes critical bugs in FileWriterTool and file handling</li>
-        
-        <li>Marks E2B_API_KEY as required for sandboxed tool execution</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Enhances agent control over asynchronous workflows and stabilizes file I/O operations, addressing common pain points in production agent pipelines.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">agent</span>
-        
-        <span class="tag">toolcalling</span>
-        
-        <span class="tag">asyncworkflow</span>
-        
-        <span class="tag">sandbox</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="16">
+    <div class="article-card" data-index="48">
       <div class="article-header">
         
         
@@ -1099,7 +2823,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="17">
+    <div class="article-card" data-index="49">
       <div class="article-header">
         
         
@@ -1154,7 +2878,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="18">
+    <div class="article-card" data-index="50">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.8" target="_blank" rel="noopener">CrewAI 1.15.8 新增长任务暂停工具并修复文件写入缺陷</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] 1.15.8: 1.15.8</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI v1.15.8 adds a WaitTool for pausing long-running jobs, fixes FileWriterTool issues, and clarifies E2B environment variable requirements.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces WaitTool to handle long-running asynchronous jobs</li>
+        
+        <li>Fixes critical bugs in FileWriterTool and file handling</li>
+        
+        <li>Marks E2B_API_KEY as required for sandboxed tool execution</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enhances agent control over asynchronous workflows and stabilizes file I/O operations, addressing common pain points in production agent pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">toolcalling</span>
+        
+        <span class="tag">asyncworkflow</span>
+        
+        <span class="tag">sandbox</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="51">
       <div class="article-header">
         
         
@@ -1209,7 +2986,272 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="19">
+    <div class="article-card" data-index="52">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.6.2" target="_blank" rel="noopener">AutoGen 0.6.2 支持流式工具调用与 Agent 事件透传</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.6.2: python-v0.6.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.6.2 introduces streaming tools, allowing AssistantAgent to expose inner agent/team events via run_json_stream for real-time feedback.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>新增流式工具接口 run_json_stream</li>
+        
+        <li>AssistantAgent 支持透传内部事件</li>
+        
+        <li>提升多智能体协作的实时响应能力</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Enables real-time streaming in multi-agent workflows, crucial for building responsive and transparent AI applications.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">toolcalling</span>
+        
+        <span class="tag">streaming</span>
+        
+        <span class="tag">multiagent</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="53">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.4" target="_blank" rel="noopener">AutoGen 0.7.4 修复 Redis 反序列化与流式传输缺陷</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.7.4: python-v0.7.4</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.7.4 fixes Redis deserialization errors and streaming limitations while updating framework documentation.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fix Redis deserialization errors for stable memory storage</li>
+        
+        <li>Resolve streaming compatibility issues in Redis integration</li>
+        
+        <li>Update documentation for agent-as-tool patterns</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Ensures reliable state persistence and real-time data handling in multi-agent workflows, critical for production deployments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">framework</span>
+        
+        <span class="tag">redis</span>
+        
+        <span class="tag">orchestration</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="54">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.3" target="_blank" rel="noopener">AutoGen 0.7.3 扩展 Pydantic 类型支持并修复 MCP 示例</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.7.3: python-v0.7.3</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.7.3 extends Pydantic model typing capabilities and corrects MCP integration examples in the documentation.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Extend Pydantic support for anyOf/oneOf item typing</li>
+        
+        <li>Fix MCP example code for accurate tool integration</li>
+        
+        <li>Correct documentation typos and version references</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves type safety for complex agent tool schemas and ensures developers can correctly implement MCP protocols.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">framework</span>
+        
+        <span class="tag">mcp</span>
+        
+        <span class="tag">pydantic</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="55">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.7.2" target="_blank" rel="noopener">AutoGen 0.7.2 优化 OpenAI 代理接口并默认启用 Docker 执行器</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.7.2: python-v0.7.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.7.2 refactors OpenAI agent methods and sets DockerCommandLineCodeExecutor as the default for MagenticOne teams.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Remove deprecated assistant methods from OpenAIAgent</li>
+        
+        <li>Set Docker executor as default for MagenticOne teams</li>
+        
+        <li>Update OpenAIAssistantAgent documentation for clarity</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Streamlines agent API usage and enhances code execution security by defaulting to isolated Docker environments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">framework</span>
+        
+        <span class="tag">docker</span>
+        
+        <span class="tag">codeexecution</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="56">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">6</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.6.4" target="_blank" rel="noopener">AutoGen 0.6.4 改进 GraphFlow 状态保持与任务恢复机制</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.6.4: python-v0.6.4</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.6.4 enhances GraphFlow to retain execution state after termination, allowing seamless task resumption.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>GraphFlow now retains state after termination conditions</li>
+        
+        <li>Support resuming workflows with new or empty tasks</li>
+        
+        <li>Remove inner StopAgent for cleaner execution graphs</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves workflow reliability and reduces redundant computation by allowing stateful resumption in complex agent pipelines.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">framework</span>
+        
+        <span class="tag">graphflow</span>
+        
+        <span class="tag">orchestration</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="57">
       <div class="article-header">
         
         
@@ -1262,7 +3304,219 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="20">
+    <div class="article-card" data-index="58">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://arxiv.org/abs/2608.10656" target="_blank" rel="noopener">欠驱动空中机械臂接触式检测的鲁棒滑模与导纳控制框架</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Robust Sliding Mode and Admittance Control of Underactuated Aerial Manipulators for Contact-Based Inspection</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">arXiv cs.RO</span>
+      </div>
+      
+      <div class="article-summary">
+        Proposes a robust control framework combining sliding mode and admittance control for underactuated hexarotors with manipulators, enabling stable contact-based industrial inspection under disturbances.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Integrates sliding mode and admittance control for underactuated aerial manipulators</li>
+        
+        <li>Achieves stable contact force regulation during industrial inspection tasks</li>
+        
+        <li>Addresses dynamic coupling between vehicle attitude and manipulator force generation</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Advances reliable aerial manipulation for industrial inspection by solving critical stability and disturbance rejection challenges in contact-rich environments.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">aerialmanipulation</span>
+        
+        <span class="tag">controltheory</span>
+        
+        <span class="tag">slidingmode</span>
+        
+        <span class="tag">industrialinspection</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="59">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://zed.dev/blog/introducing-delta" target="_blank" rel="noopener">Zed 编辑器发布 Delta 更新，强化 AI 代码辅助功能</a>
+            
+          </div>
+          
+          <div class="article-subtitle">Delta</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">HackerNews Best</span>
+      </div>
+      
+      <div class="article-summary">
+        Zed editor introduces Delta, a new update focusing on enhanced AI-assisted coding capabilities and workflow improvements for developers.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Introduces Delta update for Zed editor</li>
+        
+        <li>Enhances AI code completion and refactoring</li>
+        
+        <li>Improves developer workflow integration</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Represents incremental progress in AI-native code editors, pushing the boundary of local, high-performance AI coding tools.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">codeeditor</span>
+        
+        <span class="tag">aicoding</span>
+        
+        <span class="tag">developertools</span>
+        
+        <span class="tag">zed</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="60">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/commit/1925966dc66ca339e7391e1bb8e0aabf415dbf96" target="_blank" rel="noopener">LangChain 新增 AgentMiddleware 追踪策略配置功能</a>
+            
+          </div>
+          
+          <div class="article-subtitle">feat(langchain): expose `trace_policy` on `AgentMiddleware` (#38910)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain framework adds a configurable trace_policy to AgentMiddleware, enabling developers to control tracing behavior for agent execution.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>LangChain 新增 trace_policy 配置项</li>
+        
+        <li>允许开发者自定义 Agent 执行追踪策略</li>
+        
+        <li>提升 Agent 调试与监控灵活性</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Provides finer-grained control over agent execution tracing, which is crucial for debugging complex multi-step agent workflows and optimizing observability in production.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">observability</span>
+        
+        <span class="tag">middleware</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="61">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/commit/0727992d4a0da611502ba453fe55f4b5d7fdc719" target="_blank" rel="noopener">LangChain 修复 Anthropic 模型结构化输出与推理元数据</a>
+            
+          </div>
+          
+          <div class="article-subtitle">fix(anthropic): correct model profile data for Fable 5, Sonnet 5, Opus 4.1 (#39604)</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain 修复 ChatAnthropic 模型配置，纠正 Fable 5 和 Sonnet 5 的结构化输出与推理能力报告。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修正 Claude Fable 5 和 Sonnet 5 结构化输出支持状态</li>
+        
+        <li>补充 Fable 5 推理努力级别配置</li>
+        
+        <li>移除已退役的 Opus 4.1 配置</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 确保开发者通过 LangChain 调用 Anthropic 模型时能准确获取能力边界，避免功能调用失败。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">anthropic</span>
+        
+        <span class="tag">modelprofiles</span>
+        
+        <span class="tag">toolcalling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="62">
       <div class="article-header">
         
         
@@ -1315,7 +3569,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="21">
+    <div class="article-card" data-index="63">
       <div class="article-header">
         
         
@@ -1368,7 +3622,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="22">
+    <div class="article-card" data-index="64">
       <div class="article-header">
         
         
@@ -1421,7 +3675,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="23">
+    <div class="article-card" data-index="65">
       <div class="article-header">
         
         
@@ -1476,7 +3730,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="24">
+    <div class="article-card" data-index="66">
       <div class="article-header">
         
         
@@ -1531,166 +3785,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="25">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/langchain-ai/langchain/commit/1925966dc66ca339e7391e1bb8e0aabf415dbf96" target="_blank" rel="noopener">LangChain 新增 AgentMiddleware 追踪策略配置功能</a>
-            
-          </div>
-          
-          <div class="article-subtitle">feat(langchain): expose `trace_policy` on `AgentMiddleware` (#38910)</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">LangChain (GitHub)</span>
-      </div>
-      
-      <div class="article-summary">
-        LangChain framework adds a configurable trace_policy to AgentMiddleware, enabling developers to control tracing behavior for agent execution.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>LangChain 新增 trace_policy 配置项</li>
-        
-        <li>允许开发者自定义 Agent 执行追踪策略</li>
-        
-        <li>提升 Agent 调试与监控灵活性</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Provides finer-grained control over agent execution tracing, which is crucial for debugging complex multi-step agent workflows and optimizing observability in production.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">agent</span>
-        
-        <span class="tag">langchain</span>
-        
-        <span class="tag">observability</span>
-        
-        <span class="tag">middleware</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="26">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://github.com/langchain-ai/langchain/commit/0727992d4a0da611502ba453fe55f4b5d7fdc719" target="_blank" rel="noopener">LangChain 修复 Anthropic 模型结构化输出与推理元数据</a>
-            
-          </div>
-          
-          <div class="article-subtitle">fix(anthropic): correct model profile data for Fable 5, Sonnet 5, Opus 4.1 (#39604)</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">LangChain (GitHub)</span>
-      </div>
-      
-      <div class="article-summary">
-        LangChain 修复 ChatAnthropic 模型配置，纠正 Fable 5 和 Sonnet 5 的结构化输出与推理能力报告。
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>修正 Claude Fable 5 和 Sonnet 5 结构化输出支持状态</li>
-        
-        <li>补充 Fable 5 推理努力级别配置</li>
-        
-        <li>移除已退役的 Opus 4.1 配置</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 确保开发者通过 LangChain 调用 Anthropic 模型时能准确获取能力边界，避免功能调用失败。</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">langchain</span>
-        
-        <span class="tag">anthropic</span>
-        
-        <span class="tag">modelprofiles</span>
-        
-        <span class="tag">toolcalling</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="27">
-      <div class="article-header">
-        
-        
-        <div class="score-badge score-mid">5</div>
-        
-        <div class="article-title-area">
-          <div class="article-title">
-            <a href="https://openai.com/index/building-an-ai-native-finance-function" target="_blank" rel="noopener">OpenAI CFO 分享构建 AI 原生财务团队的五大核心经验</a>
-            
-          </div>
-          
-          <div class="article-subtitle">What building an AI-native finance function taught me</div>
-          
-        </div>
-      </div>
-      <div class="article-meta">
-        <span class="source">OpenAI Blog</span>
-      </div>
-      
-      <div class="article-summary">
-        OpenAI CFO Sarah Friar outlines five strategic lessons for building AI-native finance functions, covering automated forecasting, control frameworks, and ROI measurement.
-      </div>
-      
-      
-      <ul class="key-insights">
-        
-        <li>Provides strategic framework for AI-native finance operations</li>
-        
-        <li>Highlights automated forecasting and enhanced control mechanisms</li>
-        
-        <li>Offers practical guidance on measuring AI ROI in finance</li>
-        
-      </ul>
-      
-      
-      <div class="why-matters">💡 Offers actionable leadership insights for enterprises transitioning to AI-driven financial operations, addressing governance and ROI challenges.</div>
-      
-      
-      <div class="article-tags">
-        
-        <span class="tag">enterpriseai</span>
-        
-        <span class="tag">finance</span>
-        
-        <span class="tag">aistrategy</span>
-        
-        <span class="tag">workflowautomation</span>
-        
-      </div>
-      
-    </div>
-    
-    <div class="article-card" data-index="28">
+    <div class="article-card" data-index="67">
       <div class="article-header">
         
         
@@ -1743,7 +3838,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="29">
+    <div class="article-card" data-index="68">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://openai.com/index/building-an-ai-native-finance-function" target="_blank" rel="noopener">OpenAI CFO 分享构建 AI 原生财务团队的五大核心经验</a>
+            
+          </div>
+          
+          <div class="article-subtitle">What building an AI-native finance function taught me</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">OpenAI Blog</span>
+      </div>
+      
+      <div class="article-summary">
+        OpenAI CFO Sarah Friar outlines five strategic lessons for building AI-native finance functions, covering automated forecasting, control frameworks, and ROI measurement.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Provides strategic framework for AI-native finance operations</li>
+        
+        <li>Highlights automated forecasting and enhanced control mechanisms</li>
+        
+        <li>Offers practical guidance on measuring AI ROI in finance</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Offers actionable leadership insights for enterprises transitioning to AI-driven financial operations, addressing governance and ROI challenges.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">enterpriseai</span>
+        
+        <span class="tag">finance</span>
+        
+        <span class="tag">aistrategy</span>
+        
+        <span class="tag">workflowautomation</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="69">
       <div class="article-header">
         
         
@@ -1796,7 +3944,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="30">
+    <div class="article-card" data-index="70">
       <div class="article-header">
         
         
@@ -1851,7 +3999,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="31">
+    <div class="article-card" data-index="71">
       <div class="article-header">
         
         
@@ -1904,7 +4052,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="32">
+    <div class="article-card" data-index="72">
       <div class="article-header">
         
         
@@ -1957,7 +4105,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="33">
+    <div class="article-card" data-index="73">
       <div class="article-header">
         
         
@@ -2012,7 +4160,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="34">
+    <div class="article-card" data-index="74">
       <div class="article-header">
         
         
@@ -2067,7 +4215,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="35">
+    <div class="article-card" data-index="75">
       <div class="article-header">
         
         
@@ -2120,7 +4268,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="36">
+    <div class="article-card" data-index="76">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-mid">5</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/microsoft/autogen/releases/tag/python-v0.5.7" target="_blank" rel="noopener">AutoGen 0.5.7 升级 Azure 搜索工具支持混合检索与客户端嵌入</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] python-v0.5.7: python-v0.5.7</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">AutoGen (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        AutoGen 0.5.7 enhances AzureAISearchTool with unified full-text, vector, and hybrid search methods, plus client-side embedding support.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>统一全文、向量与混合搜索 API</li>
+        
+        <li>新增客户端侧嵌入计算支持</li>
+        
+        <li>弃用旧版关键词搜索方法</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Streamlines RAG integration with Azure AI Search, giving developers more control over embedding pipelines and search strategies.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">rag</span>
+        
+        <span class="tag">azure</span>
+        
+        <span class="tag">hybridsearch</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="77">
       <div class="article-header">
         
         
@@ -2173,7 +4374,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="37">
+    <div class="article-card" data-index="78">
       <div class="article-header">
         
         
@@ -2228,7 +4429,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="38">
+    <div class="article-card" data-index="79">
       <div class="article-header">
         
         
@@ -2281,7 +4482,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="39">
+    <div class="article-card" data-index="80">
       <div class="article-header">
         
         
@@ -2336,7 +4537,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="40">
+    <div class="article-card" data-index="81">
       <div class="article-header">
         
         
@@ -2389,7 +4590,60 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="41">
+    <div class="article-card" data-index="82">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">4</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.7a1" target="_blank" rel="noopener">CrewAI 1.15.7a1 修复工具调用与 API 路由问题</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] 1.15.7a1: 1.15.7a1</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">CrewAI (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        CrewAI releases alpha 1.15.7a1, fixing GPT-5.6 tool errors, adding runtime observability, and patching a security vulnerability.
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>Fixes GPT-5.6 tool/reasoning 400 errors</li>
+        
+        <li>Adds skill usage event emission for observability</li>
+        
+        <li>Patches CVE-2026-16796 in bedrock-agentcore</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 Improves framework stability for developers integrating latest OpenAI APIs and enhances runtime monitoring capabilities.</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">toolcalling</span>
+        
+        <span class="tag">observability</span>
+        
+        <span class="tag">bugfix</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="83">
       <div class="article-header">
         
         
@@ -2442,7 +4696,211 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="42">
+    <div class="article-card" data-index="84">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.5.6" target="_blank" rel="noopener">LangChain Anthropic 1.5.6 修复工具搜索与模型配置问题</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] langchain-anthropic==1.5.6: langchain-anthropic==1.5.6</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain Anthropic 1.5.6 发布，修复了工具搜索结果块标准化及 Claude 系列模型配置数据错误。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修复 tool_search_tool_result 块标准化问题</li>
+        
+        <li>更正 Fable 5、Sonnet 5 及 Opus 4.1 模型配置数据</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 确保开发者在使用最新 Claude 模型时获得准确的上下文与工具调用行为，提升 Agent 开发稳定性。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">anthropic</span>
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">toolcalling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="85">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.4.2" target="_blank" rel="noopener">LangChain OpenAI 1.4.2 修复上下文超限与 MCP 授权脱敏</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] langchain-openai==1.4.2: langchain-openai==1.4.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain OpenAI 1.4.2 发布，新增上下文窗口超限错误处理，并修复 MCP 授权头脱敏及模型配置刷新。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>新增 ContextWindowExceededError 异常处理</li>
+        
+        <li>修复 MCP 授权头脱敏与 Responses 文本选项保留问题</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 增强 OpenAI API 调用的健壮性，防止上下文溢出导致中断，并提升 MCP 协议集成的安全性。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">openai</span>
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">mcp</span>
+        
+        <span class="tag">inference</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="86">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.5.4" target="_blank" rel="noopener">LangChain Anthropic 1.5.4 优化工具模式与用户配置支持</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] langchain-anthropic==1.5.4: langchain-anthropic==1.5.4</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain Anthropic 1.5.4 发布，修复不支持的顶层组合工具模式处理，并新增用户配置 ID 便捷属性。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修复不支持的顶层组合工具模式解析问题</li>
+        
+        <li>新增 user_profile_id 便捷属性支持</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 提升复杂工具定义在 Anthropic 模型中的兼容性，简化多用户 Agent 场景下的配置管理。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">anthropic</span>
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">toolcalling</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="87">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.5.3" target="_blank" rel="noopener">LangChain Core 1.5.3 修复 LangSmith 网关密钥回退逻辑</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] langchain-core==1.5.3: langchain-core==1.5.3</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain Core 1.5.3 发布，修复网关连接时 LANGSMITH_API_KEY 环境变量回退逻辑。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修复网关连接时 API 密钥环境变量回退失败问题</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 保障 LangSmith 追踪与评估功能在复杂部署环境下的正常连接，避免调试中断。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">observability</span>
+        
+        <span class="tag">langsmith</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="88">
       <div class="article-header">
         
         
@@ -2497,7 +4955,7 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="43">
+    <div class="article-card" data-index="89">
       <div class="article-header">
         
         
@@ -2550,7 +5008,58 @@ body {
       
     </div>
     
-    <div class="article-card" data-index="44">
+    <div class="article-card" data-index="90">
+      <div class="article-header">
+        
+        
+        <div class="score-badge score-low">3</div>
+        
+        <div class="article-title-area">
+          <div class="article-title">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.5.2" target="_blank" rel="noopener">LangChain Core 1.5.2 修复网关环境变量空值处理</a>
+            
+          </div>
+          
+          <div class="article-subtitle">[Release] langchain-core==1.5.2: langchain-core==1.5.2</div>
+          
+        </div>
+      </div>
+      <div class="article-meta">
+        <span class="source">LangChain (GitHub)</span>
+      </div>
+      
+      <div class="article-summary">
+        LangChain Core 1.5.2 发布，修复网关环境变量空字符串处理逻辑，并更新底层依赖版本。
+      </div>
+      
+      
+      <ul class="key-insights">
+        
+        <li>修复网关环境变量空字符串导致的解析错误</li>
+        
+        <li>同步更新 setuptools 与 jupyterlab 依赖</li>
+        
+      </ul>
+      
+      
+      <div class="why-matters">💡 消除环境配置边缘情况引发的运行时异常，提升框架在 CI/CD 流水线中的兼容性。</div>
+      
+      
+      <div class="article-tags">
+        
+        <span class="tag">langchain</span>
+        
+        <span class="tag">agent</span>
+        
+        <span class="tag">infrastructure</span>
+        
+        <span class="tag">dependency</span>
+        
+      </div>
+      
+    </div>
+    
+    <div class="article-card" data-index="91">
       <div class="article-header">
         
         
@@ -2674,7 +5183,7 @@ body {
   </script>
   
 
-  <div class="footer">生成于 2026-08-12 18:21 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-13 11:22 · Weekly AI Report Agent</div>
 
 </div>
 </body>

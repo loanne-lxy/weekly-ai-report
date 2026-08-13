@@ -240,13 +240,28 @@ async def main():
     evaluator = SourceEvaluator("sources.yaml", config)
     sources = evaluator.evaluate(articles, sources)
 
+    discovered = []
+    # 6a: LLM-based discovery from top articles
     discoverer = SourceDiscoverer(llm)
     try:
-        new_sources = discoverer.discover(articles, {s.get("url", "") for s in sources})
-        sources = evaluator.merge_discovered(new_sources, sources)
-        evaluator._save(sources)
+        discovered.extend(discoverer.discover(articles, {s.get("url", "") for s in sources}))
     except Exception as e:
-        logger.warning(f"Source discovery failed (non-fatal): {e}")
+        logger.warning(f"LLM source discovery failed (non-fatal): {e}")
+
+    # 6b: Outbound link mining from high-score articles (zero-token)
+    try:
+        from filter.link_miner import mine_links, _normalize_domain
+        existing_domains = {
+            _normalize_domain(s.get("url", "")) for s in sources
+        }
+        link_sources = mine_links(articles, existing_domains)
+        discovered.extend(link_sources)
+    except Exception as e:
+        logger.warning(f"Link mining failed (non-fatal): {e}")
+
+    if discovered:
+        sources = evaluator.merge_discovered(discovered, sources)
+        evaluator._save(sources)
 
     logger.info("Done!")
 

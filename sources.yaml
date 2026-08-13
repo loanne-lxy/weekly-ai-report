@@ -271,3 +271,19 @@ sources:
   type: rss
   url: https://huggingface.co/blog
   weight: 5
+
+# Trend hotlists
+- articles_this_week: 0
+  category: LLM
+  name: HackerNews Best
+  streak_failures: 0
+  type: rss
+  url: https://hnrss.org/best
+  weight: 6
+- articles_this_week: 0
+  category: LLM
+  name: Reddit r/LocalLLaMA
+  streak_failures: 0
+  type: rss
+  url: https://www.reddit.com/r/LocalLLaMA/top/.rss?t=week
+  weight: 6

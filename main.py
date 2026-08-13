@@ -225,20 +225,14 @@ async def main():
     )
     logger.info(f"Merged: {len(existing)} old + {len(articles) - len(existing)} new → {len(articles)} total")
 
-    # ── Phase 5: Generate Report ─────────────────────────────────
-    logger.info(f"=== Phase 5: Generate Report ({week_label}) ===")
-    report_path = generate_report(articles, config, week_label, llm)
-    logger.info(f"Report saved to: {report_path}")
-
-    abs_path = os.path.abspath(report_path)
-    public_url = "https://loanne-lxy.github.io/weekly-ai-report/"
-    logger.info(f"公网地址: {public_url}  (推送后自动部署)")
-    logger.info(f"本地打开: {abs_path}")
-
-    # ── Phase 6: Source Evaluation & Discovery ───────────────────
+    # ── Phase 6: Source Evaluation & Discovery (before report so template has data) ──
     logger.info("=== Phase 6: Evaluate & Discover Sources ===")
     evaluator = SourceEvaluator("sources.yaml", config)
+    sources_before = len(sources)
+    archived_count = sum(1 for s in sources if s.get("active") == False)
     sources = evaluator.evaluate(articles, sources)
+    archived_after = sum(1 for s in sources if s.get("active") == False)
+    newly_archived = archived_after - archived_count
 
     discovered = []
     # 6a: LLM-based discovery from top articles
@@ -259,11 +253,35 @@ async def main():
     except Exception as e:
         logger.warning(f"Link mining failed (non-fatal): {e}")
 
+    # 6c: Exa API active search (semantic search for tech blogs)
+    try:
+        from filter.exa_discoverer import discover as exa_discover
+        from filter.link_miner import _normalize_domain as _nd
+        existing_domains_exa = {
+            _nd(s.get("url", "")) for s in sources
+        }
+        # Also exclude domains already found in 6a/6b
+        for ds in discovered:
+            d = _nd(ds.get("url", ""))
+            if d:
+                existing_domains_exa.add(d)
+        exa_sources = exa_discover(articles, existing_domains_exa)
+        discovered.extend(exa_sources)
+    except Exception as e:
+        logger.warning(f"Exa search failed (non-fatal): {e}")
+
     if discovered:
         sources = evaluator.merge_discovered(discovered, sources)
         evaluator._save(sources)
 
-    logger.info("Done!")
+    # ── Phase 5: Generate Report ─────────────────────────────────
+    logger.info(f"=== Phase 5: Generate Report ({week_label}) ===")
+    report_path = generate_report(
+        articles, config, week_label, llm,
+        discovered_count=len(discovered),
+        archived_count=newly_archived,
+    )
+    logger.info(f"Report saved to: {report_path}")
 
 
 if __name__ == "__main__":

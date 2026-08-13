@@ -2,7 +2,7 @@ evaluator:
   auto_discover: true
   max_sources: 80
   min_weekly_output: 2
-  stale_weeks: 6
+  stale_weeks: 4
   protect_types: [github]  # Never auto-archive these (rate-limited ≠ stale)
 fetch:
   concurrency: 10

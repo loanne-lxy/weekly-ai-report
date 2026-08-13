@@ -115,7 +115,11 @@ def _find_fallback_articles(empty_cats: list[str]) -> dict[str, list[dict]]:
     return fallback
 
 
-def generate_report(articles: list[dict], config: dict, week_label: str, llm: LLMClient = None) -> str:
+def generate_report(
+    articles: list[dict], config: dict, week_label: str, llm: LLMClient = None,
+    discovered_count: int = 0,
+    archived_count: int = 0,
+) -> str:
     categories: dict[str, list] = {}
     for cat_cfg in config["filter"]["categories"]:
         categories[cat_cfg["name"]] = []
@@ -189,6 +193,8 @@ def generate_report(articles: list[dict], config: dict, week_label: str, llm: LL
         domain_summaries=domain_summaries,
         category_slugs=category_slugs,
         generated_at=generated_at,
+        discovered_count=discovered_count,
+        archived_count=archived_count,
     )
     index_path = os.path.join(week_dir, "index.html")
     with open(index_path, "w", encoding="utf-8") as f:

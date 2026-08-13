@@ -206,6 +206,24 @@ body {
         {% endif %}
         {% endfor %}
       </div>
+
+      {% if discovered_count > 0 or archived_count > 0 %}
+      <div class="sidebar-section">
+        <h3>🔍 源池动态</h3>
+        {% if discovered_count > 0 %}
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:#52c41a;"></span>新发现</span>
+          <span class="value" style="color:#52c41a;">{{ discovered_count }}</span>
+        </div>
+        {% endif %}
+        {% if archived_count > 0 %}
+        <div class="mini-stat">
+          <span class="label"><span class="dot" style="background:#ff4d4f;"></span>已废弃</span>
+          <span class="value" style="color:#ff4d4f;">{{ archived_count }}</span>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
     </div>
   </div>
 

@@ -2,7 +2,6 @@
 import re
 import logging
 from urllib.parse import urlparse
-from models.llm_client import LLMClient
 
 logger = logging.getLogger(__name__)
 
@@ -11,7 +10,7 @@ _BLOCKED = {
     'twitter.com', 'x.com', 'youtube.com', 'github.com',
     'wikipedia.org', 'arxiv.org', 'bilibili.com',
     'zhihu.com', 'weibo.com', 'qq.com', 'weixin.qq.com',
-    'weixin.qq.com', 'mp.weixin.qq.com',
+    'mp.weixin.qq.com',
     'medium.com', 'substack.com', 'dev.to',
     'linkedin.com', 'facebook.com', 'instagram.com',
     'reddit.com', 'hackernews.com', 'news.ycombinator.com',
@@ -34,6 +33,15 @@ def _normalize_domain(url: str) -> str:
         return ''
 
 
+def _dominant_category(referenced_by: list) -> str:
+    """从引用文章列表推断主导领域"""
+    cats = {}
+    for a in referenced_by:
+        c = a.get('category', 'LLM')
+        cats[c] = cats.get(c, 0) + 1
+    return max(cats, key=cats.get) if cats else 'LLM'
+
+
 def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
     """从 priority_score >= 8.0 的文章提取 outbound links
 
@@ -42,7 +50,7 @@ def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
         existing_domains: 已有源的域名集合，避免重复推荐
 
     Returns:
-        新源候选列表
+        新源候选列表，category 继承自引用文章的领域
     """
     candidates: dict[str, dict] = {}
 
@@ -63,34 +71,35 @@ def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
             domain = _normalize_domain(url)
             if not domain or domain in _BLOCKED or domain in existing_domains:
                 continue
-            # 去掉尾部路径
             clean_url = f"https://{domain}"
 
             if domain not in candidates:
                 candidates[domain] = {
                     'domain': domain,
                     'urls': {clean_url},
-                    'referenced_by': [],
+                    'ref_articles': [],  # 存文章对象用于推断 category
                 }
             candidates[domain]['urls'].add(clean_url)
-            candidates[domain]['referenced_by'].append(
-                a.get('chinese_title', a.get('title', ''))[:40]
-            )
+            candidates[domain]['ref_articles'].append(a)
 
     results = []
     for domain, info in candidates.items():
+        category = _dominant_category(info['ref_articles'])
         results.append({
             'name': domain,
             'url': list(info['urls'])[0],
             'type': 'web',
-            'category': 'LLM',  # 由 curator 后续修正
+            'category': category,
             'weight': min(5 + len(info['urls']), 8),
             'discovered_by': 'link_miner',
-            'referenced_by': list(set(info['referenced_by']))[:3],
+            'referenced_by': list(set(
+                a.get('chinese_title', a.get('title', ''))[:40]
+                for a in info['ref_articles']
+            ))[:3],
         })
         logger.info(
-            f"Link miner: {domain} (referenced by {len(info['urls'])} "
-            f"high-score articles)"
+            f"Link miner: {domain} (cat={category}, "
+            f"refs={len(info['urls'])} high-score articles)"
         )
 
     return results

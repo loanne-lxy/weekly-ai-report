@@ -22,7 +22,7 @@ class SemanticDeduplicator:
         self,
         llm: "LLMClient | None" = None,
         low_threshold: float = 0.80,
-        high_threshold: float = 0.88,
+        high_threshold: float = 0.85,
         model_name: str = "BAAI/bge-small-zh-v1.5",
     ):
         self.low_threshold = low_threshold

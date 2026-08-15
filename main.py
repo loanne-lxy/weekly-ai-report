@@ -126,18 +126,17 @@ async def main():
     except Exception as e:
         logger.warning(f"Blacklist filter failed (continuing): {e}")
 
-    # Phase 2.5: Semantic dedup (vector similarity)
+    # Phase 2.5: Semantic dedup (vector similarity + LLM judgment)
     logger.info("=== Phase 2.5: Semantic Dedup ===")
+    llm = LLMClient(config)
     try:
         from dedup.semantic_deduplicator import SemanticDeduplicator
-        sdd = SemanticDeduplicator(llm=None)
+        sdd = SemanticDeduplicator(llm=llm)
         articles = sdd.filter(articles)
     except Exception as e:
         logger.warning(f"Semantic dedup failed (continuing without it): {e}")
 
-    # Phase 3: LLM Curator
-    logger.info("=== Phase 3: LLM Curator ===")
-    llm = LLMClient(config)
+    # Phase 3: LLM Curator (reuse llm from Phase 2.5)
     articles = await FilterSummarizer(llm, config)._curate_async(articles)
     articles.sort(
         key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0),

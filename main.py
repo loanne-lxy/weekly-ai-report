@@ -362,21 +362,12 @@ async def _run_pipeline(
         newly_archived_val = 0
         discovered_count_val = 0
 
-    # ── Phase 5: Generate Report (skip for regression) ───────────
     week_num = datetime.now(timezone.utc).isocalendar()
     week_label = f"{week_num[0]}-W{week_num[1]:02d}"
-    report_path = ""
-
-    if not skip_report:
-        logger.info(f"=== Phase 5: Generate Report ({week_label}) ===")
-        report_path = generate_report(
-            articles, config, week_label, llm,
-            discovered_count=discovered_count_val,
-            archived_count=newly_archived_val,
-        )
-        logger.info(f"Report saved to: {report_path}")
 
     # ── Phase 5.5: Unified Knowledge Store Persistence ───────────
+    # Persist BEFORE report generation so the report reads fresh data
+    report_path = ""
     try:
         from article_db import KnowledgeStore
         ks = KnowledgeStore(os.path.join(DATA_DIR, "knowledge.db"))
@@ -386,7 +377,7 @@ async def _run_pipeline(
             articles=raw_articles_for_clustering,
             curated_events=curated_events,
             week_label=week_label,
-            report_path=report_path,
+            report_path=report_path,  # placeholder; updated after generate
             raw_articles_by_index=raw_articles_for_clustering,
         )
 
@@ -394,6 +385,31 @@ async def _run_pipeline(
         logger.info(f"KnowledgeStore persisted for {week_label}")
     except Exception as e:
         logger.warning(f"KnowledgeStore persistence failed (non-fatal): {e}")
+
+    # ── Phase 5: Generate Report (skip for regression) ───────────
+    # Runs AFTER persist so report_generator reads the fresh DB state
+    if not skip_report:
+        logger.info(f"=== Phase 5: Generate Report ({week_label}) ===")
+        report_path = generate_report(
+            articles, config, week_label, llm,
+            discovered_count=discovered_count_val,
+            archived_count=newly_archived_val,
+        )
+        logger.info(f"Report saved to: {report_path}")
+
+        # Update report_path in DB
+        try:
+            from article_db import KnowledgeStore
+            ks2 = KnowledgeStore(os.path.join(DATA_DIR, "knowledge.db"))
+            ks2.create_report(
+                report_path=report_path,
+                week_label=week_label,
+                event_count=len(curated_events),
+                article_count=len(raw_articles_for_clustering),
+            )
+            ks2.close()
+        except Exception as e:
+            logger.warning(f"Failed to update report_path in DB: {e}")
 
     return articles
 

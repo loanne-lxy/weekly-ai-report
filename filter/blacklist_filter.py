@@ -9,13 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 def _default_blacklist():
-    return [
-        "融资", "融资成功", "上市", "上市成功", "IPO",
-        "股票", "涨停", "跌停", "股价",
-        "小白教程", "零基础", "入门教程", "手把手教你",
-        "套壳", "炒作",
-        "SEO", "NFT", "crypto", "web3",
-    ]
+    """Fallback — should be configured in config.yaml under filter.blacklist_keywords."""
+    return []
 
 
 class BlacklistFilter:

@@ -10,6 +10,39 @@ fetch:
   timeout: 30
   user_agent: Weekly-AI-Report-Agent/1.0
 filter:
+  blacklist_keywords:
+    # 商业金融
+    - 涨停
+    - 跌停
+    - 股价
+    - 融资
+    - 估值
+    - valuation
+    - IPO
+    - 上市
+    - 投资者
+    - investor
+    - funding round
+    - raises .* million
+    - raises .* billion
+
+    # 噪音领域
+    - NFT
+    - web3
+    - 元宇宙
+    - 链游
+    - 数字藏品
+    - 虚拟货币
+    - 加密货币
+    - 挖矿
+
+    # 标题党/空洞
+    - 套壳
+    - 炒作
+    - 手把手教你
+    - 震惊
+    - 突发
+    - 重磅
   categories:
   - keywords:
     - 大模型
@@ -18,19 +51,27 @@ filter:
     - Claude
     - Gemini
     - 预训练
+    - 后训练
     - RLHF
     - 对齐
-    - Transformer
+    - 微调
     - 推理
+    - Transformer
+    - MoE
+    - 多模态
+    - 长上下文
     name: LLM
   - keywords:
     - AI Agent
     - 智能体
     - 工具调用
-    - RAG
     - 多Agent
-    - 自主
+    - Multi-Agent
+    - 自主决策
     - 规划
+    - 反思
+    - ReAct
+    - 自我改进
     name: Agent
   - keywords:
     - AlphaFold
@@ -59,24 +100,6 @@ filter:
     - 实时仿真
     - 预测性维护
     name: 数字孪生
-  pre_filter_keywords:
-  - AI
-  - 人工智能
-  - LLM
-  - Agent
-  - 模型
-  - 训练
-  - simulation
-  - digital twin
-  - 仿真
-  - 数字孪生
-  - generative design
-  - 生成式设计
-  - CAD
-  - CFD
-  - IoT
-  - 3D
-  - rendering
 model:
   api_key: dummy
   base_url: http://8.130.169.133:8088/v1

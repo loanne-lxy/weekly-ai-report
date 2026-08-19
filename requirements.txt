@@ -1,3 +1,4 @@
+# Core dependencies
 aiohttp>=3.9
 feedparser>=6.0
 trafilatura>=2.0
@@ -11,3 +12,13 @@ Jinja2>=3.1
 lxml>=5.0
 langsmith>=0.1
 exa-py>=1.0
+python-dotenv>=1.0
+numpy>=1.24
+faiss-cpu>=1.7
+tokenizers>=0.19
+bertopic>=0.17
+hdbscan>=0.8
+umap-learn>=0.5
+jieba>=0.42
+beautifulsoup4>=4.12
+python-dateutil>=2.8

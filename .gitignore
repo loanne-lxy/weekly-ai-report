@@ -1,11 +1,33 @@
+# Python
 __pycache__/
 *.pyc
+*.pyo
+
+# Virtual env
 venv/
-dedup.db
-curator_cache.db
+
+# Databases (generated at runtime)
+*.db
+*.db-journal
+*.db-wal
+
+# Logs
 *.log
+
+# Secrets
 .env
-.DS_Store
+
+# IDE
 .idea/
-data/
+.vscode/
+.DS_Store
+
+# Output artifacts
+output/
+baseline/
+
+# Temp / misc
 sketches/
+data/
+*.bak.*
+CACHEDIR.TAG

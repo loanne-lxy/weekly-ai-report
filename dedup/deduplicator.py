@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 
 class Deduplicator:
-    def __init__(self, db_path: str = "dedup.db"):
+    def __init__(self, db_path: str = "data/dedup.db"):
         self.conn = sqlite3.connect(db_path)
         self.conn.execute(
             """CREATE TABLE IF NOT EXISTS seen_urls (

@@ -1,755 +1,412 @@
 sources:
-- articles_this_week: 10
-  category: DigitalTwin
-  default_category: 数字孪生
-  eval_score: 10
+- category: DigitalTwin
   name: arXiv cs.SY
   note: Systems & control, digital twin core research
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.SY
-  weight: 7
-- articles_this_week: 14
-  category: LLM
-  eval_score: 10
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cs.SY
+  post_filter:
+    max_age_days: 7
+  weight: 6
+  id: rss:rss.arxiv.org:cs.SY
+  trust: 1.0
+  max_results: 5
+- category: LLM
   name: OpenAI Blog
-  streak_failures: 0
-  type: rss
-  url: https://openai.com/blog/rss.xml
-  weight: 8
-- articles_this_week: 3
-  category: AI4Science
-  default_category: AI for Science
-  eval_score: 10
+  connector: rss
+  endpoint: https://openai.com/blog/rss.xml
+  weight: 9
+  id: rss:openai.com
+  trust: 1.0
+- category: AI4Science
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/physics.comp-ph
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/physics.comp-ph
+  post_filter:
+    max_age_days: 7
   weight: 7
-- articles_this_week: 19
-  category: LLM
-  eval_score: 10
+  id: rss:rss.arxiv.org:physics.comp-ph
+  trust: 1.0
+  max_results: 5
+- category: LLM
   name: blog.langchain.dev
-  streak_failures: 0
-  type: rss
-  url: https://blog.langchain.dev/rss.xml
-  weight: 5
-- articles_this_week: 19
-  category: LLM
-  eval_score: 10
+  connector: rss
+  endpoint: https://blog.langchain.dev/rss.xml
+  weight: 7
+  id: rss:blog.langchain.dev
+  trust: 1.0
+- category: LLM
   name: HackerNews Best
-  streak_failures: 0
-  type: rss
-  url: https://hnrss.org/best
-  weight: 6
-- articles_this_week: 21
-  category: LLM
-  eval_score: 10
+  connector: rss
+  endpoint: https://hnrss.org/best
+  weight: 5
+  id: rss:hnrss.org
+  trust: 0.7
+- category: LLM
   name: Reddit r/LocalLLaMA
-  streak_failures: 0
-  type: rss
-  url: https://www.reddit.com/r/LocalLLaMA/top/.rss?t=week
-  weight: 6
-- articles_this_week: 4
-  category: DigitalTwin
-  eval_score: 9
+  connector: rss
+  endpoint: https://www.reddit.com/r/LocalLLaMA/top/.rss?t=week
+  weight: 5
+  id: rss:reddit.com
+  trust: 0.7
+- category: DigitalTwin
   name: arXiv cs.CE
   note: Computational Engineering, digital twin research
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.CE
-  weight: 7
-- articles_this_week: 22
-  category: DigitalTwin
-  eval_score: 9
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cs.CE
+  weight: 6
+  id: rss:rss.arxiv.org:cs.CE
+  trust: 1.0
+  post_filter:
+    max_age_days: 7
+    include_keywords:
+    - agent
+    - assistant
+    - LLM
+    - learning
+    - AI
+    - neural
+    - transformer
+    exclude_keywords:
+    - cooling
+    - thermal
+    - remeshing
+    - crystal plasticity
+    - topology optimization
+- category: DigitalTwin
   name: arXiv cs.MA
   note: Multiagent systems, digital twin applications
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.MA
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cs.MA
   weight: 7
-- articles_this_week: 21
-  category: DigitalTwin
-  default_category: 数字孪生
-  eval_score: 9
+  id: rss:rss.arxiv.org:cs.MA
+  trust: 1.0
+  post_filter:
+    max_age_days: 7
+    include_keywords:
+    - agent
+    - multi-agent
+    - memory
+    - self-evolution
+    - skill
+    - LLM
+    - learning
+    - neural
+    - transformer
+    - benchmark
+    - meta
+    - cognition
+    exclude_keywords:
+    - UAV
+    - drone
+    - grassland
+    - ecological
+    - segregation
+- category: DigitalTwin
   name: arXiv cs.RO
   note: Robotics, digital twin in autonomous systems
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.RO
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cs.RO
+  post_filter:
+    max_age_days: 7
   weight: 7
-- articles_this_week: 4
-  category: DesignSimulation
-  default_category: 设计仿真
-  eval_score: 9
+  id: rss:rss.arxiv.org:cs.RO
+  trust: 1.0
+- category: DesignSimulation
   name: arXiv cs.MS
   note: Mathematical software, simulation tools
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.MS
-  weight: 7
-- articles_this_week: 4
-  category: 数字孪生
-  default_category: 数字孪生
-  eval_score: 9
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cs.MS
+  post_filter:
+    max_age_days: 7
+  weight: 5
+  id: rss:rss.arxiv.org:cs.MS
+  trust: 1.0
+  max_results: 5
+- category: DigitalTwin
   max_results: 10
   name: 'Exa: Digital Twin Industrial'
-  query: digital twin real-time simulation industrial IoT manufacturing 2026
-  streak_failures: 0
-  type: exa_search
-  weight: 7
-- articles_this_week: 3
-  category: 设计仿真
-  default_category: 设计仿真
-  eval_score: 9
+  query: ("digital twin" OR "DT") AND (deployment OR industrial OR manufacturing OR
+    "smart city") AND after:2026-05-01
+  connector: exa_search
+  weight: 6
+  id: exa_search:b9ec90e3
+  trust: 0.6
+- category: DesignSimulation
   max_results: 8
   name: 'Exa: Design Simulation CAE'
-  query: generative design simulation CAE CAD engineering 2026
-  streak_failures: 0
-  type: exa_search
-  weight: 7
-- articles_this_week: 5
-  category: LLM
-  default_category: LLM
-  eval_score: 9
+  query: ("generative design" OR "topology optimization" OR "surrogate model") AND
+    (simulation OR CAD OR CAE) AND after:2026-05-01
+  connector: exa_search
+  weight: 6
+  id: exa_search:4cb4ce25
+  trust: 0.6
+- category: LLM
   max_results: 10
   name: 'Exa: LLM Latest'
-  query: large language model architecture release reasoning benchmark 2026
-  streak_failures: 0
-  type: exa_search
-  weight: 7
-- articles_this_week: 3
-  category: AI4Science
-  default_category: AI for Science
-  eval_score: 9
+  query: ("LLM" OR "Large Language Model") AND (release OR benchmark OR SOTA) AND
+    ("multimodal" OR "reasoning" OR "efficiency") AND after:2026-05-01
+  connector: exa_search
+  weight: 8
+  id: exa_search:04c15fce
+  trust: 0.6
+- category: AI4Science
   max_results: 8
   name: 'Exa: AI for Science'
-  query: AI for science drug discovery protein simulation materials 2026
-  streak_failures: 0
-  type: exa_search
-  weight: 7
-- articles_this_week: 4
-  category: LLM
-  eval_score: 8
+  query: ("AI for Science" OR "AI4Science") AND (discovery OR breakthrough) AND ("protein"
+    OR "molecular" OR "material" OR "drug") AND after:2026-05-01
+  connector: exa_search
+  weight: 6
+  id: exa_search:991b0be5
+  trust: 0.6
+- category: LLM
   name: Nature Machine Intelligence
-  streak_failures: 0
-  type: rss
-  url: https://www.nature.com/natmachintell/rss
+  connector: rss
+  endpoint: https://www.nature.com/natmachintell/rss
   weight: 5
-- articles_this_week: 6
-  category: DesignSimulation
-  eval_score: 8
+  id: rss:nature.com
+  trust: 1.0
+- category: DesignSimulation
   name: arXiv cs.GR
   note: Computer graphics, simulation, visualization
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.GR
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cs.GR
+  post_filter:
+    max_age_days: 7
+    include_keywords:
+    - GPU
+    - 3D
+    - generation
+    - synthetic
+    - video
+    - rendering
+    - mesh
+    - geometry
+    - simulation
+    - neural
+    - transformer
+    - rendering
+    exclude_keywords:
+    - medical
+    - clinical
+    - surgical
+    - anatomical
+    - segmentation
   weight: 7
-- articles_this_week: 2
-  category: DesignSimulation
-  default_category: 设计仿真
-  eval_score: 8
+  id: rss:rss.arxiv.org:cs.GR
+  trust: 1.0
+- category: DesignSimulation
   name: arXiv cs.CV
   note: Computer vision, 3D reconstruction, NeRF
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cs.CV
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cs.CV
+  post_filter:
+    max_age_days: 7
+    include_keywords:
+    - agent
+    - multimodal
+    - diffusion
+    - training
+    - flow matching
+    - generation
+    - video
+    - visual
+    - vision language
+    - VLM
+    - transformer
+    - LLM
+    exclude_keywords:
+    - medical
+    - cell
+    - segmentation
+    - restoration
+    - image editing
+    - MRI
+    - pulmonary
+    - clinical
   weight: 7
-- articles_this_week: 3
-  category: AI4Science
-  default_category: AI for Science
-  eval_score: 6
+  id: rss:rss.arxiv.org:cs.CV
+  trust: 1.0
+- category: AI4Science
   name: arXiv cond-mat.mtrl-sci
   note: Materials science, crystal structure prediction
-  streak_failures: 0
-  type: rss
-  url: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  post_filter:
+    max_age_days: 7
   weight: 7
-- articles_this_week: 2
-  category: Agent
-  default_category: Agent
-  eval_score: 6
+  id: rss:rss.arxiv.org:cond-mat.mtrl-sci
+  trust: 1.0
+  max_results: 5
+- category: Agent
   max_results: 10
   name: 'Exa: AI Agents Framework'
-  query: autonomous AI agent tool use coding multi-agent framework 2026
-  streak_failures: 0
-  type: exa_search
-  weight: 7
-- articles_this_week: 14
-  category: Agent
+  query: ("AI Agent" OR "autonomous agent" OR "multi-agent" OR "coding agent" OR "AI
+    tool" OR "AI platform" OR "AI product") AND ("framework" OR "benchmark" OR "tool
+    use" OR "release" OR "launch" OR "open source" OR "announcement" OR "demo") AND
+    after:2026-05-01
+  connector: exa_search
+  weight: 8
+  id: exa_search:efb7e780
+  trust: 0.6
+- category: Agent
   github_owner: microsoft
   github_repo: autogen
   github_subtype: github_repo
   name: AutoGen (GitHub)
-  type: github
+  connector: github
   weight: 7
-- articles_this_week: 12
-  category: Agent
+  id: github:microsoft/autogen
+  trust: 1.0
+- category: Agent
   github_owner: crewAIInc
   github_repo: crewAI
   github_subtype: github_repo
   name: CrewAI (GitHub)
-  type: github
+  connector: github
   weight: 7
-- articles_this_week: 15
-  category: LLM
+  id: github:crewAIInc/crewAI
+  trust: 1.0
+- category: LLM
   github_owner: huggingface
   github_repo: transformers
   github_subtype: github_repo
   name: HuggingFace Transformers (GitHub)
-  type: github
+  connector: github
   weight: 7
-- articles_this_week: 17
-  category: Agent
+  id: github:huggingface/transformers
+  trust: 1.0
+- category: Agent
   github_owner: langchain-ai
   github_repo: langchain
   github_subtype: github_repo
   name: LangChain (GitHub)
-  type: github
+  connector: github
   weight: 7
-- articles_this_week: 0
-  category: Agent
+  id: github:langchain-ai/langchain
+  trust: 1.0
+- category: Agent
   github_subtype: github_trending
   name: GitHub Trending
-  type: github
+  connector: github
   weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: huggingface.co
-  referenced_by:
-  - 阿里通义发布 Qwen3.8-2.4T 混合专家架构大模型
-  - Transformers 5.15.0 集成 Meta 30B 多模态智能体模型
-  - Qwen 3.8-2.4T-A95B 混合专家模型发布，参数量达 2.4T
-  streak_failures: 1
-  type: web
-  url: https://huggingface.co
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: ycombinator.com
-  referenced_by:
-  - 腾讯发布智能体驱动的 3D 开放世界生成框架 WorldClaw
-  - 阿里通义发布 Qwen3.8-2.4T 混合专家架构大模型
-  - DeepSeek 发布 Harness 开发者预览版，提供模型评估与部署工具链
-  streak_failures: 1
-  type: web
-  url: https://ycombinator.com
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: external-preview.redd.it
-  referenced_by:
-  - Qwen 3.8-2.4T-A95B 混合专家模型发布，参数量达 2.4T
-  - NVIDIA开源Nemotron-3.5-Lightning-30B模型，采用M
-  - Qwen 3.8 Max 登顶 AI 智能体基准测试，综合性能超越 Opus 5
-  streak_failures: 1
-  type: web
-  url: https://external-preview.redd.it
-  weight: 6
-- articles_this_week: 0
-  category: Agent
-  discovered_by: link_miner
-  eval_score: 4
-  name: fact-wam.github.io
-  referenced_by:
-  - FACT：面向世界-动作模型的失败感知因果训练框架
-  streak_failures: 1
-  type: web
-  url: https://fact-wam.github.io
-  weight: 6
-- articles_this_week: 0
-  category: Agent
-  discovered_by: link_miner
-  eval_score: 4
-  name: nav-ps-balance.github.io
-  referenced_by:
-  - 人群环境中机器人跟随的约束分解与安全导航方法
-  streak_failures: 1
-  type: web
-  url: https://nav-ps-balance.github.io
-  weight: 6
-- articles_this_week: 0
-  category: 设计仿真
-  discovered_by: link_miner
-  eval_score: 4
-  name: tencent-hunyuan.github.io
-  referenced_by:
-  - 腾讯发布智能体驱动的 3D 开放世界生成框架 WorldClaw
-  streak_failures: 1
-  type: web
-  url: https://tencent-hunyuan.github.io
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: blogs.nvidia.com
-  referenced_by:
-  - 英伟达发布Nemotron 3.5 Lightning模型与NeMo Switc
-  streak_failures: 1
-  type: web
-  url: https://blogs.nvidia.com
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: preview.redd.it
-  referenced_by:
-  - 通义千问 Qwen 3.8-27b 模型即将开源发布
-  - 阿里通义千问Qwen3.8-Max开源，2.4万亿参数MoE架构
-  streak_failures: 1
-  type: web
-  url: https://preview.redd.it
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: i.redd.it
-  referenced_by:
-  - 通义千问 Qwen 3.8-27b 模型即将开源发布
-  streak_failures: 1
-  type: web
-  url: https://i.redd.it
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: hf.co
-  referenced_by:
-  - Transformers 5.15.0 集成 Meta 30B 多模态智能体模型
-  streak_failures: 1
-  type: web
-  url: https://hf.co
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: modelscope.cn
-  referenced_by:
-  - 阿里通义千问Qwen3.8-Max开源，2.4万亿参数MoE架构
-  streak_failures: 1
-  type: web
-  url: https://modelscope.cn
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: artificialanalysis.ai
-  referenced_by:
-  - Grok 4.6 在 Artificial Analysis 智能指数中得分 6
-  - Qwen 3.8 Max 登顶 AI 智能体基准测试，综合性能超越 Opus 5
-  streak_failures: 1
-  type: web
-  url: https://artificialanalysis.ai
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: developer.nvidia.com
-  referenced_by:
-  - NVIDIA发布Qwen3.8-2.4T部署指南，支持GB300可配置推理
-  streak_failures: 1
-  type: web
-  url: https://developer.nvidia.com
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: ai.google.dev
-  referenced_by:
-  - Google 发布 Gemini 3.7 Flash 模型，主打高速推理与低成本
-  streak_failures: 1
-  type: web
-  url: https://ai.google.dev
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: z.ai
-  referenced_by:
-  - GLM-5.3 模型发布，强化前沿代码生成与网络安全能力
-  streak_failures: 1
-  type: web
-  url: https://z.ai
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: deepseek-harness.github.io
-  referenced_by:
-  - DeepSeek 发布 Harness 开发者预览版，提供模型评估与部署工具链
-  streak_failures: 1
-  type: web
-  url: https://deepseek-harness.github.io
-  weight: 6
-- articles_this_week: 0
-  category: 设计仿真
-  discovered_by: link_miner
-  eval_score: 4
-  name: blogs.sw.siemens.com
-  referenced_by:
-  - 西门子Simcenter PhysicsAI利用扩散模型生成物理感知3D设计
-  streak_failures: 1
-  type: web
-  url: https://blogs.sw.siemens.com
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: eesel.ai
-  referenced_by:
-  - 美团发布 LongCat 2.0 1.6万亿参数开源大模型技术解析
-  streak_failures: 1
-  type: web
-  url: https://eesel.ai
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: calendly.com
-  referenced_by:
-  - 美团发布 LongCat 2.0 1.6万亿参数开源大模型技术解析
-  streak_failures: 1
-  type: web
-  url: https://calendly.com
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: dashboard.eesel.ai
-  referenced_by:
-  - 美团发布 LongCat 2.0 1.6万亿参数开源大模型技术解析
-  streak_failures: 1
-  type: web
-  url: https://dashboard.eesel.ai
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: arturmarkus.com
-  referenced_by:
-  - LG发布750B开源模型K-EXAONE 2.0，长文本基准超越GLM-5.1
-  streak_failures: 1
-  type: web
-  url: https://arturmarkus.com
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: link_miner
-  eval_score: 4
-  name: kimi.com
-  referenced_by:
-  - Transformers 5.13.0 集成 KimiK 2.5-2.7 原生多
-  streak_failures: 1
-  type: web
-  url: https://kimi.com
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 4
-  name: ai.thesatyajit.com
-  streak_failures: 1
-  type: web
-  url: https://ai.thesatyajit.com/articles/agents-a1
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 4
-  name: genaiassembling.substack.com
-  streak_failures: 1
-  type: web
-  url: https://genaiassembling.substack.com/p/dissecting-the-kimi-k3-technical
-  weight: 6
-- articles_this_week: 1
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 4
-  name: to
-  streak_failures: 0
-  type: web
-  url: https://dev.to/monuminu/meta-muse-glimmer-deep-dive-how-a-distilled-30b-local-agentic-llm-runs-a-full-ai-agent-on-your-gpu-13ie
-  weight: 5
-- articles_this_week: 1
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 4
-  name: johnjwang.com
-  streak_failures: 0
-  type: web
-  url: https://johnjwang.com/post/2026/08/12/how-claude-watermarking-probably-works/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 4
-  name: runinfra.ai
-  streak_failures: 1
-  type: web
-  url: https://runinfra.ai/news/lossless-inference
-  weight: 6
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: gensee.ai
-  streak_failures: 1
-  type: web
-  url: https://www.gensee.ai/blogs/inside-agentenv-dirty-memory-microvm-fork.html
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: rohitraj.tech
-  streak_failures: 1
-  type: web
-  url: https://rohitraj.tech/en/notes/prime-agent-rlm-continual-harness-guide-2026
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: capitalandcompute.net
-  streak_failures: 1
-  type: web
-  url: https://capitalandcompute.net/blog/prime-agent-explained/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: agentbuildlog.hashnode.dev
-  streak_failures: 1
-  type: web
-  url: https://agentbuildlog.hashnode.dev/same-conductor-sealed-topology-what-you-give-up-with-deep-agents
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: nickmccarty.me
-  streak_failures: 1
-  type: web
-  url: https://nickmccarty.me/blog/agent-pipeline.html
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: concordance.co
-  streak_failures: 1
-  type: web
-  url: https://www.concordance.co/blog/internal-market-representation-financial-agents
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: particula.tech
-  streak_failures: 1
-  type: web
-  url: https://particula.tech/blog/deep-agents-pattern-planner-filesystem-subagents-architecture
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: umesh-malik.com
-  streak_failures: 1
-  type: web
-  url: https://umesh-malik.com/blog/agent-harness-design-arc-agi-3
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: victorndunda.com
-  streak_failures: 1
-  type: web
-  url: https://victorndunda.com/blog/articles/agentreplay-deterministic-replay.html
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: newsletter.semianalysis.com
-  streak_failures: 1
-  type: web
-  url: https://newsletter.semianalysis.com/p/kimi-k3-the-manos-the-mythos-the
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: arjunjaggi.com
-  streak_failures: 1
-  type: web
-  url: https://arjunjaggi.com/blog/kimi-k3-technical-report
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: happyrock.cloud
-  streak_failures: 1
-  type: web
-  url: https://happyrock.cloud/blog/2026-08-04_alibaba_qwen3.8_2.4t_trillion_parameter_moe_agent_capability_deep_dive_en/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: codepointer.substack.com
-  streak_failures: 1
-  type: web
-  url: https://codepointer.substack.com/p/how-kimi-k3-engineered-its-way-to
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: pyshine.com
-  streak_failures: 1
-  type: web
-  url: https://pyshine.com/LLM-Decode-KV-Cache-GPU-VRAM-Deep-Dive/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: towardsdatascience.com
-  streak_failures: 1
-  type: web
-  url: https://towardsdatascience.com/how-a-frontier-model-gets-built-read-from-the-kimi-k3-report/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: aireiter.com
-  streak_failures: 1
-  type: web
-  url: https://aireiter.com/blog/mai-thinking-1-review
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: jared-hpc.com
-  streak_failures: 1
-  type: web
-  url: https://jared-hpc.com/posts/sparkinfer-k3-kimi-2-8t-gittensor-sn74/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: inferencex.semianalysis.com
-  streak_failures: 1
-  type: web
-  url: https://inferencex.semianalysis.com/blog/kimi-k3-the-manos-the-mythos-the
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: datagravity.dev
-  streak_failures: 1
-  type: web
-  url: https://www.datagravity.dev/p/the-rise-of-inference-engineering
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: vllm.ai
-  streak_failures: 1
-  type: web
-  url: https://vllm.ai/blog/2026-08-12-qwen3.8
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  discovered_by: exa_search
-  eval_score: 3
-  name: systems.seas.harvard.edu
-  streak_failures: 1
-  type: web
-  url: https://systems.seas.harvard.edu/blog/burstiness-is-all-you-need/
-  weight: 5
-- articles_this_week: 0
-  category: LLM
-  eval_score: 0
+  id: github:trending
+  trust: 1.0
+- category: LLM
   name: arXiv cs.AI
-  streak_failures: 3
-  type: rss
-  url: https://arxiv.org/rss/cs.AI
+  connector: rss
+  endpoint: https://arxiv.org/rss/cs.AI
   weight: 5
-- articles_this_week: 0
-  category: LLM
-  eval_score: 0
+  id: rss:arxiv.org:cs.AI
+  trust: 1.0
+  post_filter:
+    max_age_days: 7
+    include_keywords:
+    - agent
+    - multi-agent
+    - orchestration
+    - routing
+    - sparsity
+    - diffusion
+    - PDE
+    - physics
+    - simulation
+    - chaotic
+    - PINN
+    - optimizer
+    - compression
+    - activation
+    - merge
+    - efficiency
+    - FLOPs
+    - preference
+    - alignment
+    - benchmark
+    - vision language
+    - multimodal
+    - video
+    - security
+    - attack
+    - defense
+    - risk
+    - robot
+    - manipulation
+    - VLA
+    - grasping
+    - memory
+    - context
+    - attention
+    - sparse
+    - reasoning
+    - code
+    - training
+    - model
+    - transformer
+    - neural
+    - network
+    - learning
+    - KAN
+    - Mamba
+    - state space
+    - operator
+    - emulator
+    - GNN
+    - graph
+    - topology
+    - regularization
+    exclude_keywords:
+    - medical
+    - cardiac
+    - MRI
+    - mammographic
+    - clinical
+    - ECG
+    - EMR
+    - scoliosis
+    - pulmonary
+    - fetal
+    - moyamoya
+    - MIMIC
+    - weather
+    - ocean
+    - atmospheric
+    - traffic
+    - UAV
+    - drone
+    - battery
+    - power grid
+    - financial
+    - fraud
+    - privacy
+    - welfare
+    - substance
+    - adolescent
+    - opioid
+    - CRISPR
+- category: LLM
   name: arXiv cs.LG
-  streak_failures: 3
-  type: rss
-  url: https://arxiv.org/rss/cs.LG
+  connector: rss
+  endpoint: https://arxiv.org/rss/cs.LG
   weight: 5
-- articles_this_week: 0
-  category: AI4Science
-  eval_score: 0
+  id: rss:arxiv.org:cs.LG
+  trust: 1.0
+  post_filter:
+    max_age_days: 7
+- category: AI4Science
   name: arXiv q-bio.BM
   note: Quantitative biology — protein, drug discovery
-  streak_failures: 3
-  type: rss
-  url: https://rss.arxiv.org/rss/q-bio.BM
+  connector: rss
+  endpoint: https://rss.arxiv.org/rss/q-bio.BM
+  post_filter:
+    max_age_days: 7
   weight: 7
-- category: LLM
-  discovered_by: exa_search
-  name: zykdata.cn
-  type: web
-  url: https://zykdata.cn/en/blog/2026-07-27-coding-agent-teardown.html
-  weight: 5
-- category: LLM
-  discovered_by: exa_search
-  name: senseof.tech
-  type: web
-  url: https://blog.senseof.tech/2026/08/14/inside-30ms-of-a-token-attention-kv-cache/
-  weight: 5
-- category: LLM
-  discovered_by: exa_search
-  name: codex.danielvaughan.com
-  type: web
-  url: https://codex.danielvaughan.com/2026/08/10/trace-context-compression-instability-long-horizon-agents-codex-cli-boundary-local-verification-compaction-reliability/
-  weight: 5
-- category: LLM
-  discovered_by: exa_search
-  name: marcpope.com
-  type: web
-  url: https://www.marcpope.com/blog/750-tokens-per-second-why-cerebras-wins-the-inference-speed-race
-  weight: 5
-- category: LLM
-  discovered_by: exa_search
-  name: szha.ai
-  type: web
-  url: https://szha.ai/blog/compute-optimal-is-not-cluster-optimal/
-  weight: 5
+  id: rss:rss.arxiv.org:q-bio.BM
+  trust: 1.0
+  max_results: 5
+- category: Agent
+  name: InfoQ AI
+  connector: rss
+  endpoint: https://www.infoq.cn/feed
+  weight: 6
+  id: rss:www.infoq.cn
+  trust: 0.8

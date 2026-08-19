@@ -1,0 +1,60 @@
+{
+  "run_id": "baseline-202608170821",
+  "run_timestamp": "2026-08-17T08:25:32.201156+00:00",
+  "sources_count": 20,
+  "sample_mode": "sampled",
+  "stages": [
+    {
+      "name": "Fetch",
+      "in": 0,
+      "out": 0,
+      "elapsed_s": 156.75,
+      "drop": 0
+    },
+    {
+      "name": "HardDedup",
+      "in": 0,
+      "out": 0,
+      "elapsed_s": 0.85,
+      "drop": 0
+    },
+    {
+      "name": "Blacklist",
+      "in": 0,
+      "out": 0,
+      "elapsed_s": 0.01,
+      "drop": 0
+    },
+    {
+      "name": "SemanticDedup",
+      "in": 0,
+      "out": 0,
+      "elapsed_s": 7.42,
+      "drop": 0
+    },
+    {
+      "name": "Curator",
+      "in": 0,
+      "out": 0,
+      "elapsed_s": 0.39,
+      "drop": 0
+    },
+    {
+      "name": "Rerank",
+      "in": 0,
+      "out": 0,
+      "elapsed_s": 0.01,
+      "drop": 0
+    },
+    {
+      "name": "Merge",
+      "in": 0,
+      "out": 0,
+      "elapsed_s": 0.2,
+      "drop": 0
+    }
+  ],
+  "total_elapsed_s": 236.96,
+  "final_article_count": 0,
+  "category_distribution": {}
+}

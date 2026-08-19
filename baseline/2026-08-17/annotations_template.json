@@ -1,0 +1,11 @@
+{
+  "instructions": {
+    "valid": "true = real article, false = ad/placeholder/water post",
+    "relevant": "true = belongs to target domains (LLM/Agent/AI4Science/DesignSim/DigitalTwin)",
+    "duplicate_of": "leave null if not a duplicate, otherwise put the URL it duplicates",
+    "same_event_as": "list of article IDs that report the same event/news",
+    "content_complete": "true = has substantive content/summary, false = title only / too short",
+    "source_trustworthy": "true = credible source, false = spam/unknown"
+  },
+  "articles": []
+}

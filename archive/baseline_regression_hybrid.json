@@ -1,0 +1,230 @@
+{
+  "per_event": [
+    {
+      "event": "1",
+      "gt_size": 13,
+      "cluster_size": 9,
+      "tp": 9,
+      "fp": 0,
+      "fn": 4,
+      "prec": 1.0,
+      "rec": 0.692,
+      "f1": 0.818
+    },
+    {
+      "event": "4",
+      "gt_size": 7,
+      "cluster_size": 5,
+      "tp": 5,
+      "fp": 0,
+      "fn": 2,
+      "prec": 1.0,
+      "rec": 0.714,
+      "f1": 0.833
+    },
+    {
+      "event": "8",
+      "gt_size": 6,
+      "cluster_size": 8,
+      "tp": 3,
+      "fp": 5,
+      "fn": 3,
+      "prec": 0.375,
+      "rec": 0.5,
+      "f1": 0.429
+    },
+    {
+      "event": "3",
+      "gt_size": 6,
+      "cluster_size": 3,
+      "tp": 3,
+      "fp": 0,
+      "fn": 3,
+      "prec": 1.0,
+      "rec": 0.5,
+      "f1": 0.667
+    },
+    {
+      "event": "5",
+      "gt_size": 5,
+      "cluster_size": 12,
+      "tp": 3,
+      "fp": 9,
+      "fn": 2,
+      "prec": 0.25,
+      "rec": 0.6,
+      "f1": 0.353
+    },
+    {
+      "event": "14",
+      "gt_size": 4,
+      "cluster_size": 9,
+      "tp": 3,
+      "fp": 6,
+      "fn": 1,
+      "prec": 0.333,
+      "rec": 0.75,
+      "f1": 0.462
+    },
+    {
+      "event": "10",
+      "gt_size": 3,
+      "cluster_size": 6,
+      "tp": 3,
+      "fp": 3,
+      "fn": 0,
+      "prec": 0.5,
+      "rec": 1.0,
+      "f1": 0.667
+    },
+    {
+      "event": "9",
+      "gt_size": 3,
+      "cluster_size": 5,
+      "tp": 1,
+      "fp": 4,
+      "fn": 2,
+      "prec": 0.2,
+      "rec": 0.333,
+      "f1": 0.25
+    },
+    {
+      "event": "6",
+      "gt_size": 3,
+      "cluster_size": 10,
+      "tp": 3,
+      "fp": 7,
+      "fn": 0,
+      "prec": 0.3,
+      "rec": 1.0,
+      "f1": 0.462
+    },
+    {
+      "event": "13",
+      "gt_size": 2,
+      "cluster_size": 7,
+      "tp": 2,
+      "fp": 5,
+      "fn": 0,
+      "prec": 0.286,
+      "rec": 1.0,
+      "f1": 0.444
+    },
+    {
+      "event": "2",
+      "gt_size": 2,
+      "cluster_size": 9,
+      "tp": 2,
+      "fp": 7,
+      "fn": 0,
+      "prec": 0.222,
+      "rec": 1.0,
+      "f1": 0.364
+    },
+    {
+      "event": "7",
+      "gt_size": 2,
+      "cluster_size": 5,
+      "tp": 1,
+      "fp": 4,
+      "fn": 1,
+      "prec": 0.2,
+      "rec": 0.5,
+      "f1": 0.286
+    },
+    {
+      "event": "19",
+      "gt_size": 1,
+      "cluster_size": 9,
+      "tp": 1,
+      "fp": 8,
+      "fn": 0,
+      "prec": 0.111,
+      "rec": 1.0,
+      "f1": 0.2
+    },
+    {
+      "event": "12",
+      "gt_size": 1,
+      "cluster_size": 6,
+      "tp": 1,
+      "fp": 5,
+      "fn": 0,
+      "prec": 0.167,
+      "rec": 1.0,
+      "f1": 0.286
+    },
+    {
+      "event": "15",
+      "gt_size": 1,
+      "cluster_size": 12,
+      "tp": 1,
+      "fp": 11,
+      "fn": 0,
+      "prec": 0.083,
+      "rec": 1.0,
+      "f1": 0.154
+    },
+    {
+      "event": "17",
+      "gt_size": 1,
+      "cluster_size": 9,
+      "tp": 1,
+      "fp": 8,
+      "fn": 0,
+      "prec": 0.111,
+      "rec": 1.0,
+      "f1": 0.2
+    },
+    {
+      "event": "20",
+      "gt_size": 1,
+      "cluster_size": 12,
+      "tp": 1,
+      "fp": 11,
+      "fn": 0,
+      "prec": 0.083,
+      "rec": 1.0,
+      "f1": 0.154
+    },
+    {
+      "event": "21",
+      "gt_size": 1,
+      "cluster_size": 12,
+      "tp": 1,
+      "fp": 11,
+      "fn": 0,
+      "prec": 0.083,
+      "rec": 1.0,
+      "f1": 0.154
+    },
+    {
+      "event": "16",
+      "gt_size": 1,
+      "cluster_size": 9,
+      "tp": 1,
+      "fp": 8,
+      "fn": 0,
+      "prec": 0.111,
+      "rec": 1.0,
+      "f1": 0.2
+    },
+    {
+      "event": "18",
+      "gt_size": 1,
+      "cluster_size": 9,
+      "tp": 1,
+      "fp": 8,
+      "fn": 0,
+      "prec": 0.111,
+      "rec": 1.0,
+      "f1": 0.2
+    }
+  ],
+  "overall": {
+    "precision": 0.27710843373493976,
+    "recall": 0.71875,
+    "f1": 0.4,
+    "clusters": 47
+  }
+}

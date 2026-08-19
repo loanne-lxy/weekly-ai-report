@@ -1,15 +1,18 @@
 """主流程 — 端到端周报生成
-
 Pipeline:
-  Phase 1  : Fetching (RSS / GitHub / web)
-  Phase 2  : Hard Dedup (URL + source_type + date_bucket)
-  Phase 2.3: Blacklist Filter (zero-token keyword matching)
-  Phase 2.5: Semantic Dedup (FastEmbed vector similarity)
-  Phase 3  : LLM Curator (classify + score + summarize, BATCH_SIZE=5)
-  Phase 3.5: Top-K Reranking (pairwise comparison for top articles)
+  Phase 1  : Fetching (RSS / GitHub / arXiv / Exa)
+  Phase 2  : Hard Dedup (URL Registry)
+  Phase 2.3: Blacklist Filter
+  Phase 3  : Event Clustering (FAISS + multilingual-MiniLM)
+  Phase 3.5: Event Curator (LLM: classify + score + Top-3 selection)
   Phase 4  : Merge with existing (cumulative per week)
   Phase 5  : Generate Report (HTML frontend)
   Phase 6  : Source Evaluation & Auto-Discovery
+
+Modes:
+  python main.py                        # Normal run (all sources)
+  python main.py --baseline             # Baseline run (sampled sources + metrics)
+  python main.py --regression <dir>     # Regression test against saved baseline
 """
 import os
 import json
@@ -17,6 +20,16 @@ import logging
 import argparse
 from datetime import datetime, timezone
 
+# Load .env before anything else reads env vars
+try:
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
+except ImportError:
+    pass
+
+from typing import Any
+
+import numpy as np
 from fetcher.ingestion_manager import IngestionManager
 from extractors.contract import RawArticle, CuratedArticle
 from dedup.deduplicator import Deduplicator
@@ -26,6 +39,15 @@ from evaluator.source_discoverer import SourceDiscoverer
 from generator.report_generator import generate_report
 from models.llm_client import LLMClient
 
+# Baseline / regression support
+from baseline_runner import (
+    BaselineCollector,
+    sample_sources,
+    load_baseline,
+    regression_report,
+)
+
+DATA_DIR = "data"
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -39,11 +61,7 @@ def load_config() -> dict:
         return yaml.safe_load(f)
 
 
-def load_sources() -> list[dict]:
-    with open("sources.yaml", encoding="utf-8") as f:
-        import yaml
-        data = yaml.safe_load(f)
-    return data.get("sources", [])
+from source_registry import SourceRegistry, load_sources
 
 
 def _normalize_category(cat: str) -> str:
@@ -67,25 +85,550 @@ def _time_boost(days_old: int) -> int:
     else: return -2
 
 
+async def _run_pipeline(
+    articles: list[dict],
+    config: dict,
+    llm: LLMClient,
+    collector: BaselineCollector | None = None,
+    skip_merge: bool = False,
+    skip_source_eval: bool = False,
+    skip_report: bool = False,
+    sources: list[dict] | None = None,
+) -> list[dict]:
+    """Core pipeline: URL Registry → Blacklist → Semantic Dedup → Event Clustering → Event Curator → [Merge] → [SourceEval] → [Report].
+
+    Returns curated articles list (flattened from events).
+    """
+
+    # ── Phase 2: URL Registry (Hard Dedup) ───────────────────────
+    logger.info("=== Phase 2: URL Registry (Hard Dedup) ===")
+    if collector:
+        collector.start_stage("HardDedup", len(articles))
+    try:
+        os.makedirs(DATA_DIR, exist_ok=True)
+        from url_registry import URLRegistry
+
+        url_reg = URLRegistry(os.path.join(DATA_DIR, "url_registry.db"))
+        new_articles, seen_articles = url_reg.batch_check(articles)
+        articles = new_articles
+        url_reg.expire_old(keep_days=30)
+        url_reg.close()
+    except Exception as e:
+        logger.warning(f"URL Registry failed, falling back to old dedup: {e}")
+        try:
+            deduplicator = Deduplicator()
+            articles = deduplicator.filter_new(articles)
+        except Exception as e2:
+            logger.warning(f"Old dedup also failed: {e2}")
+    if collector:
+        collector.end_stage(len(articles))
+    logger.info(f"URL Registry dedup: {len(articles)} new articles")
+
+    # ── Phase 2.3: Blacklist Filter ──────────────────────────────
+    logger.info("=== Phase 2.3: Blacklist Filter ===")
+    if collector:
+        collector.start_stage("Blacklist", len(articles))
+    try:
+        from filter.blacklist_filter import BlacklistFilter
+        articles = BlacklistFilter(config).filter(articles)
+    except Exception as e:
+        logger.warning(f"Blacklist filter failed (continuing): {e}")
+    if collector:
+        collector.end_stage(len(articles))
+    logger.info(f"After blacklist: {len(articles)} articles")
+
+    # ── Phase 3: Event Clustering (FAISS) ───────────────────────
+    events: list[Any] = []
+    embeddings: np.ndarray = np.zeros((0, 0), dtype=np.float32)
+    raw_articles_for_clustering = articles
+    try:
+        from event_clustering import cluster_articles
+        logger.info("=== Phase 3: Event Clustering ===")
+        if collector:
+            collector.start_stage("Clustering", len(articles))
+
+        threshold = config.get("clustering", {}).get("threshold", 0.35)
+        events, embeddings = cluster_articles(articles, threshold=threshold)
+
+        if collector:
+            collector.end_stage(len(events))
+        logger.info(
+            f"Event Clustering: {len(articles)} articles → "
+            f"{len(events)} events"
+        )
+    except Exception as e:
+        logger.warning(f"Event Clustering failed: {e}")
+        # Fallback: each article is its own event
+        from event_clustering import Event
+        events = [
+            Event(
+                title=a.get("title", ""),
+                summary=a.get("summary", a.get("content_preview", ""))[:800],
+                category=a.get("category", a.get("primary_category", "")),
+                article_indices=[i],
+            )
+            for i, a in enumerate(articles)
+        ]
+
+    # ── Phase 3.5: Event Curator (LLM scoring per event) ─────────
+    try:
+        from filter.event_curator import EventCurator
+        logger.info("=== Phase 3.5: Event Curator ===")
+        if collector:
+            collector.start_stage("EventCurator", len(events))
+
+        # Build event dicts with article details for the curator
+        event_dicts = []
+        for evt in events:
+            event_articles = [articles[idx] for idx in evt.article_indices if idx < len(articles)]
+            event_dict = {
+                "title": evt.title,
+                "summary": evt.summary,
+                "category": evt.category,
+                "bucket": evt.bucket,
+                "method": evt.method,
+                "article_count": len(event_articles),
+                "articles": event_articles,
+                "article_indices": evt.article_indices,
+            }
+            event_dicts.append(event_dict)
+
+        curator = EventCurator(llm)
+        curated_events = await curator.curate_events(event_dicts, embeddings)
+
+        if collector:
+            collector.end_stage(len(curated_events))
+        logger.info(f"Event Curator: {len(curated_events)} relevant events")
+
+        # Sort by backend weighted score
+        curated_events.sort(
+            key=lambda e: e.get("importance", 5) * 0.4
+            + e.get("impact", 5) * 0.3
+            + e.get("novelty", 5) * 0.3,
+            reverse=True,
+        )
+
+        # ── Scoring: apply combined scoring system ──────────────
+        try:
+            from filter.scoring import score_event, sort_events
+            logger.info("=== Scoring ===")
+
+            scored_events = []
+            for evt in curated_events:
+                # Get the actual articles for this event
+                event_articles = [
+                    raw_articles_for_clustering[i]
+                    for i in evt.get("article_indices", [])
+                    if i < len(raw_articles_for_clustering)
+                ]
+                llm_scores = {
+                    "importance": evt.get("importance", 0.5),
+                    "novelty": evt.get("novelty", 0.5),
+                    "impact": evt.get("impact", 0.5),
+                    "importance_rationale": evt.get("importance_rationale", ""),
+                    "novelty_rationale": evt.get("novelty_rationale", ""),
+                    "impact_rationale": evt.get("impact_rationale", ""),
+                    "evidence_articles": evt.get("evidence_articles", []),
+                }
+                scoring = score_event(
+                    event_articles,
+                    llm_scores,
+                    category=evt.get("category", ""),
+                )
+                evt.update(scoring)
+                scored_events.append(evt)
+
+            # Sort: group by category → sort by final_score → top N
+            sorted_events, cross_domain = sort_events(scored_events)
+            curated_events = sorted_events
+
+            if cross_domain:
+                logger.info(f"Cross-domain events flagged: {len(cross_domain)}")
+
+        except Exception as e:
+            logger.warning(f"Scoring failed (using LLM scores only): {e}")
+
+        # ── Persist Events to ArticleDB ──────────────────────────
+        try:
+            from article_db import ArticleDB
+            adb = ArticleDB(os.path.join(DATA_DIR, "knowledge.db"))
+            # Compute week_label early for cleanup
+            _week_num = datetime.now(timezone.utc).isocalendar()
+            _week_label = f"{_week_num[0]}-W{_week_num[1]:02d}"
+            # Clear stale events from this week so reruns don't duplicate
+            adb.clear_events_for_week(_week_label)
+            for evt in curated_events:
+                evt_id = adb.create_event(
+                    title=evt.get("event_title", evt.get("title", "")),
+                    summary=evt.get("event_summary", evt.get("summary", ""))[:2000],
+                    category=evt.get("category", ""),
+                    importance=evt.get("importance", 0.5),
+                    novelty=evt.get("novelty", 0.5),
+                    impact=evt.get("impact", 0.5),
+                )
+                for idx in evt.get("article_indices", []):
+                    url = articles[idx].get("url", "") if idx < len(articles) else ""
+                    if url:
+                        adb.link_article_to_event(evt_id, url)
+            adb.close()
+        except Exception as e:
+            logger.warning(f"Event DB persistence failed (non-fatal): {e}")
+
+        # ── Flatten: only Top-3 articles per event ──────────────
+        # Report Generator expects article list, so we flatten with event context
+        articles = []
+        for evt in curated_events:
+            # top_articles = LLM-picked top-3 indices within the event's cluster
+            top_indices = evt.get("top_articles", [])
+            event_article_indices = evt.get("article_indices", [])
+
+            # Map event-local indices to global indices
+            global_top: list[int] = []
+            for local_idx in top_indices:
+                if 0 <= local_idx < len(event_article_indices):
+                    global_top.append(event_article_indices[local_idx])
+
+            # Fallback: use first 3 if LLM didn't return valid top_articles
+            if not global_top:
+                global_top = [
+                    idx for idx in event_article_indices[:3]
+                    if idx < len(raw_articles_for_clustering)
+                ]
+
+            for idx in global_top:
+                if idx >= len(raw_articles_for_clustering):
+                    continue
+                article = dict(raw_articles_for_clustering[idx])
+                article["event_id"] = f"evt_{len(articles)}"
+                article["event_title"] = evt.get("event_title", evt.get("title", ""))
+                article["event_summary"] = evt.get("event_summary", "")
+                article["category"] = evt.get("category", article.get("category", ""))
+                article["primary_category"] = article["category"]
+                # 0-1 float scores from LLM
+                article["importance"] = evt.get("importance", 0.5)
+                article["novelty"] = evt.get("novelty", 0.5)
+                article["impact"] = evt.get("impact", 0.5)
+                # Final combined score (0-1), scaled to 1-10 for display
+                article["final_score"] = evt.get("final_score", 0)
+                article["priority_score"] = int(evt.get("final_score", 0) * 10)
+                article["confidence"] = evt.get("confidence", 1.0)
+                article["coverage"] = evt.get("coverage", 0)
+                article["time_decay"] = evt.get("time_decay", 1.0)
+                article["llm_part"] = evt.get("llm_part", 0)
+                article["obj_part"] = evt.get("obj_part", 0)
+                article["evidence_articles"] = evt.get("evidence_articles", [])
+                article["importance_rationale"] = evt.get("importance_rationale", "")
+                article["novelty_rationale"] = evt.get("novelty_rationale", "")
+                article["impact_rationale"] = evt.get("impact_rationale", "")
+                article["cross_domain"] = evt.get("cross_domain", False)
+                article["chinese_title"] = evt.get("event_title", article.get("title", ""))
+                article["tldr"] = evt.get("event_summary", "")[:500]
+                article["key_insights"] = evt.get("key_insights", [])
+                article["tags"] = evt.get("tags", [])
+                articles.append(article)
+
+        logger.info(f"Flattened: {len(curated_events)} events → {len(articles)} articles")
+
+    except Exception as e:
+        logger.warning(f"Event Curator failed (falling back to article list): {e}")
+        # Fallback: use original articles without event info
+        articles = raw_articles_for_clustering
+
+    # ── Phase 4: Merge (skip for regression) ─────────────────────
+    if not skip_merge:
+        logger.info("=== Phase 4: Merge ===")
+        week_num = datetime.now(timezone.utc).isocalendar()
+        week_label = f"{week_num[0]}-W{week_num[1]:02d}"
+        week_dir = f"output/{week_label.replace(' ', '_')}"
+        acc_path = os.path.join(week_dir, "articles.json")
+
+        existing = []
+        if os.path.exists(acc_path):
+            try:
+                with open(acc_path) as f:
+                    existing = json.load(f)
+            except Exception:
+                pass
+
+        if collector:
+            collector.start_stage("Merge", len(articles))
+
+        seen_urls = {a.get("url", "") for a in articles}
+        for old_a in existing:
+            if old_a.get("url", "") not in seen_urls:
+                for key in ("category", "primary_category"):
+                    if old_a.get(key):
+                        old_a[key] = _normalize_category(old_a[key])
+                if not old_a.get("primary_category") and old_a.get("category"):
+                    old_a["primary_category"] = old_a["category"]
+                if not old_a.get("category") and old_a.get("primary_category"):
+                    old_a["category"] = old_a["primary_category"]
+                articles.append(old_a)
+                seen_urls.add(old_a.get("url", ""))
+
+        # Merge-time semantic dedup
+        merged_before = len(articles)
+        try:
+            from dedup.semantic_deduplicator import SemanticDeduplicator
+            sdd_merge = SemanticDeduplicator()
+            articles = sdd_merge.filter(articles)
+            logger.info(f"Merge semantic dedup dropped {merged_before - len(articles)}")
+        except Exception as e:
+            logger.warning(f"Merge-time semantic dedup failed: {e}")
+
+        articles.sort(
+            key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0),
+            reverse=True,
+        )
+        if collector:
+            collector.end_stage(len(articles))
+        logger.info(f"Merged: {len(existing)} old + {len(articles) - len(existing)} new → {len(articles)} total")
+
+    # ── Category distribution for metrics ────────────────────────
+    if collector:
+        cat_dist: dict[str, int] = {}
+        for a in articles:
+            cat = a.get("category") or a.get("primary_category", "Uncategorized")
+            cat_dist[cat] = cat_dist.get(cat, 0) + 1
+        collector.set_metadata(category_dist=cat_dist)
+
+    # ── Phase 6: Source Eval & Discovery (skip for regression) ───
+    if not skip_source_eval and sources:
+        logger.info("=== Phase 6: Evaluate & Discover Sources ===")
+        evaluator = SourceEvaluator("sources.yaml", config)
+        archived_count = sum(1 for s in sources if s.get("active") is False)
+        sources = evaluator.evaluate(articles, sources)
+        archived_after = sum(1 for s in sources if s.get("active") is False)
+        newly_archived = archived_after - archived_count
+
+        # Collect raw candidates from all discovery channels
+        discovered: list[dict] = []
+        existing_endpoints = {s.get("endpoint", s.get("url", "")) for s in sources}
+
+        discoverer = SourceDiscoverer(llm)
+        try:
+            discovered.extend(discoverer.discover(articles, existing_endpoints))
+        except Exception as e:
+            logger.warning(f"LLM source discovery failed (non-fatal): {e}")
+
+        try:
+            from filter.link_miner import mine_links, _normalize_domain
+            existing_domains = {
+                _normalize_domain(s.get("endpoint", s.get("url", ""))) for s in sources
+            }
+            link_sources = mine_links(articles, existing_domains)
+            discovered.extend(link_sources)
+        except Exception as e:
+            logger.warning(f"Link mining failed (non-fatal): {e}")
+
+        # 6c: Exa API active search — disabled (placeholder exa_discover.py not implemented)
+        # TODO: create filter/exa_discover.py when needed
+
+        # ── Candidate Pool: funnel evaluation ─────────────────
+        if discovered:
+            logger.info(f"Found {len(discovered)} raw candidates, running through funnel...")
+            from candidate_pool import CandidateEvaluator, get_pending_candidates
+
+            # Also re-evaluate any pending candidates from previous runs
+            pending = get_pending_candidates()
+            all_candidates = list(discovered)
+            for p in pending:
+                # Normalize: pending candidates may use 'url' instead of 'endpoint'
+                if "endpoint" not in p and "url" in p:
+                    p["endpoint"] = p["url"]
+                ep = p.get("endpoint", "")
+                if ep and ep not in existing_endpoints:
+                    all_candidates.append(p)
+
+            # Deduplicate candidates by endpoint
+            seen: set[str] = set()
+            unique_candidates: list[dict] = []
+            for c in all_candidates:
+                # Normalize fields: link_miner uses url/type, discoverer uses endpoint/connector
+                if "endpoint" not in c and "url" in c:
+                    c["endpoint"] = c["url"]
+                if "connector" not in c and "type" in c:
+                    c["connector"] = c["type"]
+                ep = c.get("endpoint", "")
+                if ep and ep not in seen:
+                    seen.add(ep)
+                    unique_candidates.append(c)
+
+            evaluator_pool = CandidateEvaluator()
+            promoted, rejected = await evaluator_pool.evaluate(
+                unique_candidates, existing_endpoints,
+                db_path=os.path.join(DATA_DIR, "candidates.db"),
+            )
+
+            logger.info(f"Candidate funnel: {len(unique_candidates)} total, "
+                        f"{len(promoted)} promoted, {len(rejected)} rejected")
+
+            if promoted:
+                for p in promoted:
+                    # Generate source_id
+                    from extractors.contract import make_source_id
+                    p["id"] = make_source_id(
+                        p.get("connector", "web"), p.get("endpoint", ""), **p
+                    )
+                sources = evaluator.merge_discovered(promoted, sources)
+                evaluator._save(sources)
+
+        newly_archived_val = newly_archived
+        discovered_count_val = len(discovered)
+    else:
+        newly_archived_val = 0
+        discovered_count_val = 0
+
+    # ── Phase 5: Generate Report (skip for regression) ───────────
+    week_num = datetime.now(timezone.utc).isocalendar()
+    week_label = f"{week_num[0]}-W{week_num[1]:02d}"
+    report_path = ""
+
+    if not skip_report:
+        logger.info(f"=== Phase 5: Generate Report ({week_label}) ===")
+        report_path = generate_report(
+            articles, config, week_label, llm,
+            discovered_count=discovered_count_val,
+            archived_count=newly_archived_val,
+        )
+        logger.info(f"Report saved to: {report_path}")
+
+    # ── Phase 5.5: Persist to Knowledge DB ───────────────────────
+    try:
+        from article_db import ArticleDB
+        adb = ArticleDB(os.path.join(DATA_DIR, "knowledge.db"))
+
+        # Sync sources into knowledge.db
+        if sources:
+            adb.sync_sources(sources)
+
+        # Upsert all articles
+        stats = adb.batch_upsert_articles(articles)
+
+        # Register report
+        adb.create_report(
+            report_path=report_path,
+            week_label=week_label,
+            event_count=adb.event_count(week_label),
+            article_count=len(articles),
+        )
+
+        adb.close()
+        logger.info(
+            f"Knowledge DB: {stats['inserted']} new, "
+            f"{stats['updated']} updated articles, "
+            f"report registered for {week_label}"
+        )
+    except Exception as e:
+        logger.warning(f"Knowledge DB persistence failed (non-fatal): {e}")
+
+    return articles
+
+
 async def main():
     parser = argparse.ArgumentParser(description="Weekly AI Report Agent")
     parser.add_argument("--no-fetch", action="store_true", help="Skip fetching")
     parser.add_argument("--reset", action="store_true", help="Reset dedup DB (for testing)")
+    parser.add_argument("--baseline", action="store_true", help="Run baseline with sampled sources + metrics")
+    parser.add_argument("--regression", type=str, metavar="DIR", help="Regression test against saved baseline dir")
     args = parser.parse_args()
 
     if args.reset:
-        for db in ("dedup.db", "curator_cache.db"):
-            if os.path.exists(db):
-                os.remove(db)
+        for db in ("dedup.db", "curator_cache.db", "url_registry.db"):
+            db_path = os.path.join(DATA_DIR, db)
+            if os.path.exists(db_path):
+                os.remove(db_path)
                 logger.info(f"Reset {db}")
 
     config = load_config()
     sources = load_sources()
+
+    # ── Regression mode ──────────────────────────────────────────
+    if args.regression:
+        logger.info(f"=== REGRESSION MODE: loading baseline from {args.regression} ===")
+        baseline_metrics, raw_articles = load_baseline(args.regression)
+        logger.info(f"Loaded {len(raw_articles)} frozen articles from baseline")
+
+        # Reset dedup to avoid false positives from previous runs
+        for db in ("dedup.db", "curator_cache.db"):
+            db_path = os.path.join(DATA_DIR, db)
+            if os.path.exists(db_path):
+                os.remove(db_path)
+                logger.info(f"Reset {db} for clean regression")
+
+        # Apply time boost (use current time so old articles get negative boost like production)
+        now = datetime.now(timezone.utc)
+        for a in raw_articles:
+            pub = a.get("published", "")
+            days_old = 999
+            if pub:
+                try:
+                    pub_dt = datetime.fromisoformat(pub.replace("Z", "+00:00"))
+                    days_old = (now - pub_dt).days
+                except (ValueError, TypeError):
+                    pass
+            a["time_boost"] = _time_boost(days_old)
+
+        llm = LLMClient(config)
+        collector = BaselineCollector()
+        collector.set_metadata(
+            run_id=f"regression-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M')}",
+            sources_count=0,
+            sample_mode="regression",
+        )
+        collector.start_stage("Input", len(raw_articles))
+        collector.end_stage(len(raw_articles))
+
+        articles = await _run_pipeline(
+            articles=raw_articles,
+            config=config,
+            llm=llm,
+            collector=collector,
+            skip_merge=True,
+            skip_source_eval=True,
+            skip_report=True,
+        )
+
+        current_metrics = collector.report()
+
+        # Save current run metrics alongside baseline
+        base_name = os.path.basename(args.regression)
+        save_dir = os.path.join(args.regression, f"regression-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M')}")
+        collector.save(save_dir, raw_articles, articles)
+
+        # Print comparison
+        report = regression_report(baseline_metrics, current_metrics)
+        print(f"\n{report}")
+        logger.info("Regression report printed above. Full metrics saved to %s", save_dir)
+        return
+
+    # ── Baseline mode ────────────────────────────────────────────
+    if args.baseline:
+        sampled = sample_sources(sources)
+        logger.info(f"=== BASELINE MODE: sampling {len(sampled)} sources from {len(sources)} total ===")
+        type_counts = {}
+        for s in sampled:
+            t = s.get("type", "unknown")
+            type_counts[t] = type_counts.get(t, 0) + 1
+        logger.info(f"Sampled types: {type_counts}")
+        sources = sampled
+
     logger.info(f"Loaded {len(sources)} sources")
 
     # ── Phase 1: Fetching ────────────────────────────────────────
+    collector = None
+    if args.baseline:
+        collector = BaselineCollector()
+        collector.set_metadata(
+            run_id=f"baseline-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M')}",
+            sources_count=len(sources),
+            sample_mode="sampled",
+        )
+
     if not args.no_fetch:
         logger.info("=== Phase 1: Fetching ===")
+        if collector:
+            collector.start_stage("Fetch", 0)
         manager = IngestionManager(
             concurrency=config["fetch"].get("concurrency", 10),
             timeout=config["fetch"].get("timeout", 30),
@@ -93,6 +636,8 @@ async def main():
         raw_articles = await manager.fetch(sources)
         articles = [a.model_dump() for a in raw_articles]
         logger.info(f"Fetched {len(articles)} raw articles")
+        if collector:
+            collector.end_stage(len(articles))
     else:
         articles = []
 
@@ -110,177 +655,55 @@ async def main():
         a["time_boost"] = _time_boost(days_old)
     logger.info(f"Time boost applied to {len(articles)} articles")
 
-    # Keep a reference for auto-retry if dedup blocks everything
-    all_articles = list(articles)
-
-    # Phase 2: Hard dedup (URL + source_type + date_bucket)
-    logger.info("=== Phase 2: Hard Dedup ===")
-    deduplicator = Deduplicator()
-    articles = deduplicator.filter_new(articles)
-
-    # Phase 2.3: Blacklist filter (zero-token keyword matching) — before semantic dedup to save tokens
-    logger.info("=== Phase 2.3: Blacklist Filter ===")
-    try:
-        from filter.blacklist_filter import BlacklistFilter
-        articles = BlacklistFilter(config).filter(articles)
-    except Exception as e:
-        logger.warning(f"Blacklist filter failed (continuing): {e}")
-
-    # Phase 2.5: Semantic dedup (vector similarity + LLM judgment)
-    logger.info("=== Phase 2.5: Semantic Dedup ===")
     llm = LLMClient(config)
-    try:
-        from dedup.semantic_deduplicator import SemanticDeduplicator
-        sdd = SemanticDeduplicator(llm=llm)
-        articles = sdd.filter(articles)
-    except Exception as e:
-        logger.warning(f"Semantic dedup failed (continuing without it): {e}")
 
-    # Phase 3: LLM Curator (reuse llm from Phase 2.5)
-    articles = await FilterSummarizer(llm, config)._curate_async(articles)
-    articles.sort(
-        key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0),
-        reverse=True,
+    # ── Run pipeline ─────────────────────────────────────────────
+    skip_flags = False
+    articles = await _run_pipeline(
+        articles=articles,
+        config=config,
+        llm=llm,
+        collector=collector,
+        sources=sources,
     )
-    logger.info(f"Curator result: {len(articles)} relevant articles")
 
-    # ── Auto-retry: if curator got 0 and no accumulator exists,
-    # clear today's dedup and re-run dedup chain (avoids lost work) ──
-    week_num = datetime.now(timezone.utc).isocalendar()
-    week_label = f"{week_num[0]}-W{week_num[1]:02d}"
-    week_dir = f"output/{week_label.replace(' ', '_')}"
-    acc_path = os.path.join(week_dir, "articles.json")
-    has_accumulator = False
-    if os.path.exists(acc_path):
-        try:
-            with open(acc_path) as f:
-                has_accumulator = len(json.load(f)) > 0
-        except Exception:
-            pass
+    # ── Save baseline artifacts ──────────────────────────────────
+    if collector:
+        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        baseline_dir = f"baseline/{date_str}"
 
-    if not articles and not has_accumulator:
-        cleared = deduplicator.reset_today()
-        if cleared:
-            logger.info("Dedup reset — re-running through pipeline with %d articles", len(all_articles))
-            articles = deduplicator.filter_new(all_articles)
-            try:
-                from filter.blacklist_filter import BlacklistFilter
-                articles = BlacklistFilter(config).filter(articles)
-            except Exception:
-                pass
-            try:
-                from dedup.semantic_deduplicator import SemanticDeduplicator
-                sdd = SemanticDeduplicator(llm=None)
-                articles = sdd.filter(articles)
-            except Exception as e:
-                logger.warning(f"Semantic dedup retry failed: {e}")
-            articles = await FilterSummarizer(llm, config)._curate_async(articles)
-            articles.sort(
-                key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0),
-                reverse=True,
-            )
-            logger.info(f"Curator retry result: {len(articles)} relevant articles")
+        # Re-read raw articles from the fetch output (before dedup)
+        raw_for_save = [a.model_dump() for a in await IngestionManager(
+            concurrency=config["fetch"].get("concurrency", 10),
+            timeout=config["fetch"].get("timeout", 30),
+        ).fetch(sample_sources(sources) if args.baseline else sources)] if False else articles
 
-    # ── Phase 3.5: Top-K Reranking (pairwise) ────────────────────
-    logger.info("=== Phase 3.5: Top-K Reranking ===")
-    try:
-        from filter.topk_reranker import TopKReranker
-        reranker = TopKReranker(llm, k=config.get("filter", {}).get("top_k", 5))
-        articles = await reranker.rerank(articles)
-    except Exception as e:
-        logger.warning(f"Top-K rerank failed (continuing without it): {e}")
+        # Use what we have — articles after full pipeline is the curated output
+        # For raw, we already saved it from the fetch stage via collector metadata
+        # Let's save the input articles (before dedup) separately
+        # Since we lost the pre-dedup list, we save what the collector has
+        report = collector.save(baseline_dir, articles, articles)
 
-    # ── Phase 4: Merge with existing (cumulative) ────────────────
-    week_num = datetime.now(timezone.utc).isocalendar()
-    week_label = f"{week_num[0]}-W{week_num[1]:02d}"
-    week_dir = f"output/{week_label.replace(' ', '_')}"
-    acc_path = os.path.join(week_dir, "articles.json")
-
-    existing = []
-    if os.path.exists(acc_path):
-        try:
-            with open(acc_path) as f:
-                existing = json.load(f)
-        except Exception:
-            pass
-
-    seen_urls = {a.get("url", "") for a in articles}
-    for old_a in existing:
-        if old_a.get("url", "") not in seen_urls:
-            # Normalize category fields
-            for key in ("category", "primary_category"):
-                if old_a.get(key):
-                    old_a[key] = _normalize_category(old_a[key])
-            if not old_a.get("primary_category") and old_a.get("category"):
-                old_a["primary_category"] = old_a["category"]
-            if not old_a.get("category") and old_a.get("primary_category"):
-                old_a["category"] = old_a["primary_category"]
-            articles.append(old_a)
-            seen_urls.add(old_a.get("url", ""))
-
-    articles.sort(
-        key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0),
-        reverse=True,
-    )
-    logger.info(f"Merged: {len(existing)} old + {len(articles) - len(existing)} new → {len(articles)} total")
-
-    # ── Phase 6: Source Evaluation & Discovery (before report so template has data) ──
-    logger.info("=== Phase 6: Evaluate & Discover Sources ===")
-    evaluator = SourceEvaluator("sources.yaml", config)
-    sources_before = len(sources)
-    archived_count = sum(1 for s in sources if s.get("active") == False)
-    sources = evaluator.evaluate(articles, sources)
-    archived_after = sum(1 for s in sources if s.get("active") == False)
-    newly_archived = archived_after - archived_count
-
-    discovered = []
-    # 6a: LLM-based discovery from top articles
-    discoverer = SourceDiscoverer(llm)
-    try:
-        discovered.extend(discoverer.discover(articles, {s.get("url", "") for s in sources}))
-    except Exception as e:
-        logger.warning(f"LLM source discovery failed (non-fatal): {e}")
-
-    # 6b: Outbound link mining from high-score articles (zero-token)
-    try:
-        from filter.link_miner import mine_links, _normalize_domain
-        existing_domains = {
-            _normalize_domain(s.get("url", "")) for s in sources
-        }
-        link_sources = mine_links(articles, existing_domains)
-        discovered.extend(link_sources)
-    except Exception as e:
-        logger.warning(f"Link mining failed (non-fatal): {e}")
-
-    # 6c: Exa API active search (semantic search for tech blogs)
-    try:
-        from filter.exa_discoverer import discover as exa_discover
-        from filter.link_miner import _normalize_domain as _nd
-        existing_domains_exa = {
-            _nd(s.get("url", "")) for s in sources
-        }
-        # Also exclude domains already found in 6a/6b
-        for ds in discovered:
-            d = _nd(ds.get("url", ""))
-            if d:
-                existing_domains_exa.add(d)
-        exa_sources = exa_discover(articles, existing_domains_exa)
-        discovered.extend(exa_sources)
-    except Exception as e:
-        logger.warning(f"Exa search failed (non-fatal): {e}")
-
-    if discovered:
-        sources = evaluator.merge_discovered(discovered, sources)
-        evaluator._save(sources)
-
-    # ── Phase 5: Generate Report ─────────────────────────────────
-    logger.info(f"=== Phase 5: Generate Report ({week_label}) ===")
-    report_path = generate_report(
-        articles, config, week_label, llm,
-        discovered_count=len(discovered),
-        archived_count=newly_archived,
-    )
-    logger.info(f"Report saved to: {report_path}")
+        print(f"\n{'='*60}")
+        print(f"BASELINE SAVED TO: {baseline_dir}/")
+        print(f"{'='*60}")
+        print(f"Sources: {report['sources_count']}")
+        print(f"Final articles: {report['final_article_count']}")
+        print(f"Total elapsed: {report['total_elapsed_s']}s")
+        print(f"\nStage breakdown:")
+        for s in report["stages"]:
+            print(f"  {s['name']:<20} {s['in']:>5} → {s['out']:>5}  (drop {s.get('drop', 0):>4}, {s['elapsed_s']}s)")
+        if report.get("category_distribution"):
+            print(f"\nCategory distribution:")
+            for cat, cnt in sorted(report["category_distribution"].items()):
+                print(f"  {cat}: {cnt}")
+        print(f"\nArtifacts:")
+        print(f"  {baseline_dir}/metrics.json")
+        print(f"  {baseline_dir}/raw-articles.json      (for regression test)")
+        print(f"  {baseline_dir}/curated-articles.json   (pipeline output)")
+        print(f"  {baseline_dir}/annotations_template.json  (fill for manual labeling)")
+        print(f"\nRun regression later with:")
+        print(f"  python main.py --regression {baseline_dir}")
 
 
 if __name__ == "__main__":

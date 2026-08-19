@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ cat_name }} — {{ title }}</title>
+<title>设计仿真 — AI 前沿资讯周报</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -25,13 +25,13 @@ body {
 .cat-header {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
   padding: 24px; background: #fff; border-radius: 8px;
-  border-left: 4px solid {{ cat_color }};
+  border-left: 4px solid #f59e0b;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .cat-header .icon { font-size: 36px; }
 .cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
 .cat-header .count-badge {
-  background: {{ cat_color }}15; color: {{ cat_color }};
+  background: #f59e0b15; color: #f59e0b;
   font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
 }
 
@@ -177,128 +177,24 @@ body {
 
   <!-- Category Header -->
   <div class="cat-header">
-    <span class="icon">{{ cat_icon }}</span>
-    <h1>{{ cat_name }}</h1>
-    <span class="count-badge">{{ event_count }} 个事件</span>
+    <span class="icon">🎨</span>
+    <h1>设计仿真</h1>
+    <span class="count-badge">0 个事件</span>
   </div>
 
   <!-- Domain Summary -->
-  {% if domain_summary %}
-  <div class="domain-summary">
-    <strong>📋 领域摘要</strong><br>
-    {{ domain_summary }}
-  </div>
-  {% endif %}
+  
 
   <!-- Events Container -->
-  {% if events %}
-  <div class="events-container" id="events">
-    {% for event in events %}
-    {% set evt_articles = articles_by_event.get(event.id, []) %}
-    <div class="event-card{% if event.get('carried_over') %} carried{% endif %}">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        {% set importance = event.get('importance', 0) %}
-        {% set novelty = event.get('novelty', 0) %}
-        {% set impact = event.get('impact', 0) %}
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">{{ "%.0f"|format(importance * 100) }}</span>
-        </div>
-        {% if novelty > 0 %}
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">{{ "%.0f"|format(novelty * 100) }}</span>
-        </div>
-        {% endif %}
-        {% if impact > 0 %}
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">{{ "%.0f"|format(impact * 100) }}</span>
-        </div>
-        {% endif %}
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        {% set evt_title = event.get('event_title', event.get('title', '未命名事件')) %}
-        {{ evt_title }}
-        {% if event.get('carried_over') %}
-        <span class="carried-badge">往期</span>
-        {% endif %}
-      </div>
-
-      <!-- Event Summary -->
-      {% set evt_summary = event.get('event_summary', event.get('summary', '')) %}
-      {% if evt_summary %}
-      <div class="event-summary">{{ evt_summary }}</div>
-      {% endif %}
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 {{ evt_articles|length }} 篇来源</span>
-        {% if evt_articles %}
-        {% set source_names = [] %}
-        {% for art in evt_articles %}
-        {% set _ = source_names.append(art.get('source_name', art.get('source_id', ''))) %}
-        {% endfor %}
-        {% set unique_sources = source_names|unique|list %}
-        {% for i in range(5) %}
-        {% if i < unique_sources|length %}
-        <span class="source-tag">{{ unique_sources[i] }}</span>
-        {% endif %}
-        {% endfor %}
-        {% endif %}
-      </div>
-
-      <!-- Key Insights -->
-      {% if event.get('key_insights') %}
-      <ul class="key-insights">
-        {% for insight in event.key_insights[:3] %}
-        <li>{{ insight }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
-      <!-- Tags -->
-      {% if event.get('tags') %}
-      <div class="event-tags">
-        {% for tag in event.tags %}
-        <span class="tag">{{ tag }}</span>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      <!-- Linked Articles (expandable) -->
-      {% if evt_articles %}
-      <details class="articles-expand">
-        <summary>展开 {{ evt_articles|length }} 篇相关文章</summary>
-        <div class="article-list">
-          {% for art in evt_articles[:10] %}
-          <div class="article-item">
-            <a href="{{ art.get('url', '#') }}" target="_blank" rel="noopener">
-              {{ art.get('title', '未命名') }}
-            </a>
-            <span class="article-source">{{ art.get('source_name', '') }}</span>
-          </div>
-          {% endfor %}
-        </div>
-      </details>
-      {% endif %}
-
-    </div>
-    {% endfor %}
-  </div>
-  {% else %}
+  
   <div class="empty-state">
     <div class="icon">📭</div>
     <h3>暂无本周新内容</h3>
-    <p>本周 {{ cat_name }} 领域暂无新事件，将回填往期精选。</p>
+    <p>本周 设计仿真 领域暂无新事件，将回填往期精选。</p>
   </div>
-  {% endif %}
+  
 
-  <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-08-19 15:46 · Weekly AI Report Agent</div>
 
 </div>
 </body>

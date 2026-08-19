@@ -8,12 +8,12 @@ DISCOVERY_PROMPT = """You are an AI news source discovery assistant. Based on th
 recommend up to 3 new information sources that would provide similar high-quality content.
 
 For each source return a JSON object with:
-- url: the RSS feed or blog URL
-- type: one of "rss", "web", "github_repo"
-- category: one of "LLM", "Agent", "AI for Science", "设计仿真", "数字孪生"
+- endpoint: the RSS feed or blog URL
+- connector: one of "rss", "web", "github_repo"
+- category: one of "LLM", "Agent", "AI4Science", "DesignSimulation", "DigitalTwin"
 
 Example output (one JSON per line, no markdown):
-{"url": "https://example.com/feed.xml", "type": "rss", "category": "LLM"}
+{"endpoint": "https://example.com/feed.xml", "connector": "rss", "category": "LLM"}
 
 Top articles this week:
 {articles}
@@ -79,19 +79,19 @@ class SourceDiscoverer:
                 continue
             try:
                 obj = _json.loads(line)
-                url = obj.get('url', '').strip()
-                if not url.startswith('http') or url in existing_urls:
+                endpoint = obj.get('endpoint', obj.get('url', '')).strip()
+                if not endpoint.startswith('http') or endpoint in existing_urls:
                     continue
                 new_sources.append({
-                    'name': url.split('//')[-1].split('/')[0],
-                    'url': url,
-                    'type': obj.get('type', _infer_type(url)),
+                    'name': endpoint.split('//')[-1].split('/')[0],
+                    'endpoint': endpoint,
+                    'connector': obj.get('connector', obj.get('type', _infer_type(endpoint))),
                     'category': obj.get('category', _infer_category(top_articles)),
                     'weight': 5,
                     'discovered_by': 'agent',
                 })
                 logger.info(
-                    f"Discovered: {url} (type={obj.get('type', 'rss')}, "
+                    f"Discovered: {endpoint} (connector={obj.get('connector', 'rss')}, "
                     f"cat={obj.get('category', 'LLM')})"
                 )
             except Exception:
@@ -100,8 +100,8 @@ class SourceDiscoverer:
                 if url.startswith('http') and url not in existing_urls:
                     new_sources.append({
                         'name': url.split('//')[-1].split('/')[0],
-                        'url': url,
-                        'type': _infer_type(url),
+                        'endpoint': url,
+                        'connector': _infer_type(url),
                         'category': _infer_category(top_articles),
                         'weight': 5,
                         'discovered_by': 'agent',

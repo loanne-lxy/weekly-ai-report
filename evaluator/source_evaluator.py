@@ -1,6 +1,11 @@
-"""源池自评估 — 每周评估信息来源质量，自动更新权重"""
-import yaml
+"""源池自评估 — 每周评估信息来源质量，自动更新权重。
+
+Uses SourceRegistry for persistence to avoid data loss and keep
+sources.yaml clean (static fields only, state in memory).
+"""
 import logging
+
+from source_registry import SourceRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -13,8 +18,10 @@ class SourceEvaluator:
         self.protected_types = set(config.get("evaluator", {}).get("protect_types", []))
 
     def evaluate(self, articles: list[dict], current_sources: list[dict]) -> list[dict]:
-        """根据本周产出评估源池质量，返回更新后的源列表"""
-        # Protected source types — never auto-archive (rate-limited ≠ stale)
+        """根据本周产出评估源池质量，返回更新后的全部源列表（含 inactive）。
+
+        Caller is responsible for filtering if needed.
+        """
         protect_types = self.protected_types
 
         # 统计每个源的产出
@@ -25,9 +32,9 @@ class SourceEvaluator:
 
         for s in current_sources:
             name = s.get("name", "")
-            source_type = s.get("type", "")
+            # Support both old ('type') and new ('connector') field names
+            source_type = s.get("connector", s.get("type", ""))
             count = stats.get(name, 0)
-            s["articles_this_week"] = count
 
             # Skip evaluation for protected types (rate-limited ≠ stale)
             if source_type in protect_types:
@@ -48,34 +55,40 @@ class SourceEvaluator:
             # 连续 stale_weeks 无产出 → 归档
             if s.get("streak_failures", 0) >= self.stale_weeks:
                 logger.info(f"Archiving stale source: {name}")
+                s["enabled"] = False
                 s["active"] = False
 
-        # 保存所有源（包括归档的），以便手动恢复
         all_sources = current_sources
-        active = [s for s in current_sources if s.get("active", True)]
+        active = [s for s in current_sources if s.get("enabled", s.get("active", True))]
         active.sort(key=lambda x: x.get("eval_score", 5), reverse=True)
 
         logger.info(
-            f"Source eval: {len(current_sources)} total, "
+            f"Source eval: {len(all_sources)} total, "
             f"{len(active)} active, "
-            f"{len(current_sources) - len(active)} archived"
+            f"{len(all_sources) - len(active)} archived"
         )
 
-        self._save(all_sources)
-        return active
+        # NOTE: Do NOT save here. The caller owns persistence after
+        # merge_discovered() to avoid data loss from partial overwrites.
+        return all_sources
 
     def merge_discovered(self, discovered: list[dict], current: list[dict]) -> list[dict]:
-        """合并Agent发现的新源到源池"""
-        existing_urls = {s.get("url", "") for s in current}
+        """合并Agent发现的新源到源池。Supports both 'url' and 'endpoint' keys."""
+        existing_endpoints = {
+            s.get("endpoint", s.get("url", "")) for s in current
+        }
         added = 0
         for ds in discovered:
-            if ds["url"] not in existing_urls and len(current) < 80:
+            ds_url = ds.get("endpoint", ds.get("url", ""))
+            if ds_url not in existing_endpoints and len(current) < 80:
                 current.append(ds)
-                existing_urls.add(ds["url"])
+                existing_endpoints.add(ds_url)
                 added += 1
         logger.info(f"Discovered {len(discovered)} sources, merged {added} new")
         return current
 
     def _save(self, sources: list[dict]):
-        with open(self.sources_path, "w", encoding="utf-8") as f:
-            yaml.dump({"sources": sources}, f, allow_unicode=True, default_flow_style=False)
+        """Save via SourceRegistry to keep sources.yaml clean (static fields only)."""
+        registry = SourceRegistry(self.sources_path)
+        registry._sources = sources
+        registry.save()

@@ -104,8 +104,8 @@ _CAT_MAP = {
 
 
 def _prior_hint(article: dict) -> str:
-    """Build source prior hint for LLM — empty if no default_category."""
-    cat = article.get("default_category")
+    """Build source prior hint for LLM — uses 'category' field."""
+    cat = article.get("category") or article.get("default_category")
     if cat:
         return f" (Source specializes in: {cat})"
     return ""

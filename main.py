@@ -5,7 +5,6 @@ Pipeline:
   Phase 2.3: Blacklist Filter
   Phase 3  : Event Clustering (FAISS + multilingual-MiniLM)
   Phase 3.5: Event Curator (LLM: classify + score + Top-3 selection)
-  Phase 4  : Merge with existing (cumulative per week)
   Phase 5  : Generate Report (HTML frontend)
   Phase 6  : Source Evaluation & Auto-Discovery
 
@@ -90,14 +89,15 @@ async def _run_pipeline(
     config: dict,
     llm: LLMClient,
     collector: BaselineCollector | None = None,
-    skip_merge: bool = False,
     skip_source_eval: bool = False,
     skip_report: bool = False,
     sources: list[dict] | None = None,
 ) -> list[dict]:
-    """Core pipeline: URL Registry → Blacklist → Semantic Dedup → Event Clustering → Event Curator → [Merge] → [SourceEval] → [Report].
+    """Core pipeline: URL Registry → Blacklist → Event Clustering → Event Curator → Sort → [SourceEval] → [Report].
 
-    Returns curated articles list (flattened from events).
+    Returns two lists:
+      - curated_events: scored events (each with Articles[], importance/novelty/impact)
+      - articles: flat list of raw articles (no event scores) for downstream consumers
     """
 
     # ── Phase 2: URL Registry (Hard Dedup) ───────────────────────
@@ -248,141 +248,24 @@ async def _run_pipeline(
         except Exception as e:
             logger.warning(f"Scoring failed (using LLM scores only): {e}")
 
-        # ── Persist Events to ArticleDB ──────────────────────────
-        try:
-            from article_db import ArticleDB
-            adb = ArticleDB(os.path.join(DATA_DIR, "knowledge.db"))
-            # Compute week_label early for cleanup
-            _week_num = datetime.now(timezone.utc).isocalendar()
-            _week_label = f"{_week_num[0]}-W{_week_num[1]:02d}"
-            # Clear stale events from this week so reruns don't duplicate
-            adb.clear_events_for_week(_week_label)
-            for evt in curated_events:
-                evt_id = adb.create_event(
-                    title=evt.get("event_title", evt.get("title", "")),
-                    summary=evt.get("event_summary", evt.get("summary", ""))[:2000],
-                    category=evt.get("category", ""),
-                    importance=evt.get("importance", 0.5),
-                    novelty=evt.get("novelty", 0.5),
-                    impact=evt.get("impact", 0.5),
-                )
-                for idx in evt.get("article_indices", []):
-                    url = articles[idx].get("url", "") if idx < len(articles) else ""
-                    if url:
-                        adb.link_article_to_event(evt_id, url)
-            adb.close()
-        except Exception as e:
-            logger.warning(f"Event DB persistence failed (non-fatal): {e}")
-
-        # ── Flatten: only Top-3 articles per event ──────────────
-        # Report Generator expects article list, so we flatten with event context
-        articles = []
-        for evt in curated_events:
-            # top_articles = LLM-picked top-3 indices within the event's cluster
-            top_indices = evt.get("top_articles", [])
-            event_article_indices = evt.get("article_indices", [])
-
-            # Map event-local indices to global indices
-            global_top: list[int] = []
-            for local_idx in top_indices:
-                if 0 <= local_idx < len(event_article_indices):
-                    global_top.append(event_article_indices[local_idx])
-
-            # Fallback: use first 3 if LLM didn't return valid top_articles
-            if not global_top:
-                global_top = [
-                    idx for idx in event_article_indices[:3]
-                    if idx < len(raw_articles_for_clustering)
-                ]
-
-            for idx in global_top:
-                if idx >= len(raw_articles_for_clustering):
-                    continue
-                article = dict(raw_articles_for_clustering[idx])
-                article["event_id"] = f"evt_{len(articles)}"
-                article["event_title"] = evt.get("event_title", evt.get("title", ""))
-                article["event_summary"] = evt.get("event_summary", "")
-                article["category"] = evt.get("category", article.get("category", ""))
-                article["primary_category"] = article["category"]
-                # 0-1 float scores from LLM
-                article["importance"] = evt.get("importance", 0.5)
-                article["novelty"] = evt.get("novelty", 0.5)
-                article["impact"] = evt.get("impact", 0.5)
-                # Final combined score (0-1), scaled to 1-10 for display
-                article["final_score"] = evt.get("final_score", 0)
-                article["priority_score"] = int(evt.get("final_score", 0) * 10)
-                article["confidence"] = evt.get("confidence", 1.0)
-                article["coverage"] = evt.get("coverage", 0)
-                article["time_decay"] = evt.get("time_decay", 1.0)
-                article["llm_part"] = evt.get("llm_part", 0)
-                article["obj_part"] = evt.get("obj_part", 0)
-                article["evidence_articles"] = evt.get("evidence_articles", [])
-                article["importance_rationale"] = evt.get("importance_rationale", "")
-                article["novelty_rationale"] = evt.get("novelty_rationale", "")
-                article["impact_rationale"] = evt.get("impact_rationale", "")
-                article["cross_domain"] = evt.get("cross_domain", False)
-                article["chinese_title"] = evt.get("event_title", article.get("title", ""))
-                article["tldr"] = evt.get("event_summary", "")[:500]
-                article["key_insights"] = evt.get("key_insights", [])
-                article["tags"] = evt.get("tags", [])
-                articles.append(article)
-
-        logger.info(f"Flattened: {len(curated_events)} events → {len(articles)} articles")
-
     except Exception as e:
         logger.warning(f"Event Curator failed (falling back to article list): {e}")
-        # Fallback: use original articles without event info
-        articles = raw_articles_for_clustering
+        curated_events = []
 
-    # ── Phase 4: Merge (skip for regression) ─────────────────────
-    if not skip_merge:
-        logger.info("=== Phase 4: Merge ===")
-        week_num = datetime.now(timezone.utc).isocalendar()
-        week_label = f"{week_num[0]}-W{week_num[1]:02d}"
-        week_dir = f"output/{week_label.replace(' ', '_')}"
-        acc_path = os.path.join(week_dir, "articles.json")
+    # ── Sort curated events by score ─────────────────────────────
+    curated_events.sort(
+        key=lambda e: e.get("final_score", e.get("importance", 0.5)),
+        reverse=True,
+    )
 
-        existing = []
-        if os.path.exists(acc_path):
-            try:
-                with open(acc_path) as f:
-                    existing = json.load(f)
-            except Exception:
-                pass
-
-        if collector:
-            collector.start_stage("Merge", len(articles))
-
-        seen_urls = {a.get("url", "") for a in articles}
-        for old_a in existing:
-            if old_a.get("url", "") not in seen_urls:
-                for key in ("category", "primary_category"):
-                    if old_a.get(key):
-                        old_a[key] = _normalize_category(old_a[key])
-                if not old_a.get("primary_category") and old_a.get("category"):
-                    old_a["primary_category"] = old_a["category"]
-                if not old_a.get("category") and old_a.get("primary_category"):
-                    old_a["category"] = old_a["primary_category"]
-                articles.append(old_a)
-                seen_urls.add(old_a.get("url", ""))
-
-        # Merge-time semantic dedup
-        merged_before = len(articles)
-        try:
-            from dedup.semantic_deduplicator import SemanticDeduplicator
-            sdd_merge = SemanticDeduplicator()
-            articles = sdd_merge.filter(articles)
-            logger.info(f"Merge semantic dedup dropped {merged_before - len(articles)}")
-        except Exception as e:
-            logger.warning(f"Merge-time semantic dedup failed: {e}")
-
-        articles.sort(
-            key=lambda a: a.get("priority_score", 3) + a.get("time_boost", 0),
-            reverse=True,
-        )
-        if collector:
-            collector.end_stage(len(articles))
-        logger.info(f"Merged: {len(existing)} old + {len(articles) - len(existing)} new → {len(articles)} total")
+    # ── Compatibility: build flat articles list for downstream consumers ──
+    # Report Generator reads from knowledge.db directly and does NOT need this.
+    # But other consumers (baseline, source eval) expect an articles list.
+    articles = [dict(a) for a in raw_articles_for_clustering]
+    if collector:
+        collector.start_stage("Merge", len(articles))
+        collector.end_stage(len(articles))
+    logger.info(f"Sorted {len(articles)} articles by score")
 
     # ── Category distribution for metrics ────────────────────────
     if collector:
@@ -493,34 +376,24 @@ async def _run_pipeline(
         )
         logger.info(f"Report saved to: {report_path}")
 
-    # ── Phase 5.5: Persist to Knowledge DB ───────────────────────
+    # ── Phase 5.5: Unified Knowledge Store Persistence ───────────
     try:
-        from article_db import ArticleDB
-        adb = ArticleDB(os.path.join(DATA_DIR, "knowledge.db"))
+        from article_db import KnowledgeStore
+        ks = KnowledgeStore(os.path.join(DATA_DIR, "knowledge.db"))
 
-        # Sync sources into knowledge.db
-        if sources:
-            adb.sync_sources(sources)
-
-        # Upsert all articles
-        stats = adb.batch_upsert_articles(articles)
-
-        # Register report
-        adb.create_report(
-            report_path=report_path,
+        ks.persist_run(
+            sources=sources if sources else [],
+            articles=raw_articles_for_clustering,
+            curated_events=curated_events,
             week_label=week_label,
-            event_count=adb.event_count(week_label),
-            article_count=len(articles),
+            report_path=report_path,
+            raw_articles_by_index=raw_articles_for_clustering,
         )
 
-        adb.close()
-        logger.info(
-            f"Knowledge DB: {stats['inserted']} new, "
-            f"{stats['updated']} updated articles, "
-            f"report registered for {week_label}"
-        )
+        ks.close()
+        logger.info(f"KnowledgeStore persisted for {week_label}")
     except Exception as e:
-        logger.warning(f"Knowledge DB persistence failed (non-fatal): {e}")
+        logger.warning(f"KnowledgeStore persistence failed (non-fatal): {e}")
 
     return articles
 
@@ -584,7 +457,6 @@ async def main():
             config=config,
             llm=llm,
             collector=collector,
-            skip_merge=True,
             skip_source_eval=True,
             skip_report=True,
         )

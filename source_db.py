@@ -84,6 +84,7 @@ def _now() -> str:
 _CONNECTOR_FIELDS = {
     "query", "max_results",
     "github_owner", "github_repo", "github_subtype",
+    "post_filter", "max_age_days", "weight",
 }
 
 
@@ -102,6 +103,12 @@ def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
                 d[key] = d["metadata"][key]
     # Convert enabled int -> bool
     d["enabled"] = bool(d.get("enabled", True))
+    # Bridge DB field names → extractor field names
+    # DB stores 'canonical_url', but extractors read 'endpoint' or 'url'
+    if not d.get("endpoint") and d.get("canonical_url"):
+        d["endpoint"] = d["canonical_url"]
+    if not d.get("url") and d.get("canonical_url"):
+        d["url"] = d["canonical_url"]
     # Backward compat: derive 'active' from status + enabled
     d["active"] = d["enabled"] and d.get("status") == "active"
     return d

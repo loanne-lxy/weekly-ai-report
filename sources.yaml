@@ -6,6 +6,7 @@ sources:
   endpoint: https://rss.arxiv.org/rss/cs.SY
   post_filter:
     max_age_days: 7
+  enabled: false
   weight: 6
   id: rss:rss.arxiv.org:cs.SY
   trust: 1.0
@@ -24,6 +25,7 @@ sources:
   endpoint: https://rss.arxiv.org/rss/physics.comp-ph
   post_filter:
     max_age_days: 7
+  enabled: false
   weight: 7
   id: rss:rss.arxiv.org:physics.comp-ph
   trust: 1.0
@@ -109,6 +111,14 @@ sources:
   endpoint: https://rss.arxiv.org/rss/cs.RO
   post_filter:
     max_age_days: 7
+    include_keywords:
+    - AI
+    - deep learning
+    - neural network
+    - LLM
+    - transformer
+    - reinforcement learning
+    - agent
   weight: 7
   id: rss:rss.arxiv.org:cs.RO
   trust: 1.0
@@ -119,6 +129,7 @@ sources:
   endpoint: https://rss.arxiv.org/rss/cs.MS
   post_filter:
     max_age_days: 7
+  enabled: false
   weight: 5
   id: rss:rss.arxiv.org:cs.MS
   trust: 1.0
@@ -234,6 +245,12 @@ sources:
   endpoint: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
   post_filter:
     max_age_days: 7
+    include_keywords:
+    - deep learning
+    - neural network
+    - AI
+    - transformer
+    - reinforcement learning
   weight: 7
   id: rss:rss.arxiv.org:cond-mat.mtrl-sci
   trust: 1.0
@@ -399,6 +416,13 @@ sources:
   endpoint: https://rss.arxiv.org/rss/q-bio.BM
   post_filter:
     max_age_days: 7
+    include_keywords:
+    - deep learning
+    - neural network
+    - AI
+    - transformer
+    - protein
+    - molecular
   weight: 7
   id: rss:rss.arxiv.org:q-bio.BM
   trust: 1.0

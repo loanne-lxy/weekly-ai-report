@@ -58,6 +58,7 @@ class SourceRegistry:
         self._sources: list[dict[str, Any]] = []
         self._state: dict[str, dict[str, Any]] = {}  # keyed by source id
         self._db: SourceDB | None = None
+        self._yaml_loaded = False
         self._load()
 
     def _load(self):
@@ -146,8 +147,41 @@ class SourceRegistry:
 
     @property
     def sources(self) -> list[dict[str, Any]]:
-        """All sources (backward compat dicts)."""
-        return self._sources
+        """All sources — read directly from YAML, merge runtime state from DB."""
+        if not self._yaml_loaded:
+            # Lazy load from YAML on first access
+            self._load_from_yaml()
+            self._yaml_loaded = True
+
+        if not os.path.exists(self.path):
+            return self._sources
+
+        # Read YAML as source of truth for static config
+        try:
+            with open(self.path, encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+        except Exception:
+            return self._sources
+
+        raw_sources = data.get("sources", [])
+        result = []
+        for s in raw_sources:
+            src_id = s.get("id", "")
+            resolved = self._normalize(s)
+            resolved["id"] = src_id
+            # Merge runtime state from DB
+            if src_id and src_id in self._state:
+                for k, v in self._state[src_id].items():
+                    resolved[k] = v
+            # DB may have extra runtime fields — merge them
+            if src_id:
+                db_row = self._db.get_by_id(src_id)
+                if db_row:
+                    for field in _STATE_FIELDS:
+                        if field not in resolved and field in db_row:
+                            resolved[field] = db_row[field]
+            result.append(resolved)
+        return result
 
     @property
     def active_sources(self) -> list[dict[str, Any]]:

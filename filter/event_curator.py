@@ -110,7 +110,7 @@ class EventCurator:
         if not events:
             return []
 
-        sem = asyncio.Semaphore(2)
+        sem = asyncio.Semaphore(5)
         loop = asyncio.get_running_loop()
 
         batches = [events[i:i + BATCH_SIZE] for i in range(0, len(events), BATCH_SIZE)]

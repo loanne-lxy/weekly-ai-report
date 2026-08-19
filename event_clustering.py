@@ -61,8 +61,29 @@ def _get_model(model_name: str = DEFAULT_MODEL) -> Any:
     if model_name not in _model_cache:
         try:
             from fastembed import TextEmbedding
-            logger.info(f"Loading embedding model: {model_name}...")
-            _model_cache[model_name] = TextEmbedding(model_name)
+            import os
+
+            # Fastembed needs explicit cache_dir — default /tmp is often cleaned
+            cache_base = os.path.expanduser("~/.cache/fastembed")
+            os.makedirs(cache_base, exist_ok=True)
+
+            # Check if model files already exist locally
+            model_dir = model_name.split("/")[-1]
+            for candidate in [
+                os.path.join(cache_base, model_dir + "-onnx-Q"),
+                os.path.join(cache_base, model_dir),
+            ]:
+                if os.path.isdir(candidate) and os.path.exists(
+                    os.path.join(candidate, "model_optimized.onnx")
+                ):
+                    logger.info(f"Loading embedding model from local cache: {candidate}")
+                    break
+            else:
+                logger.info(f"Loading embedding model: {model_name}...")
+
+            _model_cache[model_name] = TextEmbedding(
+                model_name=model_name, cache_dir=cache_base
+            )
             logger.info("Embedding model loaded.")
         except Exception as e:
             logger.warning(f"Failed to load embedding model: {e}")
@@ -161,7 +182,19 @@ def _cluster_social_bertopic(
         ngram_range=(1, 2), max_df=0.95, min_df=1,
     )
 
-    emb_backend = FastEmbedBackend(embedding_model=DEFAULT_MODEL)
+    # Pre-load model to populate fastembed's internal cache,
+    # so BERTopic's FastEmbedBackend won't try to download again
+    _preloaded_model = _get_model()
+
+    class _FastEmbedBackendWithCache:
+        """Wrapper that reuses the pre-loaded model instead of creating a new one."""
+        def __init__(self):
+            self.embedding_model = _preloaded_model
+
+        def embed(self, texts, **kwargs):
+            return list(self.embedding_model.embed(texts))
+
+    emb_backend = _FastEmbedBackendWithCache()
 
     umap_m = umap.UMAP(
         n_neighbors=cfg["n_neighbors"],

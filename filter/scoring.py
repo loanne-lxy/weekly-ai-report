@@ -330,7 +330,7 @@ def score_event(
 
 def sort_events(
     events: list[dict[str, Any]],
-    top_n_per_category: int = 10,
+    top_n_per_category: int = 50,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """
     Sort events: group by category → sort by final_score desc → take top N.

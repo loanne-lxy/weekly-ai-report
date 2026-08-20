@@ -236,6 +236,42 @@ def _cluster_social_bertopic(
     return clusters
 
 
+# ── Semantic dedup ─────────────────────────────────────────────
+def _semantic_dedup(
+    articles: list[dict[str, Any]],
+    embeddings: np.ndarray,
+    threshold: float = 0.85,
+) -> tuple[list[dict[str, Any]], np.ndarray, list[int]]:
+    """
+    Remove semantically duplicate articles (cosine > threshold).
+    Greedy: keep the first article, drop any that is >threshold similar to a kept one.
+    Returns (deduped_articles, deduped_embeddings, kept_original_indices).
+    """
+    n = len(articles)
+    if n < 2 or embeddings.size == 0:
+        return articles, embeddings, list(range(n))
+
+    norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
+    norms = np.where(norms < 1e-10, 1.0, norms)
+    emb_norm = embeddings / norms
+
+    kept: set[int] = {0}
+    for j in range(1, n):
+        max_sim = 0.0
+        for i in kept:
+            sim = float(np.dot(emb_norm[i], emb_norm[j]))
+            if sim > max_sim:
+                max_sim = sim
+        if max_sim > threshold:
+            continue
+        kept.add(j)
+
+    kept_sorted = sorted(kept)
+    removed = n - len(kept_sorted)
+    logger.info(f"Semantic dedup: {n} → {len(kept_sorted)} articles ({removed} removed)")
+    return [articles[i] for i in kept_sorted], embeddings[kept_sorted], kept_sorted
+
+
 # ── 主聚类入口 ───────────────────────────────────────────────────
 def cluster_articles(
     articles: list[dict[str, Any]],
@@ -269,6 +305,13 @@ def cluster_articles(
     embeddings = np.stack(
         [np.array(e, dtype=np.float32) for e in model.embed(texts)]
     )
+
+    # 1.5 Semantic dedup: remove near-duplicate articles (cosine > 0.85)
+    dedup_articles, dedup_embeddings, kept_indices = _semantic_dedup(articles, embeddings)
+    original_embeddings = embeddings  # keep full-size for curator
+    articles = dedup_articles
+    embeddings = dedup_embeddings
+    n = len(articles)
 
     # 2. 分桶
     buckets = _split_buckets(articles)
@@ -311,8 +354,13 @@ def cluster_articles(
 
     events.sort(key=lambda e: e.importance, reverse=True)
 
+    # Remap article_indices back to original indices
+    idx_map = {new: orig for new, orig in enumerate(kept_indices)}
+    for evt in events:
+        evt.article_indices = [idx_map[i] for i in evt.article_indices if i in idx_map]
+
     logger.info(f"Clustering done: {n} articles → {len(events)} events")
-    return events, embeddings
+    return events, original_embeddings
 
 
 # ── Truncate texts ─────────────────────────────────────────────

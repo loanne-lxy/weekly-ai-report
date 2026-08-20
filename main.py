@@ -429,6 +429,21 @@ async def main():
                 os.remove(db_path)
                 logger.info(f"Reset {db}")
 
+        # Also clear this week's events and event_articles from knowledge.db
+        import sqlite3
+        kb_path = os.path.join(DATA_DIR, "knowledge.db")
+        if os.path.exists(kb_path):
+            iso = datetime.now(timezone.utc).isocalendar()
+            wl = f"{iso[0]}-W{iso[1]:02d}"
+            conn = sqlite3.connect(kb_path)
+            conn.execute("DELETE FROM event_articles WHERE event_id IN (SELECT id FROM events WHERE week_label=?)", (wl,))
+            conn.execute("DELETE FROM events WHERE week_label=?", (wl,))
+            conn.execute("DELETE FROM report_events WHERE report_id IN (SELECT id FROM reports WHERE week_label=?)", (wl,))
+            conn.execute("DELETE FROM reports WHERE week_label=?", (wl,))
+            conn.commit()
+            conn.close()
+            logger.info(f"Reset knowledge.db events for {wl}")
+
     config = load_config()
     sources = load_sources()
 
@@ -519,7 +534,7 @@ async def main():
             collector.start_stage("Fetch", 0)
         manager = IngestionManager(
             concurrency=config["fetch"].get("concurrency", 10),
-            timeout=config["fetch"].get("timeout", 30),
+            timeout=config["fetch"].get("timeout", 90),
         )
         raw_articles = await manager.fetch(sources)
         articles = [a.model_dump() for a in raw_articles]
@@ -528,6 +543,7 @@ async def main():
             collector.end_stage(len(articles))
     else:
         articles = []
+        logger.info("Skipping fetch (--no-fetch)")
 
     # Apply time-based boost
     now = datetime.now(timezone.utc)

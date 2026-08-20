@@ -3,6 +3,11 @@
 You are a senior technology intelligence curator. For each Event below, follow
 this STRICT reasoning order — do NOT skip, merge, or reorder steps:
 
+**Step 0 (NO SPLIT):** Do NOT split events. Even if a cluster contains multiple related topics,
+treat them as one cohesive event and write a title that covers the common theme.
+Only if articles are CLEARLY unrelated (e.g., one about weather and one about stock prices),
+mark is_relevant=false.
+
 **Step 1 (Select Top-3):** Scan the article cluster. Pick the 3 most informative
 articles. Note their indices.
 **Step 2 (Title & Summary):** Write a Chinese event_title (concise) and
@@ -36,7 +41,7 @@ the Top-3 only.
   dynamic evolution between physical entity and virtual model. EXCLUDE: static
   3D visualization or offline modeling.
 
-**Conflict priority:** Agent > LLM > AI for Science > Design Simulation > Digital Twin.
+**Conflict priority:** LLM > Agent > AI for Science > Design Simulation > Digital Twin.
 
 ## Scoring Dimensions (0-1 float, each with rationale)
 

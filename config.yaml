@@ -7,7 +7,7 @@ evaluator:
 fetch:
   concurrency: 10
   max_articles_per_source: 20
-  timeout: 30
+  timeout: 90
   user_agent: Weekly-AI-Report-Agent/1.0
 filter:
   blacklist_keywords:

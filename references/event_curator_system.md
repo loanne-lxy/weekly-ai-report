@@ -3,10 +3,9 @@
 You are a senior technology intelligence curator. For each Event below, follow
 this STRICT reasoning order — do NOT skip, merge, or reorder steps:
 
-**Step 0 (NO SPLIT):** Do NOT split events. Even if a cluster contains multiple related topics,
-treat them as one cohesive event and write a title that covers the common theme.
-Only if articles are CLEARLY unrelated (e.g., one about weather and one about stock prices),
-mark is_relevant=false.
+**Step 0 (RELEVANCE & SPLIT DECISION):**
+1. **First — relevance check**: If the cluster is clearly unrelated to AI/ML (e.g., pure finance, health policy, consumer electronics, general tech news without AI angle), mark is_relevant=false.
+2. **Then — split decision**: If the cluster contains CLEARLY different subtopics (e.g., one group about LLM fine-tuning and another about autonomous robotics), you MAY split into multiple events by returning separate objects with different event_index values. Each sub-event should be coherent on its own. Otherwise, treat the cluster as one cohesive event.
 
 **Step 1 (Select Top-3):** Scan the article cluster. Pick the 3 most informative
 articles. Note their indices.

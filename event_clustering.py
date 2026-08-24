@@ -60,33 +60,12 @@ _model_cache: dict[str, Any] = {}
 def _get_model(model_name: str = DEFAULT_MODEL) -> Any:
     if model_name not in _model_cache:
         try:
-            from fastembed import TextEmbedding
-            import os
+            from embedding_model import get_embedding_model
 
-            # Fastembed needs explicit cache_dir — default /tmp is often cleaned
-            cache_base = os.path.expanduser("~/.cache/fastembed")
-            os.makedirs(cache_base, exist_ok=True)
-
-            # Check if model files already exist locally
-            model_dir = model_name.split("/")[-1]
-            for candidate in [
-                os.path.join(cache_base, model_dir + "-onnx-Q"),
-                os.path.join(cache_base, model_dir),
-            ]:
-                if os.path.isdir(candidate) and os.path.exists(
-                    os.path.join(candidate, "model_optimized.onnx")
-                ):
-                    logger.info(f"Loading embedding model from local cache: {candidate}")
-                    break
-            else:
-                logger.info(f"Loading embedding model: {model_name}...")
-
-            _model_cache[model_name] = TextEmbedding(
-                model_name=model_name, cache_dir=cache_base
-            )
+            _model_cache[model_name] = get_embedding_model(model_name)
             logger.info("Embedding model loaded.")
         except Exception as e:
-            logger.warning(f"Failed to load embedding model: {e}")
+            logger.exception(f"Failed to load embedding model: {e}")
             _model_cache[model_name] = None
     return _model_cache[model_name]
 
@@ -368,18 +347,12 @@ def _truncate_texts(texts: list[str], model: Any) -> list[str]:
     """用 fastembed 模型的 tokenizer 截断到窗口大小。"""
     try:
         from tokenizers import Tokenizer
+        from embedding_model import tokenizer_path
 
         tokenizer = None
-        cache_dir = getattr(model, "cache_dir", None)
-        if cache_dir:
-            import os
-
-            for root, _dirs, files in os.walk(str(cache_dir)):
-                if "tokenizer.json" in files:
-                    tokenizer = Tokenizer.from_file(
-                        os.path.join(root, "tokenizer.json")
-                    )
-                    break
+        tokenizer_file = tokenizer_path(model)
+        if tokenizer_file:
+            tokenizer = Tokenizer.from_file(str(tokenizer_file))
 
         if tokenizer is not None:
             model_obj = getattr(model, "_model", None)

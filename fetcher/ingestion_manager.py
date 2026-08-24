@@ -1,5 +1,4 @@
 """统一调度中心 — 读 sources.yaml → 路由到 extractor → 返回 RawArticle 列表。
-
 架构:
   Source Registry → IngestionManager → FetchManager (HTTP/Retry/Cache/RateLimit) → Connector
   ───────────────   ────────────────   ──────────────────────────────────────────  ─────────
@@ -146,7 +145,7 @@ class IngestionManager:
         # Use FetchManager if available, else create one
         fm = self.fetch_manager
         if fm is None:
-            fm = FetchManager(concurrency=self.concurrency)
+            fm = FetchManager(concurrency=self.concurrency, default_timeout=float(self.timeout))
             await fm.start()
             created = True
         else:

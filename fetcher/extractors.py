@@ -241,10 +241,14 @@ class GitHubExtractor:
         self, session, owner, repo, source, fetch_manager,
     ):
         """Fetch repo releases using PyGithub (manages its own HTTP)."""
+        import os
         from github import Github, RateLimitExceededException
 
-        # Disable PyGithub retry to avoid blocking for minutes on 403
-        g = Github(retry=None)
+        # 读取环境变量的token
+        github_token = os.getenv("GITHUB_TOKEN")
+        # 把token传入PyGithub，retry=None保持原有逻辑
+        g = Github(login_or_token=github_token, retry=None)
+
         try:
             r = g.get_repo(f"{owner}/{repo}")
         except RateLimitExceededException:

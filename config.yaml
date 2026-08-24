@@ -101,8 +101,8 @@ filter:
     - 预测性维护
     name: 数字孪生
 model:
-  api_key: dummy
-  base_url: http://8.130.169.133:8088/v1
+  api_key: ${QWEN_API_KEY}
+  base_url: http://10.70.222.26:4100/v1
   max_retries: 5
   max_tokens: 8192
   name: Qwen3.6-27B

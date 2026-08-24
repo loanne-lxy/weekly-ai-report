@@ -15,7 +15,6 @@ import logging
 from typing import Any, List
 
 import numpy as np
-from fastembed import TextEmbedding
 
 logger = logging.getLogger(__name__)
 
@@ -32,7 +31,9 @@ class SemanticDeduplicator:
     ):
         self.threshold = threshold
         logger.info(f"Loading embedding model: {model_name}...")
-        self.embed_model = TextEmbedding(model_name=model_name)
+        from embedding_model import get_embedding_model
+
+        self.embed_model = get_embedding_model(model_name)
         logger.info("Embedding model loaded.")
         self._tokenizer = self._load_tokenizer()
         self._faiss = self._try_faiss()
@@ -41,17 +42,11 @@ class SemanticDeduplicator:
         """Load tokenizer from the fastembed model cache for truncation."""
         try:
             from tokenizers import Tokenizer
+            from embedding_model import tokenizer_path
 
-            # fastembed stores the model in a cache dir
-            cache_dir = getattr(self.embed_model, "cache_dir", None)
-            if cache_dir:
-                return Tokenizer.from_file(str(cache_dir / "tokenizer.json"))
-
-            # Fallback: try to find tokenizer.json in model path
-            import os
-            for root, dirs, files in os.walk(getattr(self.embed_model, "model_dir", cache_dir or "")):
-                if "tokenizer.json" in files:
-                    return Tokenizer.from_file(os.path.join(root, "tokenizer.json"))
+            tokenizer_file = tokenizer_path(self.embed_model)
+            if tokenizer_file:
+                return Tokenizer.from_file(str(tokenizer_file))
         except Exception as e:
             logger.warning(f"Could not load tokenizer for truncation: {e}")
         return None

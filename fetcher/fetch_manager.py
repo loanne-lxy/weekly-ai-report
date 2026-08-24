@@ -38,7 +38,7 @@ class FetchRequest:
     method: str = "GET"
     headers: dict[str, str] = field(default_factory=dict)
     body: bytes | None = None
-    timeout: float = 30.0
+    timeout: float | None = None
 
     # Auto-computed
     cache_key: str = ""

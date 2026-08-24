@@ -1,66 +1,69 @@
 sources:
 - category: DigitalTwin
+  connector: rss
+  enabled: false
+  endpoint: https://rss.arxiv.org/rss/cs.SY
+  id: rss:rss.arxiv.org:cs.SY
+  max_results: 5
   name: arXiv cs.SY
   note: Systems & control, digital twin core research
-  connector: rss
-  endpoint: https://rss.arxiv.org/rss/cs.SY
   post_filter:
     max_age_days: 7
-  enabled: false
-  weight: 6
-  id: rss:rss.arxiv.org:cs.SY
   trust: 1.0
-  max_results: 5
+  weight: 6
 - category: LLM
-  name: OpenAI Blog
   connector: rss
   endpoint: https://openai.com/blog/rss.xml
-  weight: 9
   id: rss:openai.com
+  name: OpenAI Blog
   trust: 1.0
+  weight: 9
 - category: AI4Science
+  connector: rss
+  enabled: false
+  endpoint: https://rss.arxiv.org/rss/physics.comp-ph
+  id: rss:rss.arxiv.org:physics.comp-ph
+  max_results: 5
   name: arXiv physics.comp-ph
   note: Computational physics, PINN, simulation
-  connector: rss
-  endpoint: https://rss.arxiv.org/rss/physics.comp-ph
   post_filter:
     max_age_days: 7
-  enabled: false
-  weight: 7
-  id: rss:rss.arxiv.org:physics.comp-ph
   trust: 1.0
-  max_results: 5
+  weight: 7
 - category: LLM
-  name: blog.langchain.dev
   connector: rss
   endpoint: https://blog.langchain.dev/rss.xml
-  weight: 7
   id: rss:blog.langchain.dev
+  name: blog.langchain.dev
   trust: 1.0
+  weight: 7
 - category: LLM
-  name: HackerNews Best
   connector: rss
   endpoint: https://hnrss.org/best
-  weight: 5
   id: rss:hnrss.org
+  name: HackerNews Best
   trust: 0.7
+  weight: 5
 - category: LLM
-  name: Reddit r/LocalLLaMA
   connector: rss
   endpoint: https://www.reddit.com/r/LocalLLaMA/top/.rss?t=week
-  weight: 5
   id: rss:reddit.com
+  name: Reddit r/LocalLLaMA
   trust: 0.7
+  weight: 5
 - category: DigitalTwin
-  name: arXiv cs.CE
-  note: Computational Engineering, digital twin research
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.CE
-  weight: 6
   id: rss:rss.arxiv.org:cs.CE
-  trust: 1.0
+  name: arXiv cs.CE
+  note: Computational Engineering, digital twin research
   post_filter:
-    max_age_days: 7
+    exclude_keywords:
+    - cooling
+    - thermal
+    - remeshing
+    - crystal plasticity
+    - topology optimization
     include_keywords:
     - agent
     - assistant
@@ -69,22 +72,22 @@ sources:
     - AI
     - neural
     - transformer
-    exclude_keywords:
-    - cooling
-    - thermal
-    - remeshing
-    - crystal plasticity
-    - topology optimization
+    max_age_days: 7
+  trust: 1.0
+  weight: 6
 - category: DigitalTwin
-  name: arXiv cs.MA
-  note: Multiagent systems, digital twin applications
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.MA
-  weight: 7
   id: rss:rss.arxiv.org:cs.MA
-  trust: 1.0
+  name: arXiv cs.MA
+  note: Multiagent systems, digital twin applications
   post_filter:
-    max_age_days: 7
+    exclude_keywords:
+    - UAV
+    - drone
+    - grassland
+    - ecological
+    - segregation
     include_keywords:
     - agent
     - multi-agent
@@ -98,92 +101,97 @@ sources:
     - benchmark
     - meta
     - cognition
-    exclude_keywords:
-    - UAV
-    - drone
-    - grassland
-    - ecological
-    - segregation
+    max_age_days: 7
+  trust: 1.0
+  weight: 7
 - category: DigitalTwin
-  name: arXiv cs.RO
-  note: Robotics, digital twin in autonomous systems
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.RO
-  post_filter:
-    max_age_days: 7
-    include_keywords:
-    - AI
-    - deep learning
-    - neural network
-    - LLM
-    - transformer
-    - reinforcement learning
-    - agent
-  weight: 7
   id: rss:rss.arxiv.org:cs.RO
+  name: arXiv cs.RO
+  note: Robotics, digital twin in autonomous systems
+  post_filter:
+    include_keywords:
+    - agent
+    - agentic
+    - robot
+    - manipulation
+    - reinforcement learning
+    - autonomous
+    - navigation
+    - control
+    - planning
+    - VLA
+    - multimodal
+    max_age_days: 7
   trust: 1.0
+  weight: 7
 - category: DesignSimulation
+  connector: rss
+  enabled: false
+  endpoint: https://rss.arxiv.org/rss/cs.MS
+  id: rss:rss.arxiv.org:cs.MS
+  max_results: 5
   name: arXiv cs.MS
   note: Mathematical software, simulation tools
-  connector: rss
-  endpoint: https://rss.arxiv.org/rss/cs.MS
   post_filter:
     max_age_days: 7
-  enabled: false
-  weight: 5
-  id: rss:rss.arxiv.org:cs.MS
   trust: 1.0
-  max_results: 5
+  weight: 5
 - category: DigitalTwin
+  connector: exa_search
+  id: exa_search:b9ec90e3
   max_results: 10
   name: 'Exa: Digital Twin Industrial'
-  query: ("digital twin" OR "DT") AND (deployment OR industrial OR manufacturing OR
-    "smart city") AND after:2026-05-01
-  connector: exa_search
-  weight: 6
-  id: exa_search:b9ec90e3
+  query: ("digital twin" OR "DT") AND (deployment OR industrial OR manufacturing OR "smart city") AND after:2026-05-01
   trust: 0.6
+  weight: 6
 - category: DesignSimulation
+  connector: exa_search
+  id: exa_search:4cb4ce25
   max_results: 8
   name: 'Exa: Design Simulation CAE'
-  query: ("generative design" OR "topology optimization" OR "surrogate model") AND
-    (simulation OR CAD OR CAE) AND after:2026-05-01
-  connector: exa_search
-  weight: 6
-  id: exa_search:4cb4ce25
+  query: ("generative design" OR "topology optimization" OR "surrogate model") AND (simulation OR CAD OR CAE) AND after:2026-05-01
   trust: 0.6
+  weight: 6
 - category: LLM
+  connector: exa_search
+  id: exa_search:04c15fce
   max_results: 10
   name: 'Exa: LLM Latest'
-  query: ("LLM" OR "Large Language Model") AND (release OR benchmark OR SOTA) AND
-    ("multimodal" OR "reasoning" OR "efficiency") AND after:2026-05-01
-  connector: exa_search
-  weight: 8
-  id: exa_search:04c15fce
+  query: ("LLM" OR "Large Language Model") AND (release OR benchmark OR SOTA) AND ("multimodal" OR "reasoning" OR "efficiency")
+    AND after:2026-05-01
   trust: 0.6
+  weight: 8
 - category: AI4Science
+  connector: exa_search
+  id: exa_search:991b0be5
   max_results: 8
   name: 'Exa: AI for Science'
-  query: ("AI for Science" OR "AI4Science") AND (discovery OR breakthrough) AND ("protein"
-    OR "molecular" OR "material" OR "drug") AND after:2026-05-01
-  connector: exa_search
-  weight: 6
-  id: exa_search:991b0be5
+  query: ("AI for Science" OR "AI4Science") AND (discovery OR breakthrough) AND ("protein" OR "molecular" OR "material" OR
+    "drug") AND after:2026-05-01
   trust: 0.6
+  weight: 6
 - category: LLM
-  name: Nature Machine Intelligence
   connector: rss
   endpoint: https://www.nature.com/natmachintell/rss
-  weight: 5
   id: rss:nature.com
+  name: Nature Machine Intelligence
   trust: 1.0
+  weight: 5
 - category: DesignSimulation
-  name: arXiv cs.GR
-  note: Computer graphics, simulation, visualization
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.GR
+  id: rss:rss.arxiv.org:cs.GR
+  name: arXiv cs.GR
+  note: Computer graphics, simulation, visualization
   post_filter:
-    max_age_days: 7
+    exclude_keywords:
+    - medical
+    - clinical
+    - surgical
+    - anatomical
+    - segmentation
     include_keywords:
     - GPU
     - 3D
@@ -197,35 +205,16 @@ sources:
     - neural
     - transformer
     - rendering
-    exclude_keywords:
-    - medical
-    - clinical
-    - surgical
-    - anatomical
-    - segmentation
-  weight: 7
-  id: rss:rss.arxiv.org:cs.GR
+    max_age_days: 7
   trust: 1.0
+  weight: 7
 - category: DesignSimulation
-  name: arXiv cs.CV
-  note: Computer vision, 3D reconstruction, NeRF
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.CV
+  id: rss:rss.arxiv.org:cs.CV
+  name: arXiv cs.CV
+  note: Computer vision, 3D reconstruction, NeRF
   post_filter:
-    max_age_days: 7
-    include_keywords:
-    - agent
-    - multimodal
-    - diffusion
-    - training
-    - flow matching
-    - generation
-    - video
-    - visual
-    - vision language
-    - VLM
-    - transformer
-    - LLM
     exclude_keywords:
     - medical
     - cell
@@ -235,142 +224,96 @@ sources:
     - MRI
     - pulmonary
     - clinical
-  weight: 7
-  id: rss:rss.arxiv.org:cs.CV
+    include_keywords:
+    - agent
+    - agentic
+    - multimodal
+    - VLM
+    - vision language
+    - 3D reconstruction
+    - NeRF
+    - diffusion
+    - generation
+    - video
+    max_age_days: 7
   trust: 1.0
+  weight: 7
 - category: AI4Science
-  name: arXiv cond-mat.mtrl-sci
-  note: Materials science, crystal structure prediction
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
+  id: rss:rss.arxiv.org:cond-mat.mtrl-sci
+  max_results: 5
+  name: arXiv cond-mat.mtrl-sci
+  note: Materials science, crystal structure prediction
   post_filter:
-    max_age_days: 7
     include_keywords:
     - deep learning
     - neural network
     - AI
     - transformer
     - reinforcement learning
-  weight: 7
-  id: rss:rss.arxiv.org:cond-mat.mtrl-sci
+    max_age_days: 7
   trust: 1.0
-  max_results: 5
+  weight: 7
 - category: Agent
+  connector: exa_search
+  id: exa_search:efb7e780
   max_results: 10
   name: 'Exa: AI Agents Framework'
-  query: ("AI Agent" OR "autonomous agent" OR "multi-agent" OR "coding agent" OR "AI
-    tool" OR "AI platform" OR "AI product") AND ("framework" OR "benchmark" OR "tool
-    use" OR "release" OR "launch" OR "open source" OR "announcement" OR "demo") AND
+  query: ("AI Agent" OR "autonomous agent" OR "multi-agent" OR "coding agent" OR "AI tool" OR "AI platform" OR "AI product")
+    AND ("framework" OR "benchmark" OR "tool use" OR "release" OR "launch" OR "open source" OR "announcement" OR "demo") AND
     after:2026-05-01
-  connector: exa_search
-  weight: 8
-  id: exa_search:efb7e780
   trust: 0.6
+  weight: 8
 - category: Agent
+  connector: github
   github_owner: microsoft
   github_repo: autogen
   github_subtype: github_repo
-  name: AutoGen (GitHub)
-  connector: github
-  weight: 7
   id: github:microsoft/autogen
+  name: AutoGen (GitHub)
   trust: 1.0
+  weight: 7
 - category: Agent
+  connector: github
   github_owner: crewAIInc
   github_repo: crewAI
   github_subtype: github_repo
-  name: CrewAI (GitHub)
-  connector: github
-  weight: 7
   id: github:crewAIInc/crewAI
+  name: CrewAI (GitHub)
   trust: 1.0
+  weight: 7
 - category: LLM
+  connector: github
   github_owner: huggingface
   github_repo: transformers
   github_subtype: github_repo
-  name: HuggingFace Transformers (GitHub)
-  connector: github
-  weight: 7
   id: github:huggingface/transformers
+  name: HuggingFace Transformers (GitHub)
   trust: 1.0
+  weight: 7
 - category: Agent
+  connector: github
   github_owner: langchain-ai
   github_repo: langchain
   github_subtype: github_repo
-  name: LangChain (GitHub)
-  connector: github
-  weight: 7
   id: github:langchain-ai/langchain
+  name: LangChain (GitHub)
   trust: 1.0
+  weight: 7
 - category: Agent
-  github_subtype: github_trending
-  name: GitHub Trending
   connector: github
-  weight: 5
+  github_subtype: github_trending
   id: github:trending
+  name: GitHub Trending
   trust: 1.0
+  weight: 5
 - category: LLM
-  name: arXiv cs.AI
   connector: rss
   endpoint: https://arxiv.org/rss/cs.AI
-  weight: 5
   id: rss:arxiv.org:cs.AI
-  trust: 1.0
+  name: arXiv cs.AI
   post_filter:
-    max_age_days: 7
-    include_keywords:
-    - agent
-    - multi-agent
-    - orchestration
-    - routing
-    - sparsity
-    - diffusion
-    - PDE
-    - physics
-    - simulation
-    - chaotic
-    - PINN
-    - optimizer
-    - compression
-    - activation
-    - merge
-    - efficiency
-    - FLOPs
-    - preference
-    - alignment
-    - benchmark
-    - vision language
-    - multimodal
-    - video
-    - security
-    - attack
-    - defense
-    - risk
-    - robot
-    - manipulation
-    - VLA
-    - grasping
-    - memory
-    - context
-    - attention
-    - sparse
-    - reasoning
-    - code
-    - training
-    - model
-    - transformer
-    - neural
-    - network
-    - learning
-    - KAN
-    - Mamba
-    - state space
-    - operator
-    - emulator
-    - GNN
-    - graph
-    - topology
-    - regularization
     exclude_keywords:
     - medical
     - cardiac
@@ -400,22 +343,59 @@ sources:
     - adolescent
     - opioid
     - CRISPR
+    include_keywords:
+    - agent
+    - multi-agent
+    - agentic
+    - orchestration
+    - routing
+    - multimodal
+    - vision language
+    - VLM
+    - PDE
+    - PINN
+    - physics-informed
+    - chaotic
+    - diffusion
+    - state space
+    - Mamba
+    - KAN
+    - GNN
+    max_age_days: 7
+  trust: 1.0
+  weight: 5
 - category: LLM
-  name: arXiv cs.LG
   connector: rss
   endpoint: https://arxiv.org/rss/cs.LG
-  weight: 5
   id: rss:arxiv.org:cs.LG
-  trust: 1.0
+  name: arXiv cs.LG
   post_filter:
+    include_keywords:
+    - agent
+    - multi-agent
+    - agentic
+    - multimodal
+    - VLM
+    - diffusion
+    - state space
+    - Mamba
+    - KAN
+    - GNN
+    - graph
+    - reinforcement
+    - robotics
+    - computer vision
     max_age_days: 7
+  trust: 1.0
+  weight: 5
 - category: AI4Science
-  name: arXiv q-bio.BM
-  note: Quantitative biology — protein, drug discovery
   connector: rss
   endpoint: https://rss.arxiv.org/rss/q-bio.BM
+  id: rss:rss.arxiv.org:q-bio.BM
+  max_results: 5
+  name: arXiv q-bio.BM
+  note: Quantitative biology — protein, drug discovery
   post_filter:
-    max_age_days: 7
     include_keywords:
     - deep learning
     - neural network
@@ -423,14 +403,13 @@ sources:
     - transformer
     - protein
     - molecular
-  weight: 7
-  id: rss:rss.arxiv.org:q-bio.BM
+    max_age_days: 7
   trust: 1.0
-  max_results: 5
+  weight: 7
 - category: Agent
-  name: InfoQ AI
   connector: rss
   endpoint: https://www.infoq.cn/feed
-  weight: 6
   id: rss:www.infoq.cn
+  name: InfoQ AI
   trust: 0.8
+  weight: 6

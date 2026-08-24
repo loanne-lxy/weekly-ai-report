@@ -32,7 +32,7 @@ import numpy as np
 from fetcher.ingestion_manager import IngestionManager
 from extractors.contract import RawArticle, CuratedArticle
 from dedup.deduplicator import Deduplicator
-from filter.filter_summarizer import FilterSummarizer
+# from filter.filter_summarizer import FilterSummarizer  # dead: depends on deleted curator_cache
 from evaluator.source_evaluator import SourceEvaluator
 from evaluator.source_discoverer import SourceDiscoverer
 from generator.report_generator import generate_report
@@ -416,7 +416,8 @@ async def _run_pipeline(
 
 async def main():
     parser = argparse.ArgumentParser(description="Weekly AI Report Agent")
-    parser.add_argument("--no-fetch", action="store_true", help="Skip fetching")
+    parser.add_argument("--from-cache", metavar="FILE",
+        help="Skip fetching and load articles from a JSON file (e.g. output/2026-W34/articles.json)")
     parser.add_argument("--reset", action="store_true", help="Reset dedup DB (for testing)")
     parser.add_argument("--baseline", action="store_true", help="Run baseline with sampled sources + metrics")
     parser.add_argument("--regression", type=str, metavar="DIR", help="Regression test against saved baseline dir")
@@ -528,7 +529,13 @@ async def main():
             sample_mode="sampled",
         )
 
-    if not args.no_fetch:
+    if args.from_cache:
+        # Load articles from a previously saved JSON file
+        logger.info(f"=== Loading articles from cache: {args.from_cache} ===")
+        with open(args.from_cache, encoding="utf-8") as f:
+            articles = json.load(f)
+        logger.info(f"Loaded {len(articles)} articles from cache")
+    else:
         logger.info("=== Phase 1: Fetching ===")
         if collector:
             collector.start_stage("Fetch", 0)
@@ -541,9 +548,6 @@ async def main():
         logger.info(f"Fetched {len(articles)} raw articles")
         if collector:
             collector.end_stage(len(articles))
-    else:
-        articles = []
-        logger.info("Skipping fetch (--no-fetch)")
 
     # Apply time-based boost
     now = datetime.now(timezone.utc)

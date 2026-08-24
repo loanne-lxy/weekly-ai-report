@@ -439,8 +439,38 @@ async def check_extraction(
         from fetcher.extractors import get_extractor
         extractor = get_extractor(connector)
 
-        # Call the actual extractor
-        raw_articles = await extractor.extract(session, source)
+        # ── Try rss_guesses first (from link_miner) ──────────
+        source = dict(candidate)
+        source.setdefault("url", endpoint)
+        source.setdefault("endpoint", endpoint)
+
+        raw_articles = []
+        actual_endpoint = endpoint
+        actual_connector = connector
+
+        rss_guesses = candidate.get("rss_guesses", [])
+        if rss_guesses:
+            logger.info(f"L2 [{endpoint}]: trying {len(rss_guesses)} RSS guesses first...")
+            for guess in rss_guesses:
+                try:
+                    test_source = dict(source)
+                    test_source["endpoint"] = guess
+                    test_source["url"] = guess
+                    test_source["connector"] = "rss"
+                    guess_articles = await get_extractor("rss").extract(session, test_source)
+                    if guess_articles and len(guess_articles) > 0:
+                        raw_articles = guess_articles
+                        actual_endpoint = guess
+                        actual_connector = "rss"
+                        result.extraction_method = "rss_guess_success"
+                        result.reasons.append(f"rss_guess_hit:{guess}")
+                        break
+                except Exception:
+                    continue
+
+        # If RSS guesses failed or none, fall back to original connector
+        if not raw_articles:
+            raw_articles = await extractor.extract(session, source)
 
         if raw_articles and len(raw_articles) > 0:
             first = raw_articles[0]

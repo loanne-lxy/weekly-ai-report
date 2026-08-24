@@ -16,7 +16,17 @@ _BLOCKED = {
     'reddit.com', 'hackernews.com', 'news.ycombinator.com',
     'amazon.com', 'google.com', 'microsoft.com',
     'npmjs.com', 'pypi.org', 'crates.io',
+    # Large media — not useful as niche sources
+    'techcrunch.com', 'theverge.com', 'wired.com',
+    'cnn.com', 'bbc.com', 'reuters.com',
 }
+
+# Common RSS feed paths to try when we only have a domain
+_RSS_PATHS = [
+    '/feed.xml', '/rss.xml', '/feed', '/rss', '/atom.xml',
+    '/blog/feed.xml', '/blog/rss.xml', '/blog/feed',
+    '/index.xml', '/posts/index.xml',
+]
 
 
 def _normalize_domain(url: str) -> str:
@@ -58,9 +68,10 @@ def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
         if a.get('priority_score', 0) < 8.0:
             continue
 
-        # 从正文/摘要提取 URL
+        # 从全文提取 URL（content > preview > summary > tldr）
         text = (
-            a.get('content_preview', '')
+            a.get('content', '')
+            + ' ' + a.get('content_preview', '')
             + ' ' + a.get('ai_summary', '')
             + ' ' + a.get('summary', '')
             + ' ' + a.get('tldr', '')
@@ -77,7 +88,8 @@ def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
                 candidates[domain] = {
                     'domain': domain,
                     'urls': {clean_url},
-                    'ref_articles': [],  # 存文章对象用于推断 category
+                    'rss_guesses': [],
+                    'ref_articles': [],
                 }
             candidates[domain]['urls'].add(clean_url)
             candidates[domain]['ref_articles'].append(a)
@@ -85,6 +97,11 @@ def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
     results = []
     for domain, info in candidates.items():
         category = _dominant_category(info['ref_articles'])
+
+        # Generate RSS feed guesses for this domain
+        for path in _RSS_PATHS:
+            info['rss_guesses'].append(f"https://{domain}{path}")
+
         results.append({
             'name': domain,
             'url': list(info['urls'])[0],
@@ -92,6 +109,7 @@ def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
             'category': category,
             'weight': min(5 + len(info['urls']), 8),
             'discovered_by': 'link_miner',
+            'rss_guesses': info['rss_guesses'],
             'referenced_by': list(set(
                 a.get('chinese_title', a.get('title', ''))[:40]
                 for a in info['ref_articles']

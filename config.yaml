@@ -3,7 +3,7 @@ evaluator:
   max_sources: 80
   min_weekly_output: 2
   stale_weeks: 4
-  protect_types: [github]  # Never auto-archive these (rate-limited ≠ stale)
+  protect_types: [github, arxiv]  # Never auto-archive these (rate-limited/timeout ≠ stale)
 fetch:
   concurrency: 10
   max_articles_per_source: 20

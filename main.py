@@ -84,6 +84,51 @@ def _time_boost(days_old: int) -> int:
     else: return -2
 
 
+def _dedup_events(events: list[dict], threshold: float = 0.75) -> list[dict]:
+    """Merge events with similar title+summary using semantic similarity.
+
+    Uses the same embedding model as article-level dedup.
+    Keeps the higher-scored event, merges article_indices from the duplicate.
+    """
+    if len(events) < 2:
+        return events
+
+    try:
+        from embedding_model import get_embedding_model
+    except ImportError:
+        logger.warning("embedding_model not available, skipping event dedup")
+        return events
+
+    # Build title+summary texts
+    texts = [f"{e.get('title', '')} {e.get('summary', '')}" for e in events]
+    model = get_embedding_model()
+    embs = np.stack([np.array(e, dtype=np.float32) for e in model.embed(texts)])  # shape (n, d)
+
+    # Normalize to unit vectors for cosine similarity
+    norms = np.linalg.norm(embs, axis=1, keepdims=True)
+    norms[norms == 0] = 1.0
+    embs = embs / norms
+
+    # Greedy merge: iterate events in score order (already sorted),
+    # mark duplicates by checking against kept events
+    kept = np.ones(len(events), dtype=bool)
+    for i in range(len(events)):
+        if not kept[i]:
+            continue
+        for j in range(i + 1, len(events)):
+            if not kept[j]:
+                continue
+            sim = float(np.dot(embs[i], embs[j]))
+            if sim >= threshold:
+                # Merge j into i: combine article_indices
+                kept[j] = False
+                idx_i = events[i].get("article_indices", [])
+                idx_j = events[j].get("article_indices", [])
+                events[i]["article_indices"] = list(set(idx_i) | set(idx_j))
+
+    return [e for e, k in zip(events, kept) if k]
+
+
 async def _run_pipeline(
     articles: list[dict],
     config: dict,
@@ -208,6 +253,12 @@ async def _run_pipeline(
             reverse=True,
         )
 
+        # ── Event-level semantic dedup ────────────────────────────
+        logger.info("=== Event Dedup ===")
+        before = len(curated_events)
+        curated_events = _dedup_events(curated_events)
+        logger.info(f"Event Dedup: {before} → {len(curated_events)} (-{before - len(curated_events)})")
+
         # ── Scoring: apply combined scoring system ──────────────
         try:
             from filter.scoring import score_event, sort_events
@@ -281,6 +332,26 @@ async def _run_pipeline(
         evaluator = SourceEvaluator("sources.yaml", config)
         archived_count = sum(1 for s in sources if s.get("active") is False)
         sources = evaluator.evaluate(articles, sources)
+
+        # ★ Persist eval state back to SourceDB so scores survive across cycles
+        try:
+            from source_db import SourceDB
+            _eval_db = SourceDB(os.path.join(DATA_DIR, "source.db"))
+            for s in sources:
+                src_id = s.get("id")
+                if not src_id:
+                    continue
+                _eval_db.update_state(
+                    src_id,
+                    eval_score=s.get("eval_score", 5.0),
+                    streak_failures=s.get("streak_failures", 0),
+                    status="archived" if not s.get("enabled", True) else "active",
+                )
+            _eval_db.close()
+            logger.info("Source eval state persisted to source.db")
+        except Exception as e:
+            logger.warning(f"Source eval state persistence failed (non-fatal): {e}")
+
         archived_after = sum(1 for s in sources if s.get("active") is False)
         newly_archived = archived_after - archived_count
 

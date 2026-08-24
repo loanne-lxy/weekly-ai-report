@@ -41,7 +41,7 @@ class SourceEvaluator:
                 continue
 
             # 更新评估分
-            prev_score = s.get("eval_score", s.get("weight", 5))
+            prev_score = s.get("eval_score", 5)
             if count >= self.min_weekly:
                 s["eval_score"] = min(10, prev_score + 1)
                 s["streak_failures"] = 0

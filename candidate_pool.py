@@ -162,11 +162,12 @@ def _upsert_candidate(conn: sqlite3.Connection, candidate: dict) -> None:
 
 def get_pending_candidates(db_path: str = "data/candidates.db") -> list[dict]:
     conn = _init_db(db_path)
-    rows = conn.execute(
+    cur = conn.execute(
         "SELECT * FROM candidates WHERE status = 'pending' ORDER BY discovered_at DESC"
-    ).fetchall()
+    )
+    cols = [desc[0] for desc in cur.description]
+    rows = cur.fetchall()
     conn.close()
-    cols = [desc[0] for desc in rows.description]
     return [dict(zip(cols, row)) for row in rows]
 
 

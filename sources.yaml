@@ -9,15 +9,11 @@ sources:
   note: Systems & control, digital twin core research
   post_filter:
     max_age_days: 7
-  trust: 1.0
-  weight: 6
 - category: LLM
   connector: rss
   endpoint: https://openai.com/blog/rss.xml
   id: rss:openai.com
   name: OpenAI Blog
-  trust: 1.0
-  weight: 9
 - category: AI4Science
   connector: rss
   enabled: false
@@ -28,29 +24,21 @@ sources:
   note: Computational physics, PINN, simulation
   post_filter:
     max_age_days: 7
-  trust: 1.0
-  weight: 7
 - category: LLM
   connector: rss
   endpoint: https://blog.langchain.dev/rss.xml
   id: rss:blog.langchain.dev
   name: blog.langchain.dev
-  trust: 1.0
-  weight: 7
 - category: LLM
   connector: rss
   endpoint: https://hnrss.org/best
   id: rss:hnrss.org
   name: HackerNews Best
-  trust: 0.7
-  weight: 5
 - category: LLM
   connector: rss
   endpoint: https://www.reddit.com/r/LocalLLaMA/top/.rss?t=week
   id: rss:reddit.com
   name: Reddit r/LocalLLaMA
-  trust: 0.7
-  weight: 5
 - category: DigitalTwin
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.CE
@@ -73,8 +61,6 @@ sources:
     - neural
     - transformer
     max_age_days: 7
-  trust: 1.0
-  weight: 6
 - category: DigitalTwin
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.MA
@@ -102,8 +88,6 @@ sources:
     - meta
     - cognition
     max_age_days: 7
-  trust: 1.0
-  weight: 7
 - category: DigitalTwin
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.RO
@@ -124,8 +108,6 @@ sources:
     - VLA
     - multimodal
     max_age_days: 7
-  trust: 1.0
-  weight: 7
 - category: DesignSimulation
   connector: rss
   enabled: false
@@ -136,49 +118,39 @@ sources:
   note: Mathematical software, simulation tools
   post_filter:
     max_age_days: 7
-  trust: 1.0
-  weight: 5
 - category: DigitalTwin
   connector: exa_search
   id: exa_search:b9ec90e3
   max_results: 10
   name: 'Exa: Digital Twin Industrial'
-  query: ("digital twin" OR "DT") AND (deployment OR industrial OR manufacturing OR "smart city") AND after:2026-05-01
-  trust: 0.6
-  weight: 6
+  query: ("digital twin" OR "DT") AND (deployment OR industrial OR manufacturing OR
+    "smart city") AND after:2026-05-01
 - category: DesignSimulation
   connector: exa_search
   id: exa_search:4cb4ce25
   max_results: 8
   name: 'Exa: Design Simulation CAE'
-  query: ("generative design" OR "topology optimization" OR "surrogate model") AND (simulation OR CAD OR CAE) AND after:2026-05-01
-  trust: 0.6
-  weight: 6
+  query: ("generative design" OR "topology optimization" OR "surrogate model") AND
+    (simulation OR CAD OR CAE) AND after:2026-05-01
 - category: LLM
   connector: exa_search
   id: exa_search:04c15fce
   max_results: 10
   name: 'Exa: LLM Latest'
-  query: ("LLM" OR "Large Language Model") AND (release OR benchmark OR SOTA) AND ("multimodal" OR "reasoning" OR "efficiency")
-    AND after:2026-05-01
-  trust: 0.6
-  weight: 8
+  query: ("LLM" OR "Large Language Model") AND (release OR benchmark OR SOTA) AND
+    ("multimodal" OR "reasoning" OR "efficiency") AND after:2026-05-01
 - category: AI4Science
   connector: exa_search
   id: exa_search:991b0be5
   max_results: 8
   name: 'Exa: AI for Science'
-  query: ("AI for Science" OR "AI4Science") AND (discovery OR breakthrough) AND ("protein" OR "molecular" OR "material" OR
-    "drug") AND after:2026-05-01
-  trust: 0.6
-  weight: 6
+  query: ("AI for Science" OR "AI4Science") AND (discovery OR breakthrough) AND ("protein"
+    OR "molecular" OR "material" OR "drug") AND after:2026-05-01
 - category: LLM
   connector: rss
   endpoint: https://www.nature.com/natmachintell/rss
   id: rss:nature.com
   name: Nature Machine Intelligence
-  trust: 1.0
-  weight: 5
 - category: DesignSimulation
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.GR
@@ -206,8 +178,6 @@ sources:
     - transformer
     - rendering
     max_age_days: 7
-  trust: 1.0
-  weight: 7
 - category: DesignSimulation
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cs.CV
@@ -236,8 +206,6 @@ sources:
     - generation
     - video
     max_age_days: 7
-  trust: 1.0
-  weight: 7
 - category: AI4Science
   connector: rss
   endpoint: https://rss.arxiv.org/rss/cond-mat.mtrl-sci
@@ -253,18 +221,15 @@ sources:
     - transformer
     - reinforcement learning
     max_age_days: 7
-  trust: 1.0
-  weight: 7
 - category: Agent
   connector: exa_search
   id: exa_search:efb7e780
   max_results: 10
   name: 'Exa: AI Agents Framework'
-  query: ("AI Agent" OR "autonomous agent" OR "multi-agent" OR "coding agent" OR "AI tool" OR "AI platform" OR "AI product")
-    AND ("framework" OR "benchmark" OR "tool use" OR "release" OR "launch" OR "open source" OR "announcement" OR "demo") AND
+  query: ("AI Agent" OR "autonomous agent" OR "multi-agent" OR "coding agent" OR "AI
+    tool" OR "AI platform" OR "AI product") AND ("framework" OR "benchmark" OR "tool
+    use" OR "release" OR "launch" OR "open source" OR "announcement" OR "demo") AND
     after:2026-05-01
-  trust: 0.6
-  weight: 8
 - category: Agent
   connector: github
   github_owner: microsoft
@@ -272,8 +237,6 @@ sources:
   github_subtype: github_repo
   id: github:microsoft/autogen
   name: AutoGen (GitHub)
-  trust: 1.0
-  weight: 7
 - category: Agent
   connector: github
   github_owner: crewAIInc
@@ -281,8 +244,6 @@ sources:
   github_subtype: github_repo
   id: github:crewAIInc/crewAI
   name: CrewAI (GitHub)
-  trust: 1.0
-  weight: 7
 - category: LLM
   connector: github
   github_owner: huggingface
@@ -290,8 +251,6 @@ sources:
   github_subtype: github_repo
   id: github:huggingface/transformers
   name: HuggingFace Transformers (GitHub)
-  trust: 1.0
-  weight: 7
 - category: Agent
   connector: github
   github_owner: langchain-ai
@@ -299,15 +258,11 @@ sources:
   github_subtype: github_repo
   id: github:langchain-ai/langchain
   name: LangChain (GitHub)
-  trust: 1.0
-  weight: 7
 - category: Agent
   connector: github
   github_subtype: github_trending
   id: github:trending
   name: GitHub Trending
-  trust: 1.0
-  weight: 5
 - category: LLM
   connector: rss
   endpoint: https://arxiv.org/rss/cs.AI
@@ -362,8 +317,6 @@ sources:
     - KAN
     - GNN
     max_age_days: 7
-  trust: 1.0
-  weight: 5
 - category: LLM
   connector: rss
   endpoint: https://arxiv.org/rss/cs.LG
@@ -386,8 +339,6 @@ sources:
     - robotics
     - computer vision
     max_age_days: 7
-  trust: 1.0
-  weight: 5
 - category: AI4Science
   connector: rss
   endpoint: https://rss.arxiv.org/rss/q-bio.BM
@@ -404,12 +355,8 @@ sources:
     - protein
     - molecular
     max_age_days: 7
-  trust: 1.0
-  weight: 7
 - category: Agent
   connector: rss
   endpoint: https://www.infoq.cn/feed
   id: rss:www.infoq.cn
   name: InfoQ AI
-  trust: 0.8
-  weight: 6

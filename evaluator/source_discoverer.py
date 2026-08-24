@@ -148,6 +148,8 @@ class SourceDiscoverer:
                 raise ValueError(f"LLM returned no parseable JSON: {response[:200]}")
 
             for obj in candidates:
+                if not isinstance(obj, dict):
+                    continue
                 endpoint = (obj.get('endpoint', '') or obj.get('url', '')).strip()
                 if not endpoint.startswith('http') or endpoint in existing_endpoints:
                     continue
@@ -157,7 +159,6 @@ class SourceDiscoverer:
                     'endpoint': endpoint,
                     'connector': obj.get('connector', _infer_type(endpoint)),
                     'category': obj.get('category', _infer_category(top_articles)),
-                    'weight': 5,
                     'discovered_by': 'llm_agent',
                 })
                 logger.info(
@@ -180,7 +181,6 @@ class SourceDiscoverer:
                         'endpoint': src['endpoint'],
                         'connector': src['connector'],
                         'category': src['category'],
-                        'weight': 3,  # Lower weight for fallback sources
                         'discovered_by': 'known_fallback',
                     })
 

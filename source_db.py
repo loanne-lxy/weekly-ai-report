@@ -17,9 +17,7 @@ Schema:
   ├── category        TEXT              (LLM, Agent, etc.)
   ├── status          TEXT              (active, archived, pending)
   ├── enabled         BOOLEAN
-  ├── priority        INTEGER           (1-10)
-  ├── trust           REAL              (0-1)
-  ├── metadata        TEXT              (JSON)
+  ├── metadata        TEXT              (JSON: query, max_results, etc.)
   ├── created_at      TEXT              (ISO 8601)
   ├── updated_at      TEXT              (ISO 8601)
   ├── articles_this_week INTEGER
@@ -27,6 +25,9 @@ Schema:
   ├── eval_score       REAL
   ├── last_fetched     TEXT
   └── last_success     TEXT
+
+  DEPRECATED columns (still in DB for backward compat, stripped on read):
+    priority, trust, weight — use eval_score instead.
 """
 from __future__ import annotations
 
@@ -84,12 +85,15 @@ def _now() -> str:
 _CONNECTOR_FIELDS = {
     "query", "max_results",
     "github_owner", "github_repo", "github_subtype",
-    "post_filter", "max_age_days", "weight",
+    "post_filter", "max_age_days",
 }
 
 
 def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
     d = dict(row)
+    # Strip dead fields from DB (trust/weight/priority — not used at runtime)
+    for dead in ("trust", "weight", "priority"):
+        d.pop(dead, None)
     # Parse metadata JSON
     if isinstance(d.get("metadata"), str):
         try:
@@ -184,9 +188,9 @@ class SourceDB:
         self._conn.execute("""
             INSERT INTO sources
                 (id, name, canonical_url, source_type, connector, category,
-                 status, enabled, priority, trust, metadata,
+                 status, enabled, metadata,
                  created_at, updated_at, articles_this_week, streak_failures, eval_score)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, ?)
             ON CONFLICT(id) DO UPDATE SET
                 name            = EXCLUDED.name,
                 canonical_url   = COALESCE(EXCLUDED.canonical_url, sources.canonical_url),
@@ -194,8 +198,6 @@ class SourceDB:
                 category        = EXCLUDED.category,
                 status          = EXCLUDED.status,
                 enabled         = EXCLUDED.enabled,
-                priority        = EXCLUDED.priority,
-                trust           = EXCLUDED.trust,
                 metadata        = EXCLUDED.metadata,
                 updated_at      = EXCLUDED.updated_at,
                 eval_score      = COALESCE(EXCLUDED.eval_score, sources.eval_score)
@@ -208,8 +210,6 @@ class SourceDB:
             source.get("category", source.get("default_category")),
             source.get("status", "active"),
             1 if source.get("enabled", source.get("active", True)) else 0,
-            source.get("priority", source.get("weight", 5)),
-            source.get("trust", 1.0),
             metadata,
             now,
             now,

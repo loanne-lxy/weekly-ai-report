@@ -107,7 +107,6 @@ def mine_links(articles: list[dict], existing_domains: set[str]) -> list[dict]:
             'url': list(info['urls'])[0],
             'type': 'web',
             'category': category,
-            'weight': min(5 + len(info['urls']), 8),
             'discovered_by': 'link_miner',
             'rss_guesses': info['rss_guesses'],
             'referenced_by': list(set(

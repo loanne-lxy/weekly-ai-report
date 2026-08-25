@@ -84,7 +84,7 @@ def _time_boost(days_old: int) -> int:
     else: return -2
 
 
-def _dedup_events(events: list[dict], threshold: float = 0.75) -> list[dict]:
+def _dedup_events(events: list[dict], threshold: float = 0.70) -> list[dict]:
     """Merge events with similar title+summary using semantic similarity.
 
     Uses the same embedding model as article-level dedup.

@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Science — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #10b981;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #10b98115; color: #10b981;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Event Card ── */
+.event-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.event-card.carried { opacity: 0.65; }
+.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Score Badges Row ── */
+.score-badges {
+  display: flex; gap: 16px; margin-bottom: 12px;
+}
+.score-badge-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: #595959;
+}
+.score-badge-item .badge {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
+.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
+.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+
+/* ── Event Title ── */
+.event-title {
+  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
+  line-height: 1.4;
+}
+.event-title a { color: inherit; text-decoration: none; }
+.event-title a:hover { color: #1677ff; }
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+}
+
+/* ── Event Summary ── */
+.event-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+/* ── Sources Info ── */
+.sources-info {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.source-tag {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
+  font-size: 12px; color: #1a5276;
+}
+
+/* ── Key Insights ── */
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+/* ── Tags ── */
+.event-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Linked Articles (expandable) ── */
+.articles-expand {
+  margin-top: 12px;
+}
+.articles-expand summary {
+  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
+  user-select: none;
+}
+.articles-expand summary:hover { text-decoration: underline; }
+.articles-expand .article-list {
+  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
+}
+.article-list .article-item {
+  padding: 6px 0; font-size: 13px; color: #595959;
+  border-bottom: 1px solid #f5f5f5;
+}
+.article-list .article-item:last-child { border-bottom: none; }
+.article-list .article-item a {
+  color: #1a1a1a; text-decoration: none;
+}
+.article-list .article-item a:hover { color: #1677ff; }
+.article-list .article-item .article-source {
+  font-size: 12px; color: #8c8c8c; margin-left: 8px;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .event-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🔬</span>
+    <h1>AI for Science</h1>
+    <span class="count-badge">15 个事件</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周AI for Science领域聚焦生成式AI、量子计算与物理信息机器学习的深度融合，通过突破分子对接、非平衡态模拟及物理仿真的精度与效率瓶颈，全面加速科学计算与药物发现向高效精准方向演进。
+  </div>
+  
+
+  <!-- Events Container -->
+  
+  <div class="events-container" id="events">
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">70</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">70</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">80</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        AI与量子计算驱动的生物分子设计与推理
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">生物分子计算研究正融合量子计算与生成式AI，代表性工作利用NISQ量子计算机优化分子对接，并结合生成幻觉与视觉潜空间推理实现序列-结构协同设计，整体趋势向高效、精准的AI驱动药物发现演进。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.13244v1" target="_blank" rel="noopener">
+              Localize, Then Reason: Visual Latent Structural Reasoning for Molecular Properties and Edits
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.17381v1" target="_blank" rel="noopener">
+              Leveraging generative hallucination and biophysics-informed modeling for unified biomolecular sequence-structure co-design
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.19868v1" target="_blank" rel="noopener">
+              Resource-Efficient Bio-Molecular Docking on a NISQ-era Digital Quantum Computer
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">70</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">70</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于机器学习哈密顿量的光激发分子动力学模拟
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作提出TDAP-eML框架，代表计算物理向机器学习势函数演进的方向，整体趋势正突破传统分子动力学在光激发非平衡态模拟中的尺度瓶颈。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20994v1" target="_blank" rel="noopener">
+              Scalable photoexcitation-induced molecular dynamics with machine-learned Hamiltonians
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        物理信息机器学习核函数理论与可微高保真场传播器研究
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">研究明确了物理信息核函数在科学机器学习中的正半定性条件，并提出了突破精度-速度权衡的可微高保真矢量场传播器，推动物理仿真与AI的深度融合。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20762v1" target="_blank" rel="noopener">
+              Differentiable high-fidelity vectorial propagator
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20985v1" target="_blank" rel="noopener">
+              Resolving positive semi-definiteness in physics-informed kernels for scientific machine learning
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        证据驱动多智能体系统赋能生物机器人设计
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究提出证据驱动的多智能体框架，将高层应用需求自动转化为基于基因电路的生物机器人传感与逻辑设计，代表AI辅助合成生物学与生物混合系统交叉设计的新趋势。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.19699v1" target="_blank" rel="noopener">
+              An Evidence-Grounded Multi-Agent System for High-Level Bio-Robot Design
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        蛋白质工程与结构生成AI方法新进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期研究聚焦利用深度学习与贝叶斯网络优化蛋白质多参数工程、结构生成新颖性评估及相互作用预测，整体呈现向高精度、可解释与多任务协同演进的趋势。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 5 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        <span class="source-tag">Nature Machine Intelligence</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 5 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.10598v1" target="_blank" rel="noopener">
+              Is Retrieval All You Need? Assessment and Emergence of Novelty in Protein Structure Generation
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.12090v2" target="_blank" rel="noopener">
+              Task- and dataset-specific information in protein language models
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.17759v1" target="_blank" rel="noopener">
+              Recovering protein conformations from single-particle cryo-EM data via indirect shape matching gradient flows
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.18604v1" target="_blank" rel="noopener">
+              Multitask Bayesian Neural Networks for Multiparameter Protein Engineering
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01291-z" target="_blank" rel="noopener">
+              Quantitative and interface-aware prediction of peptide–protein interactions by VITAL
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于条件潜空间迁移的癌症药物响应预测
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">当前研究致力于解决肿瘤异质性与数据稀缺下的药物响应预测难题，PerturbRx代表工作通过治疗条件潜空间迁移建模，推动AI辅助精准医疗向动态干预预测发展。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.LG</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21349v1" target="_blank" rel="noopener">
+              PerturbRx: Learning Treatment-Conditioned Latent Transitions for Patient Drug Response Prediction
+            </a>
+            <span class="article-source">arXiv cs.LG</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        解剖学先验引导的神经网络与血管介入形变建模
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">提出解剖学信息神经网络(AINN)，将软性解剖先验作为损失惩罚项融入模型架构，并结合SE(3)公式实现导丝诱导的主动脉髂动脉形变高精度建模。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21332v1" target="_blank" rel="noopener">
+              Anatomy-Informed Neural Networks: Encoding Anatomic Priors in Loss and Architecture, with an SE(3) Formulation of Guidewire-Induced Aortoiliac Deformation
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        面向生存预测的协变量重校准迁移学习框架
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">提出CoxRTL方法，利用外部队列数据在目标数据有限且部署结果未知时，通过协变量重校准提升生存预测模型的泛化能力。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Nature Machine Intelligence</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01285-x" target="_blank" rel="noopener">
+              Transfer learning with deployment-covariate recalibration for survival prediction under covariate shift
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于反事实预训练的PROTAC降解预测研究
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究提出DegradeQuery方法，通过反事实元组预训练构建上下文感知的PROTAC降解预测模型，标志着AI药物发现向数据高效与机制可解释方向演进。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.10595v1" target="_blank" rel="noopener">
+              DegradeQuery: Counterfactual Tuple Pretraining for Context-Aware PROTAC Degradation Prediction
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">40</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        AI驱动量子物理模拟的对称性约束与神经网络进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期研究聚焦利用神经网络与对称性约束加速量子多体模拟，涵盖神经量子态综述、误差缓解及动力学方程优化，呈现AI与物理深度交叉趋势。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20657v1" target="_blank" rel="noopener">
+              Symmetry Adapted Hierarchical Equations of Motion for Exact Simulations of Large Polariton Systems
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21103v1" target="_blank" rel="noopener">
+              Symmetry Constrained Quantum Error Mitigation for the Schwinger Model
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21291v1" target="_blank" rel="noopener">
+              Neural quantum states in condensed matter: advances, best practices, and prospects
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">40</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        神经渲染与科学数据隐式表示研究进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">研究提出面向VR/AR的实时注视点神经渲染系统，并开发基于多尺度小波的隐式神经表示方法以提升科学数据压缩效率与保真度。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.GR</span>
+        
+        
+        
+        <span class="source-tag">Nature Machine Intelligence</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.17969v1" target="_blank" rel="noopener">
+              MetaSapiens v2: Advancing Real-Time Foveated Neural Rendering via Foveation-Aware Pruning and Stereo Warping
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01287-9" target="_blank" rel="noopener">
+              Multi-resolution enhancement for full-spectrum neural representations
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        生命科学视觉伪影解读基准VIALS发布
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">推出VIALS视觉问答基准，涵盖161项生命科学实验工作流中的视觉伪影解读任务，旨在评估AI在生物技术研发中的视觉理解能力。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21357v1" target="_blank" rel="noopener">
+              VIALS: A Benchmark for Visual Interpretation of Artifacts in the Life Sciences
+            </a>
+            <span class="article-source">arXiv cs.AI</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于PINN的废弃油井地热改造技术经济分析
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究利用物理信息神经网络对废弃油井改造为闭环地热系统进行技术经济分析，反映AI正加速赋能传统能源设施低碳转型与物理系统建模。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CE</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21092v1" target="_blank" rel="noopener">
+              Techno-Economic Analysis of Repurposing Abandoned Oil Wells for Geothermal Energy Extraction Using Physics-Informed Neural Networks
+            </a>
+            <span class="article-source">arXiv cs.CE</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">40</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">40</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        农业杂草检测跨田块分布偏移下的模型迁移性研究
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">针对无人机农业图像中杂草检测模型在跨田块场景下性能下降的问题，该研究评估了现有方法在分布偏移条件下的迁移能力，为精准农业提供实证依据。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CV</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21254v1" target="_blank" rel="noopener">
+              On the Transferability of Agricultural Weed Detection Under Cross-Field Distribution Shift
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">40</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">40</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        野生鱼类行为识别新基准WildFin发布
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">针对海洋生态视频数据标注成本高及现有模型在复杂环境中失效的问题，研究团队提出WildFin基准数据集，旨在评估和改进野外鱼类行为识别的计算机视觉模型。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CV</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21281v1" target="_blank" rel="noopener">
+              WildFin: An In-the-Wild Dataset for Fish Behavioral Recognition
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+  </div>
+  
+
+  <div class="footer">生成于 2026-08-24 23:31 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #8b5cf6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #8b5cf615; color: #8b5cf6;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Event Card ── */
+.event-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.event-card.carried { opacity: 0.65; }
+.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Score Badges Row ── */
+.score-badges {
+  display: flex; gap: 16px; margin-bottom: 12px;
+}
+.score-badge-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: #595959;
+}
+.score-badge-item .badge {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
+.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
+.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+
+/* ── Event Title ── */
+.event-title {
+  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
+  line-height: 1.4;
+}
+.event-title a { color: inherit; text-decoration: none; }
+.event-title a:hover { color: #1677ff; }
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+}
+
+/* ── Event Summary ── */
+.event-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+/* ── Sources Info ── */
+.sources-info {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.source-tag {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
+  font-size: 12px; color: #1a5276;
+}
+
+/* ── Key Insights ── */
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+/* ── Tags ── */
+.event-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Linked Articles (expandable) ── */
+.articles-expand {
+  margin-top: 12px;
+}
+.articles-expand summary {
+  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
+  user-select: none;
+}
+.articles-expand summary:hover { text-decoration: underline; }
+.articles-expand .article-list {
+  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
+}
+.article-list .article-item {
+  padding: 6px 0; font-size: 13px; color: #595959;
+  border-bottom: 1px solid #f5f5f5;
+}
+.article-list .article-item:last-child { border-bottom: none; }
+.article-list .article-item a {
+  color: #1a1a1a; text-decoration: none;
+}
+.article-list .article-item a:hover { color: #1677ff; }
+.article-list .article-item .article-source {
+  font-size: 12px; color: #8c8c8c; margin-left: 8px;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .event-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🤖</span>
+    <h1>Agent</h1>
+    <span class="count-badge">12 个事件</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周AI智能体领域在安全监控、自主演进理论与底层工程化支撑方面协同突破，全面加速智能体技术的安全可控与工程化落地。
+  </div>
+  
+
+  <!-- Events Container -->
+  
+  <div class="events-container" id="events">
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">75</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Cloudflare 发布 MCP 安全控制与 Agent 追踪功能
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">Cloudflare 推出 WriteGuard 为 MCP 服务器提供细粒度安全控制，并上线 Agent Tracing 功能以优化 AI 代理的调试监控，同时更新缓存响应规则。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/1pa8asW4xOs6y2GYfl8T?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Cloudflare WriteGuard 为 MCP 服务器提供了精细化的安全控制
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/IBYDTeu3rse9tH3549wf?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Cloudflare 推出 Agent Tracing：支持截断限制，不同框架的 Payload 默认记录策略存在差异
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/kyUdCw0IPHwuIHg2WJCu?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Cloudflare 推出 Cache Response Rules，在源站响应后进一步控制缓存
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">75</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        自主AI系统的自我保存逻辑、策略自改进与安全验证
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">研究聚焦自主AI系统的自我保存逻辑、策略自改进与安全验证，呈现从理论动机到机器人规划及生成式AI验证的跨领域技术融合趋势。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        <span class="source-tag">arXiv cs.AI</span>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20940v1" target="_blank" rel="noopener">
+              The Logic of Machine Self-Preservation
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21204v1" target="_blank" rel="noopener">
+              Beyond Imitation: Self-Improving Robot Policies via Off-Policy Q-Planning
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21356v1" target="_blank" rel="noopener">
+              AI with Authority, from Application to Silicon
+            </a>
+            <span class="article-source">arXiv cs.AI</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        AI智能体基础设施与工作流开源进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">业界聚焦AI智能体底层支撑，AgentCore推出持久化计算方案，Netflix开源因果推理工作流，AWS发布Dogwood规范工具调用，共同推动Agent工程化落地。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/2IBWc7BuB2qoGao5tlQT?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              多个 AI 智能体“同住”一台 EC2：AgentCore 推出持久计算
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/3MNJh5F34GSsRQJJWJzY?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              神秘“Ox Alpha”突袭 OpenRouter，性能超过 Fable 5？全网盲猜智谱 or 小米
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/4h2jb2eOcBrP5AG5hLYt?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Netflix 开源了一个用于因果推理的智能代理工作流
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/cwj5Ikvhqu5mKH22zKsO?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              亚马逊云科技开源 Dogwood：给 AI 智能体的工具调用立规矩
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于大语言模型的多智能体系统协调拓扑与通信优化研究
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期研究聚焦于LLM驱动的多智能体系统（MAS）的协调机制与通信效率。学者们提出通过奖励引导的图生成方法优化通信拓扑，并探索了协调拓扑对系统流量模式的影响，同时验证了其在自动驾驶等复杂场景中的编排潜力。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        <span class="source-tag">arXiv cs.AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20099v1" target="_blank" rel="noopener">
+              Reward-Guided Autoregressive Graph Generation for Efficient Multi-Agent Communication Topology Design
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20129v1" target="_blank" rel="noopener">
+              Multi-Agent Orchestration with the Common-Sense Reasoning Capabilities of LLMs for Autonomous Driving
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.20494v1" target="_blank" rel="noopener">
+              Towards Traffic Modelling of Multi-Agent Systems: The Role of Coordination Topology
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21292v1" target="_blank" rel="noopener">
+              AUSO: Action-Level Unified Skill Optimization from Internalization to Utilization
+            </a>
+            <span class="article-source">arXiv cs.AI</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        视触觉融合与物理属性感知的机器人操作学习
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">研究趋势聚焦视触觉融合与物理属性感知，代表工作ViTacPhys与VT-MUSE分别通过人类演示估计物理参数及统一时序表征，推动机器人操作向细粒度跨模态依赖与动态接触建模演进。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21290v1" target="_blank" rel="noopener">
+              VT-MUSE: Multimodal Unified Sequential Visuotactile Representation Learning for Manipulation
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21355v1" target="_blank" rel="noopener">
+              ViTacPhys: Physical Property-Aware Grasping from Human Visual-Tactile Demonstrations
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">65</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于聚合数据的LLM人群仿真与形状感知强化学习控制
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">研究趋势转向数据受限场景下的智能体策略生成与密集环境控制。代表工作利用聚合移动数据蒸馏LLM仿真策略，并结合强化学习优化MPC导航，整体向隐私保护与形状感知控制演进。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.19778v1" target="_blank" rel="noopener">
+              Distilling Aggregate Mobility Statistics into a Language Model Policy for Post-Event Crowd Simulation
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21175v1" target="_blank" rel="noopener">
+              SRL-MPC: Shape-Aware Reinforcement Learned Model Predictive Control
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        神经符号动力学模型NeSAM提升非结构化地形越野移动能力
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究提出NeSAM神经符号动力学模型，通过显式融合土壤力学机制与数据驱动方法，解决传统学习型模型在可变形地形上物理可解释性差的问题，显著提升越野车辆运动预测精度。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21330v1" target="_blank" rel="noopener">
+              NeSAM: Neuro-Symbolic Kinodynamics with Soil Adaptation for Off-Road Mobility
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">40</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        LangChain推出Agent评估与测试新工具链
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">LangChain与Fireworks近日联合发布Agent开发新工具，通过低成本Trace Judge、Tuned Evaluators与Preview Builds，显著提升生产环境错误检测与代码变更测试效率。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">blog.langchain.dev</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/building-a-100x-cheaper-trace-judge-with-fireworks" target="_blank" rel="noopener">
+              Building a 100x Cheaper Trace Judge with Fireworks
+            </a>
+            <span class="article-source">blog.langchain.dev</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/introducing-langsmith-tuned-evaluators-starting-with-perceived-error" target="_blank" rel="noopener">
+              Introducing LangSmith Tuned Evaluators
+            </a>
+            <span class="article-source">blog.langchain.dev</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/langchain-agentcore-payments" target="_blank" rel="noopener">
+              AgentCore Payments middleware for LangChain agents
+            </a>
+            <span class="article-source">blog.langchain.dev</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/langsmith-preview-builds-test-agent-changes-before-production" target="_blank" rel="noopener">
+              Test Agent Changes with LangSmith Preview Builds
+            </a>
+            <span class="article-source">blog.langchain.dev</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">30</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        外骨骼AI控制路线图与网络安全智能体演进
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">综述下肢外骨骼端到端生理信号控制路径，并探讨前沿大模型向网络安全智能体转型的现状、风险与监管需求。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Nature Machine Intelligence</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01297-7" target="_blank" rel="noopener">
+              A roadmap for end-to-end task-agnostic exoskeleton control
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01301-0" target="_blank" rel="noopener">
+              Agentic AI and cybersecurity, the story so far
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">40</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于统一分支定界搜索的凸集图Steiner旅行商问题求解
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作形式化了凸集图上的Steiner旅行商问题，并提出一种基于根路径前缀的统一分支定界搜索算法，利用加性下界图成本有效探索无限解空间，优化机器人轨迹规划。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21319v1" target="_blank" rel="noopener">
+              Unified Branch-and-Bound Search for the Steiner Traveling Salesman Problem on Graphs of Convex Sets
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">40</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">40</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于海岸线几何特征的自主水面艇定位方法
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">提出利用LiDAR观测水面与海岸线几何结构，在GPS拒止环境下实现自主水面艇高精度定位的框架。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21276v1" target="_blank" rel="noopener">
+              The Coastline as a Structural Constraint: Harnessing Scene Geometry for Autonomous Surface Vessel Localization
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">40</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">30</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        太空机器人采矿与资源提取技术综述
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究系统梳理了太空采矿的关键技术路径，涵盖月球、火星及小行星的资源勘探、采样与提取，重点探讨在恶劣环境与通信延迟下的机器人自主作业挑战。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.21358v1" target="_blank" rel="noopener">
+              Mining beyond Earth with Space Robots: Exploration, Sampling, and Extraction
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+  </div>
+  
+
+  <div class="footer">生成于 2026-08-24 23:31 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

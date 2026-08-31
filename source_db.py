@@ -180,10 +180,14 @@ class SourceDB:
                 meta[key] = source[key]
         metadata = json.dumps(meta, ensure_ascii=False)
 
-        # For sources without an endpoint (Exa, GitHub repos), canonical_url is empty.
-        # Use id as the primary dedup key instead of (canonical_url, connector).
+        # For sources without an endpoint (Exa, GitHub repos), canonical_url
+        # would be '' for ALL of them and collide on the unique
+        # (canonical_url, connector) index — only the first one per connector
+        # would ever migrate. Fall back to the source id (already unique).
         canonical = source.get("canonical_url", source.get("endpoint", ""))
         src_id = source.get("id", "")
+        if not canonical:
+            canonical = src_id
 
         self._conn.execute("""
             INSERT INTO sources

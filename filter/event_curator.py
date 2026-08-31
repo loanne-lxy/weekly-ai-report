@@ -79,7 +79,7 @@ class EventCurator:
             **evt,
             "is_relevant": True,
             "event_title": evt.get("title", ""),
-            "event_summary": (evt.get("summary", "") or "")[:500],
+            "event_summary": (evt.get("summary", "") or "")[:800],
             "category": evt.get("category", "LLM"),
             "importance": 0.5,
             "importance_rationale": "(fallback: no LLM score)",
@@ -201,18 +201,24 @@ class EventCurator:
                     events="\n\n".join(event_blocks),
                 )
 
-                response = await loop.run_in_executor(
-                    None, self.llm.chat, EVENT_CURATOR_SYSTEM, user_prompt,
-                )
-
-                # Parse
-                try:
-                    cleaned = response.strip()
-                    for fence in ["```json", "```"]:
-                        cleaned = cleaned.removeprefix(fence).removesuffix(fence).strip()
-                    results = json.loads(cleaned)
-                except (json.JSONDecodeError, ValueError) as e:
-                    logger.warning(f"Event Curator batch JSON parse failed: {e}")
+                # Call LLM, retry once on empty / parse failure (transient LLM issue)
+                results = None
+                for _attempt in range(2):
+                    response = await loop.run_in_executor(
+                        None, self.llm.chat, EVENT_CURATOR_SYSTEM, user_prompt,
+                    )
+                    try:
+                        cleaned = response.strip()
+                        for fence in ["```json", "```"]:
+                            cleaned = cleaned.removeprefix(fence).removesuffix(fence).strip()
+                        results = json.loads(cleaned)
+                        break
+                    except (json.JSONDecodeError, ValueError) as e:
+                        logger.warning(
+                            f"Event Curator batch JSON parse failed "
+                            f"(attempt {_attempt + 1}/2): {e}"
+                        )
+                if results is None:
                     return [self._fallback_event(evt, embeddings) for evt in batch]
 
                 if isinstance(results, dict):
@@ -263,7 +269,7 @@ class EventCurator:
                         **evt,
                         "is_relevant": data.get("is_relevant", False),
                         "event_title": data.get("event_title", evt.get("title", "")),
-                        "event_summary": data.get("event_summary", evt.get("summary", ""))[:500],
+                        "event_summary": data.get("event_summary", evt.get("summary", ""))[:800],
                         "category": cat_map.get(raw_cat, raw_cat),
                         # 0-1 float scores
                         "importance": max(0, min(1, float(data.get("importance", 0.5)))),

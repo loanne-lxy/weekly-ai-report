@@ -105,7 +105,7 @@ model:
   base_url: http://10.70.222.26:4100/v1
   max_retries: 5
   max_tokens: 8192
-  name: Qwen3.6-27B
+  name: Qwen3.8-27B
   provider: custom
   temperature: 0.3
   timeout: 600

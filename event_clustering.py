@@ -141,7 +141,7 @@ def _cluster_social_bertopic(
     import hdbscan
     from sklearn.feature_extraction.text import CountVectorizer
     from bertopic import BERTopic
-    from bertopic.backend import FastEmbedBackend
+    from bertopic.backend import BaseEmbedder, FastEmbedBackend
 
     def _jieba_tok(text: str):
         return [
@@ -162,16 +162,22 @@ def _cluster_social_bertopic(
     )
 
     # Pre-load model to populate fastembed's internal cache,
-    # so BERTopic's FastEmbedBackend won't try to download again
+    # so BERTopic won't try to download a default model.
+    # NOTE: must subclass BaseEmbedder — select_backend() only passes
+    # through BaseEmbedder instances; anything else falls back to
+    # downloading sentence-transformers/all-MiniLM-L6-v2 (breaks on
+    # air-gapped/intranet servers).
     _preloaded_model = _get_model()
 
-    class _FastEmbedBackendWithCache:
+    class _FastEmbedBackendWithCache(BaseEmbedder):
         """Wrapper that reuses the pre-loaded model instead of creating a new one."""
         def __init__(self):
-            self.embedding_model = _preloaded_model
+            super().__init__(embedding_model=_preloaded_model)
 
-        def embed(self, texts, **kwargs):
-            return list(self.embedding_model.embed(texts))
+        def embed(self, documents, verbose=False):
+            return np.array(
+                list(self.embedding_model.embed(documents, show_progress_bar=verbose))
+            )
 
     emb_backend = _FastEmbedBackendWithCache()
 

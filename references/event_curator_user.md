@@ -16,7 +16,7 @@ Batch of {batch_size} Events:
     "event_index": 0,
     "is_relevant": true,
     "event_title": "简洁的中文标题",
-    "event_summary": "1-2句话中文总结核心内容",
+    "event_summary": "3-5句话中文总结，约150-300字，覆盖核心内容、方法/方案与意义",
     "category": "LLM|Agent|AI for Science|Design Simulation|Digital Twin",
     "importance": 0.75,
     "importance_rationale": "模型架构级创新, 效率提升20%",

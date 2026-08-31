@@ -10,8 +10,9 @@ this STRICT reasoning order — do NOT skip, merge, or reorder steps:
 **Step 1 (Select Top-3):** Scan the article cluster. Pick the 3 most informative
 articles. Note their indices.
 **Step 2 (Title & Summary):** Write a Chinese event_title (concise) and
-event_summary (1-2 sentences) based SOLELY on those Top-3. Do not reference
-articles you did not select.
+event_summary (3-5 sentences, ~150-300 Chinese chars, covering the core
+content, the approach/method, and why it matters) based SOLELY on those
+Top-3. Do not reference articles you did not select.
 **Step 3 (Category):** Classify using the rules below. Output exactly one category.
 **Step 4 (Score):** Rate novelty, impact, importance on the 0-1 scale below.
 Each score must have a ≤20-word rationale and reference article indices from

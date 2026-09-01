@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设计仿真 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #f59e0b;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #f59e0b15; color: #f59e0b;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Event Card ── */
+.event-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.event-card.carried { opacity: 0.65; }
+.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Score Badges Row ── */
+.score-badges {
+  display: flex; gap: 16px; margin-bottom: 12px;
+}
+.score-badge-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: #595959;
+}
+.score-badge-item .badge {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
+.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
+.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+
+/* ── Event Title ── */
+.event-title {
+  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
+  line-height: 1.4;
+}
+.event-title a { color: inherit; text-decoration: none; }
+.event-title a:hover { color: #1677ff; }
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+}
+
+/* ── Event Summary ── */
+.event-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+/* ── Sources Info ── */
+.sources-info {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.source-tag {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
+  font-size: 12px; color: #1a5276;
+}
+
+/* ── Key Insights ── */
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+/* ── Tags ── */
+.event-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Linked Articles (expandable) ── */
+.articles-expand {
+  margin-top: 12px;
+}
+.articles-expand summary {
+  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
+  user-select: none;
+}
+.articles-expand summary:hover { text-decoration: underline; }
+.articles-expand .article-list {
+  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
+}
+.article-list .article-item {
+  padding: 6px 0; font-size: 13px; color: #595959;
+  border-bottom: 1px solid #f5f5f5;
+}
+.article-list .article-item:last-child { border-bottom: none; }
+.article-list .article-item a {
+  color: #1a1a1a; text-decoration: none;
+}
+.article-list .article-item a:hover { color: #1677ff; }
+.article-list .article-item .article-source {
+  font-size: 12px; color: #8c8c8c; margin-left: 8px;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .event-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🎨</span>
+    <h1>设计仿真</h1>
+    <span class="count-badge">8 个事件</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周设计仿真进展聚焦于提升实时渲染与复杂系统设计效率：神经纹理压缩通过共享解码器与纹理聚类降低GPU解码线程发散，扩散模型实现介质谐振器超表面逆设计以推动可编程电磁环境落地，out-of-core块坐标下降框架则使3D高斯泼溅等大规模辐射场可在有限显存中训练。
+  </div>
+  
+
+  <!-- Events Container -->
+  
+  <div class="events-container" id="events">
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">70</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        线程高效神经纹理压缩解码
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作针对神经纹理压缩在GPU解码中的线程发散问题，提出共享解码器MLP架构与纹理聚类相结合的方案。模型采用渐进式解码器冻结训练策略，在保持渲染质量的同时降低解码线程发散。实验显示线程发散减少25%至52%，说明该方法可提升神经纹理压缩的运行时性能。该研究对实时渲染、纹理资产压缩和GPU推理效率具有实用价值。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.GR</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.27888v1" target="_blank" rel="noopener">
+              Thread-Efficient Decoding for Neural Texture Compression
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        扩散模型驱动介质谐振器超表面逆设计
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究面向未来无线系统对智能电磁环境的需求，提出基于扩散模型的介质谐振器超表面逆设计方法。其目标是通过工程化表面调控电磁波传播，实现无线感知与可编程电磁指纹等能力。方法将逆设计问题转化为生成式建模，以自动获得满足目标传播特性的超表面结构。该工作有助于降低复杂电磁结构的设计门槛，推动可编程电磁环境在通信与感知系统中的落地。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29907v1" target="_blank" rel="noopener">
+              Diffusion-Based Inverse Design of Dielectric Resonator Metasurfaces for Shaping Smart Electromagnetic Environments
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        ABCD：大型辐射场恒定显存训练框架
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">ABCD提出一种面向alpha合成辐射场的out-of-core训练框架，并在3D高斯泼溅中实例化。该方法将训练重构为空间分区上的块坐标下降，每次仅激活一个参数块，其余参数冻结，并利用alpha混合的关联律保持整体渲染一致性。通过分块激活与冻结机制，框架避免同时加载全部高斯参数，从而缓解大型场景训练的显存压力。其意义在于使更大规模辐射场可在有限GPU上训练，为大规模三维场景重建与实时渲染提供基础。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.GR</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.27735v1" target="_blank" rel="noopener">
+              ABCD: Alpha-Composited Block Coordinate Descent: Constant-VRAM Training for Large Radiance Fields
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        BLARM：视频驱动三维对象动画方法
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">BLARM提出一种前馈式视频驱动三维网格动画方法，输入单目视频和静态对象网格，即可预测时序一致的动画网格。该方法不依赖显式绑定，也不直接回归高维顶点运动，而是用一组可学习、时变的刚性运动原语表示动画，并通过混合这些原语生成对象运动。其意义在于降低三维动画制作对人工绑定和复杂回归模型的依赖，使视频内容能更直接地驱动三维对象运动，服务于三维内容生成与动态场景表现。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CV</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31113v1" target="_blank" rel="noopener">
+              BLARM: Animating 3D Objects from Video via Blending Latent Rigid Motion Primitives
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        毫米波雷达ADC信号逆渲染合成
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该论文提出mmIR，面向3D毫米波雷达原始ADC信号合成问题。针对商用毫米波雷达天线阵列小、角分辨率低，以及现有数据集多为2D距离-方位图或稀疏点云、缺乏原始ADC信号的痛点，方法在频率空间进行逆渲染以生成高保真雷达ADC数据。该工作可缓解高分辨率雷达数据稀缺问题，并降低硬件扩展与合成孔径扫描的成本。它为雷达感知、仿真与下游任务提供可规模化的数据生成方案。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.GR</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.28913v1" target="_blank" rel="noopener">
+              mmIR: Frequency-Space Inverse Rendering for 3D Millimeter-Wave Radar ADC Synthesis
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">45</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">30</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">35</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于有限元模型更新的桥梁荷载评定研究
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究针对既有桥梁竣工图纸与结构细节缺失或不完整时的荷载评定难题，提出基于有限元模型更新的承载能力评估方法。该方法在缺少完整设计资料时，通过修正有限元模型来推断关键构件的承载状态，从而给出更合理的荷载评级。该思路将结构反演与有限元分析结合，有助于降低资料缺失带来的不确定性。其意义在于提高既有桥梁安全评估的可靠性与工程实用性，为桥梁养护、加固和运营决策提供计算支撑。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CE</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30939v1" target="_blank" rel="noopener">
+              Finite Element Model Updating-based Load Rating of Bridges with Incomplete As-Built Information
+            </a>
+            <span class="article-source">arXiv cs.CE</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">45</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">20</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        CAD透明渲染方法综述
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该论文系统综述计算机辅助设计（CAD）中的透明渲染技术，覆盖工业系统部署与底层算法。文章梳理当前透明渲染方法、设计检查、工程沟通等关键应用场景，并分析性能、视觉准确性与交互体验之间的权衡。其意义在于为CAD软件在复杂装配体、工程评审和制造沟通中的透明显示提供方法选型与优化方向。该综述有助于工业软件在保持设计信息完整性的同时提升渲染效率与可用性。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.GR</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.28310v1" target="_blank" rel="noopener">
+              Transparency Rendering in Computer-Aided Design: Methodologies, Trade-offs, and Challenges
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">45</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">30</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        铜表面氧化外观预测与PBR材质生成
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作面向数字设计中的金属外观预测问题，针对铜表面氧化后的视觉变化提出一套预测与渲染管线。系统基于固定相机观测，预测未来10个加速单位后的表面外观，并将其转换为渲染器可用的反照率、法线、粗糙度和金属度贴图。论文以作者工具的实际使用方式评估预测效果，在铜样品上验证其可用性。该研究有助于在制造或设计阶段提前判断材料老化外观，提升数字样机与渲染资产制作的效率。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.GR</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.28102v1" target="_blank" rel="noopener">
+              What Will This Copper Look Like Later? Forecasting Surface Appearance and Rendering It as a PBR Material
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+  </div>
+  
+
+  <div class="footer">生成于 2026-09-01 18:20 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

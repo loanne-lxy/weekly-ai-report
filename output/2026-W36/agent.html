@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #8b5cf6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #8b5cf615; color: #8b5cf6;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Event Card ── */
+.event-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.event-card.carried { opacity: 0.65; }
+.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Score Badges Row ── */
+.score-badges {
+  display: flex; gap: 16px; margin-bottom: 12px;
+}
+.score-badge-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: #595959;
+}
+.score-badge-item .badge {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
+.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
+.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+
+/* ── Event Title ── */
+.event-title {
+  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
+  line-height: 1.4;
+}
+.event-title a { color: inherit; text-decoration: none; }
+.event-title a:hover { color: #1677ff; }
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+}
+
+/* ── Event Summary ── */
+.event-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+/* ── Sources Info ── */
+.sources-info {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.source-tag {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
+  font-size: 12px; color: #1a5276;
+}
+
+/* ── Key Insights ── */
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+/* ── Tags ── */
+.event-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Linked Articles (expandable) ── */
+.articles-expand {
+  margin-top: 12px;
+}
+.articles-expand summary {
+  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
+  user-select: none;
+}
+.articles-expand summary:hover { text-decoration: underline; }
+.articles-expand .article-list {
+  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
+}
+.article-list .article-item {
+  padding: 6px 0; font-size: 13px; color: #595959;
+  border-bottom: 1px solid #f5f5f5;
+}
+.article-list .article-item:last-child { border-bottom: none; }
+.article-list .article-item a {
+  color: #1a1a1a; text-decoration: none;
+}
+.article-list .article-item a:hover { color: #1677ff; }
+.article-list .article-item .article-source {
+  font-size: 12px; color: #8c8c8c; margin-left: 8px;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .event-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🤖</span>
+    <h1>Agent</h1>
+    <span class="count-badge">11 个事件</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周智能体研究从单体对话模型转向可验证、可审计、可协作的多智能体基础设施，重点推进黑盒强化学习协调训练、过程与结果信用分配、零知识合规验证、硬件与检索增强工作流、级联失败归因以及科研智能体自动评估与持续改进。
+  </div>
+  
+
+  <!-- Events Container -->
+  
+  <div class="events-container" id="events">
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">62</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">68</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        多智能体LLM系统的训练、信用分配与可信通信
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">本组研究聚焦多智能体LLM系统的可训练性与可信性。文章2提出黑盒强化学习中动作与参数解耦，用于训练中央协调智能体，降低长程任务中的策略优化难度。文章3将过程监督与结果信用分配结合，缓解轨迹级奖励对关键决策的粗粒度归因。文章1构建跨协议零知识谓词证明网关，使智能体间可在不泄露原始数据的情况下验证策略合规。整体趋势是从单体对话模型转向可验证、可审计、可协作的多智能体基础设施。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        <span class="source-tag">arXiv cs.AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29641v1" target="_blank" rel="noopener">
+              Harness-RL: Black-Box Reinforcement Learning with Action-Args Decoupling for Central-Agent Multi-Agent Harnesses
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30083v1" target="_blank" rel="noopener">
+              Zero-Knowledge Predicate Proofs Between AI Agents: A Measured, Cross-Protocol Gateway and the Source-Integrity Gap
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30874v1" target="_blank" rel="noopener">
+              Provably Safe Decentralized Contingency MPC under State-Only Information and Limited Sensing for Nonlinear Multi-agent Systems
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31077v1" target="_blank" rel="noopener">
+              Reconciling Process Supervision with Outcome-Based Credit in Agentic Policy Optimization
+            </a>
+            <span class="article-source">arXiv cs.AI</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">65</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        LLM多智能体在硬件开发、失败归因与RAG中的进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期LLM智能体研究从单轮生成转向多智能体协作与可靠执行。[0]提出面向硬件开发的层级IR与端到端多智能体工作流，弥补硬件设计数据与方法差异；[1]提出级联失败归因，结合拓扑/频谱与语义提升多智能体可靠性；[2]提出AgenticRag-R1，用强化学习与栈记忆支持多步检索、推理和记忆。整体趋势是增强智能体的规划、工具调用、记忆与故障诊断能力。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29622v1" target="_blank" rel="noopener">
+              AgenticRag-R1: Agentic Reinforcement Learning with Stack Memory for Multi-Step Reasoning, Retrieval and Memorizing
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29646v1" target="_blank" rel="noopener">
+              Detect Before You Attribute: Cascade Failure Attribution for Multi-Agent Systems
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30659v1" target="_blank" rel="noopener">
+              LLM-based Hardware Development with Hierarchical IRs and End-to-End Multi-Agent Workflow
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">65</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        科研智能体自动归纳评估准则
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究关注自主科研智能体在文献综述、数据分析、实验与报告生成等端到端流程中的应用。针对开放科研任务常缺少明确分析、方法与成功标准的问题，论文提出自动归纳评估准则的方法，使智能体先学习如何评价再改进执行。该机制可帮助智能体识别遗漏分析、不当方法等缺陷，提升任务完成质量。其意义在于增强科研智能体的自我评估与持续改进能力，推动自动化科研流程更可靠。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31076v1" target="_blank" rel="noopener">
+              Learning to Evaluate Before Improving: Automatic Rubric Induction for Automatic Research Agents
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        基于记忆的端到端自动驾驶场景理解与决策
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究围绕端到端自动驾驶中的记忆机制展开，强调模型需从原始传感器输入理解场景并规划轨迹。针对NAVSIM、Bench2Drive等仿真指标，论文认为高分数应反映安全合规驾驶能力，而非仅拟合人类轨迹。该工作有助于提升自动驾驶模型在复杂场景中的长期记忆、场景理解与决策可靠性。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31029v1" target="_blank" rel="noopener">
+              Driving on Memory
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">65</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Zeva：面向具身操作的上下文因果学习框架
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">Zeva面向具身操作中的泛化难题，指出仅靠预训练难以覆盖真实世界未见的物理条件。该框架让机器人在实际部署中从自身物理交互进行上下文因果学习，并将学到的知识用于后续动作决策。其核心是在线、自交互、因果化的上下文学习机制，强调把部署过程中的试错与反馈转化为可复用的因果知识。该工作对提升机器人在新环境中的操作鲁棒性、可迁移性和减少重新训练需求具有意义。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30880v1" target="_blank" rel="noopener">
+              Zeva: In-Context Causal Learning for Generalizable Embodied Manipulation
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        ECHO-OFTRL实现一般博弈常数个体遗憾
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该论文针对一般有限N人正常式博弈中的去中心化学习问题，指出已有无遗憾动态的个体遗憾保证仍随时间步数保留多项式对数依赖。作者提出ECHO-OFTRL，将乐观FTRL与EMA级联结合，用于处理高阶项并控制反馈误差。该方法在完全信息反馈下移除该依赖，使个体遗憾达到常数级别。这一结果强化了无遗憾学习通往均衡的理论基础，对多智能体在线决策、博弈均衡逼近和分布式学习算法设计具有参考价值。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.LG</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31166v1" target="_blank" rel="noopener">
+              Constant Individual Regret in General Games
+            </a>
+            <span class="article-source">arXiv cs.LG</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">65</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        AI智能体框架推动拓扑优化自动化
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">TO-Master提出面向拓扑优化的LLM智能体框架，用于自动化几何准备、网格生成、边界条件设置和求解流程。TO-Agents构建多智能体AI框架，将设计师的主观偏好转化为拓扑优化约束，实现偏好引导的结构生成。另一项研究用对抗智能体分析深度学习和物理拓扑优化模型在对抗扰动下的脆弱性与鲁棒性。这些工作表明智能体可显著降低CAE人工流程，但也暴露出模型鲁棒性风险。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 5 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: Design Simulation CAE</span>
+        
+        
+        
+        <span class="source-tag">Exa: AI Agents Framework</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 5 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.22606" target="_blank" rel="noopener">
+              Adversarial Agents on Topology Optimization: Understanding the Fragility and Robustness of Deep Learning-based and Physics-Based Design Models under Adversarial Perturbation
+            </a>
+            <span class="article-source">Exa: Design Simulation CAE</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://docshare.wps.com/document/to-master-an-llm-agent-framework-for-automated-topology-optimization/81834/" target="_blank" rel="noopener">
+              TO-Master: an LLM-agent framework for automated topology optimization
+            </a>
+            <span class="article-source">Exa: Design Simulation CAE</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://doi.org/10.48550/arxiv.2605.21622" target="_blank" rel="noopener">
+              TO-Agents: A Multi-Agent AI Framework for Subjective Preference-Guided Topology Optimization
+            </a>
+            <span class="article-source">Exa: Design Simulation CAE</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://link.springer.com/article/10.1007/s40430-026-06564-7" target="_blank" rel="noopener">
+              Robust topology optimization with non-Gaussian material fields using polygonal finite elements - Journal of the Brazilian Society of Mechanical Sciences and Engineering
+            </a>
+            <span class="article-source">Exa: Design Simulation CAE</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.microsoft.com/en-us/research/blog/orchard-an-open-framework-for-scalable-agentic-ai/" target="_blank" rel="noopener">
+              Orchard: An open framework for scalable agentic AI
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">80</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        生产级多智能体框架与托管Agent平台密集发布
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期多智能体系统正从实验原型走向生产级平台，多个框架和托管服务密集发布。Microsoft Agent Framework Harness提供稳定、内置能力的Python和.NET运行框架，降低Agent构建与集成门槛；LangChain Managed Deep Agents进入公测，提供持久执行、记忆、沙箱、通道、评估和生产基础设施；MARTI则提出基于LLM的多智能体强化训练与推理框架，支持更复杂的协作与优化。这些进展表明Agent基础设施正在标准化，企业可更快部署具备规划、工具调用和执行反馈能力的多智能体系统。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 10 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: AI Agents Framework</span>
+        
+        
+        
+        <span class="source-tag">Exa: LLM Latest</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 10 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://www.github.com/adenhq/hive" target="_blank" rel="noopener">
+              GitHub - aden-hive/hive: Multi-Agent Harness for Production AI
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.13517" target="_blank" rel="noopener">
+              DFM Mimir v1: An Open HRM Delivering Frontier Performance at 1B Parameters Using Only Permissible Post-Training Data
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://devblogs.microsoft.com/agent-framework/the-microsoft-agent-framework-harness-is-now-released/" target="_blank" rel="noopener">
+              The Microsoft Agent Framework Harness is now released | Microsoft Agent Framework
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/Human-Agent-Society/Coral" target="_blank" rel="noopener">
+              GitHub - Human-Agent-Society/CORAL: Open-source autoresearch powered by autonomous coding agents. Run Claude Code, OpenCode, and Codex with grading, shared knowledge, and multi-agent evolution. Accepted at COLM 2026.
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/YiLabsAI/HouYiAgent" target="_blank" rel="noopener">
+              GitHub - YiLabsAI/HouYiAgent: A lightweight, production-ready multi-agent framework
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/deepreinforce-ai/Ornith-1" target="_blank" rel="noopener">
+              GitHub - ornith-ai/Ornith-1
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/maheshvaikri-code/maple-oss" target="_blank" rel="noopener">
+              GitHub - maheshvaikri-code/maple-oss: MAPLE - Production-ready multi agent communication protocol with integrated resource management, type-safe error handling, secure link identification, and distributed state synchronization.
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/tsinghuac3i/marti" target="_blank" rel="noopener">
+              GitHub - TsinghuaC3I/MARTI: [ICLR 2026] A Framework for LLM-based Multi-Agent Reinforced Training and Inference
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.laiyagushi.com/YiLabsAI/HouYiAgent" target="_blank" rel="noopener">
+              GitHub - YiLabsAI/HouYiAgent: A lightweight, production-ready multi-agent framework
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta?from_theconsensus=1" target="_blank" rel="noopener">
+              Managed Deep Agents is now in public beta
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">58</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">62</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        面向遥感与具身导航的多模态代理系统
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">本组研究关注多模态大模型驱动的领域代理系统。文章0提出分层多智能体框架，将复杂遥感任务拆分为多阶段协作，提升长程任务可靠性。文章1通过合成轨迹蒸馏与上下文检索增强微调，降低遥感代理对通用大模型的依赖并增强领域知识。文章2利用VLM空间先验直接支持通用具身导航，减少任务特定模块。整体趋势是将VLM/LLM能力转化为可部署、可细化的遥感与机器人代理。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MA</span>
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30277v1" target="_blank" rel="noopener">
+              SimCRAFT: Distilling Remote Sensing Agents via Synthetic Trajectories and Contextual Retrieval-Augmented Fine-Tuning
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30672v1" target="_blank" rel="noopener">
+              HiRS-Agent: A Hierarchical Multi-Agent System for Reliable Long-Horizon Remote Sensing Task Solving
+            </a>
+            <span class="article-source">arXiv cs.MA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30935v1" target="_blank" rel="noopener">
+              LightNav-0: Eliciting VLM Spatial Intelligence for Generalist Embodied Navigation
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        机器人感知、操作与盲行运动学习进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期机器人学习研究围绕感知、操作与运动控制展开。[0]发布DARP双臂RGB-D-IR数据集，用两台眼在手机械臂从对侧视角减少自遮挡；[1]提出语言驱动的质量多样性方法，让机器人自主获取操作技能并零样本适应约束；[2]提出SleepWalking特权表征塑形，用于端到端盲行运动。整体趋势是提升机器人在部分可观测、多视角和语言约束下的自主能力。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30883v1" target="_blank" rel="noopener">
+              SleepWalking: Privileged Representation Shaping for End-to-End Blind Locomotion in Legged Robots
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30983v1" target="_blank" rel="noopener">
+              Autonomously Acquiring Robot Manipulation Skills with Language-Driven Quality-Diversity
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31002v1" target="_blank" rel="noopener">
+              DARP: A Calibrated Dual-Arm RGB-D-IR Dataset for Multi-View Robotic Perception
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">35</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">65</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        LangChain与CrewAI更新Agent工具链
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">LangChain 1.4.0a2 发布一等 MCP 适配器，可将任意 MCP 服务器转换为可直接交给 create_agent 的工具，并复用 FastMCP 的连接能力。CrewAI 1.15.18 将对话流提升为稳定能力，支持部署记录、路由响应格式、聊天流状态声明及 Crew 风格 LLM 配置。LangChain-Anthropic 1.7.0 则支持通过容器使用技能、思考展示模式、1.0 SDK 与 advisor 工具。这些更新降低了 Agent 工具接入与多轮对话部署成本，有助于统一 MCP 工具生态。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 9 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: Design Simulation CAE</span>
+        
+        
+        
+        <span class="source-tag">CrewAI (GitHub)</span>
+        
+        
+        
+        <span class="source-tag">LangChain (GitHub)</span>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 9 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://doi.org/10.1016/j.sasc.2026.200468" target="_blank" rel="noopener">
+              Redirecting
+            </a>
+            <span class="article-source">Exa: Design Simulation CAE</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://doi.org/10.5281/zenodo.20452336" target="_blank" rel="noopener">
+              Untitled
+            </a>
+            <span class="article-source">Exa: Design Simulation CAE</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.18" target="_blank" rel="noopener">
+              Release: 1.15.18
+            </a>
+            <span class="article-source">CrewAI (GitHub)</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.3.18" target="_blank" rel="noopener">
+              Release: langchain==1.3.18
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.4.0a1" target="_blank" rel="noopener">
+              Release: langchain==1.4.0a1
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.4.0a2" target="_blank" rel="noopener">
+              Release: langchain==1.4.0a2
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.7.0" target="_blank" rel="noopener">
+              Release: langchain-anthropic==1.7.0
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.6.1" target="_blank" rel="noopener">
+              Release: langchain-core==1.6.1
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-fireworks%3D%3D1.6.1" target="_blank" rel="noopener">
+              Release: langchain-fireworks==1.6.1
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+  </div>
+  
+
+  <div class="footer">生成于 2026-09-01 18:20 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

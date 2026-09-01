@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Science — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #10b981;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #10b98115; color: #10b981;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Event Card ── */
+.event-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.event-card.carried { opacity: 0.65; }
+.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Score Badges Row ── */
+.score-badges {
+  display: flex; gap: 16px; margin-bottom: 12px;
+}
+.score-badge-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: #595959;
+}
+.score-badge-item .badge {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
+.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
+.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+
+/* ── Event Title ── */
+.event-title {
+  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
+  line-height: 1.4;
+}
+.event-title a { color: inherit; text-decoration: none; }
+.event-title a:hover { color: #1677ff; }
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+}
+
+/* ── Event Summary ── */
+.event-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+/* ── Sources Info ── */
+.sources-info {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.source-tag {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
+  font-size: 12px; color: #1a5276;
+}
+
+/* ── Key Insights ── */
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+/* ── Tags ── */
+.event-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Linked Articles (expandable) ── */
+.articles-expand {
+  margin-top: 12px;
+}
+.articles-expand summary {
+  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
+  user-select: none;
+}
+.articles-expand summary:hover { text-decoration: underline; }
+.articles-expand .article-list {
+  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
+}
+.article-list .article-item {
+  padding: 6px 0; font-size: 13px; color: #595959;
+  border-bottom: 1px solid #f5f5f5;
+}
+.article-list .article-item:last-child { border-bottom: none; }
+.article-list .article-item a {
+  color: #1a1a1a; text-decoration: none;
+}
+.article-list .article-item a:hover { color: #1677ff; }
+.article-list .article-item .article-source {
+  font-size: 12px; color: #8c8c8c; margin-left: 8px;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .event-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🔬</span>
+    <h1>AI for Science</h1>
+    <span class="count-badge">14 个事件</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周AI for Science在蛋白与药物发现、磁性材料计算及分子/蛋白建模方面推进，出现从零设计结合蛋白、语言模型改造蛋白、自旋依赖机器学习力场与电磁仿真工具箱、以及更简洁可解释的序列/结构表示学习等进展，同时凸显推理成本与可靠性挑战。
+  </div>
+  
+
+  <!-- Events Container -->
+  
+  <div class="events-container" id="events">
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">80</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">65</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">80</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        AI驱动蛋白设计与AI共科学家工作流进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">本事件聚焦AI驱动蛋白与药物发现进展。文章0提出通过两个神经网络迭代选择-扩展，从零设计高准确性小分子结合蛋白。文章4利用语言模型嵌入的概率序列编码与生成式AI框架，实现天然蛋白的微型化和改造。文章3分析自然语言驱动的AI共科学家蛋白表征工作流，指出灵活性与推理能力之间存在成本权衡。这些工作可加速蛋白工程与靶点发现，但也凸显推理开销与可靠性挑战。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 5 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: AI for Science</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 5 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.25215" target="_blank" rel="noopener">
+              Federation Is Nearly Free, Reasoning Is Not: Tradeoffs for AI Co-Scientists in Protein Characterization Workflows
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://doi.org/10.1038/s41586-026-10670-w" target="_blank" rel="noopener">
+              Zero-shot design of drug-binding proteins via neural iterative selection−expansion - Nature
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://journals.stmjournals.com/article/article=2026/view=251957/" target="_blank" rel="noopener">
+              Neuro-Symbolic Agentic AI For Autonomous Scientific Discovery: Integrating Deep Reinforcement Learning, Quantum Simulation, And XAI-Audited LLM Hypothesis Generation In Drug Target Identification » Article
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s41586-026-10670-w" target="_blank" rel="noopener">
+              Zero-shot design of drug-binding proteins via neural iterative selection−expansion - Nature
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s41586-026-10842-8" target="_blank" rel="noopener">
+              Miniaturizing and modifying natural proteins with Raygun - Nature
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">70</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        磁性材料原子模拟与纳米电磁计算新方法
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期磁性材料与纳米结构计算研究呈现机器学习力场、专用工具箱与解析理论互补趋势。文章[1]提出HotPP-Spin，基于笛卡尔张量等变消息传递构建自旋依赖机器学习力场，用于磁性材料原子模拟，兼顾结构-自旋耦合与可迁移性。文章[0]发布OpenMUSTANC MATLAB工具箱，支持等离子体球聚集体中的非局部光学响应与经典电磁仿真。文章[2]从线性响应理论推导Stoner贡献下的磁振子运动方程，为Landau阻尼磁振子提供解析框架。整体趋势是为磁性材料、纳米等离子体与自旋动力学研究提供可复用的计算与理论工具。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        <span class="source-tag">arXiv cond-mat.mtrl-sci</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30338v1" target="_blank" rel="noopener">
+              Cartesian tensor equivariant machine-learning force field for spin-dependent atomistic simulations
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30565v1" target="_blank" rel="noopener">
+              OpenMUSTANC (MUltiple Scattering Theory At Nanoplasmonic Cavities): A MATLAB toolbox for the simulation of Plasmonic Sphere Aggregates
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30931v1" target="_blank" rel="noopener">
+              Stoner contributions to the magnon equation of motion
+            </a>
+            <span class="article-source">arXiv cond-mat.mtrl-sci</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">65</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        AI for Science分子与蛋白质表示学习趋势
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件呈现AI for Science在分子与蛋白质建模中的研究趋势。文章0用仅序列的表格化上下文学习预测抗菌肽多标签活性，降低多模态结构模型的训练成本。文章1研究Bemis-Murcko骨架监督与欧氏/洛伦兹对比几何对分子自监督嵌入的影响。文章2提出PHASE，用局部哈密顿量和全原子反向映射编码全局蛋白质构象系综。整体方向是从高容量生成模型转向更简洁、结构感知且可解释的表示学习，为药物筛选、分子性质预测和蛋白质功能分析提供高效工具。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.23490v1" target="_blank" rel="noopener">
+              PHASE: encoding global protein ensembles with local Hamiltonians and all-atom backmapping
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29886v1" target="_blank" rel="noopener">
+              Structural Hierarchy and Geometry in Molecular Representation Learning
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30337v1" target="_blank" rel="noopener">
+              Coarse composition suffices: tabular in-context learning for multi-activity antimicrobial peptide profiling
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">65</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        冷冻电镜重构感知粒子挑选与复杂混合物从头重建
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件聚焦冷冻电镜结构解析中的计算重构方法。文章1提出面向复杂混合物的从头重建元算法，通过生成并聚合多类重构任务，形式化迭代分类与过滤流程。文章0提出重构感知的粒子挑选，将粒子挑选、污染去除与2D分类作为相互关联的子任务，以提升从噪声显微图中提取干净粒子堆叠的质量。该方向有助于处理异质性样品，提高近原子分辨率结构解析的自动化与可靠性。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.25388v1" target="_blank" rel="noopener">
+              A meta-algorithm for ab initio reconstruction of complex mixtures in cryo-EM
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.28838v1" target="_blank" rel="noopener">
+              Reconstruction-Aware Cryo-EM Particle Picking
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        RNA逆折叠可设计性与深度学习优化RNA产量
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件围绕RNA序列设计与产量优化展开。文章1针对mRNA体外转录产量瓶颈，将深度神经网络与大规模并行筛选结合，优化启动子邻近DNA序列以提升RNA产量。文章0研究最多包含两个长度2螺旋的RNA靶标可设计性，在Watson-Crick模型下分析逆折叠与可分离性条件。该组合为RNA药物与疫苗开发中的序列设计和制造效率提供了计算与实验协同路径。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.23722v1" target="_blank" rel="noopener">
+              Optimizing RNA yield using deep neural networks coupled to massively parallel screening
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.25194v1" target="_blank" rel="noopener">
+              Designability of RNA Targets with Up to Two Length-2 Helices
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">55</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        蛋白质进化中的“暗能量”：功能成本
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究提出“暗能量”概念，将蛋白质序列的进化能量与物理折叠能量之差定义为功能成本，用以刻画折叠稳定性与生物功能之间的冲突。文章结合深度突变扫描等进展，分析功能约束在蛋白质进化中带来的额外代价。该框架把稳定性之外的功能代价量化，有助于理解自然选择、蛋白质功能优化与序列演化，并为蛋白质设计和进化模拟提供新视角。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.27711v1" target="_blank" rel="noopener">
+              Dark energy: the cost of function in protein evolution
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        LISynSeg 跨模态全心脏分割数据合成
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">LISynSeg 针对CT与MRI全心脏分割中的采集差异和标注异质性问题，提出数据为中心的标签到图像合成方法。它不主要依赖复杂网络结构或迁移学习，而是通过调整数据增强与训练监督，提升跨模态全心脏分割的泛化能力。该研究关注医学影像分割中的数据策略，有助于减少高质量标注依赖并增强CT/MRI心脏分析任务的稳健性。该思路可为跨模态医学影像任务提供可复用的数据增强范式。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CV</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31073v1" target="_blank" rel="noopener">
+              LISynSeg: Data-Centric Label-to-Image Synthesis for Cross-Modality Whole-Heart Segmentation
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">45</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        面向流体与离子输运的AI/数值求解方法进展
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">近期计算物理研究呈现AI代理与稳健数值格式并行趋势。文章[1]提出物理信息Kolmogorov-Arnold网络PI-KAN，将可学习激活函数与物理约束结合，用于粘弹性流体方程正向问题，提升可解释性与求解能力。文章[0]针对Poisson-Nernst-Planck模型提出高效原始-对偶分裂JKO方案，处理小介电常数与复杂边界下的离子-静电耦合。文章[2]给出黎曼流形上不可压Navier-Stokes的内在有限元格式，并证明后向欧拉离散能量稳定。整体趋势是为多尺度流体、离子输运和曲面流动提供更稳健的数值与AI代理工具。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CE</span>
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29754v1" target="_blank" rel="noopener">
+              Intrinsic Finite Element Methods for Fluids on Riemannian Manifolds Compared with Surface FEM
+            </a>
+            <span class="article-source">arXiv cs.CE</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29895v1" target="_blank" rel="noopener">
+              Physics-Informed Kolmogorov-Arnold networks for viscoelastic fluid equations
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30693v1" target="_blank" rel="noopener">
+              Efficient primal--dual splitting methods for a Poisson-constrained JKO scheme for Poisson-Nernst-Planck models
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">40</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        可组合数据同化框架推进科学计算与AI融合
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">Opal.jl与ADDA分别提出面向数据同化的可组合与模块化框架。Opal.jl在Julia中统一顺序滤波、变分估计等工具，降低不同前向模型与估计器之间的代码碎片化；ADDA强调端到端可微性，将动力学表示、模拟与观测同化整合为可微流程。两者都旨在把物理模型、观测数据和机器学习方法更紧密地结合，提升地球科学等复杂系统的预测与理解能力。这类框架有助于复用组件、支持学习基同化与可微模拟，为科学计算提供统一基础设施。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.MS</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.23297v1" target="_blank" rel="noopener">
+              ADDA: a Modular Framework for Representing, Simulating and Assimilating Dynamics with End-to-end Differentiability
+            </a>
+            <span class="article-source">arXiv cs.MS</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.24265v2" target="_blank" rel="noopener">
+              Opal.jl: a comprehensive, composable framework for data assimilation in Julia
+            </a>
+            <span class="article-source">arXiv cs.MS</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">35</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">45</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        多模态共享潜空间识别玻璃体视网膜手术阶段
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究面向玻璃体视网膜手术中的手术阶段识别，提出利用手术口述、显微镜图像与术中OCT图像构建多模态共享潜空间表示。由于同步多模态术中数据稀缺，而在线手术口述数据丰富，方法通过共享表示融合口述与视觉模态，以模拟外科医生自然的多模态整合能力。该工作可为上下文感知的计算机辅助手术反馈提供基础，有助于提升手术阶段识别在真实多模态场景中的鲁棒性。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CV</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31065v1" target="_blank" rel="noopener">
+              Multimodal Shared Latent Representation of Narration, Microscope and iOCT Images for Phase Recognition in Vitreoretinal Surgery
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        初筛可量化性预测优化剂量响应筛选
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该研究面向高通量药物筛选中的资源分配问题，提出从初筛结果预测化合物后续剂量响应曲线是否可量化，从而优先选择更可能获得有效效价估计的候选物。现有策略多关注活性确认，却默认确认活性即可得到可用量效关系，忽略了可量化性差异。该方法将筛选优先级从“是否有效”扩展到“是否可量化”，有助于减少昂贵复筛成本并提高剂量响应分析成功率。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv q-bio.BM</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.26538v1" target="_blank" rel="noopener">
+              Predicting Quantifiability from Primary Screens to Prioritize Dose-Response Profiling
+            </a>
+            <span class="article-source">arXiv q-bio.BM</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        身份相关视觉AI：视网膜生物特征与人脸合成
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">本事件聚焦身份相关的视觉AI研究。视网膜生物特征系统利用ConvNeXtV2、ArcFace与三元损失，在跨年龄和成像设备条件下验证与检索患者身份，降低医疗记录错误风险。身份条件潜空间一致性蒸馏则加速扩散模型人脸合成，为大规模人脸识别数据集生成提供高效方案。两者共同提升身份识别与合成数据的可靠性，并支持医疗与人脸识别场景。该方向有助于减少身份混淆并降低数据生成成本。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CV</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31053v1" target="_blank" rel="noopener">
+              Identity-Conditioned Latent Consistency Distillation for Face Synthesis
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31094v1" target="_blank" rel="noopener">
+              Robust retinal biometrics for patient identity verification and retrieval across age and imaging devices
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        跨区域葡萄藤抗寒性多模态预测
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作针对葡萄藤等木本植物休眠芽抗寒性预测，提出基于学习多模态潜表示的跨区域预测方法。现有生物物理、混合与深度学习模型在本地数据上准确，但泛化到不同地区受限，且抗寒数据稀缺。该方法通过多模态潜空间学习增强跨区域迁移能力，以支持每日抗寒性预测。其意义在于降低冻害风险、稳定季节产量，并为木本植物抗寒管理提供可推广的AI预测框架。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31097v1" target="_blank" rel="noopener">
+              Cross-Regional Grapevine Cold Hardiness Prediction via Learned Multimodal Latent Representations
+            </a>
+            <span class="article-source">arXiv cs.AI</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">45</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">35</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">45</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        TMB实现神经网络混合效应模型
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">神经网络混合效应模型将神经网络的表示能力与混合效应模型的相关结构建模能力结合，适合复杂数据。现有估计方法常依赖手工推导目标函数和梯度，并引入简化近似。在Template Model Builder中实现NMM，可借助统一建模与优化框架降低实现成本，提高模型估计的灵活性和可扩展性。该工作面向统计机器学习场景，强调减少人工推导与近似，使NMM能更自然地处理复杂相关结构，为后续在科学数据或高维观测中应用提供基础。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.LG</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31117v1" target="_blank" rel="noopener">
+              "Train classical, deploy quantum" requires rethinking generalization
+            </a>
+            <span class="article-source">arXiv cs.LG</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31133v1" target="_blank" rel="noopener">
+              Implementing neural network mixed-effects models in Template Model Builder (TMB)
+            </a>
+            <span class="article-source">arXiv cs.LG</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+  </div>
+  
+
+  <div class="footer">生成于 2026-09-01 18:20 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

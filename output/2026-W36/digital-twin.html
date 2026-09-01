@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字孪生 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #ef4444;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #ef444415; color: #ef4444;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Event Card ── */
+.event-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.event-card.carried { opacity: 0.65; }
+.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Score Badges Row ── */
+.score-badges {
+  display: flex; gap: 16px; margin-bottom: 12px;
+}
+.score-badge-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: #595959;
+}
+.score-badge-item .badge {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
+.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
+.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+
+/* ── Event Title ── */
+.event-title {
+  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
+  line-height: 1.4;
+}
+.event-title a { color: inherit; text-decoration: none; }
+.event-title a:hover { color: #1677ff; }
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+}
+
+/* ── Event Summary ── */
+.event-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+/* ── Sources Info ── */
+.sources-info {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.source-tag {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
+  font-size: 12px; color: #1a5276;
+}
+
+/* ── Key Insights ── */
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+/* ── Tags ── */
+.event-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Linked Articles (expandable) ── */
+.articles-expand {
+  margin-top: 12px;
+}
+.articles-expand summary {
+  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
+  user-select: none;
+}
+.articles-expand summary:hover { text-decoration: underline; }
+.articles-expand .article-list {
+  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
+}
+.article-list .article-item {
+  padding: 6px 0; font-size: 13px; color: #595959;
+  border-bottom: 1px solid #f5f5f5;
+}
+.article-list .article-item:last-child { border-bottom: none; }
+.article-list .article-item a {
+  color: #1a1a1a; text-decoration: none;
+}
+.article-list .article-item a:hover { color: #1677ff; }
+.article-list .article-item .article-source {
+  font-size: 12px; color: #8c8c8c; margin-left: 8px;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .event-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🏭</span>
+    <h1>数字孪生</h1>
+    <span class="count-badge">3 个事件</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周数字孪生进展聚焦核系统信息物理孪生、城市级数字底座和3DGS实时场景表示，分别推动核设施安全控制、智慧城市协同治理与动态物理场景建模。
+  </div>
+  
+
+  <!-- Events Container -->
+  
+  <div class="events-container" id="events">
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">62</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">35</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        PUR-1核系统信息物理数字孪生
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">文章[0]提出面向核系统的PUR-1信息物理数字孪生，旨在提升核设施运行的灵活性、响应速度和决策支持能力。该数字孪生需要融合数据驱动模型与物理模型，以处理实时运行数据，并支撑网络事件表征、状态估计、预测控制和动态仿真。其价值在于把物理核系统、计算模型与运行数据连接起来，为复杂核系统的安全监控、异常诊断和自适应控制提供可计算、可验证的孪生基础。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.CE</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.30186v1" target="_blank" rel="noopener">
+              The PUR-1 Cyber-Physical Digital Twin
+            </a>
+            <span class="article-source">arXiv cs.CE</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">35</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">75</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        迪拜与马德里推进城市级数字孪生平台
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">迪拜数字孪生平台由谢赫哈姆丹见证启动，旨在以大规模城市数字孪生推动智慧城市创新。马德里在约10亿欧元数字化战略下开始建设城市级“孪生之孪生”平台，将多个城市系统整合为统一数字底座。相关报道指出，城市正发展由传感器和AI驱动的动态数字孪生，实现实时监测与城市运行洞察。这类平台有助于提升规划、基础设施管理和公共服务的协同效率。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 6 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: Digital Twin Industrial</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 6 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0352787" target="_blank" rel="noopener">
+              Modelling and simulation of smart city drainage system based on digital twin five-dimensional models
+            </a>
+            <span class="article-source">Exa: Digital Twin Industrial</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://kurrant.com/kurrantly-news/madrid-begins-construction-of-a-city-scale-twin-of-twins-digital-platform-under-e1-billion-digitalisation-strategy/" target="_blank" rel="noopener">
+              Madrid Begins Construction of a City-Scale "Twin of Twins" Digital Platform Under €1 Billion Digitalisation Strategy - Kurrant
+            </a>
+            <span class="article-source">Exa: Digital Twin Industrial</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://lookatworth.com/business-tech-leaders/the-city-that-watches-itself-the-living-digital-twin-and-the-god-s-eye-view-we-r/" target="_blank" rel="noopener">
+              The City That Watches Itself: The Living Digital Twin, And The God’s-Eye View We’re Building - Look at Worth
+            </a>
+            <span class="article-source">Exa: Digital Twin Industrial</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://supaprompt.eu/blog/en-how-to-create-a-real-time-digital-twin-with-generative-ai-in-2026" target="_blank" rel="noopener">
+              Come creare un digital twin real-time con l'AI generativa ne
+            </a>
+            <span class="article-source">Exa: Digital Twin Industrial</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://thenextdubai.com/dubai-digital-twin-platform-launch-smart-city/" target="_blank" rel="noopener">
+              Dubai Digital Twin Platform Launched by Sheikh Hamdan to Drive Smart City Innovation - The Next Dubai
+            </a>
+            <span class="article-source">Exa: Digital Twin Industrial</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.frontiersin.org/journals/built-environment/articles/10.3389/fbuil.2026.1799741/full" target="_blank" rel="noopener">
+              Frontiers | A spatial digital twin framework for urban built environments: case studies in Victoria, Australia
+            </a>
+            <span class="article-source">Exa: Digital Twin Industrial</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">35</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">55</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        3D高斯泼溅的实时虚拟表示扩展：形变、风格化与高光谱反射
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件聚焦3D Gaussian Splatting（3DGS）作为物理场景实时虚拟表示的学术进展。文章0提出尽可能刚性的形变方法，避免直接几何编辑高斯，提升动态物体表示。文章1用扩散残差引导风格化3DGS，在保持渲染稳定性的同时增强参考风格表达。文章2将双向反射因子（BRF）与3DGS结合，高效生成多角度高光谱反射图像。整体趋势是把3DGS从静态新视角合成扩展到动态形变、可控风格化与物理属性建模，为实时3D内容创建和反射率模拟提供更快、更可控的虚拟模型。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.GR</span>
+        
+        
+        
+        <span class="source-tag">arXiv cs.CV</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29048v1" target="_blank" rel="noopener">
+              DReSG: Diffusion Residuals for Stylized Gaussian Splatting
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.29538v1" target="_blank" rel="noopener">
+              As-Rigid-As-Possible Deformation of Gaussian Radiance Fields
+            </a>
+            <span class="article-source">arXiv cs.GR</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2608.31159v1" target="_blank" rel="noopener">
+              BRF-GS: Hyperspectral Bidirectional Reflectance Factor Modeling and Image Generation Based on 3D Gaussian Splatting
+            </a>
+            <span class="article-source">arXiv cs.CV</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+  </div>
+  
+
+  <div class="footer">生成于 2026-09-01 18:20 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

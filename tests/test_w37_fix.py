@@ -158,4 +158,21 @@ ok("移除 utm 参数", _clean_text("正文 utm_campaign=abc 结尾") == "正文
 ok("空/None 安全", _clean_text("") == "" and _clean_text(None) == "")
 ok("干净文本不受影响", _clean_text("纯中文摘要，无脏字符。") == "纯中文摘要，无脏字符。")
 
+print("10) BERTopic noise 键碰撞回归 (W37 GPT-6 事故)")
+from event_clustering import _labels_to_clusters, NOISE_KEY_OFFSET  # noqa: E402
+# 复现事故: 真实 topic 0..8 + 6 个 noise(-1) 交错。旧代码 noise 从 0 起号整体赋值,
+# 覆盖真实 topic 0/2/7 等成员 → 文章整簇丢失 (W37 本地跑丢了 46 篇 social 含 GPT-6)。
+topics = [-1, 0, 0, -1, 1, 2, -1, 3, 0, 4, -1, 5, 6, -1, 7, 8, -1]
+indices = list(range(len(topics)))
+clusters = _labels_to_clusters(topics, indices)
+covered = [i for members in clusters.values() for i in members]
+ok("全覆盖: 无文章丢簇", sorted(covered) == sorted(indices))
+t0 = sorted(i for i, t in enumerate(topics) if t == 0)
+ok("真实 topic 0 成员未被 noise 覆盖", sorted(clusters[0]) == t0)
+noise_keys = [k for k in clusters if k >= NOISE_KEY_OFFSET]
+ok("noise 单例簇数量正确", len(noise_keys) == sum(1 for t in topics if t == -1))
+ok("noise 键全部偏移、不与真实标签冲突",
+   all(k >= NOISE_KEY_OFFSET for k in noise_keys)
+   and not (set(noise_keys) & set(t for t in topics if t != -1)))
+
 print(f"\nALL {PASS} CHECKS PASSED")

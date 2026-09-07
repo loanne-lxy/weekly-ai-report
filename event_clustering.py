@@ -36,6 +36,31 @@ SOCIAL_CONFIG = {
 
 ACADEMIC_THRESHOLD = 0.50  # cosine greedy 阈值
 
+# Noise 单例簇的键偏移。必须远离真实 topic 标签空间：
+# BERTopic 真实 topic 从 0 开始编号，noise 点若也从 0 起号并整体赋值
+# clusters[k]=...，会覆盖真实 topic 0..n-1 的成员（2026-W37 事故：
+# 7 个 noise 点覆盖了 topic 0-6，丢掉 46 篇 social 文章含 GPT-6 Astra 发布）。
+NOISE_KEY_OFFSET = 10**6
+
+
+def _labels_to_clusters(
+    topics: list[int], indices: list[int]
+) -> dict[int, list[int]]:
+    """BERTopic 标签 → 簇映射（纯函数，可脱离模型单测）。
+
+    真实 topic 用原 label 作键；noise（-1）每点自成单例簇，
+    键加 NOISE_KEY_OFFSET 偏移，永不与真实 topic 标签冲突。
+    """
+    clusters: dict[int, list[int]] = {}
+    n_noise = 0
+    for i, label in enumerate(topics):
+        if label == -1:
+            clusters[NOISE_KEY_OFFSET + n_noise] = [indices[i]]
+            n_noise += 1
+        else:
+            clusters.setdefault(int(label), []).append(indices[i])
+    return clusters
+
 
 @dataclass
 class Event:
@@ -209,16 +234,8 @@ def _cluster_social_bertopic(
 
     topics, _ = bm.fit_transform(docs)
 
-    clusters: dict[int, list[int]] = {}
-    next_cid = 0
-    for i, label in enumerate(topics):
-        if label == -1:
-            clusters[next_cid] = [indices[i]]
-            next_cid += 1
-        else:
-            clusters.setdefault(int(label), []).append(indices[i])
-
-    return clusters
+    # noise(-1) 键已偏移，不会覆盖真实 topic 0..N 的成员
+    return _labels_to_clusters(list(topics), indices)
 
 
 # ── 主聚类入口 ───────────────────────────────────────────────────

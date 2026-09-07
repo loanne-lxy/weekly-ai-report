@@ -1,0 +1,2114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
+  min-height: 100vh;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Back Nav ── */
+.back-nav {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: #1677ff; margin-bottom: 24px;
+  text-decoration: none; cursor: pointer;
+}
+.back-nav:hover { text-decoration: underline; }
+
+/* ── Category Header ── */
+.cat-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+  padding: 24px; background: #fff; border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.cat-header .icon { font-size: 36px; }
+.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
+.cat-header .count-badge {
+  background: #3b82f615; color: #3b82f6;
+  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+}
+
+/* ── Domain Summary ── */
+.domain-summary {
+  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
+  margin-bottom: 24px; border-left: 4px solid #1677ff;
+  font-size: 14px; color: #434343; line-height: 1.6;
+}
+.domain-summary strong { color: #1a5276; }
+
+/* ── Event Card ── */
+.event-card {
+  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
+  padding: 24px; margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
+.event-card.carried { opacity: 0.65; }
+.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+
+/* ── Score Badges Row ── */
+.score-badges {
+  display: flex; gap: 16px; margin-bottom: 12px;
+}
+.score-badge-item {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: #595959;
+}
+.score-badge-item .badge {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+}
+.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
+.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
+.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+
+/* ── Event Title ── */
+.event-title {
+  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
+  line-height: 1.4;
+}
+.event-title a { color: inherit; text-decoration: none; }
+.event-title a:hover { color: #1677ff; }
+.carried-badge {
+  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
+  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+}
+
+/* ── Event Summary ── */
+.event-summary {
+  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
+}
+
+/* ── Sources Info ── */
+.sources-info {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
+  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
+}
+.source-tag {
+  display: inline-block; padding: 0 8px; line-height: 20px;
+  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
+  font-size: 12px; color: #1a5276;
+}
+
+/* ── Key Insights ── */
+.key-insights {
+  margin-bottom: 12px; padding-left: 20px;
+}
+.key-insights li {
+  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
+}
+
+/* ── Tags ── */
+.event-tags {
+  display: flex; flex-wrap: wrap; gap: 8px;
+}
+.tag {
+  font-size: 12px; padding: 0 8px; line-height: 22px;
+  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
+  color: #595959;
+}
+
+/* ── Linked Articles (expandable) ── */
+.articles-expand {
+  margin-top: 12px;
+}
+.articles-expand summary {
+  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
+  user-select: none;
+}
+.articles-expand summary:hover { text-decoration: underline; }
+.articles-expand .article-list {
+  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
+}
+.article-list .article-item {
+  padding: 6px 0; font-size: 13px; color: #595959;
+  border-bottom: 1px solid #f5f5f5;
+}
+.article-list .article-item:last-child { border-bottom: none; }
+.article-list .article-item a {
+  color: #1a1a1a; text-decoration: none;
+}
+.article-list .article-item a:hover { color: #1677ff; }
+.article-list .article-item .article-source {
+  font-size: 12px; color: #8c8c8c; margin-left: 8px;
+}
+
+/* ── Empty State ── */
+.empty-state {
+  text-align: center; padding: 48px 24px;
+  border: 1px dashed #d9d9d9; border-radius: 8px;
+  background: #fff;
+}
+.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+.empty-state p { font-size: 13px; color: #bfbfbf; }
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #e8e8e8; margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .container { padding: 16px; }
+  .cat-header { padding: 16px; flex-wrap: wrap; }
+  .cat-header h1 { font-size: 20px; }
+  .event-card { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Back Nav -->
+  <a class="back-nav" href="index.html" aria-label="返回首页">
+    <span class="arrow">←</span> 返回首页
+  </a>
+
+  <!-- Category Header -->
+  <div class="cat-header">
+    <span class="icon">🧠</span>
+    <h1>LLM</h1>
+    <span class="count-badge">16 个事件</span>
+  </div>
+
+  <!-- Domain Summary -->
+  
+  <div class="domain-summary">
+    <strong>📋 领域摘要</strong><br>
+    本周LLM发展聚焦前沿模型在速度、成本与综合智能上的再平衡，研究转向推理可靠性与硬件效率，同时开源小模型在微控制器等边缘设备的低成本私有化部署取得进展。
+  </div>
+  
+
+  <!-- Events Container -->
+  
+  <div class="events-container" id="events">
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">70</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">48</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">65</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Nature MI聚焦推理模型可靠性与量子神经算子
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">Nature Machine Intelligence近期论文显示，研究正从单纯扩展模型转向提升推理可靠性与硬件效率。文章1通过脑信号与语言模型表征对齐，引导学习并提高人工推理可靠性。文章2发现多数推理模型处理刻板信息所需计算更少，揭示类隐式偏置模式。文章0提出带隐式二次框架的量子神经算子，突破经典线性容量限制，用于噪声环境中的微分方程求解。整体趋势是结合神经科学、可解释性与量子硬件，增强AI的科学计算与推理能力。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Nature Machine Intelligence</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01289-7" target="_blank" rel="noopener">
+              Quantum neural operators with implicit quadratic frame and expressivity advantages
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01300-1" target="_blank" rel="noopener">
+              Implicit-bias-like patterns in reasoning models
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01302-z" target="_blank" rel="noopener">
+              Steering machine reasoning with brain signals
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">65</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">40</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Gemini更新后速度与智能回升，前沿模型排名受关注
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件聚焦Gemini模型更新后的表现变化：InfoQ报道其输出速度显著领先同行，智能水平重新回到第一梯队。Reddit的LocalLLaMA社区则讨论前沿模型排名更新，反映用户对模型能力与性价比的持续比较。两者共同说明前沿大模型竞争正从单一能力转向速度、成本与综合智能的平衡。对应用方而言，Gemini的回升可能影响API选型、推理成本与多模型路由策略。这也提示模型厂商需在性能与吞吐之间持续优化。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/M792kCZ4FIzk7YHe4WhT?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              “美国大豆包”Gemini翻身：输出速度碾压同行、智能水平重回第一梯队
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w7y261/aa_update_heres_how_the_frontier_ranks/" target="_blank" rel="noopener">
+              AA Update! Here's how the Frontier ranks.
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        本地小模型与开源模型生态动态
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">社区集中讨论本地化与开源AI模型的最新进展。sanoTTS发布294k参数完整TTS栈，可在3美元微控制器运行，1.46M版本还宣称超越数倍规模模型。另一项工作将90M对话LLM部署到2004年的Sony PSP硬件，展示极端边缘场景下的本地推理能力。Qwen 3.8 27B多个去审查变体经167 GPU小时对比，反映开放模型微调与去审查生态的活跃。这些进展共同推动低成本、可私有部署的AI应用落地。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 7 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 7 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/B5bNUx3GzrUZGvDmBbFi?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Cloudflare Wallets 迟来入局 x402：支出控制仅能约束单笔支付
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w35sc1/could_this_affect_m5_ultra_priceavailability/" target="_blank" rel="noopener">
+              Could this affect M5 Ultra price/availability?
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w47nif/new_gemma_models_on_arena_ai/" target="_blank" rel="noopener">
+              New Gemma models on arena ai
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w5l8bw/muse_spark_open_weights_coming_soon/" target="_blank" rel="noopener">
+              Muse Spark open weights coming soon
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w6lmmg/i_released_sanotts_smallest_complete_tts_stack_in/" target="_blank" rel="noopener">
+              I released sanoTTS: smallest complete TTS stack in 294k params (337 KB) that runs on $3 microcontroller and a 1.46m one that beats models 3x and 10x it's size
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w78ztg/you_can_now_run_a_90m_conversational_llm_on_the/" target="_blank" rel="noopener">
+              You can now run a 90M conversational LLM on the Sony PSP (hardware from 2004). Doesn't get more local than this.
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w8vx6w/8_uncensored_qwen_38_27b_variants_one_base_167/" target="_blank" rel="noopener">
+              8 uncensored Qwen 3.8 27B variants, one base, 167 GPU hours - Abliterlitics
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">35</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">75</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        OpenAI 扩展 ChatGPT 企业、医疗与商业化能力
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">OpenAI 展示 ChatGPT 在商业与医疗场景的扩展：ATV Big Air Tour 用 ChatGPT Work 将三天工作压缩到三小时，并15分钟把商品照片变成库存网站。ChatGPT 还可连接 EHR 等可信医疗数据，帮助临床人员安全访问患者上下文与医学研究。同时，ChatGPT Ads 年化收入达到10亿美元并全球扩展，以免费和低价选项扩大 AI 可及性。这些进展显示 ChatGPT 正从对话工具转向企业工作流、医疗数据接入与商业化平台。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">OpenAI Blog</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/atv-big-air-tour" target="_blank" rel="noopener">
+              ATV Big Air Tour turned 3 days of work into 3 hours with ChatGPT
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/chatgpt-connects-health-records-and-healthcare-sources" target="_blank" rel="noopener">
+              Healthcare organizations can now connect EHR and additional industry data to ChatGPT
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/expanding-access-to-ai-with-chatgpt-ads" target="_blank" rel="noopener">
+              A milestone in expanding access to AI
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        开源AI动态：K2 Horizon开放模型与opencode编码代理
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件围绕开源AI生态的两项动态展开：K2 Horizon以“开放”方式提供接近前沿的模型性能，opencode则作为开源编码代理出现在GitHub趋势中。前者关注基础模型的能力与可获取性，后者关注代码生成、开发辅助等工具链场景。两者均面向开发者社区，可能降低本地部署和开源AI应用的门槛。对技术选型而言，它们代表开放模型与开放代理工具并行发展的趋势。这有助于观察开放权重模型与代理工具在工程落地中的互补关系。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">GitHub Trending</span>
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener">
+              anomalyco /opencode
+            </a>
+            <span class="article-source">GitHub Trending</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w68rj6/introducing_k2_horizon_frontier_performance/" target="_blank" rel="noopener">
+              Introducing K2 Horizon: Frontier Performance, Radically Open
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">65</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        子空间推理提升主动奖励学习
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">论文针对RLHF中奖励模型从人类偏好学习样本效率低的问题，提出子空间推理方法以支持高效主动奖励学习。该方法将大神经奖励模型的不确定性估计与主动查询结合，优先选择能降低奖励不确定性的偏好样本。这有助于减少人工偏好标注成本，提升奖励模型训练与对齐流程效率。该思路可为大规模偏好数据合成提供更具信息量的查询策略，并降低对齐训练中的标注开销。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.04066v1" target="_blank" rel="noopener">
+              Subspace Inference Enables Efficient Active Reward Learning from Preferences
+            </a>
+            <span class="article-source">arXiv cs.RO</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        affaan-m /ECC
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development for Claude Code, Codex, Opencode, Cursor and beyond.
+
+(4 sources: GitHub Trending)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">GitHub Trending</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener">
+              affaan-m /ECC
+            </a>
+            <span class="article-source">GitHub Trending</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/cathrynlavery/diagram-design" target="_blank" rel="noopener">
+              cathrynlavery /diagram-design
+            </a>
+            <span class="article-source">GitHub Trending</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">
+              mattpocock /skills
+            </a>
+            <span class="article-source">GitHub Trending</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/openai/skills" target="_blank" rel="noopener">
+              openai /skills
+            </a>
+            <span class="article-source">GitHub Trending</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Meta 拓展自研芯片战略：从计算领域延伸至网络领域
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary"><div align="right"><a href="https://www.infoq.cn/article/bSxsIYqjExqDh8eO2kwL?utm_source=rss&amp;utm_medium=article">点击查看原文></a></div>
+
+(5 sources: InfoQ AI, Reddit r/LocalLLaMA)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 10 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 10 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/6Jc130IN2OaXqsPDIzmJ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              人人都能整个“自己的DeepSeek Harness”，那我们为啥还在给Claude Code们充会员？
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/BLyA80LXfvGII85FGmw8?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              FlexGanttFX 正式开源
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/bOI6y8Tdr714CWa5CcxR?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              向总决赛进发｜GOAI复赛评审正式启动
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/bSxsIYqjExqDh8eO2kwL?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Meta 拓展自研芯片战略：从计算领域延伸至网络领域
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/iV0rsPyO5XZDJ7797hLJ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              谷歌云发布 AI 智能体，简化数据库生命周期管理
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/m9DBSRgv8grSQ9NkY6rS?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              让测试更加绿色可持续
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/s1MDWGIV7yoxkCXmWJx8?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Astro 推出 Sätteri：Rust 驱动的 Markdown 与 MDX 处理器，构建速度最高提升 60%
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w4fp6w/intel_hints_it_may_get_back_into_memory_business/" target="_blank" rel="noopener">
+              Intel hints it may get back into memory business
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w6aw2a/apparently_chatgpt_claude_and_grok_were_down/" target="_blank" rel="noopener">
+              Apparently ChatGPT, Claude, and Grok were down
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w6myn6/the_benchmarks_the_big_labs_dont_want_you_to_see/" target="_blank" rel="noopener">
+              The benchmarks the big labs don't want you to see
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Can the bubble pop please?
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary"><table> <tr><td> <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w6nihk/can_the_bubble_pop_please/"> <img alt="Can the bubble pop please?" src="https://preview.redd.it/wyiwueyh1enh1.png?width=640&amp;crop=smart&amp;auto=webp&amp;s=14f6e9a3f16fa542a40e9d661eead6ebcc1f79aa" title="Can the bubble pop please?" /> </a> </td><td> &#32; submitted by &#32; <a href="https://www.reddit.com/user/hedonihilistic"> /u/hedonihilistic </a> <br /> <span><a href="https://i.redd.it/wyiwueyh1enh1.png">[link]</a></span> &#32; <span><a href="https://www.reddit.com/r/LocalLLaMA/comments/1w6nihk/can_the_bubble
+
+(5 sources: Reddit r/LocalLLaMA)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 5 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 5 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w3kppp/glm_53_and_glm_53_flash_ran_locally_on_rtx_pro/" target="_blank" rel="noopener">
+              GLM 5.3 and GLM 5.3 Flash ran locally on RTX PRO 6000 WS and built a penthouse using BlenderMCP
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w42biu/mtp_released_for_qwen38flashnextgguf/" target="_blank" rel="noopener">
+              MTP released for Qwen3.8-Flash-Next-GGUF
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w53ti8/qwen_will_be_the_king/" target="_blank" rel="noopener">
+              Qwen will be the king?
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w6nihk/can_the_bubble_pop_please/" target="_blank" rel="noopener">
+              Can the bubble pop please?
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w7q92n/qwen3827b_beat_the_wikipedia_game_in_6_clicks/" target="_blank" rel="noopener">
+              Qwen3.8-27B beat the Wikipedia game in 6 clicks.
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        NVIDIA's $12,930,300,000.00 acquisition of Hugging Face contains an easter egg. The first 6 numbers of the acquisition price represent the decimal conversion of Unicode character U+1F917. The 🤗 emoji.
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary"><table> <tr><td> <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w71bax/nvidias_1293030000000_acquisition_of_hugging_face/"> <img alt="NVIDIA's $12,930,300,000.00 acquisition of Hugging Face contains an easter egg. The first 6 numbers of the acquisition price represent the decimal conversion of Unicode character U+1F917. The 🤗 emoji." src="https://preview.redd.it/sawaq4xvjhnh1.jpg?width=140&amp;height=72&amp;auto=webp&amp;s=6aca7ab0068dba4b2679ea94158ed71d383e00c9" title="NVIDIA's $12,930,300,000.00 acquisition of Hugging Face contains an easter egg. The first 6 numbers of the acquisiti
+
+(4 sources: Reddit r/LocalLLaMA)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w39i6r/deepseekaideepseekv4flashvisionexp_hugging_face/" target="_blank" rel="noopener">
+              deepseek-ai/DeepSeek-V4-Flash-Vision-Exp · Hugging Face
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w65uhf/its_official_nvidia_to_acquire_hugging_face_for/" target="_blank" rel="noopener">
+              It's official! Nvidia to acquire Hugging Face for 12.9 billion dollars.
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w71bax/nvidias_1293030000000_acquisition_of_hugging_face/" target="_blank" rel="noopener">
+              NVIDIA's $12,930,300,000.00 acquisition of Hugging Face contains an easter egg. The first 6 numbers of the acquisition price represent the decimal conversion of Unicode character U+1F917. The 🤗 emoji.
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w7990o/georgi_gerganov_on_the_nvidia_acquisition/" target="_blank" rel="noopener">
+              Georgi Gerganov on the Nvidia acquisition
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        当Agent开始“吃数据”，传统湖仓不够用了：华为云重构数据基础设施
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary"><div align="right"><a href="https://www.infoq.cn/article/IE4CYYwbLYYKSbg7lXfx?utm_source=rss&amp;utm_medium=article">点击查看原文></a></div>
+
+(4 sources: Exa: AI for Science, InfoQ AI, Reddit r/LocalLLaMA)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: AI for Science</span>
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.26747" target="_blank" rel="noopener">
+              AgentFold: Closed-Loop Agentic Search for Protein Folding Model Design
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://phys.org/news/2026-09-ai-ion-sites-proteins.html" target="_blank" rel="noopener">
+              New AI model maps the ion binding sites that control how proteins work
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/IE4CYYwbLYYKSbg7lXfx?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              当Agent开始“吃数据”，传统湖仓不够用了：华为云重构数据基础设施
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w5zdx4/my_rule_of_thumb_of_choosing_a_models/" target="_blank" rel="noopener">
+              My RULE of Thumb of choosing a models
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Bernie Sanders proposes to ban AI
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary"><!-- SC_OFF --><div class="md"><p>Defined as AI exceeding human cognitive abilities. 20 years in prison. Plenty of local models already fall under that big of an umbrella in some capacities.</p> <p>This is why it's not enough to say that you could torrent open models so who cares what the politicians do. They want you to not have access to anything good and will put you in prison for it.</p> </div><!-- SC_ON --> &#32; submitted by &#32; <a href="https://www.reddit.com/user/the320x200"> /u/the320x200 </a> <br /> <span><a href="https://www.sanders.senate.gov/wp-content/uploads/Ban-Artificial-Sup
+
+(3 sources: GitHub Trending, Reddit r/LocalLLaMA)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">GitHub Trending</span>
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener">
+              DietrichGebert /ponytail
+            </a>
+            <span class="article-source">GitHub Trending</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/blader/humanizer" target="_blank" rel="noopener">
+              blader /humanizer
+            </a>
+            <span class="article-source">GitHub Trending</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w6egid/bernie_sanders_proposes_to_ban_ai/" target="_blank" rel="noopener">
+              Bernie Sanders proposes to ban AI
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        微软 Foundry 模型路由扩容：覆盖区域增至 28 个，更新模型池
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary"><div align="right"><a href="https://www.infoq.cn/article/ba7Tq1EZbAD6JEzG16uE?utm_source=rss&amp;utm_medium=article">点击查看原文></a></div>
+
+(16 sources: Exa: AI Agents Framework, Exa: Design Simulation CAE, Exa: Digital Twin Industrial, Exa: LLM Latest, GitHub Trending, InfoQ AI)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 16 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: LLM Latest</span>
+        
+        
+        
+        <span class="source-tag">Exa: AI Agents Framework</span>
+        
+        
+        
+        <span class="source-tag">Exa: Design Simulation CAE</span>
+        
+        
+        
+        <span class="source-tag">Exa: Digital Twin Industrial</span>
+        
+        
+        
+        <span class="source-tag">GitHub Trending</span>
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 16 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2607.27830" target="_blank" rel="noopener">
+              Thinking Once Is Enough: Intermediate-Layer Evidence Routing for High-Resolution VQA
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.23552" target="_blank" rel="noopener">
+              Prime Agent: A Self-Improving RLM Harness
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.25593" target="_blank" rel="noopener">
+              JIT-Agent: Scaling Harness Intelligence via Just-in-Time Harness Evolution
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.26067" target="_blank" rel="noopener">
+              StreamPI: Streaming Multimodal Temporal Modeling for Vision-Language-Action Models
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.26480" target="_blank" rel="noopener">
+              Zero-Shot Self-Orchestration with Ledger-Based Control for Improved LLM Coding Performance
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.26856" target="_blank" rel="noopener">
+              From Reasoning to Pixels: Grounded Medical Multimodal LLMs for VQA and Segmentation
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.27969" target="_blank" rel="noopener">
+              openJiuwen: Beyond Static Harnesses for Long-Horizon Coding Agents
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.28383" target="_blank" rel="noopener">
+              Semantic Head Specialization Guides Hybrid ViT Attention for Multimodal LLMs
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2609.00714" target="_blank" rel="noopener">
+              ChatDev 2.0: A No-Code Multi-Agent Platform for Developing Everything
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2609.00863" target="_blank" rel="noopener">
+              Conditional Flow Matching for ML-Based Inverse Design Problems
+            </a>
+            <span class="article-source">Exa: Design Simulation CAE</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Scaling Agents in Europe & The Middle East: Lessons from Schneider Electric, Vodafone, and monday.com
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">A guide on scaling agents in Europe & the Middle East to see how Schneider Electric, Vodafone, and monday.com are approaching production AI at scale, from establishing shared agent platforms and LLMOps practices to designing multi-agent architectures with stronger observability, evaluation, and control.
+
+(4 sources: Exa: AI Agents Framework, InfoQ AI, blog.langchain.dev)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: AI Agents Framework</span>
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        <span class="source-tag">blog.langchain.dev</span>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/html/2607.23124v1" target="_blank" rel="noopener">
+              AgentOmnia: Scaling Agentic Models for Full-Scenario Applications
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/hcQKK8OIfwlMKw2zQSS9?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              从内部 Side Project 到 3.9 万开发者使用，Kiro Crew 创造者亲述开发幕后
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/vogOaCpOeNfe0hjAXfzy?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              当 Agent 走出 App：WorkBuddy 的朋友圈开始向外生长
+            </a>
+            <span class="article-source">InfoQ AI</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/scaling-agents-in-europe-the-middle-east-lessons-from-schneider-electric-vodafone-and-monday-com" target="_blank" rel="noopener">
+              Scaling Agents in Europe & The Middle East: Lessons from Schneider Electric, Vodafone, and monday.com
+            </a>
+            <span class="article-source">blog.langchain.dev</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">10</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">10</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">20</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Reddit用户期待122B或31B以上本地LLM
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">在Reddit的r/LocalLLaMA社区，一名用户发帖表示期待出现122B参数模型，或至少任何超过31B的模型。帖子以“fingers crossed”表达乐观期待，并配有图片。该讨论反映本地LLM用户对更大规模、更强能力模型的诉求。它显示社区在等待新模型发布时，关注参数规模是否足以在本地硬件上运行，也体现本地部署与模型能力之间的权衡。这类帖子通常出现在新模型发布预期、硬件限制和成本讨论中。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w4l9cp/fingers_crossed_for_a_122b_or_really_anything/" target="_blank" rel="noopener">
+              Fingers crossed for a 122b or really anything above 31b.🤞
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">10</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">10</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">10</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Reddit本地LLM社区热议奇点评论区
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">Reddit r/LocalLLaMA用户发帖称对某“奇点”帖子的评论区感到惊讶。该帖反映本地大模型社区围绕AI奇点话题出现强烈情绪化讨论。由于原文仅呈现标题与来源，未提供具体模型、方法、数据或结果。事件主要体现社区舆论与预期分歧，而非技术突破。对技术追踪而言，其价值有限，但可作为观察开源LLM社区对奇点叙事敏感度的社会信号，并理解开源模型爱好者对能力跃迁、风险与未来预期的分歧。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Reddit r/LocalLLaMA</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w4oadx/really_stunned_by_the_singularity_comment_section/" target="_blank" rel="noopener">
+              Really stunned by the Singularity comment section
+            </a>
+            <span class="article-source">Reddit r/LocalLLaMA</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+  </div>
+  
+
+  <div class="footer">生成于 2026-09-07 08:12 · Weekly AI Report Agent</div>
+
+</div>
+</body>
+</html>

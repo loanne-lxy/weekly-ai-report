@@ -141,6 +141,10 @@ body {
 .article-list .article-item .article-source {
   font-size: 12px; color: #8c8c8c; margin-left: 8px;
 }
+.article-list .article-item .article-summary {
+  display: block; font-size: 12px; color: #8c8c8c;
+  margin: 2px 0 0 0; line-height: 1.5;
+}
 
 /* ── Empty State ── */
 .empty-state {
@@ -179,14 +183,14 @@ body {
   <div class="cat-header">
     <span class="icon">🔬</span>
     <h1>AI for Science</h1>
-    <span class="count-badge">1 个事件</span>
+    <span class="count-badge">6 个事件</span>
   </div>
 
   <!-- Domain Summary -->
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周，NucleicBERT 在《Nature Machine Intelligence》发表，通过自监督预训练从大规模 RNA 序列中学习可解释的生物学表示，为 RNA 结构预测与功能推断等任务提供了低标注依赖的统一基础模型框架。
+    本周 AI for Science 的关键进展集中在生物序列基础模型与科学计算：NucleicBERT 以自监督学习 RNA 序列表示，多指标 Bell 多项式方法改进高阶 PDE 的 PINN 混合导数计算，并探索从含噪实验数据直接建模复杂物理现象。
   </div>
   
 
@@ -275,6 +279,490 @@ body {
               NucleicBERT interprets RNA sequence space through self-supervised language modelling
             </a>
             <span class="article-source">Nature Machine Intelligence</span>
+            
+            
+            <span class="article-summary">Nature Machine Intelligence, Published online: 03 September 2026; doi:10.1038/s42256-026-01295-9RNA structure and functi…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        多指标Bell多项式计算PINN高阶混合导数
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作面向高阶偏微分方程的物理信息神经网络，处理混合输入导数及其对网络参数的梯度。传统实现通过重复自动微分获得K阶导数，作者改用多指标Bell多项式组织多元Faà di Bruno公式的前向递归，并配合显式反向传播。该方法将高阶混合导数计算结构化，有助于高阶PDE的PINN训练与梯度计算。相比逐次自动微分，该方法以多指标Bell多项式组织高阶导数，适合需要混合导数的科学计算场景。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.03768v1" target="_blank" rel="noopener">
+              Computing high-order mixed derivatives in physics-informed neural networks using multi-index Bell polynomials
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+            
+            
+            <span class="article-summary">Physics-informed neural networks for high-order partial differential equations require mixed input derivatives and their…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        [未翻译] Stochastic Operator Inference for reduced-order modeling of capillary wave turbulence using experimental measurements
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">[未翻译] Modeling complex physical phenomena directly from experimental data poses fundamental challenges: measurement devices introduce noise and biases into the data, the governing equations are often unknown or intractable, and the dynamics observed experimentally may exhibit stochastic behavior. In this paper, we consider capillary wave turbulence---an example of nonlinear wave interactions at a microfluidic interface---measured by ultra-high-speed digital holographic microscopy. With the goal to learn an efficient model directly from these data, we adapt a stochastic extension of Operator Inferenc
+
+(2 sources: arXiv physics.comp-ph)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.03606v1" target="_blank" rel="noopener">
+              Frenkel line of Yukawa fluids within the self-consistent relaxation theory
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+            
+            
+            <span class="article-summary">For a simple model fluid, the Yukawa fluid, the condition for dynamic crossover, known as the Frenkel line, is defined. …</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.04008v1" target="_blank" rel="noopener">
+              Stochastic Operator Inference for reduced-order modeling of capillary wave turbulence using experimental measurements
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+            
+            
+            <span class="article-summary">Modeling complex physical phenomena directly from experimental data poses fundamental challenges: measurement devices in…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        [未翻译] Spectral and Eigenvector Crossovers in Random Mixed Graphs
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">[未翻译] We study the spectral and eigenvector properties of random mixed graphs, combining undirected and directed interactions, using random matrix theory (RMT). The network is represented by a Hermitian adjacency matrix, with undirected links as real entries and directed links as purely imaginary conjugate pairs, ensuring a real spectrum. Network density is controlled by the connection probability, while directionality sets the fraction of directed edges. We focus on the GOE-to-GUE crossover: at fixed connectivity, increasing directionality breaks time-reversal symmetry and drives spectral statistic</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.04152v1" target="_blank" rel="noopener">
+              Spectral and Eigenvector Crossovers in Random Mixed Graphs
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+            
+            
+            <span class="article-summary">We study the spectral and eigenvector properties of random mixed graphs, combining undirected and directed interactions,…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        [未翻译] Synthesis and Characterization of Compositionally Complex (Gd/Ho/Er/Dy)2Zr2O7 Thin Film Combinatorial Library
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">[未翻译] High-throughput synthesis and characterization of novel ceramic materials with improved thermomechanical properties and phase stability are needed to accelerate the discovery of next-generation thermal barrier materials. A combinatorial thin film material library of (GdDyHoEr)2Zr2O7 were created via combinatorial magnetron reactive sputtering with rare-earth/zirconium alloy targets. Structural, chemical, and thermal property characterization mapping across the four component composition space was performed and correlated with thermal transport measurements. Steady state thermoreflectance mappi</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cond-mat.mtrl-sci</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.04074v1" target="_blank" rel="noopener">
+              Synthesis and Characterization of Compositionally Complex (Gd/Ho/Er/Dy)2Zr2O7 Thin Film Combinatorial Library
+            </a>
+            <span class="article-source">arXiv cond-mat.mtrl-sci</span>
+            
+            
+            <span class="article-summary">High-throughput synthesis and characterization of novel ceramic materials with improved thermomechanical properties and …</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        [未翻译] Hierarchical automation of scanning probe microscopy through agentic orchestration and algorithmic control
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">[未翻译] Rapid advances in agentic artificial intelligence enable scientific systems to interpret open-ended objectives, combine heterogeneous information, invoke specialized tools, and revise experimental strategies as evidence accumulates. However, physical experimentation also contains many tasks for which agentic reasoning provides little advantage and can reduce reliability. Quantitative analysis, optimization, spatial targeting, validation, and instrument execution are often better posed as deterministic or algorithmic operations with explicit objectives and verifiable outputs. Here, we introduce</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cond-mat.mtrl-sci</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.04015v1" target="_blank" rel="noopener">
+              Hierarchical automation of scanning probe microscopy through agentic orchestration and algorithmic control
+            </a>
+            <span class="article-source">arXiv cond-mat.mtrl-sci</span>
+            
+            
+            <span class="article-summary">Rapid advances in agentic artificial intelligence enable scientific systems to interpret open-ended objectives, combine …</span>
+            
           </div>
           
         </div>
@@ -286,7 +774,7 @@ body {
   </div>
   
 
-  <div class="footer">生成于 2026-09-07 08:12 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-09-07 10:23 · Weekly AI Report Agent</div>
 
 </div>
 </body>

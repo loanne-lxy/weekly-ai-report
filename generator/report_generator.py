@@ -14,6 +14,7 @@
 import os
 import json
 import logging
+import re
 from datetime import datetime
 from typing import Any
 
@@ -25,6 +26,18 @@ from event_clustering import _clean_category
 logger = logging.getLogger(__name__)
 
 
+# ── 展示清洗 ──────────────────────────────────────────────
+# RSS 摘要常带 "点击查看原文" 链接/HTML 残留，读库时统一清洗（事件+文章）
+# - <...> HTML 标签；- 孤立尖括号；- 含 utm 的查询串（整个 ?... 段）；
+# - 独立 utm_xxx=yyy 参数；- "点击查看原文"
+_DIRTY_RE = re.compile(r"<[^>]+>|[<>]|\?\S*utm_\S*|utm_\w+=[^\s]*|点击?查看原文")
+
+
+def _clean_text(s: str | None) -> str:
+    return _DIRTY_RE.sub("", s or "").strip()
+
+
+# ── 查询 ────────────────────────────────────────────────
 def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> dict[str, Any]:
     """
     从 knowledge.db 查询本周所有 Events + Articles + Sources。
@@ -57,6 +70,7 @@ def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> 
     event_ids = []
     for row in events_rows:
         evt = dict(row)
+        evt["summary"] = _clean_text(evt.get("summary"))
         events.append(evt)
         event_ids.append(evt["id"])
 
@@ -75,6 +89,7 @@ def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> 
 
         for row in rows:
             article = dict(row)
+            article["summary"] = _clean_text(article.get("summary"))
             # Find which event this article belongs to
             mapping_rows = conn.execute(
                 "SELECT event_id FROM event_articles WHERE article_url = ?",
@@ -340,8 +355,9 @@ def generate_report(
         "设计仿真": "design-simulation", "数字孪生": "digital-twin",
     }
 
-    # ── 6. 渲染 HTML ─────────────────────────────────────
+    # ── 6. 渲染 HTML ─────────────────────────────
     env = Environment(loader=FileSystemLoader("generator/templates"))
+    env.filters["clean_summary"] = _clean_text  # 模板层双保险
 
     week_dir = f"output/{week_label.replace(' ', '_')}"
     os.makedirs(week_dir, exist_ok=True)

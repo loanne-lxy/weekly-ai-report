@@ -285,7 +285,7 @@ body {
               {{ art.get('title', '未命名') }}
             </a>
             <span class="article-source">{{ art.get('source_name', '') }}</span>
-            {% set art_summary = (art.get('summary') or '').strip() %}
+            {% set art_summary = (art.get('summary') or '') | clean_summary %}
             {% if art_summary %}
             <span class="article-summary">{{ art_summary[:120] }}{% if art_summary|length > 120 %}…{% endif %}</span>
             {% endif %}

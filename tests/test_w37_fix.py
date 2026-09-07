@@ -149,4 +149,13 @@ with tempfile.TemporaryDirectory() as td:
     db.close() if hasattr(db, "close") else None
     ok("upsert_article default_category 落库", cat == "AI4Science")
 
+print("9) 脏摘要清洗（RSS 残留）")
+from generator.report_generator import _clean_text  # noqa: E402
+ok("移除'点击查看原文'", _clean_text("正常摘要。点击查看原文> ") == "正常摘要。")
+ok("纯 HTML 脏文本 → 空",
+   _clean_text('<div align="right"><a href="x">点击查看原文</a></div>') == "")
+ok("移除 utm 参数", _clean_text("正文 utm_campaign=abc 结尾") == "正文  结尾")
+ok("空/None 安全", _clean_text("") == "" and _clean_text(None) == "")
+ok("干净文本不受影响", _clean_text("纯中文摘要，无脏字符。") == "纯中文摘要，无脏字符。")
+
 print(f"\nALL {PASS} CHECKS PASSED")

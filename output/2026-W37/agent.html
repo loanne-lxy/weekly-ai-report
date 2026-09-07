@@ -183,14 +183,14 @@ body {
   <div class="cat-header">
     <span class="icon">🤖</span>
     <h1>Agent</h1>
-    <span class="count-badge">9 个事件</span>
+    <span class="count-badge">16 个事件</span>
   </div>
 
   <!-- Domain Summary -->
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周Agent领域关键进展集中在端到端具身智能：自动驾驶通过潜空间对齐将视觉-语言语义推理转化为连续且受物理约束的动作并构建低成本实车-数字孪生平台，四足机器人采用多模态扩散策略实现复杂地形自主跑酷，机器人操作则通过动作导向监督与可组合抓取框架提升控制效用与跨本体泛化。
+    本周智能体进展覆盖编码、实验自动化与具身导航：Prime Agent 提出基于递归语言模型与持续框架的自改进编码代理，扫描探针显微镜工作构建智能体编排与算法控制结合的层级自动化框架，MulDP 则用多模态扩散策略提升四足机器人在复杂地形中的自主跑酷导航能力。
   </div>
   
 
@@ -208,12 +208,12 @@ body {
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">65</span>
+          <span class="badge badge-importance">72</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">55</span>
+          <span class="badge badge-novelty">58</span>
         </div>
         
         
@@ -227,14 +227,14 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        端到端自动驾驶的VLA规划与低成本仿真-实车平台
+        RLM与持续框架在ARC-AGI-3达95.5%
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">两篇论文围绕端到端自动驾驶展开。LaPla提出统一视觉-语言-动作框架，通过潜空间对齐规划将VLM的离散语义推理映射为连续、受物理约束的驾驶动作，弥合语义理解与精确运动执行之间的差距。另一项工作构建低成本开放平台，结合微型Ackermann车辆、印刷城市赛道、数据采集与Webots数字孪生，支持仿真方法到实车执行的受控实验。整体趋势是自动驾驶研究从纯仿真或单一策略转向语义规划、动作连续化与低成本实车验证结合。</div>
+      <div class="event-summary">Prime Agent 是一个面向编码任务的开源自改进执行框架；它围绕递归语言模型（RLM）与持续框架（Continual Harness）两个抽象进行构建。RLM 提供递归语言模型层面的抽象，Continual Harness 提供持续框架层面的抽象，两者共同构成该编码代理的基础。该框架将自改进能力与编码执行框架结合在一起。在 Opus 5 上，Prime Agent 于 ARC-AGI-3 基准取得 95.5% 的成绩。该成绩超过文中报告的人类专家基线，说明这一自改进编码代理在抽象推理任务上具有较强表现。</div>
       
 
       <!-- Sources Info -->
@@ -250,7 +250,7 @@ body {
         
         
         
-        <span class="source-tag">arXiv cs.RO</span>
+        <span class="source-tag">Exa: AI Agents Framework</span>
         
         
         
@@ -277,24 +277,29 @@ body {
         <div class="article-list">
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04070v1" target="_blank" rel="noopener">
-              Continuous Actions from Discrete Minds: Latent-Aligned Planning for End-to-End Autonomous Driving
+            <a href="https://arxiv.org/abs/2608.23552" target="_blank" rel="noopener">
+              Prime Agent: A Self-Improving RLM Harness
             </a>
-            <span class="article-source">arXiv cs.RO</span>
+            <span class="article-source">Exa: AI Agents Framework</span>
             
             
-            <span class="article-summary">Bridging the gap between the discrete reasoning of Vision-Language Models and the continuous, physics-constrained nature…</span>
+            <span class="article-summary">---
+title: "Prime Agent: A Self-Improving RLM Harness"
+author: Karten; Seth; Zhang; Alex L; Thomas; Kevin; Müller; Sebas…</span>
             
           </div>
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04147v1" target="_blank" rel="noopener">
-              A Low-Cost, Open Platform for End-to-End Autonomous Driving on a Miniature Ackermann Vehicle
+            <a href="https://www.primeintellect.ai/blog/prime-agent" target="_blank" rel="noopener">
+              Prime Agent: A self-improving RLM agent
             </a>
-            <span class="article-source">arXiv cs.RO</span>
+            <span class="article-source">Exa: AI Agents Framework</span>
             
             
-            <span class="article-summary">This paper presents a low-cost, open experimental platform for research in end-to-end autonomous driving with miniature …</span>
+            <span class="article-summary">---
+title: "Prime Agent: A self-improving RLM agent"
+url: https://primeintellect.ai/blog/prime-agent
+hostname: primeinte…</span>
             
           </div>
           
@@ -314,18 +319,18 @@ body {
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">65</span>
+          <span class="badge badge-importance">60</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">55</span>
+          <span class="badge badge-novelty">50</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">55</span>
+          <span class="badge badge-impact">60</span>
         </div>
         
       </div>
@@ -333,14 +338,107 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        多模态扩散策略实现四足机器人自主跑酷导航
+        扫描探针显微镜层级智能体自动化
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">该论文提出MulDP多模态扩散策略，面向复杂地形下的四足机器人自主跑酷导航。针对现有系统依赖人工高层规划、速度精细调节不足、长时程预判与感知-执行耦合困难等问题，方法将多模态感知输入与扩散策略结合，用于生成可执行的运动控制策略。该工作强调从感知到动作的端到端闭环，减少人工干预。其意义在于提升四足机器人在非结构化地形中的自主移动能力，为巡检、搜救和复杂环境作业提供新的具身智能方案。</div>
+      <div class="event-summary">该工作面向扫描探针显微镜的自动化，利用智能体人工智能解释开放目标、整合异构信息、调用专用工具，并随证据积累修订实验策略。作者提出层级自动化框架，将智能体编排与算法控制结合，用于扫描探针显微镜。文章同时指出，物理实验中存在许多智能体推理优势有限且可能降低可靠性的任务，因此需要算法控制，并讨论其适用边界。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cond-mat.mtrl-sci</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.04015v1" target="_blank" rel="noopener">
+              Hierarchical automation of scanning probe microscopy through agentic orchestration and algorithmic control
+            </a>
+            <span class="article-source">arXiv cond-mat.mtrl-sci</span>
+            
+            
+            <span class="article-summary">Rapid advances in agentic artificial intelligence enable scientific systems to interpret open-ended objectives, combine …</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        多模态扩散策略实现四足跑酷导航
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">四足机器人已在复杂地形跑酷运动上展现敏捷性，但多数系统仍依赖人工进行高层规划，自主跑酷导航仍探索不足。关键挑战包括细粒度速度调节、长时程预期行为，以及感知与具身执行之间的紧密耦合。MulDP提出多模态扩散策略，用于复杂地形中的自主四足跑酷导航。该工作关注将感知、规划与执行结合，以提升四足机器人在复杂地形中的自主性。</div>
       
 
       <!-- Sources Info -->
@@ -407,18 +505,18 @@ body {
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">60</span>
+          <span class="badge badge-importance">55</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">45</span>
+          <span class="badge badge-novelty">35</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">55</span>
+          <span class="badge badge-impact">70</span>
         </div>
         
       </div>
@@ -426,19 +524,19 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        视觉-语言机器人操作中的动作充分性与可组合抓取研究
+        编码代理加速OpenAI研究与企业工作流
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">两篇论文聚焦视觉-语言模型在机器人操作与抓取中的控制效用不足问题。GIFT指出视觉丰富性与控制效用之间存在动作充分性差距，提出通过动作导向的结构监督训练中间特征，以保留物理与任务结构并减少无关视觉冗余。AdaRoboVLG提出可组合基础先验与可泛化抓取合成框架，解耦基础模型与端到端抓取策略，生成并评估物理可行抓取候选。整体趋势是从单纯语义理解转向面向动作执行、物理约束和跨本体泛化的机器人策略学习。</div>
+      <div class="event-summary">OpenAI内部数据显示，编码代理正在改变AI研究，早期指标涉及代理使用、实验速度、任务复杂度和研究加速。Basis、Clay和Exa Labs等AI原生公司使用AI代理改进入职、客户管理和开发者集成。Gilbert + Tobin律所则通过CEO承诺、严格治理和人类问责，扩展ChatGPT Enterprise与Codex。这些案例说明编码代理和企业AI工作流正被用于研究与企业运营。</div>
       
 
       <!-- Sources Info -->
       <div class="sources-info">
-        <span>📰 2 篇来源</span>
+        <span>📰 6 篇来源</span>
         
         
         
@@ -449,9 +547,19 @@ body {
         
         
         
-        <span class="source-tag">arXiv cs.RO</span>
         
         
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">GitHub Trending</span>
+        
+        
+        
+        <span class="source-tag">OpenAI Blog</span>
         
         
         
@@ -472,28 +580,72 @@ body {
       <!-- Linked Articles (expandable) -->
       
       <details class="articles-expand">
-        <summary>展开 2 篇相关文章</summary>
+        <summary>展开 6 篇相关文章</summary>
         <div class="article-list">
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04096v1" target="_blank" rel="noopener">
-              Adaptive Vision-Language Grasping via Composable Foundation Priors and Generalizable Grasp Synthesis
+            <a href="https://github.com/anomalyco/opencode" target="_blank" rel="noopener">
+              anomalyco /opencode
             </a>
-            <span class="article-source">arXiv cs.RO</span>
+            <span class="article-source">GitHub Trending</span>
             
             
-            <span class="article-summary">This paper proposes AdaRoboVLG, a task-adaptive Vision-Language-Grasp (VLG) framework that supports generalizable grasp …</span>
+            <span class="article-summary">The open source coding agent.</span>
             
           </div>
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04193v1" target="_blank" rel="noopener">
-              GIFT: Guided Intermediate Feature Training via Action-Oriented Structural Supervision for Robotic Manipulation
+            <a href="https://openai.com/index/ai-native-company-workflows" target="_blank" rel="noopener">
+              How AI-native companies turn workflows into operating capability
             </a>
-            <span class="article-source">arXiv cs.RO</span>
+            <span class="article-source">OpenAI Blog</span>
             
             
-            <span class="article-summary">Vision-language pre-training and predictive world modeling provide robot policies with rich semantic and dynamic visual …</span>
+            <span class="article-summary">Basis, Clay, and Exa Labs use AI agents to improve onboarding, account management, and developer integrations. See what …</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/gilbert-tobin" target="_blank" rel="noopener">
+              How law firm Gilbert + Tobin governs and scales AI with OpenAI
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">See how Gilbert + Tobin combines CEO-led commitment, rigorous governance, and human accountability to scale ChatGPT Ente…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/polimill" target="_blank" rel="noopener">
+              Polimill builds Japan's next-generation public AI infrastructure
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">Polimill uses OpenAI GPT models and Codex to help municipalities search and use administrative knowledge while accelerat…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/research-acceleration-view-inside-openai" target="_blank" rel="noopener">
+              Research acceleration: The view inside OpenAI
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">Inside OpenAI, coding agents are reshaping AI research. Explore early data on agent usage, experiment velocity, task com…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/supporting-california-bill-advance-ai-youth-safety" target="_blank" rel="noopener">
+              OpenAI supports California’s bill to advance youth AI safety
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">OpenAI supports California SB 1119, advancing strong, age-appropriate AI safeguards for teens while preserving opportuni…</span>
             
           </div>
           
@@ -513,18 +665,18 @@ body {
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">55</span>
+          <span class="badge badge-importance">50</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">45</span>
+          <span class="badge badge-novelty">50</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">70</span>
+          <span class="badge badge-impact">50</span>
         </div>
         
       </div>
@@ -532,14 +684,210 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        LangChain 与 CrewAI 更新强化 MCP 工具适配与 Agent 平台能力
+        
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">LangChain 1.4.0 引入 langchain.mcp 命名空间与 MCPAdapter，可将 URL、本地脚本、进程内服务器、MCPConfig 或 FastMCP ClientGroup 等 MCP 服务器适配为 LangChain 工具，并修复 agent 工具路由。CrewAI 1.15.19 增加 Clipper 集成客户端、可注入平台工具客户端、CEL now() 与运行结束记录，提升 Crew 运行可观测性和工具扩展。这些更新降低 MCP 工具接入成本，强化多智能体框架的工具调用与平台化能力。</div>
+      <div class="event-summary">[未翻译] 
+
+(10 sources: InfoQ AI, blog.langchain.dev)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 10 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        <span class="source-tag">blog.langchain.dev</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 10 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/3M4uYzNDWiLX6BR9RXwy?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Uber GitFarm：面向大规模单体代码库的 Git 即服务平台
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/6EYVBX5UD2Cb0PWYsPCq?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              AI 浪潮里，听见一线的声音｜AICon 深圳 2026 优秀出品人 & 明星讲师名单揭晓
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/6Jc130IN2OaXqsPDIzmJ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              人人都能整个“自己的DeepSeek Harness”，那我们为啥还在给Claude Code们充会员？
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/BLyA80LXfvGII85FGmw8?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              FlexGanttFX 正式开源
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/M792kCZ4FIzk7YHe4WhT?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              “美国大豆包”Gemini翻身：输出速度碾压同行、智能水平重回第一梯队
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/bOI6y8Tdr714CWa5CcxR?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              向总决赛进发｜GOAI复赛评审正式启动
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/hWQs9a123hhtDYtk0ADQ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Spring Boot 中的后量子密码学：一个冲刺周期内即可交付的四种模式
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/m9DBSRgv8grSQ9NkY6rS?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              让测试更加绿色可持续
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/ufMvEqDPiwm92btRahrP?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              蓝牙耳机总断连？开发者顺藤摸瓜，竟发现阿里全球速卖通在“播放静音”
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/agents-that-pay-how-nevermined-empowers-langchain-agents-to-buy-and-sell-services" target="_blank" rel="noopener">
+              
+            </a>
+            <span class="article-source">blog.langchain.dev</span>
+            
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        [未翻译] MCP in LangChain: Stateless Protocol, Elicitation, and More!
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">[未翻译] MCP support now lives in langchain.mcp, built on FastMCP for the 2026-07-28 spec, with elicitation handled as a LangGraph interrupt and tool lists cached.
+
+(8 sources: CrewAI (GitHub), LangChain (GitHub), blog.langchain.dev)</div>
       
 
       <!-- Sources Info -->
@@ -575,7 +923,7 @@ body {
         
         
         
-        <span class="source-tag">InfoQ AI</span>
+        <span class="source-tag">blog.langchain.dev</span>
         
         
         
@@ -700,11 +1048,13 @@ chore(deps…</span>
           </div>
           
           <div class="article-item">
-            <a href="https://www.infoq.cn/article/hWQs9a123hhtDYtk0ADQ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Spring Boot 中的后量子密码学：一个冲刺周期内即可交付的四种模式
+            <a href="https://www.langchain.com/blog/mcp-in-langchain-stateless-protocol-elicitation-and-more" target="_blank" rel="noopener">
+              MCP in LangChain: Stateless Protocol, Elicitation, and More!
             </a>
-            <span class="article-source">InfoQ AI</span>
+            <span class="article-source">blog.langchain.dev</span>
             
+            
+            <span class="article-summary">MCP support now lives in langchain.mcp, built on FastMCP for the 2026-07-28 spec, with elicitation handled as a LangGrap…</span>
             
           </div>
           
@@ -724,18 +1074,18 @@ chore(deps…</span>
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">55</span>
+          <span class="badge badge-importance">50</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">35</span>
+          <span class="badge badge-novelty">50</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">60</span>
+          <span class="badge badge-impact">50</span>
         </div>
         
       </div>
@@ -743,14 +1093,16 @@ chore(deps…</span>
       <!-- Event Title -->
       <div class="event-title">
         
-        OpenAI呼吁AI安全协调，开源智能体框架走红
+        [未翻译] An Alien Mind
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">OpenAI博客中，Jakub Pachocki反思日益强大的AI，强调保持对齐的挑战，并呼吁更强安全护栏与国际协调。同期GitHub趋势榜出现NousResearch/hermes-agent，定位为随用户成长的智能体。ruvnet/ruflo则提供多智能体蜂群、自主工作流、自适应记忆、RAG及Claude Code/Codex/Hermes集成。事件反映开源智能体生态快速扩张，同时高层安全治理讨论升温。</div>
+      <div class="event-summary">[未翻译] Jakub Pachocki reflects on increasingly capable AI and the challenge of keeping it aligned. He calls for stronger safeguards and international coordination.
+
+(3 sources: GitHub Trending, OpenAI Blog)</div>
       
 
       <!-- Sources Info -->
@@ -845,18 +1197,18 @@ chore(deps…</span>
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">55</span>
+          <span class="badge badge-importance">50</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">45</span>
+          <span class="badge badge-novelty">50</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">55</span>
+          <span class="badge badge-impact">50</span>
         </div>
         
       </div>
@@ -864,19 +1216,19 @@ chore(deps…</span>
       <!-- Event Title -->
       <div class="event-title">
         
-        摄影测量与语义分割实现焊缝自动识别和三维映射
+        微软 Foundry 模型路由扩容：覆盖区域增至 28 个，更新模型池
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">该论文提出一种基于摄影测量与语义分割的焊缝自动识别和三维映射方法，用于机器人后处理中的打磨、修整与检测。针对大型工件使用高精度激光或结构光扫描耗时长、数据冗余大的问题，方法通过视觉图像重建焊缝几何并分割关键区域，降低无关数据量。其意义在于提升机器人后处理的自动化程度，使焊缝定位更准确、扫描流程更高效，适用于大型制造工件的自动化加工与质量检查。</div>
+      <div class="event-summary">(3 sources: InfoQ AI)</div>
       
 
       <!-- Sources Info -->
       <div class="sources-info">
-        <span>📰 1 篇来源</span>
+        <span>📰 3 篇来源</span>
         
         
         
@@ -885,7 +1237,11 @@ chore(deps…</span>
         
         
         
-        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
         
         
         
@@ -908,17 +1264,33 @@ chore(deps…</span>
       <!-- Linked Articles (expandable) -->
       
       <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
+        <summary>展开 3 篇相关文章</summary>
         <div class="article-list">
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.03970v1" target="_blank" rel="noopener">
-              Automated Weld Seam Recognition and 3D Mapping for Robotic Post Processing Using Photogrammetry and Semantic Segmentation
+            <a href="https://www.infoq.cn/article/B5bNUx3GzrUZGvDmBbFi?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Cloudflare Wallets 迟来入局 x402：支出控制仅能约束单笔支付
             </a>
-            <span class="article-source">arXiv cs.RO</span>
+            <span class="article-source">InfoQ AI</span>
             
             
-            <span class="article-summary">Accurate identification of weld seam geometries is essential for automated robotic post processing operations such as gr…</span>
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/IE4CYYwbLYYKSbg7lXfx?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              当Agent开始“吃数据”，传统湖仓不够用了：华为云重构数据基础设施
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/ba7Tq1EZbAD6JEzG16uE?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              微软 Foundry 模型路由扩容：覆盖区域增至 28 个，更新模型池
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
             
           </div>
           
@@ -943,7 +1315,7 @@ chore(deps…</span>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">40</span>
+          <span class="badge badge-novelty">50</span>
         </div>
         
         
@@ -957,19 +1329,21 @@ chore(deps…</span>
       <!-- Event Title -->
       <div class="event-title">
         
-        农田地头覆盖路径规划中的倒车转弯方法
+        [未翻译] Scaling Agents in Europe & The Middle East: Lessons from Schneider Electric, Vodafone, and monday.com
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">论文提出一种面向耕地地头区域的覆盖路径规划方法，针对传统嵌套多边形与平滑转弯难以完全覆盖角落的问题，通过修改多边形角点引入倒车转弯，使车辆能够完整覆盖地头区域。方法比较了不同方案在间隙、重叠等指标上的表现，强调在可耕地自主驾驶中处理边界角落的可行性。该工作对农业自动驾驶的覆盖完整性、作业效率和路径可执行性具有实际意义。</div>
+      <div class="event-summary">[未翻译] A guide on scaling agents in Europe & the Middle East to see how Schneider Electric, Vodafone, and monday.com are approaching production AI at scale, from establishing shared agent platforms and LLMOps practices to designing multi-agent architectures with stronger observability, evaluation, and control.
+
+(3 sources: Exa: AI Agents Framework, blog.langchain.dev)</div>
       
 
       <!-- Sources Info -->
       <div class="sources-info">
-        <span>📰 1 篇来源</span>
+        <span>📰 3 篇来源</span>
         
         
         
@@ -978,9 +1352,15 @@ chore(deps…</span>
         
         
         
-        <span class="source-tag">arXiv cs.RO</span>
         
         
+        
+        
+        <span class="source-tag">Exa: AI Agents Framework</span>
+        
+        
+        
+        <span class="source-tag">blog.langchain.dev</span>
         
         
         
@@ -1001,17 +1381,45 @@ chore(deps…</span>
       <!-- Linked Articles (expandable) -->
       
       <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
+        <summary>展开 3 篇相关文章</summary>
         <div class="article-list">
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04103v1" target="_blank" rel="noopener">
-              Corner Cases: Headland Coverage Path Planning for Autonomous Driving in Arable Farming
+            <a href="https://arxiv.org/html/2607.23124v1" target="_blank" rel="noopener">
+              AgentOmnia: Scaling Agentic Models for Full-Scenario Applications
             </a>
-            <span class="article-source">arXiv cs.RO</span>
+            <span class="article-source">Exa: AI Agents Framework</span>
             
             
-            <span class="article-summary">This paper presents a new method for headland coverage path planning for arable fields. Several earlier approaches sugge…</span>
+            <span class="article-summary">---
+title: "AgentOmnia: Scaling Agentic Models for Full-Scenario Applications"
+author: Huawei Cloud Post-Training Team
+d…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/managed-deep-agents-is-now-in-public-beta?from_theconsensus=1" target="_blank" rel="noopener">
+              Managed Deep Agents is now in public beta
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+            
+            
+            <span class="article-summary">---
+title: Managed Deep Agents is now in public beta
+author: Victor Moreira
+url: https://www.langchain.com/blog/managed-…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.langchain.com/blog/scaling-agents-in-europe-the-middle-east-lessons-from-schneider-electric-vodafone-and-monday-com" target="_blank" rel="noopener">
+              Scaling Agents in Europe & The Middle East: Lessons from Schneider Electric, Vodafone, and monday.com
+            </a>
+            <span class="article-source">blog.langchain.dev</span>
+            
+            
+            <span class="article-summary">A guide on scaling agents in Europe & the Middle East to see how Schneider Electric, Vodafone, and monday.com are approa…</span>
             
           </div>
           
@@ -1036,7 +1444,7 @@ chore(deps…</span>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">30</span>
+          <span class="badge badge-novelty">50</span>
         </div>
         
         
@@ -1050,19 +1458,26 @@ chore(deps…</span>
       <!-- Event Title -->
       <div class="event-title">
         
-        多智能体系统形成矩阵与能量型编队控制
+        [未翻译] NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Inference
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">该论文提出一种面向平面多智能体机器人系统的能量型控制器，用于实现并保持指定编队，同时避免智能体之间发生碰撞。控制器将智能体间关系建模为弹簧-阻尼模块网络，其无能量状态对应期望编队，并通过形成矩阵描述系统动态。该方法把编队保持与避碰统一到能量函数框架中，有利于分析稳定性与收敛性。对多机器人协同导航、集群作业等场景具有参考价值。</div>
+      <div class="event-summary">[未翻译] ---
+title: "NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Inference"
+author: Lac; Aurélien; Wu; Tony
+url: https://arxiv.org/abs/2609.01657v1
+hostname: arxiv.org
+description: Multimodal models often build on architectures designed for generative vision-language modeling, typically combining separately pretrained vision encoders with causal language models. Visual document retrievers such as ColPali repurpose these models as encoders, carrying over the parameter and compute overhead of a VLM for a non-generative task. We introduce NeoMME, 
+
+(7 sources: Exa: AI Agents Framework, Exa: AI for Science, Exa: LLM Latest)</div>
       
 
       <!-- Sources Info -->
       <div class="sources-info">
-        <span>📰 1 篇来源</span>
+        <span>📰 7 篇来源</span>
         
         
         
@@ -1071,9 +1486,203 @@ chore(deps…</span>
         
         
         
-        <span class="source-tag">arXiv cs.RO</span>
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: AI for Science</span>
+        
+        
+        
+        <span class="source-tag">Exa: AI Agents Framework</span>
+        
+        
+        
+        <span class="source-tag">Exa: LLM Latest</span>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 7 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2607.07708v1" target="_blank" rel="noopener">
+              Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+            
+            
+            <span class="article-summary">---
+title: Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reas…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.25593" target="_blank" rel="noopener">
+              JIT-Agent: Scaling Harness Intelligence via Just-in-Time Harness Evolution
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+            
+            
+            <span class="article-summary">---
+title: "JIT-Agent: Scaling Harness Intelligence via Just-in-Time Harness Evolution"
+author: Zhang; Guibin; Lu; Leo; …</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.26480" target="_blank" rel="noopener">
+              Zero-Shot Self-Orchestration with Ledger-Based Control for Improved LLM Coding Performance
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+            
+            
+            <span class="article-summary">---
+title: Zero-Shot Self-Orchestration with Ledger-Based Control for Improved LLM Coding Performance
+author: Gao; Victo…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.27969" target="_blank" rel="noopener">
+              openJiuwen: Beyond Static Harnesses for Long-Horizon Coding Agents
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+            
+            
+            <span class="article-summary">---
+title: "openJiuwen: Beyond Static Harnesses for Long-Horizon Coding Agents"
+author: Openjiuwen Team; Yu; Tao; Xinyu;…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2609.00714" target="_blank" rel="noopener">
+              ChatDev 2.0: A No-Code Multi-Agent Platform for Developing Everything
+            </a>
+            <span class="article-source">Exa: AI Agents Framework</span>
+            
+            
+            <span class="article-summary">---
+title: "ChatDev 2.0: A No-Code Multi-Agent Platform for Developing Everything"
+author: Dang; Yufan; Yao; Shu; Lai; B…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2609.01657" target="_blank" rel="noopener">
+              NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Inference
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+            
+            
+            <span class="article-summary">---
+title: "NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Infer…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://docshare.wps.com/document/accurate-interdisciplinary-and-transparent-structure-property-understanding-with-deep-native-structural-reasoning/82010/" target="_blank" rel="noopener">
+              Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+            
+            
+            <span class="article-summary">---
+title: Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reas…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        RTX 4060 跑 35B 模型，每秒 39 Token？伯克利、MIT 联手开源 FreeToken
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">(4 sources: Exa: Design Simulation CAE, InfoQ AI)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: Design Simulation CAE</span>
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
         
         
         
@@ -1094,17 +1703,45 @@ chore(deps…</span>
       <!-- Linked Articles (expandable) -->
       
       <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
+        <summary>展开 4 篇相关文章</summary>
         <div class="article-list">
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04158v1" target="_blank" rel="noopener">
-              Formation Matrix and Energy-based Control of Multi-Agent Systems
+            <a href="https://arxiv.org/abs/2608.22457" target="_blank" rel="noopener">
+              KPI-Conditioned Generative Design of Automotive Hood Inner Panels: A Two-Stage Retrieval-Generation Pipeline with Surrogate-Based Performance Estimation
             </a>
-            <span class="article-source">arXiv cs.RO</span>
+            <span class="article-source">Exa: Design Simulation CAE</span>
             
             
-            <span class="article-summary">This paper presents an energy-based controller for a multiagent robotic system designed to achieve and maintain a specif…</span>
+            <span class="article-summary">---
+title: "KPI-Conditioned Generative Design of Automotive Hood Inner Panels: A Two-Stage Retrieval-Generation Pipeline…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/bSxsIYqjExqDh8eO2kwL?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              Meta 拓展自研芯片战略：从计算领域延伸至网络领域
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/iV0rsPyO5XZDJ7797hLJ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              谷歌云发布 AI 智能体，简化数据库生命周期管理
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/tij5T0vJ1Yk0s7Uov7SE?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              RTX 4060 跑 35B 模型，每秒 39 Token？伯克利、MIT 联手开源 FreeToken
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
             
           </div>
           
@@ -1150,7 +1787,7 @@ chore(deps…</span>
       <!-- Event Summary -->
       
       
-      <div class="event-summary">该论文关注计算机辅助工程（CAE）仿真智能体。CAE仿真设置如OpenFOAM、FEniCS或COMSOL需要专业经验，而LLM智能体有望将自然语言请求转化为可运行的仿真。近期CAE智能体在通用框架之外加入仿真专用机制，例如多智能体分解与领域检索。文章讨论这类智能体在通用框架之外真正需要的能力。</div>
+      <div class="event-summary">计算机辅助工程（CAE）仿真中，配置OpenFOAM、FEniCS或COMSOL等求解器需要专业经验。LLM智能体有望将自然语言请求转化为可运行的仿真流程。近期CAE智能体在通用框架之外引入仿真专用机制，例如多智能体分解与领域检索。该工作分析CAE仿真智能体真正需要的能力，强调仅靠通用智能体框架不足以覆盖求解器配置与领域知识需求。</div>
       
 
       <!-- Sources Info -->
@@ -1207,10 +1844,443 @@ chore(deps…</span>
 
     </div>
     
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">40</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">30</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Coding Agent 技能目录与优化系统
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件聚焦 coding agent 的技能目录与优化系统。ECC 被描述为 agent harness 性能优化系统，包含 skills、instincts、memory、security 和 research-first development，面向 Claude Code、Codex、Opencode、Cursor 等。OpenAI 提供 Skills Catalog for Codex。diagram-design 提供 38 种 editorial diagram types，用于 Claude Code、Codex 和 Pi，输出 self-contained HTML + SVG，并强调 no shadows、no Mermaid slop。这些项目显示 coding agent 能力正通过可复用 skill 目录和性能/安全优化扩展。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 4 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">GitHub Trending</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 4 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://github.com/affaan-m/ECC" target="_blank" rel="noopener">
+              affaan-m /ECC
+            </a>
+            <span class="article-source">GitHub Trending</span>
+            
+            
+            <span class="article-summary">The agent harness performance optimization system. Skills, instincts, memory, security, and research-first development f…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/cathrynlavery/diagram-design" target="_blank" rel="noopener">
+              cathrynlavery /diagram-design
+            </a>
+            <span class="article-source">GitHub Trending</span>
+            
+            
+            <span class="article-summary">38 editorial diagram types for Claude Code, Codex, and Pi. Self-contained HTML + SVG. No shadows. No Mermaid slop.</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">
+              mattpocock /skills
+            </a>
+            <span class="article-source">GitHub Trending</span>
+            
+            
+            <span class="article-summary">Skills for Real Engineers. Straight from my .agents directory.</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/openai/skills" target="_blank" rel="noopener">
+              openai /skills
+            </a>
+            <span class="article-source">GitHub Trending</span>
+            
+            
+            <span class="article-summary">Skills Catalog for Codex</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">30</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">30</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">40</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        AI Coding Agent 技能与工程实践
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件围绕 AI Coding Agent 的技能与工程实践。InfoQ 文章标题涉及鸿蒙 AI Coding 的研发新范式与工程实践。GitHub 项目 humanizer 提供去除文本中 AI 生成写作痕迹的 agent skill。ponytail 让 AI agent 以“最懒资深开发”方式思考，强调最好代码是不写代码。这些项目体现 coding agent 能力正通过 skill 封装扩展到文本风格与代码工程实践。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">GitHub Trending</span>
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener">
+              DietrichGebert /ponytail
+            </a>
+            <span class="article-source">GitHub Trending</span>
+            
+            
+            <span class="article-summary">Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/blader/humanizer" target="_blank" rel="noopener">
+              blader /humanizer
+            </a>
+            <span class="article-source">GitHub Trending</span>
+            
+            
+            <span class="article-summary">Agent skill that removes signs of AI-generated writing from text</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/4C4RQUGPhAXgcx8G64ab?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              鸿蒙 AI Coding 的研发新范式与工程实践
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">20</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">20</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">30</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        Kiro Crew 开发者规模达3.9万
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">文章报道Kiro Crew从内部Side Project发展到3.9万开发者使用，但可见信息仅包含标题。内容来自创造者对开发幕后的叙述，未提供具体技术方法、架构、模型名或实验结果。该信息不足以判断其技术路线、实现方式或实际效果。由于没有可验证的方法名、模型名、机构或数字，除3.9万开发者外不作扩展，本事件只能作为采用规模线索。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/hcQKK8OIfwlMKw2zQSS9?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              从内部 Side Project 到 3.9 万开发者使用，Kiro Crew 创造者亲述开发幕后
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">10</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">10</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">10</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        WorkBuddy Agent 走出 App 扩展朋友圈
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件来自 InfoQ AI，报道 WorkBuddy 的 Agent 相关动态。标题显示 Agent 走出 App，WorkBuddy 的朋友圈开始向外生长。由于输入仅包含标题，未提供模型、工具、环境交互、执行闭环或性能数据。该报道未说明具体技术方法，也未说明影响范围。因此只能确认其涉及 Agent 走出 App 与朋友圈向外生长，无法评估具体技术突破。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">InfoQ AI</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://www.infoq.cn/article/vogOaCpOeNfe0hjAXfzy?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
+              当 Agent 走出 App：WorkBuddy 的朋友圈开始向外生长
+            </a>
+            <span class="article-source">InfoQ AI</span>
+            
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
   </div>
   
 
-  <div class="footer">生成于 2026-09-07 10:23 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-09-07 11:28 · Weekly AI Report Agent</div>
 
 </div>
 </body>

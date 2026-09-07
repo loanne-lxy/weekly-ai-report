@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>设计仿真 — AI 前沿资讯周报</title>
+<title>其他 — AI 前沿资讯周报</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -25,13 +25,13 @@ body {
 .cat-header {
   display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
   padding: 24px; background: #fff; border-radius: 8px;
-  border-left: 4px solid #f59e0b;
+  border-left: 4px solid #1677ff;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .cat-header .icon { font-size: 36px; }
 .cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
 .cat-header .count-badge {
-  background: #f59e0b15; color: #f59e0b;
+  background: #1677ff15; color: #1677ff;
   font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
 }
 
@@ -181,16 +181,16 @@ body {
 
   <!-- Category Header -->
   <div class="cat-header">
-    <span class="icon">🎨</span>
-    <h1>设计仿真</h1>
-    <span class="count-badge">1 个事件</span>
+    <span class="icon"></span>
+    <h1>其他</h1>
+    <span class="count-badge">2 个事件</span>
   </div>
 
   <!-- Domain Summary -->
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周设计仿真领域聚焦 LLVM 模块化、可复用的编译器与工具链技术，为 CAE 仿真工具链和 AI 代理框架提供底层基础设施支持。
+    本周进展聚焦制造后处理与质检的视觉自动化：提出基于摄影测量与语义分割的焊缝3D识别方法，并探索以目录摄影冷启动实现碳化钨磨头批次识别。
   </div>
   
 
@@ -208,18 +208,18 @@ body {
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">50</span>
+          <span class="badge badge-importance">40</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">50</span>
+          <span class="badge badge-novelty">30</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">50</span>
+          <span class="badge badge-impact">40</span>
         </div>
         
       </div>
@@ -227,21 +227,19 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        [未翻译] llvm /llvm-project
+        摄影测量与语义分割实现焊缝3D映射
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">[未翻译] The LLVM Project is a collection of modular and reusable compiler and toolchain technologies.
-
-(8 sources: Exa: AI Agents Framework, Exa: Design Simulation CAE, GitHub Trending)</div>
+      <div class="event-summary">该工作面向机器人后处理中的磨削、修整和检测，提出基于摄影测量与语义分割的焊缝识别与3D映射方法。针对大型工件使用高精度激光扫描仪或结构光传感器进行完整表面扫描耗时且产生大量无关数据的问题，该方法通过摄影测量与语义分割获取焊缝几何信息。其意义在于为自动化后处理提供焊缝几何识别能力，减少无关数据并提升作业准备效率。</div>
       
 
       <!-- Sources Info -->
       <div class="sources-info">
-        <span>📰 8 篇来源</span>
+        <span>📰 1 篇来源</span>
         
         
         
@@ -250,29 +248,11 @@ body {
         
         
         
+        <span class="source-tag">arXiv cs.RO</span>
         
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Exa: AI Agents Framework</span>
-        
-        
-        
-        <span class="source-tag">Exa: Design Simulation CAE</span>
-        
-        
-        
-        <span class="source-tag">GitHub Trending</span>
         
         
         
@@ -291,106 +271,110 @@ body {
       <!-- Linked Articles (expandable) -->
       
       <details class="articles-expand">
-        <summary>展开 8 篇相关文章</summary>
+        <summary>展开 1 篇相关文章</summary>
         <div class="article-list">
           
           <div class="article-item">
-            <a href="http://www.github.com/adenhq/hive" target="_blank" rel="noopener">
-              GitHub - aden-hive/hive: Multi-Agent Harness for Production AI
+            <a href="http://arxiv.org/abs/2609.03970v1" target="_blank" rel="noopener">
+              Automated Weld Seam Recognition and 3D Mapping for Robotic Post Processing Using Photogrammetry and Semantic Segmentation
             </a>
-            <span class="article-source">Exa: AI Agents Framework</span>
+            <span class="article-source">arXiv cs.RO</span>
             
             
-            <span class="article-summary">---
-title: "GitHub - aden-hive/hive: Multi-Agent Harness for Production AI"
-author: Aden-Hive
-url: https://github.com/ad…</span>
+            <span class="article-summary">Accurate identification of weld seam geometries is essential for automated robotic post processing operations such as gr…</span>
             
           </div>
           
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2608.22606" target="_blank" rel="noopener">
-              Adversarial Agents on Topology Optimization: Understanding the Fragility and Robustness of Deep Learning-based and Physics-Based Design Models under Adversarial Perturbation
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "Adversarial Agents on Topology Optimization: Understanding the Fragility and Robustness of Deep Learning-bas…</span>
-            
-          </div>
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">30</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">30</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">20</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        目录摄影冷启动的碳化钨磨头识别
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作面向铣刀或碳化钨旋转磨头批次是否符合生产订单的质量保证任务，指出该任务目前主要依赖人工且易出错。用计算机视觉自动化该流程面临冷启动约束，因为没有可用标注图像，制造商目录摄影成为唯一监督来源。文章研究如何利用目录摄影作为冷启动来源，以推进可部署的碳化钨磨头识别。该问题关注制造质检中缺乏标注数据时的视觉识别能力。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 1 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv cs.RO</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 1 篇相关文章</summary>
+        <div class="article-list">
           
           <div class="article-item">
-            <a href="https://arxiv.org/abs/2609.00863" target="_blank" rel="noopener">
-              Conditional Flow Matching for ML-Based Inverse Design Problems
+            <a href="http://arxiv.org/abs/2609.03995v1" target="_blank" rel="noopener">
+              Catalogue Photography as a Cold Start: Toward Deployable Carbide Burr Recognition
             </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
+            <span class="article-source">arXiv cs.RO</span>
             
             
-            <span class="article-summary">---
-title: Conditional Flow Matching for ML-Based Inverse Design Problems
-author: Felder; Juliana; Habibi; Milad; Massou…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://docshare.wps.com/document/to-master-an-llm-agent-framework-for-automated-topology-optimization/81834/" target="_blank" rel="noopener">
-              TO-Master: an LLM-agent framework for automated topology optimization
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "TO-Master: an LLM-agent framework for automated topology optimization"
-url: https://docshare.wps.com/documen…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://doi.org/10.48550/arxiv.2605.21622" target="_blank" rel="noopener">
-              TO-Agents: A Multi-Agent AI Framework for Subjective Preference-Guided Topology Optimization
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "TO-Agents: A Multi-Agent AI Framework for Subjective Preference-Guided Topology Optimization"
-author: Stewar…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/llvm/llvm-project" target="_blank" rel="noopener">
-              llvm /llvm-project
-            </a>
-            <span class="article-source">GitHub Trending</span>
-            
-            
-            <span class="article-summary">The LLVM Project is a collection of modular and reusable compiler and toolchain technologies.</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/tsinghuac3i/marti" target="_blank" rel="noopener">
-              GitHub - TsinghuaC3I/MARTI: [ICLR 2026] A Framework for LLM-based Multi-Agent Reinforced Training and Inference
-            </a>
-            <span class="article-source">Exa: AI Agents Framework</span>
-            
-            
-            <span class="article-summary">---
-title: "GitHub - TsinghuaC3I/MARTI: [ICLR 2026] A Framework for LLM-based Multi-Agent Reinforced Training and Infere…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://link.springer.com/article/10.1007/s40430-026-06564-7" target="_blank" rel="noopener">
-              Robust topology optimization with non-Gaussian material fields using polygonal finite elements - Journal of the Brazilian Society of Mechanical Sciences and Engineering
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: Robust topology optimization with non-Gaussian material fields using polygonal finite elements - Journal of t…</span>
+            <span class="article-summary">Verifying that manufactured batches of milling tools or carbide rotary burrs conform to production order sheets remains …</span>
             
           </div>
           

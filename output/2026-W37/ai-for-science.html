@@ -190,7 +190,7 @@ body {
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周 AI for Science 的关键进展集中在生物序列基础模型与科学计算：NucleicBERT 以自监督学习 RNA 序列表示，多指标 Bell 多项式方法改进高阶 PDE 的 PINN 混合导数计算，并探索从含噪实验数据直接建模复杂物理现象。
+    本周AI for Science的关键进展集中在：可调节机械网络的学习容量因麦克斯韦-贝蒂互易性而显著受限，同时数据驱动与物理信息神经网络在含噪实验建模和高阶PDE导数计算方面仍面临基础挑战。
   </div>
   
 
@@ -208,18 +208,18 @@ body {
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">70</span>
+          <span class="badge badge-importance">60</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">40</span>
+          <span class="badge badge-novelty">60</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">70</span>
+          <span class="badge badge-impact">40</span>
         </div>
         
       </div>
@@ -227,14 +227,14 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        NucleicBERT用自监督语言建模解析RNA序列空间
+        互易性可减半机械网络学习容量
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">NucleicBERT通过自监督语言建模在大规模RNA数据上训练，从序列中学习具有生物学意义的模式。该工作针对RNA结构和功能注释稀缺、但序列数据丰富的问题，提供可解释RNA序列空间的预训练表示。文章发表于Nature Machine Intelligence，表明其方法有望支持下游RNA结构预测、功能推断等任务。它降低了对人工标注的依赖，并为RNA序列理解提供统一框架，展示基础模型在生物序列分析中的潜力，也可能促进RNA药物设计。</div>
+      <div class="event-summary">该工作研究可调节机械网络作为原位学习材料的学习容量。现有容量估计通常只比较可调参数数量与目标约束数量，忽略了被动线性弹性网络天然满足的麦克斯韦-贝蒂互易性。当p个自由度同时被驱动和读出时，可达响应块位于码维p(p-1)的子空间中。该结果说明互易性会显著降低机械网络可学习的响应空间，可能使容量估计减半。</div>
       
 
       <!-- Sources Info -->
@@ -248,7 +248,7 @@ body {
         
         
         
-        <span class="source-tag">Nature Machine Intelligence</span>
+        <span class="source-tag">arXiv cond-mat.mtrl-sci</span>
         
         
         
@@ -275,106 +275,13 @@ body {
         <div class="article-list">
           
           <div class="article-item">
-            <a href="https://www.nature.com/articles/s42256-026-01295-9" target="_blank" rel="noopener">
-              NucleicBERT interprets RNA sequence space through self-supervised language modelling
+            <a href="http://arxiv.org/abs/2609.04169v1" target="_blank" rel="noopener">
+              Reciprocity can halve what a mechanical network can learn
             </a>
-            <span class="article-source">Nature Machine Intelligence</span>
+            <span class="article-source">arXiv cond-mat.mtrl-sci</span>
             
             
-            <span class="article-summary">Nature Machine Intelligence, Published online: 03 September 2026; doi:10.1038/s42256-026-01295-9RNA structure and functi…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">55</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">45</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        多指标Bell多项式计算PINN高阶混合导数
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该工作面向高阶偏微分方程的物理信息神经网络，处理混合输入导数及其对网络参数的梯度。传统实现通过重复自动微分获得K阶导数，作者改用多指标Bell多项式组织多元Faà di Bruno公式的前向递归，并配合显式反向传播。该方法将高阶混合导数计算结构化，有助于高阶PDE的PINN训练与梯度计算。相比逐次自动微分，该方法以多指标Bell多项式组织高阶导数，适合需要混合导数的科学计算场景。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">arXiv physics.comp-ph</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.03768v1" target="_blank" rel="noopener">
-              Computing high-order mixed derivatives in physics-informed neural networks using multi-index Bell polynomials
-            </a>
-            <span class="article-source">arXiv physics.comp-ph</span>
-            
-            
-            <span class="article-summary">Physics-informed neural networks for high-order partial differential equations require mixed input derivatives and their…</span>
+            <span class="article-summary">Tunable mechanical networks are being developed as materials that learn in place. Capacity is estimated by counting tuna…</span>
             
           </div>
           
@@ -521,14 +428,124 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        [未翻译] Spectral and Eigenvector Crossovers in Random Mixed Graphs
+        [未翻译] Computing high-order mixed derivatives in physics-informed neural networks using multi-index Bell polynomials
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">[未翻译] We study the spectral and eigenvector properties of random mixed graphs, combining undirected and directed interactions, using random matrix theory (RMT). The network is represented by a Hermitian adjacency matrix, with undirected links as real entries and directed links as purely imaginary conjugate pairs, ensuring a real spectrum. Network density is controlled by the connection probability, while directionality sets the fraction of directed edges. We focus on the GOE-to-GUE crossover: at fixed connectivity, increasing directionality breaks time-reversal symmetry and drives spectral statistic</div>
+      <div class="event-summary">[未翻译] Physics-informed neural networks for high-order partial differential equations require mixed input derivatives and their gradients with respect to the network parameters. Standard implementations obtain an order-$K$ derivative by repeated automatic differentiation. We instead organize the forward recursion of the multivariate Faà di Bruno formula and its explicit backpropagation over a prescribed downward-closed set of multi-indices, with the Bell-polynomial convolutions tabulated once. The forward pass carries only the derivatives the differential operator requires. The backward pass propagat
+
+(2 sources: Nature Machine Intelligence, arXiv physics.comp-ph)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 2 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">arXiv physics.comp-ph</span>
+        
+        
+        
+        <span class="source-tag">Nature Machine Intelligence</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 2 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="http://arxiv.org/abs/2609.03768v1" target="_blank" rel="noopener">
+              Computing high-order mixed derivatives in physics-informed neural networks using multi-index Bell polynomials
+            </a>
+            <span class="article-source">arXiv physics.comp-ph</span>
+            
+            
+            <span class="article-summary">Physics-informed neural networks for high-order partial differential equations require mixed input derivatives and their…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s42256-026-01289-7" target="_blank" rel="noopener">
+              Quantum neural operators with implicit quadratic frame and expressivity advantages
+            </a>
+            <span class="article-source">Nature Machine Intelligence</span>
+            
+            
+            <span class="article-summary">Nature Machine Intelligence, Published online: 03 September 2026; doi:10.1038/s42256-026-01289-7Wang et al. introduce a …</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">50</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">50</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        [未翻译] Quantum Quasi-Monte Carlo: a window for pre-asymptotic quantum advantage
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">[未翻译] Numerical integration with Monte Carlo methods is a central computational task in many scientific and industrial applications, including financial derivative pricing and risk management. Classical Monte Carlo algorithms are computationally demanding: achieving an accuracy $ε$ typically requires a number of function evaluations scaling as $O(1/ε^2)$. Quantum-accelerated Monte Carlo methods based on quantum amplitude estimation can in principle quadratically improve this dependence. However, \textit{quasi}-Monte Carlo methods have not been explored in the quantum context. In this work, we introd</div>
       
 
       <!-- Sources Info -->
@@ -569,13 +586,13 @@ body {
         <div class="article-list">
           
           <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04152v1" target="_blank" rel="noopener">
-              Spectral and Eigenvector Crossovers in Random Mixed Graphs
+            <a href="http://arxiv.org/abs/2609.03625v1" target="_blank" rel="noopener">
+              Quantum Quasi-Monte Carlo: a window for pre-asymptotic quantum advantage
             </a>
             <span class="article-source">arXiv physics.comp-ph</span>
             
             
-            <span class="article-summary">We study the spectral and eigenvector properties of random mixed graphs, combining undirected and directed interactions,…</span>
+            <span class="article-summary">Numerical integration with Monte Carlo methods is a central computational task in many scientific and industrial applica…</span>
             
           </div>
           
@@ -614,14 +631,174 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        [未翻译] Synthesis and Characterization of Compositionally Complex (Gd/Ho/Er/Dy)2Zr2O7 Thin Film Combinatorial Library
+        [未翻译] AgentFold: Closed-Loop Agentic Search for Protein Folding Model Design
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">[未翻译] High-throughput synthesis and characterization of novel ceramic materials with improved thermomechanical properties and phase stability are needed to accelerate the discovery of next-generation thermal barrier materials. A combinatorial thin film material library of (GdDyHoEr)2Zr2O7 were created via combinatorial magnetron reactive sputtering with rare-earth/zirconium alloy targets. Structural, chemical, and thermal property characterization mapping across the four component composition space was performed and correlated with thermal transport measurements. Steady state thermoreflectance mappi</div>
+      <div class="event-summary">[未翻译] ---
+title: "AgentFold: Closed-Loop Agentic Search for Protein Folding Model Design"
+author: Liu; Mingquan; Chen; Jiangyu; Cao; Hanqun; Zhang; Xujun; Ma; Pengsen; Tang; Xiangru; Jin; Shuting; Yang; Zhuo; Zheng; Annie; Fu; Tianfan; Wu; Fang; Zeng; Xiangxiang
+url: https://arxiv.org/abs/2608.26747v2
+hostname: arxiv.org
+description: "Scientific LLM agents have shown promise in literature reasoning, tool use, and experiment planning, but it remains unclear whether they can autonomously improve large, tightly coupled scientific machine-learning systems through executable code changes and computationa
+
+(5 sources: Exa: AI for Science)</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 5 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: AI for Science</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 5 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.25215" target="_blank" rel="noopener">
+              Federation Is Nearly Free, Reasoning Is Not: Tradeoffs for AI Co-Scientists in Protein Characterization Workflows
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+            
+            
+            <span class="article-summary">---
+title: "Federation Is Nearly Free, Reasoning Is Not: Tradeoffs for AI Co-Scientists in Protein Characterization Work…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.26747" target="_blank" rel="noopener">
+              AgentFold: Closed-Loop Agentic Search for Protein Folding Model Design
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+            
+            
+            <span class="article-summary">---
+title: "AgentFold: Closed-Loop Agentic Search for Protein Folding Model Design"
+author: Liu; Mingquan; Chen; Jiangyu…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://doi.org/10.1038/s41586-026-10670-w" target="_blank" rel="noopener">
+              Zero-shot design of drug-binding proteins via neural iterative selection−expansion - Nature
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+            
+            
+            <span class="article-summary">---
+title: Zero-shot design of drug-binding proteins via neural iterative selection−expansion - Nature
+author: Fry; Benj…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://journals.stmjournals.com/article/article=2026/view=251957/" target="_blank" rel="noopener">
+              Neuro-Symbolic Agentic AI For Autonomous Scientific Discovery: Integrating Deep Reinforcement Learning, Quantum Simulation, And XAI-Audited LLM Hypothesis Generation In Drug Target Identification » Article
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+            
+            
+            <span class="article-summary">---
+title: "Neuro-Symbolic Agentic AI For Autonomous Scientific Discovery: Integrating Deep Reinforcement Learning, Quan…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.nature.com/articles/s41586-026-10670-w" target="_blank" rel="noopener">
+              Zero-shot design of drug-binding proteins via neural iterative selection−expansion - Nature
+            </a>
+            <span class="article-source">Exa: AI for Science</span>
+            
+            
+            <span class="article-summary">---
+title: Zero-shot design of drug-binding proteins via neural iterative selection−expansion - Nature
+author: Fry; Benj…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">40</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">30</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">30</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        稀土锆酸盐组合薄膜库制备与表征
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该工作面向下一代热障材料，强调高通量合成与表征对发现具有改善热机械性能和相稳定性的新型陶瓷材料的重要性。作者采用组合磁控反应溅射，利用稀土/锆合金靶材制备了成分复杂的(GdDyHoEr)2Zr2O7组合薄膜材料库。文章对该薄膜库进行结构表征，为热障材料的高通量发现提供材料基础，并服务于下一代热障材料发现。</div>
       
 
       <!-- Sources Info -->
@@ -678,103 +855,10 @@ body {
 
     </div>
     
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] Hierarchical automation of scanning probe microscopy through agentic orchestration and algorithmic control
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] Rapid advances in agentic artificial intelligence enable scientific systems to interpret open-ended objectives, combine heterogeneous information, invoke specialized tools, and revise experimental strategies as evidence accumulates. However, physical experimentation also contains many tasks for which agentic reasoning provides little advantage and can reduce reliability. Quantitative analysis, optimization, spatial targeting, validation, and instrument execution are often better posed as deterministic or algorithmic operations with explicit objectives and verifiable outputs. Here, we introduce</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">arXiv cond-mat.mtrl-sci</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="http://arxiv.org/abs/2609.04015v1" target="_blank" rel="noopener">
-              Hierarchical automation of scanning probe microscopy through agentic orchestration and algorithmic control
-            </a>
-            <span class="article-source">arXiv cond-mat.mtrl-sci</span>
-            
-            
-            <span class="article-summary">Rapid advances in agentic artificial intelligence enable scientific systems to interpret open-ended objectives, combine …</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
   </div>
   
 
-  <div class="footer">生成于 2026-09-07 10:23 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-09-07 11:28 · Weekly AI Report Agent</div>
 
 </div>
 </body>

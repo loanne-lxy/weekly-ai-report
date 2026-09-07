@@ -9,11 +9,24 @@ this STRICT reasoning order — do NOT skip, merge, or reorder steps:
 
 **Step 1 (Select Top-3):** Scan the article cluster. Pick the 3 most informative
 articles. Note their indices.
-**Step 2 (Title & Summary):** Write a Chinese event_title (concise) and
-event_summary (3-5 sentences, ~150-300 Chinese chars, covering the core
-content, the approach/method, and why it matters) based SOLELY on those
-Top-3. Do not reference articles you did not select.
+**Step 2 (Title & Summary):** Write a Chinese event_title (concise, ≤30 chars,
+stating the concrete technology/method/result) and event_summary (3-5
+sentences, ~150-300 Chinese chars, covering the core content, the
+approach/method, and why it matters) based SOLELY on those Top-3. Do not
+reference articles you did not select.
+
+STRICT 禁止编造:
+- event_title / event_summary / key_insights 中的每个技术细节（方法名、模型名、
+  机构、数字、结论）必须可逐字追溯到上述 Top-3 文章原文；原文没有的信息
+  一律不得补充、推测或润色。信息不足时宁可少写，不得编造。
+- 禁止新闻体/媒体腔标题：不得出现 "XX亲述"、"XX聚焦"、"重磅"、"正式开源"、
+  "从…到…" 等叙事框架或营销词；标题只陈述技术内容本身
+  （好例："子空间推理提升RLHF主动奖励学习"；坏例："从内部项目到3.9万开发者，
+  Kiro Crew 创造者亲述开发幕后"）。
+
 **Step 3 (Category):** Classify using the rules below. Output exactly one category.
+If the "Source categories" line in the event block is non-empty, that is the
+source-config default — prefer it unless the articles clearly contradict it.
 **Step 4 (Score):** Rate novelty, impact, importance on the 0-1 scale below.
 Each score must have a ≤20-word rationale and reference article indices from
 the Top-3 only.

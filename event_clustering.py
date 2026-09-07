@@ -337,6 +337,40 @@ def _truncate_texts(texts: list[str], model: Any) -> list[str]:
 
 
 # ── Event helpers ──────────────────────────────────────────────
+# 类别别名归一：源配置码 / LLM 输出 → config.yaml 正式名
+CATEGORY_ALIASES = {
+    "AI4Science": "AI for Science",
+    "AIForScience": "AI for Science",
+    "ai for science": "AI for Science",
+    "DesignSimulation": "设计仿真",
+    "design simulation": "设计仿真",
+    "DigitalTwin": "数字孪生",
+    "digital twin": "数字孪生",
+    "Uncategorized": "",
+    "uncategorized": "",
+}
+
+
+def _clean_category(c: str) -> str:
+    """归一类别名；返回空串表示未分类（调用方决定兜底）。"""
+    return CATEGORY_ALIASES.get((c or "").strip(), (c or "").strip())
+
+
+def article_category(a: dict[str, Any]) -> str:
+    """文章类别（含源默认类别 default_category 兜底）。"""
+    return _clean_category(
+        a.get("category", "") or a.get("primary_category", "")
+        or a.get("default_category", "")
+    )
+
+
+def _majority_category(articles: list[dict[str, Any]]) -> str:
+    from collections import Counter
+
+    cats = [article_category(a) for a in articles if article_category(a)]
+    return Counter(cats).most_common(1)[0][0] if cats else ""
+
+
 def _single_event(index: int, article: dict[str, Any]) -> Event:
     return Event(
         id=f"evt_single_{index}",
@@ -344,9 +378,7 @@ def _single_event(index: int, article: dict[str, Any]) -> Event:
         summary=(
             article.get("summary", article.get("content_preview", "")) or ""
         )[:800],
-        category=article.get(
-            "category", article.get("primary_category", "")
-        ),
+        category=article_category(article),
         importance=article.get("priority_score", 5) / 10.0,
         article_indices=[index],
         representative_score=article.get("priority_score", 5),
@@ -362,17 +394,8 @@ def _build_event(
     # 代表性文章：最高 priority_score
     rep = max(cluster, key=lambda a: a.get("priority_score", 5))
 
-    # Category: 众数
-    from collections import Counter
-
-    cats = [
-        a.get("category", a.get("primary_category", ""))
-        for a in cluster
-        if a.get("category") or a.get("primary_category")
-    ]
-    category = (
-        Counter(cats).most_common(1)[0][0] if cats else "Uncategorized"
-    )
+    # Category: 众数（含源默认类别，空 = 未分类，由 Curator 判定）
+    category = _majority_category(cluster)
 
     # Importance: 数量 + 质量
     scores = [a.get("priority_score", 5) for a in cluster]

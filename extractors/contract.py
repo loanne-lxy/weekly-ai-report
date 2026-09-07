@@ -210,6 +210,10 @@ class RawArticle(BaseModel):
     source_id: str = Field(..., description="关联 Source.id")
     source_name: str = Field(..., description="来源名称")
     source_type: str = Field(..., description="平台类型: rss | github | web | arxiv | exa_search")
+    category: str | None = Field(
+        None,
+        description="源配置默认类别（LLM/Agent/AI for Science/设计仿真/数字孪生）",
+    )
     default_category: str | None = Field(
         None,
         description="[DEPRECATED] Use 'category' instead. Kept for backward compat.",

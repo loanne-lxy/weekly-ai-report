@@ -20,11 +20,14 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import re
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 from models.llm_client import LLMClient
+from event_clustering import CATEGORY_ALIASES, _clean_category
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +58,7 @@ EVENT_CURATOR_USER_TEMPLATE = _load_prompt_file(_USER_TEMPLATE_FILE)
 _EVENT_TEMPLATE = """--- Event {idx} ---
 Bucket: {bucket}
 Cluster stats: {stats_text}
+Source categories (source-config default, may be empty): {source_category}
 Articles (indices 0-based):
 {articles_text}"""
 
@@ -70,17 +74,30 @@ class EventCurator:
         evt: dict[str, Any], embeddings: np.ndarray = None
     ) -> dict[str, Any]:
         """Fallback when LLM output is invalid — pick nearest-to-centroid."""
-        from event_clustering import pick_nearest_to_centroid
+        from event_clustering import article_category, pick_nearest_to_centroid
 
         indices = evt.get("article_indices", [])
         emb = embeddings if embeddings is not None and embeddings.size > 0 else np.zeros((0, 0), dtype=np.float32)
         top = pick_nearest_to_centroid(indices, emb)
+        # 类别用源先验（文章类别众数），不用硬编码 LLM
+        src_cat = ""
+        if evt.get("articles"):
+            cats = [article_category(a) for a in evt["articles"] if article_category(a)]
+            if cats:
+                src_cat = Counter(cats).most_common(1)[0][0]
+        title = evt.get("title", "")
+        # 英文标题/摘要（LLM 未生成中文）加标记，避免被当成正常内容展示
+        if title and not re.search(r"[\u4e00-\u9fff]", title):
+            title = f"[未翻译] {title}"
+        summary = (evt.get("summary", "") or "")[:800]
+        if summary and not re.search(r"[\u4e00-\u9fff]", summary):
+            summary = "[未翻译] " + summary
         return {
             **evt,
             "is_relevant": True,
-            "event_title": evt.get("title", ""),
-            "event_summary": (evt.get("summary", "") or "")[:800],
-            "category": evt.get("category", "LLM"),
+            "event_title": title,
+            "event_summary": summary,
+            "category": src_cat,
             "importance": 0.5,
             "importance_rationale": "(fallback: no LLM score)",
             "novelty": 0.5,
@@ -193,6 +210,7 @@ class EventCurator:
                         idx=idx,
                         bucket=evt.get("bucket", "social"),
                         stats_text=stats_text,
+                        source_category=evt.get("category", "") or "(none)",
                         articles_text=articles_text,
                     ))
 
@@ -231,14 +249,6 @@ class EventCurator:
                         continue
 
                     data = results[i]
-                    cat_map = {
-                        "Design Simulation": "设计仿真",
-                        "Digital Twin": "数字孪生",
-                        "AI for Science": "AI for Science",
-                        "LLM": "LLM",
-                        "Agent": "Agent",
-                    }
-                    raw_cat = data.get("category", "LLM")
 
                     # top_articles fallback: if LLM returned empty, use centroid
                     top_display = data.get("top_articles", [])
@@ -264,13 +274,27 @@ class EventCurator:
                             f"Event {idx}: evidence_articles {raw_evidence} "
                             f"all invalid for {display_count} articles — dropped"
                         )
+                    # 证据不足时回退到 top_articles，保证 evidence 始终有来源
+                    if not valid_evidence:
+                        valid_evidence = top[:3]
+
+                    # 类别：别名归一；未分类时用源先验（文章类别众数）
+                    raw_cat = data.get("category", "") or ""
+                    cat = _clean_category(str(raw_cat))
+                    if not cat:
+                        src_cats = [
+                            str(a.get("category", "") or a.get("default_category", "")).strip()
+                            for a in evt.get("articles", [])
+                        ]
+                        src_cats = [c for c in src_cats if c]
+                        cat = Counter(src_cats).most_common(1)[0][0] if src_cats else ""
 
                     curated.append({
                         **evt,
                         "is_relevant": data.get("is_relevant", False),
                         "event_title": data.get("event_title", evt.get("title", "")),
                         "event_summary": data.get("event_summary", evt.get("summary", ""))[:800],
-                        "category": cat_map.get(raw_cat, raw_cat),
+                        "category": cat,
                         # 0-1 float scores
                         "importance": max(0, min(1, float(data.get("importance", 0.5)))),
                         "importance_rationale": (data.get("importance_rationale") or "")[:100],

@@ -360,7 +360,9 @@ class KnowledgeStore:
                 a.get("author", ""),
                 a.get("source_id", ""),
                 a.get("source_name", ""),
-                a.get("category", "") or a.get("primary_category", ""),
+                a.get("category", "")
+                or a.get("primary_category", "")
+                or a.get("default_category", ""),
                 raw_extra,
                 now,
                 week_label,
@@ -725,7 +727,7 @@ class KnowledgeStore:
                 article.get("title", ""), article.get("summary", ""),
                 article.get("published", ""), article.get("author", ""),
                 article.get("source_id", ""), article.get("source_name", ""),
-                article.get("category", "") or article.get("primary_category", ""),
+                article.get("category", "") or article.get("primary_category", "") or article.get("default_category", ""),
                 raw_extra, url,
             ))
             action = "updated"
@@ -740,7 +742,7 @@ class KnowledgeStore:
                 article.get("title", ""), article.get("summary", ""),
                 article.get("published", ""), article.get("author", ""),
                 article.get("source_id", ""), article.get("source_name", ""),
-                article.get("category", "") or article.get("primary_category", ""),
+                article.get("category", "") or article.get("primary_category", "") or article.get("default_category", ""),
                 raw_extra, now, week,
             ))
         self._conn.commit()

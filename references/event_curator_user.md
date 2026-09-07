@@ -15,7 +15,7 @@ Batch of {batch_size} Events:
   {{
     "event_index": 0,
     "is_relevant": true,
-    "event_title": "简洁的中文标题",
+    "event_title": "≤30字中文标题，陈述具体技术内容（方法/结果），禁止新闻体与原文没有的细节",
     "event_summary": "3-5句话中文总结，约150-300字，覆盖核心内容、方法/方案与意义",
     "category": "LLM|Agent|AI for Science|Design Simulation|Digital Twin",
     "importance": 0.75,

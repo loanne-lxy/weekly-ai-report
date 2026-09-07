@@ -273,6 +273,7 @@ class IngestionManager:
                     "source_id": source_id,
                     "source_name": source.get("name", ""),
                     "source_type": pydantic_type,
+                    "category": default_cat,
                     "default_category": default_cat,
                     "content_preview": r.get("summary", "")[
                         :BaseExtractor.get_preview_limit(pydantic_type)

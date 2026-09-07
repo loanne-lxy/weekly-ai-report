@@ -20,6 +20,7 @@ from typing import Any
 import sqlite3
 from jinja2 import Environment, FileSystemLoader
 from models.llm_client import LLMClient
+from event_clustering import _clean_category
 
 logger = logging.getLogger(__name__)
 
@@ -224,6 +225,40 @@ def _domain_summary(llm: LLMClient, cat_name: str, event_summaries: list[str]) -
         return ""
 
 
+def _group_events_by_category(events: list[dict], category_names: list[str]) -> dict[str, list[dict]]:
+    """按领域分组事件。
+
+    - 已知类别（含别名归一）→ 对应桶
+    - 未识别 / 空类别 → "其他" 桶，绝不静默混入 LLM
+    - 每个配置类别名都保证存在（空则空列表，供回填判断）
+    """
+    categories: dict[str, list[dict]] = {name: [] for name in category_names}
+    categories.setdefault("其他", [])
+    uncategorized = 0
+    for evt in events:
+        cat = _clean_category(evt.get("category", ""))
+        if cat in categories:
+            categories[cat].append(evt)
+        elif cat:
+            matched = False
+            for cat_name in categories:
+                if cat_name in cat or cat in cat_name:
+                    categories[cat_name].append(evt)
+                    matched = True
+                    break
+            if not matched:
+                logger.warning(
+                    f"Unknown event category {cat!r} → 其他: {evt.get('event_title', '')[:40]}"
+                )
+                categories["其他"].append(evt)
+        else:
+            uncategorized += 1
+            categories["其他"].append(evt)
+    if uncategorized:
+        logger.warning(f"{uncategorized} events 无类别 → 其他")
+    return categories
+
+
 def generate_report(
     articles: list[dict],
     config: dict,
@@ -252,25 +287,10 @@ def generate_report(
     # ── 2. 按领域分组 Events ─────────────────────────────
     categories_cfg = config["filter"]["categories"]
     category_names = [c["name"] for c in categories_cfg]
-    categories: dict[str, list[dict]] = {name: [] for name in category_names}
-
-    for evt in events:
-        cat = evt.get("category", "LLM")
-        if cat in categories:
-            categories[cat].append(evt)
-        else:
-            # 尝试匹配（比如 "设计仿真" vs "Design Simulation"）
-            matched = False
-            for cat_name in categories:
-                if cat_name in cat or cat in cat_name:
-                    categories[cat_name].append(evt)
-                    matched = True
-                    break
-            if not matched:
-                categories.setdefault("LLM", []).append(evt)
+    categories = _group_events_by_category(events, category_names)
 
     # ── 3. 空模块回填 ────────────────────────────────────
-    empty_cats = [k for k, v in categories.items() if not v]
+    empty_cats = [k for k, v in categories.items() if not v and k != "其他"]
     if empty_cats:
         fallback = _load_fallback_events(week_label, empty_cats)
         for cat_name, fallback_events in fallback.items():

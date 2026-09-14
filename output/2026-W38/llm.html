@@ -183,14 +183,14 @@ body {
   <div class="cat-header">
     <span class="icon">🧠</span>
     <h1>LLM</h1>
-    <span class="count-badge">14 个事件</span>
+    <span class="count-badge">7 个事件</span>
   </div>
 
   <!-- Domain Summary -->
   
   <div class="domain-summary">
     <strong>📋 领域摘要</strong><br>
-    本周 LLM 生态在模型支持与基础设施上并进：HuggingFace Transformers 5.17.0 新增 780B MoE 模型 HYV4/Hy4-Preview 并出现纯 C 零依赖的流式加载工具，Perplexity 用 Astra 自动化通信、改码与生产监控，OpenAI 则将 Habitat 演进为服务十亿 ChatGPT 用户、每秒 2200 万请求的全球分布式存储平台。
+    本周 LLM 领域关键进展包括 OpenAI 推出面向企业、金融和实时语音的 GPT-6 Astra、ChatGPT for Financial Services 与 GPT-Live-1，并展示支撑大规模服务的 Habitat 平台，同时多模态大模型在混合注意力、认知结构化 Agent 和视觉状态推理等方向取得新方法。
   </div>
   
 
@@ -208,7 +208,7 @@ body {
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">65</span>
+          <span class="badge badge-importance">70</span>
         </div>
         
         <div class="score-badge-item">
@@ -219,7 +219,7 @@ body {
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">60</span>
+          <span class="badge badge-impact">80</span>
         </div>
         
       </div>
@@ -227,244 +227,14 @@ body {
       <!-- Event Title -->
       <div class="event-title">
         
-        本地LLM：780B MoE模型、纯C推理引擎与A20 Pro
+        OpenAI更新ChatGPT存储、金融与语音能力
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">HuggingFace Transformers 5.17.0 新增 HYV4/Hy4-Preview，这是一个 780B 参数 MoE 语言模型，每 token 激活 49B 参数，每层含 256 个 routed experts 和 1 个 always-active shared expert。JustVugg/colibri 用纯 C、零依赖实现，从磁盘流式加载 experts，可在已有硬件上运行 frontier MoE 模型。Apple A20 Pro 配备 7-core GPU、32-core Neural Engine，内存带宽提升约 50% 至约 115 GB/s。这些内容共同提供大型 MoE 模型本地部署的模型、推理引擎与硬件基础。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 12 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">GitHub Trending</span>
-        
-        
-        
-        <span class="source-tag">HuggingFace Transformers (GitHub)</span>
-        
-        
-        
-        <span class="source-tag">Reddit r/LocalLLaMA</span>
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 12 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://github.com/JustVugg/colibri" target="_blank" rel="noopener">
-              JustVugg /colibri
-            </a>
-            <span class="article-source">GitHub Trending</span>
-            
-            
-            <span class="article-summary">Run frontier MoE models on hardware you already own — pure C, zero deps, experts streamed from disk. Tiny engine, immens…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/huggingface/transformers/releases/tag/v5.17.0" target="_blank" rel="noopener">
-              Release: Release 5.17.0
-            </a>
-            <span class="article-source">HuggingFace Transformers (GitHub)</span>
-            
-            
-            <span class="article-summary"># Release v5.17.0
-
-
-## New Model additions
-
-### HYV4
-
-
-
-
-Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w9dlf1/new_benchmark_the_struggle_bench/" target="_blank" rel="noopener">
-              New Benchmark: The Struggle Bench
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">How it works. The model being tested is given a server capable of running it's weights and full context. That server is …</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1w9ylhh/i_really_hope_the_new_gemma_5_family_sticks_to/" target="_blank" rel="noopener">
-              I REALLY hope the new gemma 5 family sticks to the "chat model first" philsophy and doesn't fall into the Qwen trap
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">It just seems every local 30b class model is just trying so hard to be the next Qwen that they all just kinda blend into…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wc0ekw/apple_a20_pro_debuts_with_7core_gpu_32core_neural/" target="_blank" rel="noopener">
-              Apple A20 Pro debuts with 7-core GPU, 32-core Neural Engine and 50% more memory bandwidth (~115 GB/s)
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">It seems to use a 96-bit LPDDR5X memory bus, instead of the previous 64-bit wide busses. Considering it's on 2nm, that's…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wc6krf/so_relevant/" target="_blank" rel="noopener">
-              So relevant
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">&#32; submitted by &#32;  /u/0dayturtle   [link] &#32; [comments]</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wcvmuo/i_find_it_funny_that_a_flash_model_is_now_512gb/" target="_blank" rel="noopener">
-              I find it funny that a flash model is now 512GB
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">A few years ago a 100GB was considered a very large language model. What do we call under 100GB models now? Tiny models?…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1we8tl1/3827b_has_ruined_353635bs_for_me_its_just/" target="_blank" rel="noopener">
-              3.8-27B has ruined 3.5/3.6-35B’s for me. It’s just *absurdly* superior.
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">Applied science work, from workflow design, data pipeline, results analysis, article/reports writing and data publishing…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wepx7w/this_seems_more_probable_than_it_was_before/" target="_blank" rel="noopener">
-              This seems more probable than it was before.
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">&#32; submitted by &#32;  /u/pmv143   [link] &#32; [comments]</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1weujw6/the_hugging_bay/" target="_blank" rel="noopener">
-              The Hugging Bay
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">New website to download models in case HF starts censoring or limiting access.  &#32; submitted by &#32;  /u/Thrumpwart …</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] Perplexity trusts GPT-6 Astra with end-to-end systems
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] Perplexity uses Astra to write communications, change software, and monitor production systems, and checks in much less frequently than with earlier models.
-
-(6 sources: GitHub Trending, OpenAI Blog)</div>
+      <div class="event-summary">OpenAI介绍Habitat的演进过程：它从Python库发展为全球分布式存储平台，能够服务超过10亿ChatGPT用户，并处理每秒2200万请求。OpenAI推出ChatGPT for Financial Services，面向金融服务场景，结合内置金融数据与GPT-6 Astra，支持研究、建模和可交付客户材料。GPT-Live-1通过API提供自然、全双工语音对话，并具备更强指令遵循、自定义语音和电话支持。这些更新覆盖基础设施、行业应用与语音交互，进一步体现其ChatGPT平台在规模、行业与交互上的整体持续扩展的能力。</div>
       
 
       <!-- Sources Info -->
@@ -488,11 +258,9 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
         
         
         
-        <span class="source-tag">GitHub Trending</span>
-        
-        
-        
         <span class="source-tag">OpenAI Blog</span>
+        
+        
         
         
         
@@ -517,15 +285,160 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
         <div class="article-list">
           
           <div class="article-item">
-            <a href="https://github.com/asgeirtj/system_prompts_leaks" target="_blank" rel="noopener">
-              asgeirtj /system_prompts_leaks
+            <a href="https://openai.com/index/introducing-chatgpt-financial-services" target="_blank" rel="noopener">
+              Introducing ChatGPT for Financial Services
             </a>
-            <span class="article-source">GitHub Trending</span>
+            <span class="article-source">OpenAI Blog</span>
             
             
-            <span class="article-summary">Extracted system prompts from Anthropic - Claude Fable 5.1, Opus 5, Claude Design, Claude Code. OpenAI - ChatGPT GPT-6-A…</span>
+            <span class="article-summary">Introducing ChatGPT for Financial Services, combining built-in financial data and GPT-6 Astra for research, modeling, an…</span>
             
           </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/introducing-chatgpt-images-2-5" target="_blank" rel="noopener">
+              Introducing ChatGPT Images 2.5
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">ChatGPT Images 2.5 helps turn your ideas, sketches, and reference photos into more personalized, polished images that be…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/introducing-gpt-live-1-in-the-api" target="_blank" rel="noopener">
+              Build more natural voice experiences with GPT‑Live‑1 in the API
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">GPT‑Live‑1 brings natural, full-duplex voice conversations to the API, with stronger instruction following, custom voice…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/put-data-to-work" target="_blank" rel="noopener">
+              Now everyone can put data to work
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">Meet the Data agent in ChatGPT Work. Connect company data, uncover insights, and build interactive dashboards with AI us…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/scaling-storage-one-billion-users-part-one" target="_blank" rel="noopener">
+              Rapidly scaling online storage to serve over 1 billion ChatGPT users
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">Learn how OpenAI evolved Habitat from a Python library into a globally distributed storage platform serving 1 billion Ch…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://openai.com/index/supporting-journalism-from-classrooms-to-newsrooms" target="_blank" rel="noopener">
+              OpenAI expands initiatives to support journalism from classrooms to newsrooms
+            </a>
+            <span class="article-source">OpenAI Blog</span>
+            
+            
+            <span class="article-summary">OpenAI is expanding support for journalism with tools, training, and partnerships for students, educators, journalists, …</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">70</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">70</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        GPT-6 Astra用于企业工作与软件测试
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">OpenAI介绍GPT-6 Astra，称其为面向企业工作的最强模型，具备高级推理、计算机使用、写作与设计判断能力。Perplexity使用Astra撰写沟通内容、修改软件并监控生产系统，且检查频率远低于早期模型。Cognition借助Astra帮助Devin测试自身工作，提升软件验证能力，目标是让工程师审查更少代码并交付更多。这些能力可用于沟通、软件变更与生产监控等相关任务。这些案例显示其可用于端到端企业系统任务，并降低检查频率。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 5 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">OpenAI Blog</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 5 篇相关文章</summary>
+        <div class="article-list">
           
           <div class="article-item">
             <a href="https://openai.com/index/codex-quantum-computing-experiments" target="_blank" rel="noopener">
@@ -598,18 +511,18 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
         
         <div class="score-badge-item">
           重要性
-          <span class="badge badge-importance">50</span>
+          <span class="badge badge-importance">65</span>
         </div>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">50</span>
+          <span class="badge badge-novelty">55</span>
         </div>
         
         
         <div class="score-badge-item">
           影响力
-          <span class="badge badge-impact">50</span>
+          <span class="badge badge-impact">65</span>
         </div>
         
       </div>
@@ -617,21 +530,19 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
       <!-- Event Title -->
       <div class="event-title">
         
-        [未翻译] Rapidly scaling online storage to serve over 1 billion ChatGPT users
+        多模态LLM混合注意力、Agent与视觉状态更新
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">[未翻译] Learn how OpenAI evolved Habitat from a Python library into a globally distributed storage platform serving 1 billion ChatGPT users and 22M requests per second.
-
-(5 sources: OpenAI Blog)</div>
+      <div class="event-summary">该事件聚焦多模态大模型的最新方法。文章0提出语义头特化引导混合ViT注意力，针对多模态LLM中ViT缺乏满意混合设计的问题。文章1提出认知结构化多模态Agent CMA，面向多模态理解、生成与编辑。文章2提出DeltaV统一大模型框架，用于交错多模态推理，并通过视觉状态更新进行思考。这些工作分别从注意力结构、智能体框架和视觉状态推理推进多模态能力。</div>
       
 
       <!-- Sources Info -->
       <div class="sources-info">
-        <span>📰 5 篇来源</span>
+        <span>📰 3 篇来源</span>
         
         
         
@@ -644,11 +555,7 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
         
         
         
-        
-        
-        
-        
-        <span class="source-tag">OpenAI Blog</span>
+        <span class="source-tag">Exa: LLM Latest</span>
         
         
         
@@ -671,61 +578,511 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
       <!-- Linked Articles (expandable) -->
       
       <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2608.28383" target="_blank" rel="noopener">
+              Semantic Head Specialization Guides Hybrid ViT Attention for Multimodal LLMs
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+            
+            
+            <span class="article-summary">---
+title: Semantic Head Specialization Guides Hybrid ViT Attention for Multimodal LLMs
+author: He; Chenhong; Lei; Shich…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.alphaxiv.org/abs/2607.08434" target="_blank" rel="noopener">
+              DeltaV: Thinking with Visual State Updates in Unified Large Multimodal Models
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+            
+            
+            <span class="article-summary">---
+title: "DeltaV: Thinking with Visual State Updates in Unified Large Multimodal Models"
+author: Pengjie Wang; Linger …</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://www.alphaxiv.org/abs/2607.08497" target="_blank" rel="noopener">
+              Cognitive-structured Multimodal Agent for Multimodal Understanding, Generation, and Editing
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+            
+            
+            <span class="article-summary">---
+title: Cognitive-structured Multimodal Agent for Multimodal Understanding, Generation, and Editing
+author: Feng Wang…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">50</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        780B MoE语言模型Hy4-Preview发布
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">HuggingFace Transformers v5.17.0新增Hy4-Preview模型。该模型属于混合专家语言模型，总参数规模为780B，每个token激活49B参数。其MoE层设计包含256个路由专家和一个常开共享专家，使模型在保持较大总参数规模的同时，仅激活部分参数参与计算。该版本将Hy4-Preview作为新模型添加纳入Transformers，扩展了该版本支持的模型范围。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 6 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">CrewAI (GitHub)</span>
+        
+        
+        
+        <span class="source-tag">HuggingFace Transformers (GitHub)</span>
+        
+        
+        
+        <span class="source-tag">LangChain (GitHub)</span>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 6 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.21" target="_blank" rel="noopener">
+              Release: 1.15.21
+            </a>
+            <span class="article-source">CrewAI (GitHub)</span>
+            
+            
+            <span class="article-summary">## What's Changed
+
+### Features
+- Add telemetry to track checkpoint runtime and CLI usage.
+
+### Bug Fixes
+- Fix gateway …</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/huggingface/transformers/releases/tag/v5.17.0" target="_blank" rel="noopener">
+              Release: Release 5.17.0
+            </a>
+            <span class="article-source">HuggingFace Transformers (GitHub)</span>
+            
+            
+            <span class="article-summary"># Release v5.17.0
+
+
+## New Model additions
+
+### HYV4
+
+
+
+
+Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.7.2" target="_blank" rel="noopener">
+              Release: langchain-anthropic==1.7.2
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+            
+            
+            <span class="article-summary">Changes since langchain-anthropic==1.7.1
+
+release(anthropic): 1.7.2 (#40387)
+fix(anthropic): preserve invalid tool use b…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.6.3" target="_blank" rel="noopener">
+              Release: langchain-core==1.6.3
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+            
+            
+            <span class="article-summary">Changes since langchain-core==1.6.2
+
+release(core): 1.6.3 (#40407)
+feat(core): Allow model name and provider tracing met…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.1" target="_blank" rel="noopener">
+              Release: langchain-openai==1.6.1
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+            
+            
+            <span class="article-summary">Changes since langchain-openai==1.6.0
+
+fix(openai): bump `max_completion_tokens` in cache breakpoint integration test (#…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.2" target="_blank" rel="noopener">
+              Release: langchain-openai==1.6.2
+            </a>
+            <span class="article-source">LangChain (GitHub)</span>
+            
+            
+            <span class="article-summary">Changes since langchain-openai==1.6.1
+
+release(openai): 1.6.2 (#40339)
+fix(openai): add GPT-6 Astra reasoning efforts (#…</span>
+            
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">60</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">60</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">60</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        单塔多模态编码器与思维令牌统一感知推理
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件聚焦多模态大模型的基础编码器与定位方法。[1]提出NeoMME，一种单塔、多模态原生、多语言基础编码器，面向高效微调与推理，区别于将独立预训练视觉编码器与因果语言模型组合的常见生成式视觉语言架构。[2]提出Mixture-of-Thought-Tokens，用于统一感知与推理，以支持自由形式多模态定位。两者分别关注多模态基础编码与自由形式多模态定位，为多模态理解与定位提供新的架构路径。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 5 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: AI for Science</span>
+        
+        
+        
+        <span class="source-tag">Exa: LLM Latest</span>
+        
+        
+        
+        <span class="source-tag">Exa: Digital Twin Industrial</span>
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
         <summary>展开 5 篇相关文章</summary>
         <div class="article-list">
           
           <div class="article-item">
-            <a href="https://openai.com/index/introducing-chatgpt-financial-services" target="_blank" rel="noopener">
-              Introducing ChatGPT for Financial Services
+            <a href="https://arxiv.org/abs/2607.07708v1" target="_blank" rel="noopener">
+              Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning
             </a>
-            <span class="article-source">OpenAI Blog</span>
+            <span class="article-source">Exa: AI for Science</span>
             
             
-            <span class="article-summary">Introducing ChatGPT for Financial Services, combining built-in financial data and GPT-6 Astra for research, modeling, an…</span>
+            <span class="article-summary">---
+title: Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reas…</span>
             
           </div>
           
           <div class="article-item">
-            <a href="https://openai.com/index/introducing-chatgpt-images-2-5" target="_blank" rel="noopener">
-              Introducing ChatGPT Images 2.5
+            <a href="https://arxiv.org/abs/2607.24407" target="_blank" rel="noopener">
+              Mixture-of-Thought-Tokens: Unifying Perception and Reasoning for Free-form Multimodal Grounding
             </a>
-            <span class="article-source">OpenAI Blog</span>
+            <span class="article-source">Exa: LLM Latest</span>
             
             
-            <span class="article-summary">ChatGPT Images 2.5 helps turn your ideas, sketches, and reference photos into more personalized, polished images that be…</span>
+            <span class="article-summary">---
+title: "Mixture-of-Thought-Tokens: Unifying Perception and Reasoning for Free-form Multimodal Grounding"
+author: Gao…</span>
             
           </div>
           
           <div class="article-item">
-            <a href="https://openai.com/index/introducing-gpt-live-1-in-the-api" target="_blank" rel="noopener">
-              Build more natural voice experiences with GPT‑Live‑1 in the API
+            <a href="https://arxiv.org/abs/2609.01657" target="_blank" rel="noopener">
+              NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Inference
             </a>
-            <span class="article-source">OpenAI Blog</span>
+            <span class="article-source">Exa: LLM Latest</span>
             
             
-            <span class="article-summary">GPT‑Live‑1 brings natural, full-duplex voice conversations to the API, with stronger instruction following, custom voice…</span>
+            <span class="article-summary">---
+title: "NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Infer…</span>
             
           </div>
           
           <div class="article-item">
-            <a href="https://openai.com/index/put-data-to-work" target="_blank" rel="noopener">
-              Now everyone can put data to work
+            <a href="https://docshare.wps.com/document/accurate-interdisciplinary-and-transparent-structure-property-understanding-with-deep-native-structural-reasoning/82010/" target="_blank" rel="noopener">
+              Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning
             </a>
-            <span class="article-source">OpenAI Blog</span>
+            <span class="article-source">Exa: AI for Science</span>
             
             
-            <span class="article-summary">Meet the Data agent in ChatGPT Work. Connect company data, uncover insights, and build interactive dashboards with AI us…</span>
+            <span class="article-summary">---
+title: Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reas…</span>
             
           </div>
           
           <div class="article-item">
-            <a href="https://openai.com/index/scaling-storage-one-billion-users-part-one" target="_blank" rel="noopener">
-              Rapidly scaling online storage to serve over 1 billion ChatGPT users
+            <a href="https://doi.org/10.1109/ccnc65079.2026.11366397" target="_blank" rel="noopener">
+              Untitled
             </a>
-            <span class="article-source">OpenAI Blog</span>
+            <span class="article-source">Exa: Digital Twin Industrial</span>
             
             
-            <span class="article-summary">Learn how OpenAI evolved Habitat from a Python library into a globally distributed storage platform serving 1 billion Ch…</span>
+          </div>
+          
+        </div>
+      </details>
+      
+
+    </div>
+    
+    
+    <div class="event-card">
+      
+      <!-- Score Badges -->
+      <div class="score-badges">
+        
+        
+        
+        <div class="score-badge-item">
+          重要性
+          <span class="badge badge-importance">55</span>
+        </div>
+        
+        <div class="score-badge-item">
+          新颖性
+          <span class="badge badge-novelty">45</span>
+        </div>
+        
+        
+        <div class="score-badge-item">
+          影响力
+          <span class="badge badge-impact">65</span>
+        </div>
+        
+      </div>
+
+      <!-- Event Title -->
+      <div class="event-title">
+        
+        视觉语言模型长上下文推理、检索与统一生成
+        
+      </div>
+
+      <!-- Event Summary -->
+      
+      
+      <div class="event-summary">该事件聚焦视觉语言模型在长程推理、视觉检索与统一生成中的改进。多模态大语言模型在视觉语言推理中随生成长度增加性能下降，双潜在记忆路由用于缓解长生成退化。长视觉上下文使模型面临挑战，干扰项增多会降低表现，一次性处理所有 token 带来挑战，ReToken 用单一 token 改进视觉检索。Argus-Unified 面向紧凑且经济的统一模型，同时支持图像理解与生成，以降低统一视觉模型的挑战与成本。</div>
+      
+
+      <!-- Sources Info -->
+      <div class="sources-info">
+        <span>📰 3 篇来源</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        <span class="source-tag">Exa: LLM Latest</span>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </div>
+
+      <!-- Key Insights -->
+      
+
+      <!-- Tags -->
+      
+
+      <!-- Linked Articles (expandable) -->
+      
+      <details class="articles-expand">
+        <summary>展开 3 篇相关文章</summary>
+        <div class="article-list">
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2607.25527" target="_blank" rel="noopener">
+              Argus-Unified: Towards A Compact and Economical Unified Model for Image Understanding and Generation
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+            
+            
+            <span class="article-summary">---
+title: "Argus-Unified: Towards A Compact and Economical Unified Model for Image Understanding and Generation"
+author…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2607.28627" target="_blank" rel="noopener">
+              ReToken: One Token to Improve Vision-Language Models for Visual Retrieval
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+            
+            
+            <span class="article-summary">---
+title: "ReToken: One Token to Improve Vision-Language Models for Visual Retrieval"
+author: Xiao; Yao; Tan; Reuben; Z…</span>
+            
+          </div>
+          
+          <div class="article-item">
+            <a href="https://arxiv.org/abs/2609.05539" target="_blank" rel="noopener">
+              Dual-Latent Memory Routing for Vision-Language Reasoning
+            </a>
+            <span class="article-source">Exa: LLM Latest</span>
+            
+            
+            <span class="article-summary">---
+title: Dual-Latent Memory Routing for Vision-Language Reasoning
+author: Ma; Hao-Xuan; Qi; Jin-Fei; Xiao; Yicheng; Ye…</span>
             
           </div>
           
@@ -750,7 +1107,7 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
         
         <div class="score-badge-item">
           新颖性
-          <span class="badge badge-novelty">50</span>
+          <span class="badge badge-novelty">20</span>
         </div>
         
         
@@ -764,16 +1121,14 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
       <!-- Event Title -->
       <div class="event-title">
         
-        [未翻译] Expanding AI access and cyber defense for federal, state, local, and tribal governments
+        OpenAI政府AI接入、青少年研究资助与Codex提效
         
       </div>
 
       <!-- Event Summary -->
       
       
-      <div class="event-summary">[未翻译] OpenAI and GSA will offer eligible federal, state, local, and tribal governments $0 license fees, 50% off usage, and expanded cyber defense support.
-
-(6 sources: OpenAI Blog)</div>
+      <div class="event-summary">OpenAI与GSA为联邦、州、地方和部落政府提供0许可费、50%使用折扣及扩展网络防御支持。OpenAI设立500万美元资助计划，支持独立研究生成式AI对青少年发展、福祉和安全的影响。1Password工程师使用Codex快速构建新功能和内部工具，在保持严格安全策略下达到生产就绪，工程生产力提升21%。这些举措扩大公共部门AI可及性，补充青少年影响研究，并展示编码助手在安全约束下的工程落地价值。</div>
       
 
       <!-- Sources Info -->
@@ -895,1162 +1250,10 @@ Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
 
     </div>
     
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] Hugging Face security.txt
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译]       https://huggingface.co/security.txt  &#32; submitted by &#32;  /u/Nunki08   a href="https://i.redd
-
-(4 sources: Reddit r/LocalLLaMA)</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 4 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Reddit r/LocalLLaMA</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 4 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wa26pn/friends_dont_let_friends_use_ollama/" target="_blank" rel="noopener">
-              Friends Don't Let Friends Use Ollama
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">&#32; submitted by &#32;  /u/rm-rf-rm   [link] &#32; [comments]</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wauxg9/qwenqwendrive104b_hugging_face/" target="_blank" rel="noopener">
-              Qwen/Qwen-Drive-1.0-4B · Hugging Face
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">I don't think anyone posted about this here, but Qwen released a finetuned version of 3.5 4 for driving. The full Bf16 c…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wcagoi/deepseekaideepseekv41flash_hugging_face/" target="_blank" rel="noopener">
-              deepseek-ai/DeepSeek-V4.1-Flash · Hugging Face
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">&#32; submitted by &#32;  /u/t4a8945   [link] &#32; [comments]</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wdbvlt/hugging_face_securitytxt/" target="_blank" rel="noopener">
-              Hugging Face security.txt
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">https://huggingface.co/security.txt  &#32; submitted by &#32;  /u/Nunki08   [link] &#32; [comments]</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] Introducing the Agents API
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] Build and launch cloud agents with the Agents API, a managed service powered by the Codex harness for orchestration, long-running sessions, and tool use.
-
-(4 sources: Exa: AI Agents Framework, GitHub Trending, OpenAI Blog)</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 4 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">GitHub Trending</span>
-        
-        
-        
-        <span class="source-tag">OpenAI Blog</span>
-        
-        
-        
-        <span class="source-tag">Exa: AI Agents Framework</span>
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 4 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://github.com/calesthio/OpenMontage" target="_blank" rel="noopener">
-              calesthio /OpenMontage
-            </a>
-            <span class="article-source">GitHub Trending</span>
-            
-            
-            <span class="article-summary">World's first open-source, agentic video production system. 12 production pipelines, 100+ tools, 700+ agent skill and pr…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/introducing-the-agents-api" target="_blank" rel="noopener">
-              Introducing the Agents API
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Build and launch cloud agents with the Agents API, a managed service powered by the Codex harness for orchestration, lon…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/introducing-the-agents-api/" target="_blank" rel="noopener">
-              Introducing the Agents API
-            </a>
-            <span class="article-source">Exa: AI Agents Framework</span>
-            
-            
-            <span class="article-summary">---
-title: Introducing the Agents API
-url: https://openai.com/index/introducing-the-agents-api/
-hostname: openai.com
-des…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/supporting-journalism-from-classrooms-to-newsrooms" target="_blank" rel="noopener">
-              OpenAI expands initiatives to support journalism from classrooms to newsrooms
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">OpenAI is expanding support for journalism with tools, training, and partnerships for students, educators, journalists, …</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        Netflix 采用开源 Flink Autoscaler，支撑超 3 万个流式作业
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">(5 sources: InfoQ AI, Reddit r/LocalLLaMA)</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 5 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">InfoQ AI</span>
-        
-        
-        
-        <span class="source-tag">Reddit r/LocalLLaMA</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 5 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/8JZ9IdSIxo18dcz6pZG6?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Netflix 采用开源 Flink Autoscaler，支撑超 3 万个流式作业
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wbfrut/deepseek_has_soft_retired_deepseek_v4_pro/" target="_blank" rel="noopener">
-              Deepseek Has Soft Retired Deepseek V4 Pro
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">&#32; submitted by &#32;  /u/Few_Painter_5588   [link] &#32; [comments]</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wcbid7/deepseek_v41_flash_is_out/" target="_blank" rel="noopener">
-              DeepSeek V4-1 Flash is out
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">Here we go again, DeepSeek is back again with a new model V4-1 Flash A multimodal Mixture-of-Experts (MoE) model with 55…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wcdati/deepseekv41flash_surprised/" target="_blank" rel="noopener">
-              DeepSeek-V4.1-Flash surprised ....
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">Hoping to see smartest medium size models soon &amp; later with all available optimizations/architectures/etc.,. Thanks …</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wd4xxv/someone_apparently_managed_to_kind_of_replicate/" target="_blank" rel="noopener">
-              Someone apparently managed to kind of replicate what V4.1 flash does on KV for fast prefill on Qwen
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">I wonder someone will figure out a way to do this with 27B? Throw Qwen3 on this page for demo https://kishida.github.io/…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] How Credit Genie keeps codebase docs fresh with OpenWiki
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] See how Credit Genie uses OpenWiki to automate repo documentation, reduce tribal knowledge, and give engineers and coding agents searchable codebase context.</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">blog.langchain.dev</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.langchain.com/blog/how-credit-genie-uses-openwiki-to-keep-codebase-knowledge-fresh-searchable-and-automated" target="_blank" rel="noopener">
-              How Credit Genie keeps codebase docs fresh with OpenWiki
-            </a>
-            <span class="article-source">blog.langchain.dev</span>
-            
-            
-            <span class="article-summary">See how Credit Genie uses OpenWiki to automate repo documentation, reduce tribal knowledge, and give engineers and codin…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] ANOTHER researcher accuses OpenAI of training on conversations and then claiming a breakthrough
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译]       &#32; submitted by &#32; a href="https://www.reddit.com/user/SirR</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Reddit r/LocalLLaMA</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wcmgbn/another_researcher_accuses_openai_of_training_on/" target="_blank" rel="noopener">
-              ANOTHER researcher accuses OpenAI of training on conversations and then claiming a breakthrough
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">&#32; submitted by &#32;  /u/SirReal14   [link] &#32; [comments]</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] multimodal-art-projection /YuE
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] YuE2: frontier music generation with symbolic planning, zero-shot covers, and agentic music editing.
-
-(4 sources: Exa: LLM Latest, GitHub Trending)</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 4 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Exa: LLM Latest</span>
-        
-        
-        
-        <span class="source-tag">GitHub Trending</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 4 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2607.25527" target="_blank" rel="noopener">
-              Argus-Unified: Towards A Compact and Economical Unified Model for Image Understanding and Generation
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: "Argus-Unified: Towards A Compact and Economical Unified Model for Image Understanding and Generation"
-author…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2607.28627" target="_blank" rel="noopener">
-              ReToken: One Token to Improve Vision-Language Models for Visual Retrieval
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: "ReToken: One Token to Improve Vision-Language Models for Visual Retrieval"
-author: Xiao; Yao; Tan; Reuben; Z…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2609.05539" target="_blank" rel="noopener">
-              Dual-Latent Memory Routing for Vision-Language Reasoning
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: Dual-Latent Memory Routing for Vision-Language Reasoning
-author: Ma; Hao-Xuan; Qi; Jin-Fei; Xiao; Yicheng; Ye…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/multimodal-art-projection/YuE" target="_blank" rel="noopener">
-              multimodal-art-projection /YuE
-            </a>
-            <span class="article-source">GitHub Trending</span>
-            
-            
-            <span class="article-summary">YuE2: frontier music generation with symbolic planning, zero-shot covers, and agentic music editing.</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] A collaborative agent with two lightweight synergistic models for autonomous crystal materials research
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] Nature Machine Intelligence, Published online: 10 September 2026; doi:10.1038/s42256-026-01298-6Shi et al. demonstrate a dual architecture approach for materials research, integrating two lightweight large language models for collaborative reasoning and scientific tool execution. The method achieves competitive performance while remaining affordable and locally deployable.</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Nature Machine Intelligence</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.nature.com/articles/s42256-026-01298-6" target="_blank" rel="noopener">
-              A collaborative agent with two lightweight synergistic models for autonomous crystal materials research
-            </a>
-            <span class="article-source">Nature Machine Intelligence</span>
-            
-            
-            <span class="article-summary">Nature Machine Intelligence, Published online: 10 September 2026; doi:10.1038/s42256-026-01298-6Shi et al. demonstrate a…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] OpenAI alleged of stealing mathematicians work
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] Privacy have been concern of many of us to have their own hardware to run llms, and here's another reason why: two mathematicians spent a year cracking one of the hardest problems in math and fed every draft of their works into Codex. A few days before they could publish, OpenAI suddenly showed up with the same solutions. When asked if their model (Sol and Astra) was trained on the pair's private chats, OpenAI did not answer the question. Full statement from them https://cims.nyu.edu/~tristanb/sta</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Reddit r/LocalLLaMA</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.reddit.com/r/LocalLLaMA/comments/1wapjaw/openai_alleged_of_stealing_mathematicians_work/" target="_blank" rel="noopener">
-              OpenAI alleged of stealing mathematicians work
-            </a>
-            <span class="article-source">Reddit r/LocalLLaMA</span>
-            
-            
-            <span class="article-summary">Privacy have been concern of many of us to have their own hardware to run llms, and here's another reason why: two mathe…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        [未翻译] Connections: managed credentials and per-caller identity for Managed Deep Agents
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">[未翻译] Learn how Connections in Managed Deep Agents securely manage credentials, support per-user OAuth, and let agents act with each caller’s identity.
-
-(3 sources: Exa: AI Agents Framework, blog.langchain.dev)</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 3 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">blog.langchain.dev</span>
-        
-        
-        
-        <span class="source-tag">Exa: AI Agents Framework</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 3 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.langchain.com/blog/connections-managed-credentials-and-per-caller-identity-for-managed-deep-agents" target="_blank" rel="noopener">
-              Connections: managed credentials and per-caller identity for Managed Deep Agents
-            </a>
-            <span class="article-source">blog.langchain.dev</span>
-            
-            
-            <span class="article-summary">Learn how Connections in Managed Deep Agents securely manage credentials, support per-user OAuth, and let agents act wit…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.langchain.com/blog/organizing-context-in-a-multi-agent-harness" target="_blank" rel="noopener">
-              Organizing Context in a Multi-Agent Harness
-            </a>
-            <span class="article-source">blog.langchain.dev</span>
-            
-            
-            <span class="article-summary">Learn how context modes in deepagents help subagents fork a supervisor's context or start isolated — for faster, cheaper…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.primeintellect.ai/blog/multi-agent-systems" target="_blank" rel="noopener">
-              Multi-Agent Systems in PRIME-RL
-            </a>
-            <span class="article-source">Exa: AI Agents Framework</span>
-            
-            
-            <span class="article-summary">---
-title: Multi-Agent Systems in PRIME-RL
-url: https://primeintellect.ai/blog/multi-agent-systems
-hostname: primeintell…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">20</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">30</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">40</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        V4.1 Flash全面超越与DeepSeek工程思维争议
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该文章标题显示V4.1 Flash全面超越。文章同时指出开发者仍在批评DeepSeek。标题将批评原因概括为缺的不是能力，而是软件工程思维。标题层面未提供具体方法或数据，但提示工程化思维影响开发者评价。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">InfoQ AI</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/G7cublzVyXFOUX3vpz1t?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              V4.1 Flash全面超越，开发者为何还在喷 DeepSeek：缺的不是能力，是软件工程思维
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
   </div>
   
 
-  <div class="footer">生成于 2026-09-14 08:13 · Weekly AI Report Agent</div>
+  <div class="footer">生成于 2026-09-14 11:52 · Weekly AI Report Agent</div>
 
 </div>
 </body>

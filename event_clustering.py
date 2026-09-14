@@ -368,9 +368,32 @@ CATEGORY_ALIASES = {
 }
 
 
+def _norm_key(s: str) -> str:
+    """Collapse whitespace runs to single spaces and lowercase, for
+    case/whitespace-insensitive alias matching."""
+    return " ".join((s or "").lower().split())
+
+
+# Normalized alias table, precomputed once. Lets the LLM's title-case
+# English names (e.g. "Digital Twin", "Design Simulation" — exactly what
+# the system-prompt Category Rules headers use) match regardless of case
+# or spacing, not just the camelCase / lowercase spellings below.
+_CATEGORY_ALIAS_NORM = {_norm_key(k): v for k, v in CATEGORY_ALIASES.items()}
+
+
 def _clean_category(c: str) -> str:
-    """归一类别名；返回空串表示未分类（调用方决定兜底）。"""
-    return CATEGORY_ALIASES.get((c or "").strip(), (c or "").strip())
+    """归一类别名；返回空串表示未分类（调用方决定兜底）。
+
+    先精确匹配（保留 LLM/Agent/数字孪生 等正式名的原样输出），
+    再退化为大小写/空格不敏感的别名匹配（兜住 LLM 的 title-case
+    英文名 "Digital Twin"/"Design Simulation"）。都匹配不上则原样返回。
+    """
+    s = (c or "").strip()
+    if not s:
+        return ""
+    if s in CATEGORY_ALIASES:
+        return CATEGORY_ALIASES[s]
+    return _CATEGORY_ALIAS_NORM.get(_norm_key(s), s)
 
 
 def article_category(a: dict[str, Any]) -> str:

@@ -66,6 +66,13 @@ class LLMClient:
             ],
             temperature=self.temperature,
             max_tokens=self.max_tokens,
+            # Qwen3.8 is a reasoning model: on SHORT structured-JSON calls
+            # thinking is pure overhead — disable it. NOTE: the endpoint
+            # IGNORES this on long inputs (observed: identical reasoning
+            # output with it on/off at ~2.7k prompt tokens), so long calls
+            # still think and eat max_tokens — that's why max_tokens is
+            # sized for thinking, not just the JSON answer.
+            extra_body={"enable_thinking": False},
         )
         message = response.choices[0].message
         # Some models (e.g. Qwen reasoning) put output in reasoning + content

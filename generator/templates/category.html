@@ -7,21 +7,32 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0a0d12; --panel: #0f141b; --panel-2: #121924;
-  --line: #1d2632; --line-2: #2b3646;
-  --text: #e8edf4; --text-2: #9fb0c3; --text-3: #5d6d82;
-  --accent: #58a6ff; --accent-soft: rgba(88,166,255,.10);
+  --bg: #0e1420; --panel: #141c2c; --panel-2: #192338;
+  --line: #223047; --line-2: #33445f;
+  --text: #eaf0f8; --text-2: #a9b8cc; --text-3: #71829c;
+  --accent: #5ea8ff; --accent-soft: rgba(94,168,255,.12);
   --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.22);
+  --shadow-hover: 0 4px 10px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
 }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); background-image: radial-gradient(1000px 440px at 80% -12%, rgba(94,168,255,.07), transparent 60%), radial-gradient(800px 420px at 10% -10%, rgba(139,92,246,.05), transparent 60%); background-repeat: no-repeat; color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
 a { color: inherit; text-decoration: none; }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
 .kicker { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-3); font-weight: 600; }
-.catbar { height: 3px; background: var(--cat-color, var(--accent)); }
+.catbar { height: 3px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), transparent 85%); }
 
-.topbar { position: sticky; top: 0; z-index: 10; background: rgba(10,13,18,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s cubic-bezier(.22,.8,.32,1), transform .55s cubic-bezier(.22,.8,.32,1); }
+.reveal.vis { opacity: 1; transform: none; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+.topbar { position: sticky; top: 0; z-index: 10; background: rgba(14,20,32,.85); backdrop-filter: blur(12px) saturate(140%); border-bottom: 1px solid var(--line); }
 .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand .mark { width: 26px; height: 26px; border-radius: 6px; background: linear-gradient(135deg, #2b6cb0, #58a6ff); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; }
@@ -31,7 +42,7 @@ a { color: inherit; text-decoration: none; }
 .topbar .issue b { color: var(--accent); font-weight: 600; }
 
 .crumb { font-size: 12.5px; color: var(--text-3); padding: 18px 0 0; }
-.crumb a:hover { color: var(--accent); }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
 
 .cat-head { display: flex; align-items: baseline; gap: 16px; padding: 12px 0 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
 .cat-head h1 { font-size: 30px; font-weight: 800; letter-spacing: -.02em; display: flex; align-items: center; gap: 12px; }
@@ -41,15 +52,16 @@ a { color: inherit; text-decoration: none; }
 
 /* 分类导航条 */
 .catnav { display: flex; gap: 8px; overflow-x: auto; padding: 16px 0 4px; flex-wrap: wrap; }
-.catnav a { font-size: 12.5px; font-weight: 500; color: var(--text-2); background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 6px 14px; white-space: nowrap; transition: all .15s; }
-.catnav a:hover { border-color: var(--line-2); color: var(--text); }
+.catnav a { font-size: 12.5px; font-weight: 500; color: var(--text-2); background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 6px 14px; white-space: nowrap; transition: all .2s; }
+.catnav a:hover { border-color: var(--line-2); color: var(--text); transform: translateY(-1px); }
 .catnav a.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: 600; }
 .catnav a .mono { margin-left: 6px; color: var(--text-3); font-size: 11px; }
 
 /* 事件列表 */
 .list { padding: 18px 0 6px; }
-.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 18px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 18px 20px; margin-bottom: 12px; transition: border-color .15s, background .15s; }
-.evt:hover { border-color: var(--line-2); background: var(--panel-2); }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 18px 20px; margin-bottom: 12px; transition: border-color .25s, background .25s, transform .25s, box-shadow .25s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i, 0) * 60ms); }
+.evt:hover { border-color: var(--line-2); background: var(--panel-2); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.evt:hover h2 a { color: var(--accent); }
 .evt .top { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; font-size: 12px; color: var(--text-3); flex-wrap: wrap; }
 .evt h2 { font-size: 16.5px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; }
 .evt h2 a:hover { color: var(--accent); }
@@ -104,7 +116,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12px; c
 
   <div class="list">
     {% for ev in events %}
-    <article class="evt">
+    <article class="evt" style="--i: {{ loop.index0 }}">
       <div>
         <div class="top">
           <span class="mono">EVT-{{ ev.get('id', '')[-6:]|upper }}</span>

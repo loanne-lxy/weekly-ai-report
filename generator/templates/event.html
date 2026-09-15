@@ -7,20 +7,33 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0a0d12; --panel: #0f141b; --panel-2: #121924;
-  --line: #1d2632; --line-2: #2b3646;
-  --text: #e8edf4; --text-2: #9fb0c3; --text-3: #5d6d82;
-  --accent: #58a6ff; --accent-soft: rgba(88,166,255,.10);
+  --bg: #0e1420; --panel: #141c2c; --panel-2: #192338;
+  --line: #223047; --line-2: #33445f;
+  --text: #eaf0f8; --text-2: #a9b8cc; --text-3: #71829c;
+  --accent: #5ea8ff; --accent-soft: rgba(94,168,255,.12);
   --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.22);
+  --shadow-hover: 0 4px 10px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
 }
-body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); background-image: radial-gradient(1000px 460px at 78% -12%, rgba(94,168,255,.075), transparent 60%), radial-gradient(800px 420px at 8% -10%, rgba(139,92,246,.055), transparent 60%); background-repeat: no-repeat; color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
 a { color: inherit; text-decoration: none; }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px; }
 .kicker { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-3); font-weight: 600; }
 
-.topbar { position: sticky; top: 0; z-index: 10; background: rgba(10,13,18,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .06s both; }
+.head h1 { animation: fadeUp .55s ease .12s both; }
+.head .scores .score-box { animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(2) { animation-delay: .1s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .16s; }
+
+.topbar { position: sticky; top: 0; z-index: 10; background: rgba(14,20,32,.85); backdrop-filter: blur(12px) saturate(140%); border-bottom: 1px solid var(--line); }
 .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand .mark { width: 26px; height: 26px; border-radius: 6px; background: linear-gradient(135deg, #2b6cb0, #58a6ff); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; }
@@ -30,16 +43,17 @@ a { color: inherit; text-decoration: none; }
 .topbar .issue b { color: var(--accent); font-weight: 600; }
 
 .crumb { font-size: 12.5px; color: var(--text-3); padding: 18px 0 0; }
-.crumb a:hover { color: var(--accent); }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
 .head { padding: 10px 0 22px; border-bottom: 1px solid var(--line); }
 .head .meta-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; font-size: 12px; }
-.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--text-2); background: var(--panel-2); border: 1px solid var(--line); padding: 2px 10px; border-radius: 20px; }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 600; color: var(--text-2); background: var(--panel-2); border: 1px solid var(--line); padding: 2px 10px; border-radius: 20px; transition: border-color .2s, color .2s; }
 .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .head h1 { font-size: 30px; font-weight: 800; letter-spacing: -.02em; line-height: 1.35; margin-bottom: 16px; }
 
 /* 评分带 */
 .scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
-.score-box { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+.score-box { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; transition: border-color .25s, background .25s, transform .25s, box-shadow .25s; }
+.score-box:hover { border-color: var(--line-2); background: var(--panel-2); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 .score-box .l { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-3); margin-bottom: 8px; }
 .score-box .v { font-family: var(--mono); font-size: 24px; font-weight: 700; line-height: 1; }
 .score-box .v small { font-size: 12px; color: var(--text-3); font-weight: 400; }
@@ -55,11 +69,11 @@ a { color: inherit; text-decoration: none; }
 .sec-head .hint { font-size: 12px; color: var(--text-3); }
 .prose { font-size: 14.5px; color: var(--text-2); line-height: 1.85; }
 .prose b { color: var(--text); }
-.why { background: var(--accent-soft); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; padding: 15px 18px; font-size: 14px; color: var(--text-2); line-height: 1.8; }
 
 /* 证据链 */
 .chain-note { font-size: 12.5px; color: var(--text-3); margin-bottom: 14px; }
-.art { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); padding: 15px 17px; margin-bottom: 12px; }
+.art { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); padding: 15px 17px; margin-bottom: 12px; transition: border-color .25s, background .25s, transform .25s, box-shadow .25s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i, 0) * 50ms); }
+.art:hover { border-color: var(--line-2); background: var(--panel-2); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
 .art h3 { font-size: 14.5px; font-weight: 650; line-height: 1.5; margin-bottom: 8px; }
 .art h3 a:hover { color: var(--accent); text-decoration: underline; }
 .art .sum { font-size: 13px; color: var(--text-2); line-height: 1.7; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 9px; }
@@ -105,6 +119,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12px; c
   </a>
   <div class="issue"><a href="../index.html"><b>{{ week }}</b> · {{ generated_at[:10] }}</a></div>
 </div></div>
+<style>:root { --cat-color: {{ cat_color }}; }</style>
 
 <div class="wrap">
   <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
@@ -139,21 +154,13 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12px; c
   <div class="grid">
     <div>
       <!-- Summary -->
-      <div class="sec">
+      <div class="sec reveal">
         <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
         <p class="prose">{{ ev.get('summary', '')|clean_summary }}</p>
       </div>
 
-      {% if domain_summary %}
-      <!-- Why it matters -->
-      <div class="sec">
-        <div class="sec-head"><div><span class="kicker">Why it matters</span><h2>领域背景</h2></div></div>
-        <div class="why">{{ domain_summary }}</div>
-      </div>
-      {% endif %}
-
       <!-- Evidence -->
-      <div class="sec" id="evidence">
+      <div class="sec reveal" id="evidence">
         <div class="sec-head">
           <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
           <span class="hint">Event → Articles → Sources</span>
@@ -161,7 +168,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12px; c
         <p class="chain-note">该事件由以下 {{ articles|length }} 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
         {% if articles %}
         {% for art in articles %}
-        <div class="art">
+        <div class="art" style="--i: {{ loop.index0 }}">
           <h3><span class="step">A{{ loop.index }}</span><a href="{{ art.get('url', '#') }}" target="_blank" rel="noopener noreferrer">{{ art.get('title', '无标题') }}</a></h3>
           {% if art.get('summary') %}<p class="sum">{{ art.summary|clean_summary }}</p>{% endif %}
           <div class="ameta">
@@ -181,7 +188,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12px; c
     </div>
 
     <!-- 侧栏 -->
-    <aside class="side">
+    <aside class="side reveal">
       <div class="card">
         <h3>Event Meta</h3>
         <div class="kv"><span class="k">事件 ID</span><span class="v">{{ ev.get('id', '')[-8:] }}</span></div>

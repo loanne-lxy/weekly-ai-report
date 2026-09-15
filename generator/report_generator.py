@@ -15,6 +15,7 @@ import os
 import json
 import logging
 import re
+from collections import Counter
 from datetime import datetime
 from typing import Any
 
@@ -35,6 +36,20 @@ _DIRTY_RE = re.compile(r"<[^>]+>|[<>]|\?\S*utm_\S*|utm_\w+=[^\s]*|点击?查看�
 
 def _clean_text(s: str | None) -> str:
     return _DIRTY_RE.sub("", s or "").strip()
+
+
+def _fmt_date(s: str | None) -> str:
+    """published 可能是 ISO 或 RSC (Thu, 10 Sep 2026 ...) → 统一 YYYY-MM-DD。"""
+    from email.utils import parsedate_to_datetime
+    s = (s or "").strip()
+    if not s:
+        return ""
+    if s[:4].isdigit() and s[4:5] in ("-", "T"):
+        return s[:10]
+    try:
+        return parsedate_to_datetime(s).strftime("%Y-%m-%d")
+    except (TypeError, ValueError):
+        return s[:10]
 
 
 # ── 查询 ────────────────────────────────────────────────
@@ -274,6 +289,14 @@ def _group_events_by_category(events: list[dict], category_names: list[str]) -> 
     return categories
 
 
+def make_event_slugs(all_events: list[dict]) -> dict[str, str]:
+    """事件 slug：evt-<id 尾 8 位>-<标题拉丁词>，供事件详情页文件名。"""
+    def _slug(evt: dict) -> str:
+        m = re.findall(r"[A-Za-z0-9]+", evt.get("title", ""))
+        return f"evt-{evt['id'][-8:]}-{'-'.join(m[:6]).lower() or 'event'}"
+    return {e["id"]: _slug(e) for e in all_events}
+
+
 def generate_report(
     articles: list[dict],
     config: dict,
@@ -366,9 +389,17 @@ def generate_report(
     all_events.sort(key=lambda e: (e.get("importance") or 0), reverse=True)
     top_events = all_events[:5]
 
+    # 事件 slug 与证据链：Event → Articles → Sources
+    event_slugs = make_event_slugs(all_events)
+    cited_sources = dict(Counter(
+        a.get("source_id", "")
+        for arts in articles_by_event.values() for a in arts
+    ))
+
     # ── 6. 渲染 HTML ─────────────────────────────
     env = Environment(loader=FileSystemLoader("generator/templates"))
     env.filters["clean_summary"] = _clean_text  # 模板层双保险
+    env.filters["fmt_date"] = _fmt_date
 
     week_dir = f"output/{week_label.replace(' ', '_')}"
     os.makedirs(week_dir, exist_ok=True)
@@ -395,6 +426,9 @@ def generate_report(
         archived_count=archived_count,
         articles_by_event=articles_by_event,
         total_events=total_events,
+        total_articles=total_articles,
+        event_slugs=event_slugs,
+        cited_sources=cited_sources,
     )
     index_path = os.path.join(week_dir, "index.html")
     with open(index_path, "w", encoding="utf-8") as f:
@@ -418,12 +452,38 @@ def generate_report(
             icons=icons, colors=colors, category_slugs=category_slugs,
             trends=trends, discovered_count=discovered_count,
             archived_count=archived_count,
+            event_slugs=event_slugs,
             generated_at=generated_at,
             title="AI 前沿资讯周报",
         )
         cat_path = os.path.join(week_dir, f"{cat_slug}.html")
         with open(cat_path, "w", encoding="utf-8") as f:
             f.write(html_cat)
+
+    # --- Render event detail pages (Evidence Chain) ---
+    tpl_evt = env.get_template("event.html")
+    events_dir = os.path.join(week_dir, "events")
+    os.makedirs(events_dir, exist_ok=True)
+    for evt in all_events:
+        evt_arts = articles_by_event.get(evt["id"], [])
+        evt_srcs = dict(Counter(
+            a.get("source_id", "") for a in evt_arts
+        ))
+        html_evt = tpl_evt.render(
+            ev=evt,
+            cat_name=evt["cat"],
+            cat_color=colors.get(evt["cat"], "#94a3b8"),
+            articles=evt_arts,
+            sources=sources,
+            cited_sources=evt_srcs,
+            domain_summary=domain_summaries.get(evt["cat"], ""),
+            week=week_label,
+            generated_at=generated_at,
+            title="AI 前沿资讯周报",
+        )
+        evt_path = os.path.join(events_dir, f"{event_slugs[evt['id']]}.html")
+        with open(evt_path, "w", encoding="utf-8") as f:
+            f.write(html_evt)
 
     # 保存 articles.json 供兼容
     if articles:

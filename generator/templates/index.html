@@ -7,17 +7,17 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0e1420; --panel: #182338; --panel-2: #1d2940;
-  --line: #223047; --line-2: #33445f;
-  --text: #eaf0f8; --text-2: #a9b8cc; --text-3: #71829c;
-  --accent: #5ea8ff; --accent-soft: rgba(94,168,255,.12);
+  --bg: #111a2c; --panel: #1b2942; --panel-2: #223354;
+  --line: #2c3d5e; --line-2: #3f5378;
+  --text: #f0f4fa; --text-2: #bcc9dd; --text-3: #8698b3;
+  --accent: #6ab0ff; --accent-soft: rgba(106,176,255,.14);
   --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
   --shadow: 0 1px 2px rgba(0,0,0,.35), 0 4px 14px rgba(0,0,0,.22);
   --shadow-hover: 0 4px 10px rgba(0,0,0,.4), 0 12px 32px rgba(0,0,0,.35);
 }
 html { scroll-behavior: smooth; }
-body { background: var(--bg); background-image: radial-gradient(1100px 480px at 75% -12%, rgba(94,168,255,.08), transparent 60%), radial-gradient(800px 420px at 8% -10%, rgba(139,92,246,.055), transparent 60%); background-repeat: no-repeat; color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
+body { background: var(--bg); background-image: radial-gradient(1200px 640px at 78% -15%, rgba(94,168,255,.16), transparent 62%), radial-gradient(950px 560px at 4% -12%, rgba(139,92,246,.13), transparent 60%), radial-gradient(760px 520px at 46% -20%, rgba(56,132,255,.10), transparent 65%); background-repeat: no-repeat; color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; }
 a { color: inherit; text-decoration: none; }
 .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
@@ -34,7 +34,7 @@ a { color: inherit; text-decoration: none; }
 .masthead > .kpis { animation: fadeUp .55s ease .24s both; }
 
 /* ── Topbar ── */
-.topbar { position: sticky; top: 0; z-index: 10; background: rgba(14,20,32,.85); backdrop-filter: blur(12px) saturate(140%); border-bottom: 1px solid var(--line); }
+.topbar { position: sticky; top: 0; z-index: 10; background: rgba(17,26,44,.88); backdrop-filter: blur(12px) saturate(140%); border-bottom: 1px solid var(--line); }
 .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand .mark { width: 26px; height: 26px; border-radius: 6px; background: linear-gradient(135deg, #2b6cb0, #58a6ff); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; }

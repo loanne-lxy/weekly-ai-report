@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>780B MoE语言模型Hy4-Preview发布 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W38</b> · 2026-09-15</a></div>
+</div></div>
+<style>:root { --cat-color: #3b82f6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+      <span class="mono" style="color: var(--text-3);">2026-W38</span>
+      <span class="mono" style="color: var(--text-3);">6 篇来源文章</span>
+    </div>
+    <h1>780B MoE语言模型Hy4-Preview发布</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">HuggingFace Transformers v5.17.0新增Hy4-Preview模型。该模型属于混合专家语言模型，总参数规模为780B，每个token激活49B参数。其MoE层设计包含256个路由专家和一个常开共享专家，使模型在保持较大总参数规模的同时，仅激活部分参数参与计算。该版本将Hy4-Preview作为新模型添加纳入Transformers，扩展了该版本支持的模型范围。</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 6 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.21" target="_blank" rel="noopener noreferrer">Release: 1.15.21</a></h3>
+          <p class="sum">## What's Changed
+
+### Features
+- Add telemetry to track checkpoint runtime and CLI usage.
+
+### Bug Fixes
+- Fix gateway errors reported inside an HTTP 200 response.
+- Keep deploy push on the AMP create source.
+- Report scrape failures instead of raising IndexError in the Oxylabs integration.
+- Route all DashScope models through the native provider.
+- Persist JSON checkpoints as UTF-8.
+- Drop stray $ in f-string search URLs for BrightData.
+- Support list-form type arrays in JSON schema conversion.
+- Correct gpt-4o-mini context window from 200000 to 128000.
+- Preserve streaming tool call arguments at contentBlockStop.
+- Make pre-commit hooks portable on Windows.
+
+### Documentation
+- Clarify that tracing is managed separately from telemetry.
+- Fix parallel search reference link.
+- Remove stale parameters from handle_llm_stream_chunk docstring.
+- Fix streaming output docstring examples.
+- Use organization UUIDs in the skill install reference.
+
+## Contributors
+
+@Alphaxiaoteng, @DrewWhittleNZ, @Ghraven, @Shxiao101, @Vaishnavi220506, @Vidit-Ostwal, @danielfsbarreto, @georgeatparallel, @github-actions[bot], @jessemiller, @joaomdmoura, @kimnamu, @kiwoongyoon, @liang0417, @lorenzejay, @oxy-giedrius, @simpleqt, @uoparaji</p>
+          <div class="ameta">
+            <span class="src-tag">CrewAI (GitHub)
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-09</span>
+            <a class="url" href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.21" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://github.com/huggingface/transformers/releases/tag/v5.17.0" target="_blank" rel="noopener noreferrer">Release: Release 5.17.0</a></h3>
+          <p class="sum"># Release v5.17.0
+
+
+## New Model additions
+
+### HYV4
+
+
+
+
+Hy4-Preview is a 780B-parameter mixture-of-experts language model that activates 49B parameters per
+token. Each MoE layer holds 256 routed experts plus one always-active shared expert and routes every
+token to 8 of them. The context window is 1M tokens.
+
+The architecture combines four features:
+
+- **Multi-head Latent Attention (MLA)** compresses keys and values into a low-rank latent
+  (`kv_lora_rank`) that `kv_b_proj` expands back to one key/value per query head.
+- **DeepSeek Sparse Attention (DSA)** selects `index_topk` keys per query with a lightweight indexer.
+  Following [IndexShare](https://huggingface.co/papers/2603.12201), only the layers marked `"full"`
+  in `indexer_types` run an indexer; `"shared"` layers reuse the previous full layer's selection.
+- **Gated MLA with learnable attention sinks**, where each head owns a sink logit that participates
+  in the softmax and contributes no value, as in [GPT-OSS](./gpt_oss).
+- **Independent Hyper-Connections (iHC)** replace the plain residual path with `hc_mult` parallel
+  residual streams that are collapsed before, and redistributed after, every sublayer.
+
+The implementation does not execute the multi-token prediction (MTP) layers. Released checkpoints
+keep those weights so that other runtimes can use them for speculative decoding; they are ignored
+at load time.
+
+**Links:** [Documentation](https://huggingface.co/docs/transformers/main/en/model_doc/hy_v4)
+* Add h4 (#48473) by @ArthurZucker in [#48473](https://github.com/huggingface/transformers/pull/48473)
+
+### VibeVoice
+
+
+
+[VibeVoice](https://huggingface.co/papers/2508.19205) is a novel framework for synthesizing high-fidelity, long-form speech with multiple speakers by employing a next-token diffusion approach within a Large Language Model (LLM) structure. It's designed to capture the authentic conversational "vibe" and is particularly suited for generating audio content like podcasts and multi-participant audiobooks.
+
+**Links:** [Documentation](https://huggingface.co/docs/transformers/main/en/model_doc/vibevoice)
+* Implement VibeVoice  (#40546) by @pengzhiliang in [#40546](https://github.com/huggingface/transformers/pull/40546)
+
+### NeoMME
+
+NeoMME is a family of efficient 260M and 800M parameter multimodal-native multilingual foundation encoders from H Company. It processes multilingual text tokens and raw image patches in a single bidirectional Transformer encoder, without a separately pretrained vision tower or causal language model.
+
+NeoMME-Retriever is a model fine-tuned from the NeoMME backbone for visual document retrieval with joint late-interaction and dense objectives. It ta</p>
+          <div class="ameta">
+            <span class="src-tag">HuggingFace Transformers (GitHub)
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-09</span>
+            <a class="url" href="https://github.com/huggingface/transformers/releases/tag/v5.17.0" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.7.2" target="_blank" rel="noopener noreferrer">Release: langchain-anthropic==1.7.2</a></h3>
+          <p class="sum">Changes since langchain-anthropic==1.7.1
+
+release(anthropic): 1.7.2 (#40387)
+fix(anthropic): preserve invalid tool use blocks (#40372)</p>
+          <div class="ameta">
+            <span class="src-tag">LangChain (GitHub)
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-10</span>
+            <a class="url" href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.7.2" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.6.3" target="_blank" rel="noopener noreferrer">Release: langchain-core==1.6.3</a></h3>
+          <p class="sum">Changes since langchain-core==1.6.2
+
+release(core): 1.6.3 (#40407)
+feat(core): Allow model name and provider tracing metadata override based on gateway response (#40406)
+test(core): cover the deprecated `.text()` access path (#40243)
+docs(core): remove stale Args/Raises entries from FileCallbackHandler._write and ChatGeneration.set_text (#40211)</p>
+          <div class="ameta">
+            <span class="src-tag">LangChain (GitHub)
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-11</span>
+            <a class="url" href="https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.6.3" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 4">
+          <h3><span class="step">A5</span><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.1" target="_blank" rel="noopener noreferrer">Release: langchain-openai==1.6.1</a></h3>
+          <p class="sum">Changes since langchain-openai==1.6.0
+
+fix(openai): bump `max_completion_tokens` in cache breakpoint integration test (#40284)
+release(openai): 1.6.1 (#40268)
+chore(model-profiles): refresh model profile data (#40217)
+fix(openai): support Azure AD auth with OpenAI 3.8 (#40190)
+feat(openai): support async tools (#40208)
+feat(openai): support `configuration_update` (#40201)
+chore(model-profiles): refresh model profile data (#40171)
+fix(openai): route `gpt-5.6-sol` to responses API (#40133)
+chore(openai): fix tests (#39972)
+fix(openai): correct `reasoning_effort_levels` for gpt-5 and gpt-5.1 profiles (#39936)
+chore(model-profiles): refresh model profile data (#39954)</p>
+          <div class="ameta">
+            <span class="src-tag">LangChain (GitHub)
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-08</span>
+            <a class="url" href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.1" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 5">
+          <h3><span class="step">A6</span><a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.2" target="_blank" rel="noopener noreferrer">Release: langchain-openai==1.6.2</a></h3>
+          <p class="sum">Changes since langchain-openai==1.6.1
+
+release(openai): 1.6.2 (#40339)
+fix(openai): add GPT-6 Astra reasoning efforts (#40330)
+chore(deps): bump httpx2 from 2.10.0 to 2.12.0 in /libs/partners/openai (#40309)</p>
+          <div class="ameta">
+            <span class="src-tag">LangChain (GitHub)
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-09</span>
+            <a class="url" href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.2" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">5f9bd2a0</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">LLM</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W38</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">6 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">3 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">CrewAI (GitHub)</div>
+          <div class="s">
+            <span class="mono">1 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">HuggingFace Transformers (GitHub)</div>
+          <div class="s">
+            <span class="mono">1 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">LangChain (GitHub)</div>
+          <div class="s">
+            <span class="mono">4 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-15 16:15 · 2026-W38</span>
+</div></footer>
+</body>
+</html>

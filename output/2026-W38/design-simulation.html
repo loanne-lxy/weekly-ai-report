@@ -6,384 +6,171 @@
 <title>设计仿真 — AI 前沿资讯周报</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
-  min-height: 100vh;
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
 
-/* ── Back Nav ── */
-.back-nav {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: #1677ff; margin-bottom: 24px;
-  text-decoration: none; cursor: pointer;
-}
-.back-nav:hover { text-decoration: underline; }
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
 
-/* ── Category Header ── */
-.cat-header {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-  padding: 24px; background: #fff; border-radius: 8px;
-  border-left: 4px solid #f59e0b;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.cat-header .icon { font-size: 36px; }
-.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
-.cat-header .count-badge {
-  background: #f59e0b15; color: #f59e0b;
-  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
-}
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
 
-/* ── Domain Summary ── */
-.domain-summary {
-  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
-  margin-bottom: 24px; border-left: 4px solid #1677ff;
-  font-size: 14px; color: #434343; line-height: 1.6;
-}
-.domain-summary strong { color: #1a5276; }
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
 
-/* ── Event Card ── */
-.event-card {
-  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
-  padding: 24px; margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
-.event-card.carried { opacity: 0.65; }
-.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
 
-/* ── Score Badges Row ── */
-.score-badges {
-  display: flex; gap: 16px; margin-bottom: 12px;
-}
-.score-badge-item {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 12px; color: #595959;
-}
-.score-badge-item .badge {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
-}
-.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
-.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
-.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
 
-/* ── Event Title ── */
-.event-title {
-  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
-  line-height: 1.4;
-}
-.event-title a { color: inherit; text-decoration: none; }
-.event-title a:hover { color: #1677ff; }
-.carried-badge {
-  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
-  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
-}
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
 
-/* ── Event Summary ── */
-.event-summary {
-  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
-}
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
 
-/* ── Sources Info ── */
-.sources-info {
-  display: flex; align-items: center; gap: 12px;
-  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
-  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
-}
-.source-tag {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
-  font-size: 12px; color: #1a5276;
-}
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
 
-/* ── Key Insights ── */
-.key-insights {
-  margin-bottom: 12px; padding-left: 20px;
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
 }
-.key-insights li {
-  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
-}
-
-/* ── Tags ── */
-.event-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
-.tag {
-  font-size: 12px; padding: 0 8px; line-height: 22px;
-  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
-  color: #595959;
-}
-
-/* ── Linked Articles (expandable) ── */
-.articles-expand {
-  margin-top: 12px;
-}
-.articles-expand summary {
-  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
-  user-select: none;
-}
-.articles-expand summary:hover { text-decoration: underline; }
-.articles-expand .article-list {
-  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
-}
-.article-list .article-item {
-  padding: 6px 0; font-size: 13px; color: #595959;
-  border-bottom: 1px solid #f5f5f5;
-}
-.article-list .article-item:last-child { border-bottom: none; }
-.article-list .article-item a {
-  color: #1a1a1a; text-decoration: none;
-}
-.article-list .article-item a:hover { color: #1677ff; }
-.article-list .article-item .article-source {
-  font-size: 12px; color: #8c8c8c; margin-left: 8px;
-}
-.article-list .article-item .article-summary {
-  display: block; font-size: 12px; color: #8c8c8c;
-  margin: 2px 0 0 0; line-height: 1.5;
-}
-
-/* ── Empty State ── */
-.empty-state {
-  text-align: center; padding: 48px 24px;
-  border: 1px dashed #d9d9d9; border-radius: 8px;
-  background: #fff;
-}
-.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
-.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
-.empty-state p { font-size: 13px; color: #bfbfbf; }
-
-/* ── Footer ── */
-.footer {
-  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #e8e8e8; margin-top: 32px;
-}
-
-@media (max-width: 768px) {
-  .container { padding: 16px; }
-  .cat-header { padding: 16px; flex-wrap: wrap; }
-  .cat-header h1 { font-size: 20px; }
-  .event-card { padding: 16px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
 }
 </style>
+<style>:root { --cat-color: #f59e0b; }</style>
 </head>
 <body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
 
-<div class="container">
-
-  <!-- Back Nav -->
-  <a class="back-nav" href="index.html" aria-label="返回首页">
-    <span class="arrow">←</span> 返回首页
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
+  <div class="issue"><a href="index.html"><b>2026-W38</b> · 2026-09-15</a></div>
+</div></div>
 
-  <!-- Category Header -->
-  <div class="cat-header">
-    <span class="icon">🎨</span>
-    <h1>设计仿真</h1>
-    <span class="count-badge">1 个事件</span>
-  </div>
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · 设计仿真</div>
 
-  <!-- Domain Summary -->
-  
-  <div class="domain-summary">
-    <strong>📋 领域摘要</strong><br>
-    本周设计仿真聚焦机器学习驱动的逆设计与拓扑优化，通过条件流匹配、零样本生成先验和 KPI 条件检索-生成流水线，降低 PDE 约束优化成本并实现高刚度低质量及汽车内罩板多目标设计。
-  </div>
-  
-
-  <!-- Events Container -->
-  
-  <div class="events-container" id="events">
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">55</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">45</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">55</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        条件流匹配、零样本生成与KPI生成设计
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该事件聚焦机器学习驱动的逆设计与拓扑优化。条件流匹配用于基于机器学习的逆设计问题，面向 PDE 约束优化中迭代求解器的高计算成本。零样本肋设计将免训练生成先验与拓扑优化结合，面向叶脉、骨小梁和蛛网等高刚度低质量承载模式。KPI 条件生成设计面向汽车内罩板，采用两阶段检索-生成流水线与基于代理的性能估计，以达成挠度、应力和质量目标。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 7 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Exa: Design Simulation CAE</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 7 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2608.22457" target="_blank" rel="noopener">
-              KPI-Conditioned Generative Design of Automotive Hood Inner Panels: A Two-Stage Retrieval-Generation Pipeline with Surrogate-Based Performance Estimation
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "KPI-Conditioned Generative Design of Automotive Hood Inner Panels: A Two-Stage Retrieval-Generation Pipeline…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2608.22606" target="_blank" rel="noopener">
-              Adversarial Agents on Topology Optimization: Understanding the Fragility and Robustness of Deep Learning-based and Physics-Based Design Models under Adversarial Perturbation
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "Adversarial Agents on Topology Optimization: Understanding the Fragility and Robustness of Deep Learning-bas…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2609.00863" target="_blank" rel="noopener">
-              Conditional Flow Matching for ML-Based Inverse Design Problems
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: Conditional Flow Matching for ML-Based Inverse Design Problems
-author: Felder; Juliana; Habibi; Milad; Massou…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2609.10643" target="_blank" rel="noopener">
-              Zero-shot rib design: merging training-free generative prior with topology optimization
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "Zero-shot rib design: merging training-free generative prior with topology optimization"
-author: Kwon; Yongm…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://docshare.wps.com/document/to-master-an-llm-agent-framework-for-automated-topology-optimization/81834/" target="_blank" rel="noopener">
-              TO-Master: an LLM-agent framework for automated topology optimization
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "TO-Master: an LLM-agent framework for automated topology optimization"
-url: https://docshare.wps.com/documen…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://link.springer.com/article/10.1007/s00158-026-04376-w" target="_blank" rel="noopener">
-              PGD-TO: a scalable alternative to MMA using projected gradient descent for multi-constraint topology optimization - Structural and Multidisciplinary Optimization
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: "PGD-TO: a scalable alternative to MMA using projected gradient descent for multi-constraint topology optimiz…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://link.springer.com/article/10.1007/s00366-026-02383-5" target="_blank" rel="noopener">
-              A multi-grid, single-mesh online learning framework for efficient large-scale topology optimization - Engineering with Computers
-            </a>
-            <span class="article-source">Exa: Design Simulation CAE</span>
-            
-            
-            <span class="article-summary">---
-title: A multi-grid, single-mesh online learning framework for efficient large-scale topology optimization - Enginee…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #f59e0b; width: 12px; height: 12px;"></span>🎨 设计仿真</h1>
+    <span class="count"><b>1</b> 个事件 · 按重要性排序</span>
     
   </div>
-  
 
-  <div class="footer">生成于 2026-09-14 11:52 · Weekly AI Report Agent</div>
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">18</span></a>
+    
+    <a href="llm.html" class="">LLM<span class="mono">7</span></a>
+    
+    <a href="agent.html" class="">Agent<span class="mono">7</span></a>
+    
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">2</span></a>
+    
+    <a href="design-simulation.html" class="on">设计仿真<span class="mono">1</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
 
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-8D1AAD</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-c38d1aad-kpi.html">条件流匹配、零样本生成与KPI生成设计</a></h2>
+        <p class="sum">该事件聚焦机器学习驱动的逆设计与拓扑优化。条件流匹配用于基于机器学习的逆设计问题，面向 PDE 约束优化中迭代求解器的高计算成本。零样本肋设计将免训练生成先验与拓扑优化结合，面向叶脉、骨小梁和蛛网等高刚度低质量承载模式。KPI 条件生成设计面向汽车内罩板，采用两阶段检索-生成流水线与基于代理的性能估计，以达成挠度、应力和质量目标。</p>
+        <div class="foot">
+          <span class="mono">7 篇来源文章</span>
+          <a class="go" href="events/evt-c38d1aad-kpi.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+  </div>
 </div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-15 16:15 · 2026-W38</span>
+</div></footer>
 </body>
 </html>

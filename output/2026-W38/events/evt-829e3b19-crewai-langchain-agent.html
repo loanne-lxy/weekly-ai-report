@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrewAI与LangChain Agent框架更新 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W38</b> · 2026-09-15</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W38</span>
+      <span class="mono" style="color: var(--text-3);">3 篇来源文章</span>
+    </div>
+    <h1>CrewAI与LangChain Agent框架更新</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">30<small> / 100</small></div>
+        <div class="bar"><i style="width: 30%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">20<small> / 100</small></div>
+        <div class="bar"><i style="width: 20%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">CrewAI 1.15.21增加遥测，用于跟踪checkpoint运行时和CLI使用，并修复网关错误、Oxylabs抓取失败等问题。LangChain OpenAI 1.6.1支持异步工具、configuration_update和Azure AD认证，同时刷新模型profile数据。LangChain OpenAI 1.6.2新增GPT-6 Astra推理努力设置。这些更新增强Agent工具调用、模型接入与可观测性。</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 3 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://arxiv.org/abs/2609.09503" target="_blank" rel="noopener noreferrer">Agentic AI-enabled Semantic Commissioning of a Cognitive Digital Twin for Reconfigurable Manufacturing</a></h3>
+          <p class="sum">---
+title: Agentic AI-enabled Semantic Commissioning of a Cognitive Digital Twin for Reconfigurable Manufacturing
+author: Liu; Yangyang; Xun; Polzer; Jan
+url: https://arxiv.org/abs/2609.09503v1
+hostname: arxiv.org
+description: "Rapid bespoke commissioning of the Cognitive Digital Twin (CDT) is a major challenge in reconfigurable manufacturing. Traditional digital twin (DT) construction methods primarily focus on geometric reconstruction, often neglecting the deep semantic integration and functional interoperability necessary for autonomous reasoning. This paper proposes an agent-based, AI-driven workflow to automate end-to-end CDT debugging. The system utilises LangGraph as a multi-agent orchestration engine to achieve dual-path synthesis: the semantic path extracts technical specifications from unstructured documents using Retrieval Augmented Generation (RAG), while the functional path autonomously discovers and binds to real-time industrial telemetry data using Model Context Protocol (MCP). Experimental validation in a robotic machining cell demonstrates that the system achieves a mean average accuracy (mAP) of 97.2% in perception and reduces the deployment cycle from several weeks to an average of 2 hours, marking a paradigm shift from manual scripting to autonomous orchestration."
+sitename: arXiv.org
+date: "2026-09-08"
+---
+Computer Science  Robotics
+  [Submitted on 8 Sep 2026]
+    Title:Agentic AI-enabled Semantic Commissioning of a Cognitive Digital Twin for Reconfigurable Manufacturing
+View PDF
+            Abstract:Rapid bespoke commissioning of the Cognitive Digital Twin (CDT) is a major challenge in reconfigurable manufacturing. Traditional digital twin (DT) construction methods primarily focus on geometric reconstruction, often neglecting the deep semantic integration and functional interoperability necessary for autonomous reasoning. This paper proposes an agent-based, AI-driven workflow to automate end-to-end CDT debugging. The system utilises LangGraph</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-08</span>
+            <a class="url" href="https://arxiv.org/abs/2609.09503" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://blogs.sw.siemens.com/simcenter/siemens-executable-digital-twin-for-industrial-intelligence/" target="_blank" rel="noopener noreferrer">The architecture of truth: How Siemens' AI-powered Executable Digital Twin is rewriting the rules of industrial intelligence - Simcenter</a></h3>
+          <p class="sum">---
+title: "The architecture of truth: How Siemens' AI-powered Executable Digital Twin is rewriting the rules of industrial intelligence - Simcenter"
+author: Simcenter; Nachiket Patil
+url: https://blogs.sw.siemens.com/simcenter/siemens-executable-digital-twin-for-industrial-intelligence/
+hostname: siemens.com
+description: Discover how Executable Digital Twin closes the gap between physical assets and real-time insight - using physics-validated AI to optimize energy, generation, and transmission.
+sitename: Simcenter
+date: "2026-09-01"
+categories: ['News, Product Updates']
+tags: ['CAE Simulation', 'Digital Twin', 'Machine Learning']
+---
+The architecture of truth: How Siemens’ AI-powered Executable Digital Twin is rewriting the rules of industrial intelligence
+Your assets are generating data every millisecond. Your decisions, however, are still being made on yesterday’s assumptions. What if the gap between physical reality and operational insight could be closed – in real time, at cloud scale, and with the unimpeachable authority of physics?
+It is this engineering challenge that defined the creation of the Simcenter Executable Digital Twin Gateway – and the answer is already running in production.
+The problem the dashboard doesn’t know
+The world’s energy system is under pressure it has never faced before. Grids that were engineered for predictable, centralized generation are now absorbing the volatility of renewables, the surging demand of hyperscale data centers, and the unpredictability of fuel supply chains – simultaneously. Energy security has become an operational imperative more than ever, measured in real time, asset by asset, megawatt by megawatt.
+These grids power the industrial operations that keep the world running. Walk into any one of those operations today, and you will find three data worlds co-existing in uncomfortable silence:
+- Operational Technology: Operational historians, PLCs, SCADA systems – the heartbeat of the physical plant.
+- Information Tech</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-01</span>
+            <a class="url" href="https://blogs.sw.siemens.com/simcenter/siemens-executable-digital-twin-for-industrial-intelligence/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://engtechnica.com/siemens-turns-digital-twins-into-real-time-industrial-intelligence/" target="_blank" rel="noopener noreferrer">Siemens Turns Digital Twins Into Real-Time Industrial Intelligence - ENGtechnica</a></h3>
+          <p class="sum">---
+title: Siemens Turns Digital Twins Into Real-Time Industrial Intelligence - ENGtechnica
+author: Ruchika Saini; AI
+url: https://engtechnica.com/siemens-turns-digital-twins-into-real-time-industrial-intelligence/
+hostname: engtechnica.com
+description: Simcenter combines reduced-order physics models, AI agents, and live operational data to predict asset behavior and support faster engineering decisions.
+sitename: ENGtechnica
+date: "2026-09-11"
+categories: ['AI', 'Mechanical Engineering']
+---
+Siemens is extending the digital twin from a static representation of equipment into a continuously operating model that predicts the behavior of physical assets. Its Simcenter Executable Digital Twin, or xDT, combines physics-based simulation, artificial intelligence, and real-time operational data to help industrial teams detect problems, test scenarios, and optimize assets while they are running.
+Industrial facilities typically maintain separate streams of operational technology, business information, and external data such as weather or grid conditions. Siemens aims to connect these sources so engineers can uncover relationships that conventional monitoring systems may miss. The xDT runs alongside physical equipment and calculates conditions that sensors cannot directly measure.
+The approach addresses limitations in both traditional simulation and AI. High-fidelity multiphysics simulations can provide accurate engineering predictions but may require significant computing time. AI models respond quickly but can produce results that violate physical constraints. Siemens combines reduced-order modeling with AI to compress detailed Simcenter simulations into lightweight executable models that can operate at real-time speeds.
+The architecture has three main elements: a Unified Namespace that organizes operational information, the executable digital twin that provides physics-based predictions, and AI agents with knowledge graphs that analyze relationships and identify anomalies.</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-11</span>
+            <a class="url" href="https://engtechnica.com/siemens-turns-digital-twins-into-real-time-industrial-intelligence/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">829e3b19</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W38</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">3 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: Digital Twin Industrial</div>
+          <div class="s">
+            <span class="mono">3 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-15 16:15 · 2026-W38</span>
+</div></footer>
+</body>
+</html>

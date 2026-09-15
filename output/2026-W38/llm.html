@@ -6,1255 +6,291 @@
 <title>LLM — AI 前沿资讯周报</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
-  min-height: 100vh;
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
 
-/* ── Back Nav ── */
-.back-nav {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: #1677ff; margin-bottom: 24px;
-  text-decoration: none; cursor: pointer;
-}
-.back-nav:hover { text-decoration: underline; }
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
 
-/* ── Category Header ── */
-.cat-header {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-  padding: 24px; background: #fff; border-radius: 8px;
-  border-left: 4px solid #3b82f6;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.cat-header .icon { font-size: 36px; }
-.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
-.cat-header .count-badge {
-  background: #3b82f615; color: #3b82f6;
-  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
-}
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
 
-/* ── Domain Summary ── */
-.domain-summary {
-  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
-  margin-bottom: 24px; border-left: 4px solid #1677ff;
-  font-size: 14px; color: #434343; line-height: 1.6;
-}
-.domain-summary strong { color: #1a5276; }
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
 
-/* ── Event Card ── */
-.event-card {
-  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
-  padding: 24px; margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
-.event-card.carried { opacity: 0.65; }
-.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
 
-/* ── Score Badges Row ── */
-.score-badges {
-  display: flex; gap: 16px; margin-bottom: 12px;
-}
-.score-badge-item {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 12px; color: #595959;
-}
-.score-badge-item .badge {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
-}
-.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
-.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
-.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
 
-/* ── Event Title ── */
-.event-title {
-  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
-  line-height: 1.4;
-}
-.event-title a { color: inherit; text-decoration: none; }
-.event-title a:hover { color: #1677ff; }
-.carried-badge {
-  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
-  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
-}
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
 
-/* ── Event Summary ── */
-.event-summary {
-  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
-}
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
 
-/* ── Sources Info ── */
-.sources-info {
-  display: flex; align-items: center; gap: 12px;
-  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
-  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
-}
-.source-tag {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
-  font-size: 12px; color: #1a5276;
-}
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
 
-/* ── Key Insights ── */
-.key-insights {
-  margin-bottom: 12px; padding-left: 20px;
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
 }
-.key-insights li {
-  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
-}
-
-/* ── Tags ── */
-.event-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
-.tag {
-  font-size: 12px; padding: 0 8px; line-height: 22px;
-  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
-  color: #595959;
-}
-
-/* ── Linked Articles (expandable) ── */
-.articles-expand {
-  margin-top: 12px;
-}
-.articles-expand summary {
-  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
-  user-select: none;
-}
-.articles-expand summary:hover { text-decoration: underline; }
-.articles-expand .article-list {
-  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
-}
-.article-list .article-item {
-  padding: 6px 0; font-size: 13px; color: #595959;
-  border-bottom: 1px solid #f5f5f5;
-}
-.article-list .article-item:last-child { border-bottom: none; }
-.article-list .article-item a {
-  color: #1a1a1a; text-decoration: none;
-}
-.article-list .article-item a:hover { color: #1677ff; }
-.article-list .article-item .article-source {
-  font-size: 12px; color: #8c8c8c; margin-left: 8px;
-}
-.article-list .article-item .article-summary {
-  display: block; font-size: 12px; color: #8c8c8c;
-  margin: 2px 0 0 0; line-height: 1.5;
-}
-
-/* ── Empty State ── */
-.empty-state {
-  text-align: center; padding: 48px 24px;
-  border: 1px dashed #d9d9d9; border-radius: 8px;
-  background: #fff;
-}
-.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
-.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
-.empty-state p { font-size: 13px; color: #bfbfbf; }
-
-/* ── Footer ── */
-.footer {
-  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #e8e8e8; margin-top: 32px;
-}
-
-@media (max-width: 768px) {
-  .container { padding: 16px; }
-  .cat-header { padding: 16px; flex-wrap: wrap; }
-  .cat-header h1 { font-size: 20px; }
-  .event-card { padding: 16px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
 }
 </style>
+<style>:root { --cat-color: #3b82f6; }</style>
 </head>
 <body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
 
-<div class="container">
-
-  <!-- Back Nav -->
-  <a class="back-nav" href="index.html" aria-label="返回首页">
-    <span class="arrow">←</span> 返回首页
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-
-  <!-- Category Header -->
-  <div class="cat-header">
-    <span class="icon">🧠</span>
-    <h1>LLM</h1>
-    <span class="count-badge">7 个事件</span>
-  </div>
-
-  <!-- Domain Summary -->
-  
-  <div class="domain-summary">
-    <strong>📋 领域摘要</strong><br>
-    本周 LLM 领域关键进展包括 OpenAI 推出面向企业、金融和实时语音的 GPT-6 Astra、ChatGPT for Financial Services 与 GPT-Live-1，并展示支撑大规模服务的 Habitat 平台，同时多模态大模型在混合注意力、认知结构化 Agent 和视觉状态推理等方向取得新方法。
-  </div>
-  
-
-  <!-- Events Container -->
-  
-  <div class="events-container" id="events">
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">70</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">80</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        OpenAI更新ChatGPT存储、金融与语音能力
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">OpenAI介绍Habitat的演进过程：它从Python库发展为全球分布式存储平台，能够服务超过10亿ChatGPT用户，并处理每秒2200万请求。OpenAI推出ChatGPT for Financial Services，面向金融服务场景，结合内置金融数据与GPT-6 Astra，支持研究、建模和可交付客户材料。GPT-Live-1通过API提供自然、全双工语音对话，并具备更强指令遵循、自定义语音和电话支持。这些更新覆盖基础设施、行业应用与语音交互，进一步体现其ChatGPT平台在规模、行业与交互上的整体持续扩展的能力。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 6 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">OpenAI Blog</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 6 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/introducing-chatgpt-financial-services" target="_blank" rel="noopener">
-              Introducing ChatGPT for Financial Services
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Introducing ChatGPT for Financial Services, combining built-in financial data and GPT-6 Astra for research, modeling, an…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/introducing-chatgpt-images-2-5" target="_blank" rel="noopener">
-              Introducing ChatGPT Images 2.5
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">ChatGPT Images 2.5 helps turn your ideas, sketches, and reference photos into more personalized, polished images that be…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/introducing-gpt-live-1-in-the-api" target="_blank" rel="noopener">
-              Build more natural voice experiences with GPT‑Live‑1 in the API
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">GPT‑Live‑1 brings natural, full-duplex voice conversations to the API, with stronger instruction following, custom voice…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/put-data-to-work" target="_blank" rel="noopener">
-              Now everyone can put data to work
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Meet the Data agent in ChatGPT Work. Connect company data, uncover insights, and build interactive dashboards with AI us…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/scaling-storage-one-billion-users-part-one" target="_blank" rel="noopener">
-              Rapidly scaling online storage to serve over 1 billion ChatGPT users
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Learn how OpenAI evolved Habitat from a Python library into a globally distributed storage platform serving 1 billion Ch…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/supporting-journalism-from-classrooms-to-newsrooms" target="_blank" rel="noopener">
-              OpenAI expands initiatives to support journalism from classrooms to newsrooms
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">OpenAI is expanding support for journalism with tools, training, and partnerships for students, educators, journalists, …</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">70</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">60</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">70</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        GPT-6 Astra用于企业工作与软件测试
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">OpenAI介绍GPT-6 Astra，称其为面向企业工作的最强模型，具备高级推理、计算机使用、写作与设计判断能力。Perplexity使用Astra撰写沟通内容、修改软件并监控生产系统，且检查频率远低于早期模型。Cognition借助Astra帮助Devin测试自身工作，提升软件验证能力，目标是让工程师审查更少代码并交付更多。这些能力可用于沟通、软件变更与生产监控等相关任务。这些案例显示其可用于端到端企业系统任务，并降低检查频率。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 5 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">OpenAI Blog</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 5 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/codex-quantum-computing-experiments" target="_blank" rel="noopener">
-              How GPT-5.6 Sol helps run quantum computing experiments
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">See how an MIT researcher uses GPT-5.6 Sol with Codex to autonomously run quantum computing experiments, analyze results…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/cognition-devin-testing-with-astra" target="_blank" rel="noopener">
-              Cognition helps Devin test its own work with GPT‑6 Astra
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">GPT‑6 Astra improves Devin’s ability to test software and show that it works, with the goal of helping engineers review …</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/gpt-6-astra-next-generation-work" target="_blank" rel="noopener">
-              GPT-6 Astra: The next generation in intelligence for work
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Meet GPT-6 Astra, OpenAI’s most capable model for business, with advanced reasoning, computer use, and stronger writing …</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/perplexity-improving-accuracy-with-astra" target="_blank" rel="noopener">
-              Perplexity trusts GPT-6 Astra with end-to-end systems
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Perplexity uses Astra to write communications, change software, and monitor production systems, and checks in much less …</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/using-codex-chatgpt-to-search-for-new-antimicrobials" target="_blank" rel="noopener">
-              How a researcher uses Codex and ChatGPT to search for new antimicrobial molecules
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">César de la Fuente’s lab uses Codex and ChatGPT to search living and extinct genomes for antimicrobial candidates to fig…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">65</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">55</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">65</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        多模态LLM混合注意力、Agent与视觉状态更新
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该事件聚焦多模态大模型的最新方法。文章0提出语义头特化引导混合ViT注意力，针对多模态LLM中ViT缺乏满意混合设计的问题。文章1提出认知结构化多模态Agent CMA，面向多模态理解、生成与编辑。文章2提出DeltaV统一大模型框架，用于交错多模态推理，并通过视觉状态更新进行思考。这些工作分别从注意力结构、智能体框架和视觉状态推理推进多模态能力。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 3 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Exa: LLM Latest</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 3 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2608.28383" target="_blank" rel="noopener">
-              Semantic Head Specialization Guides Hybrid ViT Attention for Multimodal LLMs
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: Semantic Head Specialization Guides Hybrid ViT Attention for Multimodal LLMs
-author: He; Chenhong; Lei; Shich…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.alphaxiv.org/abs/2607.08434" target="_blank" rel="noopener">
-              DeltaV: Thinking with Visual State Updates in Unified Large Multimodal Models
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: "DeltaV: Thinking with Visual State Updates in Unified Large Multimodal Models"
-author: Pengjie Wang; Linger …</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.alphaxiv.org/abs/2607.08497" target="_blank" rel="noopener">
-              Cognitive-structured Multimodal Agent for Multimodal Understanding, Generation, and Editing
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: Cognitive-structured Multimodal Agent for Multimodal Understanding, Generation, and Editing
-author: Feng Wang…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">60</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">50</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">60</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        780B MoE语言模型Hy4-Preview发布
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">HuggingFace Transformers v5.17.0新增Hy4-Preview模型。该模型属于混合专家语言模型，总参数规模为780B，每个token激活49B参数。其MoE层设计包含256个路由专家和一个常开共享专家，使模型在保持较大总参数规模的同时，仅激活部分参数参与计算。该版本将Hy4-Preview作为新模型添加纳入Transformers，扩展了该版本支持的模型范围。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 6 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">CrewAI (GitHub)</span>
-        
-        
-        
-        <span class="source-tag">HuggingFace Transformers (GitHub)</span>
-        
-        
-        
-        <span class="source-tag">LangChain (GitHub)</span>
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 6 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://github.com/crewAIInc/crewAI/releases/tag/1.15.21" target="_blank" rel="noopener">
-              Release: 1.15.21
-            </a>
-            <span class="article-source">CrewAI (GitHub)</span>
-            
-            
-            <span class="article-summary">## What's Changed
-
-### Features
-- Add telemetry to track checkpoint runtime and CLI usage.
-
-### Bug Fixes
-- Fix gateway …</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/huggingface/transformers/releases/tag/v5.17.0" target="_blank" rel="noopener">
-              Release: Release 5.17.0
-            </a>
-            <span class="article-source">HuggingFace Transformers (GitHub)</span>
-            
-            
-            <span class="article-summary"># Release v5.17.0
-
-
-## New Model additions
-
-### HYV4
-
-
-
-
-Hy4-Preview is a 780B-parameter mixture-of-experts la…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-anthropic%3D%3D1.7.2" target="_blank" rel="noopener">
-              Release: langchain-anthropic==1.7.2
-            </a>
-            <span class="article-source">LangChain (GitHub)</span>
-            
-            
-            <span class="article-summary">Changes since langchain-anthropic==1.7.1
-
-release(anthropic): 1.7.2 (#40387)
-fix(anthropic): preserve invalid tool use b…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.6.3" target="_blank" rel="noopener">
-              Release: langchain-core==1.6.3
-            </a>
-            <span class="article-source">LangChain (GitHub)</span>
-            
-            
-            <span class="article-summary">Changes since langchain-core==1.6.2
-
-release(core): 1.6.3 (#40407)
-feat(core): Allow model name and provider tracing met…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.1" target="_blank" rel="noopener">
-              Release: langchain-openai==1.6.1
-            </a>
-            <span class="article-source">LangChain (GitHub)</span>
-            
-            
-            <span class="article-summary">Changes since langchain-openai==1.6.0
-
-fix(openai): bump `max_completion_tokens` in cache breakpoint integration test (#…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.6.2" target="_blank" rel="noopener">
-              Release: langchain-openai==1.6.2
-            </a>
-            <span class="article-source">LangChain (GitHub)</span>
-            
-            
-            <span class="article-summary">Changes since langchain-openai==1.6.1
-
-release(openai): 1.6.2 (#40339)
-fix(openai): add GPT-6 Astra reasoning efforts (#…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">60</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">60</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">60</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        单塔多模态编码器与思维令牌统一感知推理
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该事件聚焦多模态大模型的基础编码器与定位方法。[1]提出NeoMME，一种单塔、多模态原生、多语言基础编码器，面向高效微调与推理，区别于将独立预训练视觉编码器与因果语言模型组合的常见生成式视觉语言架构。[2]提出Mixture-of-Thought-Tokens，用于统一感知与推理，以支持自由形式多模态定位。两者分别关注多模态基础编码与自由形式多模态定位，为多模态理解与定位提供新的架构路径。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 5 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Exa: AI for Science</span>
-        
-        
-        
-        <span class="source-tag">Exa: LLM Latest</span>
-        
-        
-        
-        <span class="source-tag">Exa: Digital Twin Industrial</span>
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 5 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2607.07708v1" target="_blank" rel="noopener">
-              Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning
-            </a>
-            <span class="article-source">Exa: AI for Science</span>
-            
-            
-            <span class="article-summary">---
-title: Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reas…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2607.24407" target="_blank" rel="noopener">
-              Mixture-of-Thought-Tokens: Unifying Perception and Reasoning for Free-form Multimodal Grounding
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: "Mixture-of-Thought-Tokens: Unifying Perception and Reasoning for Free-form Multimodal Grounding"
-author: Gao…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2609.01657" target="_blank" rel="noopener">
-              NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Inference
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: "NeoMME: A Single-Tower Multimodal-Native Multilingual Foundation Encoder for Efficient Fine-Tuning and Infer…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://docshare.wps.com/document/accurate-interdisciplinary-and-transparent-structure-property-understanding-with-deep-native-structural-reasoning/82010/" target="_blank" rel="noopener">
-              Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning
-            </a>
-            <span class="article-source">Exa: AI for Science</span>
-            
-            
-            <span class="article-summary">---
-title: Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reas…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://doi.org/10.1109/ccnc65079.2026.11366397" target="_blank" rel="noopener">
-              Untitled
-            </a>
-            <span class="article-source">Exa: Digital Twin Industrial</span>
-            
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">55</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">45</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">65</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        视觉语言模型长上下文推理、检索与统一生成
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该事件聚焦视觉语言模型在长程推理、视觉检索与统一生成中的改进。多模态大语言模型在视觉语言推理中随生成长度增加性能下降，双潜在记忆路由用于缓解长生成退化。长视觉上下文使模型面临挑战，干扰项增多会降低表现，一次性处理所有 token 带来挑战，ReToken 用单一 token 改进视觉检索。Argus-Unified 面向紧凑且经济的统一模型，同时支持图像理解与生成，以降低统一视觉模型的挑战与成本。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 3 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Exa: LLM Latest</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 3 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2607.25527" target="_blank" rel="noopener">
-              Argus-Unified: Towards A Compact and Economical Unified Model for Image Understanding and Generation
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: "Argus-Unified: Towards A Compact and Economical Unified Model for Image Understanding and Generation"
-author…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2607.28627" target="_blank" rel="noopener">
-              ReToken: One Token to Improve Vision-Language Models for Visual Retrieval
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: "ReToken: One Token to Improve Vision-Language Models for Visual Retrieval"
-author: Xiao; Yao; Tan; Reuben; Z…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2609.05539" target="_blank" rel="noopener">
-              Dual-Latent Memory Routing for Vision-Language Reasoning
-            </a>
-            <span class="article-source">Exa: LLM Latest</span>
-            
-            
-            <span class="article-summary">---
-title: Dual-Latent Memory Routing for Vision-Language Reasoning
-author: Ma; Hao-Xuan; Qi; Jin-Fei; Xiao; Yicheng; Ye…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">20</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        OpenAI政府AI接入、青少年研究资助与Codex提效
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">OpenAI与GSA为联邦、州、地方和部落政府提供0许可费、50%使用折扣及扩展网络防御支持。OpenAI设立500万美元资助计划，支持独立研究生成式AI对青少年发展、福祉和安全的影响。1Password工程师使用Codex快速构建新功能和内部工具，在保持严格安全策略下达到生产就绪，工程生产力提升21%。这些举措扩大公共部门AI可及性，补充青少年影响研究，并展示编码助手在安全约束下的工程落地价值。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 6 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">OpenAI Blog</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 6 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/1password" target="_blank" rel="noopener">
-              1Password increases engineering productivity 21% with Codex
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Engineers at 1Password use Codex to rapidly build new features and internal tools, reaching production-readiness while m…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/ai-policy-window" target="_blank" rel="noopener">
-              The AI policy window is open. We need to act.
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Chris Lehane argues that stronger AI capabilities require stronger safety evidence, shared standards, and durable policy…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/expanding-ai-access-us-government" target="_blank" rel="noopener">
-              Expanding AI access and cyber defense for federal, state, local, and tribal governments
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">OpenAI and GSA will offer eligible federal, state, local, and tribal governments $0 license fees, 50% off usage, and exp…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/paul-christiano-joins-openai-foundation-board" target="_blank" rel="noopener">
-              Paul Christiano joins OpenAI Foundation Board
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Paul Christiano joins the OpenAI Foundation Board and its Safety and Security Committee, bringing experience in AI align…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/teen-development-research-grants" target="_blank" rel="noopener">
-              Funding grants for new research into AI and teen development
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Apply now for OpenAI’s $5 million grant program supporting independent research on how generative AI affects teen develo…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/the-work-now-within-reach" target="_blank" rel="noopener">
-              The Work Now Within Reach
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Explore how more capable, affordable AI can expand the work people and businesses can accomplish—and make growth more ec…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
+  <div class="issue"><a href="index.html"><b>2026-W38</b> · 2026-09-15</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · LLM</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #3b82f6; width: 12px; height: 12px;"></span>🧠 LLM</h1>
+    <span class="count"><b>7</b> 个事件 · 按重要性排序</span>
     
   </div>
-  
 
-  <div class="footer">生成于 2026-09-14 11:52 · Weekly AI Report Agent</div>
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">18</span></a>
+    
+    <a href="llm.html" class="on">LLM<span class="mono">7</span></a>
+    
+    <a href="agent.html" class="">Agent<span class="mono">7</span></a>
+    
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">2</span></a>
+    
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">1</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
 
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FC54FF</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-82fc54ff-openai-chatgpt.html">OpenAI更新ChatGPT存储、金融与语音能力</a></h2>
+        <p class="sum">OpenAI介绍Habitat的演进过程：它从Python库发展为全球分布式存储平台，能够服务超过10亿ChatGPT用户，并处理每秒2200万请求。OpenAI推出ChatGPT for Financial Services，面向金融服务场景，结合内置金融数据与GPT-6 Astra，支持研究、建模和可交付客户材料。GPT-Live-1通过API提供自然、全双工语音对话，并具备更强指令遵循、自定义语音和电话支持。这些更新覆盖基础设施、行业应用与语音交互，进一步体现其ChatGPT平台在规模、行业与交互上的整体持续扩展的能力。</p>
+        <div class="foot">
+          <span class="mono">6 篇来源文章</span>
+          <a class="go" href="events/evt-82fc54ff-openai-chatgpt.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 80%; background: #10b981;"></i></span><span class="mono"><b>80</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5D4C10</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-445d4c10-gpt-6-astra.html">GPT-6 Astra用于企业工作与软件测试</a></h2>
+        <p class="sum">OpenAI介绍GPT-6 Astra，称其为面向企业工作的最强模型，具备高级推理、计算机使用、写作与设计判断能力。Perplexity使用Astra撰写沟通内容、修改软件并监控生产系统，且检查频率远低于早期模型。Cognition借助Astra帮助Devin测试自身工作，提升软件验证能力，目标是让工程师审查更少代码并交付更多。这些能力可用于沟通、软件变更与生产监控等相关任务。这些案例显示其可用于端到端企业系统任务，并降低检查频率。</p>
+        <div class="foot">
+          <span class="mono">5 篇来源文章</span>
+          <a class="go" href="events/evt-445d4c10-gpt-6-astra.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BEC36B</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-60bec36b-llm-agent.html">多模态LLM混合注意力、Agent与视觉状态更新</a></h2>
+        <p class="sum">该事件聚焦多模态大模型的最新方法。文章0提出语义头特化引导混合ViT注意力，针对多模态LLM中ViT缺乏满意混合设计的问题。文章1提出认知结构化多模态Agent CMA，面向多模态理解、生成与编辑。文章2提出DeltaV统一大模型框架，用于交错多模态推理，并通过视觉状态更新进行思考。这些工作分别从注意力结构、智能体框架和视觉状态推理推进多模态能力。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-60bec36b-llm-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-9BD2A0</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-5f9bd2a0-780b-moe-hy4-preview.html">780B MoE语言模型Hy4-Preview发布</a></h2>
+        <p class="sum">HuggingFace Transformers v5.17.0新增Hy4-Preview模型。该模型属于混合专家语言模型，总参数规模为780B，每个token激活49B参数。其MoE层设计包含256个路由专家和一个常开共享专家，使模型在保持较大总参数规模的同时，仅激活部分参数参与计算。该版本将Hy4-Preview作为新模型添加纳入Transformers，扩展了该版本支持的模型范围。</p>
+        <div class="foot">
+          <span class="mono">6 篇来源文章</span>
+          <a class="go" href="events/evt-5f9bd2a0-780b-moe-hy4-preview.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-6E0C06</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-4a6e0c06-event.html">单塔多模态编码器与思维令牌统一感知推理</a></h2>
+        <p class="sum">该事件聚焦多模态大模型的基础编码器与定位方法。[1]提出NeoMME，一种单塔、多模态原生、多语言基础编码器，面向高效微调与推理，区别于将独立预训练视觉编码器与因果语言模型组合的常见生成式视觉语言架构。[2]提出Mixture-of-Thought-Tokens，用于统一感知与推理，以支持自由形式多模态定位。两者分别关注多模态基础编码与自由形式多模态定位，为多模态理解与定位提供新的架构路径。</p>
+        <div class="foot">
+          <span class="mono">5 篇来源文章</span>
+          <a class="go" href="events/evt-4a6e0c06-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-7D59D7</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-e77d59d7-event.html">视觉语言模型长上下文推理、检索与统一生成</a></h2>
+        <p class="sum">该事件聚焦视觉语言模型在长程推理、视觉检索与统一生成中的改进。多模态大语言模型在视觉语言推理中随生成长度增加性能下降，双潜在记忆路由用于缓解长生成退化。长视觉上下文使模型面临挑战，干扰项增多会降低表现，一次性处理所有 token 带来挑战，ReToken 用单一 token 改进视觉检索。Argus-Unified 面向紧凑且经济的统一模型，同时支持图像理解与生成，以降低统一视觉模型的挑战与成本。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-e77d59d7-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-F39F40</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-1df39f40-openai-ai-codex.html">OpenAI政府AI接入、青少年研究资助与Codex提效</a></h2>
+        <p class="sum">OpenAI与GSA为联邦、州、地方和部落政府提供0许可费、50%使用折扣及扩展网络防御支持。OpenAI设立500万美元资助计划，支持独立研究生成式AI对青少年发展、福祉和安全的影响。1Password工程师使用Codex快速构建新功能和内部工具，在保持严格安全策略下达到生产就绪，工程生产力提升21%。这些举措扩大公共部门AI可及性，补充青少年影响研究，并展示编码助手在安全约束下的工程落地价值。</p>
+        <div class="foot">
+          <span class="mono">6 篇来源文章</span>
+          <a class="go" href="events/evt-1df39f40-openai-ai-codex.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+  </div>
 </div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-15 16:15 · 2026-W38</span>
+</div></footer>
 </body>
 </html>

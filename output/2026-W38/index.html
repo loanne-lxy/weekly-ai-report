@@ -6,377 +6,651 @@
 <title>AI 前沿资讯周报</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
-  min-height: 100vh;
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08); --accent-soft-2: rgba(26,115,232,.16);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
 
-/* ── Hero Header ── */
-.hero {
-  text-align: center;
-  padding: 48px 32px 40px;
-  background: linear-gradient(180deg, #e8f4f8 0%, #f5f7fa 100%);
-  border-bottom: 1px solid #e8e8e8;
-  margin-bottom: 32px;
-}
-.hero .week-badge {
-  display: inline-block; background: #1a5276; color: #fff;
-  font-size: 13px; padding: 0 20px; height: 28px; line-height: 28px;
-  border-radius: 14px; margin-bottom: 16px; font-weight: 500;
-}
-.hero h1 {
-  font-size: 36px; font-weight: 700; color: #1a5276; margin-bottom: 12px;
-  letter-spacing: -0.5px;
-}
-.hero .date {
-  font-size: 14px; color: #8c8c8c; margin-bottom: 24px;
-}
-.hero .summary {
-  max-width: 800px; margin: 0 auto; text-align: left;
-  background: #fff; border-radius: 8px; padding: 20px 24px;
-  border-left: 4px solid #1677ff; font-size: 14px; color: #434343;
-  line-height: 1.7; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.hero .summary strong { color: #1a5276; }
+/* ── Ambient background (Material tonal, slow drift) ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 620px; height: 620px; top: -220px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.20), transparent 68%); animation: drift1 24s ease-in-out infinite; }
+.bg-glow::after { width: 560px; height: 560px; top: -160px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.22), transparent 68%); animation: drift2 28s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-46px,34px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(40px,28px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
 
-/* ── Stats Bar ── */
-.stats-bar {
-  display: flex; gap: 1px; background: #e8e8e8; border-radius: 8px;
-  overflow: hidden; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.stat-item {
-  flex: 1; text-align: center; padding: 16px 8px; background: #fff;
-  transition: background 0.15s;
-}
-.stat-item:hover { background: #f0f5ff; }
-.stat-item .num { font-size: 24px; font-weight: 700; color: #1a5276; }
-.stat-item .label { font-size: 12px; color: #8c8c8c; margin-top: 4px; }
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.masthead > .kicker { animation: fadeUp .6s ease .02s both; }
+.masthead > h1 { animation: fadeUp .6s ease .1s both; }
+.masthead > .lede { animation: fadeUp .6s ease .18s both; }
+.masthead > .kpis { animation: fadeUp .6s ease .28s both; }
 
-/* ── Layout ── */
-.layout { display: flex; gap: 24px; }
-.main { flex: 1; min-width: 0; }
-.sidebar { width: 280px; flex-shrink: 0; }
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
 
-/* ── Category Card ── */
-.cat-card {
-  border: 1px solid #e8e8e8; border-radius: 8px; margin-bottom: 16px;
-  background: #fff; transition: border-color 0.15s, box-shadow 0.15s;
-  cursor: pointer; display: block; text-decoration: none; color: inherit;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.cat-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
-.cat-card-header {
-  display: flex; align-items: center; padding: 16px 20px;
-  border-bottom: 1px solid #f0f0f0;
-}
-.cat-card-header .icon { font-size: 20px; margin-right: 12px; }
-.cat-card-header .name { font-size: 16px; font-weight: 600; flex: 1; }
-.cat-card-header .count {
-  font-size: 24px; font-weight: 700; color: #1a5276; margin-right: 8px;
-}
-.cat-card-header .unit { font-size: 12px; color: #8c8c8c; }
-.cat-card-body { padding: 16px 20px; }
-.cat-card-body p { font-size: 14px; color: #595959; line-height: 1.6; }
-.cat-card-footer {
-  padding: 8px 20px 16px; font-size: 13px; color: #1677ff; font-weight: 500;
-}
+/* ── Masthead (hero) ── */
+.masthead { padding: 60px 0 12px; }
+.masthead h1 { font-size: 48px; font-weight: 800; letter-spacing: -.028em; line-height: 1.12; margin: 14px 0 16px; color: var(--text); max-width: 820px; }
+.masthead .lede { font-size: 17px; color: var(--text-2); max-width: 800px; line-height: 1.78; }
+.masthead .lede b { color: var(--text); font-weight: 700; }
 
-/* Empty card */
-.cat-card.empty { opacity: 0.55; cursor: default; }
-.cat-card.empty:hover { border-color: #e8e8e8; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+/* ── KPI cards ── */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px 22px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.kpi:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.kpi .v { font-family: var(--mono); font-size: 32px; font-weight: 700; color: var(--text); line-height: 1.1; letter-spacing: -.01em; }
+.kpi .v small { font-size: 13px; color: var(--text-3); font-weight: 500; margin-left: 5px; }
+.kpi .l { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-4); margin-top: 8px; font-weight: 700; }
 
-/* ── Sidebar ── */
-.sidebar-section {
-  border: 1px solid #e8e8e8; border-radius: 8px; padding: 16px 20px; margin-bottom: 16px;
-  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.sidebar-section h3 {
-  font-size: 14px; font-weight: 600; color: #1a5276; margin-bottom: 12px;
-  padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;
-}
-.mini-stat {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 0;
-}
-.mini-stat + .mini-stat { border-top: 1px solid #f5f5f5; }
-.mini-stat .label { font-size: 13px; color: #595959; }
-.mini-stat .value { font-size: 16px; font-weight: 600; }
-.mini-stat .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+/* ── Sections ── */
+section { padding: 42px 0 4px; }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+.sec-head h2 { font-size: 25px; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
+.sec-head .hint { font-size: 13px; color: var(--text-3); }
+.sec-head .kicker { display: block; margin-bottom: 8px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* ── Top events ── */
+.top-list { padding: 6px 0; overflow: hidden; }
+.top-item { display: grid; grid-template-columns: 66px minmax(0,1fr); gap: 22px; padding: 24px 24px; transition: background .2s; }
+.top-item + .top-item { border-top: 1px solid var(--line); }
+.top-item:hover { background: var(--surface-2); }
+.top-num { font-family: var(--mono); font-size: 36px; font-weight: 700; color: var(--line-2); line-height: 1; transition: color .2s; }
+.top-item:hover .top-num { color: var(--accent); }
+.top-body h3 { font-size: 19px; font-weight: 700; line-height: 1.42; margin-bottom: 9px; letter-spacing: -.01em; }
+.top-body h3 a:hover { color: var(--accent); }
+.top-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 11px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.score { font-family: var(--mono); font-size: 12.5px; color: var(--text-3); display: inline-flex; align-items: center; gap: 7px; }
+.score b { font-size: 19px; color: var(--accent); font-weight: 700; }
+.bar { width: 58px; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; display: inline-block; vertical-align: middle; }
+.bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; transform-origin: left; animation: barGrow .9s .35s cubic-bezier(.22,.8,.32,1) both; }
+.top-sum { font-size: 15px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt-link { display: inline-block; margin-top: 11px; font-size: 13.5px; color: var(--accent); font-weight: 600; }
+.evt-link:hover { color: var(--accent-2); text-decoration: underline; }
+
+/* ── Domain signals ── */
+.ov-row { display: grid; grid-template-columns: 190px minmax(0,1fr) 74px; gap: 16px; align-items: center; padding: 15px 24px; transition: background .2s; }
+.ov-row + .ov-row { border-top: 1px solid var(--line); }
+.ov-row:hover { background: var(--surface-2); }
+.ov-cat { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; color: var(--text); }
+.ov-trend { font-size: 13.5px; color: var(--text-2); line-height: 1.6; }
+.ov-n { font-family: var(--mono); font-size: 13px; color: var(--text-3); text-align: right; }
+
+/* ── Explorer ── */
+.ex-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.ex-search { flex: 1; min-width: 240px; background: var(--surface); border: 1px solid var(--line-2); border-radius: 26px; padding: 12px 20px; color: var(--text); font-size: 14px; outline: none; transition: border-color .2s, box-shadow .2s; box-shadow: var(--shadow); }
+.ex-search:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.ex-search::placeholder { color: var(--text-4); }
+.ex-f { font-size: 13px; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 26px; padding: 8px 17px; cursor: pointer; transition: all .18s; user-select: none; font-weight: 500; box-shadow: var(--shadow); }
+.ex-f:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.ex-f.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.ex-f .mono { margin-left: 6px; opacity: .8; font-size: 11px; }
+.ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ex-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 22px 22px; display: flex; flex-direction: column; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 45ms); }
+.ex-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.ex-top { display: flex; align-items: center; gap: 8px; margin-bottom: 13px; font-size: 12.5px; }
+.ex-cat { color: var(--text-2); font-weight: 600; }
+.ex-imp { margin-left: auto; font-family: var(--mono); font-size: 13.5px; color: var(--accent); font-weight: 700; }
+.ex-imp small { color: var(--text-4); font-weight: 600; margin-left: 3px; }
+.ex-card h3 { font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 10px; color: var(--text); letter-spacing: -.01em; }
+.ex-card h3 a:hover { color: var(--accent); }
+.ex-sum { font-size: 13.5px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+.ex-foot { display: flex; align-items: center; gap: 10px; margin-top: 15px; padding-top: 13px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--text-3); }
+.ex-foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.ex-foot .go:hover { text-decoration: underline; }
+.ex-empty { display: none; padding: 48px 0; text-align: center; color: var(--text-3); font-size: 14px; }
 
 /* ── Footer ── */
-.footer {
-  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #e8e8e8; margin-top: 32px;
-}
+footer { margin-top: 56px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
 
-@media (max-width: 768px) {
-  .layout { flex-direction: column; }
-  .sidebar { width: 100%; }
-  .hero h1 { font-size: 28px; }
-  .hero { padding: 32px 24px 24px; }
+@media (max-width: 900px) {
+  .ex-grid { grid-template-columns: repeat(2, 1fr); }
+  .masthead { padding-top: 44px; }
+  .masthead h1 { font-size: 34px; }
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .ex-grid { grid-template-columns: 1fr; }
+  .top-item { grid-template-columns: 1fr; gap: 8px; padding: 20px 20px; }
+  .top-num { font-size: 28px; }
+  .ov-row { grid-template-columns: 1fr; gap: 5px; }
+  .ov-n { text-align: left; }
+  .masthead h1 { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
 }
 </style>
 </head>
 <body>
+<div class="bg-glow" aria-hidden="true"></div>
 
-<!-- Hero -->
-<header class="hero">
-  <div class="week-badge">2026-W38</div>
-  <h1>AI 前沿资讯周报</h1>
-  <div class="date">2026-09-14 11:52</div>
-  <div class="summary">
-    <strong>📋 整体摘要</strong><br>
-    本周 AI 领域持续呈现高速发展态势，共收录 18 篇高质量资讯。【LLM】本周 LLM 领域关键进展包括 OpenAI 推出面向企业、金融和实时语音的 GPT-6 Astra、ChatGPT for Financial Services 与 GPT-Live-1，并展示支撑大规模服务的 Habitat 平台，同时多模态大模型在混合注意力、认知结构化 Agent 和视觉状态推理等方向取得新方法。【Agent】本周智能体领域在科研、数学证明与工程化编排上同步推进：双轻量LLM协作实现自主晶体材料研究，OpenAI展示Navier-Stokes解法与Lean证明并引发AI编程成本与可验收讨论，Agents API、Managed Deep Agents和deepagents上下文模式则强化云智能体托管、凭据安全与多智能体协作。【AI for Science】本周AI for Science在蛋白质与物理AI、化学与酶催化方面取得进展：零样本结合蛋白设计、AgentFold闭环智能体搜索折叠模型和TuringLLM物理AI基础模型扩展推进了蛋白设计与物理AI，而智能体反应机理发现、MutexaGPT酶工程翻译器和机器学习势原子级建模提升了化学与酶研究的自动化、设计转化和模拟精度。【设计仿真】本周设计仿真聚焦机器学习驱动的逆设计与拓扑优化，通过条件流匹配、零样本生成先验和 KPI 条件检索-生成流水线，降低 PDE 约束优化成本并实现高刚度低质量及汽车内罩板多目标设计。【数字孪生】本周数字孪生领域聚焦运维与参考架构，提出面向DEVS仿真服务的模型中心DevOps架构、TwinOps生命周期DevOps实践以及Ditmara模块化参考架构，为数字孪生的部署、集成和持续运营提供方法支撑。
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </div>
-</header>
+  <div class="issue"><b>2026-W38</b> · 2026-09-15</div>
+</div></div>
 
-<div class="container">
-
-  <!-- Stats Bar -->
-  <div class="stats-bar">
-    
-    <div class="stat-item">
-      <div class="num">7</div>
-      <div class="label">🧠 LLM</div>
-    </div>
-    
-    <div class="stat-item">
-      <div class="num">7</div>
-      <div class="label">🤖 Agent</div>
-    </div>
-    
-    <div class="stat-item">
-      <div class="num">2</div>
-      <div class="label">🔬 AI for Science</div>
-    </div>
-    
-    <div class="stat-item">
-      <div class="num">1</div>
-      <div class="label">🎨 设计仿真</div>
-    </div>
-    
-    <div class="stat-item">
-      <div class="num">1</div>
-      <div class="label">🏭 数字孪生</div>
-    </div>
-    
-    <div class="stat-item">
-      <div class="num">0</div>
-      <div class="label"> 其他</div>
-    </div>
-    
-  </div>
-
-  <!-- Main + Sidebar -->
-  <div class="layout">
-    <div class="main">
-      
-      
-      
-      
-      
-      <a class="cat-card" href="llm.html" aria-label="查看LLM分类的7篇文章">
-        <div class="cat-card-header">
-          <span class="icon">🧠</span>
-          <span class="name">LLM</span>
-          <span class="count">7</span><span class="unit">篇</span>
-        </div>
-        <div class="cat-card-body">
-          <p>本周 LLM 领域关键进展包括 OpenAI 推出面向企业、金融和实时语音的 GPT-6 Astra、ChatGPT for Financial Services 与 GPT-Live-1，并展示支撑大规模服务的 Habitat 平台，同时多模态大模型在混合注意力、认知结构化 Agent 和视觉状态推理等方向取得新方法。</p>
-        </div>
-        <div class="cat-card-footer">查看全部 7 篇 →</div>
-      </a>
-      
-      
-      
-      
-      
-      
-      <a class="cat-card" href="agent.html" aria-label="查看Agent分类的7篇文章">
-        <div class="cat-card-header">
-          <span class="icon">🤖</span>
-          <span class="name">Agent</span>
-          <span class="count">7</span><span class="unit">篇</span>
-        </div>
-        <div class="cat-card-body">
-          <p>本周智能体领域在科研、数学证明与工程化编排上同步推进：双轻量LLM协作实现自主晶体材料研究，OpenAI展示Navier-Stokes解法与Lean证明并引发AI编程成本与可验收讨论，Agents API、Managed Deep Agents和deepagents上下文模式则强化云智能体托管、凭据安全与多智能体协作。</p>
-        </div>
-        <div class="cat-card-footer">查看全部 7 篇 →</div>
-      </a>
-      
-      
-      
-      
-      
-      
-      <a class="cat-card" href="ai-for-science.html" aria-label="查看AI for Science分类的2篇文章">
-        <div class="cat-card-header">
-          <span class="icon">🔬</span>
-          <span class="name">AI for Science</span>
-          <span class="count">2</span><span class="unit">篇</span>
-        </div>
-        <div class="cat-card-body">
-          <p>本周AI for Science在蛋白质与物理AI、化学与酶催化方面取得进展：零样本结合蛋白设计、AgentFold闭环智能体搜索折叠模型和TuringLLM物理AI基础模型扩展推进了蛋白设计与物理AI，而智能体反应机理发现、MutexaGPT酶工程翻译器和机器学习势原子级建模提升了化学与酶研究的自动化、设计转化和模拟精度。</p>
-        </div>
-        <div class="cat-card-footer">查看全部 2 篇 →</div>
-      </a>
-      
-      
-      
-      
-      
-      
-      <a class="cat-card" href="design-simulation.html" aria-label="查看设计仿真分类的1篇文章">
-        <div class="cat-card-header">
-          <span class="icon">🎨</span>
-          <span class="name">设计仿真</span>
-          <span class="count">1</span><span class="unit">篇</span>
-        </div>
-        <div class="cat-card-body">
-          <p>本周设计仿真聚焦机器学习驱动的逆设计与拓扑优化，通过条件流匹配、零样本生成先验和 KPI 条件检索-生成流水线，降低 PDE 约束优化成本并实现高刚度低质量及汽车内罩板多目标设计。</p>
-        </div>
-        <div class="cat-card-footer">查看全部 1 篇 →</div>
-      </a>
-      
-      
-      
-      
-      
-      
-      <a class="cat-card" href="digital-twin.html" aria-label="查看数字孪生分类的1篇文章">
-        <div class="cat-card-header">
-          <span class="icon">🏭</span>
-          <span class="name">数字孪生</span>
-          <span class="count">1</span><span class="unit">篇</span>
-        </div>
-        <div class="cat-card-body">
-          <p>本周数字孪生领域聚焦运维与参考架构，提出面向DEVS仿真服务的模型中心DevOps架构、TwinOps生命周期DevOps实践以及Ditmara模块化参考架构，为数字孪生的部署、集成和持续运营提供方法支撑。</p>
-        </div>
-        <div class="cat-card-footer">查看全部 1 篇 →</div>
-      </a>
-      
-      
-      
-      
-      
-      
-      <div class="cat-card empty" aria-label="其他本周无新内容">
-        <div class="cat-card-header">
-          <span class="icon"></span>
-          <span class="name">其他</span>
-          <span class="count" style="color:#bfbfbf;">0</span><span class="unit">篇</span>
-        </div>
-        <div class="cat-card-body">
-          <p style="color:#bfbfbf;">本周暂无新内容，将回填往期精选文章。</p>
-        </div>
-      </div>
-      
-      
-    </div>
-
-    <div class="sidebar">
-      <div class="sidebar-section">
-        <h3>📈 本周统计</h3>
-        
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#3b82f6;"></span>LLM</span>
-          <span class="value">7</span>
-        </div>
-        
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#8b5cf6;"></span>Agent</span>
-          <span class="value">7</span>
-        </div>
-        
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#10b981;"></span>AI for Science</span>
-          <span class="value">2</span>
-        </div>
-        
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#f59e0b;"></span>设计仿真</span>
-          <span class="value">1</span>
-        </div>
-        
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#ef4444;"></span>数字孪生</span>
-          <span class="value">1</span>
-        </div>
-        
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#1677ff;"></span>其他</span>
-          <span class="value">0</span>
-        </div>
-        
-        <div style="border-top:2px solid #1a5276; margin-top:8px; padding-top:8px;">
-          <div class="mini-stat">
-            <span class="label" style="font-weight:600;color:#1a5276;">合计</span>
-            <span class="value" style="color:#1a5276;">18</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <h3>🔥 本周趋势</h3>
-        
-        
-        <div style="padding:8px 0;">
-          <div style="font-size:13px;color:#595959;">🧠 LLM</div>
-          <div style="font-size:14px;color:#1a5276;font-weight:500;">多模态融合</div>
-        </div>
-        
-        
-        
-        <div style="padding:8px 0;">
-          <div style="font-size:13px;color:#595959;">🤖 Agent</div>
-          <div style="font-size:14px;color:#1a5276;font-weight:500;">多智能体协同</div>
-        </div>
-        
-        
-        
-        <div style="padding:8px 0;">
-          <div style="font-size:13px;color:#595959;">🔬 AI for Science</div>
-          <div style="font-size:14px;color:#1a5276;font-weight:500;">科学智能体</div>
-        </div>
-        
-        
-        
-        <div style="padding:8px 0;">
-          <div style="font-size:13px;color:#595959;">🎨 设计仿真</div>
-          <div style="font-size:14px;color:#1a5276;font-weight:500;">生成式设计</div>
-        </div>
-        
-        
-        
-        <div style="padding:8px 0;">
-          <div style="font-size:13px;color:#595959;">🏭 数字孪生</div>
-          <div style="font-size:14px;color:#1a5276;font-weight:500;">模块化架构</div>
-        </div>
-        
-        
-        
-        
-      </div>
-
-      
-      <div class="sidebar-section">
-        <h3>🔍 源池动态</h3>
-        
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#52c41a;"></span>新发现</span>
-          <span class="value" style="color:#52c41a;">10</span>
-        </div>
-        
-        
-      </div>
-      
+<div class="wrap">
+  <!-- Masthead -->
+  <div class="masthead">
+    <span class="kicker">Weekly Overview · 第 38 周</span>
+    <h1>AI 研究情报周报</h1>
+    <p class="lede">本周共追踪 <b>18 个研究事件</b>，聚合 <b>83 篇来源文章</b>，
+    覆盖 <b>6 个领域</b>、引用 <b>11 个独立来源</b>。
+    事件按重要性评分排序，完整证据链见各事件详情页。</p>
+    <div class="kpis">
+      <div class="kpi"><div class="v">18<small>事件</small></div><div class="l">Events</div></div>
+      <div class="kpi"><div class="v">83<small>文章</small></div><div class="l">Articles</div></div>
+      <div class="kpi"><div class="v">11<small>来源</small></div><div class="l">Sources</div></div>
+      <div class="kpi"><div class="v">6<small>领域</small></div><div class="l">Domains</div></div>
     </div>
   </div>
 
-  <div class="footer">生成于 2026-09-14 11:52 · Weekly AI Report Agent</div>
+  <!-- Top Events -->
+  <section>
+    <div class="sec-head reveal">
+      <div><span class="kicker">Top Events</span><h2>本周核心事件</h2></div>
+      <span class="hint">按重要性排序 · Top 5</span>
+    </div>
+    <div class="panel top-list">
+    
+    <div class="top-item reveal" style="animation-delay: 0ms">
+      <div class="top-num mono">01</div>
+      <div class="top-body">
+        <h3><a href="events/evt-7ffaeab8-ai">蛋白零样本设计、折叠智能体与物理AI扩展</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #10b981"></span>AI for Science</span>
+          <span class="score"><b>75</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 75%"></i></span>
+          </span>
+          <span class="mono">4 篇来源文章</span>
+        </div>
+        <p class="top-sum">该事件覆盖AI for Science中的蛋白质与物理AI方向。文章1提出零样本设计药物结合蛋白的神经迭代选择-扩展方法，通过两个神经网络迭代优化，从零设计小分子结合蛋白并达到较高准确性。文章2提出AgentFold，用闭环智能体搜索设计蛋白质折叠模型。文章0提出TuringLLM，面向物理AI高效扩展基础模型。这些工作分别推进蛋白设计、折叠模型自动设计与物理AI基础模型扩展。</p>
+        <a class="evt-link" href="events/evt-7ffaeab8-ai">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 70ms">
+      <div class="top-num mono">02</div>
+      <div class="top-body">
+        <h3><a href="events/evt-66d83ba1-mutexagpt">智能体、MutexaGPT与机器学习势用于化学与酶研究</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #10b981"></span>AI for Science</span>
+          <span class="score"><b>72</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 72%"></i></span>
+          </span>
+          <span class="mono">3 篇来源文章</span>
+        </div>
+        <p class="top-sum">该事件围绕AI驱动的化学与酶催化研究。[0]提出通过智能体推理与验证实现自主化学反应机理发现；[1]提出MutexaGPT，作为面向基于物理酶工程的直觉到设计翻译器；[2]使用机器学习势实现酶催化的量子精度原子级建模。这些工作覆盖反应机理、酶工程设计和催化模拟等关键环节，有助于提升化学与酶研究中的自动化、设计转化和模拟精度。</p>
+        <a class="evt-link" href="events/evt-66d83ba1-mutexagpt">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 140ms">
+      <div class="top-num mono">03</div>
+      <div class="top-body">
+        <h3><a href="events/evt-82fc54ff-openai-chatgpt">OpenAI更新ChatGPT存储、金融与语音能力</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+          <span class="score"><b>70</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 70%"></i></span>
+          </span>
+          <span class="mono">6 篇来源文章</span>
+        </div>
+        <p class="top-sum">OpenAI介绍Habitat的演进过程：它从Python库发展为全球分布式存储平台，能够服务超过10亿ChatGPT用户，并处理每秒2200万请求。OpenAI推出ChatGPT for Financial Services，面向金融服务场景，结合内置金融数据与GPT-6...</p>
+        <a class="evt-link" href="events/evt-82fc54ff-openai-chatgpt">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 210ms">
+      <div class="top-num mono">04</div>
+      <div class="top-body">
+        <h3><a href="events/evt-445d4c10-gpt-6-astra">GPT-6 Astra用于企业工作与软件测试</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+          <span class="score"><b>70</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 70%"></i></span>
+          </span>
+          <span class="mono">5 篇来源文章</span>
+        </div>
+        <p class="top-sum">OpenAI介绍GPT-6 Astra，称其为面向企业工作的最强模型，具备高级推理、计算机使用、写作与设计判断能力。Perplexity使用Astra撰写沟通内容、修改软件并监控生产系统，且检查频率远低于早期模型。Cognition借助Astra帮助Devin测试自身工作，提升软件验证能力，目标是让工程师审查更少代码并交付更多。这些能力可用于沟通、软件变更与生产监控等相关任务。这些案例显示其可用于端到端企业系统任务，并降低检查频率。</p>
+        <a class="evt-link" href="events/evt-445d4c10-gpt-6-astra">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 280ms">
+      <div class="top-num mono">05</div>
+      <div class="top-body">
+        <h3><a href="events/evt-60bec36b-llm-agent">多模态LLM混合注意力、Agent与视觉状态更新</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+          <span class="score"><b>65</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 65%"></i></span>
+          </span>
+          <span class="mono">3 篇来源文章</span>
+        </div>
+        <p class="top-sum">该事件聚焦多模态大模型的最新方法。文章0提出语义头特化引导混合ViT注意力，针对多模态LLM中ViT缺乏满意混合设计的问题。文章1提出认知结构化多模态Agent CMA，面向多模态理解、生成与编辑。文章2提出DeltaV统一大模型框架，用于交错多模态推理，并通过视觉状态更新进行思考。这些工作分别从注意力结构、智能体框架和视觉状态推理推进多模态能力。</p>
+        <a class="evt-link" href="events/evt-60bec36b-llm-agent">查看证据链 →</a>
+      </div>
+    </div>
+    
+    </div>
+  </section>
 
+  <!-- Weekly overview by domain -->
+  <section>
+    <div class="sec-head reveal">
+      <div><span class="kicker">Domain Signals</span><h2>领域动态</h2></div>
+      <span class="hint">各分类本周趋势</span>
+    </div>
+    <div class="panel">
+    
+    <div class="ov-row">
+      <div class="ov-cat"><span class="dot" style="background: #3b82f6"></span>🧠 LLM</div>
+      <div class="ov-trend">持续关注</div>
+      <div class="ov-n mono">7 事件</div>
+    </div>
+    
+    <div class="ov-row">
+      <div class="ov-cat"><span class="dot" style="background: #8b5cf6"></span>🤖 Agent</div>
+      <div class="ov-trend">持续关注</div>
+      <div class="ov-n mono">7 事件</div>
+    </div>
+    
+    <div class="ov-row">
+      <div class="ov-cat"><span class="dot" style="background: #10b981"></span>🔬 AI for Science</div>
+      <div class="ov-trend">持续关注</div>
+      <div class="ov-n mono">2 事件</div>
+    </div>
+    
+    <div class="ov-row">
+      <div class="ov-cat"><span class="dot" style="background: #f59e0b"></span>🎨 设计仿真</div>
+      <div class="ov-trend">持续关注</div>
+      <div class="ov-n mono">1 事件</div>
+    </div>
+    
+    <div class="ov-row">
+      <div class="ov-cat"><span class="dot" style="background: #ef4444"></span>🏭 数字孪生</div>
+      <div class="ov-trend">持续关注</div>
+      <div class="ov-n mono">1 事件</div>
+    </div>
+    
+    <div class="ov-row">
+      <div class="ov-cat"><span class="dot" style="background: #94a3b8"></span>📄 其他</div>
+      <div class="ov-trend">持续关注</div>
+      <div class="ov-n mono">0 事件</div>
+    </div>
+    
+    </div>
+  </section>
+
+  <!-- Event Explorer -->
+  <section id="explorer">
+    <div class="sec-head reveal">
+      <div><span class="kicker">Event Explorer</span><h2>全部事件</h2></div>
+      <span class="hint mono" id="excount">18 个事件</span>
+    </div>
+    <div class="ex-bar">
+      <input class="ex-search" id="exq" type="search" placeholder="搜索事件标题、摘要、关键词…" autocomplete="off">
+      <span class="ex-f on" data-f="all">全部<span class="mono">18</span></span>
+      
+      <span class="ex-f" data-f="llm">LLM<span class="mono">7</span></span>
+      
+      <span class="ex-f" data-f="agent">Agent<span class="mono">7</span></span>
+      
+      <span class="ex-f" data-f="ai-for-science">AI for Science<span class="mono">2</span></span>
+      
+      <span class="ex-f" data-f="设计仿真">设计仿真<span class="mono">1</span></span>
+      
+      <span class="ex-f" data-f="数字孪生">数字孪生<span class="mono">1</span></span>
+      
+      <span class="ex-f" data-f="其他">其他<span class="mono">0</span></span>
+      
+    </div>
+    <div class="ex-grid">
+      
+      <article class="ex-card" style="--i: 0" data-cat="ai-for-science"
+               data-text="蛋白零样本设计、折叠智能体与物理ai扩展 该事件覆盖ai for science中的蛋白质与物理ai方向。文章1提出零样本设计药物结合蛋白的神经迭代选择-扩展方法，通过两个神经网络迭代优化，从零设计小分子结合蛋白并达到较高准确性。文章2提出agentfold，用闭环智能体搜索设计蛋白质折叠模型。文章0提出turingllm，面向物理ai高效扩展基础模型。这些工作分别推进蛋白设计、折叠模型自动设计与物理ai基础模型扩展。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">75<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-7ffaeab8-ai">蛋白零样本设计、折叠智能体与物理AI扩展</a></h3>
+        <p class="ex-sum">该事件覆盖AI for Science中的蛋白质与物理AI方向。文章1提出零样本设计药物结合蛋白的神经迭代选择-扩展方法，通过两个神经网络迭代优化，从零设计小分子结合蛋白并达到较高准确性。文章2提出AgentFold，用闭环智能体搜索设计蛋白质折叠模型。文章0提出TuringLLM，面向物理AI高效扩展基础模型。这些工作分别推进蛋白设计、折叠模型自动设计与物理AI基础模型扩展。</p>
+        <div class="ex-foot">
+          <span class="mono">4 篇来源</span>
+          <a class="go" href="events/evt-7ffaeab8-ai">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 1" data-cat="ai-for-science"
+               data-text="智能体、mutexagpt与机器学习势用于化学与酶研究 该事件围绕ai驱动的化学与酶催化研究。[0]提出通过智能体推理与验证实现自主化学反应机理发现；[1]提出mutexagpt，作为面向基于物理酶工程的直觉到设计翻译器；[2]使用机器学习势实现酶催化的量子精度原子级建模。这些工作覆盖反应机理、酶工程设计和催化模拟等关键环节，有助于提升化学与酶研究中的自动化、设计转化和模拟精度。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">72<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-66d83ba1-mutexagpt">智能体、MutexaGPT与机器学习势用于化学与酶研究</a></h3>
+        <p class="ex-sum">该事件围绕AI驱动的化学与酶催化研究。[0]提出通过智能体推理与验证实现自主化学反应机理发现；[1]提出MutexaGPT，作为面向基于物理酶工程的直觉到设计翻译器；[2]使用机器学习势实现酶催化的量子精度原子级建模。这些工作覆盖反应机理、酶工程设计和催化模拟等关键环节，有助于提升化学与酶研究中的自动化、设计转化和模拟精度。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-66d83ba1-mutexagpt">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 2" data-cat="llm"
+               data-text="openai更新chatgpt存储、金融与语音能力 openai介绍habitat的演进过程：它从python库发展为全球分布式存储平台，能够服务超过10亿chatgpt用户，并处理每秒2200万请求。openai推出chatgpt for financial services，面向金融服务场景，结合内置金融数据与gpt-6 astra，支持研究、建模和可交付客户材料。gpt-live-1通过api提供自然、全双工语音对话，并具备更强指令遵循、自定义语音和电话支持。这些更新覆盖基础设施、行业应用与语音交互，进一步体现其chatgpt平台在规模、行业与交互上的整体持续扩展的能力。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-82fc54ff-openai-chatgpt">OpenAI更新ChatGPT存储、金融与语音能力</a></h3>
+        <p class="ex-sum">OpenAI介绍Habitat的演进过程：它从Python库发展为全球分布式存储平台，能够服务超过10亿ChatGPT用户，并处理每秒2200万请求。OpenAI推出ChatGPT for Financial Services，面向金融服务场景，结合内置金融数据与GPT-6 Astra，支持研究、建模和可交付客户材料。GPT-Live-1通过API提供自然、全双工语音对话，并具备更强指令遵循、自定义语音和电话支持。这些更新覆盖基础设施、行业应用与语音交互，进一步体现其ChatGPT平台在规模、行业与交互上的整体持续扩展的能力。</p>
+        <div class="ex-foot">
+          <span class="mono">6 篇来源</span>
+          <a class="go" href="events/evt-82fc54ff-openai-chatgpt">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 3" data-cat="llm"
+               data-text="gpt-6 astra用于企业工作与软件测试 openai介绍gpt-6 astra，称其为面向企业工作的最强模型，具备高级推理、计算机使用、写作与设计判断能力。perplexity使用astra撰写沟通内容、修改软件并监控生产系统，且检查频率远低于早期模型。cognition借助astra帮助devin测试自身工作，提升软件验证能力，目标是让工程师审查更少代码并交付更多。这些能力可用于沟通、软件变更与生产监控等相关任务。这些案例显示其可用于端到端企业系统任务，并降低检查频率。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-445d4c10-gpt-6-astra">GPT-6 Astra用于企业工作与软件测试</a></h3>
+        <p class="ex-sum">OpenAI介绍GPT-6 Astra，称其为面向企业工作的最强模型，具备高级推理、计算机使用、写作与设计判断能力。Perplexity使用Astra撰写沟通内容、修改软件并监控生产系统，且检查频率远低于早期模型。Cognition借助Astra帮助Devin测试自身工作，提升软件验证能力，目标是让工程师审查更少代码并交付更多。这些能力可用于沟通、软件变更与生产监控等相关任务。这些案例显示其可用于端到端企业系统任务，并降低检查频率。</p>
+        <div class="ex-foot">
+          <span class="mono">5 篇来源</span>
+          <a class="go" href="events/evt-445d4c10-gpt-6-astra">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 4" data-cat="llm"
+               data-text="多模态llm混合注意力、agent与视觉状态更新 该事件聚焦多模态大模型的最新方法。文章0提出语义头特化引导混合vit注意力，针对多模态llm中vit缺乏满意混合设计的问题。文章1提出认知结构化多模态agent cma，面向多模态理解、生成与编辑。文章2提出deltav统一大模型框架，用于交错多模态推理，并通过视觉状态更新进行思考。这些工作分别从注意力结构、智能体框架和视觉状态推理推进多模态能力。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-60bec36b-llm-agent">多模态LLM混合注意力、Agent与视觉状态更新</a></h3>
+        <p class="ex-sum">该事件聚焦多模态大模型的最新方法。文章0提出语义头特化引导混合ViT注意力，针对多模态LLM中ViT缺乏满意混合设计的问题。文章1提出认知结构化多模态Agent CMA，面向多模态理解、生成与编辑。文章2提出DeltaV统一大模型框架，用于交错多模态推理，并通过视觉状态更新进行思考。这些工作分别从注意力结构、智能体框架和视觉状态推理推进多模态能力。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-60bec36b-llm-agent">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 5" data-cat="agent"
+               data-text="双轻量llm协同智能体用于晶体材料研究 该事件报道nature machine intelligence上的一项晶体材料研究智能体工作。shi等人提出双架构方法，将两个轻量级大语言模型集成到协作推理与科学工具执行中，用于自主晶体材料研究。该方法在材料研究任务中取得有竞争力的性能。该工作面向晶体材料研究场景，强调两个轻量模型之间的协同作用。它为自主科学工具执行提供轻量方案。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-c3aaec71-llm">双轻量LLM协同智能体用于晶体材料研究</a></h3>
+        <p class="ex-sum">该事件报道Nature Machine Intelligence上的一项晶体材料研究智能体工作。Shi等人提出双架构方法，将两个轻量级大语言模型集成到协作推理与科学工具执行中，用于自主晶体材料研究。该方法在材料研究任务中取得有竞争力的性能。该工作面向晶体材料研究场景，强调两个轻量模型之间的协同作用。它为自主科学工具执行提供轻量方案。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-c3aaec71-llm">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 6" data-cat="agent"
+               data-text="ai 编程成本实测与 navier-stokes 证明 openai 博客分享 ai 生成的 navier-stokes 千禧年难题解法，包含 writeup 与 lean 形式化证明。infoq 三项实测显示，相同模型下 ai 编程工具 token 消耗可相差 70 倍，揭示成本黑洞。蚂蚁数科 harness 工程实践认为，ai coding 的下一步不是写得更快，而是可验收。该事件同时覆盖数学证明与 ai 编程工程化。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">62<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-79053f90-ai-navier-stokes">AI 编程成本实测与 Navier-Stokes 证明</a></h3>
+        <p class="ex-sum">OpenAI 博客分享 AI 生成的 Navier-Stokes 千禧年难题解法，包含 writeup 与 Lean 形式化证明。InfoQ 三项实测显示，相同模型下 AI 编程工具 token 消耗可相差 70 倍，揭示成本黑洞。蚂蚁数科 Harness 工程实践认为，AI Coding 的下一步不是写得更快，而是可验收。该事件同时覆盖数学证明与 AI 编程工程化。</p>
+        <div class="ex-foot">
+          <span class="mono">8 篇来源</span>
+          <a class="go" href="events/evt-79053f90-ai-navier-stokes">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 7" data-cat="llm"
+               data-text="780b moe语言模型hy4-preview发布 huggingface transformers v5.17.0新增hy4-preview模型。该模型属于混合专家语言模型，总参数规模为780b，每个token激活49b参数。其moe层设计包含256个路由专家和一个常开共享专家，使模型在保持较大总参数规模的同时，仅激活部分参数参与计算。该版本将hy4-preview作为新模型添加纳入transformers，扩展了该版本支持的模型范围。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-5f9bd2a0-780b-moe-hy4-preview">780B MoE语言模型Hy4-Preview发布</a></h3>
+        <p class="ex-sum">HuggingFace Transformers v5.17.0新增Hy4-Preview模型。该模型属于混合专家语言模型，总参数规模为780B，每个token激活49B参数。其MoE层设计包含256个路由专家和一个常开共享专家，使模型在保持较大总参数规模的同时，仅激活部分参数参与计算。该版本将Hy4-Preview作为新模型添加纳入Transformers，扩展了该版本支持的模型范围。</p>
+        <div class="ex-foot">
+          <span class="mono">6 篇来源</span>
+          <a class="go" href="events/evt-5f9bd2a0-780b-moe-hy4-preview">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 8" data-cat="llm"
+               data-text="单塔多模态编码器与思维令牌统一感知推理 该事件聚焦多模态大模型的基础编码器与定位方法。[1]提出neomme，一种单塔、多模态原生、多语言基础编码器，面向高效微调与推理，区别于将独立预训练视觉编码器与因果语言模型组合的常见生成式视觉语言架构。[2]提出mixture-of-thought-tokens，用于统一感知与推理，以支持自由形式多模态定位。两者分别关注多模态基础编码与自由形式多模态定位，为多模态理解与定位提供新的架构路径。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-4a6e0c06-event">单塔多模态编码器与思维令牌统一感知推理</a></h3>
+        <p class="ex-sum">该事件聚焦多模态大模型的基础编码器与定位方法。[1]提出NeoMME，一种单塔、多模态原生、多语言基础编码器，面向高效微调与推理，区别于将独立预训练视觉编码器与因果语言模型组合的常见生成式视觉语言架构。[2]提出Mixture-of-Thought-Tokens，用于统一感知与推理，以支持自由形式多模态定位。两者分别关注多模态基础编码与自由形式多模态定位，为多模态理解与定位提供新的架构路径。</p>
+        <div class="ex-foot">
+          <span class="mono">5 篇来源</span>
+          <a class="go" href="events/evt-4a6e0c06-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 9" data-cat="agent"
+               data-text="openai agents api与多智能体上下文管理 openai推出agents api，作为由codex harness驱动的托管服务，支持编排、长时运行会话和工具使用，用于构建和启动云智能体。langchain的managed deep agents通过connections安全托管凭据，支持按用户oauth，并让智能体以每个调用者身份行动。deepagents的上下文模式允许子智能体分叉监督者上下文或隔离启动，以提升多智能体工作的速度、成本与聚焦度。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-a6094483-openai-agents-api">OpenAI Agents API与多智能体上下文管理</a></h3>
+        <p class="ex-sum">OpenAI推出Agents API，作为由Codex harness驱动的托管服务，支持编排、长时运行会话和工具使用，用于构建和启动云智能体。LangChain的Managed Deep Agents通过Connections安全托管凭据，支持按用户OAuth，并让智能体以每个调用者身份行动。deepagents的上下文模式允许子智能体分叉监督者上下文或隔离启动，以提升多智能体工作的速度、成本与聚焦度。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-a6094483-openai-agents-api">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 10" data-cat="llm"
+               data-text="视觉语言模型长上下文推理、检索与统一生成 该事件聚焦视觉语言模型在长程推理、视觉检索与统一生成中的改进。多模态大语言模型在视觉语言推理中随生成长度增加性能下降，双潜在记忆路由用于缓解长生成退化。长视觉上下文使模型面临挑战，干扰项增多会降低表现，一次性处理所有 token 带来挑战，retoken 用单一 token 改进视觉检索。argus-unified 面向紧凑且经济的统一模型，同时支持图像理解与生成，以降低统一视觉模型的挑战与成本。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-e77d59d7-event">视觉语言模型长上下文推理、检索与统一生成</a></h3>
+        <p class="ex-sum">该事件聚焦视觉语言模型在长程推理、视觉检索与统一生成中的改进。多模态大语言模型在视觉语言推理中随生成长度增加性能下降，双潜在记忆路由用于缓解长生成退化。长视觉上下文使模型面临挑战，干扰项增多会降低表现，一次性处理所有 token 带来挑战，ReToken 用单一 token 改进视觉检索。Argus-Unified 面向紧凑且经济的统一模型，同时支持图像理解与生成，以降低统一视觉模型的挑战与成本。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-e77d59d7-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 11" data-cat="agent"
+               data-text="ai agent 文档、漏洞扫描与企业实践 credit genie 使用 openwiki 自动化仓库文档，减少部落知识，并为工程师和编码代理提供可搜索的代码库上下文。google mantis 被描述为一款旨在减少误报的基于智能代理的漏洞扫描框架。蚂蚁 ai agent 的大规模企业级实践则从沙箱走向执行边界，覆盖大规模企业级场景。该事件聚焦 ai 代理在代码库文档、安全扫描与企业执行边界中的工程化应用。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-7cc23828-ai-agent">AI Agent 文档、漏洞扫描与企业实践</a></h3>
+        <p class="ex-sum">Credit Genie 使用 OpenWiki 自动化仓库文档，减少部落知识，并为工程师和编码代理提供可搜索的代码库上下文。Google Mantis 被描述为一款旨在减少误报的基于智能代理的漏洞扫描框架。蚂蚁 AI Agent 的大规模企业级实践则从沙箱走向执行边界，覆盖大规模企业级场景。该事件聚焦 AI 代理在代码库文档、安全扫描与企业执行边界中的工程化应用。</p>
+        <div class="ex-foot">
+          <span class="mono">13 篇来源</span>
+          <a class="go" href="events/evt-7cc23828-ai-agent">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 12" data-cat="设计仿真"
+               data-text="条件流匹配、零样本生成与kpi生成设计 该事件聚焦机器学习驱动的逆设计与拓扑优化。条件流匹配用于基于机器学习的逆设计问题，面向 pde 约束优化中迭代求解器的高计算成本。零样本肋设计将免训练生成先验与拓扑优化结合，面向叶脉、骨小梁和蛛网等高刚度低质量承载模式。kpi 条件生成设计面向汽车内罩板，采用两阶段检索-生成流水线与基于代理的性能估计，以达成挠度、应力和质量目标。 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-c38d1aad-kpi">条件流匹配、零样本生成与KPI生成设计</a></h3>
+        <p class="ex-sum">该事件聚焦机器学习驱动的逆设计与拓扑优化。条件流匹配用于基于机器学习的逆设计问题，面向 PDE 约束优化中迭代求解器的高计算成本。零样本肋设计将免训练生成先验与拓扑优化结合，面向叶脉、骨小梁和蛛网等高刚度低质量承载模式。KPI 条件生成设计面向汽车内罩板，采用两阶段检索-生成流水线与基于代理的性能估计，以达成挠度、应力和质量目标。</p>
+        <div class="ex-foot">
+          <span class="mono">7 篇来源</span>
+          <a class="go" href="events/evt-c38d1aad-kpi">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 13" data-cat="数字孪生"
+               data-text="devs数字孪生devops与模块化参考架构 该事件围绕数字孪生的运维与参考架构展开。[0]提出面向devs数字孪生仿真服务的模型中心devops架构，将仿真模型像软件一样演进和重新部署。[1]的twinops将devops纪律用于数字孪生生命周期，包括模型版本管理、持续状态同步、验证门和漂移检测。[3]的ditmara提供模块化参考架构，帮助团队映射传感器、数据管道、3d引擎、云服务和反馈回路。这些方案为数字孪生部署、集成与持续运营提供参考路径。 数字孪生">
+        <div class="ex-top">
+          <span class="dot" style="background: #ef4444"></span>
+          <span class="ex-cat">数字孪生</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-22d0cf67-devs-devops">DEVS数字孪生DevOps与模块化参考架构</a></h3>
+        <p class="ex-sum">该事件围绕数字孪生的运维与参考架构展开。[0]提出面向DEVS数字孪生仿真服务的模型中心DevOps架构，将仿真模型像软件一样演进和重新部署。[1]的TwinOps将DevOps纪律用于数字孪生生命周期，包括模型版本管理、持续状态同步、验证门和漂移检测。[3]的Ditmara提供模块化参考架构，帮助团队映射传感器、数据管道、3D引擎、云服务和反馈回路。这些方案为数字孪生部署、集成与持续运营提供参考路径。</p>
+        <div class="ex-foot">
+          <span class="mono">5 篇来源</span>
+          <a class="go" href="events/evt-22d0cf67-devs-devops">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 14" data-cat="llm"
+               data-text="openai政府ai接入、青少年研究资助与codex提效 openai与gsa为联邦、州、地方和部落政府提供0许可费、50%使用折扣及扩展网络防御支持。openai设立500万美元资助计划，支持独立研究生成式ai对青少年发展、福祉和安全的影响。1password工程师使用codex快速构建新功能和内部工具，在保持严格安全策略下达到生产就绪，工程生产力提升21%。这些举措扩大公共部门ai可及性，补充青少年影响研究，并展示编码助手在安全约束下的工程落地价值。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-1df39f40-openai-ai-codex">OpenAI政府AI接入、青少年研究资助与Codex提效</a></h3>
+        <p class="ex-sum">OpenAI与GSA为联邦、州、地方和部落政府提供0许可费、50%使用折扣及扩展网络防御支持。OpenAI设立500万美元资助计划，支持独立研究生成式AI对青少年发展、福祉和安全的影响。1Password工程师使用Codex快速构建新功能和内部工具，在保持严格安全策略下达到生产就绪，工程生产力提升21%。这些举措扩大公共部门AI可及性，补充青少年影响研究，并展示编码助手在安全约束下的工程落地价值。</p>
+        <div class="ex-foot">
+          <span class="mono">6 篇来源</span>
+          <a class="go" href="events/evt-1df39f40-openai-ai-codex">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 15" data-cat="agent"
+               data-text="langchain gtm代理提升线索转化250% 该事件来自langchain官方博客，介绍其构建一个面向gtm的代理系统。系统围绕销售线索转化展开，文中称其将线索转化率提高250%。同时，该代理使每位销售代表每月节省40小时。该方案的价值在于把gtm流程中的线索处理、转化优化与时间节省结合起来，为销售团队提供自动化支持，并减少销售代表每月需要投入的时间。该博客说明了从线索到转化的代理化流程，以及该代理对销售效率的影响。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-8b3c321d-langchain-gtm-250">LangChain GTM代理提升线索转化250%</a></h3>
+        <p class="ex-sum">该事件来自LangChain官方博客，介绍其构建一个面向GTM的代理系统。系统围绕销售线索转化展开，文中称其将线索转化率提高250%。同时，该代理使每位销售代表每月节省40小时。该方案的价值在于把GTM流程中的线索处理、转化优化与时间节省结合起来，为销售团队提供自动化支持，并减少销售代表每月需要投入的时间。该博客说明了从线索到转化的代理化流程，以及该代理对销售效率的影响。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-8b3c321d-langchain-gtm-250">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 16" data-cat="agent"
+               data-text="crewai与langchain agent框架更新 crewai 1.15.21增加遥测，用于跟踪checkpoint运行时和cli使用，并修复网关错误、oxylabs抓取失败等问题。langchain openai 1.6.1支持异步工具、configuration_update和azure ad认证，同时刷新模型profile数据。langchain openai 1.6.2新增gpt-6 astra推理努力设置。这些更新增强agent工具调用、模型接入与可观测性。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">30<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-829e3b19-crewai-langchain-agent">CrewAI与LangChain Agent框架更新</a></h3>
+        <p class="ex-sum">CrewAI 1.15.21增加遥测，用于跟踪checkpoint运行时和CLI使用，并修复网关错误、Oxylabs抓取失败等问题。LangChain OpenAI 1.6.1支持异步工具、configuration_update和Azure AD认证，同时刷新模型profile数据。LangChain OpenAI 1.6.2新增GPT-6 Astra推理努力设置。这些更新增强Agent工具调用、模型接入与可观测性。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-829e3b19-crewai-langchain-agent">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 17" data-cat="agent"
+               data-text="langchain付费媒体代理分析并优化广告 该事件来自langchain官方博客，介绍其构建一个面向付费媒体的代理系统。该系统围绕营销活动数据展开，能够分析活动表现，并对广告进行优化。它还会提出具体变更建议，把营销数据转化为可执行的操作。该方案将营销分析、广告优化与行动建议放在同一系统中处理，为付费媒体运营提供自动化支持，并衔接从数据到动作的过程。该博客说明了从数据到动作的转化路径。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">30<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-81671f20-langchain">LangChain付费媒体代理分析并优化广告</a></h3>
+        <p class="ex-sum">该事件来自LangChain官方博客，介绍其构建一个面向付费媒体的代理系统。该系统围绕营销活动数据展开，能够分析活动表现，并对广告进行优化。它还会提出具体变更建议，把营销数据转化为可执行的操作。该方案将营销分析、广告优化与行动建议放在同一系统中处理，为付费媒体运营提供自动化支持，并衔接从数据到动作的过程。该博客说明了从数据到动作的转化路径。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-81671f20-langchain">证据链 →</a>
+        </div>
+      </article>
+      
+    </div>
+    <div class="ex-empty" id="exempty">没有匹配的事件，换个关键词试试。</div>
+  </section>
 </div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-15 16:15 · 2026-W38</span>
+</div></footer>
+
+<script>
+(function(){
+  // 搜索 + 分类过滤
+  var q = document.getElementById('exq');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.ex-card'));
+  var empty = document.getElementById('exempty');
+  var active = 'all';
+  function apply(){
+    var t = (q.value || '').trim().toLowerCase();
+    var n = 0;
+    cards.forEach(function(c){
+      var ok = (active === 'all' || c.dataset.cat === active) && (!t || c.dataset.text.indexOf(t) > -1);
+      c.style.display = ok ? '' : 'none';
+      if (ok) n++;
+    });
+    empty.style.display = n ? 'none' : 'block';
+    document.getElementById('excount').textContent = n + ' 个事件';
+  }
+  q.addEventListener('input', apply);
+  document.querySelectorAll('.ex-f').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.ex-f').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      active = b.dataset.f;
+      apply();
+    });
+  });
+  apply();
+})();
+</script>
 </body>
 </html>

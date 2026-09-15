@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>条件流匹配、零样本生成与KPI生成设计 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W38</b> · 2026-09-15</a></div>
+</div></div>
+<style>:root { --cat-color: #f59e0b; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #f59e0b"></span>设计仿真</span>
+      <span class="mono" style="color: var(--text-3);">2026-W38</span>
+      <span class="mono" style="color: var(--text-3);">7 篇来源文章</span>
+    </div>
+    <h1>条件流匹配、零样本生成与KPI生成设计</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">45<small> / 100</small></div>
+        <div class="bar"><i style="width: 45%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">该事件聚焦机器学习驱动的逆设计与拓扑优化。条件流匹配用于基于机器学习的逆设计问题，面向 PDE 约束优化中迭代求解器的高计算成本。零样本肋设计将免训练生成先验与拓扑优化结合，面向叶脉、骨小梁和蛛网等高刚度低质量承载模式。KPI 条件生成设计面向汽车内罩板，采用两阶段检索-生成流水线与基于代理的性能估计，以达成挠度、应力和质量目标。</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 7 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://arxiv.org/abs/2608.22457" target="_blank" rel="noopener noreferrer">KPI-Conditioned Generative Design of Automotive Hood Inner Panels: A Two-Stage Retrieval-Generation Pipeline with Surrogate-Based Performance Estimation</a></h3>
+          <p class="sum">---
+title: "KPI-Conditioned Generative Design of Automotive Hood Inner Panels: A Two-Stage Retrieval-Generation Pipeline with Surrogate-Based Performance Estimation"
+author: Chavare; Sudeep
+url: https://arxiv.org/abs/2608.22457v1
+hostname: arxiv.org
+description: An inner hood panel must meet a deflection target, stay below a stress limit, and hit a mass target. Machine-learned surrogates have made the forward direction, geometry to performance, fast and routine. The inverse direction, producing geometry from a stated requirement, remains largely unaddressed for industrial parts whose design space is organized into discrete topology families rather than a continuous parameterization. This work presents a two-stage pipeline for that inverse problem. A reachability stage determines which topology families can satisfy a given requirement vector. A conditional variational autoencoder then generates point-cloud geometry within a selected family, and a neural-operator surrogate estimates the performance of each candidate. The pipeline is built entirely from public data and freely available compute, and is deployed as an interactive tool. The pipeline works, with qualifications that are reported as primary findings rather than caveats. The surrogate is accurate in aggregate, but its error is comparable to the performance differences it is asked to discriminate, which bounds what can be claimed for any individual generated design. That ratio of surrogate error to within-class signal is argued to be the quantity that determines whether a pipeline of this kind can work at all.
+sitename: arXiv.org
+date: "2026-08-23"
+---
+Computer Science  Machine Learning
+  [Submitted on 23 Aug 2026]
+    Title:KPI-Conditioned Generative Design of Automotive Hood Inner Panels: A Two-Stage Retrieval-Generation Pipeline with Surrogate-Based Performance Estimation
+View PDF
+            Abstract:An inner hood panel must meet a deflection target, stay below a stress limit, and hit a mass target. Machi</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-23</span>
+            <a class="url" href="https://arxiv.org/abs/2608.22457" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://arxiv.org/abs/2608.22606" target="_blank" rel="noopener noreferrer">Adversarial Agents on Topology Optimization: Understanding the Fragility and Robustness of Deep Learning-based and Physics-Based Design Models under Adversarial Perturbation</a></h3>
+          <p class="sum">---
+title: "Adversarial Agents on Topology Optimization: Understanding the Fragility and Robustness of Deep Learning-based and Physics-Based Design Models under Adversarial Perturbation"
+author: Nguyen; Hoang Anh; Yuan; Xu; Hongyi
+url: https://arxiv.org/abs/2608.22606v1
+hostname: arxiv.org
+description: Topology optimization, using both physic-based approaches and deep learning surrogates, serves as a cornerstone for generative design agents in cyber-manufacturing systems. While deep learning surrogates have gained widespread adoption due to their speed in online design generation, this work demonstrates their vulnerability under input perturbations. In this work, we present a mechanics-grounded reliability evaluation framework that formulates an adversarial agent targeting the generative design models. We investigate a strictly non-intrusive threat model where bounded perturbations are introduced exclusively to the initial-density channel, while physical boundary conditions, compliance-gradient channels, network architectures, and solver routines remain intact. Evaluating surrogate models across U-Net, convolutional, and generative architectures with varying physics-gradient conditioning depths demonstrates that bounded initialization noise can cause catastrophic mechanical failure, increasing compliance by multiple orders of magnitude through severed load paths and disconnected supports. Furthermore, we discover that incorporating richer physics-gradient conditioning in the deep learning surrogates does not guarantee monotonic robustness across surrogate families. Finally, physics-in-the-loop recovery demonstrates that initializing the classical SIMP optimizer with perturbed topologies mitigates design performance degradation, having a high probability of restoring compliance to near-baseline levels across tested instances. These findings demonstrate that learned surrogates should serve as physics-verified initializers instead of replacing physics-based solvers ent</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-23</span>
+            <a class="url" href="https://arxiv.org/abs/2608.22606" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://arxiv.org/abs/2609.00863" target="_blank" rel="noopener noreferrer">Conditional Flow Matching for ML-Based Inverse Design Problems</a></h3>
+          <p class="sum">---
+title: Conditional Flow Matching for ML-Based Inverse Design Problems
+author: Felder; Juliana; Habibi; Milad; Massoudi; Soheyl; Fuge; Mark
+url: https://arxiv.org/abs/2609.00863v1
+hostname: arxiv.org
+description: Engineering inverse design is often limited by the high computational cost of iterative solvers for optimization problems constrained by partial differential equations (PDEs) and by their sensitivity to initialization. Deep generative models can produce candidate designs without rerunning the simulator at inference time. Generative adversarial networks (GANs) sample in one forward pass, whereas diffusion models require iterative reverse-time integration. In this work, we add conditional flow matching (CFM) to EngiOpt and compare it with a conditional diffusion model and a conditional generative adversarial network (cGAN) on structural (beams2d) and thermal (heatconduction2d) benchmarks from EngiBench using the same downstream optimization protocol. We use cumulative optimality gap (COG) and final optimality gap (FOG) as the primary metrics for evaluating the generated designs as warm starts for gradient-based refinement. On the evaluated EngiOpt implementations and two EngiBench tasks, CFM achieves the lowest measured COG, FOG, maximum mean discrepancy (MMD), and volume-fraction deviation on both tasks. CFM has mean volume-fraction deviations of 0.4% and 1.0% on beams2d and heatconduction2d, respectively, compared with 3.8% and 11.2% for diffusion. At Euler s = 16, CFM achieves 53.2 samples/s on beams2d, about 66 times the measured throughput of the evaluated diffusion baseline using 1000 network evaluations under the same timing protocol, with COG 1.182 +/- 3.126, compared with 1.173 +/- 3.100 for Euler s = 32. Across the two tasks, CFM produces warm starts with lower measured COG than both baselines and uses fewer network evaluations than diffusion.
+sitename: arXiv.org
+date: "2026-09-01"
+license: CC BY 4.0
+---
+Computer Science  Machine Learning
+  [Sub</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-01</span>
+            <a class="url" href="https://arxiv.org/abs/2609.00863" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://arxiv.org/abs/2609.10643" target="_blank" rel="noopener noreferrer">Zero-shot rib design: merging training-free generative prior with topology optimization</a></h3>
+          <p class="sum">---
+title: "Zero-shot rib design: merging training-free generative prior with topology optimization"
+author: Kwon; Yongmin; Kang; Namwoo
+url: https://arxiv.org/abs/2609.10643v1
+hostname: arxiv.org
+description: "Natural load-bearing patterns such as leaf venation, trabecular bone, and spider webs achieve high stiffness per unit mass, yet classical topology optimizers rarely reach such geometries, and few let engineers express structural design intent through natural language. This work treats a frozen text-to-image diffusion model as a training-free source of design knowledge and distills it into the physics loop of density-based topology optimization via score distillation sampling, so that a text prompt becomes an explicit, machine-interpretable representation of engineer intent. The prompt-induced generative gradient and the finite element sensitivity are combined at every iteration, letting physics decide which prompt-induced features survive. In 245 primary SDS runs spanning four geometric domains and two physics regimes, 38 of 49 prompt--domain combinations achieved statistically significant compliance reductions (up to $-31.5\\%$ mechanical and $-23.0\\%$ thermoelastic), outperforming gradient-based baselines. Cross-domain morphological analysis identifies a recurring structural signature of improvement: in most domains the generative prior suppresses dead-end branches in the rib skeleton, with endpoint--compliance correlation $r = +0.56$ to $+0.99$. A Heaviside projection with $β$-continuation resolves a pronounced intermediate-density tendency in this diffusion--physics coupling ($42.6\\%$ to $3\\%$), and an automated skeleton-based pipeline converts optimized density fields into \\rev{candidate geometry ready for computer-aided design. By retargeting the generative prior across domains, loading conditions, and physics objectives through a change of text prompt, with each new problem's physics setup specified separately, the framework uses a pretrained gene</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-09</span>
+            <a class="url" href="https://arxiv.org/abs/2609.10643" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 4">
+          <h3><span class="step">A5</span><a href="https://docshare.wps.com/document/to-master-an-llm-agent-framework-for-automated-topology-optimization/81834/" target="_blank" rel="noopener noreferrer">TO-Master: an LLM-agent framework for automated topology optimization</a></h3>
+          <p class="sum">---
+title: "TO-Master: an LLM-agent framework for automated topology optimization"
+url: https://docshare.wps.com/document/to-master-an-llm-agent-framework-for-automated-topology-optimization/81834/
+hostname: docshare.wps.com
+description: Topology optimization (TO) is a mature computational design method, yet it still demands extensive manual work in geometry preparation, mesh generation, boundary-condition assignment, solver setup, and postprocessing, which limits adoption beyond expert workflows. TO-Master introduces an LLM-agent framework that converts finite-element-based TO into a conversational, tool-orchestrated process. From natural-language instructions and optional mesh/geometry/image inputs, it selects tools, builds validated finite element TO models, and runs sensitivity-based optimization with typed solver arguments. Experiments validate benchmark accuracy and enable complex engineering cases with optimized results, field distributions, and convergence histories, without user-written code.
+sitename: DocShare
+date: "2026-07-16"
+---
+TO-Master: an LLM-agent framework for automated topology optimization
+ Jul 16, 2026 11 0
+ Upload by Violet
+Bookmark
+Share
+More Options
+Fullscreen
+This document is user-generated content (UGC). WPS Office is not responsible for its accuracy or copyright. If you believe this content violates your rights, please use the button.</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-16</span>
+            <a class="url" href="https://docshare.wps.com/document/to-master-an-llm-agent-framework-for-automated-topology-optimization/81834/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 5">
+          <h3><span class="step">A6</span><a href="https://link.springer.com/article/10.1007/s00158-026-04376-w" target="_blank" rel="noopener noreferrer">PGD-TO: a scalable alternative to MMA using projected gradient descent for multi-constraint topology optimization - Structural and Multidisciplinary Optimization</a></h3>
+          <p class="sum">---
+title: "PGD-TO: a scalable alternative to MMA using projected gradient descent for multi-constraint topology optimization - Structural and Multidisciplinary Optimization"
+author: Heyrani Nobari; Amin; Ahmed; Faez
+url: https://link.springer.com/article/10.1007/s00158-026-04376-w
+hostname: springer.com
+description: "Projected Gradient Descent (PGD) methods offer a simple and scalable approach to topology optimization (TO), yet they often struggle with nonlinear and multi-constraint problems due to the complexity of active-set detection. This paper introduces PGD-TO, a framework that reformulates the projection step into a regularized convex quadratic problem, eliminating the need for active-set search and ensuring well-posedness even when constraints are infeasible. The framework employs a semismooth Newton solver for general multi-constraint cases and a binary search projection for single or independent constraints, achieving fast and reliable convergence. It further integrates spectral step size adaptation and nonlinear conjugate-gradient directions for improved stability and efficiency. We evaluate PGD-TO on four benchmark families representing the breadth of TO problems: (i) minimum compliance with a linear volume constraint, (ii) minimum volume under a nonlinear compliance constraint, (iii) multi-material minimum compliance with four independent volume constraints, and (iv) minimum compliance with coupled volume and center-of-mass constraints. Across these single- and multi-constraint, linear and nonlinear cases, PGD-TO achieves convergence and final compliance comparable to the Method of Moving Asymptotes (MMA) and Optimality Criteria (OC), while reducing per-iteration computation time by 10–43 $$\\times $$ × on general problems and 115–312 $$\\times $$ × when constraints are independent. Overall, PGD-TO establishes a fast, robust, and scalable alternative to MMA, advancing topology optimization toward practical large-scale, multi-constraint, and nonlinear d</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-03</span>
+            <a class="url" href="https://link.springer.com/article/10.1007/s00158-026-04376-w" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 6">
+          <h3><span class="step">A7</span><a href="https://link.springer.com/article/10.1007/s00366-026-02383-5" target="_blank" rel="noopener noreferrer">A multi-grid, single-mesh online learning framework for efficient large-scale topology optimization - Engineering with Computers</a></h3>
+          <p class="sum">---
+title: A multi-grid, single-mesh online learning framework for efficient large-scale topology optimization - Engineering with Computers
+author: Li; Kangjie; Ye; Wenjing
+url: https://link.springer.com/article/10.1007/s00366-026-02383-5
+hostname: springer.com
+description: "Recent advances in topology optimization (TO) have increasingly incorporated machine learning techniques to enhance computational efficiency. Among them, online learning methods emerge as promising approaches for large-scale TO designs. Unlike off-line methods requiring pre-generated training data, online learning frameworks adaptively train surrogate models during the optimization process itself using data from earlier iterations. Current state-of-the-art approaches typically employ a two-scale localized training paradigm, where machine learning models iteratively learn mappings between coarse-scale sensitivity fields and fine-scale structural responses within localized patches. While this localized strategy improves computational scalability and provides implicit data augmentation, it faces a limitation: the exclusion of global structural information often leads to underdetermined mappings and compromised prediction accuracy, as fine-scale sensitivities inherently depend on structural context beyond individual patches. To address this issue, we propose a multi-grid decomposition strategy and integrate it within the online learning framework. This strategy hierarchically incorporates global structural information into local training patches to enhance mapping uniqueness. Additionally, our framework implements online learning entirely within a single mesh resolution, bypassing costly coarse-scale simulations while maintaining accuracy. We employ Fourier neural operators as our surrogate model of choice, leveraging their superior capability in capturing structural sensitivity patterns directly from spatial information The proposed method is validated through 2D and 3D compliance design examples,</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-03</span>
+            <a class="url" href="https://link.springer.com/article/10.1007/s00366-026-02383-5" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">c38d1aad</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">设计仿真</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W38</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">7 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: Design Simulation CAE</div>
+          <div class="s">
+            <span class="mono">7 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-15 16:15 · 2026-W38</span>
+</div></footer>
+</body>
+</html>

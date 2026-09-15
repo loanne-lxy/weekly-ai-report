@@ -6,1098 +6,291 @@
 <title>Agent — AI 前沿资讯周报</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px;
-  min-height: 100vh;
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
 
-/* ── Back Nav ── */
-.back-nav {
-  display: flex; align-items: center; gap: 8px;
-  font-size: 13px; color: #1677ff; margin-bottom: 24px;
-  text-decoration: none; cursor: pointer;
-}
-.back-nav:hover { text-decoration: underline; }
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
 
-/* ── Category Header ── */
-.cat-header {
-  display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
-  padding: 24px; background: #fff; border-radius: 8px;
-  border-left: 4px solid #8b5cf6;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.cat-header .icon { font-size: 36px; }
-.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
-.cat-header .count-badge {
-  background: #8b5cf615; color: #8b5cf6;
-  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
-}
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
 
-/* ── Domain Summary ── */
-.domain-summary {
-  background: #f0f5ff; border-radius: 8px; padding: 16px 20px;
-  margin-bottom: 24px; border-left: 4px solid #1677ff;
-  font-size: 14px; color: #434343; line-height: 1.6;
-}
-.domain-summary strong { color: #1a5276; }
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
 
-/* ── Event Card ── */
-.event-card {
-  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
-  padding: 24px; margin-bottom: 16px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  transition: border-color 0.15s, box-shadow 0.15s;
-}
-.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
-.event-card.carried { opacity: 0.65; }
-.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
 
-/* ── Score Badges Row ── */
-.score-badges {
-  display: flex; gap: 16px; margin-bottom: 12px;
-}
-.score-badge-item {
-  display: flex; align-items: center; gap: 4px;
-  font-size: 12px; color: #595959;
-}
-.score-badge-item .badge {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
-}
-.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
-.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
-.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
 
-/* ── Event Title ── */
-.event-title {
-  font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px;
-  line-height: 1.4;
-}
-.event-title a { color: inherit; text-decoration: none; }
-.event-title a:hover { color: #1677ff; }
-.carried-badge {
-  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
-  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
-}
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
 
-/* ── Event Summary ── */
-.event-summary {
-  font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 12px;
-}
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
 
-/* ── Sources Info ── */
-.sources-info {
-  display: flex; align-items: center; gap: 12px;
-  font-size: 12px; color: #8c8c8c; margin-bottom: 12px;
-  padding-bottom: 12px; border-bottom: 1px solid #f0f0f0;
-}
-.source-tag {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
-  font-size: 12px; color: #1a5276;
-}
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
 
-/* ── Key Insights ── */
-.key-insights {
-  margin-bottom: 12px; padding-left: 20px;
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
 }
-.key-insights li {
-  font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5;
-}
-
-/* ── Tags ── */
-.event-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-}
-.tag {
-  font-size: 12px; padding: 0 8px; line-height: 22px;
-  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
-  color: #595959;
-}
-
-/* ── Linked Articles (expandable) ── */
-.articles-expand {
-  margin-top: 12px;
-}
-.articles-expand summary {
-  font-size: 13px; color: #1677ff; cursor: pointer; padding: 8px 0;
-  user-select: none;
-}
-.articles-expand summary:hover { text-decoration: underline; }
-.articles-expand .article-list {
-  padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8;
-}
-.article-list .article-item {
-  padding: 6px 0; font-size: 13px; color: #595959;
-  border-bottom: 1px solid #f5f5f5;
-}
-.article-list .article-item:last-child { border-bottom: none; }
-.article-list .article-item a {
-  color: #1a1a1a; text-decoration: none;
-}
-.article-list .article-item a:hover { color: #1677ff; }
-.article-list .article-item .article-source {
-  font-size: 12px; color: #8c8c8c; margin-left: 8px;
-}
-.article-list .article-item .article-summary {
-  display: block; font-size: 12px; color: #8c8c8c;
-  margin: 2px 0 0 0; line-height: 1.5;
-}
-
-/* ── Empty State ── */
-.empty-state {
-  text-align: center; padding: 48px 24px;
-  border: 1px dashed #d9d9d9; border-radius: 8px;
-  background: #fff;
-}
-.empty-state .icon { font-size: 48px; color: #d9d9d9; margin-bottom: 12px; }
-.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
-.empty-state p { font-size: 13px; color: #bfbfbf; }
-
-/* ── Footer ── */
-.footer {
-  text-align: center; padding: 32px 0; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #e8e8e8; margin-top: 32px;
-}
-
-@media (max-width: 768px) {
-  .container { padding: 16px; }
-  .cat-header { padding: 16px; flex-wrap: wrap; }
-  .cat-header h1 { font-size: 20px; }
-  .event-card { padding: 16px; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
 }
 </style>
+<style>:root { --cat-color: #8b5cf6; }</style>
 </head>
 <body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
 
-<div class="container">
-
-  <!-- Back Nav -->
-  <a class="back-nav" href="index.html" aria-label="返回首页">
-    <span class="arrow">←</span> 返回首页
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
+  <div class="issue"><a href="index.html"><b>2026-W38</b> · 2026-09-15</a></div>
+</div></div>
 
-  <!-- Category Header -->
-  <div class="cat-header">
-    <span class="icon">🤖</span>
-    <h1>Agent</h1>
-    <span class="count-badge">7 个事件</span>
-  </div>
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · Agent</div>
 
-  <!-- Domain Summary -->
-  
-  <div class="domain-summary">
-    <strong>📋 领域摘要</strong><br>
-    本周智能体领域在科研、数学证明与工程化编排上同步推进：双轻量LLM协作实现自主晶体材料研究，OpenAI展示Navier-Stokes解法与Lean证明并引发AI编程成本与可验收讨论，Agents API、Managed Deep Agents和deepagents上下文模式则强化云智能体托管、凭据安全与多智能体协作。
-  </div>
-  
-
-  <!-- Events Container -->
-  
-  <div class="events-container" id="events">
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">65</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">55</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">60</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        双轻量LLM协同智能体用于晶体材料研究
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该事件报道Nature Machine Intelligence上的一项晶体材料研究智能体工作。Shi等人提出双架构方法，将两个轻量级大语言模型集成到协作推理与科学工具执行中，用于自主晶体材料研究。该方法在材料研究任务中取得有竞争力的性能。该工作面向晶体材料研究场景，强调两个轻量模型之间的协同作用。它为自主科学工具执行提供轻量方案。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Nature Machine Intelligence</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.nature.com/articles/s42256-026-01298-6" target="_blank" rel="noopener">
-              A collaborative agent with two lightweight synergistic models for autonomous crystal materials research
-            </a>
-            <span class="article-source">Nature Machine Intelligence</span>
-            
-            
-            <span class="article-summary">Nature Machine Intelligence, Published online: 10 September 2026; doi:10.1038/s42256-026-01298-6Shi et al. demonstrate a…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">62</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">55</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">58</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        AI 编程成本实测与 Navier-Stokes 证明
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">OpenAI 博客分享 AI 生成的 Navier-Stokes 千禧年难题解法，包含 writeup 与 Lean 形式化证明。InfoQ 三项实测显示，相同模型下 AI 编程工具 token 消耗可相差 70 倍，揭示成本黑洞。蚂蚁数科 Harness 工程实践认为，AI Coding 的下一步不是写得更快，而是可验收。该事件同时覆盖数学证明与 AI 编程工程化。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 8 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">OpenAI Blog</span>
-        
-        
-        
-        <span class="source-tag">InfoQ AI</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 8 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/navier-stokes-solution" target="_blank" rel="noopener">
-              On the Navier–Stokes Millennium Prize Problem
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">We’re sharing an AI-generated solution to the Navier–Stokes Millennium Prize Problem, including a writeup and a formal p…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/8JZ9IdSIxo18dcz6pZG6?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Netflix 采用开源 Flink Autoscaler，支撑超 3 万个流式作业
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/A2IFuW8yiYhRqXizT5Uu?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              AI Coding 的下一步不是写得更快，而是可验收：蚂蚁数科 Harness 工程实践
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/Y02WwW92ZqjLXQQvIWWi?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              当 AI 写出更多代码，企业为什么没有跑得更快？| JDD 大会现场观察
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/eS4M9XEPmLbkxksCyAye?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Figma 如何利用 AI 代理提升安全性
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/i1FJsYNhNM4wwV78ANhL?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              AI的新用法，被这群 Builder 带到了外滩大会开发者日
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/oPSaLpULlAxGxTbYXlXO?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              模型一模一样，Token 却相差 70 倍？三项实测揭开 AI 编程工具的成本黑洞
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/rlXYaPUjVR0fffbQK3Iz?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              AI Coding 提速之后，如何补上稳定性“最后一公里”？快手柯南 AI 实践
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">60</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">60</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">70</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        OpenAI Agents API与多智能体上下文管理
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">OpenAI推出Agents API，作为由Codex harness驱动的托管服务，支持编排、长时运行会话和工具使用，用于构建和启动云智能体。LangChain的Managed Deep Agents通过Connections安全托管凭据，支持按用户OAuth，并让智能体以每个调用者身份行动。deepagents的上下文模式允许子智能体分叉监督者上下文或隔离启动，以提升多智能体工作的速度、成本与聚焦度。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 3 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">OpenAI Blog</span>
-        
-        
-        
-        <span class="source-tag">blog.langchain.dev</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 3 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://openai.com/index/introducing-the-agents-api" target="_blank" rel="noopener">
-              Introducing the Agents API
-            </a>
-            <span class="article-source">OpenAI Blog</span>
-            
-            
-            <span class="article-summary">Build and launch cloud agents with the Agents API, a managed service powered by the Codex harness for orchestration, lon…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.langchain.com/blog/connections-managed-credentials-and-per-caller-identity-for-managed-deep-agents" target="_blank" rel="noopener">
-              Connections: managed credentials and per-caller identity for Managed Deep Agents
-            </a>
-            <span class="article-source">blog.langchain.dev</span>
-            
-            
-            <span class="article-summary">Learn how Connections in Managed Deep Agents securely manage credentials, support per-user OAuth, and let agents act wit…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.langchain.com/blog/organizing-context-in-a-multi-agent-harness" target="_blank" rel="noopener">
-              Organizing Context in a Multi-Agent Harness
-            </a>
-            <span class="article-source">blog.langchain.dev</span>
-            
-            
-            <span class="article-summary">Learn how context modes in deepagents help subagents fork a supervisor's context or start isolated — for faster, cheaper…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">55</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">35</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">60</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        AI Agent 文档、漏洞扫描与企业实践
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">Credit Genie 使用 OpenWiki 自动化仓库文档，减少部落知识，并为工程师和编码代理提供可搜索的代码库上下文。Google Mantis 被描述为一款旨在减少误报的基于智能代理的漏洞扫描框架。蚂蚁 AI Agent 的大规模企业级实践则从沙箱走向执行边界，覆盖大规模企业级场景。该事件聚焦 AI 代理在代码库文档、安全扫描与企业执行边界中的工程化应用。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 13 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">InfoQ AI</span>
-        
-        
-        
-        <span class="source-tag">blog.langchain.dev</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 13 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/0kYhxXxhOXhxGATe64ec?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Read, Don't Write: 重塑大模型评价体系，构建全自动、可进化的“探测式”评测管线｜QCon上海
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/FA80wgNMOwCRrXsSIAwX?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              “我们在拿生命做赌注”：造AI的人为何开始密集预警？
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/G7cublzVyXFOUX3vpz1t?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              V4.1 Flash全面超越，开发者为何还在喷 DeepSeek：缺的不是能力，是软件工程思维
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/GhA2VWxo6JTGyKIb7KdT?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              两个 Token 就让 Kimi“变成”Claude？前Google DeepMind研究员意外撞上大模型的蒸馏疑云
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/KJRoBoUcE4L6bOPKOHco?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              欧洲核子研究组织（CERN）放弃RHEL，转而采用 Debian 作为其加速器控制基础设施
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/TDav5ojS854dZKyfJmhI?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              ‌FreeCORE：TrueNAS 衍生分支，在 FreeBSD 系统上维护与之深度整合的虚拟化、Jails 容器与 OpenZFS 文件系统‌
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/VIjBCuNElpg2H4bLywVc?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Java 近期新闻：TornadoVM 6、JReleaser、LangChain4j、Java Operator SDK、JHipster、Yupiik Fusion
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/exwZJvLsHKXrPyeKaANC?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Neovim 加入 vim.async：告别回调地狱
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/hk3WB50fAOMDg55YVaaW?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              从沙箱到执行边界：蚂蚁 AI Agent 的大规模企业级实践｜QCon上海
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://www.infoq.cn/article/mF8WwkbQRUS7ZKprE3Ku?utm_source=rss&utm_medium=article" target="_blank" rel="noopener">
-              Google Mantis：一款旨在减少误报的基于智能代理的漏洞扫描框架
-            </a>
-            <span class="article-source">InfoQ AI</span>
-            
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">50</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">20</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        LangChain GTM代理提升线索转化250%
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该事件来自LangChain官方博客，介绍其构建一个面向GTM的代理系统。系统围绕销售线索转化展开，文中称其将线索转化率提高250%。同时，该代理使每位销售代表每月节省40小时。该方案的价值在于把GTM流程中的线索处理、转化优化与时间节省结合起来，为销售团队提供自动化支持，并减少销售代表每月需要投入的时间。该博客说明了从线索到转化的代理化流程，以及该代理对销售效率的影响。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">blog.langchain.dev</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.langchain.com/blog/how-we-built-langchains-gtm-agent" target="_blank" rel="noopener">
-              How we built LangChain’s GTM Agent
-            </a>
-            <span class="article-source">blog.langchain.dev</span>
-            
-            
-            <span class="article-summary">Learn how we built a GTM agent that increased lead conversion by 250% while saving each sales rep 40 hours per month</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">30</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">20</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">50</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        CrewAI与LangChain Agent框架更新
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">CrewAI 1.15.21增加遥测，用于跟踪checkpoint运行时和CLI使用，并修复网关错误、Oxylabs抓取失败等问题。LangChain OpenAI 1.6.1支持异步工具、configuration_update和Azure AD认证，同时刷新模型profile数据。LangChain OpenAI 1.6.2新增GPT-6 Astra推理努力设置。这些更新增强Agent工具调用、模型接入与可观测性。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 3 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">Exa: Digital Twin Industrial</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 3 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://arxiv.org/abs/2609.09503" target="_blank" rel="noopener">
-              Agentic AI-enabled Semantic Commissioning of a Cognitive Digital Twin for Reconfigurable Manufacturing
-            </a>
-            <span class="article-source">Exa: Digital Twin Industrial</span>
-            
-            
-            <span class="article-summary">---
-title: Agentic AI-enabled Semantic Commissioning of a Cognitive Digital Twin for Reconfigurable Manufacturing
-author…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://blogs.sw.siemens.com/simcenter/siemens-executable-digital-twin-for-industrial-intelligence/" target="_blank" rel="noopener">
-              The architecture of truth: How Siemens' AI-powered Executable Digital Twin is rewriting the rules of industrial intelligence - Simcenter
-            </a>
-            <span class="article-source">Exa: Digital Twin Industrial</span>
-            
-            
-            <span class="article-summary">---
-title: "The architecture of truth: How Siemens' AI-powered Executable Digital Twin is rewriting the rules of industr…</span>
-            
-          </div>
-          
-          <div class="article-item">
-            <a href="https://engtechnica.com/siemens-turns-digital-twins-into-real-time-industrial-intelligence/" target="_blank" rel="noopener">
-              Siemens Turns Digital Twins Into Real-Time Industrial Intelligence - ENGtechnica
-            </a>
-            <span class="article-source">Exa: Digital Twin Industrial</span>
-            
-            
-            <span class="article-summary">---
-title: Siemens Turns Digital Twins Into Real-Time Industrial Intelligence - ENGtechnica
-author: Ruchika Saini; AI
-ur…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
-    
-    
-    <div class="event-card">
-      
-      <!-- Score Badges -->
-      <div class="score-badges">
-        
-        
-        
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">30</span>
-        </div>
-        
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">20</span>
-        </div>
-        
-        
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">40</span>
-        </div>
-        
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        
-        LangChain付费媒体代理分析并优化广告
-        
-      </div>
-
-      <!-- Event Summary -->
-      
-      
-      <div class="event-summary">该事件来自LangChain官方博客，介绍其构建一个面向付费媒体的代理系统。该系统围绕营销活动数据展开，能够分析活动表现，并对广告进行优化。它还会提出具体变更建议，把营销数据转化为可执行的操作。该方案将营销分析、广告优化与行动建议放在同一系统中处理，为付费媒体运营提供自动化支持，并衔接从数据到动作的过程。该博客说明了从数据到动作的转化路径。</div>
-      
-
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span>📰 1 篇来源</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        <span class="source-tag">blog.langchain.dev</span>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-      </div>
-
-      <!-- Key Insights -->
-      
-
-      <!-- Tags -->
-      
-
-      <!-- Linked Articles (expandable) -->
-      
-      <details class="articles-expand">
-        <summary>展开 1 篇相关文章</summary>
-        <div class="article-list">
-          
-          <div class="article-item">
-            <a href="https://www.langchain.com/blog/paid-media-agent" target="_blank" rel="noopener">
-              How We Built LangChain’s Paid Media Agent
-            </a>
-            <span class="article-source">blog.langchain.dev</span>
-            
-            
-            <span class="article-summary">How LangChain built a paid media agent to analyze campaign performance, optimize ads, propose changes, and turn marketin…</span>
-            
-          </div>
-          
-        </div>
-      </details>
-      
-
-    </div>
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #8b5cf6; width: 12px; height: 12px;"></span>🤖 Agent</h1>
+    <span class="count"><b>7</b> 个事件 · 按重要性排序</span>
     
   </div>
-  
 
-  <div class="footer">生成于 2026-09-14 11:52 · Weekly AI Report Agent</div>
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">18</span></a>
+    
+    <a href="llm.html" class="">LLM<span class="mono">7</span></a>
+    
+    <a href="agent.html" class="on">Agent<span class="mono">7</span></a>
+    
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">2</span></a>
+    
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">1</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
 
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-AAEC71</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-c3aaec71-llm.html">双轻量LLM协同智能体用于晶体材料研究</a></h2>
+        <p class="sum">该事件报道Nature Machine Intelligence上的一项晶体材料研究智能体工作。Shi等人提出双架构方法，将两个轻量级大语言模型集成到协作推理与科学工具执行中，用于自主晶体材料研究。该方法在材料研究任务中取得有竞争力的性能。该工作面向晶体材料研究场景，强调两个轻量模型之间的协同作用。它为自主科学工具执行提供轻量方案。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-c3aaec71-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-053F90</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-79053f90-ai-navier-stokes.html">AI 编程成本实测与 Navier-Stokes 证明</a></h2>
+        <p class="sum">OpenAI 博客分享 AI 生成的 Navier-Stokes 千禧年难题解法，包含 writeup 与 Lean 形式化证明。InfoQ 三项实测显示，相同模型下 AI 编程工具 token 消耗可相差 70 倍，揭示成本黑洞。蚂蚁数科 Harness 工程实践认为，AI Coding 的下一步不是写得更快，而是可验收。该事件同时覆盖数学证明与 AI 编程工程化。</p>
+        <div class="foot">
+          <span class="mono">8 篇来源文章</span>
+          <a class="go" href="events/evt-79053f90-ai-navier-stokes.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 62%; background: var(--accent);"></i></span><span class="mono"><b>62</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 58%; background: #10b981;"></i></span><span class="mono"><b>58</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-094483</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-a6094483-openai-agents-api.html">OpenAI Agents API与多智能体上下文管理</a></h2>
+        <p class="sum">OpenAI推出Agents API，作为由Codex harness驱动的托管服务，支持编排、长时运行会话和工具使用，用于构建和启动云智能体。LangChain的Managed Deep Agents通过Connections安全托管凭据，支持按用户OAuth，并让智能体以每个调用者身份行动。deepagents的上下文模式允许子智能体分叉监督者上下文或隔离启动，以提升多智能体工作的速度、成本与聚焦度。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-a6094483-openai-agents-api.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C23828</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-7cc23828-ai-agent.html">AI Agent 文档、漏洞扫描与企业实践</a></h2>
+        <p class="sum">Credit Genie 使用 OpenWiki 自动化仓库文档，减少部落知识，并为工程师和编码代理提供可搜索的代码库上下文。Google Mantis 被描述为一款旨在减少误报的基于智能代理的漏洞扫描框架。蚂蚁 AI Agent 的大规模企业级实践则从沙箱走向执行边界，覆盖大规模企业级场景。该事件聚焦 AI 代理在代码库文档、安全扫描与企业执行边界中的工程化应用。</p>
+        <div class="foot">
+          <span class="mono">13 篇来源文章</span>
+          <a class="go" href="events/evt-7cc23828-ai-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-3C321D</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-8b3c321d-langchain-gtm-250.html">LangChain GTM代理提升线索转化250%</a></h2>
+        <p class="sum">该事件来自LangChain官方博客，介绍其构建一个面向GTM的代理系统。系统围绕销售线索转化展开，文中称其将线索转化率提高250%。同时，该代理使每位销售代表每月节省40小时。该方案的价值在于把GTM流程中的线索处理、转化优化与时间节省结合起来，为销售团队提供自动化支持，并减少销售代表每月需要投入的时间。该博客说明了从线索到转化的代理化流程，以及该代理对销售效率的影响。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-8b3c321d-langchain-gtm-250.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-9E3B19</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-829e3b19-crewai-langchain-agent.html">CrewAI与LangChain Agent框架更新</a></h2>
+        <p class="sum">CrewAI 1.15.21增加遥测，用于跟踪checkpoint运行时和CLI使用，并修复网关错误、Oxylabs抓取失败等问题。LangChain OpenAI 1.6.1支持异步工具、configuration_update和Azure AD认证，同时刷新模型profile数据。LangChain OpenAI 1.6.2新增GPT-6 Astra推理努力设置。这些更新增强Agent工具调用、模型接入与可观测性。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-829e3b19-crewai-langchain-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-671F20</span>
+          <span class="mono">2026-W38</span>
+        </div>
+        <h2><a href="events/evt-81671f20-langchain.html">LangChain付费媒体代理分析并优化广告</a></h2>
+        <p class="sum">该事件来自LangChain官方博客，介绍其构建一个面向付费媒体的代理系统。该系统围绕营销活动数据展开，能够分析活动表现，并对广告进行优化。它还会提出具体变更建议，把营销数据转化为可执行的操作。该方案将营销分析、广告优化与行动建议放在同一系统中处理，为付费媒体运营提供自动化支持，并衔接从数据到动作的过程。该博客说明了从数据到动作的转化路径。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-81671f20-langchain.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+  </div>
 </div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-15 16:15 · 2026-W38</span>
+</div></footer>
 </body>
 </html>

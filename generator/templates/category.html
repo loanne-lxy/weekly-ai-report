@@ -6,153 +6,157 @@
 <title>{{ cat_name }} — {{ title }}</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0e17; --surface: #101623; --surface-2: #151d2e;
+  --line: rgba(148,163,184,0.14); --line-soft: rgba(148,163,184,0.08);
+  --text: #e6edf3; --text-2: #9aa7b8; --text-3: #6b7a8f;
+  --accent: #4f8ff7;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #fff; line-height: 1.5715; font-size: 14px;
+  background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5715;
 }
-.container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 
-/* ── 满版分类色 Header ── */
-.cat-band { background: {{ cat_color }}; color: #fff; padding: 16px 0 28px; }
-.head-row { display: flex; align-items: flex-start; gap: 16px; }
+/* ── 顶栏 ── */
+.topbar { border-bottom: 1px solid var(--line); background: rgba(16,22,35,0.6); }
+.topbar .container { display: flex; align-items: center; gap: 14px; height: 58px; }
+.logo {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+  background: linear-gradient(135deg, #2563eb, #4f8ff7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; font-weight: 700; color: #fff;
+}
+.topbar .t1 { font-size: 15.5px; font-weight: 700; letter-spacing: 0.2px; }
+.topbar .t2 { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+.topbar .spacer { flex: 1; }
+.week-chip {
+  font-size: 12px; font-weight: 600; color: var(--accent);
+  background: rgba(79,143,247,0.12); border: 1px solid rgba(79,143,247,0.35);
+  padding: 3px 11px; border-radius: 20px;
+}
+
+/* ── 分类头 ── */
+.cat-head { padding: 20px 0 18px; border-bottom: 1px solid var(--line); }
+.cat-head .container { display: flex; align-items: flex-start; gap: 16px; }
 .back-nav {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-size: 12.5px; color: rgba(255,255,255,0.85);
-  text-decoration: none; margin-bottom: 16px;
+  font-size: 12.5px; color: var(--text-3);
+  margin-bottom: 14px; display: inline-flex; align-items: center; gap: 6px;
 }
-.back-nav:hover { color: #fff; text-decoration: underline; }
-.cat-band .icon {
-  width: 54px; height: 54px; border-radius: 13px; flex-shrink: 0; margin-top: 4px;
-  display: flex; align-items: center; justify-content: center; font-size: 29px;
-  background: rgba(255,255,255,0.18);
+.back-nav:hover { color: var(--accent); }
+.cat-head .ic {
+  width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0; font-size: 26px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(79,143,247,0.12); border: 1px solid var(--line);
 }
-.cat-band .head-body { flex: 1; min-width: 0; }
-.cat-band h1 { font-size: 27px; font-weight: 700; letter-spacing: -0.3px; }
-.cat-band .head-meta { margin-top: 6px; font-size: 13px; color: rgba(255,255,255,0.75); display: flex; gap: 10px; align-items: center; }
-.cat-band .count-num { font-size: 20px; font-weight: 700; }
-.cat-band .summary {
-  margin-top: 16px; background: rgba(0,0,0,0.18);
-  border-left: 3px solid rgba(255,255,255,0.8);
-  padding: 13px 16px; font-size: 13.5px; line-height: 1.75; color: rgba(255,255,255,0.96);
+.cat-head h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
+.cat-head .meta { margin-top: 5px; font-size: 12.5px; color: var(--text-2); display: flex; gap: 9px; align-items: center; }
+.cat-head .meta .n { color: var(--accent); font-weight: 700; font-size: 14px; }
+.cat-head .summary {
+  margin-top: 13px; font-size: 13px; color: var(--text-2); line-height: 1.7;
+  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid {{ cat_color }};
+  padding: 12px 16px; border-radius: 0 8px 8px 0;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
 }
 
-/* ── Section head ── */
-.section-head { display: flex; align-items: baseline; gap: 10px; margin: 26px 0 6px; }
-.section-head h2 { font-size: 17px; font-weight: 700; color: #1a5276; letter-spacing: 0.3px; }
-.section-head .meta { margin-left: auto; font-size: 12px; color: #8c8c8c; }
+main { padding: 22px 0 8px; }
+.section-head { display: flex; align-items: baseline; gap: 10px; margin: 0 2px 12px; }
+.section-head h2 { font-size: 14.5px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; gap: 8px; }
+.section-head h2::before { content: ""; width: 3px; height: 14px; border-radius: 2px; background: var(--accent); }
+.section-head .meta { margin-left: auto; font-size: 12px; color: var(--text-3); }
 
-/* ── 事件时间线（无卡片） ── */
-.timeline { padding: 6px 0 10px 0; }
-.evt {
-  position: relative; padding: 18px 0 18px 30px;
-  border-bottom: 1px solid #eef2f6;
-}
-.evt:last-child { border-bottom: none; }
-.evt::before {
-  content: ""; position: absolute; left: 7px; top: 30px; bottom: -6px;
-  width: 2px; background: #cddce8;
-}
-.evt:last-child::before { display: none; }
-.evt::after {
-  content: ""; position: absolute; left: 0; top: 24px;
-  width: 15px; height: 15px; border-radius: 50%;
-  background: #fff; border: 3px solid {{ cat_color }};
-}
-.evt.carried { opacity: 0.62; }
-.evt-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 7px; }
+/* ── 事件卡 ── */
+.events { display: flex; flex-direction: column; gap: 12px; }
+.evt { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; transition: border-color 0.15s; }
+.evt:hover { border-color: rgba(79,143,247,0.45); }
+.evt.carried { opacity: 0.6; }
+.evt-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
 .score-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 12px; color: #595959;
-  background: #f5f8fb; border: 1px solid #e4ebf1;
-  padding: 1px 10px; border-radius: 12px;
+  font-size: 11.5px; color: var(--text-2);
+  background: rgba(148,163,184,0.08); border: 1px solid var(--line);
+  padding: 1.5px 9px; border-radius: 20px;
 }
-.score-badge .v { font-weight: 700; color: #1a5276; font-variant-numeric: tabular-nums; }
-.score-badge.imp .v { color: {{ cat_color }}; }
-.carried-badge { font-size: 12px; background: #f5f5f5; color: #8c8c8c; padding: 1px 8px; border-radius: 4px; }
-.evt-title { font-size: 17px; font-weight: 600; color: #1a1a1a; line-height: 1.45; margin-bottom: 6px; }
-.evt-title a { color: inherit; text-decoration: none; }
-.evt-title a:hover { color: {{ cat_color }}; }
-.evt-summary { font-size: 13.5px; color: #595959; line-height: 1.7; margin-bottom: 10px; }
-.evt-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 12px; color: #8c8c8c; }
-.source-tag {
-  display: inline-block; padding: 0 9px; line-height: 20px;
-  background: #f5f8fb; border: 1px solid #e4ebf1; border-radius: 4px;
-  font-size: 12px; color: #434343;
-}
-.key-insights { margin: 10px 0 2px; padding-left: 18px; }
-.key-insights li { font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.55; }
-.event-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
-.tag {
-  font-size: 12px; padding: 0 9px; line-height: 21px;
-  background: #fafcfd; border: 1px solid #e4ebf1; border-radius: 4px; color: #595959;
-}
+.score-badge .v { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.score-badge.imp .v { color: var(--accent); }
+.carried-badge { font-size: 11.5px; color: var(--text-3); background: rgba(148,163,184,0.08); border: 1px solid var(--line); padding: 1.5px 9px; border-radius: 20px; }
+.evt-title { font-size: 16px; font-weight: 600; line-height: 1.45; margin-bottom: 7px; }
+.evt-summary { font-size: 13px; color: var(--text-2); line-height: 1.7; margin-bottom: 11px; }
+.evt-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 12px; color: var(--text-3); }
+.source-tag { font-size: 11.5px; color: var(--text-2); background: rgba(148,163,184,0.08); border: 1px solid var(--line); padding: 1px 9px; border-radius: 4px; }
+.key-insights { margin: 11px 0 0; padding-left: 18px; }
+.key-insights li { font-size: 13px; color: var(--text-2); margin-bottom: 4px; line-height: 1.55; }
+.event-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
+.tag { font-size: 11.5px; color: var(--text-2); background: rgba(79,143,247,0.08); border: 1px solid rgba(79,143,247,0.25); padding: 1px 9px; border-radius: 20px; }
+
 /* ── 相关文章 ── */
-.articles-expand { margin-top: 10px; }
-.articles-expand summary { font-size: 13px; color: {{ cat_color }}; cursor: pointer; padding: 4px 0; user-select: none; font-weight: 500; }
+.articles-expand { margin-top: 12px; border-top: 1px solid var(--line-soft); padding-top: 10px; }
+.articles-expand summary { font-size: 12.5px; color: var(--accent); cursor: pointer; padding: 2px 0; user-select: none; font-weight: 500; }
 .articles-expand summary:hover { text-decoration: underline; }
-.article-list { padding: 6px 0 4px 14px; border-left: 2px solid #e4ebf1; margin-left: 4px; }
-.article-item { padding: 7px 0; font-size: 13px; color: #595959; border-bottom: 1px solid #f2f5f8; }
+.article-list { padding: 9px 0 2px; }
+.article-item { padding: 7px 0; font-size: 13px; color: var(--text-2); border-bottom: 1px solid var(--line-soft); }
 .article-item:last-child { border-bottom: none; }
-.article-item a { color: #1a1a1a; text-decoration: none; }
-.article-item a:hover { color: {{ cat_color }}; }
-.article-item .article-source { font-size: 12px; color: #8c8c8c; margin-left: 8px; }
-.article-item .article-summary { display: block; font-size: 12px; color: #8c8c8c; margin-top: 2px; line-height: 1.5; }
+.article-item a { color: var(--text); }
+.article-item a:hover { color: var(--accent); }
+.article-item .article-source { font-size: 11.5px; color: var(--text-3); margin-left: 8px; }
+.article-item .article-summary { display: block; font-size: 12px; color: var(--text-3); margin-top: 2px; line-height: 1.5; }
 
 /* ── Empty ── */
-.empty-state { text-align: center; padding: 56px 24px; margin-top: 14px; }
+.empty-state { text-align: center; padding: 60px 24px; }
 .empty-state .icon { font-size: 44px; margin-bottom: 12px; }
-.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 6px; }
-.empty-state p { font-size: 13px; color: #bfbfbf; }
+.empty-state h3 { font-size: 15px; color: var(--text-2); margin-bottom: 6px; }
+.empty-state p { font-size: 13px; color: var(--text-3); }
 
-/* ── Footer ── */
-.footer {
-  text-align: center; padding: 22px 0 28px; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #eef2f6; margin-top: 10px; background: #fafcfd;
-}
+.footer { text-align: center; padding: 26px 0 30px; color: var(--text-3); font-size: 12px; margin-top: 26px; }
 
-@media (max-width: 768px) {
-  .container { padding: 0 16px; }
-  .cat-band .container { flex-direction: column; gap: 10px; }
-  .cat-band h1 { font-size: 22px; }
-  .back-nav { margin-left: -16px; padding-left: 16px; }
+@media (max-width: 640px) {
+  .topbar .t2, .topbar .week-chip { display: none; }
+  .cat-head .ic { width: 42px; height: 42px; font-size: 21px; }
+  .cat-head h1 { font-size: 20px; }
 }
 </style>
 </head>
 <body>
 
-<!-- 满版分类 Header -->
-<header class="cat-band">
+<header class="topbar">
   <div class="container">
-    <a class="back-nav" href="index.html" aria-label="返回首页">← 返回首页</a>
-    <div class="head-row">
-      <span class="icon">{{ cat_icon }}</span>
-      <div class="head-body">
+    <div class="logo">AI</div>
+    <div>
+      <div class="t1">AI 前沿资讯周报</div>
+      <div class="t2">Weekly AI Report · 多源聚合 + 事件聚类</div>
+    </div>
+    <div class="spacer"></div>
+    <a class="week-chip" href="index.html">{{ week }}</a>
+  </div>
+</header>
+
+<div class="cat-head">
+  <div class="container" style="display:block;">
+    <a class="back-nav" href="index.html">← 返回首页</a>
+    <div style="display:flex; align-items:flex-start; gap:16px;">
+      <span class="ic">{{ cat_icon }}</span>
+      <div style="flex:1; min-width:0;">
         <h1>{{ cat_name }}</h1>
-        <div class="head-meta">
-          <span class="count-num">{{ event_count }}</span> 个事件
-          <span>·</span>
-          <span>按重要性排序</span>
-        </div>
+        <div class="meta"><span class="n">{{ event_count }}</span> 个事件 · 按重要性排序</div>
         {% if domain_summary %}
         <div class="summary">{{ domain_summary }}</div>
         {% endif %}
       </div>
     </div>
   </div>
-</header>
+</div>
 
-<div class="container">
+<main class="container">
   <div class="section-head">
     <h2>本周事件</h2>
     <span class="meta">{{ event_count }} 条</span>
   </div>
 
   {% if events %}
-  <div class="timeline" id="events">
+  <div class="events">
     {% for event in events %}
     {% set evt_articles = articles_by_event.get(event.id, []) %}
     <div class="evt{% if event.get('carried_over') %} carried{% endif %}">
-
       <div class="evt-top">
         {% set importance = event.get('importance', 0) %}
         <span class="score-badge imp">重要性 <span class="v">{{ "%.0f"|format(importance * 100) }}</span></span>
@@ -169,10 +173,7 @@ body {
         {% endif %}
       </div>
 
-      <div class="evt-title">
-        {% set evt_title = event.get('event_title', event.get('title', '未命名事件')) %}
-        {{ evt_title }}
-      </div>
+      <div class="evt-title">{{ event.get('event_title', event.get('title', '未命名事件')) }}</div>
 
       {% set evt_summary = event.get('event_summary', event.get('summary', '')) %}
       {% if evt_summary %}
@@ -228,7 +229,6 @@ body {
         </div>
       </details>
       {% endif %}
-
     </div>
     {% endfor %}
   </div>
@@ -239,7 +239,7 @@ body {
     <p>本周 {{ cat_name }} 领域暂无新事件，将回填往期精选。</p>
   </div>
   {% endif %}
-</div>
+</main>
 
 <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
 </body>

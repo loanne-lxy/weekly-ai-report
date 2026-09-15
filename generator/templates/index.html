@@ -6,255 +6,220 @@
 <title>{{ title }}</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0a0e17; --surface: #101623; --surface-2: #151d2e;
+  --line: rgba(148,163,184,0.14); --line-soft: rgba(148,163,184,0.08);
+  --text: #e6edf3; --text-2: #9aa7b8; --text-3: #6b7a8f;
+  --accent: #4f8ff7;
+}
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #fff; line-height: 1.5715; font-size: 14px;
+  background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5715;
 }
-.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+a { color: inherit; text-decoration: none; }
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
 
-/* ── Masthead（满版深蓝带） ── */
-.masthead { background: #1a5276; color: #fff; padding: 34px 0 0; }
-.masthead .top-row { display: flex; align-items: center; gap: 14px; }
-.week-pill {
-  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.35);
-  font-size: 12.5px; padding: 3px 14px; border-radius: 14px; font-weight: 500; letter-spacing: 0.5px;
+/* ── 顶栏 ── */
+.topbar { border-bottom: 1px solid var(--line); background: rgba(16,22,35,0.6); }
+.topbar .container { display: flex; align-items: center; gap: 14px; height: 58px; }
+.logo {
+  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
+  background: linear-gradient(135deg, #2563eb, #4f8ff7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; font-weight: 700; color: #fff;
 }
-.masthead .gen { margin-left: auto; font-size: 12px; color: rgba(255,255,255,0.55); }
-.masthead h1 { font-size: 34px; font-weight: 700; margin: 14px 0 6px; letter-spacing: -0.5px; }
-.masthead .sub { font-size: 13.5px; color: rgba(255,255,255,0.72); }
-.masthead .summary {
-  margin-top: 18px; background: rgba(0,0,0,0.16);
-  border-left: 3px solid rgba(255,255,255,0.75);
-  padding: 14px 18px; font-size: 13.5px; line-height: 1.75; color: rgba(255,255,255,0.94);
+.topbar .t1 { font-size: 15.5px; font-weight: 700; letter-spacing: 0.2px; }
+.topbar .t2 { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+.topbar .spacer { flex: 1; }
+.week-chip {
+  font-size: 12px; font-weight: 600; color: var(--accent);
+  background: rgba(79,143,247,0.12); border: 1px solid rgba(79,143,247,0.35);
+  padding: 3px 11px; border-radius: 20px;
 }
-.masthead .summary strong { color: #fff; }
-.stat-strip { margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.16); }
-.stat-strip .container { display: flex; }
-.stat-cell {
-  flex: 1; display: flex; flex-direction: column; gap: 3px;
-  padding: 13px 18px 14px 0;
-}
-.stat-cell + .stat-cell { padding-left: 18px; border-left: 1px solid rgba(255,255,255,0.14); }
+.topbar .gen { font-size: 12px; color: var(--text-3); }
+
+main { padding: 22px 0 8px; }
+
+/* ── 卡片基础 ── */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+
+/* ── 统计带 ── */
+.stats { display: grid; grid-template-columns: repeat(6, 1fr); overflow: hidden; }
+.stat-cell { padding: 14px 18px 15px; display: flex; flex-direction: column; gap: 5px; }
+.stat-cell + .stat-cell { border-left: 1px solid var(--line-soft); }
 .stat-cell .l1 { display: flex; align-items: center; gap: 7px; min-width: 0; }
 .stat-cell .dot { width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0; }
-.stat-cell .name { font-size: 11.5px; color: rgba(255,255,255,0.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-cell .name { font-size: 11.5px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .stat-cell .l2 { display: flex; align-items: baseline; }
-.stat-cell .num { font-size: 23px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
-.stat-cell .unit { font-size: 11px; color: rgba(255,255,255,0.45); margin-left: 4px; font-weight: 400; }
+.stat-cell .num { font-size: 22px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat-cell .unit { font-size: 11px; color: var(--text-3); margin-left: 4px; }
 
 /* ── Section head ── */
-.section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
-.section-head .bar { width: 4px; height: 15px; border-radius: 2px; background: #1a5276; align-self: center; }
-.section-head h2 { font-size: 17px; font-weight: 700; color: #1a5276; letter-spacing: 0.3px; }
-.section-head .meta { margin-left: auto; font-size: 12px; color: #8c8c8c; }
+.section-head { display: flex; align-items: baseline; gap: 10px; margin: 24px 2px 12px; }
+.section-head h2 {
+  font-size: 14.5px; font-weight: 700; letter-spacing: 0.3px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-head h2::before { content: ""; width: 3px; height: 14px; border-radius: 2px; background: var(--accent); }
+.section-head .meta { margin-left: auto; font-size: 12px; color: var(--text-3); }
 
-/* ── 分类目录（满版白，2 列连续行，无卡片） ── */
-.toc { background: #fff; padding: 30px 0 8px; }
-.toc-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
-.toc-row {
-  display: flex; gap: 14px; padding: 16px 10px; margin: 0 -10px;
-  border-bottom: 1px solid #eef2f6; text-decoration: none; color: inherit;
-  transition: background 0.12s;
-}
-.toc-row.empty { opacity: 0.5; }
-.toc-row .icon {
-  width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0; margin-top: 2px;
-  display: flex; align-items: center; justify-content: center; font-size: 19px;
-}
-.toc-row .body { flex: 1; min-width: 0; }
-.toc-row .line1 { display: flex; align-items: baseline; gap: 8px; }
-.toc-row .name { font-size: 15px; font-weight: 600; color: #1a1a1a; }
-.toc-row .count { font-size: 24px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
-.toc-row .unit { font-size: 12px; color: #8c8c8c; }
-.toc-row .sum {
-  font-size: 13px; color: #595959; line-height: 1.6; margin-top: 5px;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-}
-.toc-row .lead-line {
-  margin-top: 7px; font-size: 12.5px; color: #1a5276;
-  display: flex; gap: 6px; align-items: baseline;
-}
-.toc-row .lead-line .tag { flex-shrink: 0; font-weight: 600; }
-.toc-row .lead-line .t {
-  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #434343;
-}
-.toc-row a:hover { background: var(--tint, #f5f8fb); }
-
-/* ── 本周精选（满版浅蓝带） ── */
-.featured { background: #eaf2f8; padding: 28px 0; margin-top: 22px; }
-.f-row {
-  display: flex; align-items: center; gap: 14px;
-  padding: 13px 10px; margin: 0 -10px; border-bottom: 1px solid #d8e6ef;
-  text-decoration: none; color: inherit; transition: background 0.12s;
-}
-.f-row:hover { background: rgba(26,82,118,0.05); }
-.f-row:last-of-type { border-bottom: none; }
-.f-rank {
-  flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px;
+/* ── 分类卡 ── */
+.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cat-card { padding: 16px 18px; display: block; transition: border-color 0.15s, background 0.15s; }
+.cat-card:hover { border-color: rgba(79,143,247,0.5); background: var(--surface-2); }
+.cat-row1 { display: flex; align-items: center; gap: 10px; }
+.cat-row1 .ic {
+  width: 30px; height: 30px; border-radius: 7px; flex-shrink: 0; font-size: 15px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12.5px; font-weight: 700; color: #fff;
+  background: rgba(79,143,247,0.14);
 }
-.f-body { flex: 1; min-width: 0; }
-.f-title {
-  font-size: 14px; font-weight: 500; color: #1a1a1a;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.f-row:hover .f-title { color: #1a5276; }
-.f-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 12px; color: #8c8c8c; }
-.f-meta .dot { width: 7px; height: 7px; border-radius: 2px; }
-.f-score { flex-shrink: 0; text-align: right; }
-.f-score .v { font-size: 16px; font-weight: 700; color: #1a5276; font-variant-numeric: tabular-nums; }
-.f-score .k { font-size: 11px; color: #8c8c8c; }
+.cat-row1 .nm { font-size: 14.5px; font-weight: 600; }
+.cat-row1 .ct { margin-left: auto; font-size: 19px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.cat-row1 .ct small { font-size: 11px; color: var(--text-3); font-weight: 400; margin-left: 3px; }
+.cat-row2 { font-size: 12.5px; color: var(--text-2); margin-top: 9px; line-height: 1.65;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.cat-row3 { font-size: 12px; color: var(--text-3); margin-top: 9px; border-top: 1px solid var(--line-soft); padding-top: 9px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cat-row3 b { color: var(--text-2); font-weight: 500; }
 
-/* ── 底部三栏（趋势 / 源池 / 本期数据） ── */
-.bottom { background: #fff; padding: 28px 0 34px; }
-.bottom-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
-.b-col h3 {
-  font-size: 13.5px; font-weight: 700; color: #1a5276; margin-bottom: 12px;
-  display: flex; align-items: center; gap: 8px; letter-spacing: 0.3px;
+/* ── 本周精选 ── */
+.picks { overflow: hidden; }
+.pick {
+  display: flex; align-items: center; gap: 14px; padding: 13px 18px;
+  transition: background 0.15s;
 }
-.b-col h3 .bar { width: 4px; height: 13px; border-radius: 2px; background: #1a5276; }
-.b-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f2f5f8; font-size: 13px; }
+.pick + .pick { border-top: 1px solid var(--line-soft); }
+.pick:hover { background: var(--surface-2); }
+.pick .rank { width: 22px; text-align: center; font-size: 17px; font-weight: 700; color: var(--text-3); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.pick:nth-child(1) .rank, .pick:nth-child(2) .rank, .pick:nth-child(3) .rank { color: var(--accent); }
+.pick .body { flex: 1; min-width: 0; }
+.pick .title { font-size: 13.5px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pick:hover .title { color: var(--accent); }
+.pick .p-cat { font-size: 11px; color: var(--text-2); background: rgba(148,163,184,0.1); border: 1px solid var(--line); padding: 0 8px; border-radius: 4px; margin-left: 8px; white-space: nowrap; }
+.pick .score { flex-shrink: 0; font-size: 16px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+.pick .score small { font-size: 11px; color: var(--text-3); font-weight: 400; margin-left: 4px; }
+
+/* ── 底部两栏 ── */
+.bottom-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 12px; }
+.b-col { padding: 16px 18px; }
+.b-col h3 {
+  font-size: 12.5px; font-weight: 700; color: var(--text-2); letter-spacing: 0.4px; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px; text-transform: uppercase;
+}
+.b-col h3::before { content: ""; width: 3px; height: 12px; border-radius: 2px; background: var(--accent); }
+.b-row { display: flex; align-items: center; gap: 9px; padding: 7.5px 0; font-size: 13px; border-bottom: 1px solid var(--line-soft); }
 .b-row:last-child { border-bottom: none; }
-.b-row .l { display: flex; align-items: center; gap: 8px; color: #595959; }
-.b-row .l .dot { width: 7px; height: 7px; border-radius: 2px; }
-.b-row .v { font-weight: 600; color: #1a5276; font-variant-numeric: tabular-nums; }
-.b-row .v.up { color: #389e0d; }
-.b-row .v.down { color: #cf1322; }
+.b-row .dot { width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0; }
+.b-row .l { color: var(--text-2); }
+.b-row .v { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; }
+.b-row .v.up { color: #34d399; }
+.b-row .v.down { color: #f87171; }
 
 /* ── Footer ── */
-.footer {
-  text-align: center; padding: 20px 0 26px; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #eef2f6; background: #fafcfd;
-}
+.footer { text-align: center; padding: 26px 0 30px; color: var(--text-3); font-size: 12px; margin-top: 26px; }
 
 @media (max-width: 900px) {
-  .toc-grid { grid-template-columns: 1fr; }
-  .bottom-grid { grid-template-columns: 1fr; gap: 24px; }
-  .stat-strip .container { flex-wrap: wrap; }
-  .stat-cell { flex: 1 1 30%; padding: 10px 12px 4px 0; }
-  .stat-cell + .stat-cell { padding-left: 12px; }
-  .masthead h1 { font-size: 27px; }
-  .masthead { padding-top: 26px; }
+  .stats { grid-template-columns: repeat(3, 1fr); }
+  .stat-cell:nth-child(4) { border-left: none; }
+  .stat-cell:nth-child(n+4) { border-top: 1px solid var(--line-soft); }
+  .cat-grid { grid-template-columns: 1fr; }
+  .bottom-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .topbar .gen { display: none; }
+  .pick .p-cat { display: none; }
 }
 </style>
 </head>
 <body>
 
-<!-- Masthead -->
-<header class="masthead">
+<header class="topbar">
   <div class="container">
-    <div class="top-row">
-      <span class="week-pill">{{ week }}</span>
-      <span class="gen">生成于 {{ generated_at }}</span>
+    <div class="logo">AI</div>
+    <div>
+      <div class="t1">AI 前沿资讯周报</div>
+      <div class="t2">Weekly AI Report · 多源聚合 + 事件聚类</div>
     </div>
-    <h1>{{ title }}</h1>
-    <div class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 {{ stats.values() | sum }} 篇资讯</div>
-    <div class="summary">
-      <strong>📋 整体摘要</strong><br>
-      本周 AI 领域持续呈现高速发展态势，共收录 {{ stats.values() | sum }} 篇高质量资讯。{% for cat_name, cat_articles in categories.items() %}{% if cat_articles and domain_summaries.get(cat_name) %}【{{ cat_name }}】{{ domain_summaries[cat_name] }}{% endif %}{% endfor %}{% if empty_cats %} 本周 {{ empty_cats | join("、") }} 等领域产出较少，后续将引入往期精选内容保持信息连续性。{% endif %}
-    </div>
-    <div class="stat-strip">
-      <div class="container">
-        {% for cat_name in categories.keys() %}
-        <div class="stat-cell">
-          <span class="l1"><span class="dot" style="background:{{ colors.get(cat_name, '#94a3b8') }};"></span><span class="name">{{ cat_name }}</span></span>
-          <span class="l2"><span class="num">{{ stats[cat_name] }}</span><span class="unit">篇</span></span>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
+    <div class="spacer"></div>
+    <span class="week-chip">{{ week }}</span>
+    <span class="gen">生成于 {{ generated_at }}</span>
   </div>
 </header>
 
-<!-- 分类目录 -->
-<section class="toc">
-  <div class="container">
-    <div class="section-head">
-      <span class="bar"></span>
-      <h2>分类速览</h2>
-      <span class="meta">{{ categories|length }} 个领域 · 按重要性排序</span>
-    </div>
-    <div class="toc-grid">
-      {% for cat_name in categories.keys() %}
-      {% set cat_articles = categories[cat_name] %}
-      {% set cat_count = stats[cat_name] %}
-      {% set cat_slug = category_slugs.get(cat_name, cat_name.lower().replace(" ", "-")) %}
-      {% set cat_color = colors.get(cat_name, '#94a3b8') %}
-      {% if cat_articles %}
-      {% set lead = cat_articles[0] %}
-      <a class="toc-row" style="--tint: {{ cat_color }}0d;" href="{{ cat_slug }}.html" aria-label="查看{{ cat_name }}分类的{{ cat_count }}篇文章">
-        <span class="icon" style="background:{{ cat_color }}14; color:{{ cat_color }};">{{ icons.get(cat_name, "") }}</span>
-        <div class="body">
-          <div class="line1">
-            <span class="name">{{ cat_name }}</span>
-            <span class="count" style="color:{{ cat_color }};">{{ cat_count }}</span>
-            <span class="unit">篇</span>
-          </div>
-          <div class="sum">{{ domain_summaries.get(cat_name, "暂无摘要") }}</div>
-          <div class="lead-line">
-            <span class="tag">头条</span>
-            <span class="t">{{ lead.get("event_title", lead.get("title", "")) }}</span>
-          </div>
-        </div>
-      </a>
-      {% else %}
-      <div class="toc-row empty">
-        <span class="icon" style="background:#f0f2f4; color:#bfbfbf;">{{ icons.get(cat_name, "") }}</span>
-        <div class="body">
-          <div class="line1">
-            <span class="name">{{ cat_name }}</span>
-            <span class="count" style="color:#bfbfbf;">0</span>
-            <span class="unit">篇</span>
-          </div>
-          <div class="sum" style="color:#bfbfbf;">本周暂无新内容，将回填往期精选文章。</div>
-        </div>
-      </div>
-      {% endif %}
-      {% endfor %}
-    </div>
-  </div>
-</section>
+<main class="container">
 
-<!-- 本周精选 -->
-{% if top_events %}
-<section class="featured">
-  <div class="container">
-    <div class="section-head">
-      <span class="bar"></span>
-      <h2>本周精选</h2>
-      <span class="meta">按重要性 Top {{ top_events|length }}</span>
+  <!-- 统计带 -->
+  <div class="card stats">
+    {% for cat_name in categories.keys() %}
+    <div class="stat-cell">
+      <span class="l1"><span class="dot" style="background:{{ colors.get(cat_name, '#94a3b8') }};"></span><span class="name">{{ cat_name }}</span></span>
+      <span class="l2"><span class="num">{{ stats[cat_name] }}</span><span class="unit">篇</span></span>
     </div>
-    {% for ev in top_events %}
-    <a class="f-row" href="{{ category_slugs.get(ev.cat, ev.cat|lower|replace(" ", "-")) }}.html">
-      <span class="f-rank" style="background:{{ colors.get(ev.cat, '#1a5276') }};">{{ loop.index }}</span>
-      <span class="f-body">
-        <div class="f-title">{{ ev.get("event_title", ev.get("title", "")) }}</div>
-        <div class="f-meta"><span class="dot" style="background:{{ colors.get(ev.cat, '#94a3b8') }};"></span>{{ icons.get(ev.cat, "") }} {{ ev.cat }}</div>
-      </span>
-      <span class="f-score"><div class="v">{{ "%.0f"|format((ev.get("importance") or 0) * 100) }}</div><div class="k">重要性</div></span>
+    {% endfor %}
+  </div>
+
+  <!-- 分类速览 -->
+  <div class="section-head">
+    <h2>分类速览</h2>
+    <span class="meta">{{ categories|length }} 个领域 · 点击进入分类</span>
+  </div>
+  <div class="cat-grid">
+    {% for cat_name, articles in categories.items() %}
+    {% set slug = category_slugs.get(cat_name, cat_name) %}
+    <a class="card cat-card" href="{{ slug }}.html">
+      <div class="cat-row1">
+        <span class="ic">{{ icons.get(cat_name, '📄') }}</span>
+        <span class="nm">{{ cat_name }}</span>
+        <span class="ct">{{ stats[cat_name] }}<small>篇</small></span>
+      </div>
+      {% set dsum = domain_summaries.get(cat_name, '') %}
+      {% if dsum %}
+      <div class="cat-row2">{{ dsum }}</div>
+      {% endif %}
+      {% set top_event = articles[0] if articles else none %}
+      {% if top_event %}
+      <div class="cat-row3">头条 · <b>{{ (top_event.get('event_title') or top_event.get('title') or '')[:44] }}{% if (top_event.get('event_title') or top_event.get('title') or '')|length > 44 %}…{% endif %}</b></div>
+      {% else %}
+      <div class="cat-row3">本周暂无新内容</div>
+      {% endif %}
     </a>
     {% endfor %}
   </div>
-</section>
-{% endif %}
 
-<!-- 底部三栏 -->
-<section class="bottom">
-  <div class="container bottom-grid">
-    <div class="b-col">
-      <h3><span class="bar"></span>本周趋势</h3>
-      {% for cat_name in categories.keys() %}
-      {% if trends.get(cat_name) %}
+  <!-- 本周精选 -->
+  <div class="section-head">
+    <h2>本周精选</h2>
+    <span class="meta">Top {{ top_events|length }} · 按重要性</span>
+  </div>
+  <div class="card picks">
+    {% for ev in top_events %}
+    <a class="pick" href="{{ category_slugs.get(ev.cat, ev.cat) }}.html">
+      <span class="rank">{{ loop.index }}</span>
+      <span class="body">
+        <span class="title">{{ ev.get('event_title') or ev.get('title') or '' }}</span><span class="p-cat">{{ ev.cat }}</span>
+      </span>
+      <span class="score">{{ "%.0f"|format((ev.importance or 0) * 100) }}<small>重要性</small></span>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- 底部两栏 -->
+  <div class="section-head">
+    <h2>趋势与数据</h2>
+  </div>
+  <div class="bottom-grid">
+    <div class="card b-col">
+      <h3>本周趋势</h3>
+      {% for cat_name, trend in trends.items() %}
       <div class="b-row">
-        <span class="l"><span class="dot" style="background:{{ colors.get(cat_name, '#94a3b8') }};"></span>{{ cat_name }}</span>
-        <span class="v">{{ trends[cat_name] }}</span>
+        <span class="dot" style="background:{{ colors.get(cat_name, '#94a3b8') }};"></span>
+        <span class="l">{{ cat_name }}</span>
+        <span class="v">{{ trend }}</span>
       </div>
-      {% endif %}
       {% endfor %}
     </div>
-    <div class="b-col">
-      <h3><span class="bar"></span>本期数据</h3>
+    <div class="card b-col">
+      <h3>本期数据</h3>
       <div class="b-row"><span class="l">收录事件</span><span class="v">{{ total_events if total_events is defined else stats.values() | sum }}</span></div>
       <div class="b-row"><span class="l">领域覆盖</span><span class="v">{{ categories|length }}</span></div>
       {% if discovered_count > 0 %}
@@ -263,10 +228,11 @@ body {
       {% if archived_count > 0 %}
       <div class="b-row"><span class="l">废弃源</span><span class="v down">−{{ archived_count }}</span></div>
       {% endif %}
-      <div class="b-row"><span class="l">生成时间</span><span class="v" style="font-size:12.5px;">{{ generated_at }}</span></div>
+      <div class="b-row"><span class="l">生成时间</span><span class="v" style="font-size:12px; font-weight:400; color:var(--text-3);">{{ generated_at }}</span></div>
     </div>
   </div>
-</section>
+
+</main>
 
 <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
 </body>

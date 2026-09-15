@@ -8,296 +8,266 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px; min-height: 100vh;
+  color: #141414; background: #fff; line-height: 1.5715; font-size: 14px;
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
 
-/* ── Hero Header ── */
-.hero {
-  text-align: center;
-  padding: 36px 32px 30px;
-  background: linear-gradient(180deg, #d6eaf8 0%, #e8f4f8 55%, #f5f7fa 100%);
-  border-bottom: 1px solid #cfe3ee;
-  margin-bottom: 20px;
+/* ── Masthead（满版深蓝带） ── */
+.masthead { background: #1a5276; color: #fff; padding: 34px 0 0; }
+.masthead .top-row { display: flex; align-items: center; gap: 14px; }
+.week-pill {
+  background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.35);
+  font-size: 12.5px; padding: 3px 14px; border-radius: 14px; font-weight: 500; letter-spacing: 0.5px;
 }
-.hero .week-badge {
-  display: inline-block; background: #1a5276; color: #fff;
-  font-size: 13px; padding: 0 20px; height: 28px; line-height: 28px;
-  border-radius: 14px; margin-bottom: 14px; font-weight: 500;
+.masthead .gen { margin-left: auto; font-size: 12px; color: rgba(255,255,255,0.55); }
+.masthead h1 { font-size: 34px; font-weight: 700; margin: 14px 0 6px; letter-spacing: -0.5px; }
+.masthead .sub { font-size: 13.5px; color: rgba(255,255,255,0.72); }
+.masthead .summary {
+  margin-top: 18px; background: rgba(0,0,0,0.16);
+  border-left: 3px solid rgba(255,255,255,0.75);
+  padding: 14px 18px; font-size: 13.5px; line-height: 1.75; color: rgba(255,255,255,0.94);
 }
-.hero h1 { font-size: 34px; font-weight: 700; color: #1a5276; margin-bottom: 10px; letter-spacing: -0.5px; }
-.hero .date { font-size: 14px; color: #8c8c8c; margin-bottom: 18px; }
-.hero .summary {
-  max-width: 860px; margin: 0 auto; text-align: left;
-  background: #fff; border-radius: 8px; padding: 16px 20px;
-  border-left: 4px solid #1677ff; font-size: 14px; color: #434343;
-  line-height: 1.7; box-shadow: 0 2px 8px rgba(26,82,118,0.08);
+.masthead .summary strong { color: #fff; }
+.stat-strip { margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.16); }
+.stat-strip .container { display: flex; }
+.stat-cell {
+  flex: 1; display: flex; flex-direction: column; gap: 3px;
+  padding: 13px 18px 14px 0;
 }
-.hero .summary strong { color: #1a5276; }
+.stat-cell + .stat-cell { padding-left: 18px; border-left: 1px solid rgba(255,255,255,0.14); }
+.stat-cell .l1 { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.stat-cell .dot { width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0; }
+.stat-cell .name { font-size: 11.5px; color: rgba(255,255,255,0.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-cell .l2 { display: flex; align-items: baseline; }
+.stat-cell .num { font-size: 23px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat-cell .unit { font-size: 11px; color: rgba(255,255,255,0.45); margin-left: 4px; font-weight: 400; }
 
-/* ── Stats Bar ── */
-.stats-bar {
-  display: flex; gap: 1px; background: #e8e8e8; border-radius: 8px;
-  overflow: hidden; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.stat-item {
-  flex: 1; text-align: center; padding: 14px 8px 12px; background: #fff;
-  border-top: 3px solid transparent; transition: background 0.15s;
-}
-.stat-item:hover { background: #f0f5ff; }
-.stat-item .num { font-size: 24px; font-weight: 700; color: #1a5276; }
-.stat-item .label { font-size: 12px; color: #8c8c8c; margin-top: 3px; }
-
-/* ── Layout ── */
-.layout { display: flex; gap: 20px; }
-.main { flex: 1; min-width: 0; }
-.sidebar { width: 280px; flex-shrink: 0; }
-
-/* ── Section Head ── */
-.section-head {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
-}
-.section-head .bar { width: 4px; height: 18px; border-radius: 2px; background: #1a5276; }
-.section-head h2 { font-size: 16px; font-weight: 600; color: #1a5276; }
+/* ── Section head ── */
+.section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 4px; }
+.section-head .bar { width: 4px; height: 15px; border-radius: 2px; background: #1a5276; align-self: center; }
+.section-head h2 { font-size: 17px; font-weight: 700; color: #1a5276; letter-spacing: 0.3px; }
 .section-head .meta { margin-left: auto; font-size: 12px; color: #8c8c8c; }
 
-/* ── Category Card Grid ── */
-.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.cat-card {
-  border: 1px solid #e8e8e8; border-radius: 8px;
-  background: #fff; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
-  cursor: pointer; display: block; text-decoration: none; color: inherit;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  overflow: hidden;
+/* ── 分类目录（满版白，2 列连续行，无卡片） ── */
+.toc { background: #fff; padding: 30px 0 8px; }
+.toc-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; }
+.toc-row {
+  display: flex; gap: 14px; padding: 16px 10px; margin: 0 -10px;
+  border-bottom: 1px solid #eef2f6; text-decoration: none; color: inherit;
+  transition: background 0.12s;
 }
-.cat-card:hover {
-  border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.12);
-  transform: translateY(-2px);
+.toc-row.empty { opacity: 0.5; }
+.toc-row .icon {
+  width: 38px; height: 38px; border-radius: 9px; flex-shrink: 0; margin-top: 2px;
+  display: flex; align-items: center; justify-content: center; font-size: 19px;
 }
-.cat-card-header {
-  display: flex; align-items: center; padding: 14px 16px;
-  border-bottom: 1px solid #f0f0f0;
-}
-.cat-card-header .icon {
-  width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px; margin-right: 10px;
-}
-.cat-card-header .name { font-size: 15px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cat-card-header .count { font-size: 22px; font-weight: 700; color: #1a5276; margin-right: 4px; }
-.cat-card-header .unit { font-size: 12px; color: #8c8c8c; }
-.cat-card-body { padding: 12px 16px; }
-.cat-card-body p {
-  font-size: 13px; color: #595959; line-height: 1.55;
+.toc-row .body { flex: 1; min-width: 0; }
+.toc-row .line1 { display: flex; align-items: baseline; gap: 8px; }
+.toc-row .name { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+.toc-row .count { font-size: 24px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.toc-row .unit { font-size: 12px; color: #8c8c8c; }
+.toc-row .sum {
+  font-size: 13px; color: #595959; line-height: 1.6; margin-top: 5px;
   display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-/* ── Featured strip (bottom of main) ── */
-.featured { margin-top: 18px; }
-.featured .f-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 0; border-bottom: 1px solid #f0f0f0;
-  text-decoration: none; color: inherit;
+.toc-row .lead-line {
+  margin-top: 7px; font-size: 12.5px; color: #1a5276;
+  display: flex; gap: 6px; align-items: baseline;
 }
-.featured .f-item:last-child { border-bottom: none; }
-.featured .f-rank {
-  flex-shrink: 0; width: 22px; height: 22px; border-radius: 6px;
+.toc-row .lead-line .tag { flex-shrink: 0; font-weight: 600; }
+.toc-row .lead-line .t {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #434343;
+}
+.toc-row a:hover { background: var(--tint, #f5f8fb); }
+
+/* ── 本周精选（满版浅蓝带） ── */
+.featured { background: #eaf2f8; padding: 28px 0; margin-top: 22px; }
+.f-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 13px 10px; margin: 0 -10px; border-bottom: 1px solid #d8e6ef;
+  text-decoration: none; color: inherit; transition: background 0.12s;
+}
+.f-row:hover { background: rgba(26,82,118,0.05); }
+.f-row:last-of-type { border-bottom: none; }
+.f-rank {
+  flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: #fff;
+  font-size: 12.5px; font-weight: 700; color: #fff;
 }
-.featured .f-body { flex: 1; min-width: 0; }
-.featured .f-title {
-  font-size: 13.5px; font-weight: 500; color: #1a1a1a;
+.f-body { flex: 1; min-width: 0; }
+.f-title {
+  font-size: 14px; font-weight: 500; color: #1a1a1a;
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
-.featured .f-item:hover .f-title { color: #1677ff; }
-.featured .f-cat { font-size: 11.5px; color: #8c8c8c; margin-top: 1px; }
-.featured .f-imp { flex-shrink: 0; font-size: 12px; font-weight: 600; color: #1a5276; font-variant-numeric: tabular-nums; }
-.cat-card-footer {
-  padding: 6px 16px 14px; font-size: 13px; color: #1677ff; font-weight: 500;
-}
-.cat-card:hover .cat-card-footer { text-decoration: underline; }
+.f-row:hover .f-title { color: #1a5276; }
+.f-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 12px; color: #8c8c8c; }
+.f-meta .dot { width: 7px; height: 7px; border-radius: 2px; }
+.f-score { flex-shrink: 0; text-align: right; }
+.f-score .v { font-size: 16px; font-weight: 700; color: #1a5276; font-variant-numeric: tabular-nums; }
+.f-score .k { font-size: 11px; color: #8c8c8c; }
 
-/* Empty card */
-.cat-card.empty { opacity: 0.55; cursor: default; }
-.cat-card.empty:hover { border-color: #e8e8e8; box-shadow: 0 1px 4px rgba(0,0,0,0.04); transform: none; }
-
-/* ── Sidebar ── */
-.sidebar-section {
-  border: 1px solid #e8e8e8; border-radius: 8px; padding: 14px 16px; margin-bottom: 14px;
-  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+/* ── 底部三栏（趋势 / 源池 / 本期数据） ── */
+.bottom { background: #fff; padding: 28px 0 34px; }
+.bottom-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; }
+.b-col h3 {
+  font-size: 13.5px; font-weight: 700; color: #1a5276; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px; letter-spacing: 0.3px;
 }
-.sidebar-section h3 {
-  font-size: 14px; font-weight: 600; color: #1a5276; margin-bottom: 10px;
-  padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;
-}
-.mini-stat { display: flex; align-items: center; justify-content: space-between; padding: 7px 0; }
-.mini-stat + .mini-stat { border-top: 1px solid #f5f5f5; }
-.mini-stat .label { font-size: 13px; color: #595959; }
-.mini-stat .value { font-size: 15px; font-weight: 600; }
-.mini-stat .dot { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 8px; }
-.trend-item { padding: 6px 0; }
-.trend-item + .trend-item { border-top: 1px solid #f5f5f5; }
-.trend-item .cat { font-size: 12px; color: #8c8c8c; }
-.trend-item .trend { font-size: 13px; color: #1a5276; font-weight: 500; margin-top: 1px; }
+.b-col h3 .bar { width: 4px; height: 13px; border-radius: 2px; background: #1a5276; }
+.b-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f2f5f8; font-size: 13px; }
+.b-row:last-child { border-bottom: none; }
+.b-row .l { display: flex; align-items: center; gap: 8px; color: #595959; }
+.b-row .l .dot { width: 7px; height: 7px; border-radius: 2px; }
+.b-row .v { font-weight: 600; color: #1a5276; font-variant-numeric: tabular-nums; }
+.b-row .v.up { color: #389e0d; }
+.b-row .v.down { color: #cf1322; }
 
 /* ── Footer ── */
 .footer {
-  text-align: center; padding: 24px 0; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #e8e8e8; margin-top: 24px;
+  text-align: center; padding: 20px 0 26px; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #eef2f6; background: #fafcfd;
 }
 
 @media (max-width: 900px) {
-  .cat-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 768px) {
-  .layout { flex-direction: column; }
-  .sidebar { width: 100%; }
-  .hero h1 { font-size: 28px; }
-  .hero { padding: 28px 20px 22px; }
-  .stats-bar { flex-wrap: wrap; }
-  .stat-item { flex: 1 1 30%; margin-bottom: 1px; }
+  .toc-grid { grid-template-columns: 1fr; }
+  .bottom-grid { grid-template-columns: 1fr; gap: 24px; }
+  .stat-strip .container { flex-wrap: wrap; }
+  .stat-cell { flex: 1 1 30%; padding: 10px 12px 4px 0; }
+  .stat-cell + .stat-cell { padding-left: 12px; }
+  .masthead h1 { font-size: 27px; }
+  .masthead { padding-top: 26px; }
 }
 </style>
 </head>
 <body>
 
-<!-- Hero -->
-<header class="hero">
-  <div class="week-badge">{{ week }}</div>
-  <h1>{{ title }}</h1>
-  <div class="date">{{ generated_at }}</div>
-  <div class="summary">
-    <strong>📋 整体摘要</strong><br>
-    本周 AI 领域持续呈现高速发展态势，共收录 {{ stats.values() | sum }} 篇高质量资讯。{% for cat_name, cat_articles in categories.items() %}{% if cat_articles and domain_summaries.get(cat_name) %}【{{ cat_name }}】{{ domain_summaries[cat_name] }}{% endif %}{% endfor %}{% if empty_cats %} 本周 {{ empty_cats | join("、") }} 等领域产出较少，后续将引入往期精选内容保持信息连续性。{% endif %}
+<!-- Masthead -->
+<header class="masthead">
+  <div class="container">
+    <div class="top-row">
+      <span class="week-pill">{{ week }}</span>
+      <span class="gen">生成于 {{ generated_at }}</span>
+    </div>
+    <h1>{{ title }}</h1>
+    <div class="sub">LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 {{ stats.values() | sum }} 篇资讯</div>
+    <div class="summary">
+      <strong>📋 整体摘要</strong><br>
+      本周 AI 领域持续呈现高速发展态势，共收录 {{ stats.values() | sum }} 篇高质量资讯。{% for cat_name, cat_articles in categories.items() %}{% if cat_articles and domain_summaries.get(cat_name) %}【{{ cat_name }}】{{ domain_summaries[cat_name] }}{% endif %}{% endfor %}{% if empty_cats %} 本周 {{ empty_cats | join("、") }} 等领域产出较少，后续将引入往期精选内容保持信息连续性。{% endif %}
+    </div>
+    <div class="stat-strip">
+      <div class="container">
+        {% for cat_name in categories.keys() %}
+        <div class="stat-cell">
+          <span class="l1"><span class="dot" style="background:{{ colors.get(cat_name, '#94a3b8') }};"></span><span class="name">{{ cat_name }}</span></span>
+          <span class="l2"><span class="num">{{ stats[cat_name] }}</span><span class="unit">篇</span></span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
   </div>
 </header>
 
-<div class="container">
-
-  <!-- Stats Bar -->
-  <div class="stats-bar">
-    {% for cat_name in categories.keys() %}
-    <div class="stat-item" style="border-top-color: {{ colors.get(cat_name, '#1677ff') }};">
-      <div class="num">{{ stats[cat_name] }}</div>
-      <div class="label">{{ icons.get(cat_name, "") }} {{ cat_name }}</div>
+<!-- 分类目录 -->
+<section class="toc">
+  <div class="container">
+    <div class="section-head">
+      <span class="bar"></span>
+      <h2>分类速览</h2>
+      <span class="meta">{{ categories|length }} 个领域 · 按重要性排序</span>
     </div>
-    {% endfor %}
-  </div>
-
-  <!-- Main + Sidebar -->
-  <div class="layout">
-    <div class="main">
-      <div class="section-head">
-        <span class="bar"></span>
-        <h2>分类速览</h2>
-        <span class="meta">共 {{ stats.values() | sum }} 篇 · {{ categories|length }} 个领域</span>
-      </div>
-
-      <div class="cat-grid">
+    <div class="toc-grid">
       {% for cat_name in categories.keys() %}
       {% set cat_articles = categories[cat_name] %}
       {% set cat_count = stats[cat_name] %}
       {% set cat_slug = category_slugs.get(cat_name, cat_name.lower().replace(" ", "-")) %}
-      {% set cat_color = colors.get(cat_name, '#1677ff') %}
+      {% set cat_color = colors.get(cat_name, '#94a3b8') %}
       {% if cat_articles %}
-      <a class="cat-card" href="{{ cat_slug }}.html" aria-label="查看{{ cat_name }}分类的{{ cat_count }}篇文章">
-        <div class="cat-card-header">
-          <span class="icon" style="background: {{ cat_color }}18; color: {{ cat_color }};">{{ icons.get(cat_name, "") }}</span>
-          <span class="name">{{ cat_name }}</span>
-          <span class="count">{{ cat_count }}</span><span class="unit">篇</span>
+      {% set lead = cat_articles[0] %}
+      <a class="toc-row" style="--tint: {{ cat_color }}0d;" href="{{ cat_slug }}.html" aria-label="查看{{ cat_name }}分类的{{ cat_count }}篇文章">
+        <span class="icon" style="background:{{ cat_color }}14; color:{{ cat_color }};">{{ icons.get(cat_name, "") }}</span>
+        <div class="body">
+          <div class="line1">
+            <span class="name">{{ cat_name }}</span>
+            <span class="count" style="color:{{ cat_color }};">{{ cat_count }}</span>
+            <span class="unit">篇</span>
+          </div>
+          <div class="sum">{{ domain_summaries.get(cat_name, "暂无摘要") }}</div>
+          <div class="lead-line">
+            <span class="tag">头条</span>
+            <span class="t">{{ lead.get("event_title", lead.get("title", "")) }}</span>
+          </div>
         </div>
-        <div class="cat-card-body">
-          <p>{{ domain_summaries.get(cat_name, "暂无摘要") }}</p>
-        </div>
-        <div class="cat-card-footer">查看全部 {{ cat_count }} 篇 →</div>
       </a>
       {% else %}
-      <div class="cat-card empty" aria-label="{{ cat_name }}本周无新内容">
-        <div class="cat-card-header">
-          <span class="icon" style="background: #f0f0f0; color: #bfbfbf;">{{ icons.get(cat_name, "") }}</span>
-          <span class="name">{{ cat_name }}</span>
-          <span class="count" style="color:#bfbfbf;">0</span><span class="unit">篇</span>
-        </div>
-        <div class="cat-card-body">
-          <p style="color:#bfbfbf;">本周暂无新内容，将回填往期精选文章。</p>
+      <div class="toc-row empty">
+        <span class="icon" style="background:#f0f2f4; color:#bfbfbf;">{{ icons.get(cat_name, "") }}</span>
+        <div class="body">
+          <div class="line1">
+            <span class="name">{{ cat_name }}</span>
+            <span class="count" style="color:#bfbfbf;">0</span>
+            <span class="unit">篇</span>
+          </div>
+          <div class="sum" style="color:#bfbfbf;">本周暂无新内容，将回填往期精选文章。</div>
         </div>
       </div>
       {% endif %}
       {% endfor %}
-      </div>
-
-      {% if top_events %}
-      <div class="featured">
-        <div class="section-head">
-          <span class="bar"></span>
-          <h2>本周精选</h2>
-          <span class="meta">按重要性 Top {{ top_events|length }}</span>
-        </div>
-        {% for ev in top_events %}
-        <a class="f-item" href="{{ category_slugs.get(ev.cat, ev.cat|lower|replace(" ", "-")) }}.html">
-          <span class="f-rank" style="background:{{ colors.get(ev.cat, '#1a5276') }};">{{ loop.index }}</span>
-          <span class="f-body">
-            <div class="f-title">{{ ev.get("event_title", ev.get("title", "")) }}</div>
-            <div class="f-cat">{{ icons.get(ev.cat, "") }} {{ ev.cat }}</div>
-          </span>
-          <span class="f-imp">重要性 {{ "%.0f"|format((ev.get("importance") or 0) * 100) }}</span>
-        </a>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-
-    <div class="sidebar">
-      <div class="sidebar-section">
-        <h3>📈 本周统计</h3>
-        {% for cat_name in categories.keys() %}
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:{{ colors.get(cat_name, '#1677ff') }};"></span>{{ cat_name }}</span>
-          <span class="value">{{ stats[cat_name] }}</span>
-        </div>
-        {% endfor %}
-        <div style="border-top:2px solid #1a5276; margin-top:6px; padding-top:6px;">
-          <div class="mini-stat">
-            <span class="label" style="font-weight:600;color:#1a5276;">合计</span>
-            <span class="value" style="color:#1a5276;">{{ stats.values() | sum }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="sidebar-section">
-        <h3>🔥 本周趋势</h3>
-        {% for cat_name in categories.keys() %}
-        {% if trends.get(cat_name) %}
-        <div class="trend-item">
-          <div class="cat">{{ icons.get(cat_name, "") }} {{ cat_name }}</div>
-          <div class="trend">{{ trends[cat_name] }}</div>
-        </div>
-        {% endif %}
-        {% endfor %}
-      </div>
-
-      {% if discovered_count > 0 or archived_count > 0 %}
-      <div class="sidebar-section">
-        <h3>🔍 源池动态</h3>
-        {% if discovered_count > 0 %}
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#52c41a;"></span>新发现</span>
-          <span class="value" style="color:#52c41a;">{{ discovered_count }}</span>
-        </div>
-        {% endif %}
-        {% if archived_count > 0 %}
-        <div class="mini-stat">
-          <span class="label"><span class="dot" style="background:#ff4d4f;"></span>已废弃</span>
-          <span class="value" style="color:#ff4d4f;">{{ archived_count }}</span>
-        </div>
-        {% endif %}
-      </div>
-      {% endif %}
     </div>
   </div>
+</section>
 
-  <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
+<!-- 本周精选 -->
+{% if top_events %}
+<section class="featured">
+  <div class="container">
+    <div class="section-head">
+      <span class="bar"></span>
+      <h2>本周精选</h2>
+      <span class="meta">按重要性 Top {{ top_events|length }}</span>
+    </div>
+    {% for ev in top_events %}
+    <a class="f-row" href="{{ category_slugs.get(ev.cat, ev.cat|lower|replace(" ", "-")) }}.html">
+      <span class="f-rank" style="background:{{ colors.get(ev.cat, '#1a5276') }};">{{ loop.index }}</span>
+      <span class="f-body">
+        <div class="f-title">{{ ev.get("event_title", ev.get("title", "")) }}</div>
+        <div class="f-meta"><span class="dot" style="background:{{ colors.get(ev.cat, '#94a3b8') }};"></span>{{ icons.get(ev.cat, "") }} {{ ev.cat }}</div>
+      </span>
+      <span class="f-score"><div class="v">{{ "%.0f"|format((ev.get("importance") or 0) * 100) }}</div><div class="k">重要性</div></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 
-</div>
+<!-- 底部三栏 -->
+<section class="bottom">
+  <div class="container bottom-grid">
+    <div class="b-col">
+      <h3><span class="bar"></span>本周趋势</h3>
+      {% for cat_name in categories.keys() %}
+      {% if trends.get(cat_name) %}
+      <div class="b-row">
+        <span class="l"><span class="dot" style="background:{{ colors.get(cat_name, '#94a3b8') }};"></span>{{ cat_name }}</span>
+        <span class="v">{{ trends[cat_name] }}</span>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="b-col">
+      <h3><span class="bar"></span>本期数据</h3>
+      <div class="b-row"><span class="l">收录事件</span><span class="v">{{ total_events if total_events is defined else stats.values() | sum }}</span></div>
+      <div class="b-row"><span class="l">领域覆盖</span><span class="v">{{ categories|length }}</span></div>
+      {% if discovered_count > 0 %}
+      <div class="b-row"><span class="l">新发现源</span><span class="v up">+{{ discovered_count }}</span></div>
+      {% endif %}
+      {% if archived_count > 0 %}
+      <div class="b-row"><span class="l">废弃源</span><span class="v down">−{{ archived_count }}</span></div>
+      {% endif %}
+      <div class="b-row"><span class="l">生成时间</span><span class="v" style="font-size:12.5px;">{{ generated_at }}</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
 </body>
 </html>

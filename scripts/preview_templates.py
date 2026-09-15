@@ -73,7 +73,7 @@ html_index = env.get_template("index.html").render(
     trends=trends, top_events=top_events, empty_cats=empty_cats, has_carried=False,
     domain_summaries=domain_summaries, category_slugs=category_slugs,
     generated_at=generated_at, discovered_count=2, archived_count=1,
-    articles_by_event=articles_by_event,
+    articles_by_event=articles_by_event, total_events=total_events,
 )
 open(f"{OUT}/index.html", "w", encoding="utf-8").write(html_index)
 
@@ -82,7 +82,7 @@ for cat_name, cat_events in categories.items():
     cat_slug = category_slugs.get(cat_name, cat_name.lower().replace(" ", "-"))
     html_cat = tpl_cat.render(
         cat_name=cat_name, cat_icon=icons.get(cat_name, ""),
-        cat_color=colors.get(cat_name, "#2563eb"),
+        cat_color=colors.get(cat_name, "#1a5276"),
         events=cat_events, event_count=len(cat_events),
         articles_by_event=articles_by_event, sources=data["sources"],
         domain_summary=domain_summaries.get(cat_name, ""), week=WEEK,

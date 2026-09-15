@@ -8,243 +8,193 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
-  color: #141414; background: #f5f7fa; line-height: 1.5715; font-size: 14px; min-height: 100vh;
+  color: #141414; background: #fff; line-height: 1.5715; font-size: 14px;
 }
-.container { max-width: 960px; margin: 0 auto; padding: 20px 24px; }
+.container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
 
-/* ── Back Nav ── */
+/* ── 满版分类色 Header ── */
+.cat-band { background: {{ cat_color }}; color: #fff; padding: 16px 0 28px; }
+.head-row { display: flex; align-items: flex-start; gap: 16px; }
 .back-nav {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 13px; color: #1677ff; margin-bottom: 16px;
-  text-decoration: none; cursor: pointer;
+  font-size: 12.5px; color: rgba(255,255,255,0.85);
+  text-decoration: none; margin-bottom: 16px;
 }
-.back-nav:hover { text-decoration: underline; }
-
-/* ── Category Header ── */
-.cat-header {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 18px;
-  padding: 20px 24px; background: #fff; border-radius: 8px;
-  border-left: 4px solid {{ cat_color }};
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+.back-nav:hover { color: #fff; text-decoration: underline; }
+.cat-band .icon {
+  width: 54px; height: 54px; border-radius: 13px; flex-shrink: 0; margin-top: 4px;
+  display: flex; align-items: center; justify-content: center; font-size: 29px;
+  background: rgba(255,255,255,0.18);
 }
-.cat-header .icon {
-  width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px; background: {{ cat_color }}18; color: {{ cat_color }};
-}
-.cat-header h1 { font-size: 24px; font-weight: 700; color: #1a5276; flex: 1; }
-.cat-header .count-badge {
-  background: {{ cat_color }}15; color: {{ cat_color }};
-  font-size: 14px; padding: 4px 16px; border-radius: 16px; font-weight: 500;
+.cat-band .head-body { flex: 1; min-width: 0; }
+.cat-band h1 { font-size: 27px; font-weight: 700; letter-spacing: -0.3px; }
+.cat-band .head-meta { margin-top: 6px; font-size: 13px; color: rgba(255,255,255,0.75); display: flex; gap: 10px; align-items: center; }
+.cat-band .count-num { font-size: 20px; font-weight: 700; }
+.cat-band .summary {
+  margin-top: 16px; background: rgba(0,0,0,0.18);
+  border-left: 3px solid rgba(255,255,255,0.8);
+  padding: 13px 16px; font-size: 13.5px; line-height: 1.75; color: rgba(255,255,255,0.96);
 }
 
-/* ── Section Head ── */
-.section-head { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; }
-.section-head .bar { width: 4px; height: 16px; border-radius: 2px; background: #1a5276; }
-.section-head h2 { font-size: 15px; font-weight: 600; color: #1a5276; }
+/* ── Section head ── */
+.section-head { display: flex; align-items: baseline; gap: 10px; margin: 26px 0 6px; }
+.section-head h2 { font-size: 17px; font-weight: 700; color: #1a5276; letter-spacing: 0.3px; }
 .section-head .meta { margin-left: auto; font-size: 12px; color: #8c8c8c; }
 
-/* ── Domain Summary ── */
-.domain-summary {
-  background: #f0f5ff; border-radius: 8px; padding: 14px 18px;
-  margin-bottom: 18px; border-left: 4px solid #1677ff;
-  font-size: 14px; color: #434343; line-height: 1.6;
+/* ── 事件时间线（无卡片） ── */
+.timeline { padding: 6px 0 10px 0; }
+.evt {
+  position: relative; padding: 18px 0 18px 30px;
+  border-bottom: 1px solid #eef2f6;
 }
-.domain-summary strong { color: #1a5276; }
-
-/* ── Event Card ── */
-.event-card {
-  background: #fff; border-radius: 8px; border: 1px solid #e8e8e8;
-  padding: 18px 20px; margin-bottom: 14px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  transition: border-color 0.15s, box-shadow 0.15s;
+.evt:last-child { border-bottom: none; }
+.evt::before {
+  content: ""; position: absolute; left: 7px; top: 30px; bottom: -6px;
+  width: 2px; background: #cddce8;
 }
-.event-card:hover { border-color: #1677ff; box-shadow: 0 4px 12px rgba(22,119,255,0.1); }
-.event-card.carried { opacity: 0.65; }
-.event-card.carried:hover { border-color: #d9d9d9; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-
-/* ── Score Badges Row ── */
-.score-badges { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 10px; }
-.score-badge-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: #595959; }
-.score-badge-item .badge {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  border-radius: 10px; font-size: 12px; font-weight: 600; color: #fff;
+.evt:last-child::before { display: none; }
+.evt::after {
+  content: ""; position: absolute; left: 0; top: 24px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: #fff; border: 3px solid {{ cat_color }};
 }
-.badge-importance { background: linear-gradient(135deg, #1677ff, #4096ff); }
-.badge-novelty { background: linear-gradient(135deg, #722ed1, #9254de); }
-.badge-impact { background: linear-gradient(135deg, #fa8c16, #ffa940); }
-
-/* ── Event Title ── */
-.event-title { font-size: 18px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; line-height: 1.4; }
-.event-title a { color: inherit; text-decoration: none; }
-.event-title a:hover { color: #1677ff; }
-.carried-badge {
-  font-size: 12px; background: #f5f5f5; color: #8c8c8c;
-  padding: 0 8px; line-height: 20px; border-radius: 4px; margin-left: 8px;
+.evt.carried { opacity: 0.62; }
+.evt-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 7px; }
+.score-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; color: #595959;
+  background: #f5f8fb; border: 1px solid #e4ebf1;
+  padding: 1px 10px; border-radius: 12px;
 }
-
-/* ── Event Summary ── */
-.event-summary { font-size: 14px; color: #595959; line-height: 1.6; margin-bottom: 10px; }
-
-/* ── Sources Info ── */
-.sources-info {
-  display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
-  font-size: 12px; color: #8c8c8c; margin-bottom: 10px;
-  padding-bottom: 10px; border-bottom: 1px solid #f0f0f0;
-}
-.sources-info .count { display: inline-flex; align-items: center; gap: 4px; }
+.score-badge .v { font-weight: 700; color: #1a5276; font-variant-numeric: tabular-nums; }
+.score-badge.imp .v { color: {{ cat_color }}; }
+.carried-badge { font-size: 12px; background: #f5f5f5; color: #8c8c8c; padding: 1px 8px; border-radius: 4px; }
+.evt-title { font-size: 17px; font-weight: 600; color: #1a1a1a; line-height: 1.45; margin-bottom: 6px; }
+.evt-title a { color: inherit; text-decoration: none; }
+.evt-title a:hover { color: {{ cat_color }}; }
+.evt-summary { font-size: 13.5px; color: #595959; line-height: 1.7; margin-bottom: 10px; }
+.evt-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 12px; color: #8c8c8c; }
 .source-tag {
-  display: inline-block; padding: 0 8px; line-height: 20px;
-  background: #f0f5ff; border: 1px solid #d6eaf8; border-radius: 4px;
-  font-size: 12px; color: #1a5276;
+  display: inline-block; padding: 0 9px; line-height: 20px;
+  background: #f5f8fb; border: 1px solid #e4ebf1; border-radius: 4px;
+  font-size: 12px; color: #434343;
 }
-
-/* ── Key Insights ── */
-.key-insights { margin-bottom: 10px; padding-left: 20px; }
-.key-insights li { font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.5; }
-
-/* ── Tags ── */
-.event-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.key-insights { margin: 10px 0 2px; padding-left: 18px; }
+.key-insights li { font-size: 13px; color: #434343; margin-bottom: 4px; line-height: 1.55; }
+.event-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
 .tag {
-  font-size: 12px; padding: 0 8px; line-height: 22px;
-  background: #fafafa; border: 1px solid #d9d9d9; border-radius: 4px;
-  color: #595959;
+  font-size: 12px; padding: 0 9px; line-height: 21px;
+  background: #fafcfd; border: 1px solid #e4ebf1; border-radius: 4px; color: #595959;
 }
-
-/* ── Linked Articles (expandable) ── */
+/* ── 相关文章 ── */
 .articles-expand { margin-top: 10px; }
-.articles-expand summary {
-  font-size: 13px; color: #1677ff; cursor: pointer; padding: 6px 0;
-  user-select: none;
-}
+.articles-expand summary { font-size: 13px; color: {{ cat_color }}; cursor: pointer; padding: 4px 0; user-select: none; font-weight: 500; }
 .articles-expand summary:hover { text-decoration: underline; }
-.articles-expand .article-list { padding: 8px 0 8px 20px; border-left: 2px solid #e8e8e8; }
-.article-list .article-item { padding: 6px 0; font-size: 13px; color: #595959; border-bottom: 1px solid #f5f5f5; }
-.article-list .article-item:last-child { border-bottom: none; }
-.article-list .article-item a { color: #1a1a1a; text-decoration: none; }
-.article-list .article-item a:hover { color: #1677ff; }
-.article-list .article-item .article-source { font-size: 12px; color: #8c8c8c; margin-left: 8px; }
-.article-list .article-item .article-summary {
-  display: block; font-size: 12px; color: #8c8c8c; margin: 2px 0 0 0; line-height: 1.5;
-}
+.article-list { padding: 6px 0 4px 14px; border-left: 2px solid #e4ebf1; margin-left: 4px; }
+.article-item { padding: 7px 0; font-size: 13px; color: #595959; border-bottom: 1px solid #f2f5f8; }
+.article-item:last-child { border-bottom: none; }
+.article-item a { color: #1a1a1a; text-decoration: none; }
+.article-item a:hover { color: {{ cat_color }}; }
+.article-item .article-source { font-size: 12px; color: #8c8c8c; margin-left: 8px; }
+.article-item .article-summary { display: block; font-size: 12px; color: #8c8c8c; margin-top: 2px; line-height: 1.5; }
 
-/* ── Empty State ── */
-.empty-state {
-  text-align: center; padding: 48px 24px;
-  border: 1px dashed #d9d9d9; border-radius: 8px; background: #fff;
-}
-.empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 8px; }
+/* ── Empty ── */
+.empty-state { text-align: center; padding: 56px 24px; margin-top: 14px; }
+.empty-state .icon { font-size: 44px; margin-bottom: 12px; }
+.empty-state h3 { font-size: 16px; color: #8c8c8c; margin-bottom: 6px; }
 .empty-state p { font-size: 13px; color: #bfbfbf; }
 
 /* ── Footer ── */
 .footer {
-  text-align: center; padding: 24px 0; color: #bfbfbf; font-size: 12px;
-  border-top: 1px solid #e8e8e8; margin-top: 24px;
+  text-align: center; padding: 22px 0 28px; color: #bfbfbf; font-size: 12px;
+  border-top: 1px solid #eef2f6; margin-top: 10px; background: #fafcfd;
 }
 
 @media (max-width: 768px) {
-  .container { padding: 16px; }
-  .cat-header { padding: 16px; flex-wrap: wrap; }
-  .cat-header h1 { font-size: 20px; }
-  .event-card { padding: 16px; }
+  .container { padding: 0 16px; }
+  .cat-band .container { flex-direction: column; gap: 10px; }
+  .cat-band h1 { font-size: 22px; }
+  .back-nav { margin-left: -16px; padding-left: 16px; }
 }
 </style>
 </head>
 <body>
 
+<!-- 满版分类 Header -->
+<header class="cat-band">
+  <div class="container">
+    <a class="back-nav" href="index.html" aria-label="返回首页">← 返回首页</a>
+    <div class="head-row">
+      <span class="icon">{{ cat_icon }}</span>
+      <div class="head-body">
+        <h1>{{ cat_name }}</h1>
+        <div class="head-meta">
+          <span class="count-num">{{ event_count }}</span> 个事件
+          <span>·</span>
+          <span>按重要性排序</span>
+        </div>
+        {% if domain_summary %}
+        <div class="summary">{{ domain_summary }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</header>
+
 <div class="container">
-
-  <!-- Back Nav -->
-  <a class="back-nav" href="index.html" aria-label="返回首页">
-    <span>←</span> 返回首页
-  </a>
-
-  <!-- Category Header -->
-  <div class="cat-header">
-    <span class="icon">{{ cat_icon }}</span>
-    <h1>{{ cat_name }}</h1>
-    <span class="count-badge">{{ event_count }} 个事件</span>
-  </div>
-
-  <!-- Domain Summary -->
-  {% if domain_summary %}
   <div class="section-head">
-    <span class="bar"></span>
-    <h2>领域摘要</h2>
-  </div>
-  <div class="domain-summary">{{ domain_summary }}</div>
-  {% endif %}
-
-  <!-- Events -->
-  <div class="section-head">
-    <span class="bar"></span>
     <h2>本周事件</h2>
-    <span class="meta">{{ event_count }} 条 · 按重要性排序</span>
+    <span class="meta">{{ event_count }} 条</span>
   </div>
 
   {% if events %}
-  <div class="events-container" id="events">
+  <div class="timeline" id="events">
     {% for event in events %}
     {% set evt_articles = articles_by_event.get(event.id, []) %}
-    <div class="event-card{% if event.get('carried_over') %} carried{% endif %}">
+    <div class="evt{% if event.get('carried_over') %} carried{% endif %}">
 
-      <!-- Score Badges -->
-      <div class="score-badges">
+      <div class="evt-top">
         {% set importance = event.get('importance', 0) %}
+        <span class="score-badge imp">重要性 <span class="v">{{ "%.0f"|format(importance * 100) }}</span></span>
         {% set novelty = event.get('novelty', 0) %}
-        {% set impact = event.get('impact', 0) %}
-        <div class="score-badge-item">
-          重要性
-          <span class="badge badge-importance">{{ "%.0f"|format(importance * 100) }}</span>
-        </div>
         {% if novelty > 0 %}
-        <div class="score-badge-item">
-          新颖性
-          <span class="badge badge-novelty">{{ "%.0f"|format(novelty * 100) }}</span>
-        </div>
+        <span class="score-badge">新颖性 <span class="v">{{ "%.0f"|format(novelty * 100) }}</span></span>
         {% endif %}
+        {% set impact = event.get('impact', 0) %}
         {% if impact > 0 %}
-        <div class="score-badge-item">
-          影响力
-          <span class="badge badge-impact">{{ "%.0f"|format(impact * 100) }}</span>
-        </div>
+        <span class="score-badge">影响力 <span class="v">{{ "%.0f"|format(impact * 100) }}</span></span>
         {% endif %}
-      </div>
-
-      <!-- Event Title -->
-      <div class="event-title">
-        {% set evt_title = event.get('event_title', event.get('title', '未命名事件')) %}
-        {{ evt_title }}
         {% if event.get('carried_over') %}
         <span class="carried-badge">往期</span>
         {% endif %}
       </div>
 
-      <!-- Event Summary -->
+      <div class="evt-title">
+        {% set evt_title = event.get('event_title', event.get('title', '未命名事件')) %}
+        {{ evt_title }}
+      </div>
+
       {% set evt_summary = event.get('event_summary', event.get('summary', '')) %}
       {% if evt_summary %}
-      <div class="event-summary">{{ evt_summary }}</div>
+      <div class="evt-summary">{{ evt_summary }}</div>
       {% endif %}
 
-      <!-- Sources Info -->
-      <div class="sources-info">
-        <span class="count">📰 {{ evt_articles|length }} 篇来源</span>
-        {% if evt_articles %}
+      {% if evt_articles %}
+      <div class="evt-meta">
+        <span>📰 {{ evt_articles|length }} 篇来源</span>
         {% set source_names = [] %}
         {% for art in evt_articles %}
         {% set _ = source_names.append(art.get('source_name', art.get('source_id', ''))) %}
         {% endfor %}
         {% set unique_sources = source_names|unique|list %}
-        {% for i in range(5) %}
+        {% for i in range(4) %}
         {% if i < unique_sources|length %}
         <span class="source-tag">{{ unique_sources[i] }}</span>
         {% endif %}
         {% endfor %}
-        {% endif %}
       </div>
+      {% endif %}
 
-      <!-- Key Insights -->
       {% if event.get('key_insights') %}
       <ul class="key-insights">
         {% for insight in event.key_insights[:3] %}
@@ -253,7 +203,6 @@ body {
       </ul>
       {% endif %}
 
-      <!-- Tags -->
       {% if event.get('tags') %}
       <div class="event-tags">
         {% for tag in event.tags %}
@@ -262,16 +211,13 @@ body {
       </div>
       {% endif %}
 
-      <!-- Linked Articles (expandable) -->
       {% if evt_articles %}
       <details class="articles-expand">
         <summary>展开 {{ evt_articles|length }} 篇相关文章</summary>
         <div class="article-list">
           {% for art in evt_articles[:10] %}
           <div class="article-item">
-            <a href="{{ art.get('url', '#') }}" target="_blank" rel="noopener">
-              {{ art.get('title', '未命名') }}
-            </a>
+            <a href="{{ art.get('url', '#') }}" target="_blank" rel="noopener">{{ art.get('title', '未命名') }}</a>
             <span class="article-source">{{ art.get('source_name', '') }}</span>
             {% set art_summary = (art.get('summary') or '') | clean_summary %}
             {% if art_summary %}
@@ -293,9 +239,8 @@ body {
     <p>本周 {{ cat_name }} 领域暂无新事件，将回填往期精选。</p>
   </div>
   {% endif %}
-
-  <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
-
 </div>
+
+<div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
 </body>
 </html>

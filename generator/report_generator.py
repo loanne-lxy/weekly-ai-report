@@ -393,6 +393,7 @@ def generate_report(
         discovered_count=discovered_count,
         archived_count=archived_count,
         articles_by_event=articles_by_event,
+        total_events=total_events,
     )
     index_path = os.path.join(week_dir, "index.html")
     with open(index_path, "w", encoding="utf-8") as f:

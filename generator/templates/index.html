@@ -99,6 +99,7 @@ section { padding: 42px 0 4px; }
 
 /* ── Domain signals ── */
 .ov-row { display: grid; grid-template-columns: 190px minmax(0,1fr) 74px; gap: 16px; align-items: center; padding: 15px 24px; transition: background .2s; }
+a.ov-row { text-decoration: none; color: inherit; }
 .ov-row + .ov-row { border-top: 1px solid var(--line); }
 .ov-row:hover { background: var(--surface-2); }
 .ov-cat { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; color: var(--text); }
@@ -214,11 +215,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     </div>
     <div class="panel">
     {% for cat_name, cat_events in categories.items() %}
-    <div class="ov-row">
+    <a class="ov-row" href="{{ category_slugs.get(cat_name, '其他') }}.html">
       <div class="ov-cat"><span class="dot" style="background: {{ colors.get(cat_name, '#94a3b8') }}"></span>{{ icons.get(cat_name, '📄') }} {{ cat_name }}</div>
       <div class="ov-trend">{{ trends.get(cat_name, '—') }}</div>
-      <div class="ov-n mono">{{ cat_events|length }} 事件</div>
-    </div>
+      <div class="ov-n mono">{{ cat_events|length }} 事件 →</div>
+    </a>
     {% endfor %}
     </div>
   </section>

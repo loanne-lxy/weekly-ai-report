@@ -322,25 +322,15 @@ def generate_report(
         for evts in categories.values()
     )
 
-    # 企业级色阶（600/700 档），非高饱和装饰色
     colors = {
-        "LLM": "#2563eb", "Agent": "#7c3aed",
-        "AI for Science": "#059669",
-        "设计仿真": "#d97706", "数字孪生": "#dc2626"
+        "LLM": "#3b82f6", "Agent": "#8b5cf6",
+        "AI for Science": "#10b981",
+        "设计仿真": "#f59e0b", "数字孪生": "#ef4444",
+        "其他": "#94a3b8"
     }
-    # 线性 SVG 图标（非 emoji），经 |safe 注入模板，.ic 类统一控制尺寸
-    def _ic(paths: str) -> str:
-        return (
-            '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-            f'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths}</svg>'
-        )
     icons = {
-        "LLM": _ic('<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>'),
-        "Agent": _ic('<rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><path d="M8 16h.01M16 16h.01"/>'),
-        "AI for Science": _ic('<path d="M10 2v6L4.5 18a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8V2"/><path d="M8.5 2h7"/><path d="M7 15h10"/>'),
-        "设计仿真": _ic('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/>'),
-        "数字孪生": _ic('<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1M12 18h1M7 18h1"/>'),
-        "其他": _ic('<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'),
+        "LLM": "🧠", "Agent": "🤖", "AI for Science": "🔬",
+        "设计仿真": "🎨", "数字孪生": "🏭"
     }
 
     # ── 5. LLM 趋势 & 摘要 ───────────────────────────────
@@ -366,6 +356,16 @@ def generate_report(
         "设计仿真": "design-simulation", "数字孪生": "digital-twin",
     }
 
+    # 本周精选：按重要性取 Top 5（附加分类名，供首页 featured 区）
+    top_events = []
+    for cat_name, cat_events in categories.items():
+        for evt in cat_events:
+            item = dict(evt)
+            item["cat"] = cat_name
+            top_events.append(item)
+    top_events.sort(key=lambda e: (e.get("importance") or 0), reverse=True)
+    top_events = top_events[:5]
+
     # ── 6. 渲染 HTML ─────────────────────────────
     env = Environment(loader=FileSystemLoader("generator/templates"))
     env.filters["clean_summary"] = _clean_text  # 模板层双保险
@@ -388,6 +388,7 @@ def generate_report(
         has_carried=has_carried,
         domain_summaries=domain_summaries,
         category_slugs=category_slugs,
+        top_events=top_events,
         generated_at=generated_at,
         discovered_count=discovered_count,
         archived_count=archived_count,

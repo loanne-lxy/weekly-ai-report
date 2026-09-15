@@ -32,23 +32,25 @@ total_events = sum(stats.values())
 total_articles = sum(len(articles_by_event.get(e["id"], [])) for e in events)
 
 colors = {
-    "LLM": "#2563eb", "Agent": "#7c3aed",
-    "AI for Science": "#059669",
-    "设计仿真": "#d97706", "数字孪生": "#dc2626"
+    "LLM": "#3b82f6", "Agent": "#8b5cf6",
+    "AI for Science": "#10b981",
+    "设计仿真": "#f59e0b", "数字孪生": "#ef4444",
+    "其他": "#94a3b8"
 }
-def _ic(paths):
-    return ('<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
-            f'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths}</svg>')
 icons = {
-    "LLM": _ic('<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/>'),
-    "Agent": _ic('<rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><path d="M8 16h.01M16 16h.01"/>'),
-    "AI for Science": _ic('<path d="M10 2v6L4.5 18a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8V2"/><path d="M8.5 2h7"/><path d="M7 15h10"/>'),
-    "设计仿真": _ic('<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/>'),
-    "数字孪生": _ic('<path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1M12 18h1M7 18h1"/>'),
-    "其他": _ic('<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>'),
+    "LLM": "🧠", "Agent": "🤖", "AI for Science": "🔬",
+    "设计仿真": "🎨", "数字孪生": "🏭"
 }
 
 trends = {k: "持续关注" for k in categories}
+
+# top events by importance (top 5), with cat attached
+_top = []
+for _k, _evts in categories.items():
+    for _e in _evts:
+        _i = dict(_e); _i["cat"] = _k; _top.append(_i)
+_top.sort(key=lambda e: (e.get("importance") or 0), reverse=True)
+top_events = _top[:5]
 domain_summaries = {}
 for k, evts in categories.items():
     if evts:
@@ -68,7 +70,7 @@ html_index = env.get_template("index.html").render(
     title="AI 前沿资讯周报",
     subtitle=f"LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 {total_events} 个事件 / {total_articles} 篇资讯",
     week=WEEK, stats=stats, categories=categories, icons=icons, colors=colors,
-    trends=trends, empty_cats=empty_cats, has_carried=False,
+    trends=trends, top_events=top_events, empty_cats=empty_cats, has_carried=False,
     domain_summaries=domain_summaries, category_slugs=category_slugs,
     generated_at=generated_at, discovered_count=2, archived_count=1,
     articles_by_event=articles_by_event,

@@ -356,15 +356,15 @@ def generate_report(
         "设计仿真": "design-simulation", "数字孪生": "digital-twin",
     }
 
-    # 本周精选：按重要性取 Top 5（附加分类名，供首页 featured 区）
-    top_events = []
+    # 本周全部事件（扁平化 + 分类名，按重要性排序）：供首页信息流；Top5 精选取前 5
+    all_events = []
     for cat_name, cat_events in categories.items():
         for evt in cat_events:
             item = dict(evt)
             item["cat"] = cat_name
-            top_events.append(item)
-    top_events.sort(key=lambda e: (e.get("importance") or 0), reverse=True)
-    top_events = top_events[:5]
+            all_events.append(item)
+    all_events.sort(key=lambda e: (e.get("importance") or 0), reverse=True)
+    top_events = all_events[:5]
 
     # ── 6. 渲染 HTML ─────────────────────────────
     env = Environment(loader=FileSystemLoader("generator/templates"))
@@ -389,6 +389,7 @@ def generate_report(
         domain_summaries=domain_summaries,
         category_slugs=category_slugs,
         top_events=top_events,
+        all_events=all_events,
         generated_at=generated_at,
         discovered_count=discovered_count,
         archived_count=archived_count,
@@ -413,6 +414,10 @@ def generate_report(
             sources=sources,
             domain_summary=domain_summaries.get(cat_name, ""),
             week=week_label,
+            categories=categories, stats=stats, this_cat=cat_name,
+            icons=icons, colors=colors, category_slugs=category_slugs,
+            trends=trends, discovered_count=discovered_count,
+            archived_count=archived_count,
             generated_at=generated_at,
             title="AI 前沿资讯周报",
         )

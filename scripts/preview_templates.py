@@ -44,12 +44,13 @@ icons = {
 
 trends = {k: "持续关注" for k in categories}
 
-# top events by importance (top 5), with cat attached
+# all events (flat + cat, sorted by importance); top5 = first 5
 _top = []
 for _k, _evts in categories.items():
     for _e in _evts:
         _i = dict(_e); _i["cat"] = _k; _top.append(_i)
 _top.sort(key=lambda e: (e.get("importance") or 0), reverse=True)
+all_events = _top
 top_events = _top[:5]
 domain_summaries = {}
 for k, evts in categories.items():
@@ -70,7 +71,7 @@ html_index = env.get_template("index.html").render(
     title="AI 前沿资讯周报",
     subtitle=f"LLM · Agent · AI for Science · 设计仿真 · 数字孪生 — 共 {total_events} 个事件 / {total_articles} 篇资讯",
     week=WEEK, stats=stats, categories=categories, icons=icons, colors=colors,
-    trends=trends, top_events=top_events, empty_cats=empty_cats, has_carried=False,
+    trends=trends, top_events=top_events, all_events=all_events, empty_cats=empty_cats, has_carried=False,
     domain_summaries=domain_summaries, category_slugs=category_slugs,
     generated_at=generated_at, discovered_count=2, archived_count=1,
     articles_by_event=articles_by_event, total_events=total_events,
@@ -86,6 +87,9 @@ for cat_name, cat_events in categories.items():
         events=cat_events, event_count=len(cat_events),
         articles_by_event=articles_by_event, sources=data["sources"],
         domain_summary=domain_summaries.get(cat_name, ""), week=WEEK,
+        categories=categories, stats=stats, this_cat=cat_name,
+        icons=icons, colors=colors, category_slugs=category_slugs,
+        trends=trends, discovered_count=2, archived_count=1,
         generated_at=generated_at, title="AI 前沿资讯周报",
     )
     open(f"{OUT}/{cat_slug}.html", "w", encoding="utf-8").write(html_cat)

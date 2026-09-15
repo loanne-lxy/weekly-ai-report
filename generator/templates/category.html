@@ -7,112 +7,136 @@
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0a0e17; --surface: #101623; --surface-2: #151d2e;
-  --line: rgba(148,163,184,0.14); --line-soft: rgba(148,163,184,0.08);
-  --text: #e6edf3; --text-2: #9aa7b8; --text-3: #6b7a8f;
-  --accent: #4f8ff7;
+  --bg: #f7f7f8; --card: #ffffff;
+  --line: #e9e9ee; --line-soft: #f0f0f3;
+  --text: #18181b; --text-2: #71717a; --text-3: #a1a1aa;
+  --brand: #7c3aed; --brand-soft: #f3e8ff; --brand-line: #e4d4fb;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
   background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5715;
 }
 a { color: inherit; text-decoration: none; }
-.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
 
 /* ── 顶栏 ── */
-.topbar { border-bottom: 1px solid var(--line); background: rgba(16,22,35,0.6); }
+.topbar { background: var(--card); border-bottom: 1px solid var(--line); }
 .topbar .container { display: flex; align-items: center; gap: 14px; height: 58px; }
 .logo {
-  width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0;
-  background: linear-gradient(135deg, #2563eb, #4f8ff7);
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
   display: flex; align-items: center; justify-content: center;
-  font-size: 17px; font-weight: 700; color: #fff;
+  font-size: 15px; font-weight: 800; color: #fff; letter-spacing: -0.5px;
 }
 .topbar .t1 { font-size: 15.5px; font-weight: 700; letter-spacing: 0.2px; }
 .topbar .t2 { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
 .topbar .spacer { flex: 1; }
 .week-chip {
-  font-size: 12px; font-weight: 600; color: var(--accent);
-  background: rgba(79,143,247,0.12); border: 1px solid rgba(79,143,247,0.35);
-  padding: 3px 11px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; color: var(--brand);
+  background: var(--brand-soft); border: 1px solid var(--brand-line);
+  padding: 3px 12px; border-radius: 20px;
 }
 
-/* ── 分类头 ── */
-.cat-head { padding: 20px 0 18px; border-bottom: 1px solid var(--line); }
-.cat-head .container { display: flex; align-items: flex-start; gap: 16px; }
-.back-nav {
-  font-size: 12.5px; color: var(--text-3);
-  margin-bottom: 14px; display: inline-flex; align-items: center; gap: 6px;
-}
-.back-nav:hover { color: var(--accent); }
-.cat-head .ic {
-  width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0; font-size: 26px;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(79,143,247,0.12); border: 1px solid var(--line);
-}
-.cat-head h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
-.cat-head .meta { margin-top: 5px; font-size: 12.5px; color: var(--text-2); display: flex; gap: 9px; align-items: center; }
-.cat-head .meta .n { color: var(--accent); font-weight: 700; font-size: 14px; }
-.cat-head .summary {
-  margin-top: 13px; font-size: 13px; color: var(--text-2); line-height: 1.7;
-  background: var(--surface); border: 1px solid var(--line); border-left: 3px solid {{ cat_color }};
-  padding: 12px 16px; border-radius: 0 8px 8px 0;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
-}
+/* ── 三栏 ── */
+.shell { display: grid; grid-template-columns: 230px minmax(0,1fr) 300px; gap: 16px; padding-top: 16px; padding-bottom: 8px; align-items: start; }
+.left-rail { position: sticky; top: 74px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
 
-main { padding: 22px 0 8px; }
-.section-head { display: flex; align-items: baseline; gap: 10px; margin: 0 2px 12px; }
-.section-head h2 { font-size: 14.5px; font-weight: 700; letter-spacing: 0.3px; display: flex; align-items: center; gap: 8px; }
-.section-head h2::before { content: ""; width: 3px; height: 14px; border-radius: 2px; background: var(--accent); }
-.section-head .meta { margin-left: auto; font-size: 12px; color: var(--text-3); }
-
-/* ── 事件卡 ── */
-.events { display: flex; flex-direction: column; gap: 12px; }
-.evt { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; transition: border-color 0.15s; }
-.evt:hover { border-color: rgba(79,143,247,0.45); }
-.evt.carried { opacity: 0.6; }
-.evt-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
-.score-badge {
-  font-size: 11.5px; color: var(--text-2);
-  background: rgba(148,163,184,0.08); border: 1px solid var(--line);
-  padding: 1.5px 9px; border-radius: 20px;
+/* 左栏 */
+.left-rail { display: flex; flex-direction: column; gap: 12px; }
+.brand-card {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  border: none; border-radius: 12px; padding: 18px 18px 16px; color: #fff;
 }
-.score-badge .v { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
-.score-badge.imp .v { color: var(--accent); }
-.carried-badge { font-size: 11.5px; color: var(--text-3); background: rgba(148,163,184,0.08); border: 1px solid var(--line); padding: 1.5px 9px; border-radius: 20px; }
-.evt-title { font-size: 16px; font-weight: 600; line-height: 1.45; margin-bottom: 7px; }
+.brand-card .bt { font-size: 15px; font-weight: 700; line-height: 1.4; }
+.brand-card .bs { font-size: 12px; opacity: 0.82; margin-top: 6px; line-height: 1.6; }
+.nav-card { padding: 8px; }
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px; border-radius: 8px; font-size: 13.5px; color: var(--text-2);
+}
+.nav-item .ic { width: 20px; text-align: center; font-size: 14px; flex-shrink: 0; }
+.nav-item .ct { margin-left: auto; font-size: 12px; color: var(--text-3); font-variant-numeric: tabular-nums; }
+.nav-item:hover { background: var(--bg); color: var(--text); }
+.nav-item.active { background: var(--brand-soft); color: var(--brand); font-weight: 600; }
+.nav-item.active .ct { color: var(--brand); opacity: 0.75; }
+.nav-sep { height: 1px; background: var(--line-soft); margin: 6px 8px; }
+.nav-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; color: var(--text-3); padding: 6px 10px 4px; text-transform: uppercase; }
+
+/* 中栏 */
+.feed-head { display: flex; align-items: center; gap: 9px; margin: 4px 2px 12px; }
+.feed-head .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--brand); }
+.feed-head h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.2px; }
+.feed-head .meta { margin-left: auto; font-size: 12px; color: var(--text-3); }
+.summary-card { padding: 14px 18px; margin-bottom: 12px; border-left: 3px solid var(--brand); }
+.summary-card .sc-label { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; color: var(--brand); margin-bottom: 6px; text-transform: uppercase; }
+.summary-card p { font-size: 12.5px; color: var(--text-2); line-height: 1.7;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* 事件卡 */
+.feed { display: flex; flex-direction: column; gap: 10px; }
+.evt { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; transition: border-color 0.15s, box-shadow 0.15s; }
+.evt:hover { border-color: var(--brand-line); box-shadow: 0 1px 6px rgba(124,58,237,0.07); }
+.evt.carried { opacity: 0.65; }
+.evt-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 9px; }
+.badge { font-size: 11.5px; color: var(--text-2); background: var(--bg); border: 1px solid var(--line); padding: 1.5px 10px; border-radius: 20px; }
+.badge .v { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.badge.imp { color: var(--brand); background: var(--brand-soft); border-color: var(--brand-line); }
+.badge.imp .v { color: var(--brand); }
+.badge.carried { color: var(--text-3); }
+.evt-title { font-size: 15.5px; font-weight: 600; line-height: 1.5; margin-bottom: 7px; }
 .evt-summary { font-size: 13px; color: var(--text-2); line-height: 1.7; margin-bottom: 11px; }
 .evt-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; font-size: 12px; color: var(--text-3); }
-.source-tag { font-size: 11.5px; color: var(--text-2); background: rgba(148,163,184,0.08); border: 1px solid var(--line); padding: 1px 9px; border-radius: 4px; }
+.src-tag { font-size: 11.5px; color: #52525b; background: var(--bg); border: 1px solid var(--line); padding: 1px 9px; border-radius: 4px; }
 .key-insights { margin: 11px 0 0; padding-left: 18px; }
 .key-insights li { font-size: 13px; color: var(--text-2); margin-bottom: 4px; line-height: 1.55; }
 .event-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 11px; }
-.tag { font-size: 11.5px; color: var(--text-2); background: rgba(79,143,247,0.08); border: 1px solid rgba(79,143,247,0.25); padding: 1px 9px; border-radius: 20px; }
+.tag { font-size: 11.5px; color: var(--brand); background: var(--brand-soft); border: 1px solid var(--brand-line); padding: 1px 10px; border-radius: 20px; }
 
-/* ── 相关文章 ── */
+/* 相关文章 */
 .articles-expand { margin-top: 12px; border-top: 1px solid var(--line-soft); padding-top: 10px; }
-.articles-expand summary { font-size: 12.5px; color: var(--accent); cursor: pointer; padding: 2px 0; user-select: none; font-weight: 500; }
+.articles-expand summary { font-size: 12.5px; color: var(--brand); cursor: pointer; padding: 2px 0; user-select: none; font-weight: 600; }
 .articles-expand summary:hover { text-decoration: underline; }
 .article-list { padding: 9px 0 2px; }
-.article-item { padding: 7px 0; font-size: 13px; color: var(--text-2); border-bottom: 1px solid var(--line-soft); }
+.article-item { padding: 7px 0; font-size: 13px; color: var(--text); border-bottom: 1px solid var(--line-soft); }
 .article-item:last-child { border-bottom: none; }
-.article-item a { color: var(--text); }
-.article-item a:hover { color: var(--accent); }
-.article-item .article-source { font-size: 11.5px; color: var(--text-3); margin-left: 8px; }
+.article-item a:hover { color: var(--brand); }
+.article-item .article-source { font-size: 11.5px; color: var(--text-3); margin-left: 8px; font-style: italic; }
 .article-item .article-summary { display: block; font-size: 12px; color: var(--text-3); margin-top: 2px; line-height: 1.5; }
 
-/* ── Empty ── */
-.empty-state { text-align: center; padding: 60px 24px; }
+/* 右栏 */
+.right-rail { display: flex; flex-direction: column; gap: 12px; }
+.r-card { padding: 16px 18px; }
+.r-card h3 { font-size: 13.5px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.r-card h3::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--brand); }
+.s-row { display: flex; align-items: center; gap: 9px; padding: 7px 0; font-size: 13px; border-bottom: 1px solid var(--line-soft); }
+.s-row:last-child { border-bottom: none; }
+.s-row .dot { width: 7px; height: 7px; border-radius: 2px; flex-shrink: 0; }
+.s-row .l { color: var(--text-2); }
+.s-row .v { margin-left: auto; font-weight: 700; font-variant-numeric: tabular-nums; }
+.s-row.total { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 11px; font-weight: 700; }
+.s-row.total .l { color: var(--text); }
+
+.empty-state { text-align: center; padding: 64px 24px; }
 .empty-state .icon { font-size: 44px; margin-bottom: 12px; }
 .empty-state h3 { font-size: 15px; color: var(--text-2); margin-bottom: 6px; }
 .empty-state p { font-size: 13px; color: var(--text-3); }
 
-.footer { text-align: center; padding: 26px 0 30px; color: var(--text-3); font-size: 12px; margin-top: 26px; }
+.footer { text-align: center; padding: 22px 0 28px; color: var(--text-3); font-size: 12px; }
 
-@media (max-width: 640px) {
-  .topbar .t2, .topbar .week-chip { display: none; }
-  .cat-head .ic { width: 42px; height: 42px; font-size: 21px; }
-  .cat-head h1 { font-size: 20px; }
+@media (max-width: 1020px) {
+  .shell { grid-template-columns: 210px minmax(0,1fr); }
+  .right-rail { grid-column: 2; }
+}
+@media (max-width: 720px) {
+  .shell { grid-template-columns: 1fr; }
+  .left-rail { position: static; flex-direction: row; overflow-x: auto; }
+  .brand-card { display: none; }
+  .nav-card { display: flex; gap: 4px; padding: 6px; }
+  .nav-item { white-space: nowrap; }
+  .nav-sep, .nav-label { display: none; }
+  .right-rail { grid-column: 1; }
+  .topbar .t2 { display: none; }
 }
 </style>
 </head>
@@ -120,126 +144,178 @@ main { padding: 22px 0 8px; }
 
 <header class="topbar">
   <div class="container">
-    <div class="logo">AI</div>
-    <div>
-      <div class="t1">AI 前沿资讯周报</div>
-      <div class="t2">Weekly AI Report · 多源聚合 + 事件聚类</div>
-    </div>
+    <a href="index.html" style="display:flex; align-items:center; gap:14px;">
+      <div class="logo">AI</div>
+      <div>
+        <div class="t1">AI 前沿资讯周报</div>
+        <div class="t2">Weekly AI Report · 多源聚合 + 事件聚类</div>
+      </div>
+    </a>
     <div class="spacer"></div>
     <a class="week-chip" href="index.html">{{ week }}</a>
   </div>
 </header>
 
-<div class="cat-head">
-  <div class="container" style="display:block;">
-    <a class="back-nav" href="index.html">← 返回首页</a>
-    <div style="display:flex; align-items:flex-start; gap:16px;">
-      <span class="ic">{{ cat_icon }}</span>
-      <div style="flex:1; min-width:0;">
-        <h1>{{ cat_name }}</h1>
-        <div class="meta"><span class="n">{{ event_count }}</span> 个事件 · 按重要性排序</div>
-        {% if domain_summary %}
-        <div class="summary">{{ domain_summary }}</div>
-        {% endif %}
-      </div>
+<div class="container shell">
+
+  <!-- 左栏 -->
+  <aside class="left-rail">
+    <div class="brand-card">
+      <div class="bt">AI 前沿资讯，聚合 · 聚类 · 摘要</div>
+      <div class="bs">多源抓取 → 事件聚类 → 重要性评分，每周自动产出。</div>
     </div>
-  </div>
-</div>
+    <nav class="card nav-card">
+      <a class="nav-item" href="index.html">
+        <span class="ic">📰</span>全部事件
+      </a>
+      <div class="nav-sep"></div>
+      <div class="nav-label">分类</div>
+      {% for cat_name in categories.keys() %}
+      <a class="nav-item{% if cat_name == this_cat %} active{% endif %}" href="{{ category_slugs.get(cat_name, cat_name) }}.html">
+        <span class="ic">{{ icons.get(cat_name, '📄') }}</span>{{ cat_name }}<span class="ct">{{ stats.get(cat_name, 0) }}</span>
+      </a>
+      {% endfor %}
+    </nav>
+  </aside>
 
-<main class="container">
-  <div class="section-head">
-    <h2>本周事件</h2>
-    <span class="meta">{{ event_count }} 条</span>
-  </div>
+  <!-- 中栏 -->
+  <main>
+    <div class="feed-head">
+      <span class="dot"></span>
+      <h1>{{ cat_icon }} {{ cat_name }}</h1>
+      <span class="meta">{{ event_count }} 个事件 · 按重要性排序</span>
+    </div>
 
-  {% if events %}
-  <div class="events">
-    {% for event in events %}
-    {% set evt_articles = articles_by_event.get(event.id, []) %}
-    <div class="evt{% if event.get('carried_over') %} carried{% endif %}">
-      <div class="evt-top">
-        {% set importance = event.get('importance', 0) %}
-        <span class="score-badge imp">重要性 <span class="v">{{ "%.0f"|format(importance * 100) }}</span></span>
-        {% set novelty = event.get('novelty', 0) %}
-        {% if novelty > 0 %}
-        <span class="score-badge">新颖性 <span class="v">{{ "%.0f"|format(novelty * 100) }}</span></span>
+    {% if domain_summary %}
+    <div class="card summary-card">
+      <div class="sc-label">本周综述</div>
+      <p>{{ domain_summary }}</p>
+    </div>
+    {% endif %}
+
+    {% if events %}
+    <div class="feed">
+      {% for event in events %}
+      {% set evt_articles = articles_by_event.get(event.id, []) %}
+      <div class="evt{% if event.get('carried_over') %} carried{% endif %}">
+        <div class="evt-top">
+          <span class="badge imp">重要性 <span class="v">{{ "%.0f"|format((event.get('importance', 0) or 0) * 100) }}</span></span>
+          {% set novelty = event.get('novelty', 0) or 0 %}
+          {% if novelty > 0 %}
+          <span class="badge">新颖性 <span class="v">{{ "%.0f"|format(novelty * 100) }}</span></span>
+          {% endif %}
+          {% set impact = event.get('impact', 0) or 0 %}
+          {% if impact > 0 %}
+          <span class="badge">影响力 <span class="v">{{ "%.0f"|format(impact * 100) }}</span></span>
+          {% endif %}
+          {% if event.get('carried_over') %}
+          <span class="badge carried">往期</span>
+          {% endif %}
+        </div>
+
+        <div class="evt-title">{{ event.get('event_title', event.get('title', '未命名事件')) }}</div>
+
+        {% set evt_summary = event.get('event_summary', event.get('summary', '')) %}
+        {% if evt_summary %}
+        <div class="evt-summary">{{ evt_summary }}</div>
         {% endif %}
-        {% set impact = event.get('impact', 0) %}
-        {% if impact > 0 %}
-        <span class="score-badge">影响力 <span class="v">{{ "%.0f"|format(impact * 100) }}</span></span>
-        {% endif %}
-        {% if event.get('carried_over') %}
-        <span class="carried-badge">往期</span>
-        {% endif %}
-      </div>
 
-      <div class="evt-title">{{ event.get('event_title', event.get('title', '未命名事件')) }}</div>
-
-      {% set evt_summary = event.get('event_summary', event.get('summary', '')) %}
-      {% if evt_summary %}
-      <div class="evt-summary">{{ evt_summary }}</div>
-      {% endif %}
-
-      {% if evt_articles %}
-      <div class="evt-meta">
-        <span>📰 {{ evt_articles|length }} 篇来源</span>
-        {% set source_names = [] %}
-        {% for art in evt_articles %}
-        {% set _ = source_names.append(art.get('source_name', art.get('source_id', ''))) %}
-        {% endfor %}
-        {% set unique_sources = source_names|unique|list %}
-        {% for i in range(4) %}
-        {% if i < unique_sources|length %}
-        <span class="source-tag">{{ unique_sources[i] }}</span>
-        {% endif %}
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      {% if event.get('key_insights') %}
-      <ul class="key-insights">
-        {% for insight in event.key_insights[:3] %}
-        <li>{{ insight }}</li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-
-      {% if event.get('tags') %}
-      <div class="event-tags">
-        {% for tag in event.tags %}
-        <span class="tag">{{ tag }}</span>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      {% if evt_articles %}
-      <details class="articles-expand">
-        <summary>展开 {{ evt_articles|length }} 篇相关文章</summary>
-        <div class="article-list">
-          {% for art in evt_articles[:10] %}
-          <div class="article-item">
-            <a href="{{ art.get('url', '#') }}" target="_blank" rel="noopener">{{ art.get('title', '未命名') }}</a>
-            <span class="article-source">{{ art.get('source_name', '') }}</span>
-            {% set art_summary = (art.get('summary') or '') | clean_summary %}
-            {% if art_summary %}
-            <span class="article-summary">{{ art_summary[:120] }}{% if art_summary|length > 120 %}…{% endif %}</span>
-            {% endif %}
-          </div>
+        {% if evt_articles %}
+        <div class="evt-meta">
+          <span>📰 {{ evt_articles|length }} 篇来源</span>
+          {% set source_names = [] %}
+          {% for art in evt_articles %}
+          {% set _ = source_names.append(art.get('source_name', art.get('source_id', ''))) %}
+          {% endfor %}
+          {% set unique_sources = source_names|unique|list %}
+          {% for s in unique_sources[:4] %}
+          <span class="src-tag">{{ s }}</span>
           {% endfor %}
         </div>
-      </details>
+        {% endif %}
+
+        {% if event.get('key_insights') %}
+        <ul class="key-insights">
+          {% for insight in event.key_insights[:3] %}
+          <li>{{ insight }}</li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if event.get('tags') %}
+        <div class="event-tags">
+          {% for tag in event.tags %}
+          <span class="tag">{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if evt_articles %}
+        <details class="articles-expand">
+          <summary>展开 {{ evt_articles|length }} 篇相关文章</summary>
+          <div class="article-list">
+            {% for art in evt_articles[:10] %}
+            <div class="article-item">
+              <a href="{{ art.get('url', '#') }}" target="_blank" rel="noopener">{{ art.get('title', '未命名') }}</a>
+              <span class="article-source">{{ art.get('source_name', '') }}</span>
+              {% set art_summary = (art.get('summary') or '') | clean_summary %}
+              {% if art_summary %}
+              <span class="article-summary">{{ art_summary[:120] }}{% if art_summary|length > 120 %}…{% endif %}</span>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </div>
+        </details>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="card empty-state">
+      <div class="icon">📭</div>
+      <h3>暂无本周新内容</h3>
+      <p>本周 {{ cat_name }} 领域暂无新事件，将回填往期精选。</p>
+    </div>
+    {% endif %}
+  </main>
+
+  <!-- 右栏 -->
+  <aside class="right-rail">
+    <div class="card r-card">
+      <h3>本周数据</h3>
+      {% for name in categories.keys() %}
+      <div class="s-row">
+        <span class="dot" style="background:{{ colors.get(name, '#94a3b8') }};"></span>
+        <span class="l">{{ name }}</span>
+        <span class="v">{{ stats.get(name, 0) }}</span>
+      </div>
+      {% endfor %}
+      <div class="s-row total">
+        <span class="dot" style="background:var(--brand);"></span>
+        <span class="l">收录事件</span>
+        <span class="v">{{ stats.values() | sum }}</span>
+      </div>
+      {% if discovered_count > 0 %}
+      <div class="s-row"><span class="l" style="color:var(--text-3); font-size:12px;">新发现源</span><span class="v" style="color:#16a34a; font-size:12.5px;">+{{ discovered_count }}</span></div>
+      {% endif %}
+      {% if archived_count > 0 %}
+      <div class="s-row"><span class="l" style="color:var(--text-3); font-size:12px;">废弃源</span><span class="v" style="color:#dc2626; font-size:12.5px;">−{{ archived_count }}</span></div>
       {% endif %}
     </div>
-    {% endfor %}
-  </div>
-  {% else %}
-  <div class="empty-state">
-    <div class="icon">📭</div>
-    <h3>暂无本周新内容</h3>
-    <p>本周 {{ cat_name }} 领域暂无新事件，将回填往期精选。</p>
-  </div>
-  {% endif %}
-</main>
+
+    <div class="card r-card">
+      <h3>本周趋势</h3>
+      {% for name, trend in trends.items() %}
+      <div class="s-row">
+        <span class="dot" style="background:{{ colors.get(name, '#94a3b8') }};"></span>
+        <span class="l">{{ name }}</span>
+        <span class="v" style="font-weight:500; font-size:12.5px; color:var(--text-2);">{{ trend }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </aside>
+
+</div>
 
 <div class="footer">生成于 {{ generated_at }} · Weekly AI Report Agent</div>
 </body>

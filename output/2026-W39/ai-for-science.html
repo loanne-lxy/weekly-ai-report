@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Science — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
+
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
+
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+<style>:root { --cat-color: #10b981; }</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="index.html"><b>2026-W39</b> · 2026-09-21</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · AI for Science</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #10b981; width: 12px; height: 12px;"></span>🔬 AI for Science</h1>
+    <span class="count"><b>19</b> 个事件 · 按重要性排序</span>
+    <p class="cat-sum">本周关键进展包括 TorchCraft 提出利用冻结全原子预测器优化序列的结合剂设计框架、PocketVE 等推进蛋白质口袋条件生成与物理基础分析，以及 SaltyMeta 建立咸味肽预测基准和蛋白语言模型工具。</p>
+  </div>
+
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">59</span></a>
+    
+    <a href="llm.html" class="">LLM<span class="mono">10</span></a>
+    
+    <a href="agent.html" class="">Agent<span class="mono">16</span></a>
+    
+    <a href="ai-for-science.html" class="on">AI for Science<span class="mono">19</span></a>
+    
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">13</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
+
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-A9C9AD</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-40a9c9ad-torchcraft.html">TorchCraft反演全原子预测器设计结合剂</a></h2>
+        <p class="sum">TorchCraft提出一种统一的结合剂设计框架，用于解决全原子结构预测器学到的结构先验难以直接用于结合剂设计的问题。该方法通过冻结的全原子预测器优化序列logits，并在TorchFold中实现。框架将置信度、接触、几何和序列先验目标组合起来，以指导序列设计。它不重新训练预测器，而是直接利用冻结预测器优化序列。其意义在于将全原子结构预测能力转化为可优化的结合剂设计信号，为分子结合剂设计提供统一方法。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-40a9c9ad-torchcraft.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-9AC8D9</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-2e9ac8d9-event.html">蛋白质方向柔性预测与扩散生成建模</a></h2>
+        <p class="sum">该簇聚焦蛋白质计算建模中的动态与生成问题。一篇工作讨论方向柔性与相关结构运动预测，强调局部定向运动对功能的重要性，并提及分子动力学模拟。PocketVE提出蛋白质口袋条件方差爆炸扩散框架，将稳定坐标去噪与推理时性质引导结合，用于结构导向药物设计中的三维分子生成。另一篇文章分析蛋白质生成建模的物理基础，指出基于结构数据训练的生成模型可高效采样新结构，但可能学到非物理特征并在分布外设置中失效。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-2e9ac8d9-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 62%; background: var(--accent);"></i></span><span class="mono"><b>62</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 52%; background: #8b5cf6;"></i></span><span class="mono"><b>52</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-4BBB43</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-384bbb43-event.html">咸味肽预测基准与蛋白语言模型工具</a></h2>
+        <p class="sum">该工作提出SaltyMeta，一个用于咸味肽预测的整理基准和蛋白语言模型辅助网页工具。研究背景是过量钠摄入仍是公共健康问题，咸味及增咸肽可为低钠食品保留感官咸味。现有机器学习研究受小数据集、证据标准不一致、负标签不确定和序列相似性泄漏限制。SaltyMeta通过整理基准与工具，为咸味肽预测提供统一数据与评估基础。该工具将蛋白语言模型信息用于咸味肽识别，服务于低钠食品中的咸味保持策略。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-384bbb43-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-66229A</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-9866229a-pde.html">神经PDE代理预训练收益受分布偏移影响</a></h2>
+        <p class="sum">该研究关注神经PDE代理在几何或建模物理变化时的预训练收益。作者指出，预训练可减少新CFD数据需求，但不同分布偏移成分如何影响收益仍不清楚。实验在一个翼型族上预训练代理，使用254,909个RANS解，并在匹配来流范围下对新翼型族进行微调，比较两种目标设置。该工作有助于理解分布偏移对神经PDE代理迁移与数据效率的作用，为CFD代理模型迁移与数据效率研究提供依据。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-9866229a-pde.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-7AB84E</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-9b7ab84e-event.html">无机计算材料数据库能力与覆盖路线图</a></h2>
+        <p class="sum">该视角文章系统梳理主流密度泛函理论（DFT）软件，评估十九类材料属性的计算成本与可信度，并分析现有无机计算材料数据库的覆盖情况。文章指出，计算材料数据库已成为数据驱动无机材料发现的核心基础设施，但不同属性族之间的增长明显不均衡。文章围绕能力、可信度、覆盖和开放前沿展开，形成无机计算材料数据库的发展路线图。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-9b7ab84e-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 25%; background: #8b5cf6;"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C7495E</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-fdc7495e-pod.html">参数化POD的平滑锐化分解正则化</a></h2>
+        <p class="sum">该论文提出平滑锐化分解，作为参数化POD中移动激波的随机正则化方法。它将每个检测到的激波位置视为具有指定概率密度的随机变量，并对该人工分布求平均。平均过程把局部压力变化替换为平滑过渡，其空间范围由密度宽度决定。通过控制密度宽度，可调节平滑过渡的空间尺度，从而在降阶模型中以平滑方式表示移动激波。该方法将激波位置的不确定性纳入概率框架，为含激波流动的参数化POD提供正则化手段。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-fdc7495e-pod.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-0BBFEB</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-c20bbfeb-event.html">结直肠息肉内镜影像与基因组数据集</a></h2>
+        <p class="sum">该工作介绍ERCPMP-Gx内镜图像与视频数据集，用于结直肠息肉的形态学、组织病理学和基因组特征表征。遗传性息肉综合征是结直肠癌的前病变，并与多种结外肿瘤相关，因此早期识别和准确分类对及时诊断很重要。该数据集面向受影响家庭的个体化管理和靶向监测策略，为相关研究提供影像与特征数据基础。该数据集将内镜影像与形态学、组织病理学和基因组信息结合，服务于综合征的识别、分类与监测。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-c20bbfeb-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-647168</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-29647168-in718-lpbf.html">IN718 LPBF织构两阶段物理预测</a></h2>
+        <p class="sum">该研究关注激光粉末床熔融中Inconel 718晶体织构的可靠预测，因为织构强度直接影响各向异性响应与工艺鉴定。针对黑箱模型在工况偏移时可能失效、且难以区分数据支持不足与物理有效性丧失的问题，作者提出面向平行于构建方向织构的两阶段物理模型。该模型覆盖不同离焦状态下的织构强度预测，并结合不确定性量化与决策支持，为LPBF工艺条件选择提供更可靠的物理依据。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-29647168-in718-lpbf.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-D32FE6</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-06d32fe6-event.html">信息阶梯刻画降阶模型预测限制</a></h2>
+        <p class="sum">该论文研究在信息有限时，模型能够预测什么以及不能预测什么。它构造了一个信息阶梯，按照信息需求组织预测任务。任务范围从无记忆轨迹预测、记忆增强轨迹预测，到事件预测、平稳统计量和生成规律。该框架用于刻画降阶模型在有限信息下的预测能力边界。它把不同预测任务按所需信息量分层，为评估模型可预测性提供分层框架。该阶梯有助于区分不同预测目标的信息需求。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-06d32fe6-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-62C91A</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-c262c91a-soupfold.html">SoupFold改进共折叠预测</a></h2>
+        <p class="sum">该研究针对现有共折叠模型难以在所有生物分子复合物上持续最优的问题，探索模型间信息整合。作者提出SoupFold，通过在不同独立训练的共折叠模型之间学习简单映射，整合互补信息以改进预测。方法旨在利用模型间可迁移的表示信息，提升对多种生物分子复合物的结构预测能力。该工作为共折叠模型融合提供新路径，有助于提高结构预测能力。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-c262c91a-soupfold.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BE69C3</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-abbe69c3-grace.html">GRACE早期融合预测碰撞截面</a></h2>
+        <p class="sum">论文提出GRACE，用于预测离子迁移质谱中的碰撞截面（CCS）。CCS反映气相分子离子的大小、形状和电离状态，是分子注释的常用描述符，但机器学习预测具有挑战性。现有预测器常忽略显式3D结构，或将加合物身份作为晚期类别特征，限制了预测能力。GRACE采用几何残基加合物条件化与早期融合，用于CCS预测和分子注释。该工作面向分子注释中的CCS预测任务。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-abbe69c3-grace.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-971D95</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-d1971d95-na-mmt-lbm.html">高斯过程粗粒化Na-MMT势与压缩流LBM</a></h2>
+        <p class="sum">文章[0]提出一种结合Morse势的高斯过程粗粒化势，用于Na-MMT，以描述水合与微结构对孔结构、传输和刚性的影响，并应对现有模型平滑水合振荡或依赖人工修正的问题。文章[1]提出梯度重构格玻尔兹曼方法，求解可压缩Navier-Stokes-Fourier方程，仅输运守恒质量、动量和能量，同时保持紧凑模板与严格局部性。两者分别推进计算材料学与计算流体力学中的数值建模。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-d1971d95-na-mmt-lbm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-66F502</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-6766f502-rf.html">干扰下异构协议RF指纹校准</a></h2>
+        <p class="sum">该研究面向频谱监测中的RF指纹识别问题，RF指纹利用发射信号中由硬件缺陷留下的特征来识别特定发射机。已有研究大多只考虑单一发射机场景，限制了实际适用性，而真实频谱环境常存在多发射机与协议差异。本文进一步研究干扰及异构传输协议条件下的RF指纹校准问题，以增强实际场景适用性。该方向有助于提升复杂无线环境下的发射机识别适用性。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-6766f502-rf.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-956AF2</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-d7956af2-committor.html">Committor学习引导无相关过渡路径采样</a></h2>
+        <p class="sum">该工作研究系统如何在长寿命状态之间发生稀有转变，这类动力学行为通常难以直接观测。由于转变事件稀有，研究往往需要专门的增强采样技术。过渡路径采样（TPS）是生成反应轨迹的成熟方法，实现简单。文章提出无相关TPS方法，通过Committor学习引导射击点生成，以改进反应轨迹采样并降低采样相关性。该方法用于刻画长寿命状态间难以直接观测的反应动力学过程。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d7956af2-committor.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 14">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-6954E8</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-626954e8-ruo2.html">相对论嵌入簇分析RuO2局部电子结构</a></h2>
+        <p class="sum">该研究对候选反铁磁材料二氧化钌RuO2的局部电子结构进行多组态、相对论嵌入簇分析。作者从自由Ru离子出发，逐步构建局部环境，包括Ru+Q6静电模型和裸[RuO6]8-配体模型，并进一步采用高精度嵌入簇描述。该分析关注RuO2中Ru局部配位环境的电子结构。工作为候选反铁磁材料RuO2的电子结构研究提供计算参考，属于材料电子结构的计算研究。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-626954e8-ruo2.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 15">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-573986</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-f7573986-labagent-ai.html">LabAgent用AI代理定制科研枢纽</a></h2>
+        <p class="sum">论文提出LabAgent，针对科学研究中方法继承不足的问题。科研是持续过程，前人方法常被后续研究者扩展以探索更新、更深入的科学问题，但学生毕业等人员流动会使实验室缺少能复现既有方法的人员。LabAgent利用AI代理定制任意科研枢纽，使实验室能够延续投入大量努力与资源建立的方法，从而支持后续科学发现。该工作将AI代理引入科研枢纽的定制，强调对既有方法的可复用性。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-f7573986-labagent-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 16">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E86F75</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-bbe86f75-qmd-thomson.html">QMD改进盘内Thomson问题全局最小构型</a></h2>
+        <p class="sum">该研究针对盘内经典Thomson问题，给出N=60、61、92和99个排斥库仑电荷的全局最小构型改进结果。方法上结合淬火分子动力学QMD与Amore和Zarate提出的固定边界启发式，系统搜索低能构型。文中报告E_QMD(60)=2159.3584240930，并给出N=61的能量数值。该工作为受限二维电荷体系的基态构型提供了更可靠的计算参考，对理解二维库仑系统基态结构具有意义。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-bbe86f75-qmd-thomson.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 25%; background: #10b981;"></i></span><span class="mono"><b>25</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 17">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-512768</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-72512768-bcl-2-wwp1.html">木瓜叶成分多配体对接抑制BCL-2与WWP1</a></h2>
+        <p class="sum">该研究面向化疗耐药与高剂量治疗毒性问题，评估木瓜叶中Carpaine和Rutin两种植物化学物在癌症治疗中的潜力。研究采用多配体同步对接方法，分析二者与BCL-2和WWP1两种癌症蛋白的结合关系。结果显示，两种成分可通过多机制抑制BCL-2和WWP1，提示其可能增强癌症治疗。该工作为植物源候选分子与关键蛋白靶点的组合筛选提供了计算生物学证据。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-72512768-bcl-2-wwp1.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 25%; background: #8b5cf6;"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 18">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-89223F</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-4a89223f-event.html">配体虚拟筛选参数影响排名结果</a></h2>
+        <p class="sum">该研究关注基于配体的虚拟筛选中常被当作实现细节的参数选择，包括相似度阈值、指纹设置和原子不变方案。作者以Enamine库为对象，针对atomoxetine、bupropion、mirtazapine和venlafaxine四个胺能参考配体，考察这些参数如何改变排序搜索的候选集组成。研究通过比较不同参数设置下的筛选结果，评估其对早期药物发现中候选分子集合的影响。该工作有助于理解参数选择对候选集组成的影响。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-4a89223f-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 20%; background: var(--accent);"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-21 08:16 · 2026-W39</span>
+</div></footer>
+</body>
+</html>

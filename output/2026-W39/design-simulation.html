@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设计仿真 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
+
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
+
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+<style>:root { --cat-color: #f59e0b; }</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="index.html"><b>2026-W39</b> · 2026-09-21</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · 设计仿真</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #f59e0b; width: 12px; height: 12px;"></span>🎨 设计仿真</h1>
+    <span class="count"><b>13</b> 个事件 · 按重要性排序</span>
+    <p class="cat-sum">本周设计仿真进展集中在提升复杂计算与资产管线效率，包括基于流匹配的逆成像后验采样、混合精度GPU不可压缩湍流仿真、面向PBR的3D高斯泼溅生成与QUIC传输优化，以及Flash-Radiomics和GPU-CFR等大规模数值计算加速方案。</p>
+  </div>
+
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">59</span></a>
+    
+    <a href="llm.html" class="">LLM<span class="mono">10</span></a>
+    
+    <a href="agent.html" class="">Agent<span class="mono">16</span></a>
+    
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">19</span></a>
+    
+    <a href="design-simulation.html" class="on">设计仿真<span class="mono">13</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
+
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-3D3E3F</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-8d3d3e3f-flowsgs-gpu.html">FlowSGS逆成像后验采样与GPU湍流仿真</a></h2>
+        <p class="sum">该事件包含两项计算仿真/成像工作。FlowSGS提出基于流匹配与随机插值的后验采样方法，用于逆成像，避免现有流式逆求解器对线性前向模型或后验采样的简化假设。另一项工作提出混合精度GPU算法，用Raviart-Thomas有限元速度、间断Galerkin压力和BDF时间分裂，高效模拟不可压缩湍流。二者分别提升逆成像求解与湍流仿真的计算能力。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-8d3d3e3f-flowsgs-gpu.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-382B9F</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-64382b9f-pbr-3dgs.html">PBR高斯资产生成与3DGS流式传输</a></h2>
+        <p class="sum">该事件聚焦3D高斯泼溅的资产生成与传输。GS-PI提出优化解耦的外观分解方法，用于生成PBR高斯资产；现有逆渲染方法通过联合优化分离材料，但存在竞争目标导致歧义和残余光照，而高斯泼溅将光照与几何耦合，难以接入物理渲染管线。MoQSplat指出吉字节级3DGS场景数据传输对沉浸式应用具有挑战，传统HTTP自适应流式传输存在头部阻塞和粗粒度分段问题。该方法将3DGS内容映射到Media over QUIC传输框架，实现自适应渐进流式传输，以适配细粒度3DGS交付。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-64382b9f-pbr-3dgs.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E72E77</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-d3e72e77-flash-radiomics-gpu-cfr.html">Flash-Radiomics与GPU-CFR加速引擎</a></h2>
+        <p class="sum">文章[0]针对空间映射的计算成本与软件碎片化限制，提出Flash-Radiomics，提供标量提取与空间映射，采用CPU后端和混合CUDA后端，并统一特征名与HDF5格式，以提升可扩展性。文章[1]针对CFR作为少数在CPU上快于GPU的大规模数值负载，提出GPU-CFR，将博弈编译为静态数据流并用CUDA Graph重放，实现80倍加速。两者均面向大规模数值计算的性能优化。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-d3e72e77-flash-radiomics-gpu-cfr.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-A368CD</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-e7a368cd-event.html">液体飞溅重建与实时粒子流式传输</a></h2>
+        <p class="sum">该事件包含两项图形仿真与重建工作。SplashSplat针对真实世界多视角视频中的液体飞溅重建，指出飞溅持续时间短、外观视角依赖且几乎无纹理，现有研究多集中于烟雾、合成液体或缓慢形变表面，并因缺乏同步多视角数据集而提出基准。DELUGE面向沉浸式VR/AR与数字孪生中的共享粒子仿真，指出粒子仿真对视觉真实感具有基础作用，提出分解熵编码实时非结构化几何交换，以支持大规模粒子数据的低延迟流式传输。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-e7a368cd-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-54C69B</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-b354c69b-transformer-3d.html">Transformer 3D零件装配与绘画多解物化</a></h2>
+        <p class="sum">该事件包含两项3D重建/物化工作。PART提出统一Transformer框架，在给定目标形状与零件库时自动选择零件并预测6自由度位姿，以重建目标，面向制造与数字内容创作。另一项工作强调人物绘画中3D配置的非唯一性，提出保持多解可见且可物化的工作流，而非收敛到单一稳定3D模型。二者均关注从目标或图像生成/重建3D结构，但分别面向零件装配与绘画多解表达。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-b354c69b-transformer-3d.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-7809E4</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-d57809e4-event.html">任意颜色控制的图像生成与编辑</a></h2>
+        <p class="sum">该工作面向专业设计中的任意颜色控制需求，支持用任意24位十六进制值指定目标颜色，用于图像生成与编辑。已有颜色生成、编辑和着色方法常依赖专门颜色表示或特殊推理流程。借助大语言模型进展，该方向可采用更简单的起点，甚至紧凑模型也可参与颜色控制。该问题关注颜色生成、编辑与着色中的精确颜色指定能力。该工作将任意颜色控制统一到图像生成与编辑任务中。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d57809e4-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-B4C14B</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-71b4c14b-event.html">屈曲约束拓扑优化的自适应特征值聚合</a></h2>
+        <p class="sum">论文针对带屈曲约束的拓扑优化提出新方法，重点解决两个关键问题：确定应聚合多少个特征值，以及识别最优设计处的特征值模态。文章指出，若任意固定特征值数量进行聚合，会产生数学不一致，并进一步从特征值重数角度说明该问题。该工作进一步将特征值聚合与模态识别作为屈曲约束拓扑优化的核心环节，旨在解决上述数学不一致问题。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-71b4c14b-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-914111</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-03914111-s4r.html">S4R刚体互穿尺度连续修复</a></h2>
+        <p class="sum">针对程序化组装与生成场景中频繁出现的刚体互穿问题，本文提出S4R，即用于静态互穿修复的尺度连续方法。刚体互穿必须在物理仿真等下游应用前移除。S4R首先将每个刚体围绕固定参考中心均匀缩小到较小的初始尺度，从而开始尺度连续修复过程。该方法将互穿修复限定在静态场景处理阶段，为后续物理仿真提供无互穿输入。该方法面向场景互穿清理，服务于物理仿真等下游应用前的互穿移除需求。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-03914111-s4r.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-927586</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-df927586-event.html">涡轮机械性能特征的㶲-㷲表示</a></h2>
+        <p class="sum">文章针对航空发动机性能综合计算中复杂涡轮机械部件的仿真需求，提出用㶲-㷲表示涡轮机械性能特征。传统性能图通常以总压比和等熵效率描述流体经过部件时的能量状态变化，但原文对两者定义提出进一步讨论。该表示面向可在可接受运行时间内完成仿真的涡轮机械部件，为性能图提供新的描述方式。该表示用于描述流体经过部件时的能量状态变化，并服务于航空发动机性能综合计算。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-df927586-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-D32588</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-51d32588-triphase.html">TriPhase三阶段风电场道路成本优化</a></h2>
+        <p class="sum">该研究面向复杂地形风电场道路网络设计，针对人工方法耗时且易产生次优结果的问题，提出名为TriPhase的三阶段优化框架。框架从廊道选择到土方工程进行自动化设计，并以最小化道路建设成本为目标。第一阶段将廊道选择形式化为优化问题，整体流程覆盖从选线到土方工程的道路设计。该工作为风电场道路规划提供了结构化优化方法，有助于降低建设成本并提升设计效率。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-51d32588-triphase.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-072051</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-eb072051-cvxpy-rust.html">CVXPY凸优化Rust求解器生成</a></h2>
+        <p class="sum">cvxgenrust是一个开源工具，用于为在CVXPY中建模的参数化凸优化问题族生成自定义Rust代码。它首先对问题族进行规范化，并提取到Clarabel锥规划数据的仿射映射。随后生成专门的Rust crate，使运行时能够更新参数并原生调用Clarabel求解。该工作提供了从CVXPY问题描述到Rust crate求解器的代码生成路径。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-eb072051-cvxpy-rust.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-7BABE6</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-147babe6-lp-newton.html">行极坐标LP-Newton求解线性规划</a></h2>
+        <p class="sum">Row-Polar LP-Newton with Corral Repair面向不等式形式线性规划，将LP求解转化为一组最近点问题。给定内点可行解，方法构造由原点与归一化约束行形成的紧凸包。P-LPN沿目标射线到达行极坐标凸包边界，从而恢复原始-对偶最优解，或得到证明无界性的退行方向。该工作提出一种基于行极坐标凸包的LP-Newton变体。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-147babe6-lp-newton.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-8A8CE7</span>
+          <span class="mono">2026-W39</span>
+        </div>
+        <h2><a href="events/evt-cd8a8ce7-amd.html">AMD矩阵核心精确数值模型</a></h2>
+        <p class="sum">该文章研究近期GPU矩阵乘法器不符合IEEE 754浮点标准的问题。不同厂商及同厂商不同架构在累加器宽度、舍入行为、归一化点、中间下溢与上溢逻辑、次正规数处理和特殊输入处理等方面存在差异。这些硬件差异会影响数值计算的可复现性。文章围绕AMD矩阵核心构建精确模型，以刻画其实际运算行为。该模型关注AMD矩阵核心。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-cd8a8ce7-amd.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 25%; background: #10b981;"></i></span><span class="mono"><b>25</b></span></div>
+      </div>
+    </article>
+    
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-09-21 08:16 · 2026-W39</span>
+</div></footer>
+</body>
+</html>

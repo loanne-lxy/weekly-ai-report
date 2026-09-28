@@ -320,6 +320,9 @@ def generate_report(
     llm: LLMClient | None = None,
     discovered_count: int = 0,
     archived_count: int = 0,
+    trends: dict[str, str] | None = None,
+    domain_summaries: dict[str, str] | None = None,
+    generated_at: str | None = None,
 ) -> str:
     """
     从 knowledge.db 读取 Events 并生成 HTML 周报。
@@ -331,6 +334,9 @@ def generate_report(
         llm: LLM 客户端（可选，用于趋势分析）
         discovered_count: 新发现源数
         archived_count: 废弃源数
+        trends: 现成趋势文案（跳过 LLM，用于重渲旧周保留原文案）
+        domain_summaries: 现成领域摘要（同上）
+        generated_at: 现成时间戳（重渲时保留原日期）
     """
     # ── 1. 从 knowledge.db 读取数据 ──────────────────────
     data = _query_knowledge_db(week_label)
@@ -373,24 +379,26 @@ def generate_report(
     }
 
     # ── 5. LLM 趋势 & 摘要 ───────────────────────────────
-    trends = _get_trends(llm, events, categories_cfg) if llm else {k: "持续关注" for k in categories}
+    # 优先级：显式注入（重渲保留原文案）> LLM 现算 > 静态兜底
+    if trends is None:
+        trends = _get_trends(llm, events, categories_cfg) if llm else {k: "持续关注" for k in categories}
+    if domain_summaries is None:
+        if llm:
+            domain_summaries = {}
+            for cat_name, cat_events in categories.items():
+                if cat_events:
+                    summaries = [
+                        evt.get("event_summary", evt.get("summary", ""))[:200]
+                        for evt in cat_events[:5]
+                    ]
+                    domain_summaries[cat_name] = _domain_summary(llm, cat_name, summaries)
+                else:
+                    domain_summaries[cat_name] = ""
+        else:
+            domain_summaries = {k: "" for k in categories}
     prev_weeks = _prev_weeks(week_label)
 
-    domain_summaries = {}
-    if llm:
-        for cat_name, cat_events in categories.items():
-            if cat_events:
-                summaries = [
-                    evt.get("event_summary", evt.get("summary", ""))[:200]
-                    for evt in cat_events[:5]
-                ]
-                domain_summaries[cat_name] = _domain_summary(llm, cat_name, summaries)
-            else:
-                domain_summaries[cat_name] = ""
-    else:
-        domain_summaries = {k: "" for k in categories}
-
-    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
+    generated_at = generated_at or datetime.now().strftime("%Y-%m-%d %H:%M")
     category_slugs = {
         "LLM": "llm", "Agent": "agent", "AI for Science": "ai-for-science",
         "设计仿真": "design-simulation", "数字孪生": "digital-twin",

@@ -54,6 +54,10 @@ footer { position: relative; z-index: 1; }
 .brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
 .topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
 .topbar .issue b { color: var(--accent); font-weight: 700; }
+.topbar .hist { display: inline-flex; align-items: center; gap: 7px; margin-left: 14px; padding-left: 14px; border-left: 1px solid var(--line-2); color: var(--text-3); font-size: 12px; }
+.topbar .hist .sep { color: var(--line-2); }
+.topbar .hist-link { color: var(--accent); font-weight: 600; padding: 2px 7px; border-radius: 7px; transition: background .18s; }
+.topbar .hist-link:hover { background: var(--accent-soft); }
 
 /* ── Masthead (hero) ── */
 .masthead { padding: 60px 0 12px; }
@@ -129,6 +133,13 @@ a.ov-row { text-decoration: none; color: inherit; }
 .ex-foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
 .ex-foot .go:hover { text-decoration: underline; }
 .ex-empty { display: none; padding: 48px 0; text-align: center; color: var(--text-3); font-size: 14px; }
+.ex-pager { display: none; justify-content: center; align-items: center; gap: 8px; margin-top: 26px; }
+.ex-pager.show { display: flex; }
+.ex-pg { min-width: 34px; height: 34px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface); color: var(--text-2); font-family: var(--mono); font-size: 13px; cursor: pointer; transition: all .18s; box-shadow: var(--shadow); display: inline-flex; align-items: center; justify-content: center; }
+.ex-pg:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.ex-pg.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; box-shadow: var(--shadow-2); }
+.ex-pg:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+.ex-pg.nav { font-size: 15px; }
 
 /* ── Footer ── */
 footer { margin-top: 56px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
@@ -142,6 +153,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 }
 @media (max-width: 600px) {
   .ex-grid { grid-template-columns: 1fr; }
+  .topbar .hist { display: none; }
   .top-item { grid-template-columns: 1fr; gap: 8px; padding: 20px 20px; }
   .top-num { font-size: 28px; }
   .ov-row { grid-template-columns: 1fr; gap: 5px; }
@@ -161,7 +173,8 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </div>
-  <div class="issue"><b>{{ week }}</b> · {{ generated_at[:10] }}</div>
+  <div class="issue"><b>{{ week }}</b> · {{ generated_at[:10] }}
+  {% if prev_weeks %}<span class="hist">过往周报<span class="sep">·</span>{% for w in prev_weeks %}<a class="hist-link mono" href="{{ w.href }}">{{ w.label }}</a>{% if not loop.last %}<span class="sep">·</span>{% endif %}{% endfor %}</span>{% endif %}</div>
 </div></div>
 
 <div class="wrap">
@@ -256,6 +269,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       {% endfor %}
     </div>
     <div class="ex-empty" id="exempty">没有匹配的事件，换个关键词试试。</div>
+    <div class="ex-pager" id="expager"></div>
   </section>
 </div>
 
@@ -266,32 +280,67 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <script>
 (function(){
-  // 搜索 + 分类过滤
   var q = document.getElementById('exq');
   var cards = Array.prototype.slice.call(document.querySelectorAll('.ex-card'));
   var empty = document.getElementById('exempty');
+  var pager = document.getElementById('expager');
+  var PER = 6;            // 3 列 × 2 行
   var active = 'all';
-  function apply(){
-    var t = (q.value || '').trim().toLowerCase();
-    var n = 0;
-    cards.forEach(function(c){
-      var ok = (active === 'all' || c.dataset.cat === active) && (!t || c.dataset.text.indexOf(t) > -1);
-      c.style.display = ok ? '' : 'none';
-      if (ok) n++;
-    });
-    empty.style.display = n ? 'none' : 'block';
-    document.getElementById('excount').textContent = n + ' 个事件';
+  var page = 0;
+  var matched = cards.slice();
+
+  function renderPager(){
+    var pages = Math.ceil(matched.length / PER);
+    if (pages <= 1) { pager.className = 'ex-pager'; pager.innerHTML = ''; return; }
+    pager.className = 'ex-pager show';
+    var html = '<button class="ex-pg nav" data-p="prev" ' + (page === 0 ? 'disabled' : '') + '>&lsaquo;</button>';
+    for (var i = 0; i < pages; i++) {
+      html += '<button class="ex-pg' + (i === page ? ' on' : '') + '" data-p="' + i + '">' + (i + 1) + '</button>';
+    }
+    html += '<button class="ex-pg nav" data-p="next" ' + (page === pages - 1 ? 'disabled' : '') + '>&rsaquo;</button>';
+    pager.innerHTML = html;
   }
-  q.addEventListener('input', apply);
+  function apply(reset){
+    var t = (q.value || '').trim().toLowerCase();
+    matched = cards.filter(function(c){
+      return (active === 'all' || c.dataset.cat === active) && (!t || c.dataset.text.indexOf(t) > -1);
+    });
+    if (reset) page = 0;
+    var pages = Math.ceil(matched.length / PER);
+    if (page > pages - 1) page = Math.max(0, pages - 1);
+    cards.forEach(function(c){ c.style.display = 'none'; c.style.animation = 'none'; });
+    void document.getElementById('explorer').offsetWidth;  // 强制 reflow，让换页重放入场动画
+    var start = page * PER, end = start + PER;
+    matched.slice(start, end).forEach(function(c, i){
+      c.style.display = '';
+      c.style.setProperty('--i', i);   // 换页重放入场动画
+      c.style.animation = '';
+    });
+    empty.style.display = matched.length ? 'none' : 'block';
+    pager.style.display = (matched.length && pages > 1) ? 'flex' : 'none';
+    document.getElementById('excount').textContent = matched.length + ' 个事件';
+    renderPager();
+  }
+  q.addEventListener('input', function(){ apply(true); });
   document.querySelectorAll('.ex-f').forEach(function(b){
     b.addEventListener('click', function(){
       document.querySelectorAll('.ex-f').forEach(function(x){ x.classList.remove('on'); });
       b.classList.add('on');
       active = b.dataset.f;
-      apply();
+      apply(true);
     });
   });
-  apply();
+  pager.addEventListener('click', function(e){
+    var btn = e.target.closest('.ex-pg');
+    if (!btn || btn.disabled) return;
+    var p = btn.dataset.p;
+    if (p === 'prev') page = Math.max(0, page - 1);
+    else if (p === 'next') page += 1;
+    else page = parseInt(p, 10);
+    apply(false);
+    document.getElementById('explorer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  apply(true);
 })();
 </script>
 </body>

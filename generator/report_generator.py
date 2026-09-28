@@ -53,6 +53,22 @@ def _fmt_date(s: str | None) -> str:
 
 
 # ── 查询 ────────────────────────────────────────────────
+def _prev_weeks(week_label: str, db_path: str = "data/knowledge.db", limit: int = 3) -> list[dict]:
+    """过往周入口：DB 中早于当前周的周标签（新→旧，最多 limit 个），供首页 topbar 历史周报链接。"""
+    try:
+        conn = sqlite3.connect(db_path)
+        rows = conn.execute(
+            "SELECT DISTINCT week_label FROM events WHERE week_label < ? "
+            "ORDER BY week_label DESC LIMIT ?",
+            (week_label, limit),
+        ).fetchall()
+        conn.close()
+    except sqlite3.Error:
+        return []
+    # week_label 固定零填充格式（2026-W39），字典序=时间序
+    return [{"label": r[0], "href": f"../{r[0].replace(' ', '_')}/"} for r in rows]
+
+
 def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> dict[str, Any]:
     """
     从 knowledge.db 查询本周所有 Events + Articles + Sources。
@@ -358,6 +374,7 @@ def generate_report(
 
     # ── 5. LLM 趋势 & 摘要 ───────────────────────────────
     trends = _get_trends(llm, events, categories_cfg) if llm else {k: "持续关注" for k in categories}
+    prev_weeks = _prev_weeks(week_label)
 
     domain_summaries = {}
     if llm:
@@ -421,6 +438,7 @@ def generate_report(
         category_slugs=category_slugs,
         top_events=top_events,
         all_events=all_events,
+        prev_weeks=prev_weeks,
         generated_at=generated_at,
         discovered_count=discovered_count,
         archived_count=archived_count,

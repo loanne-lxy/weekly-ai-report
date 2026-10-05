@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>企业Agent语义记忆、安全沙箱与开发环境 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W41</b> · 2026-10-05</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W41</span>
+      <span class="mono" style="color: var(--text-3);">18 篇来源文章</span>
+    </div>
+    <h1>企业Agent语义记忆、安全沙箱与开发环境</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">45<small> / 100</small></div>
+        <div class="bar"><i style="width: 45%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">30<small> / 100</small></div>
+        <div class="bar"><i style="width: 30%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">QCon上海三篇文章集中讨论企业级Agent基础设施。第一篇文章提出Agent记忆不应只存在于对话中，而应把企业数仓沉淀为可治理的共享语义记忆。第二篇文章介绍企业级Agent Infra架构实践，覆盖从安全沙箱到网络管控与身份治理。第三篇文章强调不能给Agent“毛坯房”，应构建拎包入住的开发环境。这些内容共同关注Agent的记忆、安全与开发环境。</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 18 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://arxiv.org/abs/2607.07708" target="_blank" rel="noopener noreferrer">Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning</a></h3>
+          <p class="sum">---
+title: Accurate, Interdisciplinary and Transparent Structure-property Understanding with Deep Native Structural Reasoning
+author: Tang; Chen; Wang; Yizhou; Wu; Jianyu; Lintao; Shixiang; Pengze; Su; Encheng; Yao; Jun; Xiao; Jiabei; Yuqi; Jielan; Hao; Hongxia; Gao; Zhangyang; Fang; Fei; Ben; Yue; Xiangyu; Pan; Zhong; Bozitao; Jinouwen; Aoran; Lu; Yan; Liu; Jiaheng; Ma; Xinzhu; Liang; Zheng; Mingyue; Torr; Phil; Zhou; Bowen; Ouyang; Wanli; Bai; Lei
+url: https://arxiv.org/abs/2607.07708v1
+hostname: arxiv.org
+description: "Structure-property relationships are foundational to biology, chemistry and materials science, where function, reactivity and physical response emerge from spatial, chemical and periodic organization. Mechanistically explaining these relationships requires interpreting structural evidence through scientific principles and physical constraints, from stereochemistry and bonding to symmetry, energetics and periodic order. However, applying artificial intelligence to this process presents a joint challenge of representation and reasoning: models must preserve domain-native structural information while showing how specific evidence supports predictions under these constraints. Here we introduce SciReasoner, a multimodal scientific foundation model for native structural reasoning across proteins, small molecules and inorganic crystals. SciReasoner discretizes coordinates, topologies and periodic connectivities into a unified structure-aware vocabulary, treating structural tokens as addressable evidence units during reasoning. In homology-controlled Gene Ontology prediction, SciReasoner improves Cellular Component annotation for low-homology and orphan-like proteins, increasing $F_{\\max}$ from 0.42 to 0.55. In chemistry, it raises single-step retrosynthesis accuracy from 0.63 to 0.72 while generating fragment-level disconnection and precursor-verification traces. In materials science, its representations separate elemental and compound phases and resolve</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI for Science
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-08</span>
+            <a class="url" href="https://arxiv.org/abs/2607.07708" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://arxiv.org/abs/2607.19339" target="_blank" rel="noopener noreferrer">OmniReasoner: Thinking with Long Audio-Video via Native Tool Use</a></h3>
+          <p class="sum">---
+title: "OmniReasoner: Thinking with Long Audio-Video via Native Tool Use"
+author: Chen; Yu; Caorui; Xiong; Ziyu; Wang; Yidong; Gao; Mingqi; Liu; Shuman; Biao; Yang; Chunfeng; Zeng; Anxiang; Zhang; Haibo; Chaofan
+url: https://arxiv.org/abs/2607.19339v1
+hostname: arxiv.org
+description: "Long audio-video reasoning is difficult for omnimodal LLMs because the decisive evidence is often sparse, cross-modal, and too expensive to preserve with uniformly high-fidelity inputs. We introduce OmniReasoner, a tool-use post-training framework for Thinking with Long Audio-Video: omni-modal LLMs learn, via supervised fine-tuning and reinforcement learning, to decide whether and where to call a zoom-in tool before answering. OmniReasoner first builds a low-cost global preview of the full stream and then, when needed, calls the zoom-in tool with a requested temporal interval for higher-fidelity visual and audio inspection before answering. Because the model observes different sampling granularities before and after this call -- a sparse global preview and a denser local clip -- we introduce TimeAnchor, which keeps the tool's temporal argument valid and round-trip-consistent across these granularities, rather than tied to frame indices from a particular sampling rate. To make this tool-use behavior trainable without expensive manual interval annotation, we build a Temporal Augmented Data Engine that synthesizes tool-use post-training trajectories by video editing and composition. Experiments across omnimodal and video benchmarks show that OmniReasoner improves both answer accuracy and temporal grounding while concentrating high-fidelity computation on informative regions. Code is available at https://github.com/RockyChen0205/OmniReasoner."
+sitename: arXiv.org
+date: "2026-07-21"
+license: CC BY 4.0
+---
+Computer Science  Computer Vision and Pattern Recognition
+  [Submitted on 21 Jul 2026]
+    Title:OmniReasoner: Thinking with Long Audio-Video via Native Tool Use
+View PDF HTML (experi</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-21</span>
+            <a class="url" href="https://arxiv.org/abs/2607.19339" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://arxiv.org/abs/2607.24653" target="_blank" rel="noopener noreferrer">Kimi K3: Open Frontier Intelligence</a></h3>
+          <p class="sum">---
+title: "Kimi K3: Open Frontier Intelligence"
+author: Kimi Team; Bai; Tongtong; Yifan; Yiping; Cai; Jianfeng; Xinyuan; Cao; Peizhou; Yuxuan; Chai; Ziwei; Charles; H S; Guanduo; Guangyu; Guanzheng; Huarong; Jianlong; Kexin; Ruijue; Wentao; Yanru; Yifei; Yingjiang; Yuankun; Yujie; Yutian; Zhirong; Dazhi; Yean; Cui; Jialei; Jingbing; Anqi; Deng; Jiaqi; Shaofeng; Dong; Mengfan; Mengnan; Yuhao; Yuxin; Angang; Chenzhuang; Dikang; Jusen; Yulun; Feng; Qiulin; Kelin; Qiang; Gao; Fuxuan; Hongcheng; Jingyue; Weijia; Geng; Shangyi; Gong; Linhu; Shengao; Xiaochen; Qizheng; Yicheng; Shuhao; Haiqing; Shiqi; Zhengyan; Beixi; Wenxin; Xiaoru; Dailan; Haotian; Lehan; Weiran; Xinran; Xinyi; Yibo; Yunjia; Tiange; Jiaxi; Ruikun; Weiming; Yangyang; Zhenxing; Liang; Huang; Jinbin; Ruiyuan; Siying; Weixiao; Zhengjie; Zhiqi; Hui; Yulong; Chaobo; Jiang; Yutong; Zhejun; Zuoyou; Wenyi; Kong; Huanjun; Lai; Guokun; Aidi; Chengyuan; Cong; Fang; Guanyu; Haoyang; Junxiong; Lei; Letian; Lincan; Weihong; Xintong; Yishen; Yiwei; Yuxiao; Zhaowei; Zhaoxi; Zheming; Zhengxiao; Zhiyuan; Jiawei; Xiaohan; Zichao; Ziyan; Liu; Bill; Boxiao; Shaowei; Shudong; Shuran; Tianwei; Weizhou; Yanming; Yipeng; Zhengying; Zhiheng; Enzhe; Linqiang; Tingzhan; Luo; Aotian; Junyu; Lyu; Wenzhou; Mao; Shaoguang; Mei; Minqing; Niu; Yixuan; Pan; Siyuan; Shujun; Zhangyang; Ruoyu; ZeChao; Zeyu; Haiquan; Jianxin; Jiezhong; Qu; Bowen; Youbo; Han; Jincheng; Juanfeng; Lidong; Shengyuan; Siu; Wingchun; Song; Pengwei; Xiaoxi; Jianlin; Yunfeng; Zhaochen; Sui; Sun; Jingsong; Junyao; Shaoning; Shuzhe; Tongyu; Yujun; Tai; Yunpeng; Tang; Chuning; Heyi; Sirui; Zecheng; Chaoran; Rongpeng; Tu; Wang; Chensi; Chuang; Chunjie; Dinglu; Hailong; Haiming; Huaqing; Jiayi; Jinglong; Jinhong; Jiuzheng; Linian; Shaobo; Shenzhi; Tianfu; Wenjue; Xingran; Xinmei; Xusheng; Yalin; Yangkun; Yaoyu; Yejie; Yiqin; Yucheng; Yuzhi; Zhaoji; Zhengtao; Zhenhao; Zhongsheng; Zifan; Ming; Shouxin; Zichen; Wu; Haoning; Rucong; Wenhao; Xiaoxue; Yingcong; Yongqi; Zijian;</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-27</span>
+            <a class="url" href="https://arxiv.org/abs/2607.24653" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://arxiv.org/abs/2607.27919" target="_blank" rel="noopener noreferrer">Memory Decoder at Scale: A Pretrained, Parametric Long-Term Memory</a></h3>
+          <p class="sum">---
+title: "Memory Decoder at Scale: A Pretrained, Parametric Long-Term Memory"
+author: Wei; Rubin; Cao; Jiaqi; Wang; Jiarui; Zhang; Junming; Guo; Qipeng; Bowen; Lin; Zhouhan
+url: https://arxiv.org/abs/2607.27919v1
+hostname: arxiv.org
+description: Decoder-only language models entangle long-term memory and reasoning in a single parameter set, making it difficult to scale memory capacity independently. Memory Decoder introduces a parametric long-term memory module but only studies it at a relatively small scale. In this work, we present Memory Decoder at Scale, scaling memory models up to 6.9B parameters and pretraining them on 300B tokens. At this data scale, the combined cost of indexing and search makes a standard Faiss pipeline infeasible. We address this bottleneck with a distributed pipeline for Faiss indexing and retrieval, together with sparse, batch-wise loading of kNN distributions. Across model scales, we find that allocating more parameters to memory yields a better parameter-performance tradeoff than scaling the base model alone. On 17 benchmarks, pairing a 6.9B general memory with Pythia-410M raises its average score from 29.86 to 37.34, surpassing Pythia-12B (37.24) with 39% fewer total parameters. For Qwen3 Base models ranging from 0.6B to 14B, 1.7B domain memories improve the average score across the three domains by more than 9 points at every scale. Overall, our results demonstrate that independently scaling pretrained memory offers a more parameter efficient path to improving language model performance.
+sitename: arXiv.org
+date: "2026-07-30"
+---
+Computer Science  Computation and Language
+  [Submitted on 30 Jul 2026]
+    Title:Memory Decoder at Scale: A Pretrained, Parametric Long-Term Memory
+View PDF HTML (experimental)
+            Abstract:Decoder-only language models entangle long-term memory and reasoning in a single parameter set, making it difficult to scale memory capacity independently. Memory Decoder introduces a parametric long-term memor</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-30</span>
+            <a class="url" href="https://arxiv.org/abs/2607.27919" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 4">
+          <h3><span class="step">A5</span><a href="https://arxiv.org/abs/2608.15875" target="_blank" rel="noopener noreferrer">GigaBrain-0.7: Scaling Embodied Foundation Models to Emergent Capabilities with a Three-System Architecture</a></h3>
+          <p class="sum">---
+title: "GigaBrain-0.7: Scaling Embodied Foundation Models to Emergent Capabilities with a Three-System Architecture"
+author: GigaBrain Team; Angen; Sun; Axiang; Can; Cheng; Chenxi; Chong; Shang; Dengke; Zhang; Dingqian; Huang; Wang; Guangqiang; Guangqing; Guo; Hangcong; Zhong; Hengyu; Lu; Hongtao; Jianbo; Mao; Jiming; Zhu; Lv; Jindi; Cui; Jingzhi; Xie; Junjie; Bao; Junyi; Liu; Kai; Yuan; Lei; Long; Limin; Feng; Mingming; Pengfei; Qianli; Qingfang; Qitang; Rui; Shaoyan; Shibo; Duan; Shiying; Tenghui; Tianze; Ke; Weijie; Xue; Wenyao; Xiaofeng; Xiaoyu; Xinyu; Xinze; Yang; Yankai; Zeng; Yejun; Yifan; Nie; Yifei; Yilong; Yongchao; Yumeng; Yun; Zhichao; Ziheng; Zonghai; Zheng
+url: https://arxiv.org/abs/2608.15875v1
+hostname: arxiv.org
+description: Vision-language-action (VLA) models have become a dominant paradigm for generalist embodied agents, demonstrating strong complex and long-horizon task completion in structured settings. Yet it remains an open question whether current VLA systems can benefit from more effective architectural design, scale to substantially larger and more heterogeneous data regimes, and achieve broader generalization across tasks and embodiments. To this end, we present GigaBrain-0.7, an embodied foundation model with substantially improved generalization across diverse robot embodiments. Specifically, GigaBrain-0.7 unifies understanding, prediction, and action through a three-system architecture, scales pretraining to over 37,000 hours of heterogeneous embodied data, and introduces one-stage alignment training that jointly optimizes vision-language understanding and multi-embodiment action generation. Compared with the preceding GigaBrain-0 series and prior state-of-the-art models including $π_{0.5}$, GigaBrain-0.7 achieves substantial improvements in foundation zero-shot capabilities, language-conditioned instruction following, and post-training task success rates. In particular, on our in-house Maker H01 platform and mainstream robot embodi</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-16</span>
+            <a class="url" href="https://arxiv.org/abs/2608.15875" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 5">
+          <h3><span class="step">A6</span><a href="https://arxiv.org/abs/2609.26781" target="_blank" rel="noopener noreferrer">Agensh: Scaling Organizational Intelligence to 1,024 Agents</a></h3>
+          <p class="sum">---
+title: "Agensh: Scaling Organizational Intelligence to 1,024 Agents"
+author: Zhan; Zhihao; Song; Ting; Dong; Huang; Shaohan; Lian; Jianxun; Xia; Yan; Wei; Furu
+url: https://arxiv.org/abs/2609.26781v1
+hostname: arxiv.org
+description: "A multi-agent system can reduce latency on complex tasks by executing work concurrently. Several pioneering harness frameworks support multi-agent systems. However, the scalability of current multi-agent harnesses is often constrained by a central orchestrator's capacity to allocate tasks and coordinate workers. To address this limitation, we introduce Agensh, a scalable self-organized multi-agent harness without a central orchestrator: concurrent workers execute a multi-agent cooperation loop, continuously gathering context, claiming and self-assigning sub-tasks, taking action and sharing findings, verifying results, and merging progress in an asynchronous manner. The loop is supported by the agentic organization infrastructure comprising three components: a shared workspace holds proposed, ongoing, and completed work; a message interface lets workers communicate; and shared context retains reusable findings and work intentions. To test the scalability of Agensh, we evaluate it on the five hardest ProgramBench tasks with GPT-5.6-sol (high). Scaling from 1 to 128 agents raises the mean final test-pass rate from 19.31% to 28.78%, an approximately 49% relative improvement. Larger organizations reach comparable test-pass rates earlier. On pandoc, scaling from 1 to 1,024 agents raises the final test-pass rate from 33.89% to 55.06%. Worker trajectories further show that different forms of self-organized cooperation gradually emerges and standardizes as the organization grows. These results reveal the number of agents as a new scaling dimension for multi-agent organizations to expand the frontier of general intelligence, offering a practical solution for complex tasks under hard latency constraints or time budgets."
+sitename: arXiv.org
+da</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-22</span>
+            <a class="url" href="https://arxiv.org/abs/2609.26781" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 6">
+          <h3><span class="step">A7</span><a href="https://arxiv.science/abs/2605.02937" target="_blank" rel="noopener noreferrer">Proteo-R1: Reasoning Foundation Models for De Novo Protein Design | arXiv Science</a></h3>
+          <p class="sum">---
+title: "Proteo-R1: Reasoning Foundation Models for De Novo Protein Design | arXiv Science"
+author: Fang Wu; Weihao Xuan; Heli Qi; Hanqun Cao; Heng-Jui Chang; Zeqi Zhou; Haokai Zhao; Ma Jian; Carl Ma; Yu-Chi Cheng; Kuan Pang; Xiangru Tang; Zehong Wang; Guanlue Li; Hanchen Wang; Kejun Ying; Pan Lu; Chiho Im; Seungju Han; Peng Xia; Tinson Xu; Yinxi Li; Deyao Zhu; Pheng-Ann Heng; Naoto Yokoya; Masashi Sugiyama; Li Erran Li; Jure Leskovec; Yejin Choi
+url: https://arxiv.science/abs/2605.02937
+hostname: arxiv.science
+description: "Deep learning in de novo protein design has achieved atomic-level fidelity. However, existing models remain largely non-deliberative: they directly synthesize molecular g"
+sitename: Arxiv Science
+date: "2026-08-10"
+---
+arXiv · 2605.02937
+Proteo-R1: Reasoning Foundation Models for De Novo Protein Design
+Abstract
+Deep learning in de novo protein design has achieved atomic-level fidelity. However, existing models remain largely non-deliberative: they directly synthesize molecular geometries without explicitly reasoning about which residues or interactions are functionally essential. As a result, design decisions are entangled with continuous sampling dynamics, limiting interpretability, controllability, and systematic reuse of biochemical knowledge. We introduce Proteo-R1, a reasoning-guided protein design framework that explicitly decouples molecular understanding from geometric generation. Proteo-R1 adopts a dual-expert architecture in which a multimodal large language model (MLLM) serves as an understanding expert, analyzing protein sequences, structures, and textual context to identify key functional residues that govern binding and specificity. These residue-level decisions are then passed as hard constraints to a separate diffusion-based generation expert, which performs conditional co-design while respecting the fixed interaction anchors. This factorization mirrors how human experts approach molecular engineering: first, reasoning about c</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI for Science
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-10</span>
+            <a class="url" href="https://arxiv.science/abs/2605.02937" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 7">
+          <h3><span class="step">A8</span><a href="https://exa.ai/library/publication/56mhdgvl6l0" target="_blank" rel="noopener noreferrer">DeltaV: Thinking with Visual State Updates in Unified Large Multimodal Models</a></h3>
+          <p class="sum">---
+title: "DeltaV: Thinking with Visual State Updates in Unified Large Multimodal Models"
+author: Exa Labs
+url: https://exa.ai/library/publication/56mhdgvl6l0
+hostname: exa.ai
+description: "2026. Current Unified Large Multimodal Models (ULMMs) support interleaved multimodal reasoning through textual reasoning and intermediate visual states, but typically generate each visual state as a full…"
+sitename: Exaailabs
+date: "2026-07-09"
+tags: ['ai search engine,serp api,best ai search engine,search api,deep research api,web search api,web search ai,ai search api,deepresearch api,web crawling api,website crawler,metaphor,exa,api,search,ai,llms,webcrawler,web api,google search api,google serp api,people search engines,perplexity ai search engine features,ai search engine free,search engine ai,free people search engines,web api security,ai search engines,free ai search engine,web scraping api,bing search api,webcrawler search engine,search engine rankings api']
+---
+Abstract
+Current Unified Large Multimodal Models (ULMMs) support interleaved multimodal reasoning through textual reasoning and intermediate visual states, but typically generate each visual state as a full image. This full-image generation paradigm introduces substantial visual-token redundancy and dilutes supervision on sparse yet reasoning-critical state transitions. We propose DeltaV, a ULMM that replaces full-image generation with visual updates. Conditioned on historical visual states, DeltaV incrementally predicts compact update tokens that capture the visual changes across reasoning steps, avoiding repeated modeling of unchanged content. To align the token budget of each update with the magnitude of visual change, DeltaV introduces a temporal similarity (TSIM) Router, which stops allocating tokens once the marginal reconstruction gain falls below a threshold. To support more diverse and generalizable reasoning, we further construct StructCoT, a large-scale interleaved multimodal reasoning dataset with 1.0</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-09</span>
+            <a class="url" href="https://exa.ai/library/publication/56mhdgvl6l0" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 8">
+          <h3><span class="step">A9</span><a href="https://exa.ai/library/publication/6k6hrykkwcd" target="_blank" rel="noopener noreferrer">Large Language Models as Optimization Controllers: Adaptive Continuation for SIMP Topology Optimization</a></h3>
+          <p class="sum">---
+title: "Large Language Models as Optimization Controllers: Adaptive Continuation for SIMP Topology Optimization"
+author: Exa Labs
+url: https://exa.ai/library/publication/6k6hrykkwcd
+hostname: exa.ai
+description: Shaoliang Yang, Jun Wang, Yunsheng Wang · 2026 · Article. We present a framework in which a large language model (LLM) acts as an online adaptive controller for SIMP topology optimization, replacing conventional fixed-schedule continuation with real-time,…
+sitename: Exaailabs
+date: "2026-03-26"
+tags: ['ai search engine,serp api,best ai search engine,search api,deep research api,web search api,web search ai,ai search api,deepresearch api,web crawling api,website crawler,metaphor,exa,api,search,ai,llms,webcrawler,web api,google search api,google serp api,people search engines,perplexity ai search engine features,ai search engine free,search engine ai,free people search engines,web api security,ai search engines,free ai search engine,web scraping api,bing search api,webcrawler search engine,search engine rankings api']
+---
+Abstract
+We present a framework in which a large language model (LLM) acts as an online adaptive controller for SIMP topology optimization, replacing conventional fixed-schedule continuation with real-time, state-conditioned parameter decisions. At every $k$-th iteration, the LLM receives a structured observation$-$current compliance, grayness index, stagnation counter, checkerboard measure, volume fraction, and budget consumption$-$and outputs numerical values for the penalization exponent $p$, projection sharpness $\beta$, filter radius $r_{\min}$, and move limit $\delta$ via a Direct Numeric Control interface. A hard grayness gate prevents premature binarization, and a meta-optimization loop uses a second LLM pass to tune the agent's call frequency and gate threshold across runs. We benchmark the agent against four baselines$-$fixed (no-continuation), standard three-field continuation, an expert heuristic, and a schedule-only ablation$</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-03-26</span>
+            <a class="url" href="https://exa.ai/library/publication/6k6hrykkwcd" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 9">
+          <h3><span class="step">A10</span><a href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener noreferrer">DietrichGebert /ponytail</a></h3>
+          <p class="sum">Makes your AI agent think like the laziest senior dev in the room. The best code is the code you never wrote.</p>
+          <div class="ameta">
+            <span class="src-tag">GitHub Trending
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            
+            <a class="url" href="https://github.com/DietrichGebert/ponytail" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 10">
+          <h3><span class="step">A11</span><a href="https://github.com/coreyhaines31/marketingskills" target="_blank" rel="noopener noreferrer">coreyhaines31 /marketingskills</a></h3>
+          <p class="sum">Marketing skills for Claude Code and AI agents. CRO, copywriting, SEO, analytics, and growth engineering.</p>
+          <div class="ameta">
+            <span class="src-tag">GitHub Trending
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            
+            <a class="url" href="https://github.com/coreyhaines31/marketingskills" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 11">
+          <h3><span class="step">A12</span><a href="https://github.com/earthtojake/text-to-cad" target="_blank" rel="noopener noreferrer">earthtojake /text-to-cad</a></h3>
+          <p class="sum">Give your agent CAD superpowers.</p>
+          <div class="ameta">
+            <span class="src-tag">GitHub Trending
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            
+            <a class="url" href="https://github.com/earthtojake/text-to-cad" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 12">
+          <h3><span class="step">A13</span><a href="https://github.com/huggingface/transformers/releases/tag/v5.18.0" target="_blank" rel="noopener noreferrer">Release: Release 5.18.0</a></h3>
+          <p class="sum">## New Model additions
+
+
+### Nemotron 3 Diarization
+
+
+
+Nemotron 3 Diarization is an open-weight streaming speaker diarization model designed to determine "who spoke when" in real-world audio. It supports both streaming and offline inference, handles up to eight speakers, and orders speaker outputs by each speaker's first arrival in the input audio.
+
+The model uses the Arrival-Order Speaker Cache (AOSC) [1](https://huggingface.co/papers/2507.18446) and FIFO queue introduced for Streaming Sortformer [1](https://huggingface.co/papers/2507.18446), [2](https://huggingface.co/papers/2409.06656). A single checkpoint supports configurable latency profiles, from an 80 ms input buffer to a 30.4 s offline-style buffer, and configurable output frame resolution in multiples of 10 ms. With chunked inference, the maximum audio duration is not limited.
+
+**Links:** [Documentation](https://huggingface.co/docs/transformers/main/en/model_doc/nemotron3_diarization)
+* Add Nemotron3Diarization (#49056) by @eustlb in [#49056](https://github.com/huggingface/transformers/pull/49056)
+
+### NemotronH Omni
+
+NemotronH Omni is a multimodal reasoning model from NVIDIA that pairs the [NemotronH](https://huggingface.co/docs/transformers/main/en/model_doc/nemotron_h) hybrid
+Mamba-Transformer language model with a [RADIO](https://huggingface.co/docs/transformers/main/en/model_doc/radio) vision encoder and an optional Parakeet-based sound encoder.
+Image (and video) patches are projected through a RADIO tower and a pixel-shuffle MLP into the language model's
+embedding space at the `` / `` context-token positions; audio clips are projected in the same way at
+`` positions. The result is a single autoregressive model that reasons jointly over text, images, video and
+sound.
+
+**Links:** [Documentation](https://huggingface.co/docs/transformers/main/en/model_doc/nemotron_h_omni)
+* Add support for Nemotron Omni (#46509) by @meatybobby in [#46509](https://github.com/huggingface/transformers/pull/46509)
+
+### HyperCLOVAX Vision V2
+
+HyperCLOVAX Vision V2 is a multimodal vision-language model developed by NAVER. It combines the [HyperClovaX](https://huggingface.co/docs/transformers/main/en/model_doc/hyperclovax) language model backbone with a [Qwen2.5-VL](https://huggingface.co/docs/transformers/main/en/model_doc/qwen2_5_vl) vision encoder. The model supports text, image, and video inputs and is capable of chain-of-thought reasoning via built-in thinking tokens (`...`).
+
+**Links:** [Documentation](https://huggingface.co/docs/transformers/main/en/model_doc/hyperclovax_vision_v2)
+* add HyperClovaX Vision (#44314) by @jp1924 in [#44314](https://github.com/huggingface/transformers/pull/44314)
+
+### GTE
+
+GTE was proposed in [mGTE: Generalized Long-Context Text Representation and Reranking Models for Multi</p>
+          <div class="ameta">
+            <span class="src-tag">HuggingFace Transformers (GitHub)
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-30</span>
+            <a class="url" href="https://github.com/huggingface/transformers/releases/tag/v5.18.0" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 13">
+          <h3><span class="step">A14</span><a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener noreferrer">pbakaus /impeccable</a></h3>
+          <p class="sum">The design language that makes your AI harness better at design.</p>
+          <div class="ameta">
+            <span class="src-tag">GitHub Trending
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            
+            <a class="url" href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 14">
+          <h3><span class="step">A15</span><a href="https://github.laiyagushi.com/YiLabsAI/HouYiAgent" target="_blank" rel="noopener noreferrer">GitHub - YiLabsAI/HouYiAgent: A lightweight, production-ready multi-agent framework</a></h3>
+          <p class="sum">---
+title: "GitHub - YiLabsAI/HouYiAgent: A lightweight, production-ready multi-agent framework"
+author: YiLabsAI
+url: https://github.laiyagushi.com/YiLabsAI/HouYiAgent
+hostname: laiyagushi.com
+description: A lightweight, production-ready multi-agent framework - YiLabsAI/HouYiAgent
+sitename: GitHub
+date: "2025-12-31"
+categories: ['repository:1125858125']
+---
+HouYi is a lightweight, extensible, production-grade multi-agent framework that ships with SOTA built-in agents (Deep Research, Chatbox, Memory Inbox). One Agent class, one SDK — define, orchestrate, evaluate, and ship agents from prototype to production without changing your API surface.
+Why HouYi
+- Full-lifecycle harness — Not just execution: definition → orchestration → context engineering → evaluation → observability → governance. Every layer is pluggable, every extension point is documented for community and enterprise customization.
+- Context engineering as first-class — Token budgeting, persistent memory with emphasis-aware recall, RAG, context compression, and Reminders injection at the Transformer attention sweet spot — built into the SDK, not afterthoughts.
+- Neuro-symbolic verification — Z3 SMT solver validates LLM outputs against business constraints, separating probabilistic reasoning from deterministic correctness for production reliability.
+- Ships with SOTA agents — Deep Research (plan → multi-round search → conflict resolution → citation-verified report with RACE/FACT scoring), Chatbox (multi-turn with tool calling and memory), Memory Inbox (LLM-powered extraction with review workflow). Use them directly or study their source as reference implementations.
+┌─────────────────────────────────────────────────────────────────────────┐
+│                     HouYi Studio (Ideas Foundry)                        │
+│   Graph Orchestration  · Chatbox · Agent Hub · Deep Research            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                   Studio Server (FastAPI</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2025-12-31</span>
+            <a class="url" href="https://github.laiyagushi.com/YiLabsAI/HouYiAgent" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 15">
+          <h3><span class="step">A16</span><a href="https://www.infoq.cn/article/DEyrayxufObhpoeZgOKT?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">别再给 Agent 一个“毛坯房”了：构建 Agent 拎包入住的开发环境实践｜QCon上海</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-02</span>
+            <a class="url" href="https://www.infoq.cn/article/DEyrayxufObhpoeZgOKT?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 16">
+          <h3><span class="step">A17</span><a href="https://www.infoq.cn/article/M4mgbKf4RDv5AKTwQvFH?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Agent 的记忆不在对话里：把企业数仓沉淀为可治理的共享语义记忆｜QCon上海</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-04</span>
+            <a class="url" href="https://www.infoq.cn/article/M4mgbKf4RDv5AKTwQvFH?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 17">
+          <h3><span class="step">A18</span><a href="https://www.infoq.cn/article/bLB8RQ6sd3ZGQts0D4tP?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">企业级 Agent Infra 架构实践：从安全沙箱到网络管控与身份治理｜QCon上海</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-03</span>
+            <a class="url" href="https://www.infoq.cn/article/bLB8RQ6sd3ZGQts0D4tP?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">620abe70</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W41</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">18 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">7 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: AI for Science</div>
+          <div class="s">
+            <span class="mono">2 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: LLM Latest</div>
+          <div class="s">
+            <span class="mono">5 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: AI Agents Framework</div>
+          <div class="s">
+            <span class="mono">2 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: Design Simulation CAE</div>
+          <div class="s">
+            <span class="mono">1 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">GitHub Trending</div>
+          <div class="s">
+            <span class="mono">4 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">HuggingFace Transformers (GitHub)</div>
+          <div class="s">
+            <span class="mono">1 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">InfoQ AI</div>
+          <div class="s">
+            <span class="mono">3 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-05 08:18 · 2026-W41</span>
+</div></footer>
+</body>
+</html>

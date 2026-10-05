@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
+
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
+
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+<style>:root { --cat-color: #3b82f6; }</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="index.html"><b>2026-W41</b> · 2026-10-05</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · LLM</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #3b82f6; width: 12px; height: 12px;"></span>🧠 LLM</h1>
+    <span class="count"><b>15</b> 个事件 · 按重要性排序</span>
+    <p class="cat-sum">本周 LLM 领域前沿模型密集发布，OpenAI 的 GPT-6 Astra/Sol 与谷歌的 Gemini 4 Argon 在编码、API 和科研证据综合上推进能力与成本优化，同时图结构质量传输的广义薛定谔桥问题也取得基于 Feynman-Kac 倾斜的精确求解进展。</p>
+  </div>
+
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">53</span></a>
+    
+    <a href="llm.html" class="on">LLM<span class="mono">15</span></a>
+    
+    <a href="agent.html" class="">Agent<span class="mono">16</span></a>
+    
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">12</span></a>
+    
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">8</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">2</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
+
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-98EDCC</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-aa98edcc-gpt-6-gemini-4-argon.html">GPT-6系列与Gemini 4 Argon模型</a></h2>
+        <p class="sum">OpenAI DevDay 2026发布超过20项公告，涵盖GPT-6 Astra、ChatGPT、Codex、API、安全与开发者工具。GPT-6.1 Sol面向编码、计算机使用和专业工作，智能接近Astra，API输入输出token价格约为Astra标准价五分之一。Gemini 4 Argon发布，多项基准测试超过GPT-6 Astra，并参与谷歌80万行内核代码迁移。这些发布显示前沿模型在价格、编码与计算机使用能力上持续竞争。</p>
+        <div class="foot">
+          <span class="mono">7 篇来源文章</span>
+          <a class="go" href="events/evt-aa98edcc-gpt-6-gemini-4-argon.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 80%; background: #10b981;"></i></span><span class="mono"><b>80</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-2AAC8F</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-062aac8f-event.html">科研证据探索智能体与论文灵感检索基准</a></h2>
+        <p class="sum">文章0指出生物医学发现的关键限制已从数据转向证据整合与解释能力，并提出DeepEvidence深度研究智能体，使其超越事实检索，转向证据探索与综合。文章1构建ScholarCatalyst基准，用于研究从庞大研究档案中检索能启发新研究的前期论文；其依据是研究者对推动已完成项目的前作有直接判断，论文作为其中思想的指针。二者共同关注AI科研发现中从知识检索到证据综合与灵感识别的能力，为科研智能体提供方法与评测。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-062aac8f-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 75%; background: #10b981;"></i></span><span class="mono"><b>75</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-CFD93D</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-3ccfd93d-event.html">图上加成本薛定谔桥可精确求解</a></h2>
+        <p class="sum">该工作研究图上的广义薛定谔桥问题，即在两个分布之间移动质量，并对访问状态收取成本。此前方法通过学习受控连续时间马尔可夫链的速率，并用时间差分惩罚恢复成本。文章指出，状态成本可折叠为参考过程中的Feynman-Kac倾斜，使加成本桥转化为普通桥。该结果给出精确求解路径，替代学习控制，并简化成本约束处理，为图结构质量传输等相关方向提供基础理论工具。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-3ccfd93d-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-B8941F</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-8eb8941f-event.html">自监督预训练提升中微子探测器事件理解</a></h2>
+        <p class="sum">该工作发表于Nature Machine Intelligence，面向高能前沿异构中微子探测器，提出通过自监督预训练构建基础风格模型。Alonso-Monsalve等人表明，自监督预训练可帮助深度学习模型解释复杂中微子探测器事件，提升事件分类、重建与数据效率，并支持模型迁移。该研究将自监督学习引入高能物理探测器数据分析，有望提高数据利用效率，增强前沿中微子实验的数据分析能力，为多探测器建模提供基础参考。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-8eb8941f-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-7D5BE4</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-a27d5be4-event.html">世界模型动作统一与物理视频生成</a></h2>
+        <p class="sum">UniWAM提出统一世界-动作模型，试图结合预训练视觉-语言模型的语义理解与推理，以及视频生成模型的时空先验，弥补动作监督不足和分布偏移下的局限。ROWBench面向可编程世界模型，评测视频模型是否按程序指定的细粒度规则与交互进行渲染，指出已有基准较少检验程序规范保真度。HiPhy通过层级对齐提升多物理原理视频生成的物理合理性，针对视频生成难以同时满足多种物理规律的问题。三者共同推进世界模型在动作、程序化渲染与物理一致性方面的能力。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-a27d5be4-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C3CDED</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-34c3cded-vista.html">VISTA视觉框架支持多模态模型长时程交互推理</a></h2>
+        <p class="sum">文章认为多模态模型本身具备较强推理能力，合适的外部框架可释放其在多样交互环境中解决任务的潜力。作者提出VISTA，一个为通用多模态模型提供长时程视觉能力的视觉框架。VISTA允许模型通过视觉观察直接感知环境，并支持长时程交互中的持续视觉感知。该工作面向交互世界中的长时程任务，强调视觉框架对释放多模态模型推理潜力、支持多样环境任务的作用。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-34c3cded-vista.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 75%; background: #10b981;"></i></span><span class="mono"><b>75</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-613B98</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-07613b98-event.html">多模态图表保真、代数溯源与结图拓扑</a></h2>
+        <p class="sum">Faithful Chart Generation 针对多模态深度研究中的分析图表，要求可视化数值与检索证据定量一致并保留原意，提出帧-证据协同适配。CompProv 生成机器可读图，编码算法输入到输出的微观代数变换序列，弥补文件、数据集或流水线级溯源粒度不足。KnottedGraph 提出可扩展结图拓扑，通过图连通性、环结构、亏格与空间嵌入统一量化坐标、网络、曲面、体与场等异构科学数据。三者共同提升多模态研究与科学计算的忠实性、可复现性与拓扑分析能力。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-07613b98-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-343916</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-5a343916-llm.html">LLM微调稀疏优化器与零一阶步长搜索</a></h2>
+        <p class="sum">该事件聚焦LLM全参数微调中的优化器状态内存与步长选择问题。TACO提出三元绝对最大值列式一稀疏优化器，面向全参数微调的优化器状态内存开销，以降低状态占用。另一工作提出ZFO零一阶优化框架，将方向选择与步长搜索解耦，用可信一阶优化器确定方向，以轻量方式处理保守步长慢、激进步长不稳定问题。两者均针对大规模LLM微调的优化效率与显存约束，为降低训练成本提供方法参考。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-5a343916-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-1E7B28</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-5c1e7b28-nepa-dmad.html">NEPA嵌入预测与DMAD对抗蒸馏加速视觉生成</a></h2>
+        <p class="sum">该事件包含两项视觉生成模型研究。[0]针对扩散变换器中类别或文本提示嵌入一次并在各去噪步复用的做法，提出NEPA，训练Transformer预测序列中下一个连续嵌入，并探索其作为生成条件。[1]针对DMD需维护辅助扩散模型以匹配学生分布、带来额外内存和计算成本的问题，提出DMAD，将分布匹配重构为分类形式的对抗蒸馏，用于快速视觉生成。二者分别探索条件嵌入预测与少步生成蒸馏。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-5c1e7b28-nepa-dmad.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-EA9321</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-69ea9321-mosaichunk.html">MosaiChunk时空记忆用于自回归视频生成</a></h2>
+        <p class="sum">长时程自回归视频生成受有限上下文窗口限制。当对象或场景离开上下文后，其细粒度视觉细节可能丢失，并在重新出现时难以恢复。MosaiChunk提出一种时空记忆机制，通过组合选中的历史KV条目形成马赛克式记忆。该机制旨在保留对历史视觉细节的访问，以支持对象或场景重新出现时的细节恢复。它针对长时程生成中上下文窗口有限导致的细节退化问题，并维持细粒度视觉信息的可访问性。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-69ea9321-mosaichunk.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-80DF83</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-9b80df83-llm.html">LLM数学推理诊断与修复方法</a></h2>
+        <p class="sum">该论文研究大语言模型在前沿数学问题上的表现，指出其是否具备支撑解题的结构化数学理解仍不清楚。文章将数学理解视为缺失原语，提出系统诊断LLM不同数学能力的方法，并基于诊断结果修复其数学推理。该工作有助于揭示LLM数学能力的结构基础，强调结构化理解对数学推理的重要性，为提升模型可靠数学推理提供依据，也为后续研究提供从能力诊断到推理修复的路径。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-9b80df83-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-21F90C</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-e721f90c-openai.html">OpenAI对抗蒸馏防御与训练安全案例</a></h2>
+        <p class="sum">OpenAI披露其干扰了一项协同模型蒸馏活动，该活动试图提取受保护模型推理，并说明将加强对抗蒸馏防御。OpenAI还提出前沿AI训练安全案例的早期指南，覆盖技术保障、运营实践和失准事件调查。此外，OpenAI就澳大利亚政府网站相关事件致歉，并说明将提供更强保障与支持以强化澳大利亚网络防御。这些内容反映模型保护、训练安全与外部事件响应。</p>
+        <div class="foot">
+          <span class="mono">4 篇来源文章</span>
+          <a class="go" href="events/evt-e721f90c-openai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-784E6F</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-b3784e6f-jax-hyperbolix.html">JAX通用双曲深度学习库hyperbolix</a></h2>
+        <p class="sum">hyperbolix是一个面向JAX生态的开源双曲深度学习库，基于Flax NNX构建。据作者称，它是JAX中首个综合性、通用性的双曲深度学习库。该库提供统一接口，支持欧氏空间、Poincaré球、双曲双曲面、κ-立体投影模型、混合曲率乘积空间与proper velocity space六种流形。该工作为JAX中的双曲深度学习研究提供了统一的基础工具。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-b3784e6f-jax-hyperbolix.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-9A38F6</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-179a38f6-2.html">球面编码器2分析潜球采样与旋转覆盖不足</a></h2>
+        <p class="sum">Sphere Encoder 2是一种自编码器，其图像生成过程通过解码高维潜球上的随机点完成。文章指出，原公式存在两个会降低生成质量的局限。第一个局限是，随机点在编码潜空间中相对极点更集中于赤道附近，而训练旋转从未到达该区域，从而形成覆盖缺口。该缺口会限制一步生成质量，说明生成质量受限与潜球点分布和训练旋转覆盖范围直接相关。这为理解基于潜球解码的图像生成自编码器提供了可追溯的问题定位。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-179a38f6-2.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 14">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-3CC9F6</span>
+          <span class="mono">2026-W41</span>
+        </div>
+        <h2><a href="events/evt-983cc9f6-event.html">语言模型股票排名的计算审计</a></h2>
+        <p class="sum">该研究对语言模型股票排名进行计算审计，检验其稳定性、可复现性与投资结果。研究使用四个模型和五个数值比较器，在共享组合引擎下覆盖上证50、沪深300和中证500的72个月持有期。排名基于九个特征，并通过五次相同输入的上证50重复运行衡量输入不变下的波动。该工作将语言模型排名与可检验的经济规则相联系。该研究属于计算审计。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-983cc9f6-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-05 08:18 · 2026-W41</span>
+</div></footer>
+</body>
+</html>

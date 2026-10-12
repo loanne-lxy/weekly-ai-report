@@ -64,3 +64,16 @@ the Top-3 only.
   Narrow lab result = 0.1-0.3. Cross-industry shift = 0.8-1.0.
 - **importance**: Depth of technical or industrial breakthrough. Parameter tweak = 0.1.
   Architecture innovation or ≥20% efficiency gain = 0.7-0.9. Paradigm shift = 1.0.
+
+## Priority Topics (score at the upper end)
+本项目聚焦两个方向，事件明确属于以下任一方向时，importance 与 impact 一律取 0.8–1.0
+区间上限打分（其余主题按常规标准，不抬分）：
+1. **Agent harness / agent 研究基础设施**：agent 框架与编排、工具调度、记忆/上下文
+   管理、评测与验证 harness、多智能体协作、递归自我改进（RSI）等"支撑 agent 如何
+   做研究/工作"的底层能力。
+2. **AI for Science × 工业材料**：AI 在工业材料（合金、半导体、电池、复合材料、
+   陶瓷/高分子等）的组分设计、性能预测、实验规划、工艺优化与仿真加速中的应用；
+   材料发现/合成类 AI 方法。特别关注**氧化物材料（如钙钛矿、高熵氧化物、
+   固态电解质、介电/铁电氧化物等）的仿真需求**——面向氧化物体系的 AI 代理模型、
+   相图/性能预测、仿真加速与数据驱动设计。纯学术基准测试（无工业/制造落点）不在此列。
+Priority-topic 事件的 rationale 需点明其属于哪个优先方向。

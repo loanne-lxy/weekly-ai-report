@@ -2,7 +2,7 @@
 
 Autonomous agent that fetches AI research news from multi-source feeds, filters, classifies, clusters, and scores it, then generates a weekly report website — auto-deployed to GitHub Pages.
 
-**Latest report:** https://loanne-lxy.github.io/weekly-ai-report/2026-W38/
+**Latest report:** https://loanne-lxy.github.io/weekly-ai-report/2026-W42/
 
 ## Demo
 
@@ -20,8 +20,8 @@ Sources (source.db, DB-first)
   ├── Phase 1  : Fetch          RSS / GitHub / arXiv / Exa, connector registry, asyncio concurrency=10
   ├── Phase 2  : Hard Dedup     URL Registry (md5, SQLite)
   ├── Phase 2.3: Blacklist      keyword regex pre-filter (zero-token)
-  ├── Phase 3  : Clustering     FastEmbed (multilingual-MiniLM) + FAISS greedy cosine
-  ├── Phase 3.5: Event Curator  LLM: classify + importance/novelty/impact scoring + summaries
+  ├── Phase 3  : Clustering     FastEmbed embed + hybrid: academic=cosine greedy, social=BERTopic (UMAP+HDBSCAN)
+  ├── Phase 3.5: Event Curator  LLM: relevance filter + split (concrete-identity) + classify + scoring + summaries
   ├── Phase 5  : Generate       Jinja2 HTML (home + category pages + per-event evidence pages)
   └── Phase 6  : Source Eval    weekly source scoring, auto-archive stale (4 wks), auto-discovery
 ```
@@ -84,7 +84,7 @@ weekly-ai-report/
 │   ├── source_discoverer.py # Exa API neural search for source discovery
 │   └── filter_summarizer.py # (legacy batch curator, currently unused)
 │
-├── event_clustering.py      # FAISS cosine clustering (jieba CJK pre-tokenization)
+├── event_clustering.py      # Hybrid clustering: academic=cosine greedy, social=BERTopic (UMAP+HDBSCAN, jieba CJK)
 │
 ├── generator/
 │   ├── report_generator.py  # Jinja2 rendering: home + categories + event pages
@@ -123,6 +123,7 @@ Unclassified items fall into 其他.
 
 - **6-stage pipeline** — Fetch → Hard Dedup → Blacklist → Cluster → LLM Curate → Report + source evaluation
 - **Event-centric output** — articles cluster into events; each event page carries an evidence chain down to source articles and original URLs
+- **Curator split decision** — the LLM splits a cluster into sub-events by concrete identity (one event = one project/product/paper/release): cross-source coverage of the same item merges, an unrelated stray (e.g. a lone trending repo) is peeled out. Trending items get a popularity boost in scoring.
 - **DB-first sources** — `source.db` is the runtime truth; YAML is seed only
 - **Source self-evolution** — weekly eval, auto-archive stale sources (4 wks), auto-discovery via Exa + LLM + link mining, candidate pool verification
 - **Offline-capable embeddings** — FastEmbed multilingual-MiniLM (ONNX quantized), `HF_HUB_OFFLINE=1` safe
@@ -179,7 +180,7 @@ Runtime source state (eval_score, status, streak_failures) lives in `source.db`;
 - **Python 3.11**, `asyncio` (fetch concurrency = 10)
 - **LLM**: Qwen3.8-27B (reasoning model) via any OpenAI-compatible endpoint
 - **Embeddings**: FastEmbed — paraphrase-multilingual-MiniLM-L12-v2 (ONNX, quantized, offline-capable)
-- **Vector search**: FAISS (greedy cosine clustering)
+- **Vector search**: hybrid — FAISS greedy cosine (academic) + BERTopic / UMAP+HDBSCAN (social)
 - **Storage**: SQLite × 3 (`source.db`, `article.db`, URL registry)
 - **Schemas**: Pydantic (`RawArticle` / `CuratedArticle`)
 - **Frontend**: Jinja2 + inline CSS (Material 3 light) + vanilla JS; no framework, no CDN, no external fonts

@@ -114,7 +114,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="index.html"><b>2026-W42</b> · 2026-10-12</a></div>
+  <div class="issue"><a href="index.html"><b>2026-W42</b> · 2026-10-13</a></div>
 </div></div>
 
 <div class="wrap">
@@ -122,20 +122,20 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
   <div class="cat-head">
     <h1><span class="dot" style="background: #f59e0b; width: 12px; height: 12px;"></span>🎨 设计仿真</h1>
-    <span class="count"><b>15</b> 个事件 · 按重要性排序</span>
-    <p class="cat-sum">本周设计仿真领域在可微等几何分析、科学数据特征保持压缩和雷达截面快速电磁散射计算方面取得进展，分别推出基于 JAX 的 JAXIGA 框架、FeatureZ 压缩框架以及模型降阶角扫描方法，提升几何求解、数据分析和低可观测目标评估的效率与能力。</p>
+    <span class="count"><b>7</b> 个事件 · 按重要性排序</span>
+    <p class="cat-sum">本周设计仿真方向聚焦可微计算基础设施，推出JAXIGA等几何分析库、坐标无关自动微分以及复值神经网络框架CNet，以支持GPU加速、几何对象和复值信号的可微仿真与优化。</p>
   </div>
 
   <nav class="catnav">
     <a href="index.html">全部事件<span class="mono">57</span></a>
     
-    <a href="llm.html" class="">LLM<span class="mono">10</span></a>
+    <a href="llm.html" class="">LLM<span class="mono">15</span></a>
     
     <a href="agent.html" class="">Agent<span class="mono">16</span></a>
     
-    <a href="ai-for-science.html" class="">AI for Science<span class="mono">15</span></a>
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">18</span></a>
     
-    <a href="design-simulation.html" class="on">设计仿真<span class="mono">15</span></a>
+    <a href="design-simulation.html" class="on">设计仿真<span class="mono">7</span></a>
     
     <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
     
@@ -148,300 +148,140 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <article class="evt" style="--i: 0">
       <div>
         <div class="top">
-          <span class="mono">EVT-B7BB3A</span>
+          <span class="mono">EVT-1CA52F</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-c8b7bb3a-jaxiga-jax.html">JAXIGA：JAX可微等几何分析框架</a></h2>
-        <p class="sum">论文提出 JAXIGA，一个基于 JAX 的开源等几何分析软件框架。该库将网格构建与计算分离，计算部分可被追踪用于编译和微分。由此，几何求值、装配以及受支持的求解器能够组合到即时编译程序中，并计算一阶反向模式导数。该框架面向 GPU 加速与可微等几何分析，使几何、装配和求解过程可在同一可微计算流程中处理，为可微等几何分析提供统一软件基础。该框架将等几何分析置于 JAX 生态中。</p>
+        <h2><a href="events/evt-261ca52f-jaxiga.html">JAXIGA可微等几何分析框架</a></h2>
+        <p class="sum">该论文提出JAXIGA，一个基于JAX的开源等几何分析库。它将网格构造与可追踪计算分离，使几何求值、装配和受支持的求解器可组合为即时编译程序，并涉及一阶反向模式导数。该框架面向GPU加速与可微分析，便于将等几何分析嵌入可微计算流程。该工作属于Design Simulation中的CAE/仿真加速方向，为工程分析提供可微工具。</p>
         <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-c8b7bb3a-jaxiga-jax.html">查看证据链 →</a>
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-261ca52f-jaxiga.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 1">
       <div>
         <div class="top">
-          <span class="mono">EVT-98A86A</span>
+          <span class="mono">EVT-51BC7B</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-4498a86a-featurez.html">FeatureZ科学数据特征保持压缩</a></h2>
-        <p class="sum">FeatureZ提出面向科学数据的特征保持压缩通用框架，关注等值面、分位数、合并树和Morse-Smale复形等几何与拓扑特征。现有有损压缩通常只提供逐点误差保证，难以保持派生特征。该方法结合逐点界与星分类，在压缩过程中约束误差并保留关键分析特征。其意义在于支持医学影像、气候、材料科学和天文等领域的数据分析与可视化。</p>
+        <h2><a href="events/evt-2951bc7b-event.html">坐标无关自动微分处理几何对象</a></h2>
+        <p class="sum">该工作关注自动微分在几何对象上的表达限制。现有自动微分框架隐含固定欧氏空间基，以固定坐标数组定义梯度与雅可比，因此原生处理固定坐标数组。旋转、体积形式、曲率等对象难以用这种坐标数组自然表达。文章提出坐标无关自动微分，使自动微分能直接处理这类几何对象。其核心是把梯度与雅可比从固定坐标表示中解耦，以支持非坐标数组对象等场景。</p>
         <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-4498a86a-featurez.html">查看证据链 →</a>
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-2951bc7b-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 62%; background: var(--accent);"></i></span><span class="mono"><b>62</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 48%; background: #8b5cf6;"></i></span><span class="mono"><b>48</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 2">
       <div>
         <div class="top">
-          <span class="mono">EVT-7782E8</span>
+          <span class="mono">EVT-DE50D6</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-597782e8-event.html">模型降阶加速单站雷达截面角扫描计算</a></h2>
-        <p class="sum">该文章研究单站雷达截面的快速角扫描计算，采用模型降阶方法。雷达截面是雷达工程中的基本参数，决定目标被雷达系统探测的能力。随着极低可观测目标受到更多关注，需要更准确地预测完美电导体对象的电磁散射。文章通过模型降阶提升角扫描计算效率，为低可观测目标设计提供数值工具。该工作属于电磁散射数值预测工具的发展，面向雷达工程中的可探测性评估。</p>
+        <h2><a href="events/evt-30de50d6-cnet-wirtinger.html">CNet复值神经网络框架与Wirtinger自动微分</a></h2>
+        <p class="sum">CNet是一个C++/CUDA框架，用于构建复值神经网络（CVNN），并通过Wirtinger导数对复函数执行梯度下降优化。它面向RF/IQ通信、MRI k空间、雷达/SAR和音频频谱等内在复值数据，强调相位信息是实值网络通常丢弃但物理信号中承载信息的关键成分。框架提供FFT-Hadamard卷积等复值算子，使网络结构更贴近复值信号的物理特性。该工作为复值深度学习提供可微分基础设施，有助于提升相关工程信号处理任务的建模与优化能力。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-597782e8-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-30de50d6-cnet-wirtinger.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 3">
       <div>
         <div class="top">
-          <span class="mono">EVT-03680A</span>
+          <span class="mono">EVT-D30304</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-8203680a-lvs.html">LVS相对位姿局部视图合成</a></h2>
-        <p class="sum">LVS针对交互式场景探索中频繁视角更新问题，利用小相机运动下可见内容高度重叠的特点。传统3D高斯泼溅对每个目标视角重新渲染，未利用图像重叠。该方法从相对相机位姿出发，复用先前渲染视图进行局部视图合成。由于几何扭曲无法恢复新暴露内容且对深度误差敏感，LVS通过复用先前视图应对该问题。其意义在于减少重复渲染开销，提升交互场景探索效率。</p>
+        <h2><a href="events/evt-31d30304-fno.html">拓扑优化：FNO代理加速、零样本生成先验与图基物理建模</a></h2>
+        <p class="sum">近期拓扑优化领域出现多项方法创新。KATOsuper提出敏感性一致的傅里叶神经算子作为代理模型，减少神经拓扑优化中反复有限元分析的计算开销。零样本肋设计将免训练生成先验与拓扑优化融合，使优化器能逼近叶脉、松质骨、蛛网等天然高刚度质量比结构。HGTO提出统一的图基物理信息建模框架，重构了密度法拓扑优化中材料更新、结构分析与灵敏度评估的嵌套流程。三项工作分别从代理加速、生成先验融合和统一建模方向推进了拓扑优化的效率与设计能力。</p>
         <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-8203680a-lvs.html">查看证据链 →</a>
+          <span class="mono">7 篇来源文章</span>
+          <a class="go" href="events/evt-31d30304-fno.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 58%; background: var(--accent);"></i></span><span class="mono"><b>58</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 52%; background: #8b5cf6;"></i></span><span class="mono"><b>52</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 4">
       <div>
         <div class="top">
-          <span class="mono">EVT-5EB44A</span>
+          <span class="mono">EVT-835B32</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-005eb44a-event.html">物理信息机器学习求解偏微分方程与复合材料模拟</a></h2>
-        <p class="sum">该事件呈现物理信息机器学习在偏微分方程与材料模拟中的方法进展。文章[0]提出ghost tasking，用于参数化高斯过程求解线性微分方程，面向有限数据场景。文章[1]提出AB-PIELM，将自适应基、域分解与空间/谱超参数联合优化结合，并保留确定性法方程训练，以应对多尺度与尖锐梯度。文章[2]提出基于网格的神经能量方法，用于异质复合材料模拟，针对传统配点式神经能量方法中的位移振荡问题。整体趋势是增强物理约束求解的稳定性与工程材料适用性。</p>
+        <h2><a href="events/evt-4a835b32-scen-opt.html">Scen-Opt场景优化凸规划工具箱</a></h2>
+        <p class="sum">该工作面向数据驱动凸规划中的场景优化。场景方法是数据驱动决策的统计框架，可揭示问题结构如何影响样本外泛化。它也为评估和认证最优解在约束满足下的可靠性提供原则性基础。Scen-Opt作为工具箱，将场景优化用于数据驱动凸规划。其目标是把场景方法的理论结果转化为可复用的计算工具，并支持对约束满足可靠性的评估与认证，以增强优化解的可靠性判断。</p>
         <div class="foot">
-          <span class="mono">3 篇来源文章</span>
-          <a class="go" href="events/evt-005eb44a-event.html">查看证据链 →</a>
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-4a835b32-scen-opt.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 5">
       <div>
         <div class="top">
-          <span class="mono">EVT-BC89AD</span>
+          <span class="mono">EVT-D387EB</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-eabc89ad-3d.html">静态3D高斯场景动态化与人-物交互生成</a></h2>
-        <p class="sum">OuroWorld提出无掩码框架，将静态3D高斯泼溅场景转为可从任意视角无缝循环的3D动态场景；其用视觉语言模型推断合理动态并引导视频模型合成参考视频。MAMHOI通过可供性分解场景感知的人-物交互，将交互可行性推理与真实人-物运动合成解耦，以应对监督数据难以联合获取的问题。两者分别覆盖动态3D场景生成与真实人-物交互生成。</p>
+        <h2><a href="events/evt-8ed387eb-event.html">人形机器人多角色动作重定向方法</a></h2>
+        <p class="sum">该工作聚焦人形机器人动作迁移中的关键预处理环节，即把人类动作数据重定向到机器人。现有方法在单角色动作上有效，但多角色和物体交互会引入额外接触与空间关系，需要在重定向中保持。重定向通常被表述为加权多目标优化问题，文章针对这些交互约束提出优先化重定向方法。该方向有助于提升复杂交互场景下人形机器人动作迁移的可行性，并为多角色动作数据迁移提供基础。</p>
         <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-eabc89ad-3d.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-8ed387eb-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 6">
       <div>
         <div class="top">
-          <span class="mono">EVT-53FA8C</span>
+          <span class="mono">EVT-1FB407</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-a553fa8c-spaceflow-3d.html">SpaceFlow局部可控3D生成</a></h2>
-        <p class="sum">SpaceFlow 是一种免训练管线，用于从文本描述和一组几何基元进行局部可控的3D生成。现有3D生成方法缺乏显式局部控制，几何贴合常由全局控制强度定义，外观也无法局部指定。该管线将每个几何基元作为物体部件的代理，并为其分配局部控制，从而支持对局部几何与外观进行更细粒度的指定。它面向文本条件3D生成中的局部可控性问题，提供了一种无需训练的新生成方案。</p>
+        <h2><a href="events/evt-cf1fb407-3drag.html">3DRAG三维拖拽编辑</a></h2>
+        <p class="sum">该工作面向3D生成模型中的对象拖拽编辑，指出3D资产创建虽更易获得，但点式拖拽等直观、精确和交互式用户控制仍具挑战。现有3D拖拽方法要么依赖慢速2D扩散先验，如Score Distillation Sampling，要么直接变形几何，易导致多视角不一致和拓扑问题。3DRAG提出3D原生的对象拖拽编辑方法，以改善3D资产创建中的交互控制。其意义在于提升3D编辑的可用性与一致性。</p>
         <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-a553fa8c-spaceflow-3d.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 7">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-EDBB93</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-7dedbb93-asdex-jax.html">asdex：JAX自动稀疏微分</a></h2>
-        <p class="sum">论文提出 asdex，用于在 JAX 中实现自动稀疏微分。背景是许多科学计算与机器学习任务需要函数的 Jacobian 或 Hessian，而自动微分可计算机器精度导数。稠密 m×n Jacobian 通常需要 n 次前向模式或 m 次反向模式 AD 路径，分别对应每列或每行。对于输出仅依赖少量输入的大类函数，稀疏结构可被利用，从而降低求导所需的 AD 开销。asdex 面向此类稀疏依赖函数，在 JAX 中自动处理稀疏导数计算，为稀疏 Jacobian 与 Hessian 等导数计算提供软件基础。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-7dedbb93-asdex-jax.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 8">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-F6EB66</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-baf6eb66-subdguide.html">SubDGuide 网格到细分曲面重建智能体工作流</a></h2>
-        <p class="sum">该工作针对从稠密网格恢复细分曲面控制笼的问题。细分曲面用稀疏控制笼表示自由曲面，但恢复过程不只是拟合，还需推断控制点应放在哪里、哪些曲线编码设计特征，以及何时对初始结果进行修正。SubDGuide 提出受建模者启发的智能体工作流，将重建过程组织为可迭代判断与修正的流程。该方案将建模者经验转化为可执行流程，有助于支持自由曲面几何重建中的控制笼恢复。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-baf6eb66-subdguide.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 9">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-2346FF</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-4b2346ff-cnet-fft-hadamard.html">CNet复值深度学习框架与FFT-Hadamard卷积</a></h2>
-        <p class="sum">CNet是一个C++/CUDA框架，用于构建复值深度神经网络，并通过Wirtinger导数对复函数进行梯度下降优化。它通过复值梯度下降直接优化复函数，避免仅处理实部信息。复值模型研究不足，但在RF/IQ通信、MRI k空间、雷达/SAR和音频频谱等本征复值数据中更自然，因为相位携带实值网络丢弃的信息。CNet采用FFT-Hadamard卷积，并以物理原生方式处理复值表示。该框架为复杂信号与科学数据中的相位建模提供基础计算工具。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-4b2346ff-cnet-fft-hadamard.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 10">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-DC961D</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-33dc961d-nrc.html">NRC 变体缓存预滤波镜面光照辐射</a></h2>
-        <p class="sum">该工作面向实时路径追踪中的镜面光照渲染问题。现有神经辐射缓存 NRC 提供场景照明的在线神经表示，但针对镜面光照需要更合适的参数化。论文提出一种 NRC 变体，采用反射方向参数化和粗糙度相关的辐射目标。网络在单个表面点预测预滤波入射辐射，并与预计算 BRDF 结合，以支持镜面光照估计。该方案将 NRC 扩展到镜面光照场景，用于实时路径追踪中的镜面光照估计与渲染。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-33dc961d-nrc.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 11">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-2D1CCA</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-0a2d1cca-brickbench.html">BrickBench评估代理式乐高设计</a></h2>
-        <p class="sum">BrickBench 是一个面向代理式文本条件乐高套装设计的基准。给定提示词，智能体需要生成一个不仅满足语义与设计标准、而且可物理搭建的装配方案。为此，它必须从离散零件库中选择零件，并联合推理局部与全局约束。该基准对有效性、对齐和设计进行评分，以评估智能体在离散组合设计中的约束推理与生成能力。该任务将文本条件生成与离散零件选择、物理可搭建性约束结合起来。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-0a2d1cca-brickbench.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 12">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-D79CF9</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-62d79cf9-event.html">鲁棒局部优化分离假设选择与精化</a></h2>
-        <p class="sum">文章指出RANSAC评分与局部优化对鲁棒性的要求不同，因此将假设选择与精化过程分离，从而将两个阶段分开处理。作者系统分析鲁棒损失形状、内点尺度误设以及优化策略对本质矩阵、基础矩阵和单应估计等三类任务的影响，并分析不同优化策略的作用。文中提出profile-marginal score，通过边缘化内点相关的nuisance inlier来改进评分。该研究为几何估计中的鲁棒局部优化提供了更清晰的系统设计依据。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-62d79cf9-event.html">查看证据链 →</a>
+          <span class="mono">6 篇来源文章</span>
+          <a class="go" href="events/evt-cf1fb407-3drag.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 13">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-6129D7</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-d36129d7-cfd.html">CFD风洞对比联合误差指标定义</a></h2>
-        <p class="sum">本文针对AutoCFD5案例2，将参与者的CFD结果与风洞测量数据进行对比。对比量包括表面压力、速度剖面和力系数。为在误差与计算成本图中定位每次计算，需要将这些量合并为一个数值。该笔记定义了联合误差，并参照ISO 13528实验室间能力验证实践处理偏差。其意义在于为CFD风洞验证提供统一、可比较的误差评分，便于评估不同CFD运行的精度与成本权衡。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-d36129d7-cfd.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 14">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-0971FD</span>
-          <span class="mono">2026-W42</span>
-        </div>
-        <h2><a href="events/evt-b50971fd-event.html">场景优化与可解释景观分析工具箱</a></h2>
-        <p class="sum">该事件包含两个面向数据驱动优化的工具包研究。Scen-Opt基于场景优化方法，为数据驱动凸规划提供统计框架，揭示问题结构如何影响样本外泛化，并为最优解的约束满足可靠性提供认证依据。pyXla提出灵活通用的可解释景观分析方法，帮助理解复杂优化问题、算法行为，并支持算法选择与配置。两者降低方法选择与实现门槛，为优化建模和算法评估提供可复用工具。</p>
-        <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-b50971fd-event.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 25%; background: #8b5cf6;"></i></span><span class="mono"><b>25</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
       </div>
     </article>
     
@@ -450,7 +290,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-12 08:16 · 2026-W42</span>
+  <span class="mono">生成于 2026-10-13 21:55 · 2026-W42</span>
 </div></footer>
 </body>
 </html>

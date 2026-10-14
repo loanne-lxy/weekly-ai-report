@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI原生数字孪生平台与智能体增强架构 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W42</b> · 2026-10-13</a></div>
+</div></div>
+<style>:root { --cat-color: #ef4444; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #ef4444"></span>数字孪生</span>
+      <span class="mono" style="color: var(--text-3);">2026-W42</span>
+      <span class="mono" style="color: var(--text-3);">9 篇来源文章</span>
+    </div>
+    <h1>AI原生数字孪生平台与智能体增强架构</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">40<small> / 100</small></div>
+        <div class="bar"><i style="width: 40%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">Siemens发布AI驱动的Executable Digital Twin，弥合物理资产与虚拟模型间的差距，重塑工业智能规则。研究提出面向智慧城市基础设施的智能体AI增强数字孪生框架，实现安全、自主、可审计的管理闭环。Michael Baker International推出LiveTwin开放AI原生数字孪生平台，面向关键基础设施。这些进展表明数字孪生正从静态可视化向AI驱动、智能体增强的动态系统演进。</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 9 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://blogs.sw.siemens.com/simcenter/siemens-executable-digital-twin-for-industrial-intelligence/" target="_blank" rel="noopener noreferrer">The architecture of truth: How Siemens' AI-powered Executable Digital Twin is rewriting the rules of industrial intelligence - Simcenter</a></h3>
+          <p class="sum">---
+title: "The architecture of truth: How Siemens' AI-powered Executable Digital Twin is rewriting the rules of industrial intelligence - Simcenter"
+author: Simcenter; Nachiket Patil
+url: https://blogs.sw.siemens.com/simcenter/siemens-executable-digital-twin-for-industrial-intelligence/
+hostname: siemens.com
+description: Discover how Executable Digital Twin closes the gap between physical assets and real-time insight - using physics-validated AI to optimize energy generation, transmission and consumption.
+sitename: Simcenter
+date: "2026-09-01"
+categories: ['News, Product Updates']
+tags: ['CAE Simulation', 'Digital Twin', 'Machine Learning']
+---
+The architecture of truth: How Siemens’ AI-powered Executable Digital Twin is rewriting the rules of industrial intelligence
+Your assets are generating data every millisecond. Your decisions, however, are still being made on yesterday’s assumptions. What if the gap between physical reality and operational insight could be closed – in real time, at cloud scale, and with the unimpeachable authority of physics?
+It is this engineering challenge that defined the creation of the Simcenter Executable Digital Twin Gateway – and the answer is already running in production.
+The problem the dashboard doesn’t know
+The world’s energy system is under pressure it has never faced before. Grids that were engineered for predictable, centralized generation are now absorbing the volatility of renewables, the surging demand of hyperscale data centers, and the unpredictability of fuel supply chains – simultaneously. Energy security has become an operational imperative more than ever, measured in real time, asset by asset, megawatt by megawatt.
+These grids power the industrial operations that keep the world running. Walk into any one of those operations today, and you will find three data worlds co-existing in uncomfortable silence:
+- Operational Technology: Operational historians, PLCs, SCADA systems – the heartbeat of the physical plant.
+- Infor</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-01</span>
+            <a class="url" href="https://blogs.sw.siemens.com/simcenter/siemens-executable-digital-twin-for-industrial-intelligence/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://exa.ai/library/publication/5vxkhwgnw3b" target="_blank" rel="noopener noreferrer">Agentic AI-enhanced digital twins for Smart City civil infrastructure: A secure, autonomous and auditable management framework</a></h3>
+          <p class="sum">---
+title: "Agentic AI-enhanced digital twins for Smart City civil infrastructure: A secure, autonomous and auditable management framework"
+author: Exa Labs
+url: https://exa.ai/library/publication/5vxkhwgnw3b
+hostname: exa.ai
+description: Toqeer Ali Syed, Ali Akarma, Ali Alatify et al. · 2026 · Article. Smart city implementation increasingly relies on sensing and analytics; however, a persistent operational gap remains between anomaly detection and safe, timely, and accountable intervention in civil…
+sitename: Exaailabs
+date: "2026-07-17"
+tags: ['ai search engine,serp api,best ai search engine,search api,deep research api,web search api,web search ai,ai search api,deepresearch api,web crawling api,website crawler,metaphor,exa,api,search,ai,llms,webcrawler,web api,google search api,google serp api,people search engines,perplexity ai search engine features,ai search engine free,search engine ai,free people search engines,web api security,ai search engines,free ai search engine,web scraping api,bing search api,webcrawler search engine,search engine rankings api']
+---
+Agentic AI-enhanced digital twins for Smart City civil infrastructure: A secure, autonomous and auditable management framework
+Toqeer Ali Syed, Ali Akarma, Ali Alatify, Muhammad Tayyab Naqash, Abdulaziz Alqurashi
+Smart city implementation increasingly relies on sensing and analytics; however, a persistent operational gap remains between anomaly detection and safe, timely, and accountable intervention in civil infrastructure systems. This paper proposes an Agentic AI-supported Digital Twin framework for smart city civil infrastructure management, where monitoring and action are linked and auditability is maintained. The Digital Twin continuously updates asset and network models of bridges, roads, and water infrastructure using multi-stream telemetry, incorporating state estimation, predictive maintenance, and what-if simulation services. At the orchestration layer, an agent-based Perception-Conceptualizatio</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-17</span>
+            <a class="url" href="https://exa.ai/library/publication/5vxkhwgnw3b" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://mbakerintl.com/news_articles/michael-baker-international-launches-livetwin-an-open-ai-native-digital-twin-platform-built-for-the-future-of-critical-infrastructure/" target="_blank" rel="noopener noreferrer">Michael Baker International Launches LiveTwin™, an Open, AI-Native Digital Twin Platform Built for the Future of Critical Infrastructure</a></h3>
+          <p class="sum">---
+title: Michael Baker International Launches LiveTwin™, an Open, AI-Native Digital Twin Platform Built for the Future of Critical Infrastructure
+url: https://mbakerintl.com/news_articles/michael-baker-international-launches-livetwin-an-open-ai-native-digital-twin-platform-built-for-the-future-of-critical-infrastructure/
+hostname: mbakerintl.com
+description: Michael Baker International Launches LiveTwin™, an Open, AI-Native Digital Twin Platform Built for the Future of Critical Infrastructure Introduced at Michael Baker’s Annual Tech Summit, LiveTwin Connects Fragmented Infrastructure Data into a Single Intelligent Environment Where AI Transforms Information into Actionable Insight PITTSBURGH, October 1, 2026 – Michael Baker International, a global leader in engineering,... Read more »
+sitename: Michael Baker International
+date: "2026-10-01"
+---
+Michael Baker International Launches LiveTwin™, an Open, AI-Native Digital Twin Platform Built for the Future of Critical Infrastructure
+Introduced at Michael Baker’s Annual Tech Summit, LiveTwin Connects Fragmented Infrastructure Data into a Single Intelligent Environment Where AI Transforms Information into Actionable Insight
+PITTSBURGH, October 1, 2026 – Michael Baker International, a global leader in engineering, architecture, consulting, and digital solutions, today launched LiveTwin™, the flagship solution of digitalMBI, the firm’s digital innovation platform. Unveiled during the company’s inaugural Tech Summit, LiveTwin creates a living digital representation of facilities, campuses, infrastructure, and operations by connecting assets, systems, models, and real-time data into a single intelligent environment.
+Built for owners, operators, public agencies, and infrastructure professionals, LiveTwin unifies building information modeling (BIM), geographic information systems (GIS), reality capture, internet of things (IoT), enterprise systems, and workflows into a shared operational view of the built environment. By con</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-01</span>
+            <a class="url" href="https://mbakerintl.com/news_articles/michael-baker-international-launches-livetwin-an-open-ai-native-digital-twin-platform-built-for-the-future-of-critical-infrastructure/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://arxiv.org/abs/2609.11122" target="_blank" rel="noopener noreferrer">A Model-Centric DevOps Architecture for DEVS-Based Digital Twin Simulation Services</a></h3>
+          <p class="sum">---
+title: A Model-Centric DevOps Architecture for DEVS-Based Digital Twin Simulation Services
+author: Lektauers; Arnis; Linkevičs; Gusts; Mosāns; Guntis; Fokina; Arina; Gulbe; Rasa
+url: https://arxiv.org/abs/2609.11122v1
+hostname: arxiv.org
+description: Digital twin simulation models are evolved and redeployed like software, yet DEVS-based engines offer a sound formal basis with little support for versioning, automated validation, or continuous delivery in cloud-native environments, leaving model lifecycle management ad hoc in most deployments. This paper proposes a model-centric DevOps architecture for deploying DEVS-based digital twin simulations as managed services. Simulation models are treated as first-class DevOps artefacts defined in a declarative YAML language with a formal mapping to multiPDEVS, supporting structural and semantic validation in a CI/CD pipeline that produces immutable versioned artefacts, so that reverting to an earlier validated version reduces to pinning its identifier. The platform is decomposed into containerised microservices on Kubernetes, with engine adaptations for state externalisation and lifecycle control. An initial case study on the Riga Route 22 public-transit corridor, the first instantiation of a planned city-wide multi-modal transport digital twin for Riga, Latvia, exercises the full lifecycle and reports single-container engine throughput for a scenario with roughly 47,870 DEVS atomic components; pipeline-level catch statistics and cluster-level concurrent multi-scenario execution are the subject of companion empirical studies.
+sitename: arXiv.org
+date: "2026-09-10"
+---
+Computer Science  Software Engineering
+  [Submitted on 10 Sep 2026]
+    Title:A Model-Centric DevOps Architecture for DEVS-Based Digital Twin Simulation Services
+View PDF HTML (experimental)
+            Abstract:Digital twin simulation models are evolved and redeployed like software, yet DEVS-based engines offer a sound formal basis with little support for</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-09-10</span>
+            <a class="url" href="https://arxiv.org/abs/2609.11122" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 4">
+          <h3><span class="step">A5</span><a href="https://exa.ai/library/publication/21rnfkjv7fw" target="_blank" rel="noopener noreferrer">Towards Declarative Deployment and Lifecycle Orchestration of Digital Twin Ecosystems</a></h3>
+          <p class="sum">---
+title: Towards Declarative Deployment and Lifecycle Orchestration of Digital Twin Ecosystems
+author: Exa Labs
+url: https://exa.ai/library/publication/21rnfkjv7fw
+hostname: exa.ai
+description: Manuel Andruccioli, Roberto Girau, Silvia Mirri et al. · 2026. The deployment of Digital Twins (DTs) in heterogeneous Internet of Things (IoT) environments remains challenging due to protocol diversity, infrastructure complexity, and the absence of standardized…
+sitename: Exaailabs
+date: "2026-01-09"
+tags: ['ai search engine,serp api,best ai search engine,search api,deep research api,web search api,web search ai,ai search api,deepresearch api,web crawling api,website crawler,metaphor,exa,api,search,ai,llms,webcrawler,web api,google search api,google serp api,people search engines,perplexity ai search engine features,ai search engine free,search engine ai,free people search engines,web api security,ai search engines,free ai search engine,web scraping api,bing search api,webcrawler search engine,search engine rankings api']
+---
+Towards Declarative Deployment and Lifecycle Orchestration of Digital Twin Ecosystems
+Manuel Andruccioli, Roberto Girau, Silvia Mirri, Paola Salomoni
+The deployment of Digital Twins (DTs) in heterogeneous Internet of Things (IoT) environments remains challenging due to protocol diversity, infrastructure complexity, and the absence of standardized methodologies. Existing solutions rely on ad-hoc architectures with manual configuration, limiting scalability and adaptability. This paper introduces DTDeployer, a platform for automated DT deployment and lifecycle management inspired by container orchestration. DTDeployer adopts a declarative configuration model, enabling users to define complex ecosystems through simple specification files, with automated provisioning of ingestion, processing, and output components. Key features include template-driven composability, multi-protocol data ingestion (HTTP, WebSockets, MQTT, AMQP, Kafka), integrated time-series</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-01-09</span>
+            <a class="url" href="https://exa.ai/library/publication/21rnfkjv7fw" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 5">
+          <h3><span class="step">A6</span><a href="https://exa.ai/library/publication/f7cry73tcd7" target="_blank" rel="noopener noreferrer">GreenTwin: A Cloud-Native Digital Twin Architecture for Citizen-Centric Green Interventions in Smart Cities</a></h3>
+          <p class="sum">---
+title: "GreenTwin: A Cloud-Native Digital Twin Architecture for Citizen-Centric Green Interventions in Smart Cities"
+author: Exa Labs
+url: https://exa.ai/library/publication/f7cry73tcd7
+hostname: exa.ai
+description: Soumya Kanti Datta · 2026. European cities stand at a pivotal moment to advance decarbonisation, climate resilience, and the wellbeing of residents in dense urban neighbourhoods. Nature-based solutions (NBS) are a central…
+sitename: Exaailabs
+date: "2026-08-09"
+tags: ['ai search engine,serp api,best ai search engine,search api,deep research api,web search api,web search ai,ai search api,deepresearch api,web crawling api,website crawler,metaphor,exa,api,search,ai,llms,webcrawler,web api,google search api,google serp api,people search engines,perplexity ai search engine features,ai search engine free,search engine ai,free people search engines,web api security,ai search engines,free ai search engine,web scraping api,bing search api,webcrawler search engine,search engine rankings api']
+---
+GreenTwin: A Cloud-Native Digital Twin Architecture for Citizen-Centric Green Interventions in Smart Cities
+Soumya Kanti Datta
+European cities stand at a pivotal moment to advance decarbonisation, climate resilience, and the wellbeing of residents in dense urban neighbourhoods. Nature-based solutions (NBS) are a central instrument of this transition, yet deciding where, what, and for whom to green a neighbourhood remains a largely top-down, expert-driven, and data-scarce process. Smart cities already generate vast, heterogeneous streams of data, but converting this big data into trustworthy, citizen-centric green interventions is an unsolved systems challenge. This paper presents GreenTwin, a cloud-native Digital Twin reference architecturethat ingests urban big data into a scalable data lake, maintains a continuously synchronised virtual replica of a neighbourhood,and uses a what-if simulation engine to evaluate candidate green interventions against measurable enviro</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-09</span>
+            <a class="url" href="https://exa.ai/library/publication/f7cry73tcd7" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 6">
+          <h3><span class="step">A7</span><a href="https://exa.ai/library/publication/qpjm2trhzqy" target="_blank" rel="noopener noreferrer">A Composable Architectural Model for Digital Twin Computing Applications</a></h3>
+          <p class="sum">---
+title: A Composable Architectural Model for Digital Twin Computing Applications
+author: Exa Labs
+url: https://exa.ai/library/publication/qpjm2trhzqy
+hostname: exa.ai
+description: Saverio Ieva, Davide Loconte, Andrea Pazienza et al. · 2026 · Article. Digital Twins (DTs) are increasingly deployed in Industry 4.0 to enable real-time monitoring, analysis, and control, yet the transition from isolated DT instances to plant-wide ecosystems across…
+sitename: Exaailabs
+date: "2026-05-05"
+tags: ['ai search engine,serp api,best ai search engine,search api,deep research api,web search api,web search ai,ai search api,deepresearch api,web crawling api,website crawler,metaphor,exa,api,search,ai,llms,webcrawler,web api,google search api,google serp api,people search engines,perplexity ai search engine features,ai search engine free,search engine ai,free people search engines,web api security,ai search engines,free ai search engine,web scraping api,bing search api,webcrawler search engine,search engine rankings api']
+---
+A Composable Architectural Model for Digital Twin Computing Applications
+Saverio Ieva, Davide Loconte, Andrea Pazienza, Matteo Colombo, Federico Marzo, Giuseppe Loseto, Floriano Scioscia, Michèle Ruta
+Digital Twins (DTs) are increasingly deployed in Industry 4.0 to enable real-time monitoring, analysis, and control, yet the transition from isolated DT instances to plant-wide ecosystems across cloud and edge infrastructures introduces fragmentation and coordination challenges among heterogeneous assets, data sources, and services. This paper addresses this gap by proposing a cloud-native Digital Twin Computing Layer (DTCL) that provides a unified control and orchestration plane for composing and operating DT applications in Smart Manufacturing. The DTCL is designed as a three-tier architecture comprising a developer-facing user interface, a Deploy Engine for automated deployment and lifecycle management, and a Service Catalog of reusable, independently deployabl</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-05</span>
+            <a class="url" href="https://exa.ai/library/publication/qpjm2trhzqy" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 7">
+          <h3><span class="step">A8</span><a href="https://iotdigitaltwinplm.com/twinops-digital-twin-lifecycle-architecture-2026/" target="_blank" rel="noopener noreferrer">TwinOps: The Operational Lifecycle Architecture for Digital Twins (2026) - IoT Digital Twin PLM</a></h3>
+          <p class="sum">---
+title: "TwinOps: The Operational Lifecycle Architecture for Digital Twins (2026) - IoT Digital Twin PLM"
+author: MPRAUTO MPRAUTO
+url: https://iotdigitaltwinplm.com/twinops-digital-twin-lifecycle-architecture-2026/
+hostname: iotdigitaltwinplm.com
+description: "TwinOps applies DevOps discipline to digital twins: model versioning, continuous state sync, validation gates, drift detection, and closed-loop control across the twin lifecycle."
+sitename: IoT Digital Twin PLM
+date: "2026-07-11"
+categories: ['Digital Twin, digital twin, Industrial IoT, Lifecycle Management, mlops, TwinOps']
+tags: ['digital twin', 'industrial iot', 'lifecycle management', 'mlops', 'twinops']
+---
+TwinOps: The Operational Lifecycle Architecture for Digital Twins (2026)
+Most digital twin programs die not at the proof-of-concept but eighteen months later, when the model that once tracked the physical asset to within two percent has quietly drifted to fifteen, nobody can say which version is running in production, and the last person who understood the calibration left the team. This is an operations failure, not a modelling failure. The twinops digital twin lifecycle is the discipline that prevents it: the same CI/CD, versioning, testing, and observability rigor that MLOps brought to machine learning, applied to the twin as a long-lived production system rather than a one-off simulation. A twin is not a deliverable you ship once; it is a service that must be authored, validated, deployed, kept synchronized with a moving physical reality, monitored for divergence, and eventually retired.
+This post treats the twin as software plus a live data contract, and lays out the architecture for running it in production for years.
+What this covers: the six lifecycle stages, model versioning and promotion across environments, continuous state synchronization, validation gates and golden datasets, drift detection metrics, closed-loop control governance, and the trade-offs that break twins in the field.
+Conte</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-11</span>
+            <a class="url" href="https://iotdigitaltwinplm.com/twinops-digital-twin-lifecycle-architecture-2026/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 8">
+          <h3><span class="step">A9</span><a href="https://www.frontiersin.org/journals/sustainable-cities/articles/10.3389/frsc.2026.1733281/full" target="_blank" rel="noopener noreferrer">Frontiers | Digital-twin–driven urban lifecycle paradigm: evidence from the Singapore–Nanjing eco Hi-Tech Island</a></h3>
+          <p class="sum">---
+title: "Frontiers | Digital-twin–driven urban lifecycle paradigm: evidence from the Singapore–Nanjing eco Hi-Tech Island"
+author: Qing Lu; Hao Li
+url: https://www.frontiersin.org/journals/sustainable-cities/articles/10.3389/frsc.2026.1733281/full
+hostname: frontiersin.org
+description: Digital twin (DT) technologies are increasingly promoted for smart-city governance, yet many deployments remain fragmented and fail to support integrated lif...
+sitename: Frontiers
+date: "2026-02-25"
+tags: ['big data,urban planning,smart city,IoT,digital twin,lifecycle management,Singapore-Nanjing Eco Island', 'big data; urban planning; smart city; IoT; digital twin; lifecycle management; Singapore-Nanjing Eco Island']
+---
+Abstract
+Digital twin (DT) technologies are increasingly promoted for smart-city governance, yet many deployments remain fragmented and fail to support integrated lifecycle operations across planning, construction, and long-term management. This study proposes a digital-twin–driven urban lifecycle paradigm and examines its city-scale implementation through a structured case study of the Singapore–Nanjing Eco Hi-Tech Island. The study synthesizes a five-layer technical architecture encompassing sensing, data platforms, analytical modeling, service integration, and application scenarios, and organizes eight digital twin application domains spanning governance, community, education, transportation, industrial parks, ecology, security, and tourism. To demonstrate the scale and operational trajectory of the implementation, the paper reports phased quantitative deployment targets and lifecycle indicators (2020–2030), including environmental monitoring coverage, digital infrastructure penetration, public service integration, and governance digitalization. By linking scenario-based demand–supply data matching with lifecycle-oriented indicators, the case illustrates how digital twins can function as an enabling infrastructure for coordinated urban governance beyond isolat</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-02-25</span>
+            <a class="url" href="https://www.frontiersin.org/journals/sustainable-cities/articles/10.3389/frsc.2026.1733281/full" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">8ad2c095</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">数字孪生</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W42</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">9 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: Digital Twin Industrial</div>
+          <div class="s">
+            <span class="mono">9 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-13 21:55 · 2026-W42</span>
+</div></footer>
+</body>
+</html>

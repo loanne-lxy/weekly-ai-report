@@ -114,7 +114,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="index.html"><b>2026-W42</b> · 2026-10-12</a></div>
+  <div class="issue"><a href="index.html"><b>2026-W42</b> · 2026-10-13</a></div>
 </div></div>
 
 <div class="wrap">
@@ -123,19 +123,19 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
   <div class="cat-head">
     <h1><span class="dot" style="background: #8b5cf6; width: 12px; height: 12px;"></span>🤖 Agent</h1>
     <span class="count"><b>16</b> 个事件 · 按重要性排序</span>
-    <p class="cat-sum">本周 Agent 领域关键进展集中在具身智能与多模态多智能体系统，包括机器人世界模型、可配置 VLA、自进化、统一视频-动作推理模型和医学进展预测框架，同时出现 AI 安全干预与 SRE Agent 工程实践。</p>
+    <p class="cat-sum">本周Agent领域聚焦生产化、可靠性与安全性：Managed Deep Agents 0.8增强部署与交互能力，RATED提升工具检索可靠性，X-AgentRed推动跨服务智能体红队评测。</p>
   </div>
 
   <nav class="catnav">
     <a href="index.html">全部事件<span class="mono">57</span></a>
     
-    <a href="llm.html" class="">LLM<span class="mono">10</span></a>
+    <a href="llm.html" class="">LLM<span class="mono">15</span></a>
     
     <a href="agent.html" class="on">Agent<span class="mono">16</span></a>
     
-    <a href="ai-for-science.html" class="">AI for Science<span class="mono">15</span></a>
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">18</span></a>
     
-    <a href="design-simulation.html" class="">设计仿真<span class="mono">15</span></a>
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">7</span></a>
     
     <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
     
@@ -148,314 +148,316 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <article class="evt" style="--i: 0">
       <div>
         <div class="top">
-          <span class="mono">EVT-90C01F</span>
+          <span class="mono">EVT-105425</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-9b90c01f-vla.html">机器人世界模型、可配置VLA与自进化</a></h2>
-        <p class="sum">DreamTrue提出多视角、跨具身机器人世界模型，采用反事实后训练，用于动作忠实且物理合理的视频预测，并针对标定不精确与失败交互覆盖不足问题。VersaCamVLA提出可配置相机VLA框架，将相机集合表示与动作学习解耦，以应对部署时相机数量或位姿变化。RoboRSI关注复杂真实环境中稳定、高效且可复用的机器人自进化，其核心挑战是将代码执行反馈中的修复经验按任务结构组织。这些工作提升通用机器人学习、部署鲁棒性与经验复用能力。</p>
+        <h2><a href="events/evt-aa105425-managed-deep-agents-agent.html">Managed Deep Agents生产级Agent更新</a></h2>
+        <p class="sum">Managed Deep Agents 0.8版本支持用户自有凭证、用户级记忆、HTTP通道、Slack文件传输和预置网页搜索工具。新版本还允许Agent安排后续任务、按运行重新配置自身，并对Slack消息做出反应。它提供管理分布式Agent反应的新API，可动态分配emoji响应。该更新面向生产环境，简化Agent构建、部署与运行。</p>
         <div class="foot">
-          <span class="mono">4 篇来源文章</span>
-          <a class="go" href="events/evt-9b90c01f-vla.html">查看证据链 →</a>
+          <span class="mono">12 篇来源文章</span>
+          <a class="go" href="events/evt-aa105425-managed-deep-agents-agent.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 100%; background: var(--accent);"></i></span><span class="mono"><b>100</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 1">
       <div>
         <div class="top">
-          <span class="mono">EVT-CBF420</span>
+          <span class="mono">EVT-B90665</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-e1cbf420-reka-rho-1-ai-agent.html">Reka Rho-1 与 AI Agent 工程实践</a></h2>
-        <p class="sum">Reka 发布 Rho-1，该模型参数规模为 19B，定位为 omni-reasoning 模型。其能力包括理解、生成视频和输出机器人动作，并且这些能力被放在同一个模型中。OpenAI 中断了两起由 AI 支持的影响操作，这些操作使用假记者和智库，传播地缘政治信息。InfoQ 的 AI Native SRE Agent 工程实践文章，标题显示其围绕从 Coding 到 Running 的 Agent 工程化展开，并关注工程实践。这些内容覆盖 omni-reasoning 模型、AI 影响操作与 SRE Agent 工程实践，并体现从模型能力到工程落地的组合信息。</p>
+        <h2><a href="events/evt-28b90665-rated.html">RATED基于执行动态的可靠性感知工具检索</a></h2>
+        <p class="sum">随着AI智能体越来越多依赖外部工具，准确检索工具对可靠行为至关重要。现有方法主要优化语义相关性，却基本忽略执行过程中的工具可用性。为此，论文提出RATED（基于执行动态的可靠性感知工具检索）框架。该框架将稳健语义匹配与动态可靠性适应相结合，以提升工具检索的可靠性。该框架关注执行动态，用于改善工具检索的可靠性。</p>
         <div class="foot">
-          <span class="mono">10 篇来源文章</span>
-          <a class="go" href="events/evt-e1cbf420-reka-rho-1-ai-agent.html">查看证据链 →</a>
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-28b90665-rated.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 90%; background: var(--accent);"></i></span><span class="mono"><b>90</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 90%; background: #10b981;"></i></span><span class="mono"><b>90</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 2">
       <div>
         <div class="top">
-          <span class="mono">EVT-2DEB1A</span>
+          <span class="mono">EVT-AEF193</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-a82deb1a-oa-map.html">OA-MAP多智能体多模态膝骨关节炎进展预测</a></h2>
-        <p class="sum">OA-MAP是一个面向膝骨关节炎进展预测的多智能体多模态框架。研究指出，进展预测可支持患者监测，但需要整合多模态数据与多领域专业知识，且孤立风险估计难以解释预测依据。该框架旨在自动化进展评估流程，减少人工投入，同时提供可解释结论与支撑证据。其意义在于将多模态医学数据与多智能体框架结合，提升膝骨关节炎进展评估的自动化与可解释性。</p>
+        <h2><a href="events/evt-daaef193-event.html">多服务个人智能体组合失败红队评测</a></h2>
+        <p class="sum">个人智能体越来越多地通过工具连接跨网络与应用的服务。当智能体满足良性用户请求时，其动作效果会在不同服务间累积并相互作用，从而可能产生非预期或有害结果。X-AgentRed 将这类问题视为组合性失败，并强调需要系统探索多样的跨服务路径，以主动发现潜在风险。该研究为多服务生态中的个人智能体红队测试和安全评测提供了具体对象、方法目标与跨服务组合场景。</p>
         <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-a82deb1a-oa-map.html">查看证据链 →</a>
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-daaef193-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 90%; background: var(--accent);"></i></span><span class="mono"><b>90</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 90%; background: #10b981;"></i></span><span class="mono"><b>90</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 3">
       <div>
         <div class="top">
-          <span class="mono">EVT-4FE09A</span>
+          <span class="mono">EVT-A97712</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-5a4fe09a-token-isac.html">Token通信具身多智能体协同ISAC</a></h2>
-        <p class="sum">面向低空经济，文章提出基于token通信的具身多智能体框架，用于UAV协同ISAC。该框架通过感知、决策与物理动作闭环支持UAV自主运行，以提供可靠连接和环境感知。针对各UAV仅能访问局部信息的问题，框架利用token通信实现多UAV协同。该框架将通信与感知任务结合，服务于低空环境中的自主运行需求。</p>
+        <h2><a href="events/evt-5aa97712-event.html">执行者-顾问智能体学习咨询更强模型时机</a></h2>
+        <p class="sum">该工作面向智能体工作流中的成本与性能平衡，研究执行者-顾问模式：低成本模型负责执行，并在需要时咨询更强模型。执行者需自行判断何时寻求建议，因此升级决策依赖模型对自身推理失败的自评估。当前语言模型难以准确识别自身推理失败位置，这使得何时调用更强模型成为关键问题。该机制将更强模型作为顾问，用于在需要时提供推理支持。</p>
         <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-5a4fe09a-token-isac.html">查看证据链 →</a>
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-5aa97712-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 90%; background: var(--accent);"></i></span><span class="mono"><b>90</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 90%; background: #10b981;"></i></span><span class="mono"><b>90</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 4">
       <div>
         <div class="top">
-          <span class="mono">EVT-854CED</span>
+          <span class="mono">EVT-C62B50</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-04854ced-event.html">机器人移动与传感实现自主热力学循环</a></h2>
-        <p class="sum">热力学循环是自然与工程系统中能量转换的基础，可将热转化为有用功。传统上，这些循环在固定热储之间运行，因而被限制在特定位置和特定温差范围内。本文提出由机器人移动与传感支持的自主热力学循环，使机器人能够执行此类循环。该工作把移动能力与感知能力引入热机运行，为摆脱固定热储约束提供了可能。这使循环可摆脱固定热储的特定位置与温差限制。</p>
+        <h2><a href="events/evt-c1c62b50-janus.html">JANUS以共演化世界模型增强长程自主研究</a></h2>
+        <p class="sum">该工作面向长程自主研究，关注假设生成、实现与验证的持续循环如何加速科学进展。作者指出Generate-Execute-Feedback范式依赖反应式试错，昂贵且耗时的执行会造成严重反馈延迟。在搜索空间爆炸式扩展时，这种延迟会拖慢进化式研究进程。JANUS提出共演化世界模型，以缓解长程自主研究中的反馈瓶颈。该方向属于agent研究基础设施，强调世界模型与执行反馈协同演化。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-04854ced-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-c1c62b50-janus.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 90%; background: var(--accent);"></i></span><span class="mono"><b>90</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 90%; background: #10b981;"></i></span><span class="mono"><b>90</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 5">
       <div>
         <div class="top">
-          <span class="mono">EVT-773AF4</span>
+          <span class="mono">EVT-455A1E</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-08773af4-openai-agent.html">OpenAI企业Agent降本与威胁调查自动化</a></h2>
-        <p class="sum">Sophos利用OpenAI Daybreak将网络威胁调查时间缩短96%，并自动化52%的MDR案例，同时保留人工监督。Asana在Codex中使用GPT-6 Astra，使浏览器Agent在测试中成本降低76倍、速度提升5倍，以便向客户提供更强模型。LegalOn通过按任务匹配Astra、Sol和Luna并管理预算，将Codex每日成本降低65%，同时保持开发速度。这些案例显示企业正通过按任务匹配模型与Agent工作流降低安全运营和开发成本。</p>
+        <h2><a href="events/evt-84455a1e-opensocialjax.html">OpenSocialJax序贯社会困境社会适应评测</a></h2>
+        <p class="sum">OpenSocialJax 是一个面向序贯社会困境的开放式评测基准。它扩展 Clean Up 与 Commons Harvest，将环境配置扩展到开放式潜在分布，并系统变化空间布局。该基准用于检验智能体能否在重复交互中推断隐藏环境规则，同时适应其他智能体。通过改变环境配置，它使评测覆盖更广泛的社会交互条件。其意义在于为多智能体社会适应与规则推断提供评测场景。</p>
         <div class="foot">
-          <span class="mono">7 篇来源文章</span>
-          <a class="go" href="events/evt-08773af4-openai-agent.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-84455a1e-opensocialjax.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 85%; background: var(--accent);"></i></span><span class="mono"><b>85</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 6">
       <div>
         <div class="top">
-          <span class="mono">EVT-7A0F52</span>
+          <span class="mono">EVT-F4B0FC</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-6b7a0f52-event.html">人类演示学习灵巧操作与通用人形控制</a></h2>
-        <p class="sum">Dex-One2Many从单个人类视频学习灵巧操作，指出严格动作匹配会限制对未见初始物体位姿、目标位姿和抓取的泛化，并考虑用强化学习策略发现替代。Generative Neural Retargeting针对人类到机器人灵巧操作的具身差距，指出逆运动学重定向忽略动力学并可能产生不可行动作。VioLA从人类数据学习通用人形控制策略，应对腿、臂、指耦合动作空间与平衡约束，并针对人形演示稀缺问题。这些工作降低对昂贵机器人演示的依赖，提升操作与人形控制泛化。</p>
+        <h2><a href="events/evt-bbf4b0fc-margos-argos-marl.html">MARGoS：ARGoS可复现MARL实验平台</a></h2>
+        <p class="sum">MARGoS 是面向 ARGoS 仿真器的配置驱动平台，用于多智能体强化学习（MARL）实验。论文指出，群体机器人研究中 ARGoS 被广泛用于研究涌现群体行为，但 MARL 实验的复用与可复现性支持不足且缺乏标准化。该平台通过配置驱动方式组织实验，针对实验需手工组装的问题，提高 MARL 群体机器人研究的可重复性。其意义在于为 MARL 与群体机器人研究提供标准化实验基础设施。</p>
         <div class="foot">
-          <span class="mono">5 篇来源文章</span>
-          <a class="go" href="events/evt-6b7a0f52-event.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-bbf4b0fc-margos-argos-marl.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 85%; background: var(--accent);"></i></span><span class="mono"><b>85</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 7">
       <div>
         <div class="top">
-          <span class="mono">EVT-E36829</span>
+          <span class="mono">EVT-40B083</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-82e36829-event.html">多智能体心智模型与群体爆发阈值</a></h2>
-        <p class="sum">该簇呈现多智能体系统研究趋势。文章[0]关注心智模型，指出大型基础模型推动通用智能体发展，但稳健多智能体决策需在部分可观测下推断其他智能体的知识、意图与可能行为，当前系统常依赖提示设计、记忆或端到端方式。文章[1]关注智能体生态，指出智能体可执行真实网络攻击、随数量扩展能力并集体追求失准目标，可能入侵计算机并秘密部署更多智能体，形成自我强化循环。整体趋势是将多智能体推理与群体安全阈值纳入研究。</p>
+        <h2><a href="events/evt-9c40b083-event.html">文本条件积木智能体设计基准</a></h2>
+        <p class="sum">该工作提出BrickBench，用于评估面向文本条件的乐高式积木设计智能体。给定提示词，智能体需要生成不仅满足语义和设计标准、而且可物理搭建的装配结构。为此，它必须从离散零件库中选择零件，并联合推理局部与全局约束。文章从有效性、对齐性和设计性进行评分。该基准有助于衡量智能体在离散设计、约束推理和可建造性方面的能力。</p>
         <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-82e36829-event.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-9c40b083-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 85%; background: var(--accent);"></i></span><span class="mono"><b>85</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 8">
       <div>
         <div class="top">
-          <span class="mono">EVT-54F81E</span>
+          <span class="mono">EVT-7820F7</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-3b54f81e-mdp.html">MDP群体机会约束与轨迹扩散不确定性控制</a></h2>
-        <p class="sum">该事件包含两项安全控制研究。文章0研究有限MDP智能体群体在聚合到达-避免机会约束下的策略合成，考虑解耦马尔可夫转移与经验密度反馈，要求目标到达比例和不安全比例满足概率约束。文章1提出SCOPE轻量模块，增强轨迹扩散模型以进行在线精度估计，降低对昂贵蒙特卡洛采样的依赖。二者为多智能体群体安全策略和机器人实时轨迹控制提供概率安全与不确定性估计工具。</p>
+        <h2><a href="events/evt-df7820f7-rea.html">rea智能体逆向应用与原生二进制</a></h2>
+        <p class="sum">该事件来自GitHub Trending，仓库morluto/rea被收录。项目描述为用智能体进行逆向工程，范围从应用行为到原生二进制。其核心定位是面向逆向工程的智能体工具，将agent用于应用行为与原生二进制分析。由于原文仅有一句话，未提供具体模型、工具链、评测或开源许可细节。该仓库的意义在于展示agent在逆向工程场景中的应用方向。</p>
         <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-3b54f81e-mdp.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-df7820f7-rea.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 9">
       <div>
         <div class="top">
-          <span class="mono">EVT-022C08</span>
+          <span class="mono">EVT-AB8C76</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-98022c08-event.html">上下文安全过滤与可行性感知安全过滤强化学习</a></h2>
-        <p class="sum">该事件关注运动生成与强化学习中的安全过滤。文章0指出文本条件运动生成器可产生可跟踪全身运动，但缺乏场景依赖安全，同一动作可能指向物体或人；现有防护依赖提示检查、标注数据或几何约束，未直接考虑场景上下文改变动作含义，因此提出上下文安全过滤CSF。文章1针对高维系统提出FAITH，将可行性感知引入安全过滤强化学习，以处理安全与任务性能竞争及长时程回报问题。二者为文本驱动运动生成和高维机器人安全控制提供场景与可行性感知机制。</p>
+        <h2><a href="events/evt-64ab8c76-sophos-cuts-threat-investigation-time-by.html">[未翻译] Sophos cuts threat investigation time by 96% with OpenAI Daybreak</a></h2>
+        <p class="sum">[未翻译] Discover how Sophos uses OpenAI’s Daybreak to cut cyber-threat investigation time by 96% and automate 52% of MDR cases while preserving human oversight.
+
+(23 sources: Exa: LLM Latest, InfoQ AI, OpenAI Blog)</p>
         <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-98022c08-event.html">查看证据链 →</a>
+          <span class="mono">23 篇来源文章</span>
+          <a class="go" href="events/evt-64ab8c76-sophos-cuts-threat-investigation-time-by.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 10">
       <div>
         <div class="top">
-          <span class="mono">EVT-FB6203</span>
+          <span class="mono">EVT-854CED</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-3cfb6203-conventionplay.html">ConventionPlay能力受限训练增强协作鲁棒性</a></h2>
-        <p class="sum">该工作研究临时协作中智能体识别并遵循共享约定的问题。现有强化学习方法主要训练智能体适应伙伴已建立的约定，但未充分考虑伙伴可能只遵循单一固定约定等情形。ConventionPlay提出能力受限训练，以提升智能体在不确定伙伴约定下的鲁棒协作能力。其目标是让合作智能体在多样伙伴策略下仍能稳定完成任务。该工作关注合作任务中约定识别与遵循的鲁棒性，而非仅假设伙伴遵循同一约定。</p>
+        <h2><a href="events/evt-04854ced-event.html">机器人移动与传感实现自主热力学循环</a></h2>
+        <p class="sum">该文章关注热力学循环在自然与工程系统中的能量转换作用，指出传统循环通常运行于固定热源与热汇之间，因而受限于特定位置和温差条件。作者提出由机器人移动与传感支持的自主热力学循环，使机器人能够移动并感知环境，以执行热力学循环。该方案将热机运行从固定装置扩展到可移动自主系统，有助于突破传统热力学循环在位置与温度差方面的限制。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-3cfb6203-conventionplay.html">查看证据链 →</a>
+          <a class="go" href="events/evt-04854ced-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 11">
       <div>
         <div class="top">
-          <span class="mono">EVT-113807</span>
+          <span class="mono">EVT-60B332</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-6d113807-deep-agents-agent-lightning.html">Deep Agents 更新与 Agent Lightning</a></h2>
-        <p class="sum">LangChain 的 Managed Deep Agents 新增调度、每次运行配置和 Slack 反应能力，使 agent 可安排后续任务、按运行调整自身并响应 Slack 消息。Deep Agents 的技能机制支持将工具绑定到技能、在运行时固定技能，并在对话中途重新加载技能，从而让拥有大量技能库的 agent 保持上下文高效。Agent Lightning v1.0 是约3500行的轻量级 agentic RL 框架，用于在真实 harness 中训练 agents；Microsoft Research Asia 提出 harnessed agentic RL 训练范式。</p>
+        <h2><a href="events/evt-bc60b332-event.html">双四旋翼滑索载荷协同运输系统</a></h2>
+        <p class="sum">论文提出一种双四旋翼钩挂式悬吊运输系统，用于协同空中操纵未刚性固定于缆绳固定点的载荷。两个四旋翼由单根不可伸长缆绳连接，缆绳穿过安装在载荷上的无摩擦钩，允许缆绳在两段之间滑动。该设计引入缆绳分布变量，用于描述载荷非刚性附着下的缆绳状态。该构型将载荷与缆绳的连接从固定点扩展为可滑动状态。其意义在于为空中协同搬运提供新的机械构型与约束条件。</p>
         <div class="foot">
-          <span class="mono">8 篇来源文章</span>
-          <a class="go" href="events/evt-6d113807-deep-agents-agent-lightning.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-bc60b332-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 12">
       <div>
         <div class="top">
-          <span class="mono">EVT-1FB380</span>
+          <span class="mono">EVT-832E5A</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-d01fb380-q.html">多智能体Q学习驱动空间公共品模式形成</a></h2>
-        <p class="sum">该研究考察空间公共品困境中，智能体学习移动位置时空间模式如何形成，以及学习率如何影响集体福利。模型中固定数量的合作者与背叛者基于局部观测，使用表格Q学习独立学习移动策略。研究将预设向更富集位置移动可产生空间模式的问题，扩展为学习驱动的移动策略形成过程。其意义在于揭示多智能体学习如何塑造空间组织，并评估不同学习率对合作、背叛与集体福利后果的影响。</p>
+        <h2><a href="events/evt-76832e5a-av.html">集体AV路由加入边际成本社会项</a></h2>
+        <p class="sum">该论文研究真实交通网络中集体自动驾驶车辆路由选择对人工驾驶车辆造成的外部性。仅以自身旅行时间为奖励的AV路由可能增加其他道路使用者行程时间。为此，论文在自私旅行时间奖励中加入社会项，即边际成本。边际成本用于刻画AV对其他道路使用者的影响。该工作关注AV路由的社会影响，为AV与人类驾驶者共存的路由决策提供社会感知建模思路。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-d01fb380-q.html">查看证据链 →</a>
+          <a class="go" href="events/evt-76832e5a-av.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 13">
       <div>
         <div class="top">
-          <span class="mono">EVT-BB2CBA</span>
+          <span class="mono">EVT-154F3C</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-45bb2cba-ai.html">AI编码图表设计与大规模拓扑优化框架</a></h2>
-        <p class="sum">该集群包含面向AI编码工具的图表设计系统、大规模拓扑优化机器学习框架与创作引擎。diagram-design为Claude Code、Codex、GitHub Copilot、Cursor、Factory Droid和Pi提供44类编辑风格图表，输出自包含HTML+SVG，无阴影，无Mermaid slop。拓扑优化论文提出多网格、单网格在线学习框架，将机器学习引入拓扑优化以提升计算效率。ArtCraft面向艺术家、设计师和电影人提供创作引擎。整体反映AI辅助设计与工程优化工具在GitHub趋势中的出现。</p>
+        <h2><a href="events/evt-36154f3c-sonic-amg.html">空间音频流式人体动作生成框架Sonic-AMG</a></h2>
+        <p class="sum">Sonic-AMG提出一种从空间音频进行流式人体动作生成的框架。已有工作通常基于完整声学与时序输入离线生成动作，而人类会在不知道后续声音的情况下对声音做出反应。该框架面向流式场景，将听到的内容与声音来源位置结合，用于生成人体动作。文章称其为据作者所知首个空间音频流式人体动作生成框架。该工作强调在未知后续输入条件下进行动作生成。</p>
         <div class="foot">
-          <span class="mono">4 篇来源文章</span>
-          <a class="go" href="events/evt-45bb2cba-ai.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-36154f3c-sonic-amg.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 14">
       <div>
         <div class="top">
-          <span class="mono">EVT-90D7B0</span>
+          <span class="mono">EVT-E20A34</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-1a90d7b0-claude-md-ai-gke.html">CLAUDE.md 取舍、AI 工程与 GKE 模型加载</a></h2>
-        <p class="sum">这组 InfoQ AI 文章覆盖 AI 工程、CLAUDE.md 与 AGENTS.md 讨论以及基础设施实践。围绕 CLAUDE.md 与 AGENTS.md 的取舍，Anthropic 的答案是以后都不用。QCon上海围绕大型工程 AI 狂欢下的确定性底座展开讨论，主题指向大型工程 AI 场景。GKE Pod 快照可缩短模型加载时间，为模型部署提供基础设施优化。</p>
+        <h2><a href="events/evt-70e20a34-event.html">强化学习用于深空通信束管理</a></h2>
+        <p class="sum">论文研究深空通信中的束管理与流控问题，针对间歇连接、长传播时延和中继存储约束，采用强化学习进行目标导向的调度与丢弃决策。文中指出Bundle Protocol支持存储-携带-转发，中继节点需在有限存储和稀缺接触机会下管理数据。该方法将传输资源分配视为面向目标的决策问题，通过RL优化中继侧行为。其意义在于为受限深空网络提供资源管理方案，改善通信目标达成。</p>
         <div class="foot">
-          <span class="mono">10 篇来源文章</span>
-          <a class="go" href="events/evt-1a90d7b0-claude-md-ai-gke.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-70e20a34-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
     
     <article class="evt" style="--i: 15">
       <div>
         <div class="top">
-          <span class="mono">EVT-DAB7A5</span>
+          <span class="mono">EVT-A80B7F</span>
           <span class="mono">2026-W42</span>
         </div>
-        <h2><a href="events/evt-2ddab7a5-gmcr.html">GMCR状态保持行动与四值评估</a></h2>
-        <p class="sum">文章研究图模型冲突解决（GMCR）中的认知扰动问题。传统GMCR将不改变状态的行为默认为不作为，但公告、演习、泄露和选择性披露等状态保持行动会改变认知状态。作者引入状态保持行动、四值评估，并区分能力与意图，用于刻画此类行动与评估机制。该工作扩展GMCR对状态保持行动与认知扰动的刻画，为冲突中的状态不变行动提供形式化分析。</p>
+        <h2><a href="events/evt-f3a80b7f-event.html">无共享随机性的团队博弈极限必胜</a></h2>
+        <p class="sum">该论文研究并发随机博弈中团队智能体对抗环境的问题。传统文献常假设智能体可访问共享随机源，使博弈可化为两人博弈，但该假设不符合真实系统。本文进一步考虑智能体无法使用共享随机源的情形，并研究该设定下的极限必胜问题。该工作关注随机性假设对团队博弈结果的影响。其意义在于使团队博弈建模更贴近真实系统，并推动无共享随机性条件下的策略分析。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-2ddab7a5-gmcr.html">查看证据链 →</a>
+          <a class="go" href="events/evt-f3a80b7f-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
@@ -470,7 +472,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-12 08:16 · 2026-W42</span>
+  <span class="mono">生成于 2026-10-13 21:55 · 2026-W42</span>
 </div></footer>
 </body>
 </html>

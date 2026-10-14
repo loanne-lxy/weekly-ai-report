@@ -5,7 +5,23 @@ this STRICT reasoning order — do NOT skip, merge, or reorder steps:
 
 **Step 0 (RELEVANCE & SPLIT DECISION):**
 1. **First — relevance check**: If the cluster is clearly unrelated to AI/ML (e.g., pure finance, health policy, consumer electronics, general tech news without AI angle), mark is_relevant=false.
-2. **Then — split decision**: If the cluster contains CLEARLY different subtopics (e.g., one group about LLM fine-tuning and another about autonomous robotics), you MAY split into multiple events by returning separate objects with different event_index values. Each sub-event should be coherent on its own. Otherwise, treat the cluster as one cohesive event.
+2. **Then — split decision**: One event = ONE concrete thing — the same
+   specific project / product / paper / model / release. Judge by concrete
+   identity ("is this the same project?"), NOT by shared topic or surface
+   keywords:
+   - Articles about **different** concrete things → MUST split into separate
+     events, even if the topic is closely related. Example: an announcement
+     about "GPT-6 launch" and a blog post about some other "AI agent tool"
+     are two different events, even though both are about AI.
+   - Articles about the **same** concrete thing from different sources →
+     keep as ONE event (do not split); that is how cross-source coverage of
+     the same launch/paper is merged.
+   - In particular: a single article about a different project from the rest
+     of the cluster must be split out into its own single-article event
+     (a lone GitHub trending repo mixed into an unrelated blog cluster is
+     the typical case).
+   Each sub-event should be coherent on its own. Otherwise, treat the cluster
+   as one cohesive event.
 
 **Step 1 (Select Top-3):** Scan the article cluster. Pick the 3 most informative
 articles. Note their indices.

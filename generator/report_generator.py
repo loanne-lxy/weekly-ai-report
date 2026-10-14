@@ -492,6 +492,20 @@ def generate_report(
     os.makedirs(events_dir, exist_ok=True)
     for evt in all_events:
         evt_arts = articles_by_event.get(evt["id"], [])
+        # Evidence Chain order: LLM Top-3 first, remaining keep DB order
+        top_urls = []
+        raw_top = evt.get("top_article_urls")
+        if raw_top:
+            try:
+                top_urls = json.loads(raw_top) if isinstance(raw_top, str) else list(raw_top)
+            except (ValueError, TypeError):
+                top_urls = []
+        if top_urls:
+            rank = {u: i for i, u in enumerate(top_urls)}
+            # stable sort: Top-3 float to front, remainder keeps DB order
+            evt_arts = sorted(
+                evt_arts, key=lambda a: rank.get(a.get("url", ""), len(rank))
+            )
         evt_srcs = dict(Counter(
             a.get("source_id", "") for a in evt_arts
         ))

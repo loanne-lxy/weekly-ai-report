@@ -123,9 +123,15 @@ def _init_db(db_path: str = "data/knowledge.db") -> sqlite3.Connection:
             novelty         REAL,
             impact          REAL,
             source_count    INTEGER DEFAULT 0,
-            created_at      TEXT
+            created_at      TEXT,
+            top_article_urls TEXT
         )
     """)
+    # 旧库迁移：补 top_article_urls 列
+    try:
+        conn.execute("ALTER TABLE events ADD COLUMN top_article_urls TEXT")
+    except sqlite3.OperationalError:
+        pass
     conn.execute("CREATE INDEX IF NOT EXISTS idx_events_week ON events(week_label)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_events_category ON events(category)")
 
@@ -386,6 +392,10 @@ class KnowledgeStore:
             # Determine source_count from article_indices
             source_count = len(evt.get("article_indices", []))
 
+            # Top-3 article URLs (for Evidence Chain ordering: top3 first)
+            top_urls = self._resolve_top_urls(evt)
+            top_json = json.dumps(top_urls, ensure_ascii=False) if top_urls else None
+
             existing = conn.execute(
                 "SELECT id FROM events WHERE id = ?", (eid,)
             ).fetchone()
@@ -396,7 +406,7 @@ class KnowledgeStore:
                     UPDATE events SET
                         title=?, summary=?, category=?,
                         importance=?, novelty=?, impact=?,
-                        source_count=?
+                        source_count=?, top_article_urls=?
                     WHERE id=?
                 """, (
                     title, summary, category,
@@ -404,14 +414,16 @@ class KnowledgeStore:
                     evt.get("novelty", 0.5),
                     evt.get("impact", 0.5),
                     source_count,
+                    top_json,
                     eid,
                 ))
             else:
                 conn.execute("""
                     INSERT INTO events
                         (id, week_label, title, summary, category,
-                         importance, novelty, impact, source_count, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                         importance, novelty, impact, source_count, created_at,
+                         top_article_urls)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """, (
                     eid, week_label, title, summary, category,
                     evt.get("importance", 0.5),
@@ -419,10 +431,29 @@ class KnowledgeStore:
                     evt.get("impact", 0.5),
                     source_count,
                     now,
+                    top_json,
                 ))
                 inserted += 1
 
         return inserted
+
+    @staticmethod
+    def _resolve_top_urls(evt: dict[str, Any]) -> list[str]:
+        """Map an event's LLM Top-3 (positions within its article list) to URLs.
+
+        ``top_articles`` holds positions into ``evt['articles']`` (the event's
+        own article list, order == article_indices). Resolve to URLs so the
+        generator can reorder the Evidence Chain with the Top-3 first.
+        """
+        top = evt.get("top_articles") or []
+        urls: list[str] = []
+        arts = evt.get("articles") or []
+        for pos in top:
+            if isinstance(pos, int) and 0 <= pos < len(arts):
+                url = (arts[pos] or {}).get("url", "")
+                if url and url not in urls:
+                    urls.append(url)
+        return urls[:3]
 
     def _batch_upsert_event_articles(
         self, conn: sqlite3.Connection,

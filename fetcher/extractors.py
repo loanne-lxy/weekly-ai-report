@@ -320,7 +320,7 @@ class GitHubExtractor:
             soup = BeautifulSoup(result.text, "html.parser")
             repos = soup.select("article.Box-row h2")
             articles = []
-            for h2 in repos[:10]:
+            for rank, h2 in enumerate(repos[:10], start=1):
                 link = h2.find("a")
                 if not link:
                     continue
@@ -384,6 +384,7 @@ class GitHubExtractor:
                         "language": language,
                         "stars_gained": stars_gained,
                         "forks": forks,
+                        "trending_rank": rank,
                         "trending_period": period,
                         "repo_owner": repo_parts[0] if len(repo_parts) >= 2 else "",
                         "repo_name": repo_parts[1] if len(repo_parts) >= 2 else "",

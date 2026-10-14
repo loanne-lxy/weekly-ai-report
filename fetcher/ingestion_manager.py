@@ -283,8 +283,9 @@ class IngestionManager:
                         if k not in {
                             "url", "title", "summary",
                             "published", "author",
+                            "raw_extra",
                         }
-                    },
+                    } | (r.get("raw_extra") or {}),
                 } for r in raw
             ])
 

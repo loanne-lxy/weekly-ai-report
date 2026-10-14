@@ -275,6 +275,25 @@ def compute_final_score(
     }
 
 
+def _trending_popularity(articles: list[dict[str, Any]]) -> float:
+    """GitHub Trending rank → popularity boost (0-0.3), added to importance.
+
+    Uses the best (lowest) trending rank across the event's articles.
+    rank 1 → +0.30, rank 10 → +0.03 (linear). 0 when no trending article.
+    ponytail: rank only (extractor caps at top-10, stars-gained parse is broken);
+    swap to a stars-based score once extractors.py star extraction is fixed.
+    """
+    best = None
+    for a in articles:
+        r = (a.get("raw_extra") or {}).get("trending_rank")
+        if isinstance(r, int) and 1 <= r <= 10:
+            if best is None or r < best:
+                best = r
+    if best is None:
+        return 0.0
+    return round(0.30 * (11 - best) / 10.0, 4)
+
+
 def score_event(
     articles: list[dict[str, Any]],
     llm_scores: dict[str, float],
@@ -288,6 +307,15 @@ def score_event(
     """
     if now is None:
         now = datetime.now(timezone.utc)
+
+    # Popularity: GitHub Trending rank boosts importance (very popular but
+    # semantically off-center repos otherwise sink to the evidence-chain bottom)
+    popularity = _trending_popularity(articles)
+    if popularity > 0:
+        llm_scores = dict(llm_scores)
+        llm_scores["importance"] = min(
+            1.0, llm_scores.get("importance", 0.5) + popularity
+        )
 
     # 1. Objective metrics
     obj = compute_objective_metrics(articles, now)

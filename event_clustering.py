@@ -28,7 +28,7 @@ SOCIAL_THRESHOLD = 0.30  # 哪些源算 social (source_name 包含以下任一)
 ACADEMIC_KEYWORDS = ("arxiv", "nature")  # 学术源关键词
 
 SOCIAL_CONFIG = {
-    "n_neighbors": 3,
+    "n_neighbors": 5,
     "n_components": 5,
     "min_cluster_size": 2,
     "min_dist": 0.0,

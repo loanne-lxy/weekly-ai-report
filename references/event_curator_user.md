@@ -8,7 +8,14 @@ Batch of {batch_size} Events:
 {events}
 ```
 
-## Output format — JSON array, one object per event:
+## Output format — JSON array:
+
+- Default: one object per input event (no `article_indices` field).
+- Split (per Step 0): output ONE OBJECT PER SUB-EVENT. All sub-event objects
+  for the same input event share the SAME `event_index`, and each carries an
+  `article_indices` field: the 0-based article indices (as shown in input)
+  belonging to that sub-event. Together they must cover ALL articles of the
+  input event, without overlap.
 
 ```json
 [
@@ -28,6 +35,14 @@ Batch of {batch_size} Events:
     "tags": ["标签1", "标签2"],
     "top_articles": [2, 0, 1],
     "evidence_articles": [2, 0]
+  }},
+  {{
+    "event_index": 0,
+    "article_indices": [5],
+    "is_relevant": true,
+    "event_title": "（拆出的子事件，字段同上）",
+    "top_articles": [5],
+    "evidence_articles": [5]
   }}
 ]
 ```
@@ -36,6 +51,8 @@ Batch of {batch_size} Events:
 
 - `top_articles`: Indices of the 3 best articles (0-based as shown in input).
   If fewer than 3 exist, list all. If is_relevant=false, set [].
+  For SPLIT sub-events: indices must come from that sub-event's
+  `article_indices` only, and cover its most informative articles (≤3).
 - `evidence_articles`: The article indices (from input sample) that SUPPORT
   your scores. Must be a subset of the indices shown above. Max 3.
   Backend WILL reject IDs not in the sample list.

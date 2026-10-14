@@ -243,70 +243,80 @@ class EventCurator:
                     results = [results]
 
                 curated = []
+                # Group LLM objects by input event. Step 0 may split one input
+                # event into several sub-event objects sharing event_index,
+                # each carrying per-object article_indices (display indices).
+                by_src: dict[int, list[dict]] = {}
+                for data in results:
+                    if not isinstance(data, dict):
+                        continue
+                    ei = data.get("event_index", 0)
+                    if not isinstance(ei, int) or not (0 <= ei < len(batch)):
+                        logger.warning(f"Ignoring LLM object with invalid event_index={ei!r}")
+                        continue
+                    by_src.setdefault(ei, []).append(data)
+
                 for i, evt in enumerate(batch):
-                    if i >= len(results) or not isinstance(results[i], dict):
+                    n_articles = len(evt.get("articles", []))
+                    rev_map = batch_remaps[i] if i < len(batch_remaps) else {j: j for j in range(n_articles)}
+                    srcs = by_src.get(i, [])
+                    if not srcs:
                         curated.append(self._fallback_event(evt, embeddings))
                         continue
-
-                    data = results[i]
-
-                    # top_articles fallback: if LLM returned empty, use centroid
-                    top_display = data.get("top_articles", [])
-                    if not top_display:
-                        top = self._pick_fallback_top(evt, embeddings)
-                    else:
-                        # Remap display indices → original event indices
-                        rev_map = batch_remaps[i] if i < len(batch_remaps) else {j: j for j in range(len(evt.get("articles", [])))}
-                        top = [rev_map.get(di, di) for di in top_display if di in rev_map]
-
-                    # Validate evidence_articles: must be valid indices in the display set
-                    display_count = len(display_articles) if 'display_articles' in dir() else len(evt.get("articles", []))
-                    raw_evidence = data.get("evidence_articles", [])
-                    valid_evidence: list[int] = []
-                    for eid in raw_evidence:
-                        if isinstance(eid, int) and 0 <= eid < display_count:
-                            # Remap to original index
-                            rev_map = batch_remaps[i] if i < len(batch_remaps) else {j: j for j in range(display_count)}
-                            orig_idx = rev_map.get(eid, eid)
-                            valid_evidence.append(orig_idx)
-                    if raw_evidence and not valid_evidence:
+                    if len(srcs) == 1 and "article_indices" not in srcs[0]:
+                        # 1:1 — single event, no split. local_rev = display→position.
+                        curated.append(self._build_curated(
+                            evt, srcs[0], rev_map, n_articles, embeddings))
+                        continue
+                    # 1:N split — normalize + validate display indices.
+                    # Exactly one sub-event may omit article_indices; it
+                    # takes the remainder of the cluster.
+                    parsed: list[list[int] | None] = []
+                    for data in srcs:
+                        raw = data.get("article_indices")
+                        if isinstance(raw, list):
+                            parsed.append([d for d in raw if isinstance(d, int) and 0 <= d < n_articles])
+                        else:
+                            parsed.append(None)
+                    n_missing = sum(1 for p in parsed if not p)
+                    if n_missing == 1:
+                        covered: set[int] = set()
+                        for p in parsed:
+                            if p:
+                                covered.update(p)
+                        for k in range(len(parsed)):
+                            if not parsed[k]:
+                                parsed[k] = [j for j in range(n_articles) if j not in covered]
+                    valid = (
+                        n_missing <= 1
+                        and all(parsed)
+                        and all(len(p) == len(set(p)) for p in parsed)
+                        and sorted(rev_map.get(d, d) for p in parsed for d in p)
+                        == list(range(n_articles))
+                    )
+                    if not valid:
                         logger.warning(
-                            f"Event {idx}: evidence_articles {raw_evidence} "
-                            f"all invalid for {display_count} articles — dropped"
+                            f"Event {i}: invalid split (duplicate/missing "
+                            f"article indices) — keeping whole cluster as single event"
                         )
-                    # 证据不足时回退到 top_articles，保证 evidence 始终有来源
-                    if not valid_evidence:
-                        valid_evidence = top[:3]
-
-                    # 类别：别名归一；未分类时用源先验（文章类别众数）
-                    raw_cat = data.get("category", "") or ""
-                    cat = _clean_category(str(raw_cat))
-                    if not cat:
-                        src_cats = [
-                            str(a.get("category", "") or a.get("default_category", "")).strip()
-                            for a in evt.get("articles", [])
-                        ]
-                        src_cats = [c for c in src_cats if c]
-                        cat = Counter(src_cats).most_common(1)[0][0] if src_cats else ""
-
-                    curated.append({
-                        **evt,
-                        "is_relevant": data.get("is_relevant", False),
-                        "event_title": data.get("event_title", evt.get("title", "")),
-                        "event_summary": data.get("event_summary", evt.get("summary", ""))[:800],
-                        "category": cat,
-                        # 0-1 float scores
-                        "importance": max(0, min(1, float(data.get("importance", 0.5)))),
-                        "importance_rationale": (data.get("importance_rationale") or "")[:100],
-                        "novelty": max(0, min(1, float(data.get("novelty", 0.5)))),
-                        "novelty_rationale": (data.get("novelty_rationale") or "")[:100],
-                        "impact": max(0, min(1, float(data.get("impact", 0.5)))),
-                        "impact_rationale": (data.get("impact_rationale") or "")[:100],
-                        "key_insights": data.get("key_insights", []),
-                        "tags": data.get("tags", []),
-                        "top_articles": top,
-                        "evidence_articles": valid_evidence[:3],
-                    })
+                        curated.append(self._fallback_event(evt, embeddings))
+                        continue
+                    logger.info(
+                        f"Event {i}: split into {len(srcs)} sub-events "
+                        f"({[len(p) for p in parsed]} articles)"
+                    )
+                    for data, d_idx in zip(srcs, parsed):
+                        positions = [rev_map.get(d, d) for d in d_idx]
+                        sub_evt = {
+                            **evt,
+                            "article_indices": [evt["article_indices"][p] for p in positions],
+                            "articles": [evt["articles"][p] for p in positions],
+                        }
+                        # LLM top/evidence indices are display indices into the
+                        # WHOLE event → map to local positions in the sub-event
+                        local_rev = {d: pos for pos, d in enumerate(d_idx)}
+                        curated.append(self._build_curated(
+                            sub_evt, data, local_rev, len(d_idx), embeddings))
                 return curated
 
         batch_results = await asyncio.gather(*[_do_batch(b) for b in batches])
@@ -317,3 +327,67 @@ class EventCurator:
         logger.info(f"Event Curator: {len(relevant)} relevant events (filtered from {len(all_events)})")
 
         return relevant
+
+    def _build_curated(
+        self,
+        evt: dict[str, Any],
+        data: dict[str, Any],
+        local_rev: dict[int, int],
+        display_count: int,
+        embeddings: np.ndarray | None,
+    ) -> dict[str, Any]:
+        """Build one curated event dict from one LLM result object.
+
+        local_rev maps LLM display indices → positions into evt['articles'].
+        """
+        # top_articles fallback: if LLM returned empty, use centroid
+        top_display = data.get("top_articles", [])
+        if not top_display:
+            top = self._pick_fallback_top(evt, embeddings)
+        else:
+            top = [local_rev.get(di, di) for di in top_display if di in local_rev]
+
+        # Validate evidence_articles: must be valid indices in the display set
+        raw_evidence = data.get("evidence_articles", [])
+        valid_evidence: list[int] = []
+        for eid in raw_evidence:
+            if isinstance(eid, int) and 0 <= eid < display_count and eid in local_rev:
+                valid_evidence.append(local_rev[eid])
+        if raw_evidence and not valid_evidence:
+            logger.warning(
+                f"Event {evt.get('title', '')[:40]}: evidence_articles {raw_evidence} "
+                f"all invalid for {display_count} articles — dropped"
+            )
+        # 证据不足时回退到 top_articles，保证 evidence 始终有来源
+        if not valid_evidence:
+            valid_evidence = top[:3]
+
+        # 类别：别名归一；未分类时用源先验（文章类别众数）
+        raw_cat = data.get("category", "") or ""
+        cat = _clean_category(str(raw_cat))
+        if not cat:
+            src_cats = [
+                str(a.get("category", "") or a.get("default_category", "")).strip()
+                for a in evt.get("articles", [])
+            ]
+            src_cats = [c for c in src_cats if c]
+            cat = Counter(src_cats).most_common(1)[0][0] if src_cats else ""
+
+        return {
+            **evt,
+            "is_relevant": data.get("is_relevant", False),
+            "event_title": data.get("event_title") or evt.get("title", ""),
+            "event_summary": (data.get("event_summary") or evt.get("summary", ""))[:800],
+            "category": cat,
+            # 0-1 float scores
+            "importance": max(0, min(1, float(data.get("importance") or 0.5))),
+            "importance_rationale": (data.get("importance_rationale") or "")[:100],
+            "novelty": max(0, min(1, float(data.get("novelty") or 0.5))),
+            "novelty_rationale": (data.get("novelty_rationale") or "")[:100],
+            "impact": max(0, min(1, float(data.get("impact") or 0.5))),
+            "impact_rationale": (data.get("impact_rationale") or "")[:100],
+            "key_insights": data.get("key_insights", []),
+            "tags": data.get("tags", []),
+            "top_articles": top,
+            "evidence_articles": valid_evidence[:3],
+        }

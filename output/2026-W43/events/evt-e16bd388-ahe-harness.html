@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AHE自动演化编码智能体harness — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W43</b> · 2026-10-19</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W43</span>
+      <span class="mono" style="color: var(--text-3);">8 篇来源文章</span>
+    </div>
+    <h1>AHE自动演化编码智能体harness</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">95<small> / 100</small></div>
+        <div class="bar"><i style="width: 95%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">70<small> / 100</small></div>
+        <div class="bar"><i style="width: 70%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">90<small> / 100</small></div>
+        <div class="bar"><i style="width: 90%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">AHE 是面向编码智能体 harness 的自动演化方法，强调以可观测性驱动 harness 的持续改进。其官方代码仓库提供 AHE 实现，并与 meta-harness 并行工作。NexAU-AHE 在 Terminal-Bench 2 上达到 84.7% ± 2.1 的 pass@1，使用 GPT-5.5。该方法在 10 次迭代中将 GPT-5.4 从 69.7% 提升到 77.0%，并优于 Codex、ACE 与 Training-Free GRPO；冻结后的 harness 可迁移到 SWE-bench-Verified。</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 8 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://github.com/CloudEngineHub/agentic-harness-engineering" target="_blank" rel="noopener noreferrer">GitHub - CloudEngineHub/agentic-harness-engineering: Official AHE code — Agentic Harness Engineering: observability-driven automatic evolution of coding-agent harnesses (concurrent w/ meta-harness). NexAU-AHE reaches 84.7% ± 2.1 pass@1 on Terminal-Bench 2 (GPT-5.5). Lifts GPT-5.4 69.7→77.0% over 10 iters, beats Codex/ACE/Training-Free GRPO; frozen harness transfers to SWE-bench-Verified.</a></h3>
+          <p class="sum">---
+title: "GitHub - CloudEngineHub/agentic-harness-engineering: Official AHE code — Agentic Harness Engineering: observability-driven automatic evolution of coding-agent harnesses (concurrent w/ meta-harness). NexAU-AHE reaches 84.7% ± 2.1 pass@1 on Terminal-Bench 2 (GPT-5.5). Lifts GPT-5.4 69.7→77.0% over 10 iters, beats Codex/ACE/Training-Free GRPO; frozen harness transfers to SWE-bench-Verified."
+url: https://github.com/CloudEngineHub/agentic-harness-engineering
+hostname: github.com
+description: "Official AHE code — Agentic Harness Engineering: observability-driven automatic evolution of coding-agent harnesses (concurrent w/ meta-harness). NexAU-AHE reaches 84.7% ± 2.1 pass@1 on Terminal-Be..."
+sitename: GitHub
+date: "2026-05-20"
+categories: ['repository:1245124492']
+---
+English | 简体中文
+- [2026-05-14] 🏆 AHE (on GPT-5.5) ranked #3 on the Terminal-Bench 2.0 leaderboard with 84.7% — ranking as of 2026-05-15
+- [2026-04-30] ✍️ Blog post on Dawning Road (English & Chinese) — a more detailed account of the exploration behind AHE: Agentic Harness Engineering
+- [2026-04-28] 📄 Paper released on arXiv: Agentic Harness Engineering: Observability-Driven Automatic Evolution of Coding-Agent Harnesses
+- [2026-04] 🎉 Framework released
+AHE (Agentic Harness Engineering) is an open observability system for automatically evolving the harness around a coding agent. The base model is held fixed; what evolves are the harness components — system prompts, tool descriptions, tool implementations, middleware, skills, sub-agents, and long-term memory.
+AHE rests on three observability layers:
+- Component observability — NexAU decomposes the harness into seven orthogonal, file-level components, each git-tracked so every edit is auditable and revertible.
+- Experience observability — Agent Debugger distills ~10M-token raw traces into layered, sourced reports; the optimizer reads digests by default but can always drill back to any rollout's raw trace.
+- Decision observability — Evolve Agent propo</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-20</span>
+            <a class="url" href="https://github.com/CloudEngineHub/agentic-harness-engineering" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://github.com/Root-IO-Labs/open-agent-teams" target="_blank" rel="noopener noreferrer">GitHub - Root-IO-Labs/open-agent-teams: OAT is a framework for running teams of AI coding agents that collaborate on a shared codebase.</a></h3>
+          <p class="sum">---
+title: "GitHub - Root-IO-Labs/open-agent-teams: OAT is a framework for running teams of AI coding agents that collaborate on a shared codebase."
+url: https://github.com/Root-IO-Labs/open-agent-teams
+hostname: github.com
+description: OAT is a framework for running teams of AI coding agents that collaborate on a shared codebase. - Root-IO-Labs/open-agent-teams
+sitename: GitHub
+date: "2026-05-04"
+categories: ['repository:1228504283']
+---
+OAT is a framework for running teams of AI coding agents that collaborate on a shared codebase. It assembles a coordinated team of AI agents — supervisor, merge queue, workers, reviewers — that plan, implement, test, and ship code while you focus on architecture and direction. Every agent gets its own process and git worktree. You coach. They deliver.
+Works with 17+ LLM providers via langchain, including Anthropic, OpenAI, Google, OpenRouter, and local Ollama. 13 ready-to-use probe-scored profiles ship in model-routing/profiles/ across 6 provider families. Not locked to any single model or vendor.
+Don't run shell commands by hand. Paste the prompt below into Cursor, Claude Code, Codex, or any agent with shell access. Provider tokens (ANTHROPIC_API_KEY, OPENAI_API_KEY, etc.) are assumed to already be in the agent's environment.
+Install OAT (Open Agent Teams) on this machine end-to-end.
+Repo:        https://github.com/Root-IO-Labs/open-agent-teams
+Branch:      main
+Clone to:    ~/src/open-agent-teams
+Contract:    oats/INSTALL.md (read this AFTER cloning — it has every gate)
+Rules:
+- Verify each gate before moving on. Stop on the first real failure and
+  report the exact command, exit code, and last ~30 lines of output.
+- Do NOT skip steps, guess keys, edit my shell rc without asking, or run
+  destructive commands without explicit approval.
+- A provider API key is already in my environment. If none is set,
+  ask which provider I want and request the key once.
+Steps (full detail in oats/INSTALL.md after clone):
+  1. Check prereqs: go=</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-04</span>
+            <a class="url" href="https://github.com/Root-IO-Labs/open-agent-teams" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://github.com/adenhq/hive/" target="_blank" rel="noopener noreferrer">GitHub - aden-hive/hive: Multi-Agent Harness for Production AI</a></h3>
+          <p class="sum">---
+title: "GitHub - aden-hive/hive: Multi-Agent Harness for Production AI"
+url: https://github.com/aden-hive/hive
+hostname: github.com
+description: Multi-Agent Harness for Production AI. Contribute to aden-hive/hive development by creating an account on GitHub.
+sitename: GitHub
+date: "2026-01-12"
+categories: ['repository:1132431999']
+---
+  
+English | 简体中文 | Español | हिन्दी | Português | 日本語 | Русский | 한국어
+Tell a queen agent what you need. She does the first piece herself to learn what the job takes, then hands the rest to as many parallel workers as it needs. Every result lands in a shared tracker you can query, audit and resume from.
+  
+  
+  A real run. Only the typing and the waiting are sped up, and the badge says by how much. Watch the full run (MP4).
+A growth team preparing a Show HN wants to know how five developer tools' own launches did on Hacker News. Here's what Hive did with that one message:
+- You hand it to a queen. Queens are long-lived agents with a role (here, Head of Growth) and their own memory and tools.
+- She asks the one question that changes the answer: every launch post, or only each product's original launch? You pick every launch, and she carries on.
+- She proposes a colony, and you approve it. Five products means five parallel jobs, so the chat becomes a colony: the queen plus as many worker agents as the work needs.
+- She does one herself. She takes PostHog first, works out what counts as a genuine launch post rather than a passing mention, checks the numbers against the Hacker News API, and saves the method as a reusable skill.
+- She fans out. A playbook starts one worker per product. Each follows her skill and writes its result to the colony's tracker, a shared SQLite table.
+- She checks every row before she answers, and fixes one. Cal.com's worker counted a post from its old name, Calendso, but that post wasn't a Show HN, Launch HN or YC launch. She clears the row, and the chart shows Cal.com as not found rather than zero.
+None of th</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-01-12</span>
+            <a class="url" href="https://github.com/adenhq/hive/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://github.com/fynnfluegge/agtx" target="_blank" rel="noopener noreferrer">GitHub - fynnfluegge/agtx: 🏄🏼♂️ The blackboard for coding agents - agentic development environment for claude code, codex, cursor, opencode, grok and more.</a></h3>
+          <p class="sum">---
+title: "GitHub - fynnfluegge/agtx: 🏄🏼♂️ The blackboard for coding agents - agentic development environment for claude code, codex, cursor, opencode, grok and more."
+url: https://github.com/fynnfluegge/agtx
+hostname: github.com
+description: "🏄🏼♂️ The blackboard for coding agents - agentic development environment for claude code, codex, cursor, opencode, grok and more. - fynnfluegge/agtx"
+sitename: GitHub
+date: "2026-02-08"
+categories: ['repository:1152720637']
+---
+The terminal-native agentic development environment for 10x productivity.
+A blackboard for coding agents - One shared board. A fleet of agents. Add tasks, delegate to multiple coding agents running in parallel and let different models collaborate on the same task with automatic session switching and context awareness, e.g. Codex planning, Claude implementing, Grok review.
+Quick Start • Features • Usage • Mobile • Skills • Oneshot • MCP Server • Plugins • Orchestrator • Configuration
+- Supported Agents: Claude Code Codex Grok Cursor OpenCode Antigravity Gemini CLI Copilot pi
+- Parallel Multi-agent task lifecycle: Configure different agents per workflow phase — e.g. Grok for research, Claude for implementation, Codex for review — with automatic agent switching and context handover.
+- Multi-project Kanban board: Manage agent sessions across all projects via a single TUI without leaving your terminal.
+- Vim-native Keybindings: Control the board and agent sessions with your Vim-powered muscle memory.
+- Mobile support: Press W and scan the QR for an installable web app with the board, task details, diffs and the agent's live terminal — including a keyboard, so you can answer a permission prompt without going back to your desk. Over your wifi, or from anywhere via your tailnet. See Mobile.
+- Orchestrator agent (experimental): A dedicated agent that autonomously manages your kanban board via MCP — delegates to coding agents, advances phases, checks for merge conflicts.
+- Oneshot skill: Give a coding agent sessi</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-02-08</span>
+            <a class="url" href="https://github.com/fynnfluegge/agtx" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 4">
+          <h3><span class="step">A5</span><a href="https://github.com/mica-agent/mica" target="_blank" rel="noopener noreferrer">GitHub - mica-agent/mica: Canvas for Agent-First Building Experiments</a></h3>
+          <p class="sum">---
+title: "GitHub - mica-agent/mica: Canvas for Agent-First Building Experiments"
+url: https://github.com/mica-agent/mica
+hostname: github.com
+description: Canvas for Agent-First Building Experiments. Contribute to mica-agent/mica development by creating an account on GitHub.
+sitename: GitHub
+date: "2026-05-26"
+categories: ['repository:1249738753']
+---
+Mica is an agent-first builder: a workspace where you collaborate with one or more AI agents to define a task, compose and review the context (the information relevant to solving it), and build the small ephemeral apps needed to solve it. The apps live on the same visual canvas as the context that drove them, and are used in place — Mica is both where the work gets planned and where the resulting tools get run.
+The project was built to explore what is possible for agentic tools running on local hardware against state-of-the-art coding models. Mica ships preconfigured with Qwen3.6-35B (MoE) and three coding agents — OpenCode, Qwen Code, and Claude Code — so you can run the same task through each and compare. Other local models drop in with a config change; an OpenRouter integration is available for cloud models when you want them. On a DGX Spark, you can comfortably run concurrent agents alongside STT and TTS models.
+Mica fits well when the answer to a problem is a small focused tool rather than a major application. Examples of categories appear are promising so far: interactive information visualizers (dashboards over a API, CSV, charts over a git history, interactive maps ); knowledge extraction over private data (chatting with your own documents, notes, or chat history; answers and summaries that never leave the machine); and workflow automation (short scripts that batch-rename files, watch a directory, sync between services, or chain a few CLI tools). In each case the agent leans on existing libraries and CLIs rather than writing everything from scratch — assembling them into a card you can use immediately.
+Mica i</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-26</span>
+            <a class="url" href="https://github.com/mica-agent/mica" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 5">
+          <h3><span class="step">A6</span><a href="https://github.com/rekursiv-ai/sagent" target="_blank" rel="noopener noreferrer">GitHub - rekursiv-ai/sagent: A coding-agent CLI and strongly-typed Python library -- self-mutating, hot-swapping, multi-provider, with async tool calls and bidirectional recursive spawn.</a></h3>
+          <p class="sum">---
+title: "GitHub - rekursiv-ai/sagent: A coding-agent CLI and strongly-typed Python library -- self-mutating, hot-swapping, multi-provider, with async tool calls and bidirectional recursive spawn."
+url: https://github.com/rekursiv-ai/sagent
+hostname: github.com
+description: A coding-agent CLI and strongly-typed Python library -- self-mutating, hot-swapping, multi-provider, with async tool calls and bidirectional recursive spawn. - rekursiv-ai/sagent
+sitename: GitHub
+date: "2026-05-05"
+categories: ['repository:1230041935']
+---
+A coding-agent CLI and strongly-typed Python library -- self-mutating, hot-swapping, multi-provider, with async tool calls and bidirectional recursive spawn.
+Tutorial · Concepts · Providers · Tools · CLI · Sessions · Security · Architecture · API · Streaming · Compaction · Slack · Self-hosted · Showcase · Examples
+# Mac:
+#   # Required for quick install.
+#   brew install uv
+#   # Optional for improved performance.
+#   brew install ripgrep fd
+# Ubuntu/Debian:
+#   # Required for quick install.
+#   sudo apt-get install -y curl
+#   curl -LsSf https://astral.sh/uv/install.sh | sh
+#   # Optional for improved performance.
+#   sudo apt-get install -y ripgrep fd-find
+uv tool install sagent
+sagent
+Things Claude Code, Codex CLI, and Gemini CLI don't do:
+- Async REPL. Chat with agents about jobs while those jobs run. No ctrl+b, no manual juggling.
+- Hot self-mutation. Switch provider, model, or thinking effort mid-session in plain English. No restart.
+- One CLI, every provider. Anthropic, OpenAI, Google, Moonshot, DashScope, MiniMax, OpenAI-compatible endpoints, self-hosted HuggingFace models, and a managed llama.cpp server, all behind one binary.
+- Unified cost tracking. One USD total across every provider in a session; sub-agent costs roll up to the root. --max-budget-usd N caps the whole tree.
+- Self-directing agent fleets. Agents retune their own runtime -- provider, model, thinking, context -- mid-task. A coordinator can do it to its workers over Ag</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-05</span>
+            <a class="url" href="https://github.com/rekursiv-ai/sagent" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 6">
+          <h3><span class="step">A7</span><a href="https://github.com/valewnrt/swarm" target="_blank" rel="noopener noreferrer">GitHub - valewnrt/swarm: swarm is an agentic development environment, built around the terminal — run many AI coding agents in parallel, with git and pull requests built in.</a></h3>
+          <p class="sum">---
+title: "GitHub - valewnrt/swarm: swarm is an agentic development environment, built around the terminal — run many AI coding agents in parallel, with git and pull requests built in."
+url: https://github.com/valewnrt/swarm
+hostname: github.com
+description: swarm is an agentic development environment, built around the terminal — run many AI coding agents in parallel, with git and pull requests built in. - valewnrt/swarm
+sitename: GitHub
+date: "2026-05-23"
+categories: ['repository:1247611507']
+---
+The agentic development environment, built around the terminal.
+Run a swarm of AI coding agents in parallel — with source control, diffs, and pull requests built in.
+A lightweight, cross-platform desktop app. Rust core, native webview, no Electron.
+Running several Claude Code / Codex sessions at once is the new normal. The terminal is the easy part — what's missing is everything around it: seeing what each agent changed, whether its PR is green, and getting back to exactly where you were after a restart.
+cmux nailed the parallel-terminal feel but is deliberately "a primitive, not a solution" — macOS-only, and it leaves diffs and review to you. swarm keeps that terminal-first feel and folds in the parts you keep reaching for: a real Git view, pull requests, and per-agent session restore — on macOS, Linux, and Windows, in a binary that doesn't ship a browser.
+- A real terminal, done right. VT emulation runs in Rust via the Alacritty engine and is painted on a GPU  (WebGL2, with a Canvas2D fallback). No xterm.js — so full-screen TUI agents like Claude Code render correctly, with mouse reporting, scrollback, selection/copy, and OSC 8 hyperlinks.
+- Infinite terminals & splits. Split right or down into a tiled layout with draggable dividers; every session stays alive across tab and workspace switches.
+- Paste screenshots. Paste an image straight into a terminal: swarm writes it to a temp file and hands the agent the file path, so agents that read images off disk just wo</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-23</span>
+            <a class="url" href="https://github.com/valewnrt/swarm" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 7">
+          <h3><span class="step">A8</span><a href="https://newreleases.io/project/github/microsoft/agent-lightning/release/v1.0.0" target="_blank" rel="noopener noreferrer">microsoft/agent-lightning v1.0.0 on GitHub</a></h3>
+          <p class="sum">---
+title: microsoft/agent-lightning v1.0.0 on GitHub
+url: https://newreleases.io/project/github/microsoft/agent-lightning/release/v1.0.0
+hostname: newreleases.io
+description: New release microsoft/agent-lightning version v1.0.0 Agent Lightning v1.0.0 on GitHub.
+sitename: GitHub
+date: "2026-08-17"
+---
+Agent Lightning v1.0.0 is released! In this release, we have completely refactored the codebase, making it lightweight while adding support for the latest models. Agent Lightning v1.0.0 is designed for RL training with the exact agent harness used in deployment and addresses several key challenges in this paradigm.
+Hightlights
+- 🪶 ~3,500 lines of code: We treat simplicity as the first principle.
+- 🧩 Train with real agent harnesses: Agents interact with the model through the Agent Lightning v1.0 proxy with ZERO changes, while keeping tools, context, control flow, and environments in the loop.
+- ☸️ Native Kubernetes support: Run agents directly as Kubernetes Jobs without relying on external sandbox services.
+- 💻 Full coding agent training example: Using only 6K training samples, an end-to-end Qwen3.5-9B workflow improves SWE-bench Verified from 41.8% to 56.4%, a gain of 14.6 percentage points. We release the full pipeline, including data cleaning, reward-hacking prevention, and training scripts.</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI Agents Framework
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-17</span>
+            <a class="url" href="https://newreleases.io/project/github/microsoft/agent-lightning/release/v1.0.0" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">e16bd388</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W43</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">8 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: AI Agents Framework</div>
+          <div class="s">
+            <span class="mono">8 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-19 08:17 · 2026-W43</span>
+</div></footer>
+</body>
+</html>

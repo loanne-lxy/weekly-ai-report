@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[未翻译] How Itaú is building generative AI for its entire customer base — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W43</b> · 2026-10-19</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W43</span>
+      <span class="mono" style="color: var(--text-3);">49 篇来源文章</span>
+    </div>
+    <h1>[未翻译] How Itaú is building generative AI for its entire customer base</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">[未翻译] With ia.i, a conversational interface, and the IARA governance platform, Itaú is applying its AI First strategy to customers and employees — in one of Brazil’s most regulated sectors.
+
+(49 sources: Exa: AI for Science, Exa: Design Simulation CAE, Exa: Digital Twin Industrial, Exa: LLM Latest, InfoQ AI, OpenAI Blog, blog.langchain.dev)</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 49 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://academy.socos.org/ai4science/" target="_blank" rel="noopener noreferrer">AI4Science</a></h3>
+          <p class="sum">---
+title: AI4Science
+author: Vivienne L'Ecuyer Ming
+url: https://academy.socos.org/ai4science/
+hostname: socos.org
+description: "Agentic AI and the Automation of Scientific Discovery: Moving beyond task-specific ML: how multi-agent LLM systems are attempting to automate the full closed-loop cycle of hypothesis generation, code execution, data analysis, and laboratory validation. In Robot-Proof I asked why \"nobody is innovating on innovation”. The #AI4Science"
+sitename: Socos Academy
+date: "2026-08-11"
+tags: ['ResearchRoundup', 'Robot-Proof']
+---
+AI4Science
+Agentic AI and the Automation of Scientific Discovery: Moving beyond task-specific ML: how multi-agent LLM systems are attempting to automate the full closed-loop cycle of hypothesis generation, code execution, data analysis, and laboratory validation.
+In Robot-Proof I asked why "nobody is innovating on innovation”. The #AI4Science crowd is finally picking up speed and publishing breakthroughs…that all look weirdly the same. Now it seems like nobody's innovating on innovation innovation.
+Three papers have landed in Nature recently. All three claim to automate scientific discovery. All three, if you squint, are the same abstract with the system name and the target problem swapped out.
+I'm genuinely excited. Not only do I work in applied AI and this is the part of the field I actually care about, but my new company (Possibility Sciences, see below!) is innovating innovation in the field of innovations [1]. There aren’t just more well-posed benchmarks but machines that produced facts about the world that nobody knew the day before [2]. One of the projects found a drug for a disease that blinds people, and the drug had never been proposed for it before. That's decades of promises about AI finally being met.
+But my excitement keeps getting tangled up with a nagging feeling that we've gotten very good at optimizing the last step of a process nobody has redesigned in 50 years. Reading these three papers back to back, I</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI for Science
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-11</span>
+            <a class="url" href="https://academy.socos.org/ai4science/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://chalmersindustriteknik.se/en/pressrelease/swedens-largest-initiative-electrified-flexible-industry/" target="_blank" rel="noopener noreferrer">Sweden’s Largest Initiative with Advanced Digitalisation – Electrified Flexible Industry</a></h3>
+          <p class="sum">---
+title: Sweden’s Largest Initiative with Advanced Digitalisation – Electrified Flexible Industry
+url: https://chalmersindustriteknik.se/en/pressrelease/swedens-largest-initiative-electrified-flexible-industry/
+hostname: chalmersindustriteknik.se
+description: Advanced digitalisation enables how industry can control its electricity use, drive innovation, free up capacity in power grids, and contribute to a more flexible energy system—via practical demonstrations in industrial environments across Sweden.
+sitename: Chalmers Industriteknik
+date: "2026-05-04"
+---
+Sweden’s Largest Initiative with Advanced Digitalisation – Electrified Flexible Industry
+Vinnova, Sweden’s Innovation Agency, provide funding for projects that use advanced digital technology to strengthen competitiveness of Swedish industry and society. Chalmers Industriteknik has mobilised almost 50 actors. This will enable industry to control its electricity use, drive innovation, free up capacity in power grids, and contribute to a more flexible energy system through Advanced Digitalisation. Co-creation will deliver practical demonstrations together with industries around Sweden.
+“Technology is important—but the real shift is about behaviour and system change. When manufacturing industries, energy managers, and grid owners start making decisions together, based on the same real-time data, the entire way we use power transforms. That’s how we build a more flexible and resilient energy system—in practice, not just in theory.” – berättar Hanna Persson, Project Manager at Chalmers Industriteknik.
+Swedish industry is electrifying at record speed to build competitiveness and become fossil free, but the power grids are not being expanded at the same pace. To prevent development from stalling, solutions are needed that allow industry to use power smarter, shift loads, share resources, and relieve pressure on the grid—here and now.
+Learning in Real-World Environments
+Electrified Flexible Industry brings together pl</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-04</span>
+            <a class="url" href="https://chalmersindustriteknik.se/en/pressrelease/swedens-largest-initiative-electrified-flexible-industry/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://docshare.wps.com/document/hpg-diff-hierarchical-physics-guided-diffusion-with-differentiable-connectivity-constraints-for-topology-optimization/81991/" target="_blank" rel="noopener noreferrer">HPG-Diff: Hierarchical Physics-Guided Diffusion with Differentiable Connectivity Constraints for Topology Optimization</a></h3>
+          <p class="sum">---
+title: "HPG-Diff: Hierarchical Physics-Guided Diffusion with Differentiable Connectivity Constraints for Topology Optimization"
+url: https://docshare.wps.com/document/hpg-diff-hierarchical-physics-guided-diffusion-with-differentiable-connectivity-constraints-for-topology-optimization/81991/
+hostname: docshare.wps.com
+description: Deep generative models enable rapid design exploration for topology optimization, yet they lack intrinsic physics guidance, weakening generalization to unseen boundary conditions and producing floating material artifacts. HPG-Diff introduces Hierarchical Physics-Guided Diffusion with two complementary mechanisms. A hierarchical physics-guided strategy aligns precomputed physics features with the denoising process to target optimal load paths and improve generalizability. A floating material suppression loss, derived from a thermal conduction intuition, penalizes floating regions via differentiable connectivity constraints. Results report improved compliance errors and reduced floating ratios across in- and out-of-distribution tests, plus preliminary adaptation evidence.
+sitename: DocShare
+date: "2026-07-16"
+---
+HPG-Diff: Hierarchical Physics-Guided Diffusion with Differentiable Connectivity Constraints for Topology Optimization
+ Jul 16, 2026 28 0
+ Upload by Asher
+Bookmark
+Share
+More Options
+Fullscreen
+This document is user-generated content (UGC). WPS Office is not responsible for its accuracy or copyright. If you believe this content violates your rights, please use the button.</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-16</span>
+            <a class="url" href="https://docshare.wps.com/document/hpg-diff-hierarchical-physics-guided-diffusion-with-differentiable-connectivity-constraints-for-topology-optimization/81991/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://doi.org/10.1007/s00158-026-04292-z" target="_blank" rel="noopener noreferrer">Optimization of cold plates with asymmetric heat sources via a diffusion-model-driven digital twin - Structural and Multidisciplinary Optimization</a></h3>
+          <p class="sum">---
+title: Optimization of cold plates with asymmetric heat sources via a diffusion-model-driven digital twin - Structural and Multidisciplinary Optimization
+author: Wu; Hao; Coaty; Jacob; Zong; Yuwei; Azar; Kaveh; Minary-Jolandan; Majid; Tian; Zhigang; Xu; Yanwen
+url: https://link.springer.com/article/10.1007/s00158-026-04292-z
+hostname: springer.com
+description: The geometric design of liquid-cooled cold plates critically determines their thermal-hydraulic performance, influencing the efficiency and reliability of high-power electronic systems. This study presents a conditional diffusion model-assisted digital twin framework that integrates physics-based multi-objective topology optimization (TO) with generative AI to accelerate high-performance thermal management design. The study first employs multi-objective topology optimization to generate a diverse set of cold plate geometries, together with the corresponding thermal resistance ( $$R_{th}$$ R th ) and pressure drop ( $$\Delta p$$ Δ p ) under asymmetric thermal loading. A conditional diffusion model is then trained to capture the underlying distribution of cold plate geometries under specified physical conditions, enabling rapid and diverse generation of new designs consistent with user-defined parameters. The new designs generated by diffusion model are evaluated using a surrogate model to predict their thermal-hydraulic performance, facilitating the quick selection of viable candidates without exhaustive full-order simulations. The final designs are validated through high-fidelity finite-element thermal-fluid simulations, confirming strong agreement with reference results. By integrating the predictive rigor of physics-based modeling with the speed and adaptability of generative AI, this work brings physics-informed predictive design off the supercomputer and into the operational world, establishing a scalable and intelligent digital twin paradigm for the design of next-generation thermal management systems</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-03-17</span>
+            <a class="url" href="https://doi.org/10.1007/s00158-026-04292-z" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 4">
+          <h3><span class="step">A5</span><a href="https://doi.org/10.1016/j.aei.2026.104483" target="_blank" rel="noopener noreferrer">ScienceDirect</a></h3>
+          <p class="sum">[![Elsevier logo](https://www.sciencedirect.com/science/article/pii/S1474034626001758?via%3Dihub)ScienceDirect](https://www.sciencedirect.com/)
+  * Help
+
+
+# There was a problem providing the content you requested
+Please [contact our support team](https://service.elsevier.com/app/answers/detail/a_id/10117/supporthub/sciencedirect/kw/IP+blocked/) for more information and provide the details below.
+  * **Reference number:** a4cb83abef992ad0
+  * **IP Address:** 58.19.1.133
+  * **User Agent:** Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/116.0.0.0 Safari/537.36
+  * **Timestamp:** 2026-10-19 00:02:30 UTC
+  * CPE00001
+
+
+::CLOUDFLARE_ERROR_1000S_BOX::
+[![Elsevier logo with wordmark](https://www.sciencedirect.com/science/article/pii/S1474034626001758?via%3Dihub)](https://www.elsevier.com/)
+  * [About ScienceDirect](https://www.elsevier.com/solutions/sciencedirect)
+  * [Remote access](https://www.sciencedirect.com/user/institution/login?targetURL=%2F)
+  * [Contact and support](https://service.elsevier.com/app/contact/supporthub/sciencedirect/)
+  * [Terms and conditions](https://www.elsevier.com/legal/elsevier-website-terms-and-conditions)
+  * [Privacy policy](https://www.elsevier.com/legal/privacy-policy)
+  * Cookie settings
+
+
+All content on this site: Copyright © 2026 Elsevier B.V., its licensors, and contributors. All rights are reserved, including those for text and data mining, AI training, and similar technologies. For all open access content, the relevant licensing terms apply.
+[![RELX group home page](https://www.sciencedirect.com/science/article/pii/S1474034626001758?via%3Dihub)](https://www.relx.com/)</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            
+            <a class="url" href="https://doi.org/10.1016/j.aei.2026.104483" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 5">
+          <h3><span class="step">A6</span><a href="https://doi.org/10.5281/zenodo.20584376" target="_blank" rel="noopener noreferrer">Physics-Informed Surrogate-Critic Optimisation (PISCO): A Generative Framework for Simulation-Driven Component Optimisation</a></h3>
+          <p class="sum">---
+title: "Physics-Informed Surrogate-Critic Optimisation (PISCO): A Generative Framework for Simulation-Driven Component Optimisation"
+author: Arnold; Andreas
+url: https://zenodo.org/records/20584377
+hostname: zenodo.org
+description: "In simulation-driven design optimisation, the high-fidelity solver dominates the per-evaluation cost, and generative search compounds the load. This paper proposes PISCO (Physics-Informed Surrogate-Critic Optimisation), a workflow that targets two performance criteria jointly — the number of high-fidelity solver calls and the quality of the obtained design — through a strict separation of four components: a physics-informed surrogate of the physical fields, an analytical scoring function reusing the solver's own discrete quadrature, a low-dimensional design generator (analytical for parametric problems, a decoder learned from initial fields for free design spaces), and an active high-fidelity re-evaluation step. Only the surrogate learns inside the loop; surrogate and scoring function form a differentiable critic against which the generator is optimised. Two examples in linear elasticity demonstrate the approach. On a parametric shape problem (cantilever plate with an elliptical cut-out), PISCO matches the compliance of differential evolution at roughly an order of magnitude fewer high-fidelity calls, and outperforms both Bayesian optimisation and the Covariance Matrix Adaptation Evolution Strategy (CMA-ES). On a free-topology problem (L-bracket), it undercuts the Solid Isotropic Material with Penalisation (SIMP) baseline by 13.8% in compliance, well outside SIMP's seed-to-seed variability. An ablation indicates that on these problems a linear Principal Component Analysis (PCA) decoder performs as well as a learned non-linear Variational Autoencoder (VAE). Transfer to other physical domains is supported by the architecture but not validated in the present work, which restricts itself to linear 2D compliance optimisation. Preprint of</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-06-07</span>
+            <a class="url" href="https://doi.org/10.5281/zenodo.20584376" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 6">
+          <h3><span class="step">A7</span><a href="https://eureka.patsnap.com/patent/CN122433443A" target="_blank" rel="noopener noreferrer">CN122433443A – A generative AI industrial design topology closed-loop optimization method and system | Patsnap Eureka</a></h3>
+          <p class="sum">---
+title: CN122433443A – A generative AI industrial design topology closed-loop optimization method and system | Patsnap Eureka
+url: https://eureka.patsnap.com/patent/CN122433443A
+hostname: patsnap.com
+description: CN122433443A - By employing a generative AI-based industrial design topology closed-loop optimization method, curvature risk and topology anomalies are.
+sitename: Patsnap Eureka
+date: "2026-07-21"
+tags: ['A generative AI industrial design topology closed-loop optimization method and system,CN122433443A']
+---
+A generative AI industrial design topology closed-loop optimization method and system
+By employing a generative AI-based industrial design topology closed-loop optimization method, curvature risk and topology anomalies are calculated in real time, sensitive areas are located and repaired, and by combining surrogate models and finite element simulation, mesh quality and topology breakage issues in generative design are resolved, achieving efficient design process stability and auditability.
+Patent Information
+- Application Number
+- CN202610912657.8
+- Authority / Receiving Office
+- CN · China
+- Patent Type
+- Applications(China)
+- Current Assignee / Owner
+- Filing Date
+- 2026-06-24
+- Publication Date
+- 2026-07-21
+AI Technical Summary
+In computer-aided design, the evolution of geometric parameters in generative design is prone to errors such as local curvature concentration deteriorating mesh quality and topological breakage. Furthermore, finite element analysis has high computational costs, cannot fully verify all candidate models, and lacks effective engineering closed-loop solutions.
+A generative AI industrial design topology closed-loop optimization method is adopted. By constructing a parametric geometric deformation model, curvature risk and topology anomaly indicators are calculated in real time. Topology-sensitive areas are located and local self-healing repair is performed. Combined with a physical consistency proxy model and finite element simu</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-21</span>
+            <a class="url" href="https://eureka.patsnap.com/patent/CN122433443A" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 7">
+          <h3><span class="step">A8</span><a href="https://link.springer.com/article/10.1007/s00158-026-04292-z" target="_blank" rel="noopener noreferrer">Optimization of cold plates with asymmetric heat sources via a diffusion-model-driven digital twin - Structural and Multidisciplinary Optimization</a></h3>
+          <p class="sum">---
+title: Optimization of cold plates with asymmetric heat sources via a diffusion-model-driven digital twin - Structural and Multidisciplinary Optimization
+author: Wu; Hao; Coaty; Jacob; Zong; Yuwei; Azar; Kaveh; Minary-Jolandan; Majid; Tian; Zhigang; Xu; Yanwen
+url: https://link.springer.com/article/10.1007/s00158-026-04292-z
+hostname: springer.com
+description: The geometric design of liquid-cooled cold plates critically determines their thermal-hydraulic performance, influencing the efficiency and reliability of high-power electronic systems. This study presents a conditional diffusion model-assisted digital twin framework that integrates physics-based multi-objective topology optimization (TO) with generative AI to accelerate high-performance thermal management design. The study first employs multi-objective topology optimization to generate a diverse set of cold plate geometries, together with the corresponding thermal resistance ( $$R_{th}$$ R th ) and pressure drop ( $$\Delta p$$ Δ p ) under asymmetric thermal loading. A conditional diffusion model is then trained to capture the underlying distribution of cold plate geometries under specified physical conditions, enabling rapid and diverse generation of new designs consistent with user-defined parameters. The new designs generated by diffusion model are evaluated using a surrogate model to predict their thermal-hydraulic performance, facilitating the quick selection of viable candidates without exhaustive full-order simulations. The final designs are validated through high-fidelity finite-element thermal-fluid simulations, confirming strong agreement with reference results. By integrating the predictive rigor of physics-based modeling with the speed and adaptability of generative AI, this work brings physics-informed predictive design off the supercomputer and into the operational world, establishing a scalable and intelligent digital twin paradigm for the design of next-generation thermal management systems</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-03-17</span>
+            <a class="url" href="https://link.springer.com/article/10.1007/s00158-026-04292-z" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 8">
+          <h3><span class="step">A9</span><a href="https://news.chathome.org/news/dsakeye20-dxtG2DqW?locale=en" target="_blank" rel="noopener noreferrer">Introducing DSA Attention to Multimodal: Kuaishou Keye 2.0 Opens a New Paradigm of Enhanced Reasoning</a></h3>
+          <p class="sum">---
+title: "Introducing DSA Attention to Multimodal: Kuaishou Keye 2.0 Opens a New Paradigm of Enhanced Reasoning"
+author: 克雷西
+sitename: "Introducing DSA Attention to Multimodal: Kuaishou Keye 2.0 Opens a New Paradigm of Enhanced Reasoning"
+date: "2026-05-26"
+categories: ['models', 'agents']
+---
+Kuaishou has officially launched Keye-VL-2.0-30B-A3B, the latest generation of its multimodal large language model. This model marks a significant milestone by being the first to incorporate DeepSeek Sparse Attention (DSA) into multimodal understanding, enabling unprecedented handling of ultra-long video contexts up to 256K tokens. The DSA mechanism, combined with carefully designed feature aggregation, allows the model to efficiently extract key information from hours-long video sequences while drastically reducing computational overhead. Specifically, the prefill cost is reduced by 50%, and the decode complexity scales gracefully with context length, overcoming the exponential explosion seen with traditional full attention.
+The model’s performance on temporal understanding benchmarks is nothing short of remarkable. On the TimeLens benchmark, it achieved a mIoU of 58.4 on Charades, approaching the closed-source Gemini 3 Flash (61.2), and surpassed Gemini 2.5 Pro (58.1) and Gemini 3 Flash (57.0) on ActivityNet. On QVHighlights, it reached 70.1 mIoU, far exceeding Gemini 3 Flash’s 49.5. More importantly, the model defied the common 'long-context decay' phenomenon: when expanding input frames from 64 to 512, average accuracy on VideoMME V2 rose from 35.34% to 42.44%, and the non-linear score increased from 18.54 to 24.19. This demonstrates true mastery of lengthy video sequences.
+Real-world examples further showcase the model’s abilities. Given a 9-minute Iceland travel vlog, it not only identified visual details like 'cold hands' but also inferred causal relationships: it recommended gloves due to ‘freezing hands,’ offered culturally sensitive advice about local food, and sug</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-26</span>
+            <a class="url" href="https://news.chathome.org/news/dsakeye20-dxtG2DqW?locale=en" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 9">
+          <h3><span class="step">A10</span><a href="https://officechai.com/ai/muse-spark-1-1-benchmarks/" target="_blank" rel="noopener noreferrer">Meta Announces Muse Spark 1.1, Beats Claude Opus 4.8 And GPT 5.5 On Some Benchmarks</a></h3>
+          <p class="sum">---
+title: Meta Announces Muse Spark 1.1, Beats Claude Opus 4.8 And GPT 5.5 On Some Benchmarks
+author: OfficeChai Team
+url: https://officechai.com/ai/muse-spark-1-1-benchmarks/
+hostname: officechai.com
+description: Meta is making a strong comeback in the AI race — a day after the company had released two very capable video and...
+sitename: OfficeChai
+date: "2026-07-09"
+categories: ['AI']
+---
+Meta is making a strong comeback in the AI race — a day after the company had released two very capable video and image models, it’s now rolled out an impressive new general-purpose model named Muse Spark 1.1.
+Muse Spark 1.1 is a multimodal reasoning model from Meta Superintelligence Labs, and Meta is calling it a significant upgrade over the original Muse Spark that the company released a few months ago. The headline improvements are in tool use, computer use, coding and multimodal understanding, all areas where the first Muse Spark had fallen behind rivals from Anthropic, OpenAI and Google. The model is live now in “Thinking” mode inside the Meta AI app and on meta.ai, and Meta has also opened a public preview of a new Meta Model API so developers outside the company can build with it for the first time.
+The model can apparently manage a context window of one million tokens on its own, deciding what to remember, what to retrieve from earlier in a session, and what to compress when things get long. Meta says this is central to how Muse Spark 1.1 handles agentic work, where it acts as a main agent that plans and delegates, and spins up parallel subagents that know when to execute on their own and when to escalate a problem back up.
+Muse Spark 1.1 Benchmarks
+Meta released a fairly detailed benchmark table comparing Muse Spark 1.1 against the original Muse Spark, Gemini 3.1 Pro, Claude Opus 4.8 and GPT 5.5, split across agent, coding and multimodal categories.
+On the agentic side, Muse Spark 1.1 posts some of its strongest numbers. It scores 88.1 on MCP Atlas, a test of scaled too</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-09</span>
+            <a class="url" href="https://officechai.com/ai/muse-spark-1-1-benchmarks/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 10">
+          <h3><span class="step">A11</span><a href="https://openai.com/index/amp-beyond-coding" target="_blank" rel="noopener noreferrer">Amp puts AI agents to work beyond code with OpenAI models</a></h3>
+          <p class="sum">See how Amp pushes the frontier of what agents can do with GPT-6 Astra, Ultrafast, GPT-Live-1, and Sign in with ChatGPT.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-14</span>
+            <a class="url" href="https://openai.com/index/amp-beyond-coding" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 11">
+          <h3><span class="step">A12</span><a href="https://openai.com/index/block-ai-powered-security" target="_blank" rel="noopener noreferrer">How Block is building AI-powered security with OpenAI technology</a></h3>
+          <p class="sum">Block is building AI-powered security with OpenAI. Its security team investigates threats faster and proposes patches in minutes.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-14</span>
+            <a class="url" href="https://openai.com/index/block-ai-powered-security" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 12">
+          <h3><span class="step">A13</span><a href="https://openai.com/index/higgsfield-longer-videos-voice" target="_blank" rel="noopener noreferrer">Higgsfield takes AI video from 1 minute to over 10</a></h3>
+          <p class="sum">Higgsfield brings creators longer videos with GPT-6 Astra, precise visuals with GPT-Image-2.5, and a path to voice filmmaking with GPT-Live.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-13</span>
+            <a class="url" href="https://openai.com/index/higgsfield-longer-videos-voice" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 13">
+          <h3><span class="step">A14</span><a href="https://openai.com/index/introducing-the-rosalind-academic-plan" target="_blank" rel="noopener noreferrer">Bringing GPT-Rosalind to academic research labs</a></h3>
+          <p class="sum">Introducing the Rosalind Academic Plan, offering eligible academic labs sponsored access to GPT-Rosalind and tools to advance life sciences research.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-15</span>
+            <a class="url" href="https://openai.com/index/introducing-the-rosalind-academic-plan" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 14">
+          <h3><span class="step">A15</span><a href="https://openai.com/index/itau-generative-ai" target="_blank" rel="noopener noreferrer">How Itaú is building generative AI for its entire customer base</a></h3>
+          <p class="sum">With ia.i, a conversational interface, and the IARA governance platform, Itaú is applying its AI First strategy to customers and employees — in one of Brazil’s most regulated sectors.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://openai.com/index/itau-generative-ai" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 15">
+          <h3><span class="step">A16</span><a href="https://openai.com/index/sentinelone" target="_blank" rel="noopener noreferrer">SentinelOne cuts malware analysis from weeks to hours</a></h3>
+          <p class="sum">With OpenAI Daybreak, SentinelOne cuts weeks of malware analysis to hours, creating capacity to investigate more threats.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-14</span>
+            <a class="url" href="https://openai.com/index/sentinelone" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 16">
+          <h3><span class="step">A17</span><a href="https://openai.com/index/stack-overflow-chatgpt-plugin" target="_blank" rel="noopener noreferrer">Stack Overflow for Agents triples signups with ChatGPT plugin</a></h3>
+          <p class="sum">Two engineers shipped Stack Overflow for Agents in a few weeks with Codex, and its ChatGPT plugin helped drive up to 10× growth in agent creation.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://openai.com/index/stack-overflow-chatgpt-plugin" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 17">
+          <h3><span class="step">A18</span><a href="https://openai.com/index/teaching-students-to-think-and-learn-through-questions" target="_blank" rel="noopener noreferrer">Teaching students to think and learn through questions</a></h3>
+          <p class="sum">Celebrate Teachers’ Day with AI for Educators in Brazilian Portuguese and see how Study Mode can help teachers support active, step-by-step learning.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-15</span>
+            <a class="url" href="https://openai.com/index/teaching-students-to-think-and-learn-through-questions" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 18">
+          <h3><span class="step">A19</span><a href="https://openai.com/index/the-eus-next-chapter-in-ai-is-agentic" target="_blank" rel="noopener noreferrer">The EU’s next chapter in AI is agentic</a></h3>
+          <p class="sum">New analysis shows how agentic AI adoption is growing across EU enterprises and small businesses—and where deeper use could unlock more value.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-14</span>
+            <a class="url" href="https://openai.com/index/the-eus-next-chapter-in-ai-is-agentic" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 19">
+          <h3><span class="step">A20</span><a href="https://openai.com/index/third-moment-research" target="_blank" rel="noopener noreferrer">How Third Moment Research runs 10,000 agents for 36+ hours</a></h3>
+          <p class="sum">With GPT-6 Astra and GPT-6.1 Sol, Codex, and Daybreak for cybersecurity, this AI lab builds agents that focus for days and improve with use.</p>
+          <div class="ameta">
+            <span class="src-tag">OpenAI Blog
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-14</span>
+            <a class="url" href="https://openai.com/index/third-moment-research" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 20">
+          <h3><span class="step">A21</span><a href="https://pivotnews.ai/five/story/gemma-4-technical-report" target="_blank" rel="noopener noreferrer">Gemma 4 Technical Report</a></h3>
+          <p class="sum">---
+title: Gemma 4 Technical Report
+author: Pivot News
+url: https://pivotnews.ai/five/story/gemma-4-technical-report
+hostname: pivotnews.ai
+description: Gemma 4 Technical Report
+sitename: Pivot News
+date: "2026-07-08"
+categories: ['Pivot News']
+tags: ['five', 'article', 'Gemma', 'Technical', 'Report']
+---
+Gemma 4 Technical Report
+arXiv is now an independent nonprofit! Learn more ×
+License: CC BY 4.0
+arXiv:2607.02770v1 [cs.CL] 02 Jul 2026
+\authfootnotetext 1See Contributions and Acknowledgments section for full author list. Please send correspondence to [email protected].
+Gemma 4 Technical Report
+Gemma Team
+Google DeepMind \authfootnotemark 1
+Abstract
+We introduce Gemma 4, a new generation of open-weight, natively multimodal language models in the Gemma model family. Designed to advance compute efficiency and reasoning, the Gemma 4 model suite features dense and Mixture-of-Experts architectures, ranging from 2.3B to 31B parameters. Alongside improved vision and audio encoders for all model sizes, we propose a unified, encoder-free architecture for our 12B model, which ingests raw audio and image patches. Furthermore, we integrate a thinking mode, enabling Gemma models to generate reasoning traces prior to responding. We improve inference speed, memory, and compute efficiency, as well as long-context abilities through critical design choices. Gemma 4 establishes a leap in performance across STEM, multimodal, and long-context benchmarks, and rivals larger, frontier open models in human-rated tasks.
+1 Introduction
+The rapid evolution of large language models has driven the need for open-weight models with strong multimodal understanding, reasoning, and computational efficiency. Building upon the foundations of its predecessors [Gemma Team, 2024a, b, 2025a ], we introduce Gemma 4, the most capable and efficient generation in the Gemma model family to date. Gemma 4 offers natively multimodal architectures, capable of seamlessly processing text, images, and audio while ach</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-08</span>
+            <a class="url" href="https://pivotnews.ai/five/story/gemma-4-technical-report" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 21">
+          <h3><span class="step">A22</span><a href="https://sbr.com.sg/information-technology/news/jtc-govtech-tap-panasonic-test-ai-building-tech-punggol-digital-district" target="_blank" rel="noopener noreferrer">JTC, GovTech tap Panasonic to test AI building tech for Punggol Digital District</a></h3>
+          <p class="sum">---
+title: JTC, GovTech tap Panasonic to test AI building tech for Punggol Digital District
+author: Staff Reporter
+url: https://sbr.com.sg/information-technology/news/jtc-govtech-tap-panasonic-test-ai-building-tech-punggol-digital-district
+hostname: sbr.com.sg
+description: JTC, GovTech onboarded Panasonic as the first partner to use the Open Digital Platform, Punggol Digital District's smart operating system.
+sitename: Singapore Business Review
+date: "2026-07-10"
+---
+JTC, GovTech tap Panasonic to test AI building tech for Punggol Digital District
+They will explore AI-powered anomaly detection systems.
+JTC and the Government Technology Agency of Singapore have onboarded Panasonic as the first partner to use the Open Digital Platform (ODP), Punggol Digital District's (PDD) smart operating system, to develop and test artificial intelligence (AI)-enabled building solutions in a live urban environment.
+Built by JTC, the ODP aggregates real-time data from more than 20,000 sensors across PDD into a common backend, powering a digital twin of the district that enables real-time visualisation, simulation of district conditions based on historical data, and virtual testing of new technologies before deployment.
+In line with this, JTC, Panasonic Electric Works Company, and Panasonic R&D Centre Singapore have signed a Memorandum of Understanding to jointly develop, deploy, and validate AI-enabled smart infrastructure and facilities management solutions using the platform.
+The partners are exploring AI-powered anomaly detection systems designed to identify unusual building conditions and trigger automated inspection and response actions.
+JTC has structured the platform with data security safeguards—all data shared with tenants such as Panasonic is curated and anonymised, with proprietary tenant and project data isolated through controlled access boundaries, governed permissions, and separate logical data zones.</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Digital Twin Industrial
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-10</span>
+            <a class="url" href="https://sbr.com.sg/information-technology/news/jtc-govtech-tap-panasonic-test-ai-building-tech-punggol-digital-district" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 22">
+          <h3><span class="step">A23</span><a href="https://thecryptopost.io/thinking-machines-lab-releases-inkling-a-975b-parameter-open-weights-multimodal-moe-with-41b-active-parameters-and-controllable-thinking-effort/" target="_blank" rel="noopener noreferrer">Thinking Machines Lab Releases Inkling: A 975B-Parameter Open-Weights Multimodal MoE With 41B Active Parameters And Controllable Thinking Effort - The Crypto Post</a></h3>
+          <p class="sum">---
+title: "Thinking Machines Lab Releases Inkling: A 975B-Parameter Open-Weights Multimodal MoE With 41B Active Parameters And Controllable Thinking Effort - The Crypto Post"
+author: CryptoExpert
+url: https://thecryptopost.io/thinking-machines-lab-releases-inkling-a-975b-parameter-open-weights-multimodal-moe-with-41b-active-parameters-and-controllable-thinking-effort/
+hostname: thecryptopost.io
+description: Facebook Twitter Pinterest Thinking Machines Lab just released Inkling, their first model trained from scratch,...
+sitename: The Crypto Post
+date: "2026-07-16"
+categories: ['AI News']
+---
+Thinking Machines Lab Releases Inkling: A 975B-Parameter Open-Weights Multimodal MoE With 41B Active Parameters And Controllable Thinking Effort
+ 
+Thinking Machines Lab just released Inkling, their first model trained from scratch, weights are open, fine-tunable on Tinker. The lab pitches it as a base for customization.
+What is Inkling?
+Inkling is a Mixture-of-Experts transformer with 975B total parameters and 41B active. It supports a context window of up to 1M tokens. Pretraining covered 45 trillion tokens of text, images, audio, and video. Inputs accept text, images, and audio; output is UTF-8 text only.
+The research team also previewed Inkling-Small, a 276B-parameter MoE with 12B active parameters. It matches or exceeds its larger sibling on many benchmarks, and its weights arrive once testing finishes. Because customization/finetuning is the key differentiator, the architecture matters here very much.
+Inside The Architecture
+The model architecture includes a 66-layer decoder-only transformer with a sparse MoE feed-forward backbone. Each MoE layer holds 256 routed experts plus 2 shared experts. Six routed experts activate per token, and both shared experts activate on every token. A sigmoid-based router handles selection, using an auxiliary-loss-free load-balancing bias. Routed and shared scores are normalized jointly, then used to weight combined outputs. The MoE design la</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-07-16</span>
+            <a class="url" href="https://thecryptopost.io/thinking-machines-lab-releases-inkling-a-975b-parameter-open-weights-multimodal-moe-with-41b-active-parameters-and-controllable-thinking-effort/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 23">
+          <h3><span class="step">A24</span><a href="https://www.infoq.cn/article/1XtKjZ1OCyrYTCmb4Zkb?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">聚焦 AI 场景落地与 FDE 创新，2026 人工智能产业大会专项活动在济南举行</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/1XtKjZ1OCyrYTCmb4Zkb?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 24">
+          <h3><span class="step">A25</span><a href="https://www.infoq.cn/article/4BUR4DmMxSBxyzYh6Fxz?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Aspire 13.6 新增持久化仪表盘遥测功能，并支持第一方 Java 和 Rust 托管</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-18</span>
+            <a class="url" href="https://www.infoq.cn/article/4BUR4DmMxSBxyzYh6Fxz?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 25">
+          <h3><span class="step">A26</span><a href="https://www.infoq.cn/article/8iKz8xNQvxDfeuxH1QLA?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">AI 生成的代码，怎么才能进得了工程体系？</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/8iKz8xNQvxDfeuxH1QLA?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 26">
+          <h3><span class="step">A27</span><a href="https://www.infoq.cn/article/AF1qxLVCRls3R6MdWwBh?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Java 近期新闻：JobRunr 9、OpenXava 8、Quarkus、LangChain4j、JNoSQL、Lathe</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-17</span>
+            <a class="url" href="https://www.infoq.cn/article/AF1qxLVCRls3R6MdWwBh?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 27">
+          <h3><span class="step">A28</span><a href="https://www.infoq.cn/article/CoGZq3xgQhZI4rBH8pjA?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Cloudflare 计划推出公共证书颁发机构，用于签发量子安全的 TLS 证书</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/CoGZq3xgQhZI4rBH8pjA?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 28">
+          <h3><span class="step">A29</span><a href="https://www.infoq.cn/article/DfJZA7hp0OhKMpaAIfG0?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">GitLab 漏洞遭利用，可实现未认证数据外泄</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/DfJZA7hp0OhKMpaAIfG0?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 29">
+          <h3><span class="step">A30</span><a href="https://www.infoq.cn/article/EuYOPRUBAeBgBGBu5ktk?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Meta 联手苹果推出全美最强开源模型，编码基测输给智谱、Kimi</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-18</span>
+            <a class="url" href="https://www.infoq.cn/article/EuYOPRUBAeBgBGBu5ktk?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 30">
+          <h3><span class="step">A31</span><a href="https://www.infoq.cn/article/JMZ6WUx4a4cVqAwhwviU?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">The World Is Not a Dataset - Building AI Systems That Continuously Learn from Reality｜QCon上海</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-17</span>
+            <a class="url" href="https://www.infoq.cn/article/JMZ6WUx4a4cVqAwhwviU?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 31">
+          <h3><span class="step">A32</span><a href="https://www.infoq.cn/article/UdT804ujpGxrv0pQfxv2?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">17岁 Kimi 架构核心参与者离职，确认将赴湾区，下一站引发猜想</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-18</span>
+            <a class="url" href="https://www.infoq.cn/article/UdT804ujpGxrv0pQfxv2?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 32">
+          <h3><span class="step">A33</span><a href="https://www.infoq.cn/article/VZPlIIdGRg062mgwJe5y?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">范式智能联合睿思智联推出开源一站式生产级AI部署平台 “模域ModelSphere”</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/VZPlIIdGRg062mgwJe5y?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 33">
+          <h3><span class="step">A34</span><a href="https://www.infoq.cn/article/YmllSwKbZXY0bcVjjw70?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Cloudflare 修复了容器中的跨租户数据泄露问题</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-18</span>
+            <a class="url" href="https://www.infoq.cn/article/YmllSwKbZXY0bcVjjw70?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 34">
+          <h3><span class="step">A35</span><a href="https://www.infoq.cn/article/aMgWFmwZ2HoZDtw1g0MQ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Pizza Bot：开源的后台 AI 智能体收件箱</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/aMgWFmwZ2HoZDtw1g0MQ?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 35">
+          <h3><span class="step">A36</span><a href="https://www.infoq.cn/article/hQOHf1ZXoBs7uMpWJQss?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Pi 抛出全新 Agent Harness，还把自己骂了一年的 MCP 装进了核心</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/hQOHf1ZXoBs7uMpWJQss?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 36">
+          <h3><span class="step">A37</span><a href="https://www.infoq.cn/article/hRw4BZQQUW14sqYMo5F6?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Linus用Claude Code改Linux内核，大神也没兜住代码里的Bug</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/hRw4BZQQUW14sqYMo5F6?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 37">
+          <h3><span class="step">A38</span><a href="https://www.infoq.cn/article/qZPH971CbfHkaCfgG0cb?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">“AI+终端”时代的萌芽：大模型在终端领域的探索和量产落地｜QCon上海</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-18</span>
+            <a class="url" href="https://www.infoq.cn/article/qZPH971CbfHkaCfgG0cb?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 38">
+          <h3><span class="step">A39</span><a href="https://www.infoq.cn/article/t3XbHewuN37fsodaprUC?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">AI 写完代码，谁来验证？手淘 TEKO “写—验—修”自主闭环的工程实践｜QCon上海</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/t3XbHewuN37fsodaprUC?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 39">
+          <h3><span class="step">A40</span><a href="https://www.infoq.cn/article/uGNQwpOt5GGAKm2XlEZC?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">Akka 在 65 个开源项目中测试基于规格的 AI 交付</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-17</span>
+            <a class="url" href="https://www.infoq.cn/article/uGNQwpOt5GGAKm2XlEZC?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 40">
+          <h3><span class="step">A41</span><a href="https://www.infoq.cn/article/wMMAbsA4UOtYlAl1fH4T?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">拍照和翻译救不了AI眼镜？千问2218元起推新硬件，要抢现实世界里的上下文</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-15</span>
+            <a class="url" href="https://www.infoq.cn/article/wMMAbsA4UOtYlAl1fH4T?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 41">
+          <h3><span class="step">A42</span><a href="https://www.infoq.cn/article/xQLd004RGWrzFhwqBOyC?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">生产级大模型平台工程实战手册</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/xQLd004RGWrzFhwqBOyC?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 42">
+          <h3><span class="step">A43</span><a href="https://www.infoq.cn/article/yZh3MeRrBa7IbsB1PrUp?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">谷歌的 Android 安全状态库支持组件级安全校验</a></h3>
+          
+          <div class="ameta">
+            <span class="src-tag">InfoQ AI
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-16</span>
+            <a class="url" href="https://www.infoq.cn/article/yZh3MeRrBa7IbsB1PrUp?utm_source=rss&utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 43">
+          <h3><span class="step">A44</span><a href="https://www.langchain.com/blog/how-orange-business-built-live-intelligence-on-langchain-and-langsmith" target="_blank" rel="noopener noreferrer">How Orange Business Built Live Intelligence with LangChain and LangSmith</a></h3>
+          <p class="sum">Learn how Orange Business used LangChain and LangSmith to build Live Intelligence, a governed AI platform for agents, evals, observability, and production scale.</p>
+          <div class="ameta">
+            <span class="src-tag">blog.langchain.dev
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-13</span>
+            <a class="url" href="https://www.langchain.com/blog/how-orange-business-built-live-intelligence-on-langchain-and-langsmith" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 44">
+          <h3><span class="step">A45</span><a href="https://www.langchain.com/blog/mcp-in-langchain-stateless-protocol-elicitation-and-more" target="_blank" rel="noopener noreferrer">MCP in LangChain: Stateless Protocol, Elicitation, and More!</a></h3>
+          <p class="sum">MCP support now lives in langchain.mcp, built on FastMCP for the 2026-07-28 spec, with elicitation handled as a LangGraph interrupt and tool lists cached.</p>
+          <div class="ameta">
+            <span class="src-tag">blog.langchain.dev
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-13</span>
+            <a class="url" href="https://www.langchain.com/blog/mcp-in-langchain-stateless-protocol-elicitation-and-more" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 45">
+          <h3><span class="step">A46</span><a href="https://www.langchain.com/blog/october-2026-langchain-newsletter" target="_blank" rel="noopener noreferrer">October 2026 LangChain Newsletter: Everything we shipped at Interrupt NYC & London</a></h3>
+          <p class="sum">What we shipped at Interrupt NYC and London: LangSmith AI Search, Engine v2, Trajectories, Custom Apps, Fine-Tuning, and Managed Deep Agents v0.9.</p>
+          <div class="ameta">
+            <span class="src-tag">blog.langchain.dev
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-10-15</span>
+            <a class="url" href="https://www.langchain.com/blog/october-2026-langchain-newsletter" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 46">
+          <h3><span class="step">A47</span><a href="https://www.mdpi.com/2076-3417/16/9/4196" target="_blank" rel="noopener noreferrer">Conventional and AI-Assisted Topology-Driven Workflows for Injection-Molded Lightweight Structures: A Quantitative Case Study</a></h3>
+          <p class="sum">Next Article in Journal  
+
+[Inertia Estimation in High-RES Power Systems Using Small-Signal Power Injection](https://www.mdpi.com/2076-3417/16/9/4200)
+Previous Article in Journal  
+
+[Fine-Tuned Prompt Literacy for GenAI-Mediated L2 Writing: An Interaction-First Learning-and-Accountability Framework](https://www.mdpi.com/2076-3417/16/9/4198)
+## Journals
+[Active Journals](https://www.mdpi.com/about/journals) [Find a Journal](https://www.mdpi.com/about/journalfinder) [Journal Proposal](https://www.mdpi.com/about/journals/proposal) [Proceedings Series](https://www.mdpi.com/about/proceedings)
+## [Topics ](https://www.mdpi.com/topics)
+## Information
+[For Authors](https://www.mdpi.com/authors) [For Reviewers](https://www.mdpi.com/reviewers) [For Editors](https://www.mdpi.com/editors) [For Librarians](https://www.mdpi.com/librarians) [For Publishers](https://www.mdpi.com/publishing_services) [For Societies](https://www.mdpi.com/societies) [For Conference Organizers](https://www.mdpi.com/conference_organizers)
+[Open Access Policy](https://www.mdpi.com/openaccess) [Institutional Open Access Program](https://www.mdpi.com/ioap) [Special Issues Guidelines](https://www.mdpi.com/special_issues_guidelines) [Editorial Process](https://www.mdpi.com/editorial_process) [Research and Publication Ethics](https://www.mdpi.com/ethics) [Article Processing Charge](https://www.mdpi.com/apc) [Awards](https://www.mdpi.com/awards) [Testimonials](https://www.mdpi.com/testimonials)
+## [Author Services ](https://www.mdpi.com/authors/services)
+## Initiatives
+[Sciforum](https://sciforum.net) [MDPI Books](https://www.mdpi.com/books) [Preprints.org](https://www.preprints.org) [Scilit](https://www.scilit.com) [SciProfiles](https://sciprofiles.com) [Encyclopedia](https://encyclopedia.pub) [JAMS](https://jams.pub) [Proceedings Series](https://www.mdpi.com/about/proceedings)
+## About
+[Overview](https://www.mdpi.com/about) [Contact](https://www.mdpi.com/about/contact) [Careers](https://careers.mdpi.com) [Ne</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: Design Simulation CAE
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            
+            <a class="url" href="https://www.mdpi.com/2076-3417/16/9/4196" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 47">
+          <h3><span class="step">A48</span><a href="https://www.miragenews.com/ai-decodes-viruses-new-protein-structures-emerge-1694664/" target="_blank" rel="noopener noreferrer">AI Decodes Viruses: New Protein Structures Emerge</a></h3>
+          <p class="sum">---
+title: "AI Decodes Viruses: New Protein Structures Emerge"
+author: Mirage News
+url: https://www.miragenews.com/ai-decodes-viruses-new-protein-structures-emerge-1694664/
+hostname: miragenews.com
+description: An international research team led by a Korean scientist has succeeded in designing large-scale protein structures that faithfully replicate the
+sitename: Mirage News
+date: "2026-06-18"
+categories: ['Science']
+tags: ['Australia', 'Government', 'university', 'community', 'police', 'Australian', 'research', 'NSW', 'Victoria', 'Professor', 'health', 'environment', 'Minister', 'Queensland', 'business', 'council', 'UK', 'covid-19', 'local council', 'New South Wales', 'infrastructure', 'Investment', 'education', 'technology', 'industry', 'investigation', 'AusPol', 'United States', 'project', 'crime', 'Emergency', 'sustainable', 'New Zealand', 'UK Government', 'QLD', 'Scientists', 'future', 'Sydney', 'President', 'climate change', 'america', 'Impact', 'court', 'Internet', 'incident']
+---
+An international research team led by a Korean scientist has succeeded in designing large-scale protein structures that faithfully replicate the self-assembly principles found in naturally occurring viruses, using artificial intelligence (AI).
+The Ministry of Science and ICT (MSIT) announced that Prof. Sangmin Lee of the Department of Chemical Engineering at Pohang University of Science and Technology (POSTECH), in collaboration with Prof. David Baker of the University of Washington (recipient of the 2024 Nobel Prize in Chemistry), has developed a design principle enabling a single protein component to simultaneously form pentagonal and hexagonal arrangements and self-assemble* into virus-like structures.
+This research, supported by MSIT programs, was published in Nature — the world's most prestigious academic journal — at midnight Korean time on Thursday, May 21.
+* Paper title: "Design of one-component quasisymmetric protein nanocages"
+Protein Nanocages: The Most Promising Next-Gen</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI for Science
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-06-18</span>
+            <a class="url" href="https://www.miragenews.com/ai-decodes-viruses-new-protein-structures-emerge-1694664/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 48">
+          <h3><span class="step">A49</span><a href="https://ymaho.com/ai-mini-proteins-control-gpcr-receptors-a-breakthrough-in-pharma" target="_blank" rel="noopener noreferrer">AI mini-proteins control GPCR receptors: a breakthrough in pharma</a></h3>
+          <p class="sum">---
+title: "AI mini-proteins control GPCR receptors: a breakthrough in pharma"
+author: Ymaho Editorial Team
+url: https://ymaho.com/ai-mini-proteins-control-gpcr-receptors-a-breakthrough-in-pharma
+hostname: ymaho.com
+description: "Analysis of Skape Bio and UW Medicine technology: cheap, surgical precision, immunogenicity in question. Who will benefit from the GPCR paradigm shift."
+sitename: Ymaho
+date: "2026-06-08"
+categories: ['Biotechnology']
+tags: ['GPCR, mini-proteins, AI in biology, allosteric modulators, protein design, Skape Bio, David Baker, GPCR agonists, pharmaceuticals of the future, immunogenicity of mini-proteins, antibody market, de novo design', 'ai-protein-design', 'gpcr-targeting', 'mini-proteins', 'skape-bio', 'future-of-pharma']
+---
+AI Creates Mini-Proteins to Control GPCR Receptors for the First Time
+Scientists at the University of Washington and Skape Bio used AI to develop mini-proteins that can activate or block GPCR receptors in vivo. A study in Nature shows this method outperforms antibodies, and in mouse tests, the new protein caused fewer side effects compared to existing drugs.
+An analytical article written from the perspective of an insider who sees the big picture, not just what made it into press releases.
+Title: The Quiet GPCR Revolution: How David Baker and Skape Bio Plan to Destroy the Small Molecule and Antibody Market with Mini-Proteins
+Introduction
+While mainstream media clicks on headlines about CRISPR-Cas9 or yet another "breakthrough" in CAR-T, the real tectonic shifts in the industry happen quietly in labs working with G-proteins. The news that the UW Medicine Institute for Protein Design (led by Nobel laureate David Baker) and startup Skape Bio published a methodology in Nature for creating mini-proteins to control GPCRs is not just a "step forward." It's a game-changer.
+Everyone is used to GPCRs being the sacred cow of big pharma. ~34% of all FDA-approved drugs target these receptors: from beta-blockers to antihistamines and</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: AI for Science
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-06-08</span>
+            <a class="url" href="https://ymaho.com/ai-mini-proteins-control-gpcr-receptors-a-breakthrough-in-pharma" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">97c25c4f</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W43</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">49 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">7 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: AI for Science</div>
+          <div class="s">
+            <span class="mono">3 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: Digital Twin Industrial</div>
+          <div class="s">
+            <span class="mono">2 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: Design Simulation CAE</div>
+          <div class="s">
+            <span class="mono">7 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: LLM Latest</div>
+          <div class="s">
+            <span class="mono">4 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">OpenAI Blog</div>
+          <div class="s">
+            <span class="mono">10 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">InfoQ AI</div>
+          <div class="s">
+            <span class="mono">20 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+        
+        <div class="src-row">
+          <div class="n">blog.langchain.dev</div>
+          <div class="s">
+            <span class="mono">3 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-19 08:17 · 2026-W43</span>
+</div></footer>
+</body>
+</html>

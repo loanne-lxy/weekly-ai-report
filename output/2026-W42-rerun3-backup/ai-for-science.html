@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Science — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
+
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
+
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+<style>:root { --cat-color: #10b981; }</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="index.html"><b>2026-W42</b> · 2026-10-13</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · AI for Science</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #10b981; width: 12px; height: 12px;"></span>🔬 AI for Science</h1>
+    <span class="count"><b>16</b> 个事件 · 按重要性排序</span>
+    <p class="cat-sum">本周关键进展是AI方法加速科学发现：图机器学习降低掺杂氧化锆CO₂加氢催化剂的DFT筛选成本，生成式模型与神经优化则推动蛋白从头设计、抗体设计和小分子结合蛋白零样本设计。</p>
+  </div>
+
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">55</span></a>
+    
+    <a href="llm.html" class="">LLM<span class="mono">12</span></a>
+    
+    <a href="agent.html" class="">Agent<span class="mono">18</span></a>
+    
+    <a href="ai-for-science.html" class="on">AI for Science<span class="mono">16</span></a>
+    
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">8</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">1</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
+
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-EC3EF3</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-4aec3ef3-co2.html">图机器学习改进掺杂氧化锆CO2加氢催化剂筛选</a></h2>
+        <p class="sum">该工作面向掺杂氧化锆基二氧化碳加氢催化剂的筛选问题，指出掺杂元素可通过改变吸附质与过渡态能量来调控催化活性。由于需要同时考察多种掺杂、反应中间体和过渡态，密度泛函理论计算成本较高。作者进一步开发基于图的机器学习方法，用于改进此类催化剂的筛选流程。该研究有助于降低计算负担，加速氧化锆基催化剂的组分与活性设计，为降低对DFT计算的依赖提供方法基础。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-4aec3ef3-co2.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 85%; background: var(--accent);"></i></span><span class="mono"><b>85</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E7EE9F</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-3be7ee9f-alphafold3.html">自然语言蛋白设计、抗体生成与AlphaFold3机制</a></h2>
+        <p class="sum">该事件聚焦生成式蛋白设计与结构预测机制。Prompteina提出首个支持自然语言指定新设计目标的原子级结构生成模型，突破现有模型需为每个属性设置专用输入表示的限制。OFAntibody面向单克隆与双特异性抗体从头设计，处理多组分复合物中多个靶标识别界面共存与相互作用的问题。AlphaFold3研究通过因果干预和逐Pairformer块探测，追踪全局蛋白几何形成，并发现多序列比对是折叠的结构捷径。这些工作扩展蛋白与抗体设计目标，并揭示结构预测模型内部机制。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-3be7ee9f-alphafold3.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 75%; background: var(--accent);"></i></span><span class="mono"><b>75</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 80%; background: #10b981;"></i></span><span class="mono"><b>80</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-29996A</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-6c29996a-event.html">神经迭代选择-扩展零样本设计药物结合蛋白</a></h2>
+        <p class="sum">该研究论文发表于Nature，面向小分子药物结合蛋白的从头设计，提出一种零样本设计药物结合蛋白的方法，将两个神经网络配对并嵌入迭代优化算法。通过神经迭代选择-扩展流程，系统可从零设计小分子结合蛋白，并报告达到较高准确性。该结果表明，神经优化方法可用于从头设计具有特定结合功能的蛋白质。这一整体方向对药物结合蛋白的理性设计具有潜在价值。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-6c29996a-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 75%; background: var(--accent);"></i></span><span class="mono"><b>75</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-2CCE71</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-6b2cce71-event.html">拓扑图神经网络用于电力潮流与材料属性预测</a></h2>
+        <p class="sum">该事件关注拓扑/图神经网络在复杂结构属性预测中的应用。TDD-HBGNN面向电力概率潮流，针对固定母线-支路图在故障拓扑下泛化差的问题，提出拓扑分解驱动的分层双向图神经网络，以处理未见拓扑。MITNNs面向分子与材料性质预测，用多个互补数学视图表示复杂三维结构并整合，以弥补单一结构表示局限。两者均强调结构/拓扑信息对数据驱动代理模型泛化的作用。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-6b2cce71-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-2A39A1</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-642a39a1-rna-rl.html">RNA逆设计多目标RL与几何潜流匹配</a></h2>
+        <p class="sum">MORAD提出面向backbone-conditioned RNA扩散模型的在线强化学习框架，用单一共享策略跨多种目标骨架训练，以多目标奖励优化序列设计。La-Ribo通过几何潜流匹配实现RNA序列-结构协同设计，在有限结构监督下兼顾全局折叠与核苷酸级细节。两者均针对RNA功能依赖序列与三维结构耦合的问题，为生成兼容目标骨架的RNA序列提供方法。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-642a39a1-rna-rl.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-162ED2</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-fc162ed2-fib.html">条件扩散预测FIB纳米制造方差与量子材料双亚稳合成</a></h2>
+        <p class="sum">条件扩散模型用于预测聚焦离子束铣削纳米制造中的方差：由于刻蚀速率波动与再沉积等系统/随机效应，名义相同工艺会产生不同结构，并引起光学、力学等物理性质变化。另一项工作提出扩散激活外延，将扩散与外延两种亚稳合成方法结合，以扩大亚稳合成窗口。该方向面向量子材料发现，强调新合成技术对实现新材料和新物理的支撑作用。两者共同关注制造/合成不确定性与新材料实现路径。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-fc162ed2-fib.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 62%; background: var(--accent);"></i></span><span class="mono"><b>62</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 58%; background: #8b5cf6;"></i></span><span class="mono"><b>58</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-75406A</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-4e75406a-event.html">拓扑潜交互注意力与信息密集分子合成</a></h2>
+        <p class="sum">该事件包含两项面向分子与药物发现的AI方法。TopoLIA提出受拓扑启发的潜交互注意力机制，用于缓解Transformer源-目标注意力在复杂相互作用建模中的瓶颈。另一方法提出信息密集合成，通过算法控制的随机合成高效搜索大区域分子空间，以应对稀有性质分子在稀疏场景下现有算法难以超越随机猜测的问题。二者均旨在提升分子设计与实验规划效率，为机器学习加速分子发现提供新的搜索与建模机制。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-4e75406a-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5A754B</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-c45a754b-event.html">拉格朗日神经网络恢复不可约三体相互作用</a></h2>
+        <p class="sum">拉格朗日神经网络通过参数化标量拉格朗日量，并利用欧拉-拉格朗日方程推导动力学，使模型偏向符合力学变分结构的运动。此前相关研究多关注可加性成对相互作用，尚不清楚 LNN 能否恢复不可约多体相互作用。本文聚焦不可约三体相互作用，检验 LNN 从轨迹数据中学习此类非成对相互作用的可行性。该工作有助于拓展基于变分结构的物理机器学习方法在复杂多体系统中的应用。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-c45a754b-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-48E731</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-d548e731-cnet-wirtinger.html">CNet复值神经网络Wirtinger自动微分框架</a></h2>
+        <p class="sum">CNet 是一个 C++/CUDA 框架，用于构建复值神经网络（CVNN）并通过 Wirtinger 导数对复函数进行梯度下降优化。它面向 RF/IQ 通信、MRI k 空间、雷达/SAR 和音频频谱等天然复值数据，保留实数网络丢弃的相位信息。该框架被描述为物理原生，适合处理内在复值信号。其意义在于为复值深度学习提供可微、可优化的统一工具，使相位信息参与模型训练。它强调复值模型在 RF、MRI、雷达和音频等内在复值数据中更自然，因为相位承载信息。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d548e731-cnet-wirtinger.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-561575</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-7a561575-ai.html">下一代材料发现AI基准必要条件</a></h2>
+        <p class="sum">该研究讨论下一代材料发现AI的基准测试必要条件。当前AI材料预测主要依靠加速能量最小化并在大型数据库上训练，但数据生成规模扩大后，领域专家难以进行人工分析。若仅用化学组成、晶体学信息文件中的传统表示，或基于人工设定阈值的标准结构匹配器来评估新颖性，则可能轻易生成大量看似新颖的结构。因此，文章强调需要为下一代材料发现AI建立必要基准条件，以避免仅依赖上述表示和阈值导致的新颖性误判。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-7a561575-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-21A0F6</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-1321a0f6-event.html">神经网络估计重离子模拟终态中心度</a></h2>
+        <p class="sum">该工作面向相对论重离子碰撞模拟中的中心度估计问题。实验中通常用带电粒子多重度等终态量确定中心度，但在流体模拟中执行同样操作需要数百万事件，对先进混合模型不现实，因此常用初始熵或能量近似。文章展示神经网络可用于终态中心度估计，以补充初始熵或能量近似。该方法可为混合模型提供更贴近实验定义的中心度估计，并降低大规模事件模拟成本。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-1321a0f6-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E60C2A</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-09e60c2a-event.html">物理状态监督高斯过程代理内爆模拟</a></h2>
+        <p class="sum">该工作面向内爆模拟的代理建模问题。内爆模拟中记录的物理诊断量能够组织剧烈变化的响应，但若直接作为代理输入，通常需要在预测时额外执行一次计算。文章提出物理状态监督的高斯过程代理，使代理从设计变量学习这些诊断量。交叉拟合的状态估计用于增强保留的设计表示，从而支持仅以设计变量为输入的预测。这有助于降低预测阶段对完整模拟诊断量的依赖。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-09e60c2a-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FBA7FE</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-2cfba7fe-3d.html">重思3D医学自监督学习的子体采样</a></h2>
+        <p class="sum">该研究针对3D医学图像自监督学习中常用的随机子体采样策略。随机裁剪隐含所有空间区域同等重要，但解剖先验和空间冗余使不同区域对表示学习的价值并不均等。作者通过受控的裁剪质量操作，分析采样位置对自监督预训练的影响。其核心是重新评估子体采样在3D医学自监督学习中的作用，并指出空间区域并非等价。该工作强调采样位置对3D医学自监督学习的重要性，为重新设计子体采样策略提供依据。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-2cfba7fe-3d.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5AD72F</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-eb5ad72f-event.html">束流剖面全局优化抑制尾波不稳定性</a></h2>
+        <p class="sum">该研究关注恒定强度粒子束进入等离子体时引发的尾波不稳定性。已有结果表明束流调制可显著抑制该不稳定性，但最优束流剖面的搜索面临高维且极其崎岖的优化景观。文章将束流剖面设计表述为全局优化问题，以寻找能够降低不稳定性影响的调制方案。该工作明确了束流稳定性控制中优化问题的复杂性与高维性，为束流参数优化提供问题定义。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-eb5ad72f-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 14">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-347C18</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-5a347c18-vn-graphgg.html">VN-GraphGG图法晶粒生长模拟</a></h2>
+        <p class="sum">文章提出基于von Neumann-Mullins的二维图晶粒生长模拟VN-GraphGG。该方法将晶粒尺度动力学与微观结构重建耦合，并以图表示多晶微观结构。文中强调高效晶粒生长模拟对研究多晶材料工艺-结构-性能关系的重要性。该工作为多晶材料微观结构演化模拟提供新工具。其意义在于支持材料工艺-结构-性能关系的数值研究。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-5a347c18-vn-graphgg.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 15">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-A4F637</span>
+          <span class="mono">2026-W42</span>
+        </div>
+        <h2><a href="events/evt-eca4f637-specyl-rwm.html">SpeCyl新增RWM自由边界模块</a></h2>
+        <p class="sum">文章介绍非线性三维全MHD代码SpeCyl中新的自由边界模块实现与验证基准。该模块面向电阻壁模和外部kink模等自由边界不稳定性，用于自洽数值模拟。文中指出这类不稳定性与磁聚变反应堆路径密切相关。该工作提供实现细节和验证基准，有助于提高相关模拟的可靠性。其意义在于为磁聚变研究中的自由边界问题提供可复现的计算工具。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-eca4f637-specyl-rwm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-13 17:20 · 2026-W42</span>
+</div></footer>
+</body>
+</html>

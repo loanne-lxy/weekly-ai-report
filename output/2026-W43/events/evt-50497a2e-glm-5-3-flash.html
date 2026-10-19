@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLM-5.3-Flash 原生多模态模型发布 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W43</b> · 2026-10-19</a></div>
+</div></div>
+<style>:root { --cat-color: #3b82f6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+      <span class="mono" style="color: var(--text-3);">2026-W43</span>
+      <span class="mono" style="color: var(--text-3);">4 篇来源文章</span>
+    </div>
+    <h1>GLM-5.3-Flash 原生多模态模型发布</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">70<small> / 100</small></div>
+        <div class="bar"><i style="width: 70%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose">Z.ai/智谱于2026年8月26日发布原生多模态大模型 GLM-5.3-Flash。PANews 报道援引 Z.ai 官网信息，称其可在国产芯片上以约十分之一成本运行接近 Opus 的能力。Z.ai 研究页将其定位为 Frontier Intelligence 与 Flash Cost，并提供 Call it at Z.ai 与 Z.ai Coding Plan 入口。</p>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 4 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+        
+        
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://www.panews.io/articles/01a03e82-dc49-701f-9aa4-213e72c4d0a7" target="_blank" rel="noopener noreferrer">Zhipu launches native multimodal large model GLM-5.3-Flash, running 'close to Opus' capabilities on domestic chips at only one-tenth the cost</a></h3>
+          <p class="sum">---
+title: Zhipu launches native multimodal large model GLM-5.3-Flash, running 'close to Opus' capabilities on domestic chips at only one-tenth the cost
+author: PA一线
+url: https://www.panews.io/articles/01a03e82-dc49-701f-9aa4-213e72c4d0a7
+hostname: panews.io
+description: PANews reported on August 26, according to Z.ai official website, Zhipu launched native multimodal large model GLM-5.3-Flash, total parameters 320 billion, activated parameters 18 billion,…
+sitename: PANews English
+date: "2026-08-26"
+categories: ['Newsflash']
+tags: ['Newsflash, PA一线, PANews article, crypto article, Web3 news, PANews, Web3, blockchain, cryptocurrency, crypto news, Bitcoin, Ethereum, DeFi, NFT, AI, digital assets']
+---
+PANews reported on August 26, according to Z.ai official website, Zhipu launched the native multimodal large model GLM-5.3-Flash, with 320 billion total parameters and 18 billion activated parameters, significantly outperforming GLM-5.2 on coding and agent benchmarks, and approaching Claude Opus 4.8, with the price reduced to about one-tenth. The model uses a hybrid architecture of sparse and linear attention, Manifold-Constrained Hyper-Connections, and a 30 trillion multimodal corpus to reduce long-context reasoning cost to about one-third of GLM-5.3, achieving a 57-point performance at approximately 0.045 USD/task on the Artificial Analysis Intelligence Index v4.1.1. Officials stated that during anonymous testing as ox-alpha on OpenCode and OpenRouter, it became the hottest model within a week, and it has achieved inference efficiency close to NVIDIA GPUs on large-scale domestic AI chip clusters.</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-08-26</span>
+            <a class="url" href="https://www.panews.io/articles/01a03e82-dc49-701f-9aa4-213e72c4d0a7" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://z.ai/blog/glm-5.3-flash" target="_blank" rel="noopener noreferrer">GLM-5.3-Flash: Frontier Intelligence, Flash Cost</a></h3>
+          <p class="sum">![](https://z-cdn-media.chatglm.cn/prompts-rich-media-resources/5-blog/z-icon.png)
+2026-08-26 · Research
+GLM-5.3-Flash: Frontier Intelligence, Flash Cost
+[
+* ![](https://z-cdn.chatglm.cn/z-blog/z-icon.svg)Call it at Z.ai ](https://docs.z.ai/guides/llm/glm-5.3-flash)[
+* ![](https://z-cdn.chatglm.cn/z-blog/z-icon.svg)Z.ai Coding Plan ](https://z.ai/subscribe
+* ![](https://z-cdn.chatglm.cn/z-blog/z-icon.svg)Code with ZCode ](https://zcode.z.ai/)[
+* ![](https://z-cdn.chatglm.cn/z-blog/hf-logo.svg)HuggingFace ](https://huggingface.co/zai-org/GLM-5.3-flash)
+We introduce GLM-5.3-Flash, the first natively multimodal model in the GLM-5 series. With 320B total parameters and just 18B active parameters, it outperforms GLM-5.2 across benchmarks and real-world workloads at one-tenth the price, while approaching Claude Opus 4.8 on coding and agentic benchmarks.
+GLM-5.3-Flash starts from a newly trained base model, with its architecture and training recipe redesigned around capability and efficiency. For the first time in the GLM series, we introduce a hybrid architecture combining sparse and linear attention, sharply reducing long-context serving costs while preserving precise long-context capabilities. The model also adopts Manifold-Constrained Hyper-Connections (mHC) to further improve scaling efficiency. Together with our latest 30T-token multimodal pre-training corpus, these changes enable GLM-5.3-Flash to deliver more intelligence with less compute.
+Before release, we tested GLM-5.3-Flash anonymously as `ox-alpha` on OpenCode and OpenRouter to gather user feedback. It quickly became the most popular model of the week — with all of this traffic served on Chinese AI chips.
+![](https://z-cdn-media.chatglm.cn/prompts-rich-media-resources/5.3-flash-blog/ryTOUL3vGe.png)
+![](https://z-cdn-media.chatglm.cn/prompts-rich-media-resources/5.3-flash-blog/S10CTLhwzg.png)
+# Competitive Performance at Flash Cost
+GLM-5.3-Flash pus</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            
+            <a class="url" href="https://z.ai/blog/glm-5.3-flash" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://hokai.io/hub/models/command-a-plus" target="_blank" rel="noopener noreferrer">Command A+ Review (2026): Benchmarks, Hardware & License</a></h3>
+          <p class="sum">---
+title: "Command A+ Review (2026): Benchmarks, Hardware & License"
+author: Damien
+url: https://hokai.io/hub/models/command-a-plus
+hostname: hokai.io
+description: Command A+ posts 63% on MMMU-Pro and about 11% on Humanity's Last Exam. See every sourced benchmark score, the GPUs it needs and what its open license allows.
+sitename: Cohere
+date: "2026-05-20"
+---
+Command A+ suits enterprises wanting self-hosted or sovereign AI: it runs on modest GPU hardware at Cohere's recommended quantization and ships under a fully open license with no per-token lock-in. It replaces four separate Cohere models but trails today's frontier closed models on raw reasoning benchmarks.
+What changed
+- · Release Command A+ launches, unifying four prior Command A models (command-a-plus-05-2026) source
+Cohere Command A+ is an open-weights sparse mixture-of-experts language model that unifies Cohere's separate reasoning, vision, and translation models into one checkpoint. Artificial Analysis measured it at 76% on GPQA Diamond and scored it 37 on its Intelligence Index; the model is released under a fully permissive Apache license for self-hosted or Cohere-managed deployment.
+Where it sits
+- 281 tok/stokens/sOutput speedHigher is better#8 / 49peer median 90 tok/scited: Artificial Analysis
+- 76%% correctGPQA DiamondHigher is better#37 / 54peer median 87.6%per source, see benchmark scores
+In the bottom third on GPQA Diamond (rank 37 of 54), and one of 80 whose vendor states it does not train on customer data.
+Ranks are against GA models on HokAI that publish the same figure; ties share a rank.
+Provider: Cohere · Family: Command A
+Context window: 128,000 tokens · Max output: 64,000
+Input modalities: text, image, tool-calls · Output: text, tool-calls
+About Cohere Command A+
+Cohere Command A+ is a sparse mixture-of-experts foundation model released by Cohere on May 20, 2026 under the model ID command-a-plus-05-2026. It has 218 billion total parameters with 25 billion active per token, architected t</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-20</span>
+            <a class="url" href="https://hokai.io/hub/models/command-a-plus" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://hokai.io/hub/models/gemini-3.5-flash" target="_blank" rel="noopener noreferrer">Gemini 3.5 Flash Review: 78% SWE-bench, $1.50/M</a></h3>
+          <p class="sum">---
+title: "Gemini 3.5 Flash Review: 78% SWE-bench, $1.50/M"
+author: Damien
+url: https://hokai.io/hub/models/gemini-3.5-flash
+hostname: hokai.io
+description: Gemini 3.5 Flash, Google DeepMind's Flash-tier model released in May 2026, leads MCP Atlas tool-orchestration with a 1M-token multimodal context window.
+sitename: Google
+date: "2026-05-19"
+---
+Gemini 3.5 Flash suits agentic coding teams and MCP tool-orchestration pipelines that outgrew Gemini 3 Flash's slower reasoning, trading some abstract-reasoning strength for speed: it outputs at 289 tokens per second, roughly 4x faster than GPT-5.5 and Claude Opus 4.7. Teams chasing the top ARC-AGI-2 score should look at Gemini 3.1 Pro instead.
+What changed
+Google DeepMind's Flash-tier multimodal model spans text, image, audio, video, and PDF inputs in one request, released to general availability in May 2026. It scores 78% on SWE-bench Verified and leads tool orchestration with an 83.6% MCP Atlas score, the highest recorded as of June 2026.
+Where it sits
+- $3.38/M$ per 1M tokensBlended price (3:1)Lower is better#53 / 83peer median $1.71/Mvendor price, checked by HokAI
+- 289 tok/stokens/sOutput speedHigher is better#7 / 49peer median 90 tok/scited: Artificial Analysis
+- 78%% solvedSWE-bench VerifiedHigher is better#17 / 34peer median 77.6%per source, see benchmark scores
+- 90.4%% correctGPQA DiamondHigher is better#19 / 54peer median 87.6%per source, see benchmark scores
+Priced around the middle of the 83 GA models with a published price (rank 53), mid-pack on SWE-bench Verified (rank 17 of 34), and one of 80 whose vendor states it does not train on customer data.
+Ranks are against GA models on HokAI that publish the same figure; ties share a rank.
+Provider: Google · Family: Gemini 3.5
+Context window: 1,048,576 tokens · Max output: 65,536
+Input modalities: text, image, audio, video, pdf · Output: text, tool-calls
+About Gemini 3.5 Flash
+Gemini 3.5 Flash is Google DeepMind's Flash-tier multimodal model, announced and releas</p>
+          <div class="ameta">
+            <span class="src-tag">Exa: LLM Latest
+              
+              <span class="trust">trust 100%</span>
+            </span>
+            <span>2026-05-19</span>
+            <a class="url" href="https://hokai.io/hub/models/gemini-3.5-flash" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">50497a2e</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">LLM</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W43</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">4 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+      
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+        
+        
+        <div class="src-row">
+          <div class="n">Exa: LLM Latest</div>
+          <div class="s">
+            <span class="mono">4 篇</span>
+            
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-19 08:17 · 2026-W43</span>
+</div></footer>
+</body>
+</html>

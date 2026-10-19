@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
+
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
+
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+<style>:root { --cat-color: #8b5cf6; }</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="index.html"><b>2026-W43</b> · 2026-10-19</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · Agent</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #8b5cf6; width: 12px; height: 12px;"></span>🤖 Agent</h1>
+    <span class="count"><b>14</b> 个事件 · 按重要性排序</span>
+    <p class="cat-sum">本周智能体研究聚焦于编码智能体 harness 的自动演化、去中心化群体协作的市场式后训练，以及面向自主机器学习工程的通用智能体，分别通过可观测性驱动优化、联合学习个体能力与自编排机制、长程实验编排来推动智能体系统向递归自我改进迈进。</p>
+  </div>
+
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">40</span></a>
+    
+    <a href="llm.html" class="">LLM<span class="mono">8</span></a>
+    
+    <a href="agent.html" class="on">Agent<span class="mono">14</span></a>
+    
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">8</span></a>
+    
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">7</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">3</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
+
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-6BD388</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-e16bd388-ahe-harness.html">AHE自动演化编码智能体harness</a></h2>
+        <p class="sum">AHE 是面向编码智能体 harness 的自动演化方法，强调以可观测性驱动 harness 的持续改进。其官方代码仓库提供 AHE 实现，并与 meta-harness 并行工作。NexAU-AHE 在 Terminal-Bench 2 上达到 84.7% ± 2.1 的 pass@1，使用 GPT-5.5。该方法在 10 次迭代中将 GPT-5.4 从 69.7% 提升到 77.0%，并优于 Codex、ACE 与 Training-Free GRPO；冻结后的 harness 可迁移到 SWE-bench-Verified。</p>
+        <div class="foot">
+          <span class="mono">8 篇来源文章</span>
+          <a class="go" href="events/evt-e16bd388-ahe-harness.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 95%; background: var(--accent);"></i></span><span class="mono"><b>95</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 90%; background: #10b981;"></i></span><span class="mono"><b>90</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-4C2A1E</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-6d4c2a1e-mpt.html">MPT市场式后训练学习智能体自编排</a></h2>
+        <p class="sum">该论文研究去中心化智能体群体中个体能力与集体协调的联合学习问题。现有系统通常在固定编排结构中训练智能体，将个体能力学习与集体行为组织分开。作者提出市场式后训练MPT，用于同时学习动作策略与自编排机制。其核心是把市场机制引入后训练阶段，以协调群体行为。该框架试图让群体在去中心化条件下形成更有效的协作结构，从而提升整体任务能力。</p>
+        <div class="foot">
+          <span class="mono">8 篇来源文章</span>
+          <a class="go" href="events/evt-6d4c2a1e-mpt.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 90%; background: var(--accent);"></i></span><span class="mono"><b>90</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5A04E6</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-635a04e6-mlexpert.html">MLExpert通用智能体模型自主机器学习工程</a></h2>
+        <p class="sum">该论文提出MLExpert，目标是构建面向自主机器学习工程（MLE）的通用智能体模型。文章指出LLM正从辅助科研与工程扩展到自主开发和改进AI系统，并将AI4AI视为通向递归自我改进（RSI）的路径。工作流驱动的MLE系统通过复杂编排管理长程实验，为这一目标提供可行路径。该方向关注智能体在机器学习研发流程中的复杂编排与长程实验管理。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-635a04e6-mlexpert.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 90%; background: var(--accent);"></i></span><span class="mono"><b>90</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 90%; background: #10b981;"></i></span><span class="mono"><b>90</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FFC8B5</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-d2ffc8b5-bizbench.html">BizBench长程商业智能体执行基准</a></h2>
+        <p class="sum">BizBench 面向真实商业场景中的长程智能体部署，关注现有长程智能体基准往往只强调最终任务成功、而较少评估中间执行有效性的问题。该工作指出，真实业务要求智能体在长程执行中处理大量可能过时或相互冲突的政策，并持续满足关键约束。此类要求在高利害商业领域尤为关键。该基准用于揭示长程商业智能体在约束遵循、政策适应和执行过程有效性方面的隐藏挑战。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d2ffc8b5-bizbench.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 90%; background: var(--accent);"></i></span><span class="mono"><b>90</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-10472E</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-8510472e-deep-agents-harness.html">Deep Agents开源框架发布与harness工程优化</a></h2>
+        <p class="sum">LangChain发布Deep Agents Deploy（beta），提供模型无关的开源agent harness生产部署方案。通过harness工程（自验证、追踪、上下文优化），其编码agent在Terminal Bench上从Top 30提升至Top 5。上下文工程采用offloading、摘要、技能、子agent和记忆机制，防止长任务中上下文窗口退化，支撑agent持续高效运行。</p>
+        <div class="foot">
+          <span class="mono">9 篇来源文章</span>
+          <a class="go" href="events/evt-8510472e-deep-agents-harness.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 85%; background: var(--accent);"></i></span><span class="mono"><b>85</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 90%; background: #10b981;"></i></span><span class="mono"><b>90</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-4D18B7</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-5b4d18b7-p3-wam.html">P3-WAM统一世界动作模型用于灵巧操作</a></h2>
+        <p class="sum">该论文提出P3-WAM，一种用于第一人称灵巧操作的统一世界动作模型。它通过Perceive、Predict和Plan三种互补模式学习3D感知、动作条件预测和目标导向规划。Perceive从视频重建关节手运动和相机轨迹。Predict在给定动作下生成视觉未来。该模型面向第一人称灵巧操作，把感知、预测与规划统一到同一框架中，从而支持灵巧操作任务。</p>
+        <div class="foot">
+          <span class="mono">5 篇来源文章</span>
+          <a class="go" href="events/evt-5b4d18b7-p3-wam.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 85%; background: var(--accent);"></i></span><span class="mono"><b>85</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-F58C89</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-f6f58c89-metashare.html">MetaShare失败感知集体自改进智能体</a></h2>
+        <p class="sum">该工作面向开放式自改进智能体，提出失败感知的集体自改进方法MetaShare。现有方法如GEA可跨谱系共享经验，DGM-Hyperagents可编辑自身改进机制，但失败的改进尝试很少被保留为可跨分支复用的知识，搜索也可能坍缩到冗余策略。MetaShare将失败经验纳入共享机制，使不同分支能够记住哪些失败不应重复。该研究关注递归自改进与集体经验复用，为减少冗余策略搜索提供思路。这有助于提升开放智能体在探索过程中的经验利用效率。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-f6f58c89-metashare.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 85%; background: var(--accent);"></i></span><span class="mono"><b>85</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-71D37E</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-e871d37e-spark-0.html">Spark-0空间对齐视触预训练灵巧操作</a></h2>
+        <p class="sum">通用机器人策略常依赖大规模视觉预训练，但在接触丰富的灵巧操作中难以感知力、柔顺与初始滑移。Spark-0提出空间对齐的视觉-触觉-语言-动作（VTLA）模型，将触觉以互补方式引入策略学习。预训练阶段利用由触觉导出的图像空间接触图，使模型获得与视觉对齐的接触信息。该工作面向灵巧操作，弥补纯视觉策略在接触感知上的不足。其意义在于提升接触丰富场景下的操作鲁棒性。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-e871d37e-spark-0.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-83D91E</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-8183d91e-mdp.html">鲁棒上下文MDP学习动态治疗方案</a></h2>
+        <p class="sum">该工作代表动态治疗策略从标准强化学习转向鲁棒上下文MDP的趋势。文章[0]提出鲁棒强化学习框架，用于学习可跨患者泛化的自适应治疗方案。该框架将患者建模为隐藏上下文，通过鲁棒上下文马尔可夫决策过程统一处理泛化与鲁棒性。其目标是在生物标志物测量误差和疾病动态变化下保持可靠，从而提升动态治疗策略在不确定环境中的稳定性。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-8183d91e-mdp.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-489E35</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-5a489e35-event.html">大规模离子电子皮肤神经分层处理架构</a></h2>
+        <p class="sum">Li等提出一种神经分层皮肤，将高密度离子电子传感器阵列、快速读出与数据压缩结合为统一架构。该大规模离子电子皮肤可使人形机器人感知精细纹理、操作易碎物体，并对伤害性感觉作出响应。其设计结合传感密度、读出速度与数据压缩，为机器人触觉感知提供系统级方案。该工作发表于Nature Machine Intelligence，面向人形机器人的精细操作与伤害性感觉响应。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-5a489e35-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C25C4F</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-97c25c4f-how-ita-is-building-generative-ai.html">[未翻译] How Itaú is building generative AI for its entire customer base</a></h2>
+        <p class="sum">[未翻译] With ia.i, a conversational interface, and the IARA governance platform, Itaú is applying its AI First strategy to customers and employees — in one of Brazil’s most regulated sectors.
+
+(49 sources: Exa: AI for Science, Exa: Design Simulation CAE, Exa: Digital Twin Industrial, Exa: LLM Latest, InfoQ AI, OpenAI Blog, blog.langchain.dev)</p>
+        <div class="foot">
+          <span class="mono">49 篇来源文章</span>
+          <a class="go" href="events/evt-97c25c4f-how-ita-is-building-generative-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-07B6E3</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-a107b6e3-lean.html">Lean图搜索改进定理证明引理检索</a></h2>
+        <p class="sum">该工作代表形式定理证明中引理检索从单跳匹配转向多跳依赖图搜索的趋势。文章[0]指出，检索相关引理对构建机器可检查证明很关键，现有系统多将库声明匹配到目标定理或中间证明步骤，但对声明间多跳依赖利用不足。Lean图搜索利用这些依赖发现支持引理，从而改进形式定理证明中的引理检索。这有助于证明器从已有数学结果中找到更多支撑引理，从而更好地构建机器可检查证明。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-a107b6e3-lean.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C127B4</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-cdc127b4-event.html">光照感知主动感知用于航天器检查</a></h2>
+        <p class="sum">该研究面向航天器检查任务，提出光照感知的主动感知方法。轨道光照条件恶劣且快速变化，会导致检查过程出现失效模式。现有规划器依赖视线检查指标，仅对已知目标做遮挡检查，并将几何可见性与任务相关信息混同。这些指标忽略了光照效应，包括遮蔽、自阴影和航天器表面镜面反射。该工作将光照因素纳入主动感知规划，旨在减少光照引起的检查失效模式。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-cdc127b4-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E8CF04</span>
+          <span class="mono">2026-W43</span>
+        </div>
+        <h2><a href="events/evt-13e8cf04-psa-ppo.html">PSA-PPO用于水培生菜机器人路径安全采摘</a></h2>
+        <p class="sum">该研究面向温室中NFT（营养液膜技术）水培生菜的机器人采摘任务，提出PSA-PPO（Path-Safe Approach Proximal Policy Optimization）。PSA-PPO是一种目标条件的局部到达框架，用于在约束工作空间中控制末端执行器完成精确接近与定位。论文采用sim-to-real强化学习，将仿真中训练的策略迁移到真实采摘场景，以应对采摘中末端执行器高精度定位要求。该工作关注路径安全与目标到达，用于满足约束工作空间中末端执行器精确定位要求。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-13e8cf04-psa-ppo.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+    
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-19 08:17 · 2026-W43</span>
+</div></footer>
+</body>
+</html>

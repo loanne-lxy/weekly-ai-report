@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08); --accent-soft-2: rgba(26,115,232,.16);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background (Material tonal, slow drift) ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 620px; height: 620px; top: -220px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.20), transparent 68%); animation: drift1 24s ease-in-out infinite; }
+.bg-glow::after { width: 560px; height: 560px; top: -160px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.22), transparent 68%); animation: drift2 28s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-46px,34px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(40px,28px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.masthead > .kicker { animation: fadeUp .6s ease .02s both; }
+.masthead > h1 { animation: fadeUp .6s ease .1s both; }
+.masthead > .lede { animation: fadeUp .6s ease .18s both; }
+.masthead > .kpis { animation: fadeUp .6s ease .28s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+.topbar .hist { display: inline-flex; align-items: center; gap: 7px; margin-left: 14px; padding-left: 14px; border-left: 1px solid var(--line-2); color: var(--text-3); font-size: 12px; }
+.topbar .hist .sep { color: var(--line-2); }
+.topbar .hist-link { color: var(--accent); font-weight: 600; padding: 2px 7px; border-radius: 7px; transition: background .18s; }
+.topbar .hist-link:hover { background: var(--accent-soft); }
+
+/* ── Masthead (hero) ── */
+.masthead { padding: 60px 0 12px; }
+.masthead h1 { font-size: 48px; font-weight: 800; letter-spacing: -.028em; line-height: 1.12; margin: 14px 0 16px; color: var(--text); max-width: 820px; }
+.masthead .lede { font-size: 17px; color: var(--text-2); max-width: 800px; line-height: 1.78; }
+.masthead .lede b { color: var(--text); font-weight: 700; }
+
+/* ── KPI cards ── */
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px 22px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.kpi:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.kpi .v { font-family: var(--mono); font-size: 32px; font-weight: 700; color: var(--text); line-height: 1.1; letter-spacing: -.01em; }
+.kpi .v small { font-size: 13px; color: var(--text-3); font-weight: 500; margin-left: 5px; }
+.kpi .l { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-4); margin-top: 8px; font-weight: 700; }
+
+/* ── Sections ── */
+section { padding: 42px 0 4px; }
+.sec-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 20px; gap: 16px; flex-wrap: wrap; }
+.sec-head h2 { font-size: 25px; font-weight: 800; letter-spacing: -.02em; color: var(--text); }
+.sec-head .hint { font-size: 13px; color: var(--text-3); }
+.sec-head .kicker { display: block; margin-bottom: 8px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+/* ── Top events ── */
+.top-list { padding: 6px 0; overflow: hidden; }
+.top-item { display: grid; grid-template-columns: 66px minmax(0,1fr); gap: 22px; padding: 24px 24px; transition: background .2s; }
+.top-item + .top-item { border-top: 1px solid var(--line); }
+.top-item:hover { background: var(--surface-2); }
+.top-num { font-family: var(--mono); font-size: 36px; font-weight: 700; color: var(--line-2); line-height: 1; transition: color .2s; }
+.top-item:hover .top-num { color: var(--accent); }
+.top-body h3 { font-size: 19px; font-weight: 700; line-height: 1.42; margin-bottom: 9px; letter-spacing: -.01em; }
+.top-body h3 a:hover { color: var(--accent); }
+.top-meta { display: flex; align-items: center; gap: 14px; margin-bottom: 11px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.score { font-family: var(--mono); font-size: 12.5px; color: var(--text-3); display: inline-flex; align-items: center; gap: 7px; }
+.score b { font-size: 19px; color: var(--accent); font-weight: 700; }
+.bar { width: 58px; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; display: inline-block; vertical-align: middle; }
+.bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; transform-origin: left; animation: barGrow .9s .35s cubic-bezier(.22,.8,.32,1) both; }
+.top-sum { font-size: 15px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt-link { display: inline-block; margin-top: 11px; font-size: 13.5px; color: var(--accent); font-weight: 600; }
+.evt-link:hover { color: var(--accent-2); text-decoration: underline; }
+
+/* ── Domain signals ── */
+.ov-row { display: grid; grid-template-columns: 190px minmax(0,1fr) 74px; gap: 16px; align-items: center; padding: 15px 24px; transition: background .2s; }
+a.ov-row { text-decoration: none; color: inherit; }
+.ov-row + .ov-row { border-top: 1px solid var(--line); }
+.ov-row:hover { background: var(--surface-2); }
+.ov-cat { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 600; color: var(--text); }
+.ov-trend { font-size: 13.5px; color: var(--text-2); line-height: 1.6; }
+.ov-n { font-family: var(--mono); font-size: 13px; color: var(--text-3); text-align: right; }
+
+/* ── Explorer ── */
+.ex-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+.ex-search { flex: 1; min-width: 240px; background: var(--surface); border: 1px solid var(--line-2); border-radius: 26px; padding: 12px 20px; color: var(--text); font-size: 14px; outline: none; transition: border-color .2s, box-shadow .2s; box-shadow: var(--shadow); }
+.ex-search:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.ex-search::placeholder { color: var(--text-4); }
+.ex-f { font-size: 13px; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 26px; padding: 8px 17px; cursor: pointer; transition: all .18s; user-select: none; font-weight: 500; box-shadow: var(--shadow); }
+.ex-f:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.ex-f.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.ex-f .mono { margin-left: 6px; opacity: .8; font-size: 11px; }
+.ex-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ex-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 22px 22px; display: flex; flex-direction: column; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 45ms); }
+.ex-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.ex-top { display: flex; align-items: center; gap: 8px; margin-bottom: 13px; font-size: 12.5px; }
+.ex-cat { color: var(--text-2); font-weight: 600; }
+.ex-imp { margin-left: auto; font-family: var(--mono); font-size: 13.5px; color: var(--accent); font-weight: 700; }
+.ex-imp small { color: var(--text-4); font-weight: 600; margin-left: 3px; }
+.ex-card h3 { font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 10px; color: var(--text); letter-spacing: -.01em; }
+.ex-card h3 a:hover { color: var(--accent); }
+.ex-sum { font-size: 13.5px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+.ex-foot { display: flex; align-items: center; gap: 10px; margin-top: 15px; padding-top: 13px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--text-3); }
+.ex-foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.ex-foot .go:hover { text-decoration: underline; }
+.ex-empty { display: none; padding: 48px 0; text-align: center; color: var(--text-3); font-size: 14px; }
+.ex-pager { display: none; justify-content: center; align-items: center; gap: 8px; margin-top: 26px; }
+.ex-pager.show { display: flex; }
+.ex-pg { min-width: 34px; height: 34px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface); color: var(--text-2); font-family: var(--mono); font-size: 13px; cursor: pointer; transition: all .18s; box-shadow: var(--shadow); display: inline-flex; align-items: center; justify-content: center; }
+.ex-pg:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.ex-pg.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; box-shadow: var(--shadow-2); }
+.ex-pg:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+.ex-pg.nav { font-size: 15px; }
+
+/* ── Footer ── */
+footer { margin-top: 56px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 900px) {
+  .ex-grid { grid-template-columns: repeat(2, 1fr); }
+  .masthead { padding-top: 44px; }
+  .masthead h1 { font-size: 34px; }
+  .kpis { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .ex-grid { grid-template-columns: 1fr; }
+  .topbar .hist { display: none; }
+  .top-item { grid-template-columns: 1fr; gap: 8px; padding: 20px 20px; }
+  .top-num { font-size: 28px; }
+  .ov-row { grid-template-columns: 1fr; gap: 5px; }
+  .ov-n { text-align: left; }
+  .masthead h1 { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </div>
+  <div class="issue"><b>2026-W44</b> · 2026-10-26
+  <span class="hist">过往周报<span class="sep">·</span><a class="hist-link mono" href="../2026-W43/">2026-W43</a><span class="sep">·</span><a class="hist-link mono" href="../2026-W42/">2026-W42</a><span class="sep">·</span><a class="hist-link mono" href="../2026-W41/">2026-W41</a></span></div>
+</div></div>
+
+<div class="wrap">
+  <!-- Masthead -->
+  <div class="masthead">
+    <span class="kicker">Weekly Overview · 第 44 周</span>
+    <h1>AI 研究情报周报</h1>
+    <p class="lede">本周共追踪 <b>45 个研究事件</b>，聚合 <b>124 篇来源文章</b>，
+    覆盖 <b>6 个领域</b>、引用 <b>19 个独立来源</b>。
+    事件按重要性评分排序，完整证据链见各事件详情页。</p>
+    <div class="kpis">
+      <div class="kpi"><div class="v">45<small>事件</small></div><div class="l">Events</div></div>
+      <div class="kpi"><div class="v">124<small>文章</small></div><div class="l">Articles</div></div>
+      <div class="kpi"><div class="v">19<small>来源</small></div><div class="l">Sources</div></div>
+      <div class="kpi"><div class="v">6<small>领域</small></div><div class="l">Domains</div></div>
+    </div>
+  </div>
+
+  <!-- Top Events -->
+  <section>
+    <div class="sec-head reveal">
+      <div><span class="kicker">Top Events</span><h2>本周核心事件</h2></div>
+      <span class="hint">按重要性排序 · Top 5</span>
+    </div>
+    <div class="panel top-list">
+    
+    <div class="top-item reveal" style="animation-delay: 0ms">
+      <div class="top-num mono">01</div>
+      <div class="top-body">
+        <h3><a href="events/evt-03dbfd56-episem-bench-llm">EpiSEM-Bench评估LLM智能体缺失证据安全</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+          <span class="score"><b>80</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 80%"></i></span>
+          </span>
+          <span class="mono">1 篇来源文章</span>
+        </div>
+        <p class="top-sum">工具型语言模型智能体依赖环境事实判断动作是否被允许。当工具响应遗漏安全相关事实时，即使用户请求良性且返回语句均为真，智能体仍可能执行被禁止动作。EpiSEM-Bench是一个可执行基准，用于评估LLM智能体在缺失证据下的不安全执行、安全边界与证据恢复。该工作关注工具返回信息不完整时的安全决策与恢复能力，为智能体安全评测提供可运行测试场景。</p>
+        <a class="evt-link" href="events/evt-03dbfd56-episem-bench-llm">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 70ms">
+      <div class="top-num mono">02</div>
+      <div class="top-body">
+        <h3><a href="events/evt-1d836a28-event">长时代理记忆的动作条件验证</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+          <span class="score"><b>80</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 80%"></i></span>
+          </span>
+          <span class="mono">2 篇来源文章</span>
+        </div>
+        <p class="top-sum">长时代理依赖跨会话记忆执行动作，且许多动作不可逆，陈旧记忆可能直接造成危害。现有工作主要改进记忆本身，如检索、刷新或调和条目，但某条目是否需要在行动前复查并非条目固有属性。同一记忆地址在常规任务中可不复查，而在不可逆动作中需要验证。该工作提出动作条件验证，将记忆是否足够安全与具体动作绑定，以降低长时代理因过期记忆导致的错误行动风险。</p>
+        <a class="evt-link" href="events/evt-1d836a28-event">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 140ms">
+      <div class="top-num mono">03</div>
+      <div class="top-body">
+        <h3><a href="events/evt-99b65515-build-more-responsive-apps-with-the">[未翻译] Build more responsive apps with the Decisions API</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+          <span class="score"><b>80</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 80%"></i></span>
+          </span>
+          <span class="mono">36 篇来源文章</span>
+        </div>
+        <p class="top-sum">[未翻译] Fast, focused, low-cost decisions for any application.
+
+(36 sources: Exa: AI for Science, Exa: Digital Twin Industrial, Exa: LLM Latest, GitHub Trending, InfoQ AI, OpenAI Blog, blog.langchain.dev)</p>
+        <a class="evt-link" href="events/evt-99b65515-build-more-responsive-apps-with-the">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 210ms">
+      <div class="top-num mono">04</div>
+      <div class="top-body">
+        <h3><a href="events/evt-04d43cd1-edengnn-uni">EdenGNN-Uni通用电荷密度预测框架</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #10b981"></span>AI for Science</span>
+          <span class="score"><b>80</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 80%"></i></span>
+          </span>
+          <span class="mono">3 篇来源文章</span>
+        </div>
+        <p class="top-sum">文章提出EdenGNN-Uni，一个面向元素周期表的通用电荷密度预测模型。该模型采用高效等变框架，比部分现有方法快一个数量级以上。它旨在促进高效且准确的电子结构计算，降低电荷密度预测的计算成本。其意义在于为相关电子结构研究提供更快、更通用的预测工具，并提升大规模电子结构计算的可行性，支持更广泛的元素体系建模，为相关计算研究提供基础。</p>
+        <a class="evt-link" href="events/evt-04d43cd1-edengnn-uni">查看证据链 →</a>
+      </div>
+    </div>
+    
+    <div class="top-item reveal" style="animation-delay: 280ms">
+      <div class="top-num mono">05</div>
+      <div class="top-body">
+        <h3><a href="events/evt-348866f4-event">适配体沙箱验证实验室闭环智能体分子发现</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+          <span class="score"><b>75</b><span>/ 100 重要性</span>
+            <span class="bar"><i style="width: 75%"></i></span>
+          </span>
+          <span class="mono">3 篇来源文章</span>
+        </div>
+        <p class="top-sum">文章将蛋白结合适配体设计作为沙箱，用于检验基于LLM的推理智能体能否通过实验室数据迭代加速从头分子发现。现有AI驱动分子生成管线主要在计算机内运行，湿实验反馈通常只用于验证而非迭代改进。该工作以约1-2周实验周期构建实验室闭环，评估智能体在真实反馈下持续优化分子设计的能力。其意义在于为实验室闭环智能体分子发现提供可重复测试场景，并检验LLM推理在湿实验迭代中的实际价值。</p>
+        <a class="evt-link" href="events/evt-348866f4-event">查看证据链 →</a>
+      </div>
+    </div>
+    
+    </div>
+  </section>
+
+  <!-- Weekly overview by domain -->
+  <section>
+    <div class="sec-head reveal">
+      <div><span class="kicker">Domain Signals</span><h2>领域动态</h2></div>
+      <span class="hint">各分类本周趋势</span>
+    </div>
+    <div class="panel">
+    
+    <a class="ov-row" href="llm.html">
+      <div class="ov-cat"><span class="dot" style="background: #3b82f6"></span>🧠 LLM</div>
+      <div class="ov-trend">智能体安全</div>
+      <div class="ov-n mono">12 事件 →</div>
+    </a>
+    
+    <a class="ov-row" href="agent.html">
+      <div class="ov-cat"><span class="dot" style="background: #8b5cf6"></span>🤖 Agent</div>
+      <div class="ov-trend">闭环验证</div>
+      <div class="ov-n mono">14 事件 →</div>
+    </a>
+    
+    <a class="ov-row" href="ai-for-science.html">
+      <div class="ov-cat"><span class="dot" style="background: #10b981"></span>🔬 AI for Science</div>
+      <div class="ov-trend">神经材料计算</div>
+      <div class="ov-n mono">10 事件 →</div>
+    </a>
+    
+    <a class="ov-row" href="design-simulation.html">
+      <div class="ov-cat"><span class="dot" style="background: #f59e0b"></span>🎨 设计仿真</div>
+      <div class="ov-trend">可微仿真</div>
+      <div class="ov-n mono">6 事件 →</div>
+    </a>
+    
+    <a class="ov-row" href="digital-twin.html">
+      <div class="ov-cat"><span class="dot" style="background: #ef4444"></span>🏭 数字孪生</div>
+      <div class="ov-trend">实时孪生</div>
+      <div class="ov-n mono">3 事件 →</div>
+    </a>
+    
+    <a class="ov-row" href="其他.html">
+      <div class="ov-cat"><span class="dot" style="background: #94a3b8"></span>📄 其他</div>
+      <div class="ov-trend">—</div>
+      <div class="ov-n mono">0 事件 →</div>
+    </a>
+    
+    </div>
+  </section>
+
+  <!-- Event Explorer -->
+  <section id="explorer">
+    <div class="sec-head reveal">
+      <div><span class="kicker">Event Explorer</span><h2>全部事件</h2></div>
+      <span class="hint mono" id="excount">45 个事件</span>
+    </div>
+    <div class="ex-bar">
+      <input class="ex-search" id="exq" type="search" placeholder="搜索事件标题、摘要、关键词…" autocomplete="off">
+      <span class="ex-f on" data-f="all">全部<span class="mono">45</span></span>
+      
+      <span class="ex-f" data-f="llm">LLM<span class="mono">12</span></span>
+      
+      <span class="ex-f" data-f="agent">Agent<span class="mono">14</span></span>
+      
+      <span class="ex-f" data-f="ai-for-science">AI for Science<span class="mono">10</span></span>
+      
+      <span class="ex-f" data-f="设计仿真">设计仿真<span class="mono">6</span></span>
+      
+      <span class="ex-f" data-f="数字孪生">数字孪生<span class="mono">3</span></span>
+      
+      <span class="ex-f" data-f="其他">其他<span class="mono">0</span></span>
+      
+    </div>
+    <div class="ex-grid">
+      
+      <article class="ex-card" style="--i: 0" data-cat="llm"
+               data-text="episem-bench评估llm智能体缺失证据安全 工具型语言模型智能体依赖环境事实判断动作是否被允许。当工具响应遗漏安全相关事实时，即使用户请求良性且返回语句均为真，智能体仍可能执行被禁止动作。episem-bench是一个可执行基准，用于评估llm智能体在缺失证据下的不安全执行、安全边界与证据恢复。该工作关注工具返回信息不完整时的安全决策与恢复能力，为智能体安全评测提供可运行测试场景。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">80<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-03dbfd56-episem-bench-llm">EpiSEM-Bench评估LLM智能体缺失证据安全</a></h3>
+        <p class="ex-sum">工具型语言模型智能体依赖环境事实判断动作是否被允许。当工具响应遗漏安全相关事实时，即使用户请求良性且返回语句均为真，智能体仍可能执行被禁止动作。EpiSEM-Bench是一个可执行基准，用于评估LLM智能体在缺失证据下的不安全执行、安全边界与证据恢复。该工作关注工具返回信息不完整时的安全决策与恢复能力，为智能体安全评测提供可运行测试场景。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-03dbfd56-episem-bench-llm">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 1" data-cat="agent"
+               data-text="长时代理记忆的动作条件验证 长时代理依赖跨会话记忆执行动作，且许多动作不可逆，陈旧记忆可能直接造成危害。现有工作主要改进记忆本身，如检索、刷新或调和条目，但某条目是否需要在行动前复查并非条目固有属性。同一记忆地址在常规任务中可不复查，而在不可逆动作中需要验证。该工作提出动作条件验证，将记忆是否足够安全与具体动作绑定，以降低长时代理因过期记忆导致的错误行动风险。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">80<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-1d836a28-event">长时代理记忆的动作条件验证</a></h3>
+        <p class="ex-sum">长时代理依赖跨会话记忆执行动作，且许多动作不可逆，陈旧记忆可能直接造成危害。现有工作主要改进记忆本身，如检索、刷新或调和条目，但某条目是否需要在行动前复查并非条目固有属性。同一记忆地址在常规任务中可不复查，而在不可逆动作中需要验证。该工作提出动作条件验证，将记忆是否足够安全与具体动作绑定，以降低长时代理因过期记忆导致的错误行动风险。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-1d836a28-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 2" data-cat="agent"
+               data-text="[未翻译] build more responsive apps with the decisions api [未翻译] fast, focused, low-cost decisions for any application.
+
+(36 sources: exa: ai for science, exa: digital twin industrial, exa: llm latest, github trending, infoq ai, openai blog, blog.langchain.dev) agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">80<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-99b65515-build-more-responsive-apps-with-the">[未翻译] Build more responsive apps with the Decisions API</a></h3>
+        <p class="ex-sum">[未翻译] Fast, focused, low-cost decisions for any application.
+
+(36 sources: Exa: AI for Science, Exa: Digital Twin Industrial, Exa: LLM Latest, GitHub Trending, InfoQ AI, OpenAI Blog, blog.langchain.dev)</p>
+        <div class="ex-foot">
+          <span class="mono">36 篇来源</span>
+          <a class="go" href="events/evt-99b65515-build-more-responsive-apps-with-the">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 3" data-cat="ai-for-science"
+               data-text="edengnn-uni通用电荷密度预测框架 文章提出edengnn-uni，一个面向元素周期表的通用电荷密度预测模型。该模型采用高效等变框架，比部分现有方法快一个数量级以上。它旨在促进高效且准确的电子结构计算，降低电荷密度预测的计算成本。其意义在于为相关电子结构研究提供更快、更通用的预测工具，并提升大规模电子结构计算的可行性，支持更广泛的元素体系建模，为相关计算研究提供基础。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">80<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-04d43cd1-edengnn-uni">EdenGNN-Uni通用电荷密度预测框架</a></h3>
+        <p class="ex-sum">文章提出EdenGNN-Uni，一个面向元素周期表的通用电荷密度预测模型。该模型采用高效等变框架，比部分现有方法快一个数量级以上。它旨在促进高效且准确的电子结构计算，降低电荷密度预测的计算成本。其意义在于为相关电子结构研究提供更快、更通用的预测工具，并提升大规模电子结构计算的可行性，支持更广泛的元素体系建模，为相关计算研究提供基础。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-04d43cd1-edengnn-uni">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 4" data-cat="agent"
+               data-text="适配体沙箱验证实验室闭环智能体分子发现 文章将蛋白结合适配体设计作为沙箱，用于检验基于llm的推理智能体能否通过实验室数据迭代加速从头分子发现。现有ai驱动分子生成管线主要在计算机内运行，湿实验反馈通常只用于验证而非迭代改进。该工作以约1-2周实验周期构建实验室闭环，评估智能体在真实反馈下持续优化分子设计的能力。其意义在于为实验室闭环智能体分子发现提供可重复测试场景，并检验llm推理在湿实验迭代中的实际价值。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">75<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-348866f4-event">适配体沙箱验证实验室闭环智能体分子发现</a></h3>
+        <p class="ex-sum">文章将蛋白结合适配体设计作为沙箱，用于检验基于LLM的推理智能体能否通过实验室数据迭代加速从头分子发现。现有AI驱动分子生成管线主要在计算机内运行，湿实验反馈通常只用于验证而非迭代改进。该工作以约1-2周实验周期构建实验室闭环，评估智能体在真实反馈下持续优化分子设计的能力。其意义在于为实验室闭环智能体分子发现提供可重复测试场景，并检验LLM推理在湿实验迭代中的实际价值。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-348866f4-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 5" data-cat="agent"
+               data-text="选择性审计提升ai辅助决策可靠性 该工作研究在线监控ai系统产生决策序列的可靠性问题。每轮系统输出一个建议决策及估计其可信度的置信分数。决策与置信分数可由不同模型产生，例如一个智能体提出决策，另一个验证智能体评估并输出分数。方法通过选择性审计提升ai辅助决策的可靠性。其目标是监控ai系统决策序列并评估可信度，允许提案与验证分离以支持持续监督。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">75<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-4d3b7f27-ai">选择性审计提升AI辅助决策可靠性</a></h3>
+        <p class="ex-sum">该工作研究在线监控AI系统产生决策序列的可靠性问题。每轮系统输出一个建议决策及估计其可信度的置信分数。决策与置信分数可由不同模型产生，例如一个智能体提出决策，另一个验证智能体评估并输出分数。方法通过选择性审计提升AI辅助决策的可靠性。其目标是监控AI系统决策序列并评估可信度，允许提案与验证分离以支持持续监督。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-4d3b7f27-ai">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 6" data-cat="agent"
+               data-text="保守元智能体搜索用于非平稳架构适应 论文针对部署智能体系统面临的持续漂移、延迟依赖反馈、组件相关失效和昂贵架构变更问题，将元智能体架构搜索形式化为带切换成本与硬风险约束的现任架构顺序替换问题。它提出保守元智能体搜索方法，把架构变更成本与风险约束纳入搜索过程，以在不确定和非平稳条件下控制架构替换风险。该工作强调对现任架构进行谨慎替换，而不是只在静态任务集上追求即时标量奖励。它为自动智能体系统设计提供了更贴近部署约束的搜索框架。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">75<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-b26aa74c-event">保守元智能体搜索用于非平稳架构适应</a></h3>
+        <p class="ex-sum">论文针对部署智能体系统面临的持续漂移、延迟依赖反馈、组件相关失效和昂贵架构变更问题，将元智能体架构搜索形式化为带切换成本与硬风险约束的现任架构顺序替换问题。它提出保守元智能体搜索方法，把架构变更成本与风险约束纳入搜索过程，以在不确定和非平稳条件下控制架构替换风险。该工作强调对现任架构进行谨慎替换，而不是只在静态任务集上追求即时标量奖励。它为自动智能体系统设计提供了更贴近部署约束的搜索框架。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-b26aa74c-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 7" data-cat="agent"
+               data-text="ai mindmeld潜在互连协议 该工作面向llm作为科学代理使用工具咨询专家并运行实验的场景。当前专家信息通常以文本、图像、音频或视频进入上下文，这会在具有丰富高维表示的模型之间形成瓶颈。论文主张直接表示交换，并提出ai mindmeld潜在互连协议。该协议可传递多种属性，包括llm不会主动请求的信息。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">75<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-76caeced-ai-mindmeld">AI Mindmeld潜在互连协议</a></h3>
+        <p class="ex-sum">该工作面向LLM作为科学代理使用工具咨询专家并运行实验的场景。当前专家信息通常以文本、图像、音频或视频进入上下文，这会在具有丰富高维表示的模型之间形成瓶颈。论文主张直接表示交换，并提出AI Mindmeld潜在互连协议。该协议可传递多种属性，包括LLM不会主动请求的信息。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-76caeced-ai-mindmeld">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 8" data-cat="agent"
+               data-text="quant-arena评测llm量化研究代理闭环 文章提出quant-arena，用于评测llm代理能否完成量化研究闭环：提出市场假设、实现可执行信号、在历史数据上测试并决定保留。量化研究本身是迭代循环，现有基准多只评分公式、代码或单个交易决策，未检验策略能否在研究期外有效。quant-arena将完整研究流程作为评测对象，考察llm代理是否能产生可执行且可保留的策略，并关注策略在研究期外的有效性。这为金融研究中的代理评测提供了基准。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">75<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-618946ea-quant-arena-llm">Quant-Arena评测LLM量化研究代理闭环</a></h3>
+        <p class="ex-sum">文章提出Quant-Arena，用于评测LLM代理能否完成量化研究闭环：提出市场假设、实现可执行信号、在历史数据上测试并决定保留。量化研究本身是迭代循环，现有基准多只评分公式、代码或单个交易决策，未检验策略能否在研究期外有效。Quant-Arena将完整研究流程作为评测对象，考察LLM代理是否能产生可执行且可保留的策略，并关注策略在研究期外的有效性。这为金融研究中的代理评测提供了基准。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-618946ea-quant-arena-llm">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 9" data-cat="agent"
+               data-text="cloudflare安全审计编码代理技能 该条目来自 github trending，是 cloudflare/security-audit-skill 仓库。它是一个编码代理技能，支持多阶段安全审计。其发现结果可独立验证，并以机器可读形式输出。该技能面向编码代理的安全审计工作流。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">73<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-72e4d91d-cloudflare">Cloudflare安全审计编码代理技能</a></h3>
+        <p class="ex-sum">该条目来自 GitHub Trending，是 cloudflare/security-audit-skill 仓库。它是一个编码代理技能，支持多阶段安全审计。其发现结果可独立验证，并以机器可读形式输出。该技能面向编码代理的安全审计工作流。</p>
+        <div class="ex-foot">
+          <span class="mono">11 篇来源</span>
+          <a class="go" href="events/evt-72e4d91d-cloudflare">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 10" data-cat="agent"
+               data-text="vla轻量级运行时监控p^2 视觉-语言-动作（vla）模型可直接从视觉观察和自然语言指令执行多样操作任务，但仍易出错且失败不可预测。若要在没有持续人工监督的情况下部署这些策略，需要稳健的运行时监控来检测策略是否偏离。现有监控使用外部基础模型。progress probes p^2提出轻量级运行时监控，用于在vla执行过程中判断策略是否偏离，从而支持更可靠的无人监督部署。其目标是降低对持续人工监督的依赖。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">72<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-5bd34287-vla-p-2">VLA轻量级运行时监控P^2</a></h3>
+        <p class="ex-sum">视觉-语言-动作（VLA）模型可直接从视觉观察和自然语言指令执行多样操作任务，但仍易出错且失败不可预测。若要在没有持续人工监督的情况下部署这些策略，需要稳健的运行时监控来检测策略是否偏离。现有监控使用外部基础模型。Progress Probes P^2提出轻量级运行时监控，用于在VLA执行过程中判断策略是否偏离，从而支持更可靠的无人监督部署。其目标是降低对持续人工监督的依赖。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-5bd34287-vla-p-2">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 11" data-cat="llm"
+               data-text="感觉运动对齐作为具身策略离线代理 机器人基础模型通常依赖昂贵的闭环运行评估，因此需要低成本的离线能力代理。平实表示假说认为，随着表示改进，视觉和语言等模态会收敛到共享的现实统计模型。该工作询问运动轨迹是否也构成此类模态。其提出感觉运动对齐，作为具身策略成功的平实代理。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-61aec224-event">感觉运动对齐作为具身策略离线代理</a></h3>
+        <p class="ex-sum">机器人基础模型通常依赖昂贵的闭环运行评估，因此需要低成本的离线能力代理。平实表示假说认为，随着表示改进，视觉和语言等模态会收敛到共享的现实统计模型。该工作询问运动轨迹是否也构成此类模态。其提出感觉运动对齐，作为具身策略成功的平实代理。</p>
+        <div class="ex-foot">
+          <span class="mono">4 篇来源</span>
+          <a class="go" href="events/evt-61aec224-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 12" data-cat="ai-for-science"
+               data-text="csgebr3异常极化链的第一性原理训练势模拟 该研究关注铁电卤化物钙钛矿csgebr3中的局部极化畸变、集体有序与场驱动反转。作者采用第一性原理训练的原子间势开展大规模分子动力学模拟，考察其名义立方相中ge离心的异常行为。结果表明，ge离中心位移可形成一维极化链，为理解卤化物钙钛矿中的极化结构提供新证据。该工作将大规模模拟与第一性原理训练势结合，有助于理解卤化物钙钛矿中异常极化行为。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-5f67a717-csgebr3">CsGeBr3异常极化链的第一性原理训练势模拟</a></h3>
+        <p class="ex-sum">该研究关注铁电卤化物钙钛矿CsGeBr3中的局部极化畸变、集体有序与场驱动反转。作者采用第一性原理训练的原子间势开展大规模分子动力学模拟，考察其名义立方相中Ge离心的异常行为。结果表明，Ge离中心位移可形成一维极化链，为理解卤化物钙钛矿中的极化结构提供新证据。该工作将大规模模拟与第一性原理训练势结合，有助于理解卤化物钙钛矿中异常极化行为。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-5f67a717-csgebr3">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 13" data-cat="ai-for-science"
+               data-text="超缩减加速神经材料有限元模型更新 有限元模型更新可从结构实验中发现本构模型，因位移场由计算而非测量得到，可适应任意几何、边界条件及稀疏或噪声数据。但每次损失评估都需要每个载荷步的非线性有限元求解，训练神经材料需要反复评估损失。该工作用超缩减加速有限元模型更新，降低神经材料发现中的求解开销。这使稀疏或噪声数据下的本构学习更可行，提升从实验数据学习材料本构模型的效率。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-fc72d7e2-event">超缩减加速神经材料有限元模型更新</a></h3>
+        <p class="ex-sum">有限元模型更新可从结构实验中发现本构模型，因位移场由计算而非测量得到，可适应任意几何、边界条件及稀疏或噪声数据。但每次损失评估都需要每个载荷步的非线性有限元求解，训练神经材料需要反复评估损失。该工作用超缩减加速有限元模型更新，降低神经材料发现中的求解开销。这使稀疏或噪声数据下的本构学习更可行，提升从实验数据学习材料本构模型的效率。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-fc72d7e2-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 14" data-cat="agent"
+               data-text="代理式物理可行砖块构建生成 brickwright面向物理世界可组装的砖块构建，解决编码代理生成3d模型时出现悬浮、碰撞或断开部件的问题。现有前沿编码代理虽擅长3d建模，但在实体装配场景中仍易产生无效组装。该方法为代理提供组装构建与验证物理可行性的工具，使其能够生成物理可行的砖块构建。该工作将工具使用与可行性验证结合，提升代理在实体装配任务中的可靠性，并降低无效组装风险与错误部件等问题。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-d1f92d5d-event">代理式物理可行砖块构建生成</a></h3>
+        <p class="ex-sum">BrickWright面向物理世界可组装的砖块构建，解决编码代理生成3D模型时出现悬浮、碰撞或断开部件的问题。现有前沿编码代理虽擅长3D建模，但在实体装配场景中仍易产生无效组装。该方法为代理提供组装构建与验证物理可行性的工具，使其能够生成物理可行的砖块构建。该工作将工具使用与可行性验证结合，提升代理在实体装配任务中的可靠性，并降低无效组装风险与错误部件等问题。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-d1f92d5d-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 15" data-cat="ai-for-science"
+               data-text="diffvortex量子启发不可压缩流快速求解器 diffvortex是一种量子启发的不可压缩流快速求解器，基于矩阵乘积态(mps)和量子化张量列车(qtt)表示，在键维度有界时实现网格尺寸的对数级运行时间和内存扩展。现有mps求解器采用eulerian框架，通过静态掩码或体拟合坐标处理浸没体边界条件。diffvortex针对这些限制提出改进方案，为计算流体力学提供新的压缩求解路径。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-6e7c502f-diffvortex">DiffVortex量子启发不可压缩流快速求解器</a></h3>
+        <p class="ex-sum">DiffVortex是一种量子启发的不可压缩流快速求解器，基于矩阵乘积态(MPS)和量子化张量列车(QTT)表示，在键维度有界时实现网格尺寸的对数级运行时间和内存扩展。现有MPS求解器采用Eulerian框架，通过静态掩码或体拟合坐标处理浸没体边界条件。DiffVortex针对这些限制提出改进方案，为计算流体力学提供新的压缩求解路径。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-6e7c502f-diffvortex">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 16" data-cat="ai-for-science"
+               data-text="kan可处理推断降低重复采样成本 计算科学中的机器学习代理常需预测期望、方差、守恒积分与归一化常数。传统神经网络包括kan通常用蒙特卡洛采样或多维求积计算这些量，重复推断成本高。该工作提出面向kan的可处理推断方法，减少重复采样或求积开销。这使期望、方差与归一化常数的估计更直接，也便于处理守恒积分等约束。它有助于需要统计量或守恒约束的科学代理建模，提升推断效率并降低重复评估成本。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-86515f91-kan">KAN可处理推断降低重复采样成本</a></h3>
+        <p class="ex-sum">计算科学中的机器学习代理常需预测期望、方差、守恒积分与归一化常数。传统神经网络包括KAN通常用蒙特卡洛采样或多维求积计算这些量，重复推断成本高。该工作提出面向KAN的可处理推断方法，减少重复采样或求积开销。这使期望、方差与归一化常数的估计更直接，也便于处理守恒积分等约束。它有助于需要统计量或守恒约束的科学代理建模，提升推断效率并降低重复评估成本。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-86515f91-kan">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 17" data-cat="设计仿真"
+               data-text="复合射线场相机无关单目3d重建 omniray面向单目3d重建，解决多数单目模型假设针孔相机、在鱼眼和全景广角图像上产生畸变几何的问题。相机感知模型通过预测逐像素射线场去除针孔假设，但常用单一固定基表示不同相机几何。该方法提出复合射线场，以相机无关方式处理不同相机投影。其目标是提升单目3d重建在广角与全景图像上的几何准确性，以处理鱼眼和全景镜头带来的投影差异，并减少畸变几何问题。 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-a807c4e6-3d">复合射线场相机无关单目3D重建</a></h3>
+        <p class="ex-sum">OmniRay面向单目3D重建，解决多数单目模型假设针孔相机、在鱼眼和全景广角图像上产生畸变几何的问题。相机感知模型通过预测逐像素射线场去除针孔假设，但常用单一固定基表示不同相机几何。该方法提出复合射线场，以相机无关方式处理不同相机投影。其目标是提升单目3D重建在广角与全景图像上的几何准确性，以处理鱼眼和全景镜头带来的投影差异，并减少畸变几何问题。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-a807c4e6-3d">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 18" data-cat="设计仿真"
+               data-text="kernelpack-jax无网格可微gpu pde框架 kernelpack-jax是一个基于jax的无网格、可微、gpu框架，用于求解边界（含内部障碍物）仅由光滑片段样本给出的前向与逆pde问题。其节点生成器基于分段光滑边界的新堆叠表示，并利用每个光滑片段的参数化单位分解。该框架将复杂边界域表示、节点生成与pde求解统一到可微gpu计算中，为复杂几何下的前向仿真与逆问题提供可微工具。该设计面向仅以样本形式给出的复杂边界域。 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-9699d3b7-kernelpack-jax-gpu-pde">KernelPack-JAX无网格可微GPU PDE框架</a></h3>
+        <p class="ex-sum">KernelPack-JAX是一个基于JAX的无网格、可微、GPU框架，用于求解边界（含内部障碍物）仅由光滑片段样本给出的前向与逆PDE问题。其节点生成器基于分段光滑边界的新堆叠表示，并利用每个光滑片段的参数化单位分解。该框架将复杂边界域表示、节点生成与PDE求解统一到可微GPU计算中，为复杂几何下的前向仿真与逆问题提供可微工具。该设计面向仅以样本形式给出的复杂边界域。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-9699d3b7-kernelpack-jax-gpu-pde">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 19" data-cat="设计仿真"
+               data-text="intel arc gpu用int8模拟fp64矩阵乘 该工作研究在intel arc gpu上用int8矩阵引擎模拟dgemm与zgemm，采用ozaki scheme ii将浮点矩阵乘积归约为少量精确int8乘积。其动机是双精度与复精度矩阵乘主导稠密线性代数和电子结构代码运行时间，而可负担gpu上fp64吞吐远低于低精度矩阵引擎。该方案面向xe2架构，旨在弥补fp64吞吐差距，为科学计算代码提供低成本gpu加速路径。 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-4ca4cd20-intel-arc-gpu-int8-fp64">Intel Arc GPU用INT8模拟FP64矩阵乘</a></h3>
+        <p class="ex-sum">该工作研究在Intel Arc GPU上用INT8矩阵引擎模拟DGEMM与ZGEMM，采用Ozaki Scheme II将浮点矩阵乘积归约为少量精确INT8乘积。其动机是双精度与复精度矩阵乘主导稠密线性代数和电子结构代码运行时间，而可负担GPU上FP64吞吐远低于低精度矩阵引擎。该方案面向Xe2架构，旨在弥补FP64吞吐差距，为科学计算代码提供低成本GPU加速路径。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-4ca4cd20-intel-arc-gpu-int8-fp64">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 20" data-cat="llm"
+               data-text="softmax与交叉熵数值缺陷修复 论文指出标准softmax、log-softmax和交叉熵实现存在两个数值缺陷。第一个缺陷softmax collapse在目标logit远大于其他logit时，将其梯度舍入为零，导致梯度不再求和为零。第二个缺陷softmax cancellation在学生logit接近教师logit时出现，会产生非零梯度。该工作提出修复方案，有助于减少数值误差。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-ec412f68-softmax">Softmax与交叉熵数值缺陷修复</a></h3>
+        <p class="ex-sum">论文指出标准softmax、log-softmax和交叉熵实现存在两个数值缺陷。第一个缺陷Softmax Collapse在目标logit远大于其他logit时，将其梯度舍入为零，导致梯度不再求和为零。第二个缺陷Softmax Cancellation在学生logit接近教师logit时出现，会产生非零梯度。该工作提出修复方案，有助于减少数值误差。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-ec412f68-softmax">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 21" data-cat="agent"
+               data-text="基于注意力接触的人形移动方法 复杂地形上的人形移动需要准确足部放置和能够稳健适应的全身协调运动。无运动参考的强化学习策略在不同地形上泛化较好，但仅靠奖励设计和探索难以激发有效的全身协调。相比之下，基于参考的方法可产生自然运动。humanoid mobility via attention-based contacts提出基于注意力接触的人形移动方法，用于在复杂地形中支持足部放置与全身协调。该方法面向人形机器人在复杂地形中的移动控制。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-d341816d-event">基于注意力接触的人形移动方法</a></h3>
+        <p class="ex-sum">复杂地形上的人形移动需要准确足部放置和能够稳健适应的全身协调运动。无运动参考的强化学习策略在不同地形上泛化较好，但仅靠奖励设计和探索难以激发有效的全身协调。相比之下，基于参考的方法可产生自然运动。Humanoid Mobility via Attention-based Contacts提出基于注意力接触的人形移动方法，用于在复杂地形中支持足部放置与全身协调。该方法面向人形机器人在复杂地形中的移动控制。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-d341816d-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 22" data-cat="agent"
+               data-text="worldstream分层规划生成持久3d世界 worldstream是一个开放3d世界模型，同时具备三种能力：将可玩地形扩展到任何预指定地图之外，在运行中的世界响应开放语言，并恢复已访问地点及其编辑。它采用分层规划器，在类型化决策模型上输出结构化决策状态。其中宏观层固定聚落、生态、交通与水文结构。该工作面向交互式3d世界生成，支持持久状态与开放语言交互。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-e71adfb6-worldstream-3d">WorldStream分层规划生成持久3D世界</a></h3>
+        <p class="ex-sum">WorldStream是一个开放3D世界模型，同时具备三种能力：将可玩地形扩展到任何预指定地图之外，在运行中的世界响应开放语言，并恢复已访问地点及其编辑。它采用分层规划器，在类型化决策模型上输出结构化决策状态。其中宏观层固定聚落、生态、交通与水文结构。该工作面向交互式3D世界生成，支持持久状态与开放语言交互。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-e71adfb6-worldstream-3d">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 23" data-cat="ai-for-science"
+               data-text="ribobridge蛋白条件rna结合剂结构设计 设计rna分子以结合目标蛋白结构需要同时生成rna构象和结合复合物几何，且不能假设预定义结合位点。现有方法通常将这些耦合过程放在统一表示中建模，使rna构象生成与蛋白相对放置相互纠缠。ribobridge被提出用于蛋白条件的新rna结合剂结构设计。其目标是在不预设结合位点的情况下生成可结合目标蛋白的rna结构。该工作关注rna-蛋白结合剂设计中的构象与放置联合生成问题。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-dd2ac0ff-ribobridge-rna">RiboBridge蛋白条件RNA结合剂结构设计</a></h3>
+        <p class="ex-sum">设计RNA分子以结合目标蛋白结构需要同时生成RNA构象和结合复合物几何，且不能假设预定义结合位点。现有方法通常将这些耦合过程放在统一表示中建模，使RNA构象生成与蛋白相对放置相互纠缠。RiboBridge被提出用于蛋白条件的新RNA结合剂结构设计。其目标是在不预设结合位点的情况下生成可结合目标蛋白的RNA结构。该工作关注RNA-蛋白结合剂设计中的构象与放置联合生成问题。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-dd2ac0ff-ribobridge-rna">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 24" data-cat="ai-for-science"
+               data-text="中心线锚定注意力代理加速冠状血流仿真 cars 是一种面向冠状动脉血流的中心线锚定注意力代理模型。它针对由图像派生中心线构建的冠状管腔几何，学习稳态不可压 navier-stokes 方程有限体积解的映射。当 pde 代理的参数是流域本身时，注意力模型的键值集需要编码该流域，cars 将带逐点管腔半径的中心线作为输入。该工作把几何中心线作为代理模型的关键表示，使流域信息进入注意力键值结构。其名称中的 rapid surrogate 表明其用于快速替代有限体积求解。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-a271daaf-event">中心线锚定注意力代理加速冠状血流仿真</a></h3>
+        <p class="ex-sum">CARS 是一种面向冠状动脉血流的中心线锚定注意力代理模型。它针对由图像派生中心线构建的冠状管腔几何，学习稳态不可压 Navier-Stokes 方程有限体积解的映射。当 PDE 代理的参数是流域本身时，注意力模型的键值集需要编码该流域，CARS 将带逐点管腔半径的中心线作为输入。该工作把几何中心线作为代理模型的关键表示，使流域信息进入注意力键值结构。其名称中的 Rapid Surrogate 表明其用于快速替代有限体积求解。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-a271daaf-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 25" data-cat="llm"
+               data-text="chatgpt广告栈理解对话意图并保持广告分离 openai 介绍其为 chatgpt 构建的 llm 驱动广告栈。该栈用于理解对话意图，并将广告与答案保持分离。其目标是在大规模场景下交付相关广告，同时维护用户信任。文章强调广告栈同时关注用户信任与相关性。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-2550ce4b-chatgpt">ChatGPT广告栈理解对话意图并保持广告分离</a></h3>
+        <p class="ex-sum">OpenAI 介绍其为 ChatGPT 构建的 LLM 驱动广告栈。该栈用于理解对话意图，并将广告与答案保持分离。其目标是在大规模场景下交付相关广告，同时维护用户信任。文章强调广告栈同时关注用户信任与相关性。</p>
+        <div class="ex-foot">
+          <span class="mono">5 篇来源</span>
+          <a class="go" href="events/evt-2550ce4b-chatgpt">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 26" data-cat="llm"
+               data-text="低比特n-gram嵌入降低语言模型内存 近期许多开放权重语言模型使用n-gram嵌入表来提升性能。这些表存储连续短token序列（如二元组或三元组）的学习表示，并在处理时检索，但可能占用大量内存；例如deepseek-v4.1-flash为engram n-gram记忆分配1960亿参数。该工作研究低比特n-gram嵌入，以降低这类嵌入表的内存开销。其意义在于缓解开放权重语言模型中n-gram记忆带来的存储压力，使模型在保留n-gram检索收益的同时降低部署成本。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-80b7bb6d-n-gram">低比特N-gram嵌入降低语言模型内存</a></h3>
+        <p class="ex-sum">近期许多开放权重语言模型使用n-gram嵌入表来提升性能。这些表存储连续短token序列（如二元组或三元组）的学习表示，并在处理时检索，但可能占用大量内存；例如DeepSeek-V4.1-Flash为Engram n-gram记忆分配1960亿参数。该工作研究低比特n-gram嵌入，以降低这类嵌入表的内存开销。其意义在于缓解开放权重语言模型中n-gram记忆带来的存储压力，使模型在保留n-gram检索收益的同时降低部署成本。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-80b7bb6d-n-gram">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 27" data-cat="llm"
+               data-text="worldforge v2提升视频扩散相机轨迹对齐 worldforge v2面向视频扩散模型中的相机轨迹对齐。它指出视频扩散模型已学习丰富的3d/4d先验，可用于场景生成与视频重渲染。但空间任务受相机控制不精确、时空不一致以及相机运动与场景动态纠缠限制。现有任务特定微调与后处理扭曲常引入视觉伪影。其目标是提升空间任务中的相机控制。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-5019a2de-worldforge-v2">WorldForge V2提升视频扩散相机轨迹对齐</a></h3>
+        <p class="ex-sum">WorldForge V2面向视频扩散模型中的相机轨迹对齐。它指出视频扩散模型已学习丰富的3D/4D先验，可用于场景生成与视频重渲染。但空间任务受相机控制不精确、时空不一致以及相机运动与场景动态纠缠限制。现有任务特定微调与后处理扭曲常引入视觉伪影。其目标是提升空间任务中的相机控制。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-5019a2de-worldforge-v2">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 28" data-cat="llm"
+               data-text="因果思维链通过上下文隔离缓解注意力泄漏 思维链提示能诱导出逐步推理，但这些步骤是否真正因果驱动最终答案并不保证。标准自回归生成中，密集注意力使每个推理步骤可访问完整上下文，模型可能通过直接查找得到答案，同时生成看似合理但事后解释的步骤。该工作提出因果思维链，通过上下文隔离缓解注意力泄漏，以减少推理步骤对完整上下文的直接依赖。其目标是降低事后解释风险，使思维链更贴近真实因果推理。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-06de9f7f-event">因果思维链通过上下文隔离缓解注意力泄漏</a></h3>
+        <p class="ex-sum">思维链提示能诱导出逐步推理，但这些步骤是否真正因果驱动最终答案并不保证。标准自回归生成中，密集注意力使每个推理步骤可访问完整上下文，模型可能通过直接查找得到答案，同时生成看似合理但事后解释的步骤。该工作提出因果思维链，通过上下文隔离缓解注意力泄漏，以减少推理步骤对完整上下文的直接依赖。其目标是降低事后解释风险，使思维链更贴近真实因果推理。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-06de9f7f-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 29" data-cat="agent"
+               data-text="去中心化双层优化协同轨道运输 文章面向空间经济扩张与轨道拥挤背景，研究大型非合作载荷的在轨运输问题。提出由小型航天器集群协同运输刚性载荷的去中心化双层优化方法。该方法分散风险并消除单体架构的单点故障，但需解决非凸轨迹优化问题。该工作为多航天器协同运输提供优化框架，并提升在轨运输可靠性。其意义在于降低对单一大型航天器的依赖，并适应轨道运输需求增长。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-fa9eefc5-event">去中心化双层优化协同轨道运输</a></h3>
+        <p class="ex-sum">文章面向空间经济扩张与轨道拥挤背景，研究大型非合作载荷的在轨运输问题。提出由小型航天器集群协同运输刚性载荷的去中心化双层优化方法。该方法分散风险并消除单体架构的单点故障，但需解决非凸轨迹优化问题。该工作为多航天器协同运输提供优化框架，并提升在轨运输可靠性。其意义在于降低对单一大型航天器的依赖，并适应轨道运输需求增长。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-fa9eefc5-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 30" data-cat="ai-for-science"
+               data-text="arctn张量网络收缩顺序优化 论文提出arctn，用于量子电路模拟中的张量网络收缩顺序优化。张量网络模拟依赖低计算成本且中间张量较小的收缩顺序，同时需要避免过高的规划时间。arctn提供light与heavy两种搜索预设：light保持较低规划开销，heavy投入更多时间进行细化。两者结合随机贪心构造与子树重构，以提升收缩规划效率。该框架面向量子电路模拟的规划开销与中间张量规模，试图在搜索成本与收缩质量之间取得平衡。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-bee21698-arctn">ArcTN张量网络收缩顺序优化</a></h3>
+        <p class="ex-sum">论文提出ArcTN，用于量子电路模拟中的张量网络收缩顺序优化。张量网络模拟依赖低计算成本且中间张量较小的收缩顺序，同时需要避免过高的规划时间。ArcTN提供Light与Heavy两种搜索预设：Light保持较低规划开销，Heavy投入更多时间进行细化。两者结合随机贪心构造与子树重构，以提升收缩规划效率。该框架面向量子电路模拟的规划开销与中间张量规模，试图在搜索成本与收缩质量之间取得平衡。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-bee21698-arctn">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 31" data-cat="数字孪生"
+               data-text="opentac开放3d触觉传感生态 opentac提出一种新型传感器和面向触觉皮肤的完整生态，强调高度可定制、可扩展，并可部署到下游机器人控制与学习应用。其核心贡献之一是开发可扩展电阻式触觉皮肤，通过结构化可变形覆盖层将切向载荷转换为空间变化压力。该生态强调触觉皮肤的可定制、可扩展与可迁移，便于在机器人控制与学习任务中部署。该工作为机器人触觉感知提供开放、可迁移的传感与系统基础。 数字孪生">
+        <div class="ex-top">
+          <span class="dot" style="background: #ef4444"></span>
+          <span class="ex-cat">数字孪生</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-9d542b66-opentac-3d">OpenTac开放3D触觉传感生态</a></h3>
+        <p class="ex-sum">OpenTac提出一种新型传感器和面向触觉皮肤的完整生态，强调高度可定制、可扩展，并可部署到下游机器人控制与学习应用。其核心贡献之一是开发可扩展电阻式触觉皮肤，通过结构化可变形覆盖层将切向载荷转换为空间变化压力。该生态强调触觉皮肤的可定制、可扩展与可迁移，便于在机器人控制与学习任务中部署。该工作为机器人触觉感知提供开放、可迁移的传感与系统基础。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-9d542b66-opentac-3d">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 32" data-cat="llm"
+               data-text="低频痕迹审计t2i模型数据集使用 针对t2i模型是否被特定图像集合微调难以审计的问题，提出spectralcanary主动数据集使用审计方法。它在数据集发布前植入共享低频信号，之后检查可疑模型生成输出中是否出现该信号。该方法可检测模型吸收集合级视觉特征而未复现训练图像的情况，其核心是发布前植入信号、发布后检测输出痕迹，为t2i模型训练数据使用审计提供简单手段。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">45<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-3448762e-t2i">低频痕迹审计T2I模型数据集使用</a></h3>
+        <p class="ex-sum">针对T2I模型是否被特定图像集合微调难以审计的问题，提出SpectralCanary主动数据集使用审计方法。它在数据集发布前植入共享低频信号，之后检查可疑模型生成输出中是否出现该信号。该方法可检测模型吸收集合级视觉特征而未复现训练图像的情况，其核心是发布前植入信号、发布后检测输出痕迹，为T2I模型训练数据使用审计提供简单手段。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-3448762e-t2i">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 33" data-cat="llm"
+               data-text="主席人格在多智能体临床决策中降低噪声但引入偏差 文章研究由多个llm智能体组成的临床决策系统中，主席智能体的人格提示是否改变最终决策。系统常由一个智能体主持讨论并作出最终决定，但人格提示对决策的影响，以及重复运行一致性作为可靠性的含义，此前未在固定病例下检验。作者考察人格是否改变决策本身，还是只改变决策时机，并分析一致性背后的偏差。该工作关注多智能体临床决策的可靠性与偏差问题。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">45<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-2654db63-event">主席人格在多智能体临床决策中降低噪声但引入偏差</a></h3>
+        <p class="ex-sum">文章研究由多个LLM智能体组成的临床决策系统中，主席智能体的人格提示是否改变最终决策。系统常由一个智能体主持讨论并作出最终决定，但人格提示对决策的影响，以及重复运行一致性作为可靠性的含义，此前未在固定病例下检验。作者考察人格是否改变决策本身，还是只改变决策时机，并分析一致性背后的偏差。该工作关注多智能体临床决策的可靠性与偏差问题。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-2654db63-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 34" data-cat="llm"
+               data-text="部分可训练网络的随机特征相变 论文研究科学计算中准确且可计算的近似空间构造这一基本任务。部分可训练神经网络桥接固定随机特征与完全自适应表示。作者量化了近似界中的相变模式，并在训练误差中观察到类似行为。该结果有助于理解从随机特征到完全可训练网络的过渡机制，为理解部分可训练网络提供理论参考。该工作面向部分可训练网络的近似与训练分析。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">45<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-7b351b83-event">部分可训练网络的随机特征相变</a></h3>
+        <p class="ex-sum">论文研究科学计算中准确且可计算的近似空间构造这一基本任务。部分可训练神经网络桥接固定随机特征与完全自适应表示。作者量化了近似界中的相变模式，并在训练误差中观察到类似行为。该结果有助于理解从随机特征到完全可训练网络的过渡机制，为理解部分可训练网络提供理论参考。该工作面向部分可训练网络的近似与训练分析。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-7b351b83-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 35" data-cat="agent"
+               data-text="多智能体llm规模化清理特性开关 文章介绍doordash利用多智能体llm系统自动化清理特性开关的工业经验。特性开关是运行时配置机制，用于灰度发布、实验和kill switch；功能全量后，开关及其门控代码会成为技术债，并可能因误启用休眠代码路径带来运维风险。doordash有超过56,000个特性开关，分布在623个仓库，截至2026年5月有1,659个过期。该工作将特性开关清理作为多智能体llm系统的工业应用问题，场景涉及大规模仓库与大量开关。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">45<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-d5e1a374-llm">多智能体LLM规模化清理特性开关</a></h3>
+        <p class="ex-sum">文章介绍DoorDash利用多智能体LLM系统自动化清理特性开关的工业经验。特性开关是运行时配置机制，用于灰度发布、实验和kill switch；功能全量后，开关及其门控代码会成为技术债，并可能因误启用休眠代码路径带来运维风险。DoorDash有超过56,000个特性开关，分布在623个仓库，截至2026年5月有1,659个过期。该工作将特性开关清理作为多智能体LLM系统的工业应用问题，场景涉及大规模仓库与大量开关。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-d5e1a374-llm">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 36" data-cat="数字孪生"
+               data-text="基于3dgs编辑的在线贝叶斯场景变化检测 论文面向在线场景变化检测，需要在参考场景基础上随新图像到达判断哪些区域发生变化。它采用广义贝叶斯证据融合更新变化信念，并指出变化先验概率与证据模型事先未知、数值贝叶斯推断成本较高。论文提出从自动3d高斯泼溅编辑中学习，以应对未知先验与高推断成本，支持在线场景变化检测。该工作关注降低在线贝叶斯推断成本，并提升随新观测到达时变化区域判断的可行性。 数字孪生">
+        <div class="ex-top">
+          <span class="dot" style="background: #ef4444"></span>
+          <span class="ex-cat">数字孪生</span>
+          <span class="ex-imp">45<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-f53676a4-3dgs">基于3DGS编辑的在线贝叶斯场景变化检测</a></h3>
+        <p class="ex-sum">论文面向在线场景变化检测，需要在参考场景基础上随新图像到达判断哪些区域发生变化。它采用广义贝叶斯证据融合更新变化信念，并指出变化先验概率与证据模型事先未知、数值贝叶斯推断成本较高。论文提出从自动3D高斯泼溅编辑中学习，以应对未知先验与高推断成本，支持在线场景变化检测。该工作关注降低在线贝叶斯推断成本，并提升随新观测到达时变化区域判断的可行性。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-f53676a4-3dgs">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 37" data-cat="数字孪生"
+               data-text="llm约束优化生成作物季中滚动建议 agri-scholar针对现有农业建议依赖专家、未充分考虑季中天气且难以扩展到个体农场的局限，提出仿真支撑的作物收获优化与llm引导的季中建议滚动方法。它试图弥补专家驱动建议无法随季中天气更新且难以覆盖单个农场的问题。其目标是用仿真和llm约束优化生成面向个体农场的季中建议。该工作关注农业建议的时效性与规模化，为作物收获优化提供方法框架。 数字孪生">
+        <div class="ex-top">
+          <span class="dot" style="background: #ef4444"></span>
+          <span class="ex-cat">数字孪生</span>
+          <span class="ex-imp">45<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-66f0bce5-llm">LLM约束优化生成作物季中滚动建议</a></h3>
+        <p class="ex-sum">Agri-SCHOLAR针对现有农业建议依赖专家、未充分考虑季中天气且难以扩展到个体农场的局限，提出仿真支撑的作物收获优化与LLM引导的季中建议滚动方法。它试图弥补专家驱动建议无法随季中天气更新且难以覆盖单个农场的问题。其目标是用仿真和LLM约束优化生成面向个体农场的季中建议。该工作关注农业建议的时效性与规模化，为作物收获优化提供方法框架。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-66f0bce5-llm">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 38" data-cat="llm"
+               data-text="视频与3d运动共同生成支持任意rig 视频生成模型已能呈现较真实的运动，但如何把像素级运动用于特定3d资产并在3d场景中回放仍不清晰。例如，视频模型可以展示猴子跳过横杆，却难以将该跳跃作为可回放的3d运动放入3d场景。该工作提出一个模型，直接共同生成3d运动与视频，并面向任意rig。其意义在于使视频模型中的运动可超越像素，用于特定3d资产和3d场景回放。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">40<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-317fe3e5-3d-rig">视频与3D运动共同生成支持任意Rig</a></h3>
+        <p class="ex-sum">视频生成模型已能呈现较真实的运动，但如何把像素级运动用于特定3D资产并在3D场景中回放仍不清晰。例如，视频模型可以展示猴子跳过横杆，却难以将该跳跃作为可回放的3D运动放入3D场景。该工作提出一个模型，直接共同生成3D运动与视频，并面向任意Rig。其意义在于使视频模型中的运动可超越像素，用于特定3D资产和3D场景回放。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-317fe3e5-3d-rig">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 39" data-cat="llm"
+               data-text="llm工单分类的成本感知弃权评估 错误自动路由it支持工单的成本可能高于人工分诊。研究将成本感知弃权作为离线、成本条件就绪评估：在校准数据上按显式成本选择路由策略，然后在留出测试数据上一次性评估冻结策略。在公开47,837条、八类工单语料上，比较四类非llm分类器与llm方法。该工作为部署前评估提供可复现的离线协议，关注成本约束下何时弃权或转人工，提升自动路由可靠性。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">35<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-00032de0-llm">LLM工单分类的成本感知弃权评估</a></h3>
+        <p class="ex-sum">错误自动路由IT支持工单的成本可能高于人工分诊。研究将成本感知弃权作为离线、成本条件就绪评估：在校准数据上按显式成本选择路由策略，然后在留出测试数据上一次性评估冻结策略。在公开47,837条、八类工单语料上，比较四类非LLM分类器与LLM方法。该工作为部署前评估提供可复现的离线协议，关注成本约束下何时弃权或转人工，提升自动路由可靠性。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-00032de0-llm">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 40" data-cat="ai-for-science"
+               data-text="高度场高斯泼溅重建锐利可形变神经外科表面 针对神经外科导航中mri二维切片与显微镜下皮层表面难以对应的问题，提出h-2dgs高度场高斯泼溅方法，用于锐利且可形变的神经外科表面重建。该方法将肿瘤手术中暴露皮层的照片级真实感重建与全脑mri上下文及扩散纤维束追踪路径结合，形成统一3d可视化。该方法面向肿瘤手术场景，将皮层表面与全脑上下文放在同一3d表示中，用于关联mri切片解剖与显微镜下皮层表面。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">35<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-b50e4138-event">高度场高斯泼溅重建锐利可形变神经外科表面</a></h3>
+        <p class="ex-sum">针对神经外科导航中MRI二维切片与显微镜下皮层表面难以对应的问题，提出H-2DGS高度场高斯泼溅方法，用于锐利且可形变的神经外科表面重建。该方法将肿瘤手术中暴露皮层的照片级真实感重建与全脑MRI上下文及扩散纤维束追踪路径结合，形成统一3D可视化。该方法面向肿瘤手术场景，将皮层表面与全脑上下文放在同一3D表示中，用于关联MRI切片解剖与显微镜下皮层表面。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-b50e4138-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 41" data-cat="ai-for-science"
+               data-text="血管树生成保真度分数无法检测训练数据复用 文章比较学习式血管树生成器与免训练条件重采样器，指出保真度分数仅比较生成树与留出真实树，无法单独检测训练数据复用。在imagecas冠状动脉树和intra上，条件重采样器约一半分支记录（含父上下文）接近训练记录复制，但仅凭1-nna等保真度分数难以发现该问题。这提示仅用保真度分数评估血管树生成器可能不足，并应关注数据重用检测。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">35<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-57d23840-event">血管树生成保真度分数无法检测训练数据复用</a></h3>
+        <p class="ex-sum">文章比较学习式血管树生成器与免训练条件重采样器，指出保真度分数仅比较生成树与留出真实树，无法单独检测训练数据复用。在ImageCAS冠状动脉树和IntrA上，条件重采样器约一半分支记录（含父上下文）接近训练记录复制，但仅凭1-NNA等保真度分数难以发现该问题。这提示仅用保真度分数评估血管树生成器可能不足，并应关注数据重用检测。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-57d23840-event">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 42" data-cat="设计仿真"
+               data-text="fdtd中s参数灵敏度收敛延迟 文章研究有限差分时间域方法中s参数对设计参数的灵敏度收敛问题。在fdtd中，灵敏度来自以仿真时间t结束的响应的离散傅里叶变换。作者证明，当设计参数移动共振时，灵敏度比s参数更晚收敛。对具有场衰减时间τ的单模，灵敏度截断误差包含(1+t/τ)因子。该结果说明灵敏度收敛时间需单独考虑，不能仅依据s参数收敛。 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">35<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-b1dda49e-fdtd-s">FDTD中S参数灵敏度收敛延迟</a></h3>
+        <p class="ex-sum">文章研究有限差分时间域方法中S参数对设计参数的灵敏度收敛问题。在FDTD中，灵敏度来自以仿真时间T结束的响应的离散傅里叶变换。作者证明，当设计参数移动共振时，灵敏度比S参数更晚收敛。对具有场衰减时间τ的单模，灵敏度截断误差包含(1+T/τ)因子。该结果说明灵敏度收敛时间需单独考虑，不能仅依据S参数收敛。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-b1dda49e-fdtd-s">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 43" data-cat="设计仿真"
+               data-text="3x3矩阵乘法23乘55加方案 该工作给出一种在任意环上计算两个3x3矩阵乘法的方案，使用23次乘法和55次加法。它比此前56次加法的记录少1次加法，并且是不改变基的精确非交换3x3乘法中首次低于56次加法。方案对a的13个带符号组合和b的14个带符号组合进行构造，执行23次乘积，再用28次进一步操作重组。该结果降低了小矩阵精确乘法中的加法开销，为矩阵乘法算法提供新的构造思路。该方案适用于任意环，面向精确非交换乘法。 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">35<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-68170849-3x3-23-55">3x3矩阵乘法23乘55加方案</a></h3>
+        <p class="ex-sum">该工作给出一种在任意环上计算两个3x3矩阵乘法的方案，使用23次乘法和55次加法。它比此前56次加法的记录少1次加法，并且是不改变基的精确非交换3x3乘法中首次低于56次加法。方案对A的13个带符号组合和B的14个带符号组合进行构造，执行23次乘积，再用28次进一步操作重组。该结果降低了小矩阵精确乘法中的加法开销，为矩阵乘法算法提供新的构造思路。该方案适用于任意环，面向精确非交换乘法。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-68170849-3x3-23-55">证据链 →</a>
+        </div>
+      </article>
+      
+      <article class="ex-card" style="--i: 44" data-cat="设计仿真"
+               data-text="rust信息论度量与估计器库 infomeasure-rs 是一个开源 rust 库，将信息论度量与估计器整合到单一、自包含且类型安全的包中。它针对信息论在自然科学与社会科学中受估计器选择、软件碎片化、可复现性和计算成本限制的问题。该库覆盖熵、互信息等度量，并提供统一实现。它把分散的估计器集中到同一类型安全包中，减少软件碎片化问题。其意义在于为信息论方法提供统一、可复现且类型安全的科研计算工具包。 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">25<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-2c4c7f2a-rust">Rust信息论度量与估计器库</a></h3>
+        <p class="ex-sum">infomeasure-rs 是一个开源 Rust 库，将信息论度量与估计器整合到单一、自包含且类型安全的包中。它针对信息论在自然科学与社会科学中受估计器选择、软件碎片化、可复现性和计算成本限制的问题。该库覆盖熵、互信息等度量，并提供统一实现。它把分散的估计器集中到同一类型安全包中，减少软件碎片化问题。其意义在于为信息论方法提供统一、可复现且类型安全的科研计算工具包。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-2c4c7f2a-rust">证据链 →</a>
+        </div>
+      </article>
+      
+    </div>
+    <div class="ex-empty" id="exempty">没有匹配的事件，换个关键词试试。</div>
+    <div class="ex-pager" id="expager"></div>
+  </section>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-26 08:19 · 2026-W44</span>
+</div></footer>
+
+<script>
+(function(){
+  var q = document.getElementById('exq');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.ex-card'));
+  var empty = document.getElementById('exempty');
+  var pager = document.getElementById('expager');
+  var PER = 6;            // 3 列 × 2 行
+  var active = 'all';
+  var page = 0;
+  var matched = cards.slice();
+
+  function renderPager(){
+    var pages = Math.ceil(matched.length / PER);
+    if (pages <= 1) { pager.className = 'ex-pager'; pager.innerHTML = ''; return; }
+    pager.className = 'ex-pager show';
+    var html = '<button class="ex-pg nav" data-p="prev" ' + (page === 0 ? 'disabled' : '') + '>&lsaquo;</button>';
+    for (var i = 0; i < pages; i++) {
+      html += '<button class="ex-pg' + (i === page ? ' on' : '') + '" data-p="' + i + '">' + (i + 1) + '</button>';
+    }
+    html += '<button class="ex-pg nav" data-p="next" ' + (page === pages - 1 ? 'disabled' : '') + '>&rsaquo;</button>';
+    pager.innerHTML = html;
+  }
+  function apply(reset){
+    var t = (q.value || '').trim().toLowerCase();
+    matched = cards.filter(function(c){
+      return (active === 'all' || c.dataset.cat === active) && (!t || c.dataset.text.indexOf(t) > -1);
+    });
+    if (reset) page = 0;
+    var pages = Math.ceil(matched.length / PER);
+    if (page > pages - 1) page = Math.max(0, pages - 1);
+    cards.forEach(function(c){ c.style.display = 'none'; c.style.animation = 'none'; });
+    void document.getElementById('explorer').offsetWidth;  // 强制 reflow，让换页重放入场动画
+    var start = page * PER, end = start + PER;
+    matched.slice(start, end).forEach(function(c, i){
+      c.style.display = '';
+      c.style.setProperty('--i', i);   // 换页重放入场动画
+      c.style.animation = '';
+    });
+    empty.style.display = matched.length ? 'none' : 'block';
+    pager.style.display = (matched.length && pages > 1) ? 'flex' : 'none';
+    document.getElementById('excount').textContent = matched.length + ' 个事件';
+    renderPager();
+  }
+  q.addEventListener('input', function(){ apply(true); });
+  document.querySelectorAll('.ex-f').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.ex-f').forEach(function(x){ x.classList.remove('on'); });
+      b.classList.add('on');
+      active = b.dataset.f;
+      apply(true);
+    });
+  });
+  pager.addEventListener('click', function(e){
+    var btn = e.target.closest('.ex-pg');
+    if (!btn || btn.disabled) return;
+    var p = btn.dataset.p;
+    if (p === 'prev') page = Math.max(0, page - 1);
+    else if (p === 'next') page += 1;
+    else page = parseInt(p, 10);
+    apply(false);
+    document.getElementById('explorer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  apply(true);
+})();
+</script>
+</body>
+</html>

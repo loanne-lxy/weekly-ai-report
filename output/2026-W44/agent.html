@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
+
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
+
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+<style>:root { --cat-color: #8b5cf6; }</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="index.html"><b>2026-W44</b> · 2026-10-26</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · Agent</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #8b5cf6; width: 12px; height: 12px;"></span>🤖 Agent</h1>
+    <span class="count"><b>14</b> 个事件 · 按重要性排序</span>
+    <p class="cat-sum">本周 Agent 领域重点推进长时代理的动作条件记忆验证、面向通用应用的快速低成本决策，以及以蛋白适配体设计为沙箱检验 LLM 智能体在湿实验闭环中迭代分子发现的能力。</p>
+  </div>
+
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">45</span></a>
+    
+    <a href="llm.html" class="">LLM<span class="mono">12</span></a>
+    
+    <a href="agent.html" class="on">Agent<span class="mono">14</span></a>
+    
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">10</span></a>
+    
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">6</span></a>
+    
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">3</span></a>
+    
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+    
+  </nav>
+
+  <div class="list">
+    
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-836A28</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-1d836a28-event.html">长时代理记忆的动作条件验证</a></h2>
+        <p class="sum">长时代理依赖跨会话记忆执行动作，且许多动作不可逆，陈旧记忆可能直接造成危害。现有工作主要改进记忆本身，如检索、刷新或调和条目，但某条目是否需要在行动前复查并非条目固有属性。同一记忆地址在常规任务中可不复查，而在不可逆动作中需要验证。该工作提出动作条件验证，将记忆是否足够安全与具体动作绑定，以降低长时代理因过期记忆导致的错误行动风险。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-1d836a28-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 80%; background: var(--accent);"></i></span><span class="mono"><b>80</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 75%; background: #10b981;"></i></span><span class="mono"><b>75</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-B65515</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-99b65515-build-more-responsive-apps-with-the.html">[未翻译] Build more responsive apps with the Decisions API</a></h2>
+        <p class="sum">[未翻译] Fast, focused, low-cost decisions for any application.
+
+(36 sources: Exa: AI for Science, Exa: Digital Twin Industrial, Exa: LLM Latest, GitHub Trending, InfoQ AI, OpenAI Blog, blog.langchain.dev)</p>
+        <div class="foot">
+          <span class="mono">36 篇来源文章</span>
+          <a class="go" href="events/evt-99b65515-build-more-responsive-apps-with-the.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 80%; background: var(--accent);"></i></span><span class="mono"><b>80</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-8866F4</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-348866f4-event.html">适配体沙箱验证实验室闭环智能体分子发现</a></h2>
+        <p class="sum">文章将蛋白结合适配体设计作为沙箱，用于检验基于LLM的推理智能体能否通过实验室数据迭代加速从头分子发现。现有AI驱动分子生成管线主要在计算机内运行，湿实验反馈通常只用于验证而非迭代改进。该工作以约1-2周实验周期构建实验室闭环，评估智能体在真实反馈下持续优化分子设计的能力。其意义在于为实验室闭环智能体分子发现提供可重复测试场景，并检验LLM推理在湿实验迭代中的实际价值。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-348866f4-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 75%; background: var(--accent);"></i></span><span class="mono"><b>75</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 68%; background: #8b5cf6;"></i></span><span class="mono"><b>68</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 72%; background: #10b981;"></i></span><span class="mono"><b>72</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-3B7F27</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-4d3b7f27-ai.html">选择性审计提升AI辅助决策可靠性</a></h2>
+        <p class="sum">该工作研究在线监控AI系统产生决策序列的可靠性问题。每轮系统输出一个建议决策及估计其可信度的置信分数。决策与置信分数可由不同模型产生，例如一个智能体提出决策，另一个验证智能体评估并输出分数。方法通过选择性审计提升AI辅助决策的可靠性。其目标是监控AI系统决策序列并评估可信度，允许提案与验证分离以支持持续监督。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-4d3b7f27-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 75%; background: var(--accent);"></i></span><span class="mono"><b>75</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 75%; background: #10b981;"></i></span><span class="mono"><b>75</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-6AA74C</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-b26aa74c-event.html">保守元智能体搜索用于非平稳架构适应</a></h2>
+        <p class="sum">论文针对部署智能体系统面临的持续漂移、延迟依赖反馈、组件相关失效和昂贵架构变更问题，将元智能体架构搜索形式化为带切换成本与硬风险约束的现任架构顺序替换问题。它提出保守元智能体搜索方法，把架构变更成本与风险约束纳入搜索过程，以在不确定和非平稳条件下控制架构替换风险。该工作强调对现任架构进行谨慎替换，而不是只在静态任务集上追求即时标量奖励。它为自动智能体系统设计提供了更贴近部署约束的搜索框架。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-b26aa74c-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 75%; background: var(--accent);"></i></span><span class="mono"><b>75</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-CAECED</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-76caeced-ai-mindmeld.html">AI Mindmeld潜在互连协议</a></h2>
+        <p class="sum">该工作面向LLM作为科学代理使用工具咨询专家并运行实验的场景。当前专家信息通常以文本、图像、音频或视频进入上下文，这会在具有丰富高维表示的模型之间形成瓶颈。论文主张直接表示交换，并提出AI Mindmeld潜在互连协议。该协议可传递多种属性，包括LLM不会主动请求的信息。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-76caeced-ai-mindmeld.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 75%; background: var(--accent);"></i></span><span class="mono"><b>75</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 75%; background: #10b981;"></i></span><span class="mono"><b>75</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-8946EA</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-618946ea-quant-arena-llm.html">Quant-Arena评测LLM量化研究代理闭环</a></h2>
+        <p class="sum">文章提出Quant-Arena，用于评测LLM代理能否完成量化研究闭环：提出市场假设、实现可执行信号、在历史数据上测试并决定保留。量化研究本身是迭代循环，现有基准多只评分公式、代码或单个交易决策，未检验策略能否在研究期外有效。Quant-Arena将完整研究流程作为评测对象，考察LLM代理是否能产生可执行且可保留的策略，并关注策略在研究期外的有效性。这为金融研究中的代理评测提供了基准。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-618946ea-quant-arena-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 75%; background: var(--accent);"></i></span><span class="mono"><b>75</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 85%; background: #10b981;"></i></span><span class="mono"><b>85</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E4D91D</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-72e4d91d-cloudflare.html">Cloudflare安全审计编码代理技能</a></h2>
+        <p class="sum">该条目来自 GitHub Trending，是 cloudflare/security-audit-skill 仓库。它是一个编码代理技能，支持多阶段安全审计。其发现结果可独立验证，并以机器可读形式输出。该技能面向编码代理的安全审计工作流。</p>
+        <div class="foot">
+          <span class="mono">11 篇来源文章</span>
+          <a class="go" href="events/evt-72e4d91d-cloudflare.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 73%; background: var(--accent);"></i></span><span class="mono"><b>73</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-D34287</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-5bd34287-vla-p-2.html">VLA轻量级运行时监控P^2</a></h2>
+        <p class="sum">视觉-语言-动作（VLA）模型可直接从视觉观察和自然语言指令执行多样操作任务，但仍易出错且失败不可预测。若要在没有持续人工监督的情况下部署这些策略，需要稳健的运行时监控来检测策略是否偏离。现有监控使用外部基础模型。Progress Probes P^2提出轻量级运行时监控，用于在VLA执行过程中判断策略是否偏离，从而支持更可靠的无人监督部署。其目标是降低对持续人工监督的依赖。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-5bd34287-vla-p-2.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 72%; background: var(--accent);"></i></span><span class="mono"><b>72</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-F92D5D</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-d1f92d5d-event.html">代理式物理可行砖块构建生成</a></h2>
+        <p class="sum">BrickWright面向物理世界可组装的砖块构建，解决编码代理生成3D模型时出现悬浮、碰撞或断开部件的问题。现有前沿编码代理虽擅长3D建模，但在实体装配场景中仍易产生无效组装。该方法为代理提供组装构建与验证物理可行性的工具，使其能够生成物理可行的砖块构建。该工作将工具使用与可行性验证结合，提升代理在实体装配任务中的可靠性，并降低无效组装风险与错误部件等问题。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-d1f92d5d-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-41816D</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-d341816d-event.html">基于注意力接触的人形移动方法</a></h2>
+        <p class="sum">复杂地形上的人形移动需要准确足部放置和能够稳健适应的全身协调运动。无运动参考的强化学习策略在不同地形上泛化较好，但仅靠奖励设计和探索难以激发有效的全身协调。相比之下，基于参考的方法可产生自然运动。Humanoid Mobility via Attention-based Contacts提出基于注意力接触的人形移动方法，用于在复杂地形中支持足部放置与全身协调。该方法面向人形机器人在复杂地形中的移动控制。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-d341816d-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-1ADFB6</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-e71adfb6-worldstream-3d.html">WorldStream分层规划生成持久3D世界</a></h2>
+        <p class="sum">WorldStream是一个开放3D世界模型，同时具备三种能力：将可玩地形扩展到任何预指定地图之外，在运行中的世界响应开放语言，并恢复已访问地点及其编辑。它采用分层规划器，在类型化决策模型上输出结构化决策状态。其中宏观层固定聚落、生态、交通与水文结构。该工作面向交互式3D世界生成，支持持久状态与开放语言交互。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-e71adfb6-worldstream-3d.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-9EEFC5</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-fa9eefc5-event.html">去中心化双层优化协同轨道运输</a></h2>
+        <p class="sum">文章面向空间经济扩张与轨道拥挤背景，研究大型非合作载荷的在轨运输问题。提出由小型航天器集群协同运输刚性载荷的去中心化双层优化方法。该方法分散风险并消除单体架构的单点故障，但需解决非凸轨迹优化问题。该工作为多航天器协同运输提供优化框架，并提升在轨运输可靠性。其意义在于降低对单一大型航天器的依赖，并适应轨道运输需求增长。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-fa9eefc5-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+    
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E1A374</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-d5e1a374-llm.html">多智能体LLM规模化清理特性开关</a></h2>
+        <p class="sum">文章介绍DoorDash利用多智能体LLM系统自动化清理特性开关的工业经验。特性开关是运行时配置机制，用于灰度发布、实验和kill switch；功能全量后，开关及其门控代码会成为技术债，并可能因误启用休眠代码路径带来运维风险。DoorDash有超过56,000个特性开关，分布在623个仓库，截至2026年5月有1,659个过期。该工作将特性开关清理作为多智能体LLM系统的工业应用问题，场景涉及大规模仓库与大量开关。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d5e1a374-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+      </div>
+    </article>
+    
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-26 08:19 · 2026-W44</span>
+</div></footer>
+</body>
+</html>

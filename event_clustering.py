@@ -1,8 +1,19 @@
-"""Conservative event proposals in original embedding space.
+"""
+Event Clustering — Hybrid bucket-based clustering.
 
-Complete-link coherence prevents broad topical clusters. Every proposal is
-subsequently checked for concrete identity and evidence by EventCurator.
-Legacy bucket algorithms remain for historical regression helpers only.
+流程:
+  N 篇文章
+        ↓
+  按 source_type 分桶 (academic vs social)
+        ↓
+  academic: cosine greedy (threshold=ACADEMIC_THRESHOLD) → 研究趋势
+  social:   BERTopic (UMAP+HDBSCAN) → 具体事件
+        ↓
+  返回 (Event 列表带 bucket 标签, 全部 embedding 数组)
+
+高召回候选层：宽松聚类负责把跨源同事件文章聚到一起，
+具体身份与证据由 EventCurator / IdentityResolver 裁决。
+Legacy 桶算法同时供历史回归测试使用。
 """
 from __future__ import annotations
 
@@ -234,12 +245,13 @@ def _cluster_social_bertopic(
 # ── 主聚类入口 ───────────────────────────────────────────────────
 def cluster_articles(
     articles: list[dict[str, Any]],
-    threshold: float = 0.72,
+    threshold: float = 0.35,  # deprecated, kept for backward compat
 ) -> tuple[list[Event], np.ndarray]:
     """
     聚类文章，返回 (Event 列表, 全部 embedding 数组)。
 
-    Complete-link candidate groups across sources, followed by concrete-identity curation.
+    Hybrid: academic → cosine greedy, social → BERTopic（高召回候选层）。
+    具体身份与证据由 EventCurator / IdentityResolver 在簇级和跨簇核验。
     """
     if not articles:
         return [], np.zeros((0, 0), dtype=np.float32)
@@ -266,14 +278,36 @@ def cluster_articles(
     )
     n = len(articles)
 
-    # Complete-link in the ORIGINAL embedding space prevents UMAP density
-    # clusters from becoming broad topical events. LLM validates identity next.
+    # 2. 分桶
     buckets = _split_buckets(articles)
-    groups = coherent_groups(list(range(n)), embeddings, threshold, max_size=8)
-    all_clusters = []
-    for indices in groups:
-        academic = all(_classify_source(articles[i].get("source_name", "")) == "academic" for i in indices)
-        all_clusters.append(("academic" if academic else "social", "complete-link", indices))
+    logger.info(
+        f"Bucket split: academic={len(buckets.get('academic', []))}, "
+        f"social={len(buckets.get('social', []))}"
+    )
+
+    # 3. 各桶聚类（高召回候选层；具体身份由 curator + IdentityResolver 裁决）
+    all_clusters: list[tuple[str, str, list[int]]] = []  # (bucket, method, indices)
+
+    if "academic" in buckets:
+        logger.info(
+            f"Academic clustering: {len(buckets['academic'])} articles "
+            f"(cosine greedy, threshold={ACADEMIC_THRESHOLD})"
+        )
+        ac = _cluster_academic_cosine(articles, buckets["academic"], ACADEMIC_THRESHOLD)
+        for cid, indices in ac.items():
+            all_clusters.append(("academic", "cosine-greedy", indices))
+        logger.info(f"Academic → {len(ac)} clusters")
+
+    if "social" in buckets:
+        logger.info(
+            f"Social clustering: {len(buckets['social'])} articles "
+            f"(BERTopic, nn={SOCIAL_CONFIG['n_neighbors']}, "
+            f"dim={SOCIAL_CONFIG['n_components']}, mcs={SOCIAL_CONFIG['min_cluster_size']})"
+        )
+        sc = _cluster_social_bertopic(articles, buckets["social"], SOCIAL_CONFIG)
+        for cid, indices in sc.items():
+            all_clusters.append(("social", "bertopic", indices))
+        logger.info(f"Social → {len(sc)} clusters")
 
     # 4. 构建 Event
     events = []

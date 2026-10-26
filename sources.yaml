@@ -124,28 +124,28 @@ sources:
   max_results: 10
   name: 'Exa: Digital Twin Industrial'
   query: ("digital twin" OR "DT") AND (deployment OR industrial OR manufacturing OR
-    "smart city") AND after:2026-05-01
+    "smart city")
 - category: DesignSimulation
   connector: exa_search
   id: exa_search:4cb4ce25
   max_results: 8
   name: 'Exa: Design Simulation CAE'
   query: ("generative design" OR "topology optimization" OR "surrogate model") AND
-    (simulation OR CAD OR CAE) AND after:2026-05-01
+    (simulation OR CAD OR CAE)
 - category: LLM
   connector: exa_search
   id: exa_search:04c15fce
   max_results: 10
   name: 'Exa: LLM Latest'
   query: ("LLM" OR "Large Language Model") AND (release OR benchmark OR SOTA) AND
-    ("multimodal" OR "reasoning" OR "efficiency") AND after:2026-05-01
+    ("multimodal" OR "reasoning" OR "efficiency")
 - category: AI4Science
   connector: exa_search
   id: exa_search:991b0be5
   max_results: 8
   name: 'Exa: AI for Science'
   query: ("AI for Science" OR "AI4Science") AND (discovery OR breakthrough) AND ("protein"
-    OR "molecular" OR "material" OR "drug") AND after:2026-05-01
+    OR "molecular" OR "material" OR "drug")
 - category: LLM
   connector: rss
   endpoint: https://www.nature.com/natmachintell/rss
@@ -228,8 +228,7 @@ sources:
   name: 'Exa: AI Agents Framework'
   query: ("AI Agent" OR "autonomous agent" OR "multi-agent" OR "coding agent" OR "AI
     tool" OR "AI platform" OR "AI product") AND ("framework" OR "benchmark" OR "tool
-    use" OR "release" OR "launch" OR "open source" OR "announcement" OR "demo") AND
-    after:2026-05-01
+    use" OR "release" OR "launch" OR "open source" OR "announcement" OR "demo")
 - category: Agent
   connector: github
   github_owner: microsoft

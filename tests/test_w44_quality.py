@@ -152,6 +152,20 @@ class QualityTests(unittest.TestCase):
             self.assertEqual(db.event_count("2026-W44"),2)
             db.close()
 
+    def test_missing_domain_signals_retries_even_with_valid_observations(self):
+        class Retry:
+            calls=0
+            def chat(self,*args):
+                self.calls+=1
+                citations=[{"event_id":str(i),"quote":TEXT} for i in range(2)]
+                return json.dumps({"observations":[{"title":"Observation", "citations":citations}]*2,
+                    "domain_signals":[] if self.calls==1 else [{"category":"Agent","citations":citations}]})
+        llm=Retry()
+        events=[{"id":str(i),"top_eligible":True,"quality_status":"passed","title":"x","summary":TEXT,"category":"Agent"} for i in range(2)]
+        out=synthesize(llm,events)
+        self.assertEqual(llm.calls,2)
+        self.assertEqual(len(out["domain_signals"]),1)
+
     def test_unbacked_observation_rejected(self):
         class Bad:
             def chat(self,*args):return json.dumps({"observations":[{"citations":[{"event_id":"fake","quote":TEXT}]}]})

@@ -7,7 +7,7 @@ import logging
 import re
 from pathlib import Path
 import numpy as np
-from event_clustering import _clean_category, coherence, coherent_groups
+from event_clustering import _clean_category, coherence
 from filter.quality import score_number
 
 logger = logging.getLogger(__name__)
@@ -29,10 +29,12 @@ class EventCurator:
     def cache_path(self, evt):
         if self.cache_dir is None:
             return None
-        material = {"version": 1, "threshold": self.threshold,
+        material = {"version": 2 if evt.get("identity_verified") else 1, "threshold": self.threshold,
                     "system": EVENT_CURATOR_SYSTEM, "user": EVENT_CURATOR_USER_TEMPLATE,
                     "articles": [{k: a.get(k) for k in ("url", "title", "summary", "published", "date_status")}
                                  for a in evt["articles"]]}
+        if evt.get("identity_verified"):
+            material["identity_checks"] = evt["identity_checks"]
         digest = hashlib.sha256(json.dumps(material, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
         return self.cache_dir / (digest + ".json")
 
@@ -50,7 +52,11 @@ class EventCurator:
         for evt in events:
             ids = evt["article_indices"]
             positions = {idx: p for p, idx in enumerate(ids)}
-            groups = coherent_groups(ids, emb, threshold=self.threshold, max_size=8)
+            # Feed the high-recall candidate cluster intact; the LLM's Step-0
+            # concrete-identity split prevents broad topical events. (The old
+            # 0.72 coherent_groups pre-split re-fragmented cross-source same-event
+            # articles before the LLM could see them, cancelling the recall layer.)
+            groups = [ids]
             for group in groups:
                 safe.append({**evt, "article_indices": group,
                              "articles": [evt["articles"][positions[i]] for i in group]})
@@ -151,7 +157,7 @@ class EventCurator:
         if {e["index"] for e in evidence} != set(range(len(arts))) or len(evidence) != len(arts):
             raise ValueError("each member needs exactly one relevance assessment")
         coherent = coherence(ids, embeddings)
-        if data.get("same_concrete_event") is not True or coherent < self.threshold or any(e["relevance"] < 0.75 for e in evidence):
+        if data.get("same_concrete_event") is not True or any(e["relevance"] < 0.75 for e in evidence):
             raise ValueError("incoherent members must be split or rejected")
         title = str(data.get("event_title", "")).strip()
         sections = {key: str(data.get(key, "")).strip() for key in ("breakthrough", "problem", "research_value")}
@@ -174,7 +180,8 @@ class EventCurator:
                       category=category, **sections, short_summary=str(data.get("short_summary") or sections["breakthrough"])[:100],
                       evidence=evidence, top_articles=[e["index"] for e in evidence[:3]],
                       evidence_articles=[e["index"] for e in evidence[:3]],
-                      coherence=round(coherent, 4), quality_status="passed" if dated else "date_unverified",
+                      coherence=round(coherent, 4) if len(ids)>1 else None,
+                      coherence_status="measured" if len(ids)>1 else "not_applicable", quality_status="passed" if dated else "date_unverified",
                       quality_reasons=[] if dated else ["publication_date_unknown"], top_eligible=dated,
                       limitations=str(data.get("limitations", "未提供独立复现信息"))[:500])
         return result

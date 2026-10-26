@@ -31,7 +31,22 @@ for e in events:
     arts=data["articles_by_event"][e["id"]]
     assert len(arts)==len(e["evidence"])
     assert {x["url"] for x in arts}=={x["url"] for x in e["evidence"]}
-    assert e["coherence"]>=.72 and min(x["relevance"] for x in e["evidence"])>=.75
+    assert min(x["relevance"] for x in e["evidence"])>=.75
+    if len(arts)>1:
+        from itertools import combinations
+        checks={frozenset(c["urls"]):c for c in e.get("identity_checks",[])}
+        for left,right in combinations(arts,2):
+            check=checks.get(frozenset([left["url"],right["url"]]))
+            assert check and check["relation"]=="same_event", "multi-article event lacks identity review"
+            assert len(check["quotes"])==2 and check.get("identity")
+            members={x["url"]:x for x in arts}
+            import re
+            norm=lambda s:re.sub(r"\s+","",s).casefold()
+            for url,quote in zip(check["urls"],check["quotes"]):
+                art=members[url]
+                assert len(quote)>=12 and norm(quote) in norm(art["title"]+" "+art["summary"][:1800]+" "+json.dumps((art.get("raw_extra") or {}).get("identity_context",{}),ensure_ascii=False))
+    else:
+        assert e.get("coherence") is None and e.get("coherence_status")=="not_applicable"
     assert not e["title"].startswith("[未翻译]")
     if e["top_eligible"]:
         assert e["quality_status"]=="passed"
@@ -59,6 +74,7 @@ for page in root.rglob("*.html"):
 
 analysis=json.loads((root/"research_observations.json").read_text())
 assert 2<=len(analysis["observations"])<=3
+assert {e["category"] for e in events if e["top_eligible"]} <= {s["category"] for s in analysis["domain_signals"]}, "missing substantive domain signals"
 for o in analysis["observations"]:
     assert len({c["event_id"] for c in o["citations"]})>=2
     assert all(c["event_id"] in by_id for c in o["citations"])

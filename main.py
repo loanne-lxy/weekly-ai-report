@@ -118,7 +118,10 @@ async def _run_pipeline(
     start, end = report_window(cutoff)
     week_label = week_label or f"{end.isocalendar().year}-W{end.isocalendar().week:02d}"
     original_articles = [dict(a) for a in articles]
-    articles = await recover_short_bodies(articles)
+    if not replay:
+        articles = await recover_short_bodies(articles)
+        from filter.article_context import enrich_context
+        articles = await enrich_context(articles)
     original_articles = [dict(a) for a in articles]
     articles, rejected_articles = prepare_articles(articles, end)
     audit = {"week": week_label, "window_start": start.isoformat(), "window_end": end.isoformat(),
@@ -237,6 +240,19 @@ async def _run_pipeline(
         if collector:
             collector.end_stage(len(curated_events))
         logger.info(f"Event Curator: {len(curated_events)} relevant events")
+
+        from filter.event_identity import IdentityResolver
+        identity_cfg = config.get("clustering", {})
+        resolver = IdentityResolver(llm, os.path.join(DATA_DIR, "identity_cache"),
+                                    identity_cfg.get("candidate_threshold", 0.45),
+                                    identity_cfg.get("candidate_top_k", 8))
+        curated_events = await resolver.consolidate(curated_events, articles, embeddings, curator)
+        audit["identity_resolution"] = resolver.audit
+        # Final decisions account for every input exactly once after consolidation.
+        decisions = [e for e in decisions if not e.get("is_relevant")] + curated_events
+        audit["curation_decisions"] = [{"urls": [a["url"] for a in e.get("articles", [])],
+            "title": e.get("event_title", e.get("title")), "status": e.get("quality_status"),
+            "reasons": e.get("quality_reasons", [])} for e in decisions]
 
         # Sort by backend weighted score
         curated_events.sort(
@@ -638,6 +654,24 @@ async def main():
         raw_articles = await manager.fetch(sources)
         articles = [a.model_dump() for a in raw_articles]
         logger.info(f"Fetched {len(articles)} raw articles")
+        discovery_cfg = config.get("clustering", {}).get("evidence_discovery", {})
+        if discovery_cfg.get("enabled", True) and not args.replay:
+            from filter.evidence_discovery import evidence_sources
+            queries = evidence_sources(articles, args.cutoff,
+                discovery_cfg.get("max_queries", 3), discovery_cfg.get("max_results", 3))
+            if queries:
+                extra = await manager.fetch(queries)
+                seen = {a["url"] for a in articles}
+                seeds = {q["id"]:q for q in queries}
+                for item in extra:
+                    art = item.model_dump()
+                    if art["url"] in seen: continue
+                    seed = seeds.get(art.get("source_id"), {})
+                    art.setdefault("raw_extra", {}).update(evidence_seed_url=seed.get("evidence_seed_url"),
+                        evidence_query=seed.get("query"))
+                    articles.append(art); seen.add(art["url"])
+                logger.info("Supplementary coverage: %s bounded queries; %s total articles", len(queries), len(articles))
+
         if collector:
             collector.end_stage(len(articles))
 

@@ -28,9 +28,10 @@ category（domain_signals必需），citations:[{event_id, quote}]。quote必须
 每条研究观察至少引用2个不同事件；不能仅以主题相似声称行业趋势，应解释共同问题和不同方法。
 每个领域信号至少引用1个事件。没有历史基线，禁止声称比上周增长、加速或成为主流；表述为本周观察到的进展。
 证据不足就少写，不要凑数。仅返回JSON。"""
+    feedback = ""
     for attempt in range(2):
         try:
-            raw = llm.chat(prompt, json.dumps(payload, ensure_ascii=False))
+            raw = llm.chat(prompt, json.dumps(payload, ensure_ascii=False) + feedback)
             obj = json.loads(re.sub(r"^```(?:json)?\s*|\s*```$", "", raw.strip()))
             result = {"observations": [], "domain_signals": [], "status": "validated"}
             for key in ("observations", "domain_signals"):
@@ -47,9 +48,14 @@ category（domain_signals必需），citations:[{event_id, quote}]。quote必须
                     result[key].append(item)
             result["observations"] = result["observations"][:3]
             logger.info("Research synthesis attempt %s: %s validated observations, %s domain signals", attempt + 1, len(result["observations"]), len(result["domain_signals"]))
-            if len(result["observations"]) >= 2:
+            covered = {item.get("category") for item in result["domain_signals"]}
+            missing = {e["category"] for e in eligible} - covered
+            if len(result["observations"]) >= 2 and not missing:
                 return result
+            feedback = "\n前次输出未通过校验。请重新输出完整 JSON；每条引用必须逐字复制输入 summary。缺少通过校验的领域信号：" + ", ".join(sorted(missing))
+            feedback += "。每个领域只引用该领域事件；研究观察仍需至少2条、每条至少2个不同事件。"
         except (ValueError, TypeError, KeyError, AttributeError) as exc:
             logger.warning("Research synthesis validation failed: %s", str(exc)[:180])
+            feedback = "\n前次输出结构校验失败，请返回完整 JSON 且所有 quote 必须逐字摘抄。"
             continue
     return {"observations": [], "domain_signals": [], "status": "synthesis_failed_validation"}

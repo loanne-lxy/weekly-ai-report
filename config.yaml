@@ -114,4 +114,10 @@ output:
   template: generator/templates/weekly.html
 
 clustering:
-  threshold: 0.72  # conservative complete-link proposals; concrete identity verified by curator
+  candidate_threshold: 0.45  # Retrieval only; identity evidence authorizes merging
+  candidate_top_k: 8
+  evidence_discovery:
+    enabled: true
+    max_queries: 3
+    max_results: 3
+  threshold: 0.72  # curator 簇内一致性阈值（complete-link）；初始聚类用高召回候选层

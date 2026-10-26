@@ -1,15 +1,8 @@
-"""
-Event Clustering — Hybrid bucket-based clustering.
+"""Conservative event proposals in original embedding space.
 
-流程:
-  N 篇文章
-        ↓
-  按 source_type 分桶 (academic vs social)
-        ↓
-  academic: cosine greedy (threshold=0.40) → 研究趋势
-  social:   BERTopic (UMAP+HDBSCAN) → 具体事件
-        ↓
-  返回 (Event 列表带 bucket 标签, 全部 embedding 数组)
+Complete-link coherence prevents broad topical clusters. Every proposal is
+subsequently checked for concrete identity and evidence by EventCurator.
+Legacy bucket algorithms remain for historical regression helpers only.
 """
 from __future__ import annotations
 
@@ -241,12 +234,12 @@ def _cluster_social_bertopic(
 # ── 主聚类入口 ───────────────────────────────────────────────────
 def cluster_articles(
     articles: list[dict[str, Any]],
-    threshold: float = 0.35,  # deprecated, kept for backward compat
+    threshold: float = 0.72,
 ) -> tuple[list[Event], np.ndarray]:
     """
     聚类文章，返回 (Event 列表, 全部 embedding 数组)。
 
-    Hybrid: academic → cosine greedy, social → BERTopic.
+    Complete-link candidate groups across sources, followed by concrete-identity curation.
     """
     if not articles:
         return [], np.zeros((0, 0), dtype=np.float32)
@@ -273,36 +266,14 @@ def cluster_articles(
     )
     n = len(articles)
 
-    # 2. 分桶
+    # Complete-link in the ORIGINAL embedding space prevents UMAP density
+    # clusters from becoming broad topical events. LLM validates identity next.
     buckets = _split_buckets(articles)
-    logger.info(
-        f"Bucket split: academic={len(buckets.get('academic', []))}, "
-        f"social={len(buckets.get('social', []))}"
-    )
-
-    # 3. 各桶聚类
-    all_clusters: list[tuple[str, str, list[int]]] = []  # (bucket, method, indices)
-
-    if "academic" in buckets:
-        logger.info(
-            f"Academic clustering: {len(buckets['academic'])} articles "
-            f"(cosine greedy, threshold={ACADEMIC_THRESHOLD})"
-        )
-        ac = _cluster_academic_cosine(articles, buckets["academic"], ACADEMIC_THRESHOLD)
-        for cid, indices in ac.items():
-            all_clusters.append(("academic", "cosine-greedy", indices))
-        logger.info(f"Academic → {len(ac)} clusters")
-
-    if "social" in buckets:
-        logger.info(
-            f"Social clustering: {len(buckets['social'])} articles "
-            f"(BERTopic, nn={SOCIAL_CONFIG['n_neighbors']}, "
-            f"dim={SOCIAL_CONFIG['n_components']}, mcs={SOCIAL_CONFIG['min_cluster_size']})"
-        )
-        sc = _cluster_social_bertopic(articles, buckets["social"], SOCIAL_CONFIG)
-        for cid, indices in sc.items():
-            all_clusters.append(("social", "bertopic", indices))
-        logger.info(f"Social → {len(sc)} clusters")
+    groups = coherent_groups(list(range(n)), embeddings, threshold, max_size=8)
+    all_clusters = []
+    for indices in groups:
+        academic = all(_classify_source(articles[i].get("source_name", "")) == "academic" for i in indices)
+        all_clusters.append(("academic" if academic else "social", "complete-link", indices))
 
     # 4. 构建 Event
     events = []
@@ -491,3 +462,30 @@ def pick_nearest_to_centroid(
 
     distances.sort()
     return [idx for _, idx in distances[:top_k]]
+
+
+def coherent_groups(indices, embeddings, threshold=0.72, max_size=8):
+    """Deterministic complete-link proposals: every pair must clear threshold."""
+    if embeddings.size == 0:
+        return [[i] for i in indices]
+    vecs = embeddings / np.maximum(np.linalg.norm(embeddings, axis=1, keepdims=True), 1e-10)
+    groups = []
+    for idx in indices:
+        candidates = [(float(np.min(vecs[g] @ vecs[idx])), k) for k, g in enumerate(groups) if len(g) < max_size]
+        best = max(candidates, default=(-1, -1))
+        if best[0] >= threshold:
+            groups[best[1]].append(idx)
+        else:
+            groups.append([idx])
+    return groups
+
+
+def coherence(indices, embeddings):
+    if len(indices) < 2:
+        return 1.0
+    if embeddings.size == 0:
+        return 0.0
+    v = embeddings[indices]
+    v = v / np.maximum(np.linalg.norm(v, axis=1, keepdims=True), 1e-10)
+    sim = v @ v.T
+    return float(sim[np.triu_indices(len(indices), 1)].min())

@@ -112,3 +112,6 @@ model:
 output:
   dir: output
   template: generator/templates/weekly.html
+
+clustering:
+  threshold: 0.72  # conservative complete-link proposals; concrete identity verified by curator

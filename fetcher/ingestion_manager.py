@@ -60,11 +60,8 @@ def _apply_post_filter(
         if max_age:
             pub = article.published
             if pub:
-                if isinstance(pub, str):
-                    try:
-                        pub = datetime.fromisoformat(pub.replace("Z", "+00:00"))
-                    except (ValueError, TypeError):
-                        pub = None
+                from filter.quality import parse_date
+                pub = parse_date(pub)
                 if isinstance(pub, datetime):
                     if not pub.tzinfo:
                         pub = pub.replace(tzinfo=timezone.utc)

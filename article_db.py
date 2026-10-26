@@ -52,6 +52,14 @@ def _event_id(title: str, category: str, week_label: str) -> str:
     return f"evt_{hashlib.sha256(raw.encode('utf-8')).hexdigest()[:12]}"
 
 
+def _curated_event_id(evt, week_label):
+    # Equal generated titles do not imply equal concrete events.
+    urls = sorted({a.get("url", "") for a in evt.get("articles", [])})
+    title = evt.get("event_title", evt.get("title", ""))
+    identity = title + "|" + "|".join(urls)
+    return _event_id(identity, evt.get("category", ""), week_label)
+
+
 # ──────────────────────────────────────────────
 # Connection helpers
 # ──────────────────────────────────────────────
@@ -132,6 +140,11 @@ def _init_db(db_path: str = "data/knowledge.db") -> sqlite3.Connection:
         conn.execute("ALTER TABLE events ADD COLUMN top_article_urls TEXT")
     except sqlite3.OperationalError:
         pass
+    cols = {row[1] for row in conn.execute("PRAGMA table_info(events)")}
+    for name, definition in {"final_score": "REAL DEFAULT 0", "quality_status": "TEXT DEFAULT 'legacy'",
+                             "top_eligible": "INTEGER DEFAULT 0", "metadata_json": "TEXT DEFAULT '{}'"}.items():
+        if name not in cols:
+            conn.execute(f"ALTER TABLE events ADD COLUMN {name} {definition}")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_events_week ON events(week_label)")
     conn.execute("CREATE INDEX IF NOT EXISTS idx_events_category ON events(category)")
 
@@ -169,6 +182,14 @@ def _init_db(db_path: str = "data/knowledge.db") -> sqlite3.Connection:
             FOREIGN KEY(event_id) REFERENCES events(id)
         )
     """)
+
+    # Freeze article contents per report so re-extraction cannot rewrite history.
+    conn.execute("CREATE TABLE IF NOT EXISTS report_article_snapshots (week_label TEXT, article_url TEXT, payload_json TEXT, PRIMARY KEY(week_label, article_url))")
+    snapshot_rows = conn.execute("SELECT DISTINCT e.week_label AS snapshot_week, a.* FROM articles a JOIN event_articles ea ON ea.article_url=a.url JOIN events e ON e.id=ea.event_id LEFT JOIN report_article_snapshots s ON s.week_label=e.week_label AND s.article_url=a.url WHERE s.article_url IS NULL").fetchall()
+    for row in snapshot_rows:
+        payload = dict(row)
+        week = payload.pop("snapshot_week")
+        conn.execute("INSERT OR IGNORE INTO report_article_snapshots VALUES (?,?,?)", (week, payload["url"], json.dumps(payload, ensure_ascii=False)))
 
     conn.commit()
     return conn
@@ -243,11 +264,20 @@ class KnowledgeStore:
         try:
             conn.execute("BEGIN")
 
+            # Replace current report's event snapshot, including obsolete relationships.
+            conn.execute("DELETE FROM report_events WHERE event_id IN (SELECT id FROM events WHERE week_label=?)", (week_label,))
+            conn.execute("DELETE FROM event_articles WHERE event_id IN (SELECT id FROM events WHERE week_label=?)", (week_label,))
+            conn.execute("DELETE FROM events WHERE week_label=?", (week_label,))
+
             # ── 1. UPSERT Sources ─────────────────────
             stats["sources"] = self._batch_upsert_sources(conn, sources)
 
             # ── 2. UPSERT Articles ────────────────────
             stats["articles"] = self._batch_upsert_articles(conn, articles, week_label)
+
+            conn.execute("DELETE FROM report_article_snapshots WHERE week_label=?", (week_label,))
+            conn.executemany("INSERT INTO report_article_snapshots VALUES (?,?,?)",
+                             [(week_label, a["url"], json.dumps(a, ensure_ascii=False)) for a in articles if a.get("url")])
 
             # ── 3. UPSERT Events ──────────────────────
             stats["events"] = self._batch_upsert_events(
@@ -357,7 +387,7 @@ class KnowledgeStore:
                     category=excluded.category, raw_extra=excluded.raw_extra,
                     first_seen=CASE WHEN articles.first_seen IS NOT NULL
                                    THEN articles.first_seen ELSE excluded.first_seen END,
-                    week_bucket=excluded.week_bucket
+                    week_bucket=articles.week_bucket
             """, (
                 article_id, url,
                 a.get("title", ""),
@@ -387,10 +417,11 @@ class KnowledgeStore:
             title = evt.get("event_title", evt.get("title", ""))
             summary = evt.get("event_summary", evt.get("summary", ""))[:2000]
             category = evt.get("category", "")
-            eid = _event_id(title, category, week_label)
+            eid = _curated_event_id(evt, week_label)
 
             # Determine source_count from article_indices
-            source_count = len(evt.get("article_indices", []))
+            from filter.quality import publisher
+            source_count = len({publisher(a) for a in evt.get("articles", [])})
 
             # Top-3 article URLs (for Evidence Chain ordering: top3 first)
             top_urls = self._resolve_top_urls(evt)
@@ -434,6 +465,10 @@ class KnowledgeStore:
                     top_json,
                 ))
                 inserted += 1
+            metadata = {k: v for k, v in evt.items() if k not in {"articles", "article_indices"}}
+            conn.execute("UPDATE events SET final_score=?, quality_status=?, top_eligible=?, metadata_json=? WHERE id=?",
+                         (evt.get("final_score", 0), evt.get("quality_status", "quarantined"),
+                          int(evt.get("top_eligible", False)), json.dumps(metadata, ensure_ascii=False), eid))
 
         return inserted
 
@@ -465,13 +500,9 @@ class KnowledgeStore:
             return 0
         rows = []
         for evt in events:
-            eid = _event_id(
-                evt.get("event_title", evt.get("title", "")),
-                evt.get("category", ""),
-                week_label,
-            )
+            eid = _curated_event_id(evt, week_label)
             for idx in evt.get("article_indices", []):
-                if idx < len(raw_articles):
+                if isinstance(idx, int) and 0 <= idx < len(raw_articles):
                     url = raw_articles[idx].get("url", "")
                     if url:
                         rows.append((eid, url))
@@ -510,11 +541,7 @@ class KnowledgeStore:
     ) -> None:
         rows = []
         for evt in events:
-            eid = _event_id(
-                evt.get("event_title", evt.get("title", "")),
-                evt.get("category", ""),
-                week_label,
-            )
+            eid = _curated_event_id(evt, week_label)
             rows.append((report_id, eid))
         if rows:
             conn.executemany("""

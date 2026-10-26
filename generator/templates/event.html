@@ -177,7 +177,15 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       <!-- Summary -->
       <div class="sec reveal">
         <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
-        <p class="prose">{{ ev.get('summary', '')|clean_summary }}</p>
+        <p class="prose" style="white-space:pre-line">{{ ev.get('summary', '')|clean_summary }}</p>
+        {% if ev.get('limitations') %}<p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：{{ ev.limitations }}</p>{% endif %}
+        {% if ev.get('quality_status') == 'date_unverified' %}<p class="chain-note">发布时间待核实，未纳入本周精选。</p>{% endif %}
+        <details><summary>评分依据 · 综合分 {{ "%.1f"|format((ev.get('final_score', 0) or 0) * 100) }}</summary>
+          <p class="prose">重要性：{{ ev.get('importance_rationale', '') }}</p>
+          <p class="prose">新颖性：{{ ev.get('novelty_rationale', '') }}</p>
+          <p class="prose">影响力：{{ ev.get('impact_rationale', '') }}</p>
+          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        </details>
       </div>
 
       <!-- Evidence -->
@@ -189,18 +197,24 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <p class="chain-note">该事件由以下 {{ articles|length }} 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
         {% if articles %}
         {% for art in articles %}
+        {% if loop.index0 == 3 %}<details><summary>其他相关报道（{{ articles|length - 3 }} 篇）</summary>{% endif %}
         <div class="art" style="--i: {{ loop.index0 }}">
           <h3><span class="step">A{{ loop.index }}</span><a href="{{ art.get('url', '#') }}" target="_blank" rel="noopener noreferrer">{{ art.get('title', '无标题') }}</a></h3>
-          {% if art.get('summary') %}<p class="sum">{{ art.summary|clean_summary }}</p>{% endif %}
+          {% if art.get('summary') %}<p class="sum">{{ art.summary|clean_summary|truncate(600) }}</p>{% endif %}
+          {% if art.get('evidence') %}
+          <p class="chain-note">文章对本事件的证据相关性 {{ "%.0f"|format(art.evidence.relevance * 100) }}% · {{ art.evidence.reason }}</p>
+          <blockquote class="chain-note">{{ art.evidence.quote }}</blockquote>
+          {% endif %}
           <div class="ameta">
-            <span class="src-tag">{{ art.get('source_name', art.get('source_id', '未知来源')) }}
+            <span class="src-tag">{{ art.publisher }} · 来源参考评分 {{ "%.0f"|format(art.publisher_quality * 100) }}/100
               {% set src = sources.get(art.get('source_id', '')) %}
-              {% if src and src.get('trust') is defined %}<span class="trust">trust {{ "%.0f"|format(src.trust * 100) }}%</span>{% endif %}
+
             </span>
             {% if art.get('published') %}<span>{{ art.published|fmt_date }}</span>{% endif %}
             <a class="url" href="{{ art.get('url', '#') }}" target="_blank" rel="noopener noreferrer">原文 ↗</a>
           </div>
         </div>
+        {% if loop.last and articles|length > 3 %}</details>{% endif %}
         {% endfor %}
         {% else %}
         <p class="chain-note">暂无关联文章。</p>

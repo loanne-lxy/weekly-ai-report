@@ -1,393 +1,180 @@
-"""
-Event Curator — 事件级策展与评分 + Top-3 精选文章。
-
-输入：Cluster 好的 Event 列表（每个 Event 包含若干文章）
-输出：对每个 Event 进行：
-  1. 相关性判断 (is_relevant)
-  2. 中文标题/摘要
-  3. 分类 (category)
-  4. 评分 (importance, novelty, impact 0-1)
-  5. 从簇内选出 Top-3 最优质文章索引 ← 这就是去重结果
-
-Prompt 来源：references/ 目录下的 Markdown 文件，启动时加载。
-
-设计原则：
-  - 以 Event 为单位批量送 LLM (BATCH_SIZE=2)
-  - 每个 Event 只保留 Top-3 文章，其余丢弃
-"""
+"""Evidence-grounded event curation; failures are quarantined, never promoted."""
 from __future__ import annotations
-
 import asyncio
 import json
+import hashlib
 import logging
 import re
-from collections import Counter
 from pathlib import Path
-from typing import Any
-
 import numpy as np
-from models.llm_client import LLMClient
-from event_clustering import CATEGORY_ALIASES, _clean_category
+from event_clustering import _clean_category, coherence, coherent_groups
+from filter.quality import score_number
 
 logger = logging.getLogger(__name__)
-
-BATCH_SIZE = 2
-
-# ── Prompt 文件路径（相对于项目根目录）─────────────────────────
 _PROMPTS_DIR = Path(__file__).resolve().parent.parent / "references"
-_SYSTEM_PROMPT_FILE = _PROMPTS_DIR / "event_curator_system.md"
-_USER_TEMPLATE_FILE = _PROMPTS_DIR / "event_curator_user.md"
-
-
-def _load_prompt_file(path: Path) -> str:
-    """Load prompt from Markdown file, stripping frontmatter if present."""
-    if not path.exists():
-        raise FileNotFoundError(f"Prompt file not found: {path}")
-    content = path.read_text(encoding="utf-8")
-    # Strip YAML frontmatter (--- ... ---) if present
-    if content.startswith("---"):
-        content = content.split("---", 2)[2]
-    return content.strip()
-
-
-# 启动时加载（避免每次请求都读文件）
-EVENT_CURATOR_SYSTEM = _load_prompt_file(_SYSTEM_PROMPT_FILE)
-EVENT_CURATOR_USER_TEMPLATE = _load_prompt_file(_USER_TEMPLATE_FILE)
-
-# ── Event block template ─────────────────────────────────────────
-_EVENT_TEMPLATE = """--- Event {idx} ---
-Bucket: {bucket}
-Cluster stats: {stats_text}
-Source categories (source-config default, may be empty): {source_category}
-Articles (indices 0-based):
-{articles_text}"""
+EVENT_CURATOR_SYSTEM = (_PROMPTS_DIR / "event_curator_system.md").read_text()
+EVENT_CURATOR_USER_TEMPLATE = (_PROMPTS_DIR / "event_curator_user.md").read_text()
+_EVENT_TEMPLATE = "Source categories: {source_category}"
+BATCH_SIZE = 2
 
 
 class EventCurator:
-    """事件级策展器 — LLM 评分 + 分类 + Top-3 精选文章."""
-
-    def __init__(self, llm: LLMClient):
+    def __init__(self, llm, threshold=0.72, cache_dir=None):
         self.llm = llm
+        self.threshold = threshold
+        self.cache_dir = Path(cache_dir) if cache_dir else None
+        if self.cache_dir:
+            self.cache_dir.mkdir(parents=True, exist_ok=True)
+
+    def cache_path(self, evt):
+        if self.cache_dir is None:
+            return None
+        material = {"version": 1, "threshold": self.threshold,
+                    "system": EVENT_CURATOR_SYSTEM, "user": EVENT_CURATOR_USER_TEMPLATE,
+                    "articles": [{k: a.get(k) for k in ("url", "title", "summary", "published", "date_status")}
+                                 for a in evt["articles"]]}
+        digest = hashlib.sha256(json.dumps(material, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+        return self.cache_dir / (digest + ".json")
 
     @staticmethod
-    def _fallback_event(
-        evt: dict[str, Any], embeddings: np.ndarray = None
-    ) -> dict[str, Any]:
-        """Fallback when LLM output is invalid — pick nearest-to-centroid."""
-        from event_clustering import article_category, pick_nearest_to_centroid
+    def _fallback_event(evt, embeddings=None):
+        return {**evt, "is_relevant": False, "event_title": "[待审核] " + evt.get("title", ""),
+                "event_summary": "", "importance": 0.0, "novelty": 0.0, "impact": 0.0,
+                "top_articles": [], "evidence_articles": [], "quality_status": "quarantined",
+                "quality_reasons": ["curation_failed"], "top_eligible": False}
 
-        indices = evt.get("article_indices", [])
-        emb = embeddings if embeddings is not None and embeddings.size > 0 else np.zeros((0, 0), dtype=np.float32)
-        top = pick_nearest_to_centroid(indices, emb)
-        # 类别用源先验（文章类别众数），不用硬编码 LLM
-        src_cat = ""
-        if evt.get("articles"):
-            cats = [article_category(a) for a in evt["articles"] if article_category(a)]
-            if cats:
-                src_cat = Counter(cats).most_common(1)[0][0]
-        title = evt.get("title", "")
-        # 英文标题/摘要（LLM 未生成中文）加标记，避免被当成正常内容展示
-        if title and not re.search(r"[\u4e00-\u9fff]", title):
-            title = f"[未翻译] {title}"
-        summary = (evt.get("summary", "") or "")[:800]
-        if summary and not re.search(r"[\u4e00-\u9fff]", summary):
-            summary = "[未翻译] " + summary
-        return {
-            **evt,
-            "is_relevant": True,
-            "event_title": title,
-            "event_summary": summary,
-            "category": src_cat,
-            "importance": 0.5,
-            "importance_rationale": "(fallback: no LLM score)",
-            "novelty": 0.5,
-            "novelty_rationale": "(fallback: no LLM score)",
-            "impact": 0.5,
-            "impact_rationale": "(fallback: no LLM score)",
-            "key_insights": [],
-            "tags": [],
-            "top_articles": top,
-            "evidence_articles": [],
-        }
-
-    def _pick_fallback_top(self, evt, embeddings):
-        """Vector centroid fallback for top_articles."""
-        from event_clustering import pick_nearest_to_centroid
-
-        emb = embeddings if embeddings is not None and embeddings.size > 0 else np.zeros((0, 0), dtype=np.float32)
-        return pick_nearest_to_centroid(
-            evt.get("article_indices", []),
-            emb,
-            top_k=3,
-        )
-
-    async def curate_events(
-        self, events: list[dict[str, Any]], embeddings: np.ndarray = None
-    ) -> list[dict[str, Any]]:
-        if not events:
-            return []
-
+    async def curate_events(self, events, embeddings=None):
+        emb = embeddings if embeddings is not None else np.zeros((0, 0))
+        # Never silently truncate: every article receives a curation decision.
+        safe = []
+        for evt in events:
+            ids = evt["article_indices"]
+            positions = {idx: p for p, idx in enumerate(ids)}
+            groups = coherent_groups(ids, emb, threshold=self.threshold, max_size=8)
+            for group in groups:
+                safe.append({**evt, "article_indices": group,
+                             "articles": [evt["articles"][positions[i]] for i in group]})
         sem = asyncio.Semaphore(5)
-        loop = asyncio.get_running_loop()
 
-        batches = [events[i:i + BATCH_SIZE] for i in range(0, len(events), BATCH_SIZE)]
-        logger.info(f"Event Curator: {len(events)} events in {len(batches)} batches")
-
-        async def _do_batch(batch: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        async def run(batch, retry_single=True):
             async with sem:
-                # Build prompt
-                event_blocks = []
-                # Track display→original index mapping per event in batch
-                batch_remaps: list[dict[int, int]] = []
-
-                for idx, evt in enumerate(batch):
-                    articles = evt.get("articles", [])
-
-                    # Pre-filter: if >20 articles, pick the 20 nearest-to-centroid
-                    # to avoid token overflow.
-                    display_articles = list(articles)
-                    # reverse_remap: display_idx → original_event_idx
-                    reverse_remap = {i: i for i in range(len(articles))}
-
-                    if len(articles) > 20 and embeddings is not None and embeddings.size > 0:
-                        from event_clustering import pick_nearest_to_centroid
-
-                        top_20_global = pick_nearest_to_centroid(
-                            evt.get("article_indices", []),
-                            embeddings,
-                            top_k=20,
-                        )
-                        top_20_set = set(top_20_global)
-                        filtered = [
-                            (i, a) for i, a in enumerate(articles)
-                            if i < len(evt.get("article_indices", []))
-                            and evt["article_indices"][i] in top_20_set
-                        ]
-                        if filtered:
-                            display_articles = [a for _, a in filtered]
-                            reverse_remap = {new: old for new, (old, _) in enumerate(filtered)}
-                        else:
-                            display_articles = articles[:20]
-
-                    batch_remaps.append(reverse_remap)
-
-                    # Compute cluster stats for prompt injection
-                    total_count = len(articles)
-                    unique_sources = len(set(
-                        a.get("source_id", "") for a in articles
-                    ))
-                    published_strs = [a.get("published") for a in articles if a.get("published")]
-                    if published_strs:
-                        from datetime import datetime, timezone as tz
-                        try:
-                            dts = []
-                            for s in published_strs:
-                                dt = datetime.fromisoformat(s.replace("Z", "+00:00"))
-                                if dt.tzinfo is None:
-                                    dt = dt.replace(tzinfo=tz.utc)
-                                dts.append(dt)
-                            span_hours = (max(dts) - min(dts)).total_seconds() / 3600
-                            if span_hours < 1:
-                                span_hours = 0
-                        except Exception:
-                            span_hours = 0
-                    else:
-                        span_hours = 0
-
-                    stats_text = (
-                        f"Total: {total_count} articles | "
-                        f"{unique_sources} sources | "
-                        f"span: {span_hours:.1f}h"
-                    )
-
-                    articles_text = ""
-                    for i, a in enumerate(display_articles[:20]):
-                        title = a.get("title", "")
-                        summary = (a.get("summary", a.get("content_preview", "")) or "")[:400]
-                        source = a.get("source_name", a.get("source_id", "Unknown"))
-                        articles_text += f"  [{i}] {title} (from {source})\n      {summary}\n"
-                    event_blocks.append(_EVENT_TEMPLATE.format(
-                        idx=idx,
-                        bucket=evt.get("bucket", "social"),
-                        stats_text=stats_text,
-                        source_category=evt.get("category", "") or "(none)",
-                        articles_text=articles_text,
-                    ))
-
-                user_prompt = EVENT_CURATOR_USER_TEMPLATE.format(
-                    batch_size=len(batch),
-                    events="\n\n".join(event_blocks),
-                )
-
-                # Call LLM, retry once on empty / parse failure (transient LLM issue)
-                results = None
-                for _attempt in range(2):
-                    response = await loop.run_in_executor(
-                        None, self.llm.chat, EVENT_CURATOR_SYSTEM, user_prompt,
-                    )
-                    try:
-                        cleaned = response.strip()
-                        for fence in ["```json", "```"]:
-                            cleaned = cleaned.removeprefix(fence).removesuffix(fence).strip()
-                        results = json.loads(cleaned)
-                        break
-                    except (json.JSONDecodeError, ValueError) as e:
-                        logger.warning(
-                            f"Event Curator batch JSON parse failed "
-                            f"(attempt {_attempt + 1}/2): {e}"
-                        )
-                if results is None:
-                    return [self._fallback_event(evt, embeddings) for evt in batch]
-
-                if isinstance(results, dict):
-                    results = [results]
-
-                curated = []
-                # Group LLM objects by input event. Step 0 may split one input
-                # event into several sub-event objects sharing event_index,
-                # each carrying per-object article_indices (display indices).
-                by_src: dict[int, list[dict]] = {}
-                for data in results:
-                    if not isinstance(data, dict):
-                        continue
-                    ei = data.get("event_index", 0)
-                    if not isinstance(ei, int) or not (0 <= ei < len(batch)):
-                        logger.warning(f"Ignoring LLM object with invalid event_index={ei!r}")
-                        continue
-                    by_src.setdefault(ei, []).append(data)
-
+                payload = []
                 for i, evt in enumerate(batch):
-                    n_articles = len(evt.get("articles", []))
-                    rev_map = batch_remaps[i] if i < len(batch_remaps) else {j: j for j in range(n_articles)}
-                    srcs = by_src.get(i, [])
-                    if not srcs:
-                        curated.append(self._fallback_event(evt, embeddings))
-                        continue
-                    if len(srcs) == 1 and "article_indices" not in srcs[0]:
-                        # 1:1 — single event, no split. local_rev = display→position.
-                        curated.append(self._build_curated(
-                            evt, srcs[0], rev_map, n_articles, embeddings))
-                        continue
-                    # 1:N split — normalize + validate display indices.
-                    # Exactly one sub-event may omit article_indices; it
-                    # takes the remainder of the cluster.
-                    parsed: list[list[int] | None] = []
-                    for data in srcs:
-                        raw = data.get("article_indices")
-                        if isinstance(raw, list):
-                            parsed.append([d for d in raw if isinstance(d, int) and 0 <= d < n_articles])
-                        else:
-                            parsed.append(None)
-                    n_missing = sum(1 for p in parsed if not p)
-                    if n_missing == 1:
-                        covered: set[int] = set()
-                        for p in parsed:
-                            if p:
-                                covered.update(p)
-                        for k in range(len(parsed)):
-                            if not parsed[k]:
-                                parsed[k] = [j for j in range(n_articles) if j not in covered]
-                    valid = (
-                        n_missing <= 1
-                        and all(parsed)
-                        and all(len(p) == len(set(p)) for p in parsed)
-                        and sorted(rev_map.get(d, d) for p in parsed for d in p)
-                        == list(range(n_articles))
-                    )
-                    if not valid:
-                        logger.warning(
-                            f"Event {i}: invalid split (duplicate/missing "
-                            f"article indices) — keeping whole cluster as single event"
-                        )
-                        curated.append(self._fallback_event(evt, embeddings))
-                        continue
-                    logger.info(
-                        f"Event {i}: split into {len(srcs)} sub-events "
-                        f"({[len(p) for p in parsed]} articles)"
-                    )
-                    for data, d_idx in zip(srcs, parsed):
-                        positions = [rev_map.get(d, d) for d in d_idx]
-                        sub_evt = {
-                            **evt,
-                            "article_indices": [evt["article_indices"][p] for p in positions],
-                            "articles": [evt["articles"][p] for p in positions],
-                        }
-                        # LLM top/evidence indices are display indices into the
-                        # WHOLE event → map to local positions in the sub-event
-                        local_rev = {d: pos for pos, d in enumerate(d_idx)}
-                        curated.append(self._build_curated(
-                            sub_evt, data, local_rev, len(d_idx), embeddings))
-                return curated
+                    payload.append({"event_index": i, "source_category": evt.get("category", ""),
+                                    "articles": [{"index": j, "title": a.get("title", ""),
+                                      "text": a.get("summary", "")[:1800], "url": a.get("url"),
+                                      "published": a.get("published"), "publisher": a.get("publisher_domain")}
+                                     for j, a in enumerate(evt["articles"])]})
+                error = None
+                for attempt in range(2):
+                    try:
+                        raw = await asyncio.to_thread(self.llm.chat, EVENT_CURATOR_SYSTEM,
+                            EVENT_CURATOR_USER_TEMPLATE + ("\nPrevious output failed validation: " + error + ". Correct the output; do not invent evidence." if error else "") + "\nINPUT:\n" + json.dumps(payload, ensure_ascii=False))
+                        raw = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw.strip())
+                        objects = json.loads(raw)
+                        if not isinstance(objects, list):
+                            raise ValueError("expected JSON array")
+                        result = []
+                        if any(not isinstance(o, dict) or type(o.get("event_index")) is not int or not 0 <= o["event_index"] < len(batch) for o in objects):
+                            raise ValueError("invalid event index")
+                        for i, evt in enumerate(batch):
+                            parts = [o for o in objects if o["event_index"] == i]
+                            indices = [k for o in parts for k in o.get("article_indices", [])]
+                            if any(type(k) is not int for k in indices) or sorted(indices) != list(range(len(evt["articles"]))):
+                                raise ValueError("split must partition ALL input articles exactly once")
+                            built = [self._build(evt, o, emb) for o in parts]
+                            result.extend(built)
+                            path = self.cache_path(evt)
+                            if path:
+                                path.write_text(json.dumps(parts, ensure_ascii=False, indent=2))
+                        return result
+                    except Exception as exc:
+                        error = str(exc)
+                        logger.warning("Curator attempt %s failed: %s", attempt + 1, error[:180])
+            # Recover per article outside semaphore. No original giant-cluster fallback.
+            if retry_single:
+                singles = [{**evt, "articles": [a], "article_indices": [idx]}
+                           for evt in batch for a, idx in zip(evt["articles"], evt["article_indices"])]
+                out = []
+                for single in singles:
+                    out.extend(await run([single], retry_single=False))
+                return out
+            return [self._fallback_event(evt, emb) for evt in batch]
 
-        batch_results = await asyncio.gather(*[_do_batch(b) for b in batches])
-        all_events = [evt for batch in batch_results for evt in batch]
+        cached, pending = [], []
+        for evt in safe:
+            path = self.cache_path(evt)
+            try:
+                if path and path.exists():
+                    parts = json.loads(path.read_text())
+                    ids = [i for part in parts for i in part["article_indices"]]
+                    if sorted(ids) != list(range(len(evt["articles"]))):
+                        raise ValueError("invalid cached partition")
+                    cached.extend(self._build(evt, part, emb) for part in parts)
+                    continue
+            except (ValueError, KeyError, TypeError):
+                logger.warning("Ignoring invalid curation cache")
+            pending.append(evt)
+        logger.info("Curation cache: %s decisions reused; %s proposals pending", len(cached), len(pending))
+        batches = [pending[i:i+BATCH_SIZE] for i in range(0, len(pending), BATCH_SIZE)]
+        results = await asyncio.gather(*(run(batch) for batch in batches))
+        all_events = cached + [e for batch in results for e in batch]
+        logger.info("Curated %s events: %s publishable, %s quarantined/rejected", len(all_events),
+                    sum(e.get("is_relevant", False) for e in all_events),
+                    sum(not e.get("is_relevant", False) for e in all_events))
+        return all_events
 
-        # Filter relevant
-        relevant = [e for e in all_events if e.get("is_relevant", True)]
-        logger.info(f"Event Curator: {len(relevant)} relevant events (filtered from {len(all_events)})")
-
-        return relevant
-
-    def _build_curated(
-        self,
-        evt: dict[str, Any],
-        data: dict[str, Any],
-        local_rev: dict[int, int],
-        display_count: int,
-        embeddings: np.ndarray | None,
-    ) -> dict[str, Any]:
-        """Build one curated event dict from one LLM result object.
-
-        local_rev maps LLM display indices → positions into evt['articles'].
-        """
-        # top_articles fallback: if LLM returned empty, use centroid
-        top_display = data.get("top_articles", [])
-        if not top_display:
-            top = self._pick_fallback_top(evt, embeddings)
-        else:
-            top = [local_rev.get(di, di) for di in top_display if di in local_rev]
-
-        # Validate evidence_articles: must be valid indices in the display set
-        raw_evidence = data.get("evidence_articles", [])
-        valid_evidence: list[int] = []
-        for eid in raw_evidence:
-            if isinstance(eid, int) and 0 <= eid < display_count and eid in local_rev:
-                valid_evidence.append(local_rev[eid])
-        if raw_evidence and not valid_evidence:
-            logger.warning(
-                f"Event {evt.get('title', '')[:40]}: evidence_articles {raw_evidence} "
-                f"all invalid for {display_count} articles — dropped"
-            )
-        # 证据不足时回退到 top_articles，保证 evidence 始终有来源
-        if not valid_evidence:
-            valid_evidence = top[:3]
-
-        # 类别：别名归一；未分类时用源先验（文章类别众数）
-        raw_cat = data.get("category", "") or ""
-        cat = _clean_category(str(raw_cat))
-        if not cat:
-            src_cats = [
-                str(a.get("category", "") or a.get("default_category", "")).strip()
-                for a in evt.get("articles", [])
-            ]
-            src_cats = [c for c in src_cats if c]
-            cat = Counter(src_cats).most_common(1)[0][0] if src_cats else ""
-
-        return {
-            **evt,
-            "is_relevant": data.get("is_relevant", False),
-            "event_title": data.get("event_title") or evt.get("title", ""),
-            "event_summary": (data.get("event_summary") or evt.get("summary", ""))[:800],
-            "category": cat,
-            # 0-1 float scores
-            "importance": max(0, min(1, float(data.get("importance") or 0.5))),
-            "importance_rationale": (data.get("importance_rationale") or "")[:100],
-            "novelty": max(0, min(1, float(data.get("novelty") or 0.5))),
-            "novelty_rationale": (data.get("novelty_rationale") or "")[:100],
-            "impact": max(0, min(1, float(data.get("impact") or 0.5))),
-            "impact_rationale": (data.get("impact_rationale") or "")[:100],
-            "key_insights": data.get("key_insights", []),
-            "tags": data.get("tags", []),
-            "top_articles": top,
-            "evidence_articles": valid_evidence[:3],
-        }
+    def _build(self, evt, data, embeddings):
+        positions = data["article_indices"]
+        arts = [evt["articles"][i] for i in positions]
+        ids = [evt["article_indices"][i] for i in positions]
+        local = {old: new for new, old in enumerate(positions)}
+        result = {**evt, "articles": arts, "article_indices": ids,
+                  "article_count": len(arts), "is_relevant": data.get("is_relevant") is True,
+                  "quality_reasons": [], "top_eligible": False}
+        if not result["is_relevant"]:
+            result.update(quality_status="rejected", quality_reasons=[data.get("relevance_reason", "unrelated")])
+            return result
+        evidence = []
+        for item in data.get("evidence", []):
+            if not isinstance(item, dict) or type(item.get("index")) is not int or item["index"] not in local:
+                raise ValueError("evidence index outside sub-event")
+            a = arts[local[item["index"]]]
+            quote = str(item.get("quote", "")).strip()
+            norm = lambda s: re.sub(r"\s+", "", s).casefold()
+            if len(quote) < 12 or norm(quote) not in norm(a.get("title", "") + " " + a.get("summary", "")[:1800]):
+                raise ValueError("evidence quote is not grounded in supplied article")
+            relevance = score_number(item.get("relevance"))
+            evidence.append({"index": local[item["index"]], "url": a["url"], "relevance": relevance,
+                             "reason": str(item.get("reason", ""))[:300], "quote": quote[:600]})
+        evidence.sort(key=lambda e: e["relevance"], reverse=True)
+        if {e["index"] for e in evidence} != set(range(len(arts))) or len(evidence) != len(arts):
+            raise ValueError("each member needs exactly one relevance assessment")
+        coherent = coherence(ids, embeddings)
+        if data.get("same_concrete_event") is not True or coherent < self.threshold or any(e["relevance"] < 0.75 for e in evidence):
+            raise ValueError("incoherent members must be split or rejected")
+        title = str(data.get("event_title", "")).strip()
+        sections = {key: str(data.get(key, "")).strip() for key in ("breakthrough", "problem", "research_value")}
+        if not re.search(r"[\u4e00-\u9fff]", title) or any(not re.search(r"[\u4e00-\u9fff]", v) for v in sections.values()):
+            raise ValueError("Chinese translation or structured summary missing")
+        rationales = {}
+        for key in ("importance", "novelty", "impact"):
+            rationale = str(data.get(key + "_rationale", "")).strip()
+            if not rationale or key not in data:
+                raise ValueError("score and rationale required")
+            rationales[key] = score_number(data[key])
+            rationales[key + "_rationale"] = rationale[:500]
+        category = _clean_category(str(data.get("category", "")))
+        if category not in {"LLM", "Agent", "AI for Science", "设计仿真", "数字孪生"}:
+            raise ValueError("invalid category")
+        dated = all(a.get("date_status") == "verified" for a in arts)
+        summary = "核心突破：" + sections["breakthrough"] + "\n解决的问题：" + sections["problem"] + "\n研究价值：" + sections["research_value"]
+        result.update(rationales)
+        result.update(event_title=title, event_summary=summary, title=title, summary=summary,
+                      category=category, **sections, short_summary=str(data.get("short_summary") or sections["breakthrough"])[:100],
+                      evidence=evidence, top_articles=[e["index"] for e in evidence[:3]],
+                      evidence_articles=[e["index"] for e in evidence[:3]],
+                      coherence=round(coherent, 4), quality_status="passed" if dated else "date_unverified",
+                      quality_reasons=[] if dated else ["publication_date_unknown"], top_eligible=dated,
+                      limitations=str(data.get("limitations", "未提供独立复现信息"))[:500])
+        return result

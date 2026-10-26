@@ -31,3 +31,6 @@ sketches/
 data/
 *.bak.*
 CACHEDIR.TAG
+
+# Local pre-repair recovery snapshots
+archive/w44-quality-*/

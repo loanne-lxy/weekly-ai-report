@@ -92,7 +92,7 @@ def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> 
     events_rows = conn.execute(
         """
         SELECT * FROM events WHERE week_label = ?
-        ORDER BY importance DESC
+        ORDER BY final_score DESC, importance DESC, title ASC
         """,
         (week_label,),
     ).fetchall()
@@ -101,6 +101,7 @@ def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> 
     event_ids = []
     for row in events_rows:
         evt = dict(row)
+        evt = {**json.loads(evt.get("metadata_json") or "{}"), **evt}
         evt["summary"] = _clean_text(evt.get("summary"))
         events.append(evt)
         event_ids.append(evt["id"])
@@ -110,27 +111,20 @@ def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> 
     if event_ids:
         placeholders = ",".join(["?"] * len(event_ids))
         rows = conn.execute(
-            f"""
-            SELECT a.* FROM articles a
-            INNER JOIN event_articles ea ON a.url = ea.article_url
-            WHERE ea.event_id IN ({placeholders})
-            """,
+            f"SELECT ea.event_id AS linked_event_id, a.*, s.payload_json AS snapshot_json FROM articles a "
+            f"JOIN event_articles ea ON a.url=ea.article_url JOIN events e ON e.id=ea.event_id "
+            f"LEFT JOIN report_article_snapshots s ON s.article_url=a.url AND s.week_label=e.week_label "
+            f"WHERE ea.event_id IN ({placeholders})",
             event_ids,
         ).fetchall()
-
         for row in rows:
             article = dict(row)
+            eid = article.pop("linked_event_id")
+            snapshot = article.pop("snapshot_json", None)
+            if snapshot:
+                article.update(json.loads(snapshot))
             article["summary"] = _clean_text(article.get("summary"))
-            # Find which event this article belongs to
-            mapping_rows = conn.execute(
-                "SELECT event_id FROM event_articles WHERE article_url = ?",
-                (article["url"],),
-            ).fetchall()
-            for mapping in mapping_rows:
-                eid = mapping["event_id"]
-                if eid not in articles_by_event:
-                    articles_by_event[eid] = []
-                articles_by_event[eid].append(article)
+            articles_by_event.setdefault(eid, []).append(article)
 
     # ── Sources ──────────────────────────────────────────────
     source_rows = conn.execute(
@@ -323,6 +317,8 @@ def generate_report(
     trends: dict[str, str] | None = None,
     domain_summaries: dict[str, str] | None = None,
     generated_at: str | None = None,
+    db_path: str = "data/knowledge.db",
+    analysis: dict | None = None,
 ) -> str:
     """
     从 knowledge.db 读取 Events 并生成 HTML 周报。
@@ -339,7 +335,7 @@ def generate_report(
         generated_at: 现成时间戳（重渲时保留原日期）
     """
     # ── 1. 从 knowledge.db 读取数据 ──────────────────────
-    data = _query_knowledge_db(week_label)
+    data = _query_knowledge_db(week_label, db_path)
     events = data.get("events", [])
     articles_by_event = data.get("articles_by_event", {})
     sources = data.get("sources", {})
@@ -351,11 +347,6 @@ def generate_report(
 
     # ── 3. 空模块回填 ────────────────────────────────────
     empty_cats = [k for k, v in categories.items() if not v and k != "其他"]
-    if empty_cats:
-        fallback = _load_fallback_events(week_label, empty_cats)
-        for cat_name, fallback_events in fallback.items():
-            categories[cat_name] = fallback_events
-
     # ── 4. 统计 ──────────────────────────────────────────
     stats = {k: len(v) for k, v in categories.items()}
     total_events = sum(stats.values())
@@ -378,25 +369,13 @@ def generate_report(
         "设计仿真": "🎨", "数字孪生": "🏭"
     }
 
-    # ── 5. LLM 趋势 & 摘要 ───────────────────────────────
-    # 优先级：显式注入（重渲保留原文案）> LLM 现算 > 静态兜底
-    if trends is None:
-        trends = _get_trends(llm, events, categories_cfg) if llm else {k: "持续关注" for k in categories}
-    if domain_summaries is None:
-        if llm:
-            domain_summaries = {}
-            for cat_name, cat_events in categories.items():
-                if cat_events:
-                    summaries = [
-                        evt.get("event_summary", evt.get("summary", ""))[:200]
-                        for evt in cat_events[:5]
-                    ]
-                    domain_summaries[cat_name] = _domain_summary(llm, cat_name, summaries)
-                else:
-                    domain_summaries[cat_name] = ""
-        else:
-            domain_summaries = {k: "" for k in categories}
-    prev_weeks = _prev_weeks(week_label)
+    from generator.research_observations import synthesize
+    analysis = analysis if analysis is not None else synthesize(llm, events)
+    research_observations = analysis["observations"]
+    domain_signals = {item["category"]: item for item in analysis["domain_signals"]}
+    trends = {name: domain_signals.get(name, {}).get("title", "本周证据不足") for name in categories}
+    domain_summaries = {name: domain_signals.get(name, {}).get("text", "本周暂无足够证据支持领域判断。") for name in categories}
+    prev_weeks = _prev_weeks(week_label, db_path)
 
     generated_at = generated_at or datetime.now().strftime("%Y-%m-%d %H:%M")
     category_slugs = {
@@ -411,8 +390,8 @@ def generate_report(
             item = dict(evt)
             item["cat"] = cat_name
             all_events.append(item)
-    all_events.sort(key=lambda e: (e.get("importance") or 0), reverse=True)
-    top_events = all_events[:5]
+    all_events.sort(key=lambda e: (-(e.get("final_score") or 0), -(e.get("importance") or 0), e.get("title", "")))
+    top_events = [e for e in all_events if e.get("top_eligible") and e.get("quality_status") == "passed"][:5]
 
     # 事件 slug 与证据链：Event → Articles → Sources
     event_slugs = make_event_slugs(all_events)
@@ -421,13 +400,19 @@ def generate_report(
         for arts in articles_by_event.values() for a in arts
     ))
 
+    from filter.quality import publisher
+    publisher_count = len({publisher(a) for arts in articles_by_event.values() for a in arts})
+    active_domain_count = sum(bool(v) for k, v in categories.items() if k != "其他")
+
     # ── 6. 渲染 HTML ─────────────────────────────
-    env = Environment(loader=FileSystemLoader("generator/templates"))
+    env = Environment(loader=FileSystemLoader("generator/templates"), autoescape=True)
     env.filters["clean_summary"] = _clean_text  # 模板层双保险
     env.filters["fmt_date"] = _fmt_date
 
-    week_dir = f"output/{week_label.replace(' ', '_')}"
+    week_dir = os.path.join(config.get("output", {}).get("dir", "output"), week_label.replace(" ", "_"))
     os.makedirs(week_dir, exist_ok=True)
+    from pathlib import Path
+    (Path(week_dir) / "research_observations.json").write_text(json.dumps(analysis, ensure_ascii=False, indent=2))
 
     # --- Render index.html (homepage) ---
     tpl_index = env.get_template("index.html")
@@ -445,6 +430,7 @@ def generate_report(
         domain_summaries=domain_summaries,
         category_slugs=category_slugs,
         top_events=top_events,
+        research_observations=research_observations, domain_signals=domain_signals,
         all_events=all_events,
         prev_weeks=prev_weeks,
         generated_at=generated_at,
@@ -452,13 +438,14 @@ def generate_report(
         archived_count=archived_count,
         articles_by_event=articles_by_event,
         total_events=total_events,
+        publisher_count=publisher_count, active_domain_count=active_domain_count,
         total_articles=total_articles,
         event_slugs=event_slugs,
         cited_sources=cited_sources,
     )
     index_path = os.path.join(week_dir, "index.html")
     with open(index_path, "w", encoding="utf-8") as f:
-        f.write(html_index)
+        f.write("\n".join(line.rstrip() for line in html_index.splitlines()) + "\n")
 
     # --- Render each category sub-page ---
     tpl_cat = env.get_template("category.html")
@@ -484,7 +471,7 @@ def generate_report(
         )
         cat_path = os.path.join(week_dir, f"{cat_slug}.html")
         with open(cat_path, "w", encoding="utf-8") as f:
-            f.write(html_cat)
+            f.write("\n".join(line.rstrip() for line in html_cat.splitlines()) + "\n")
 
     # --- Render event detail pages (Evidence Chain) ---
     tpl_evt = env.get_template("event.html")
@@ -506,6 +493,10 @@ def generate_report(
             evt_arts = sorted(
                 evt_arts, key=lambda a: rank.get(a.get("url", ""), len(rank))
             )
+        from filter.scoring import _source_quality_score
+        from filter.quality import publisher
+        evidence_by_url = {e["url"]: e for e in evt.get("evidence", [])}
+        evt_arts = [{**a, "publisher": publisher(a), "publisher_quality": _source_quality_score([publisher(a)]), "evidence": evidence_by_url.get(a["url"], {})} for a in evt_arts]
         evt_srcs = dict(Counter(
             a.get("source_id", "") for a in evt_arts
         ))
@@ -523,7 +514,7 @@ def generate_report(
         )
         evt_path = os.path.join(events_dir, f"{event_slugs[evt['id']]}.html")
         with open(evt_path, "w", encoding="utf-8") as f:
-            f.write(html_evt)
+            f.write("\n".join(line.rstrip() for line in html_evt.splitlines()) + "\n")
 
     # 保存 articles.json 供兼容
     if articles:
@@ -535,4 +526,8 @@ def generate_report(
         f"Report generated: {total_events} events, "
         f"{total_articles} articles → {index_path}"
     )
+    expected = {slug + ".html" for slug in event_slugs.values()}
+    for stale in Path(events_dir).glob("*.html"):
+        if stale.name not in expected:
+            stale.unlink()
     return index_path

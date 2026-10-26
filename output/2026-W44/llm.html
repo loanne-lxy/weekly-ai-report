@@ -122,275 +122,435 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
   <div class="cat-head">
     <h1><span class="dot" style="background: #3b82f6; width: 12px; height: 12px;"></span>🧠 LLM</h1>
-    <span class="count"><b>12</b> 个事件 · 按重要性排序</span>
-    <p class="cat-sum">本周关键进展包括提出用于评估工具型 LLM 智能体在证据缺失下安全执行与恢复能力的 EpiSEM-Bench、将感觉运动对齐作为机器人基础模型离线能力代理，以及修复 softmax/交叉熵中的 Softmax Collapse 与 Cancellation 数值缺陷。</p>
+    <span class="count"><b>20</b> 个事件 · 按综合分排序</span>
+    <p class="cat-sum">本周LLM方向出现两类进展：softmax与交叉熵实现中的Softmax Collapse和Cancellation被修复，低比特n-gram嵌入表在4位下节省约75%表内存并保留99%以上验证损失改善。二者分别针对梯度数值缺陷和模型内存开销，为训练稳定性与部署成本提供不同切入点。</p>
   </div>
 
   <nav class="catnav">
-    <a href="index.html">全部事件<span class="mono">45</span></a>
-    
-    <a href="llm.html" class="on">LLM<span class="mono">12</span></a>
-    
-    <a href="agent.html" class="">Agent<span class="mono">14</span></a>
-    
-    <a href="ai-for-science.html" class="">AI for Science<span class="mono">10</span></a>
-    
-    <a href="design-simulation.html" class="">设计仿真<span class="mono">6</span></a>
-    
-    <a href="digital-twin.html" class="">数字孪生<span class="mono">3</span></a>
-    
+    <a href="index.html">全部事件<span class="mono">84</span></a>
+
+    <a href="llm.html" class="on">LLM<span class="mono">20</span></a>
+
+    <a href="agent.html" class="">Agent<span class="mono">36</span></a>
+
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">16</span></a>
+
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">12</span></a>
+
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">0</span></a>
+
     <a href="其他.html" class="">其他<span class="mono">0</span></a>
-    
+
   </nav>
 
   <div class="list">
-    
+
     <article class="evt" style="--i: 0">
       <div>
         <div class="top">
-          <span class="mono">EVT-DBFD56</span>
+          <span class="mono">EVT-1E52ED</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-03dbfd56-episem-bench-llm.html">EpiSEM-Bench评估LLM智能体缺失证据安全</a></h2>
-        <p class="sum">工具型语言模型智能体依赖环境事实判断动作是否被允许。当工具响应遗漏安全相关事实时，即使用户请求良性且返回语句均为真，智能体仍可能执行被禁止动作。EpiSEM-Bench是一个可执行基准，用于评估LLM智能体在缺失证据下的不安全执行、安全边界与证据恢复。该工作关注工具返回信息不完整时的安全决策与恢复能力，为智能体安全评测提供可运行测试场景。</p>
+        <h2><a href="events/evt-3f1e52ed-softmax.html">修复Softmax与交叉熵的数值缺陷</a></h2>
+        <p class="sum">修复softmax与交叉熵两个数值bug，消除Slingshot、加速grokking、稳定蒸馏，揭示logit增长受weight decay与Adam ε约束</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-03dbfd56-episem-bench-llm.html">查看证据链 →</a>
+          <a class="go" href="events/evt-3f1e52ed-softmax.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 80%; background: var(--accent);"></i></span><span class="mono"><b>80</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 75%; background: #10b981;"></i></span><span class="mono"><b>75</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 1">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-AEC224</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-61aec224-event.html">感觉运动对齐作为具身策略离线代理</a></h2>
-        <p class="sum">机器人基础模型通常依赖昂贵的闭环运行评估，因此需要低成本的离线能力代理。平实表示假说认为，随着表示改进，视觉和语言等模态会收敛到共享的现实统计模型。该工作询问运动轨迹是否也构成此类模态。其提出感觉运动对齐，作为具身策略成功的平实代理。</p>
-        <div class="foot">
-          <span class="mono">4 篇来源文章</span>
-          <a class="go" href="events/evt-61aec224-event.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 2">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-412F68</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-ec412f68-softmax.html">Softmax与交叉熵数值缺陷修复</a></h2>
-        <p class="sum">论文指出标准softmax、log-softmax和交叉熵实现存在两个数值缺陷。第一个缺陷Softmax Collapse在目标logit远大于其他logit时，将其梯度舍入为零，导致梯度不再求和为零。第二个缺陷Softmax Cancellation在学生logit接近教师logit时出现，会产生非零梯度。该工作提出修复方案，有助于减少数值误差。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-ec412f68-softmax.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
       </div>
     </article>
-    
+
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-15F5CA</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-a915f5ca-inkling-975b-moe.html">Inkling: 975B 多模态 MoE 开放权重模型</a></h2>
+        <p class="sum">Thinking Machines Lab 发布 975B MoE 开放权重模型，41B 激活，1M 上下文，无编码器多模态，可控思考深度</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-a915f5ca-inkling-975b-moe.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-247A32</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-0b247a32-rlmuscle.html">RLMuscle肌肉驱动角色动画强化学习</a></h2>
+        <p class="sum">RLMuscle通过RL控制器发现逐肌肉激活，结合1D代理与3D体积仿真共享本构律及EMG先验，实现194肌肉人体18ms/帧实时仿真。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0b247a32-rlmuscle.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
     <article class="evt" style="--i: 3">
       <div>
         <div class="top">
-          <span class="mono">EVT-50CE4B</span>
+          <span class="mono">EVT-757773</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-2550ce4b-chatgpt.html">ChatGPT广告栈理解对话意图并保持广告分离</a></h2>
-        <p class="sum">OpenAI 介绍其为 ChatGPT 构建的 LLM 驱动广告栈。该栈用于理解对话意图，并将广告与答案保持分离。其目标是在大规模场景下交付相关广告，同时维护用户信任。文章强调广告栈同时关注用户信任与相关性。</p>
+        <h2><a href="events/evt-ed757773-pass-k.html">Pass@k直接优化实现推理思维剪枝</a></h2>
+        <p class="sum">论文提出直接优化pass@k的推理思维剪枝方法，在8个开源推理模型上验证优于现有质量型和多样性型策略，中等剪枝比例下增益尤为显著。</p>
         <div class="foot">
-          <span class="mono">5 篇来源文章</span>
-          <a class="go" href="events/evt-2550ce4b-chatgpt.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 4">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-B7BB6D</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-80b7bb6d-n-gram.html">低比特N-gram嵌入降低语言模型内存</a></h2>
-        <p class="sum">近期许多开放权重语言模型使用n-gram嵌入表来提升性能。这些表存储连续短token序列（如二元组或三元组）的学习表示，并在处理时检索，但可能占用大量内存；例如DeepSeek-V4.1-Flash为Engram n-gram记忆分配1960亿参数。该工作研究低比特n-gram嵌入，以降低这类嵌入表的内存开销。其意义在于缓解开放权重语言模型中n-gram记忆带来的存储压力，使模型在保留n-gram检索收益的同时降低部署成本。</p>
-        <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-80b7bb6d-n-gram.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 5">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-19A2DE</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-5019a2de-worldforge-v2.html">WorldForge V2提升视频扩散相机轨迹对齐</a></h2>
-        <p class="sum">WorldForge V2面向视频扩散模型中的相机轨迹对齐。它指出视频扩散模型已学习丰富的3D/4D先验，可用于场景生成与视频重渲染。但空间任务受相机控制不精确、时空不一致以及相机运动与场景动态纠缠限制。现有任务特定微调与后处理扭曲常引入视觉伪影。其目标是提升空间任务中的相机控制。</p>
-        <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-5019a2de-worldforge-v2.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-ed757773-pass-k.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
-    
-    <article class="evt" style="--i: 6">
+
+    <article class="evt" style="--i: 4">
       <div>
         <div class="top">
-          <span class="mono">EVT-DE9F7F</span>
+          <span class="mono">EVT-154E91</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-06de9f7f-event.html">因果思维链通过上下文隔离缓解注意力泄漏</a></h2>
-        <p class="sum">思维链提示能诱导出逐步推理，但这些步骤是否真正因果驱动最终答案并不保证。标准自回归生成中，密集注意力使每个推理步骤可访问完整上下文，模型可能通过直接查找得到答案，同时生成看似合理但事后解释的步骤。该工作提出因果思维链，通过上下文隔离缓解注意力泄漏，以减少推理步骤对完整上下文的直接依赖。其目标是降低事后解释风险，使思维链更贴近真实因果推理。</p>
+        <h2><a href="events/evt-0a154e91-n-gram.html">低比特N-gram嵌入表量化降低语言模型内存开销</a></h2>
+        <p class="sum">系统研究n-gram嵌入表低比特量化，4位表节省75%内存保留99%性能，大模型上节省47-55%内存且困惑度增加1.2%。</p>
         <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-06de9f7f-event.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0a154e91-n-gram.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 7">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-48762E</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-3448762e-t2i.html">低频痕迹审计T2I模型数据集使用</a></h2>
-        <p class="sum">针对T2I模型是否被特定图像集合微调难以审计的问题，提出SpectralCanary主动数据集使用审计方法。它在数据集发布前植入共享低频信号，之后检查可疑模型生成输出中是否出现该信号。该方法可检测模型吸收集合级视觉特征而未复现训练图像的情况，其核心是发布前植入信号、发布后检测输出痕迹，为T2I模型训练数据使用审计提供简单手段。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-3448762e-t2i.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
-    
+
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-EF2AA1</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-0def2aa1-benice-kv.html">BeNice! 循环架构KV共享推理加速</a></h2>
+        <p class="sum">BeNice!通过预训练随机深度和后训练KV广播两阶段方法使循环架构获得KV可共享性，模拟推理中缓存命中率提升31.4%、吞吐量提升23.6%、p90 TTFT降低83.6%。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0def2aa1-benice-kv.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-2E4E76</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-6a2e4e76-causalcot.html">CausalCoT隔离上下文提升因果敏感性</a></h2>
+        <p class="sum">CausalCoT将问题拆成原子子问题DAG，每个节点只在直接因果父节点上下文中评估，移除非父内容注意力路径；基准显示保持竞争力并提升解释忠实度。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-6a2e4e76-causalcot.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-6C4573</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-0c6c4573-olmo-3-rlvr.html">OLMo-3 RLVR检查点显示工具趋同率非单调</a></h2>
+        <p class="sum">研究用评测工具追踪OLMo-3的SFT、DPO与RLVR检查点，发现工具趋同率先升后降，最终低于SFT基线，提示框架解释有限，结果限于该模型族与基准。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0c6c4573-olmo-3-rlvr.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
     <article class="evt" style="--i: 8">
       <div>
         <div class="top">
-          <span class="mono">EVT-54DB63</span>
+          <span class="mono">EVT-9B8EBE</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-2654db63-event.html">主席人格在多智能体临床决策中降低噪声但引入偏差</a></h2>
-        <p class="sum">文章研究由多个LLM智能体组成的临床决策系统中，主席智能体的人格提示是否改变最终决策。系统常由一个智能体主持讨论并作出最终决定，但人格提示对决策的影响，以及重复运行一致性作为可靠性的含义，此前未在固定病例下检验。作者考察人格是否改变决策本身，还是只改变决策时机，并分析一致性背后的偏差。该工作关注多智能体临床决策的可靠性与偏差问题。</p>
+        <h2><a href="events/evt-f69b8ebe-s.html">S²：具身模型感运动对齐的免训练离线评估指标</a></h2>
+        <p class="sum">S²是免训练离线指标，度量具身模型感觉表征与物理运动几何的对齐度，与机器人任务成功率正相关，可低成本筛选VLA骨干。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-2654db63-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-f69b8ebe-s.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 9">
       <div>
         <div class="top">
-          <span class="mono">EVT-351B83</span>
+          <span class="mono">EVT-BA2A3A</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-7b351b83-event.html">部分可训练网络的随机特征相变</a></h2>
-        <p class="sum">论文研究科学计算中准确且可计算的近似空间构造这一基本任务。部分可训练神经网络桥接固定随机特征与完全自适应表示。作者量化了近似界中的相变模式，并在训练误差中观察到类似行为。该结果有助于理解从随机特征到完全可训练网络的过渡机制，为理解部分可训练网络提供理论参考。该工作面向部分可训练网络的近似与训练分析。</p>
+        <h2><a href="events/evt-18ba2a3a-himmbo.html">HimmBO高维适配器合并贝叶斯优化</a></h2>
+        <p class="sum">HimmBO通过水平集筛选与子空间精化两阶段，将偏好驱动的适配器合并扩展至千级规模，图像生成成本降至先前方法十分之一以下。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-7b351b83-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-18ba2a3a-himmbo.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 10">
       <div>
         <div class="top">
-          <span class="mono">EVT-7FE3E5</span>
+          <span class="mono">EVT-DC2970</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-317fe3e5-3d-rig.html">视频与3D运动共同生成支持任意Rig</a></h2>
-        <p class="sum">视频生成模型已能呈现较真实的运动，但如何把像素级运动用于特定3D资产并在3D场景中回放仍不清晰。例如，视频模型可以展示猴子跳过横杆，却难以将该跳跃作为可回放的3D运动放入3D场景。该工作提出一个模型，直接共同生成3D运动与视频，并面向任意Rig。其意义在于使视频模型中的运动可超越像素，用于特定3D资产和3D场景回放。</p>
+        <h2><a href="events/evt-bedc2970-spectralcanary-t2i.html">SpectralCanary低频谱迹T2I数据集审计</a></h2>
+        <p class="sum">SpectralCanary以低频谱迹实现T2I数据集审计，五领域平均TPR@1%FPR达92.4%，图像保真度高</p>
         <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-317fe3e5-3d-rig.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-bedc2970-spectralcanary-t2i.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FC0A3A</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-85fc0a3a-ai.html">选择性审计实现AI决策可靠监控</a></h2>
+        <p class="sum">将AI决策选择性审计建模为在线约束优化问题，推导具有可证明错误控制保证的算法族，在LLM筛查等实验中有效降低人工审计频率。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-85fc0a3a-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-03E88D</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-ec03e88d-event.html">部分可训练神经网络的近似相变与速率界</a></h2>
+        <p class="sum">研究部分可训练神经网络的近似相变，建立两层网络平方L2速率界，d=5时约4.1%可训练比例捕获90%近似界缩减</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-ec03e88d-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 25%; background: #10b981;"></i></span><span class="mono"><b>25</b></span></div>
       </div>
     </article>
-    
-    <article class="evt" style="--i: 11">
+
+    <article class="evt" style="--i: 13">
       <div>
         <div class="top">
-          <span class="mono">EVT-032DE0</span>
+          <span class="mono">EVT-9FD98E</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-00032de0-llm.html">LLM工单分类的成本感知弃权评估</a></h2>
-        <p class="sum">错误自动路由IT支持工单的成本可能高于人工分诊。研究将成本感知弃权作为离线、成本条件就绪评估：在校准数据上按显式成本选择路由策略，然后在留出测试数据上一次性评估冻结策略。在公开47,837条、八类工单语料上，比较四类非LLM分类器与LLM方法。该工作为部署前评估提供可复现的离线协议，关注成本约束下何时弃权或转人工，提升自动路由可靠性。</p>
+        <h2><a href="events/evt-fe9fd98e-univoe.html">UniVOE：移除驱动交互感知视频对象编辑框架</a></h2>
+        <p class="sum">UniVOE以移除驱动策略生成配对数据训练视频对象注入模型，结合奖励后训练，在对象移除和注入任务上达到SOTA性能。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-00032de0-llm.html">查看证据链 →</a>
+          <a class="go" href="events/evt-fe9fd98e-univoe.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 14">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-D133D9</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-ebd133d9-event.html">视频世界模型综述：读写共享交互四操作框架</a></h2>
+        <p class="sum">该综述以世界建模为统一视角，将视频理解与生成组织为读取、写入、共享、交互四操作，梳理视频世界模型研究趋势与开放挑战。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-ebd133d9-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
-    
+
+    <article class="evt" style="--i: 15">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-927971</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-e8927971-vera-eu-ai-act-llm.html">VERA：面向EU AI Act的LLM部署合规评估仪表盘</a></h2>
+        <p class="sum">VERA是部署于欧洲大行的开源LLM合规评估仪表盘，整合12项EU AI Act可度量要求与能耗计量，实验显示评估耗时从56秒降至30秒。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-e8927971-vera-eu-ai-act-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 25%; background: var(--accent);"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 25%; background: #8b5cf6;"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 16">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C7B548</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-62c7b548-llm.html">成本感知弃权下LLM工单路由评估</a></h2>
+        <p class="sum">在47,837条IT工单上评估成本感知弃权策略，比较四种非LLM分类器与四种LLM提示，发现简单分类器在示例成本下显著优于LLM</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-62c7b548-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 17">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-E8BFD1</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-21e8bfd1-sparkaudio-1-0-4b.html">讯飞SparkAudio 1.0统一音频理解与端侧4B模型</a></h2>
+        <p class="sum">讯飞发布SparkAudio 1.0统一音频理解模型与41亿参数端侧X2.6-4B，端侧达约70%云端能力</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-21e8bfd1-sparkaudio-1-0-4b.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 18">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5F71F7</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-155f71f7-startlux-prism.html">StartLux Prism决策模型专用推理引擎</a></h2>
+        <p class="sum">StartLux开源Prism推理引擎，针对决策模型仅计算候选选项分数并共享公共上下文，单卡H200上较vLLM提速1.2至5.3倍，准确率与BF16持平。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-155f71f7-startlux-prism.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 19">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-94BE98</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-c594be98-daybreak-cloudflare.html">Daybreak 辅助 Cloudflare 漏洞发现与修复</a></h2>
+        <p class="sum">Cloudflare 集成 OpenAI Daybreak 调查漏洞并生成修复方案，开发者用 Codex 提升开发效率与代码质量。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-c594be98-daybreak-cloudflare.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 20%; background: var(--accent);"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
   </div>
 </div>
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-26 08:19 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-26 08:00 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

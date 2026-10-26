@@ -122,180 +122,160 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
   <div class="cat-head">
     <h1><span class="dot" style="background: #10b981; width: 12px; height: 12px;"></span>🔬 AI for Science</h1>
-    <span class="count"><b>10</b> 个事件 · 按重要性排序</span>
-    <p class="cat-sum">本周AI for Science进展集中在用高效等变GNN加速通用电荷密度预测、以第一性原理训练势的大规模模拟揭示卤化物钙钛矿极化机制，以及用超缩减加速有限元模型更新提升神经材料本构学习效率。</p>
+    <span class="count"><b>16</b> 个事件 · 按综合分排序</span>
+    <p class="cat-sum">本周AI for Science出现物理约束与数据稀缺建模进展：多项式KAN使期望和高阶矩退化为确定性递推，超降阶有限元将神经材料本构训练时间从9小时降至41分钟，CsGeBr3模拟揭示一维极化链慢动力学。共同问题是高维物理系统计算昂贵且机制不清，方法分别依赖概率电路、降阶试空间和原子间势。</p>
   </div>
 
   <nav class="catnav">
-    <a href="index.html">全部事件<span class="mono">45</span></a>
-    
-    <a href="llm.html" class="">LLM<span class="mono">12</span></a>
-    
-    <a href="agent.html" class="">Agent<span class="mono">14</span></a>
-    
-    <a href="ai-for-science.html" class="on">AI for Science<span class="mono">10</span></a>
-    
-    <a href="design-simulation.html" class="">设计仿真<span class="mono">6</span></a>
-    
-    <a href="digital-twin.html" class="">数字孪生<span class="mono">3</span></a>
-    
+    <a href="index.html">全部事件<span class="mono">84</span></a>
+
+    <a href="llm.html" class="">LLM<span class="mono">20</span></a>
+
+    <a href="agent.html" class="">Agent<span class="mono">36</span></a>
+
+    <a href="ai-for-science.html" class="on">AI for Science<span class="mono">16</span></a>
+
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">12</span></a>
+
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">0</span></a>
+
     <a href="其他.html" class="">其他<span class="mono">0</span></a>
-    
+
   </nav>
 
   <div class="list">
-    
+
     <article class="evt" style="--i: 0">
       <div>
         <div class="top">
-          <span class="mono">EVT-D43CD1</span>
+          <span class="mono">EVT-A36E34</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-04d43cd1-edengnn-uni.html">EdenGNN-Uni通用电荷密度预测框架</a></h2>
-        <p class="sum">文章提出EdenGNN-Uni，一个面向元素周期表的通用电荷密度预测模型。该模型采用高效等变框架，比部分现有方法快一个数量级以上。它旨在促进高效且准确的电子结构计算，降低电荷密度预测的计算成本。其意义在于为相关电子结构研究提供更快、更通用的预测工具，并提升大规模电子结构计算的可行性，支持更广泛的元素体系建模，为相关计算研究提供基础。</p>
+        <h2><a href="events/evt-0fa36e34-kan.html">多项式KAN实现确定性矩计算与守恒约束</a></h2>
+        <p class="sum">多项式外函数KAN实现确定性矩递推与守恒约束，50维基准优于固定预算MC，Cahn-Hilliard质量机器精度守恒。</p>
         <div class="foot">
-          <span class="mono">3 篇来源文章</span>
-          <a class="go" href="events/evt-04d43cd1-edengnn-uni.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0fa36e34-kan.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 80%; background: var(--accent);"></i></span><span class="mono"><b>80</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 70%; background: #10b981;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 1">
       <div>
         <div class="top">
-          <span class="mono">EVT-67A717</span>
+          <span class="mono">EVT-E38AE3</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-5f67a717-csgebr3.html">CsGeBr3异常极化链的第一性原理训练势模拟</a></h2>
-        <p class="sum">该研究关注铁电卤化物钙钛矿CsGeBr3中的局部极化畸变、集体有序与场驱动反转。作者采用第一性原理训练的原子间势开展大规模分子动力学模拟，考察其名义立方相中Ge离心的异常行为。结果表明，Ge离中心位移可形成一维极化链，为理解卤化物钙钛矿中的极化结构提供新证据。该工作将大规模模拟与第一性原理训练势结合，有助于理解卤化物钙钛矿中异常极化行为。</p>
+        <h2><a href="events/evt-76e38ae3-event.html">超降阶加速有限元模型更新发现神经材料本构</a></h2>
+        <p class="sum">超降阶（POD+能量守恒采样+伴随灵敏度）加速神经材料本构发现，训练提速13倍，保留变分结构。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-5f67a717-csgebr3.html">查看证据链 →</a>
+          <a class="go" href="events/evt-76e38ae3-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 2">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-72D7E2</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-fc72d7e2-event.html">超缩减加速神经材料有限元模型更新</a></h2>
-        <p class="sum">有限元模型更新可从结构实验中发现本构模型，因位移场由计算而非测量得到，可适应任意几何、边界条件及稀疏或噪声数据。但每次损失评估都需要每个载荷步的非线性有限元求解，训练神经材料需要反复评估损失。该工作用超缩减加速有限元模型更新，降低神经材料发现中的求解开销。这使稀疏或噪声数据下的本构学习更可行，提升从实验数据学习材料本构模型的效率。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-fc72d7e2-event.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 3">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-7C502F</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-6e7c502f-diffvortex.html">DiffVortex量子启发不可压缩流快速求解器</a></h2>
-        <p class="sum">DiffVortex是一种量子启发的不可压缩流快速求解器，基于矩阵乘积态(MPS)和量子化张量列车(QTT)表示，在键维度有界时实现网格尺寸的对数级运行时间和内存扩展。现有MPS求解器采用Eulerian框架，通过静态掩码或体拟合坐标处理浸没体边界条件。DiffVortex针对这些限制提出改进方案，为计算流体力学提供新的压缩求解路径。</p>
-        <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-6e7c502f-diffvortex.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 4">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-515F91</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-86515f91-kan.html">KAN可处理推断降低重复采样成本</a></h2>
-        <p class="sum">计算科学中的机器学习代理常需预测期望、方差、守恒积分与归一化常数。传统神经网络包括KAN通常用蒙特卡洛采样或多维求积计算这些量，重复推断成本高。该工作提出面向KAN的可处理推断方法，减少重复采样或求积开销。这使期望、方差与归一化常数的估计更直接，也便于处理守恒积分等约束。它有助于需要统计量或守恒约束的科学代理建模，提升推断效率并降低重复评估成本。</p>
-        <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-86515f91-kan.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
-      </div>
-    </article>
-    
-    <article class="evt" style="--i: 5">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-2AC0FF</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-dd2ac0ff-ribobridge-rna.html">RiboBridge蛋白条件RNA结合剂结构设计</a></h2>
-        <p class="sum">设计RNA分子以结合目标蛋白结构需要同时生成RNA构象和结合复合物几何，且不能假设预定义结合位点。现有方法通常将这些耦合过程放在统一表示中建模，使RNA构象生成与蛋白相对放置相互纠缠。RiboBridge被提出用于蛋白条件的新RNA结合剂结构设计。其目标是在不预设结合位点的情况下生成可结合目标蛋白的RNA结构。该工作关注RNA-蛋白结合剂设计中的构象与放置联合生成问题。</p>
-        <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-dd2ac0ff-ribobridge-rna.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
-    
-    <article class="evt" style="--i: 6">
+
+    <article class="evt" style="--i: 2">
       <div>
         <div class="top">
-          <span class="mono">EVT-71DAAF</span>
+          <span class="mono">EVT-E5A844</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-a271daaf-event.html">中心线锚定注意力代理加速冠状血流仿真</a></h2>
-        <p class="sum">CARS 是一种面向冠状动脉血流的中心线锚定注意力代理模型。它针对由图像派生中心线构建的冠状管腔几何，学习稳态不可压 Navier-Stokes 方程有限体积解的映射。当 PDE 代理的参数是流域本身时，注意力模型的键值集需要编码该流域，CARS 将带逐点管腔半径的中心线作为输入。该工作把几何中心线作为代理模型的关键表示，使流域信息进入注意力键值结构。其名称中的 Rapid Surrogate 表明其用于快速替代有限体积求解。</p>
+        <h2><a href="events/evt-44e5a844-csgebr3.html">卤化物钙钛矿CsGeBr3中一维极化链的异常慢动力学</a></h2>
+        <p class="sum">基于MLIP的大规模MD模拟揭示CsGeBr3立方相中一维极化链的纳秒级慢弛豫及铁电相逐链翻转机制</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-a271daaf-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-44e5a844-csgebr3.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
-    
-    <article class="evt" style="--i: 7">
+
+    <article class="evt" style="--i: 3">
       <div>
         <div class="top">
-          <span class="mono">EVT-E21698</span>
+          <span class="mono">EVT-C1ED68</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-bee21698-arctn.html">ArcTN张量网络收缩顺序优化</a></h2>
-        <p class="sum">论文提出ArcTN，用于量子电路模拟中的张量网络收缩顺序优化。张量网络模拟依赖低计算成本且中间张量较小的收缩顺序，同时需要避免过高的规划时间。ArcTN提供Light与Heavy两种搜索预设：Light保持较低规划开销，Heavy投入更多时间进行细化。两者结合随机贪心构造与子树重构，以提升收缩规划效率。该框架面向量子电路模拟的规划开销与中间张量规模，试图在搜索成本与收缩质量之间取得平衡。</p>
+        <h2><a href="events/evt-6dc1ed68-ribobridge-rna.html">RiboBridge蛋白条件RNA结合剂从头结构设计</a></h2>
+        <p class="sum">RiboBridge将RNA构象生成与蛋白-RNA组装解耦，在预训练潜空间RiboSphere中生成RNA构象后通过跨帧相互作用约束桥接坐标帧，在124个复合物基准上取得最优结构恢复指标。</p>
         <div class="foot">
-          <span class="mono">2 篇来源文章</span>
-          <a class="go" href="events/evt-bee21698-arctn.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-6dc1ed68-ribobridge-rna.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-ABE84A</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-bdabe84a-aln.html">氮空位调控纤锌矿AlN铁电畴生长机制</a></h2>
+        <p class="sum">DFT+深度势MD+实验揭示V_N调控AlN铁电畴生长方向与E_c的多尺度机制，钪掺杂降低矫顽场。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-bdabe84a-aln.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-96CB2C</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-b396cb2c-lip-llm.html">LIP潜空间互连协议实现专家模型与LLM表征直接交换</a></h2>
+        <p class="sum">LIP仅训练连接器将蛋白质和小分子专家模型表征映射至Gemma 3与Kimi K2.6内部状态，冻结所有预训练模型，实现零样本跨域任务迁移。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-b396cb2c-lip-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-DEF03E</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-54def03e-cars-pde.html">CARS: 冠状动脉血流PDE注意力代理模型</a></h2>
+        <p class="sum">CARS以病例中心线为注意力焦点集，将几何+流量映射为压力/速度，单例87 ms（求解器572–1063 s），FFR≤0.8判定准确率97.7%。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-54def03e-cars-pde.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
@@ -304,53 +284,193 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
-    
+
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-DEB7C0</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-98deb7c0-event.html">量子模拟筛选固体氧化物电池强关联氧电极材料</a></h2>
+        <p class="sum">该工作提出面向固体氧化物电池氧电极的量子模拟筛选框架，结合基于密度泛函短名单的强关联嵌入方法，连接微观可观测量与宏观工程指标。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-98deb7c0-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
     <article class="evt" style="--i: 8">
       <div>
         <div class="top">
-          <span class="mono">EVT-0E4138</span>
+          <span class="mono">EVT-D921B9</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-b50e4138-event.html">高度场高斯泼溅重建锐利可形变神经外科表面</a></h2>
-        <p class="sum">针对神经外科导航中MRI二维切片与显微镜下皮层表面难以对应的问题，提出H-2DGS高度场高斯泼溅方法，用于锐利且可形变的神经外科表面重建。该方法将肿瘤手术中暴露皮层的照片级真实感重建与全脑MRI上下文及扩散纤维束追踪路径结合，形成统一3D可视化。该方法面向肿瘤手术场景，将皮层表面与全脑上下文放在同一3D表示中，用于关联MRI切片解剖与显微镜下皮层表面。</p>
+        <h2><a href="events/evt-bad921b9-qtt-lagrangian.html">QTT核压缩Lagrangian涡粒子不可压流求解器</a></h2>
+        <p class="sum">QTT压缩Biot-Savart核的Lagrangian涡粒子不可压流求解器，单GPU处理6.7×10^7粒子，端到端可微。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-b50e4138-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-bad921b9-qtt-lagrangian.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 9">
       <div>
         <div class="top">
-          <span class="mono">EVT-D23840</span>
+          <span class="mono">EVT-3FA7D2</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-57d23840-event.html">血管树生成保真度分数无法检测训练数据复用</a></h2>
-        <p class="sum">文章比较学习式血管树生成器与免训练条件重采样器，指出保真度分数仅比较生成树与留出真实树，无法单独检测训练数据复用。在ImageCAS冠状动脉树和IntrA上，条件重采样器约一半分支记录（含父上下文）接近训练记录复制，但仅凭1-NNA等保真度分数难以发现该问题。这提示仅用保真度分数评估血管树生成器可能不足，并应关注数据重用检测。</p>
+        <h2><a href="events/evt-b03fa7d2-qubo.html">QUBO量子-经典混合优化用于多构象配体选择</a></h2>
+        <p class="sum">将配体构象选择重构为QUBO问题，用量子-经典混合求解器在83个X射线配体条目上与MIQP基线比较，RSCC在74.7%条目中提升。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-57d23840-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-b03fa7d2-qubo.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 25%; background: #10b981;"></i></span><span class="mono"><b>25</b></span></div>
       </div>
     </article>
-    
+
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BC9A92</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-f3bc9a92-gigabench.html">GigaBench：十亿像素图像可学习表征压缩与超分基准</a></h2>
+        <p class="sum">GigaBench是首个十亿像素图像LR基准，系统评估隐式、混合、显式LR在压缩与超分上的表现，提供消费级硬件部署指导。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-f3bc9a92-gigabench.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-4022D8</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-934022d8-event.html">血管树生成保真度评估：条件重采样与学习模型对比</a></h2>
+        <p class="sum">无训练条件重采样器在冠状动脉和IntrA血管树上保真度优于三个学习基线，提出近拷贝率诊断指标，揭示保真度分数无法单独检测训练数据复用。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-934022d8-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-99C2D0</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-d999c2d0-edengnn-uni.html">EdenGNN-Uni等变框架实现通用电荷密度预测</a></h2>
+        <p class="sum">Nature MI发表EdenGNN-Uni等变框架，实现全周期表通用电荷密度预测，速度较现有方法提升一个数量级以上，促进材料电子结构计算效率。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d999c2d0-edengnn-uni.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-AA3D3C</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-21aa3d3c-event.html">蛋白-配体结合预测结构法评估指南</a></h2>
+        <p class="sum">Nature MI发表蛋白-配体结合预测结构法评估指南，强调数据、代码和实验程序透明性，防止数据泄漏与偏差，实现公平可复现的方法比较。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-21aa3d3c-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 14">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-260BB0</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-56260bb0-event.html">拉格朗日-欧拉混合神经网络预测混沌流场</a></h2>
+        <p class="sum">Wan等提出TrajectoryFlowNet，融合拉格朗日-欧拉视角，从稀疏轨迹测量预测混沌流场与粒子路径，经模拟与血流实验验证。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-56260bb0-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 15">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-A3EED9</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-19a3eed9-openai-orchestra-bio-ai.html">OpenAI收购Orchestra Bio布局AI制药</a></h2>
+        <p class="sum">OpenAI宣布收购Orchestra Bio，将AI驱动运营引入生命科学研发领域，帮助生物制药团队加速药物开发和新疗法推进。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-19a3eed9-openai-orchestra-bio-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 20%; background: var(--accent);"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 10%; background: #8b5cf6;"></i></span><span class="mono"><b>10</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
   </div>
 </div>
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-26 08:19 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-26 08:00 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

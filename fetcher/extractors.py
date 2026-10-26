@@ -168,9 +168,7 @@ class ArxivExtractor:
             for paper in results:
                 # Published time
                 published = None
-                if paper.updated:
-                    published = str(paper.updated)
-                elif paper.published:
+                if paper.published:
                     published = str(paper.published)
 
                 articles.append({
@@ -587,11 +585,14 @@ class ExaExtractor:
             max_results = source.get("max_results", 10)
             logger.info(f"Exa searching: '{query}' (max {max_results})")
 
+            from filter.quality import report_window
+            window_start, window_end = report_window(os.environ.get("REPORT_CUTOFF"))
             result = await client.search(
                 query,
                 type="neural",
                 num_results=max_results,
-                start_published_date="2025-01-01",
+                start_published_date=window_start.isoformat(),
+                end_published_date=window_end.isoformat(),
             )
 
             if not result.results:

@@ -1,18 +1,8 @@
-"""
-Event Scoring — 组合评分系统。
+"""Evidence-weighted event ranking.
 
-评分 = LLM主观分(60%) + 客观统计特征(40%) × 置信度系数 × 时间衰减
-
-LLM 主观分:
-  Importance × 0.3 + Impact × 0.25 + Novelty × 0.15  →  占 60%
-
-客观特征:
-  Coverage × 0.25 + Diversity × 0.1 + Recency × 0.05  →  占 40%
-
-置信度: min(簇内文章数/4, 1.0)
-时间衰减: exp(-ln2 × days / half_life)
-  - 突发/快讯: 3天半衰期
-  - 深度分析/趋势: 14天半衰期
+Normalized technical scores (85%) plus publisher/freshness context (15%),
+multiplied by evidence relevance and time decay. Counts and popularity do not
+establish confidence. Publisher reference scores are editorial heuristics.
 """
 from __future__ import annotations
 
@@ -73,16 +63,9 @@ _BREAKING_HALF_LIFE = 3.0   # days
 _DEEP_HALF_LIFE = 14.0      # days
 
 
-def _parse_published(iso_str: str | None) -> datetime | None:
-    if not iso_str:
-        return None
-    try:
-        dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        return dt
-    except (ValueError, AttributeError):
-        return None
+def _parse_published(iso_str):
+    from filter.quality import parse_date
+    return parse_date(iso_str)
 
 
 def _source_quality_score(source_ids: list[str]) -> float:
@@ -95,9 +78,9 @@ def _source_quality_score(source_ids: list[str]) -> float:
         # Extract domain from source_id like "rss:openai.com" or "exa_search:abc123"
         parts = sid.split(":", 1)
         domain = parts[-1] if len(parts) > 1 else sid
-        scores.append(_SOURCE_QUALITY.get(domain.lower(), _DEFAULT_SOURCE_SCORE))
+        scores.append(max((v for host, v in _SOURCE_QUALITY.items() if domain.lower() == host or domain.lower().endswith("." + host)), default=_DEFAULT_SOURCE_SCORE))
 
-    return float(np_max(scores)) if scores else _DEFAULT_SOURCE_SCORE
+    return sum(scores) / len(scores) if scores else _DEFAULT_SOURCE_SCORE
 
 
 def np_max(vals: list[float]) -> float:
@@ -143,13 +126,14 @@ def compute_objective_metrics(
         hours_ago = (now - latest).total_seconds() / 3600.0
         # Sigmoid: 1 / (1 + exp(k * hours_ago)), k chosen so recency=0.5 at 48h
         k = math.log(2) / 48.0
-        recency = 1.0 / (1.0 + math.exp(k * hours_ago))
+        recency = math.exp(-math.log(2) * max(hours_ago, 0) / 48.0)
     else:
         # No published date — assume very recent
-        recency = 0.5
+        recency = 0.0
 
     # Source Quality
-    source_ids = list({a.get("source_id", "") for a in articles if a.get("source_id")})
+    from filter.quality import publisher
+    source_ids = list({publisher(a) for a in articles})
     source_quality = _source_quality_score(source_ids)
 
     # Source Diversity: unique domains / total articles
@@ -201,7 +185,7 @@ def compute_time_decay(
     valid_times = [t for t in published_times if t is not None]
 
     if not valid_times:
-        return 1.0  # No date info — no decay
+        return 0.5  # Unknown time cannot imply freshness
 
     # Use earliest article as event start
     earliest = min(valid_times)
@@ -224,55 +208,28 @@ def select_half_life(
     # Heuristics for "breaking" vs "deep":
     # - Short time span + many sources = breaking news
     # - Long time span + academic sources = deep analysis
-    # - LLM importance >= 7 = likely deeper content
+    # - LLM importance >= 0.7 = likely deeper content
     is_breaking = time_span_days < 2.0
-    is_deep = time_span_days >= 2.0 or importance >= 7
+    is_deep = time_span_days >= 2.0 or importance >= 0.7
 
     if is_deep:
         return _DEEP_HALF_LIFE
     return _BREAKING_HALF_LIFE
 
 
-def compute_final_score(
-    llm_scores: dict[str, float],
-    obj_metrics: dict[str, float],
-    article_count: int,
-    time_decay: float = 1.0,
-) -> dict[str, float]:
-    """
-    Compute final weighted score.
-
-    LLM scores: {importance: 0-1, novelty: 0-1, impact: 0-1}
-    Obj metrics: {coverage, recency, source_quality, source_diversity, article_quality}
-
-    Final = (LLM * 0.6 + Obj * 0.4) * Confidence * TimeDecay
-    """
-    # LLM subjective (60%): Importance×0.3 + Impact×0.25 + Novelty×0.15
-    importance = max(0, min(1, llm_scores.get("importance", 0.5)))
-    novelty = max(0, min(1, llm_scores.get("novelty", 0.5)))
-    impact = max(0, min(1, llm_scores.get("impact", 0.5)))
-    llm_part = importance * 0.3 + impact * 0.25 + novelty * 0.15
-
-    # Objective (40%): Coverage×0.25 + Diversity×0.1 + Recency×0.05
-    coverage = obj_metrics.get("coverage", 0.0)
-    diversity = obj_metrics.get("source_diversity", 0.0)
-    recency = obj_metrics.get("recency", 0.0)
-    source_quality = obj_metrics.get("source_quality", _DEFAULT_SOURCE_SCORE)
-    obj_part = coverage * 0.25 + diversity * 0.1 + recency * 0.05
-
-    # Confidence: min(articles/4, 1.0)
-    confidence = min(article_count / 4.0, 1.0)
-
-    # Final score [0-1]
-    final_score = (llm_part * 0.6 + obj_part * 0.4) * confidence * time_decay
-
-    return {
-        "final_score": round(final_score, 4),
-        "llm_part": round(llm_part, 4),
-        "obj_part": round(obj_part, 4),
-        "confidence": round(confidence, 4),
-        "time_decay": round(time_decay, 4),
-    }
+def compute_final_score(llm_scores, obj_metrics, article_count, time_decay=1.0):
+    from filter.quality import score_number
+    # Normalize each component ONCE. Count does not establish truth or confidence.
+    llm_part = (0.40 * score_number(llm_scores.get("importance"))
+                + 0.30 * score_number(llm_scores.get("novelty"))
+                + 0.30 * score_number(llm_scores.get("impact")))
+    quality = obj_metrics.get("source_quality", _DEFAULT_SOURCE_SCORE)
+    obj_part = 0.7 * quality + 0.3 * obj_metrics.get("recency", 0)
+    confidence = score_number(llm_scores.get("evidence_relevance"), 0.0)
+    final_score = (0.85 * llm_part + 0.15 * obj_part) * confidence * time_decay
+    return {"final_score": round(final_score, 4), "llm_part": round(llm_part, 4),
+            "obj_part": round(obj_part, 4), "confidence": round(confidence, 4),
+            "time_decay": round(time_decay, 4)}
 
 
 def _trending_popularity(articles: list[dict[str, Any]]) -> float:
@@ -308,21 +265,12 @@ def score_event(
     if now is None:
         now = datetime.now(timezone.utc)
 
-    # Popularity: GitHub Trending rank boosts importance (very popular but
-    # semantically off-center repos otherwise sink to the evidence-chain bottom)
-    popularity = _trending_popularity(articles)
-    if popularity > 0:
-        llm_scores = dict(llm_scores)
-        llm_scores["importance"] = min(
-            1.0, llm_scores.get("importance", 0.5) + popularity
-        )
-
     # 1. Objective metrics
     obj = compute_objective_metrics(articles, now)
 
     # 2. Time decay
     importance_raw = llm_scores.get("importance", 0.5)
-    half_life = select_half_life(category, obj["time_span_days"], importance_raw)
+    half_life = 14.0 if any("arxiv" in a.get("source_name", "").lower() or "arxiv.org" in a.get("url", "") for a in articles) else select_half_life(category, obj["time_span_days"], importance_raw)
     decay = compute_time_decay(articles, half_life, now)
 
     # 3. Final score

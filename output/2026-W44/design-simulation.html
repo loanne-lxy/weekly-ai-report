@@ -122,155 +122,275 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
   <div class="cat-head">
     <h1><span class="dot" style="background: #f59e0b; width: 12px; height: 12px;"></span>🎨 设计仿真</h1>
-    <span class="count"><b>6</b> 个事件 · 按重要性排序</span>
-    <p class="cat-sum">本周设计仿真进展集中在提升复杂几何与硬件约束下的仿真/重建能力：OmniRay 用复合射线场改善鱼眼/全景单目3D重建，KernelPack-JAX 提供复杂边界可微GPU PDE求解框架，Intel Arc 方案则通过 INT8 矩阵引擎模拟双/复精度矩阵乘以低成本加速科学计算。</p>
+    <span class="count"><b>12</b> 个事件 · 按综合分排序</span>
+    <p class="cat-sum">本周设计仿真出现物理参数与几何重建的模块化进展：AutoPhyX用文本条件跨模态调制分配空间变化物理参数，OmniRay以层级射线表示实现相机无关单目3D重建，保结构降阶模型在数据不足下匹配薄板颤振。共同问题是视觉或数据信息不足，方法分别依赖文本调制、射线分解和能量结构。</p>
   </div>
 
   <nav class="catnav">
-    <a href="index.html">全部事件<span class="mono">45</span></a>
-    
-    <a href="llm.html" class="">LLM<span class="mono">12</span></a>
-    
-    <a href="agent.html" class="">Agent<span class="mono">14</span></a>
-    
-    <a href="ai-for-science.html" class="">AI for Science<span class="mono">10</span></a>
-    
-    <a href="design-simulation.html" class="on">设计仿真<span class="mono">6</span></a>
-    
-    <a href="digital-twin.html" class="">数字孪生<span class="mono">3</span></a>
-    
+    <a href="index.html">全部事件<span class="mono">84</span></a>
+
+    <a href="llm.html" class="">LLM<span class="mono">20</span></a>
+
+    <a href="agent.html" class="">Agent<span class="mono">36</span></a>
+
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">16</span></a>
+
+    <a href="design-simulation.html" class="on">设计仿真<span class="mono">12</span></a>
+
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">0</span></a>
+
     <a href="其他.html" class="">其他<span class="mono">0</span></a>
-    
+
   </nav>
 
   <div class="list">
-    
+
     <article class="evt" style="--i: 0">
       <div>
         <div class="top">
-          <span class="mono">EVT-07C4E6</span>
+          <span class="mono">EVT-50C86E</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-a807c4e6-3d.html">复合射线场相机无关单目3D重建</a></h2>
-        <p class="sum">OmniRay面向单目3D重建，解决多数单目模型假设针孔相机、在鱼眼和全景广角图像上产生畸变几何的问题。相机感知模型通过预测逐像素射线场去除针孔假设，但常用单一固定基表示不同相机几何。该方法提出复合射线场，以相机无关方式处理不同相机投影。其目标是提升单目3D重建在广角与全景图像上的几何准确性，以处理鱼眼和全景镜头带来的投影差异，并减少畸变几何问题。</p>
+        <h2><a href="events/evt-5e50c86e-3dgs.html">基于3DGS自动编辑的在线贝叶斯场景变化检测</a></h2>
+        <p class="sum">从3DGS模型自动编辑中学习场景特定证据模型，用闭式局部贝叶斯因子在线更新3D高斯场，PASLCD/CCS3D分别达67.64%/75.82% mIoU，17.2 FPS。</p>
         <div class="foot">
-          <span class="mono">3 篇来源文章</span>
-          <a class="go" href="events/evt-a807c4e6-3d.html">查看证据链 →</a>
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-5e50c86e-3dgs.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 1">
       <div>
         <div class="top">
-          <span class="mono">EVT-99D3B7</span>
+          <span class="mono">EVT-3D77C1</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-9699d3b7-kernelpack-jax-gpu-pde.html">KernelPack-JAX无网格可微GPU PDE框架</a></h2>
-        <p class="sum">KernelPack-JAX是一个基于JAX的无网格、可微、GPU框架，用于求解边界（含内部障碍物）仅由光滑片段样本给出的前向与逆PDE问题。其节点生成器基于分段光滑边界的新堆叠表示，并利用每个光滑片段的参数化单位分解。该框架将复杂边界域表示、节点生成与PDE求解统一到可微GPU计算中，为复杂几何下的前向仿真与逆问题提供可微工具。该设计面向仅以样本形式给出的复杂边界域。</p>
+        <h2><a href="events/evt-e03d77c1-omniray-3d.html">OmniRay复合射线场实现相机无关单目3D重建</a></h2>
+        <p class="sum">复合射线场前馈模型，以径向基、球谐残差和自由残差组合实现相机无关单目3D重建，达到新最先进水平。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-9699d3b7-kernelpack-jax-gpu-pde.html">查看证据链 →</a>
+          <a class="go" href="events/evt-e03d77c1-omniray-3d.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 2">
       <div>
         <div class="top">
-          <span class="mono">EVT-A4CD20</span>
+          <span class="mono">EVT-AE188F</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-4ca4cd20-intel-arc-gpu-int8-fp64.html">Intel Arc GPU用INT8模拟FP64矩阵乘</a></h2>
-        <p class="sum">该工作研究在Intel Arc GPU上用INT8矩阵引擎模拟DGEMM与ZGEMM，采用Ozaki Scheme II将浮点矩阵乘积归约为少量精确INT8乘积。其动机是双精度与复精度矩阵乘主导稠密线性代数和电子结构代码运行时间，而可负担GPU上FP64吞吐远低于低精度矩阵引擎。该方案面向Xe2架构，旨在弥补FP64吞吐差距，为科学计算代码提供低成本GPU加速路径。</p>
+        <h2><a href="events/evt-88ae188f-autophyx.html">AutoPhyX文本条件物理属性预测框架</a></h2>
+        <p class="sum">AutoPhyX通过部件可控数据生成、文本-视觉跨模态调制和体素场预测，实现单次前向传播的空间变化物理属性分配，兼容多种3D表示。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-4ca4cd20-intel-arc-gpu-int8-fp64.html">查看证据链 →</a>
+          <a class="go" href="events/evt-88ae188f-autophyx.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 3">
       <div>
         <div class="top">
-          <span class="mono">EVT-DDA49E</span>
+          <span class="mono">EVT-1D74B5</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-b1dda49e-fdtd-s.html">FDTD中S参数灵敏度收敛延迟</a></h2>
-        <p class="sum">文章研究有限差分时间域方法中S参数对设计参数的灵敏度收敛问题。在FDTD中，灵敏度来自以仿真时间T结束的响应的离散傅里叶变换。作者证明，当设计参数移动共振时，灵敏度比S参数更晚收敛。对具有场衰减时间τ的单模，灵敏度截断误差包含(1+T/τ)因子。该结果说明灵敏度收敛时间需单独考虑，不能仅依据S参数收敛。</p>
+        <h2><a href="events/evt-361d74b5-event.html">保结构降阶模型匹配超声速高超声速薄板颤振</a></h2>
+        <p class="sum">保结构ROM在数据稀缺条件下匹配超声速/高超声速薄板实测颤振，消除虚假谱峰，能量平衡由构造保证。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-b1dda49e-fdtd-s.html">查看证据链 →</a>
+          <a class="go" href="events/evt-361d74b5-event.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 25%; background: #10b981;"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
-    
+
     <article class="evt" style="--i: 4">
       <div>
         <div class="top">
-          <span class="mono">EVT-170849</span>
+          <span class="mono">EVT-64FE37</span>
           <span class="mono">2026-W44</span>
         </div>
-        <h2><a href="events/evt-68170849-3x3-23-55.html">3x3矩阵乘法23乘55加方案</a></h2>
-        <p class="sum">该工作给出一种在任意环上计算两个3x3矩阵乘法的方案，使用23次乘法和55次加法。它比此前56次加法的记录少1次加法，并且是不改变基的精确非交换3x3乘法中首次低于56次加法。方案对A的13个带符号组合和B的14个带符号组合进行构造，执行23次乘积，再用28次进一步操作重组。该结果降低了小矩阵精确乘法中的加法开销，为矩阵乘法算法提供新的构造思路。该方案适用于任意环，面向精确非交换乘法。</p>
+        <h2><a href="events/evt-1764fe37-3d.html">任意骨骼3D运动与视频联合生成模型</a></h2>
+        <p class="sum">提出联合生成视频与任意骨骼3D运动的模型，通过cross-attention连接独立运动模型与预训练视频模型，支持文本驱动动画及视频-运动双向转换。</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-68170849-3x3-23-55.html">查看证据链 →</a>
+          <a class="go" href="events/evt-1764fe37-3d.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-447E33</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-b2447e33-event.html">混合模仿学习实现可适应灵巧操作技能</a></h2>
+        <p class="sum">提出AdaDex混合模仿RL框架，从秒级人手轨迹学习可适应灵巧操作技能，在运动跟踪与泛化双环境中训练共享策略，实现跨simulator及真实世界迁移。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-b2447e33-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-DD07CF</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-a1dd07cf-flexpart-3d.html">FlexPart变粒度图像到3D部件生成框架</a></h2>
+        <p class="sum">FlexPart通过门控自适应调制和非对称几何引导，在单一模型内统一处理变粒度图像到3D部件生成，Part CD降低16.6%。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-a1dd07cf-flexpart-3d.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-48402B</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-5148402b-worldstream-3d.html">WorldStream流式交互3D世界模型</a></h2>
+        <p class="sum">WorldStream通过分层规划、确定性编译和流式处理，实现开放3D世界的地形扩展、语言交互和状态持久化，支持有界预算下的持续扩展。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-5148402b-worldstream-3d.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-11BA7C</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-ae11ba7c-gate3dgen-3d.html">Gate3DGen选择性图像净化提升3D生成几何精度</a></h2>
+        <p class="sum">选择性图像净化模型，通过退化感知路由和一步净化器在2.3秒内将3D网格距离降低61.5%，无需重训下游生成器。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-ae11ba7c-gate3dgen-3d.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BDD108</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-c9bdd108-event.html">电极干燥粘结剂迁移跨阶段连续仿真模型</a></h2>
+        <p class="sum">提出跨膜固化与孔隙排空两阶段的溶解粘结剂连续仿真模型，单一参数集复现干燥速率、厚度及中途切换三类实验数据，可用于电极生产工况优化。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-c9bdd108-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5B92CA</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-235b92ca-opentac-cad.html">OpenTac电阻式触觉皮肤与参数化CAD设计工具</a></h2>
+        <p class="sum">OpenTac提出可扩展电阻式触觉皮肤及参数化CAD设计工具，支持从文本描述自动生成制造文件，自适应采集较全阵列扫描快19.2倍，已在4种机器人上验证操控策略学习。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-235b92ca-opentac-cad.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5C974A</span>
+          <span class="mono">2026-W44</span>
+        </div>
+        <h2><a href="events/evt-8b5c974a-lidar.html">神经隐式能量优化用于LiDAR建图</a></h2>
+        <p class="sum">提出在神经隐式SDF参数空间上优化形状算子能量泛函，实现百万点LiDAR建图表面平滑化，保持几何保真度且无额外推理开销。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-8b5c974a-lidar.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 25%; background: #10b981;"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
       </div>
     </article>
-    
-    <article class="evt" style="--i: 5">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-4C7F2A</span>
-          <span class="mono">2026-W44</span>
-        </div>
-        <h2><a href="events/evt-2c4c7f2a-rust.html">Rust信息论度量与估计器库</a></h2>
-        <p class="sum">infomeasure-rs 是一个开源 Rust 库，将信息论度量与估计器整合到单一、自包含且类型安全的包中。它针对信息论在自然科学与社会科学中受估计器选择、软件碎片化、可复现性和计算成本限制的问题。该库覆盖熵、互信息等度量，并提供统一实现。它把分散的估计器集中到同一类型安全包中，减少软件碎片化问题。其意义在于为信息论方法提供统一、可复现且类型安全的科研计算工具包。</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-2c4c7f2a-rust.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 25%; background: var(--accent);"></i></span><span class="mono"><b>25</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
-      </div>
-    </article>
-    
+
   </div>
 </div>
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-26 08:19 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-26 08:00 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

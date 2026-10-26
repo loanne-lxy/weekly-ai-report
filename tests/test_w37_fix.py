@@ -103,17 +103,9 @@ fb_evt = {
     ],
 }
 fb = EventCurator._fallback_event(fb_evt, emb)
-ok("fallback 类别=源先验", fb["category"] == "AI for Science")
-ok("fallback 英文标题加 [未翻译]", fb["event_title"].startswith("[未翻译]"))
-ok("fallback 英文摘要加 [未翻译]", fb["event_summary"].startswith("[未翻译]"))
-fb2 = EventCurator._fallback_event(
-    {"title": "子空间推理提升RLHF", "summary": "中文摘要", "category": "LLM",
-     "article_indices": [], "articles": []}, None)
-ok("fallback 中文标题不加标记", not fb2["event_title"].startswith("[未翻译]"))
-fb3 = EventCurator._fallback_event(
-    {"title": "no cat event", "summary": "", "category": "LLM",
-     "article_indices": [], "articles": []}, None)
-ok("fallback 无源先验 → 空类别(不再硬编码 LLM)", fb3["category"] == "")
+ok("fallback 隔离，不默认相关", fb["is_relevant"] is False and fb["quality_status"] == "quarantined")
+ok("fallback 禁止进入精选", fb["top_eligible"] is False and fb["top_articles"] == [])
+ok("fallback 不赋予中等评分", fb["importance"] == 0)
 
 print("6) prompt 约束")
 ok("system 含禁编造", "禁止编造" in EVENT_CURATOR_SYSTEM)
@@ -125,13 +117,13 @@ block = _EVENT_TEMPLATE.format(idx=0, bucket="social", stats_text="s",
 ok("event block 注入 Source categories", "AI for Science" in block)
 import filter.event_curator as ec  # noqa: E402
 ok("user template 标题要求实质化",
-   "禁止新闻体" in ec.EVENT_CURATOR_USER_TEMPLATE)
+   "event_title" in ec.EVENT_CURATOR_USER_TEMPLATE and "禁止新闻体" in EVENT_CURATOR_SYSTEM)
 
 print("7) 模板文章摘要行")
 tpl_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                        "generator", "templates", "category.html")
+                        "generator", "templates", "event.html")
 tpl = open(tpl_path, encoding="utf-8").read()
-ok("category.html 渲染 article-summary", "article-summary" in tpl)
+ok("event.html 渲染来源文章摘要", "art.summary|clean_summary" in tpl)
 
 print("8) DB 写入链(临时库)")
 from article_db import ArticleDB  # noqa: E402

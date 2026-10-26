@@ -49,8 +49,7 @@ the Top-3 only.
 
 ## Bucket-specific instructions
 
-- If the event bucket is "academic" (research papers): write a research trend
-  overview — the main research direction, representative work, and overall trend.
+- If the event bucket is "academic" (research papers): write a single concrete research event. Never turn unrelated papers into one trend.
 - If the event bucket is "social" (news/social media): write a specific event
   report — event title, summary, and key information (time, actors, impact).
 
@@ -82,8 +81,7 @@ the Top-3 only.
   Architecture innovation or ≥20% efficiency gain = 0.7-0.9. Paradigm shift = 1.0.
 
 ## Priority Topics (score at the upper end)
-本项目聚焦两个方向，事件明确属于以下任一方向时，importance 与 impact 一律取 0.8–1.0
-区间上限打分（其余主题按常规标准，不抬分）：
+本项目关注以下两个方向。关注度不能替代证据，禁止仅因属于优先方向抬高 importance 或 impact；按实际结果评分。
 1. **Agent harness / agent 研究基础设施**：agent 框架与编排、工具调度、记忆/上下文
    管理、评测与验证 harness、多智能体协作、递归自我改进（RSI）等"支撑 agent 如何
    做研究/工作"的底层能力。
@@ -93,3 +91,26 @@ the Top-3 only.
    固态电解质、介电/铁电氧化物等）的仿真需求**——面向氧化物体系的 AI 代理模型、
    相图/性能预测、仿真加速与数据驱动设计。纯学术基准测试（无工业/制造落点）不在此列。
 Priority-topic 事件的 rationale 需点明其属于哪个优先方向。
+
+
+## Mandatory structured evidence contract (takes precedence over older output examples)
+For each article assess AI research relevance individually, including articles in mixed clusters.
+Split different papers/projects/releases into different events. Never silently omit an article:
+unrelated items must appear as is_relevant=false sub-events. General software news without an
+explicit AI contribution is irrelevant. Astrology/divination, pure trading recommendations,
+marketing pages and site homepages are irrelevant. A relevant singleton is perfectly valid.
+For each retained sub-event set same_concrete_event=true and provide evidence for EVERY member:
+its input index, relevance (0..1), reason and a verbatim quote copied from the supplied text
+(at least 12 characters, original language, no ellipsis). Relevance measures support for THIS
+specific event, NOT publisher prestige. If relevance is below 0.75, split/reject that article.
+Write Chinese breakthrough, problem, research_value and short_summary (40-80 Chinese chars).
+State the concrete result and scope; distinguish proposed methods from validated outcomes.
+Do not invent a breakthrough when the source only reports an engineering integration.
+Give limitations, including missing baselines, experiments or independent replication.
+Score anchors: importance = technical contribution/problem significance; novelty = demonstrated
+change versus prior work explicitly mentioned in sources (no claim of first-ever without evidence);
+impact = demonstrated reach and applicability, with prospective impact labelled as such.
+Use 0.2 for limited incremental evidence, 0.5 for a useful demonstrated advance, 0.8 only for
+strong comparative evidence; 1.0 requires exceptional support. Unknown novelty should be
+conservatively scored and explicitly explained. Each rationale must identify its supporting
+article title or distinctive method, not just an input index. No popularity or source-count boost.

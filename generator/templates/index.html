@@ -97,7 +97,7 @@ section { padding: 42px 0 4px; }
 .score b { font-size: 19px; color: var(--accent); font-weight: 700; }
 .bar { width: 58px; height: 5px; border-radius: 3px; background: var(--line); overflow: hidden; display: inline-block; vertical-align: middle; }
 .bar i { display: block; height: 100%; background: var(--accent); border-radius: 3px; transform-origin: left; animation: barGrow .9s .35s cubic-bezier(.22,.8,.32,1) both; }
-.top-sum { font-size: 15px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.top-sum { font-size: 15px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 .evt-link { display: inline-block; margin-top: 11px; font-size: 13.5px; color: var(--accent); font-weight: 600; }
 .evt-link:hover { color: var(--accent-2); text-decoration: underline; }
 
@@ -134,7 +134,7 @@ a.ov-row { text-decoration: none; color: inherit; }
 .ex-foot .go:hover { text-decoration: underline; }
 .ex-empty { display: none; padding: 48px 0; text-align: center; color: var(--text-3); font-size: 14px; }
 .ex-pager { display: none; justify-content: center; align-items: center; gap: 8px; margin-top: 26px; }
-.ex-pager.show { display: flex; }
+.ex-pager.show { display: flex; flex-wrap: wrap; }
 .ex-pg { min-width: 34px; height: 34px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface); color: var(--text-2); font-family: var(--mono); font-size: 13px; cursor: pointer; transition: all .18s; box-shadow: var(--shadow); display: inline-flex; align-items: center; justify-content: center; }
 .ex-pg:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 .ex-pg.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; box-shadow: var(--shadow-2); }
@@ -183,13 +183,13 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <span class="kicker">Weekly Overview · 第 {{ week.split('-')[1]|replace('W','') }} 周</span>
     <h1>AI 研究情报周报</h1>
     <p class="lede">本周共追踪 <b>{{ total_events }} 个研究事件</b>，聚合 <b>{{ total_articles }} 篇来源文章</b>，
-    覆盖 <b>{{ stats|length }} 个领域</b>、引用 <b>{{ cited_sources|length }} 个独立来源</b>。
-    事件按重要性评分排序，完整证据链见各事件详情页。</p>
+    覆盖 <b>{{ active_domain_count }} 个领域</b>、引用 <b>{{ publisher_count }} 个发布站点</b>。
+    事件通过质量检查后按综合分排序，完整证据链见各事件详情页。</p>
     <div class="kpis">
       <div class="kpi"><div class="v">{{ total_events }}<small>事件</small></div><div class="l">Events</div></div>
       <div class="kpi"><div class="v">{{ total_articles }}<small>文章</small></div><div class="l">Articles</div></div>
-      <div class="kpi"><div class="v">{{ cited_sources|length }}<small>来源</small></div><div class="l">Sources</div></div>
-      <div class="kpi"><div class="v">{{ stats|length }}<small>领域</small></div><div class="l">Domains</div></div>
+      <div class="kpi"><div class="v">{{ publisher_count }}<small>来源</small></div><div class="l">Sources</div></div>
+      <div class="kpi"><div class="v">{{ active_domain_count }}<small>领域</small></div><div class="l">Domains</div></div>
     </div>
   </div>
 
@@ -197,26 +197,39 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
   <section>
     <div class="sec-head reveal">
       <div><span class="kicker">Top Events</span><h2>本周核心事件</h2></div>
-      <span class="hint">按重要性排序 · Top {{ top_events|length }}</span>
+      <span class="hint">通过质量检查 · 按综合分排序 · Top {{ top_events|length }}</span>
     </div>
     <div class="panel top-list">
     {% for ev in top_events %}
     <div class="top-item reveal" style="animation-delay: {{ loop.index0 * 70 }}ms">
       <div class="top-num mono">{{ "%02d"|format(loop.index) }}</div>
       <div class="top-body">
-        <h3><a href="events/{{ event_slugs.get(ev.id, '#') }}">{{ ev.get('title', ev.get('event_title', '')) }}</a></h3>
+        <h3><a href="events/{{ event_slugs.get(ev.id, '#') }}.html">{{ ev.get('title', ev.get('event_title', '')) }}</a></h3>
         <div class="top-meta">
           <span class="tag"><span class="dot" style="background: {{ colors.get(ev.cat, '#94a3b8') }}"></span>{{ ev.cat }}</span>
-          <span class="score"><b>{{ "%.0f"|format((ev.importance or 0) * 100) }}</b><span>/ 100 重要性</span>
-            <span class="bar"><i style="width: {{ "%.0f"|format((ev.importance or 0) * 100) }}%"></i></span>
+          <span class="score"><b>{{ "%.0f"|format((ev.final_score or 0) * 100) }}</b><span>/ 100 综合分</span>
+            <span class="bar"><i style="width: {{ "%.0f"|format((ev.final_score or 0) * 100) }}%"></i></span>
           </span>
           <span class="mono">{{ articles_by_event.get(ev.id, [])|length }} 篇来源文章</span>
         </div>
-        <p class="top-sum">{{ ev.get('summary', '')|clean_summary|truncate(220) }}</p>
-        <a class="evt-link" href="events/{{ event_slugs.get(ev.id, '#') }}">查看证据链 →</a>
+        <p class="top-sum"><strong>核心进展：</strong>{{ ev.get('short_summary', ev.get('breakthrough', ''))|clean_summary }}<br><strong>研究价值：</strong>{{ ev.get('research_value', '')|truncate(110) }}</p>
+        <a class="evt-link" href="events/{{ event_slugs.get(ev.id, '#') }}.html">查看证据链 →</a>
       </div>
     </div>
     {% endfor %}
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><div><span class="kicker">Research Observations</span><h2>本周研究观察</h2></div></div>
+    <div class="panel">
+    {% for item in research_observations %}
+      <div class="observation" style="padding:24px;border-bottom:1px solid var(--line)"><div>
+        <h3>{{ item.title }}</h3><p style="font-size:15px;line-height:1.9;color:var(--text-2);margin:12px 0">{{ item.text }}</p>
+        <p class="hint">当前资料的证据边界（未说明不等于未开展）：{{ item.limitation }}</p>
+        {% for citation in item.citations %}<a class="evt-link" href="events/{{ event_slugs.get(citation.event_id, '#') }}.html">依据 {{ loop.index }} →</a> {% endfor %}
+      </div></div>
+    {% else %}<p class="top-sum">本周可核验的跨事件证据不足，暂不形成研究趋势判断。</p>{% endfor %}
     </div>
   </section>
 
@@ -227,10 +240,10 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       <span class="hint">各分类本周趋势</span>
     </div>
     <div class="panel">
-    {% for cat_name, cat_events in categories.items() %}
+    {% for cat_name, cat_events in categories.items() if cat_name != "其他" or cat_events %}
     <a class="ov-row" href="{{ category_slugs.get(cat_name, '其他') }}.html">
       <div class="ov-cat"><span class="dot" style="background: {{ colors.get(cat_name, '#94a3b8') }}"></span>{{ icons.get(cat_name, '📄') }} {{ cat_name }}</div>
-      <div class="ov-trend">{{ trends.get(cat_name, '—') }}</div>
+      <div class="ov-trend" style="white-space:normal;line-height:1.7">{{ domain_summaries.get(cat_name, '本周证据不足') }}</div>
       <div class="ov-n mono">{{ cat_events|length }} 事件 →</div>
     </a>
     {% endfor %}
@@ -259,11 +272,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
           <span class="ex-cat">{{ ev.cat }}</span>
           <span class="ex-imp">{{ "%.0f"|format((ev.importance or 0) * 100) }}<small>IMP</small></span>
         </div>
-        <h3><a href="events/{{ event_slugs.get(ev.id, '#') }}">{{ ev.get('title', ev.get('event_title', '')) }}</a></h3>
-        <p class="ex-sum">{{ ev.get('summary', '')|clean_summary }}</p>
+        <h3><a href="events/{{ event_slugs.get(ev.id, '#') }}.html">{{ ev.get('title', ev.get('event_title', '')) }}</a></h3>
+        <p class="ex-sum">{{ ev.get('short_summary', ev.get('summary', ''))|clean_summary|truncate(100) }}</p>
         <div class="ex-foot">
           <span class="mono">{{ articles_by_event.get(ev.id, [])|length }} 篇来源</span>
-          <a class="go" href="events/{{ event_slugs.get(ev.id, '#') }}">证据链 →</a>
+          <a class="go" href="events/{{ event_slugs.get(ev.id, '#') }}.html">证据链 →</a>
         </div>
       </article>
       {% endfor %}

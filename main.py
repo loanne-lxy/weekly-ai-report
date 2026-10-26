@@ -84,49 +84,15 @@ def _time_boost(days_old: int) -> int:
     else: return -2
 
 
-def _dedup_events(events: list[dict], threshold: float = 0.70) -> list[dict]:
-    """Merge events with similar title+summary using semantic similarity.
-
-    Uses the same embedding model as article-level dedup.
-    Keeps the higher-scored event, merges article_indices from the duplicate.
-    """
-    if len(events) < 2:
-        return events
-
-    try:
-        from embedding_model import get_embedding_model
-    except ImportError:
-        logger.warning("embedding_model not available, skipping event dedup")
-        return events
-
-    # Build title+summary texts
-    texts = [f"{e.get('title', '')} {e.get('summary', '')}" for e in events]
-    model = get_embedding_model()
-    embs = np.stack([np.array(e, dtype=np.float32) for e in model.embed(texts)])  # shape (n, d)
-
-    # Normalize to unit vectors for cosine similarity
-    norms = np.linalg.norm(embs, axis=1, keepdims=True)
-    norms[norms == 0] = 1.0
-    embs = embs / norms
-
-    # Greedy merge: iterate events in score order (already sorted),
-    # mark duplicates by checking against kept events
-    kept = np.ones(len(events), dtype=bool)
-    for i in range(len(events)):
-        if not kept[i]:
-            continue
-        for j in range(i + 1, len(events)):
-            if not kept[j]:
-                continue
-            sim = float(np.dot(embs[i], embs[j]))
-            if sim >= threshold:
-                # Merge j into i: combine article_indices
-                kept[j] = False
-                idx_i = events[i].get("article_indices", [])
-                idx_j = events[j].get("article_indices", [])
-                events[i]["article_indices"] = list(set(idx_i) | set(idx_j))
-
-    return [e for e, k in zip(events, kept) if k]
+def _dedup_events(events, threshold=None):
+    """Only collapse duplicate article sets. Similar topics are not duplicates."""
+    seen, kept = set(), []
+    for evt in events:
+        key = tuple(sorted(a["url"] for a in evt.get("articles", [])))
+        if key and key not in seen:
+            seen.add(key)
+            kept.append(evt)
+    return kept
 
 
 async def _run_pipeline(
@@ -137,6 +103,9 @@ async def _run_pipeline(
     skip_source_eval: bool = False,
     skip_report: bool = False,
     sources: list[dict] | None = None,
+    cutoff: str | None = None,
+    week_label: str | None = None,
+    replay: bool = False,
 ) -> list[dict]:
     """Core pipeline: URL Registry → Blacklist → Event Clustering → Event Curator → Sort → [SourceEval] → [Report].
 
@@ -145,26 +114,39 @@ async def _run_pipeline(
       - articles: flat list of raw articles (no event scores) for downstream consumers
     """
 
+    from filter.quality import prepare_articles, report_window, recover_short_bodies
+    start, end = report_window(cutoff)
+    week_label = week_label or f"{end.isocalendar().year}-W{end.isocalendar().week:02d}"
+    original_articles = [dict(a) for a in articles]
+    articles = await recover_short_bodies(articles)
+    original_articles = [dict(a) for a in articles]
+    articles, rejected_articles = prepare_articles(articles, end)
+    audit = {"week": week_label, "window_start": start.isoformat(), "window_end": end.isoformat(),
+             "input_count": len(original_articles), "rejected_articles": rejected_articles}
+    logger.info("Quality preflight: %s accepted, %s quarantined", len(articles), len(rejected_articles))
+
     # ── Phase 2: URL Registry (Hard Dedup) ───────────────────────
     logger.info("=== Phase 2: URL Registry (Hard Dedup) ===")
     if collector:
         collector.start_stage("HardDedup", len(articles))
-    try:
-        os.makedirs(DATA_DIR, exist_ok=True)
-        from url_registry import URLRegistry
-
-        url_reg = URLRegistry(os.path.join(DATA_DIR, "url_registry.db"))
-        new_articles, seen_articles = url_reg.batch_check(articles)
-        articles = new_articles
-        url_reg.expire_old(keep_days=30)
-        url_reg.close()
-    except Exception as e:
-        logger.warning(f"URL Registry failed, falling back to old dedup: {e}")
+    if not replay:
         try:
-            deduplicator = Deduplicator()
-            articles = deduplicator.filter_new(articles)
-        except Exception as e2:
-            logger.warning(f"Old dedup also failed: {e2}")
+            os.makedirs(DATA_DIR, exist_ok=True)
+            from url_registry import URLRegistry
+
+            url_reg = URLRegistry(os.path.join(DATA_DIR, "url_registry.db"))
+            new_articles, seen_articles = url_reg.batch_check(articles)
+            audit["rejected_articles"].extend({"url": a["url"], "title": a.get("title", ""), "reasons": ["already_seen"]} for a in seen_articles)
+            articles = new_articles
+            url_reg.expire_old(keep_days=30)
+            url_reg.close()
+        except Exception as e:
+            logger.warning(f"URL Registry failed, falling back to old dedup: {e}")
+            try:
+                deduplicator = Deduplicator()
+                articles = deduplicator.filter_new(articles)
+            except Exception as e2:
+                logger.warning(f"Old dedup also failed: {e2}")
     if collector:
         collector.end_stage(len(articles))
     logger.info(f"URL Registry dedup: {len(articles)} new articles")
@@ -175,7 +157,11 @@ async def _run_pipeline(
         collector.start_stage("Blacklist", len(articles))
     try:
         from filter.blacklist_filter import BlacklistFilter
+        before_blacklist = articles
         articles = BlacklistFilter(config).filter(articles)
+        kept_urls = {a["url"] for a in articles}
+        audit["rejected_articles"].extend({"url": a["url"], "title": a["title"], "reasons": ["blacklist"]}
+                                          for a in before_blacklist if a["url"] not in kept_urls)
     except Exception as e:
         logger.warning(f"Blacklist filter failed (continuing): {e}")
     if collector:
@@ -192,7 +178,7 @@ async def _run_pipeline(
         if collector:
             collector.start_stage("Clustering", len(articles))
 
-        threshold = config.get("clustering", {}).get("threshold", 0.35)
+        threshold = config.get("clustering", {}).get("threshold", 0.72)
         events, embeddings = cluster_articles(articles, threshold=threshold)
 
         if collector:
@@ -238,8 +224,15 @@ async def _run_pipeline(
             }
             event_dicts.append(event_dict)
 
-        curator = EventCurator(llm)
-        curated_events = await curator.curate_events(event_dicts, embeddings)
+        curator = EventCurator(llm, config.get("clustering", {}).get("threshold", 0.72), os.path.join(DATA_DIR, "curation_cache"))
+        decisions = await curator.curate_events(event_dicts, embeddings)
+        audit["curation_decisions"] = [{"urls": [a["url"] for a in e.get("articles", [])],
+                                       "title": e.get("event_title", e.get("title")),
+                                       "status": e.get("quality_status"), "reasons": e.get("quality_reasons", [])}
+                                      for e in decisions]
+        curated_events = [e for e in decisions if e.get("is_relevant")]
+        if not curated_events:
+            raise RuntimeError("No curated events passed; refusing to overwrite report")
 
         if collector:
             collector.end_stage(len(curated_events))
@@ -273,6 +266,7 @@ async def _run_pipeline(
                     if i < len(raw_articles_for_clustering)
                 ]
                 llm_scores = {
+                    "evidence_relevance": min((e["relevance"] for e in evt.get("evidence", [])), default=0),
                     "importance": evt.get("importance", 0.5),
                     "novelty": evt.get("novelty", 0.5),
                     "impact": evt.get("impact", 0.5),
@@ -285,6 +279,7 @@ async def _run_pipeline(
                     event_articles,
                     llm_scores,
                     category=evt.get("category", ""),
+                    now=end,
                 )
                 evt.update(scoring)
                 scored_events.append(evt)
@@ -297,16 +292,16 @@ async def _run_pipeline(
                 logger.info(f"Cross-domain events flagged: {len(cross_domain)}")
 
         except Exception as e:
-            logger.warning(f"Scoring failed (using LLM scores only): {e}")
+            logger.exception("Scoring failed; refusing unranked output")
+            raise
 
     except Exception as e:
-        logger.warning(f"Event Curator failed (falling back to article list): {e}")
-        curated_events = []
+        logger.exception("Event curation failed; report unchanged")
+        raise
 
     # ── Sort curated events by score ─────────────────────────────
     curated_events.sort(
-        key=lambda e: e.get("final_score", e.get("importance", 0.5)),
-        reverse=True,
+        key=lambda e: (-e.get("final_score", 0), -e.get("importance", 0), e.get("event_title", "")),
     )
 
     # ── Compatibility: build flat articles list for downstream consumers ──
@@ -433,8 +428,13 @@ async def _run_pipeline(
         newly_archived_val = 0
         discovered_count_val = 0
 
-    week_num = datetime.now(timezone.utc).isocalendar()
-    week_label = f"{week_num[0]}-W{week_num[1]:02d}"
+    from pathlib import Path
+    audit_dir = Path(DATA_DIR) / "runs" / week_label
+    audit_dir.mkdir(parents=True, exist_ok=True)
+    (audit_dir / "raw_articles.json").write_text(json.dumps(original_articles, ensure_ascii=False, indent=2))
+    (audit_dir / "audit.json").write_text(json.dumps(audit, ensure_ascii=False, indent=2))
+    (audit_dir / "decisions.json").write_text(json.dumps(decisions, ensure_ascii=False, indent=2))
+    (audit_dir / "curated_events.json").write_text(json.dumps(curated_events, ensure_ascii=False, indent=2))
 
     # ── Phase 5.5: Unified Knowledge Store Persistence ───────────
     # Persist BEFORE report generation so the report reads fresh data
@@ -455,7 +455,8 @@ async def _run_pipeline(
         ks.close()
         logger.info(f"KnowledgeStore persisted for {week_label}")
     except Exception as e:
-        logger.warning(f"KnowledgeStore persistence failed (non-fatal): {e}")
+        logger.exception("KnowledgeStore persistence failed")
+        raise
 
     # ── Phase 5: Generate Report (skip for regression) ───────────
     # Runs AFTER persist so report_generator reads the fresh DB state
@@ -465,6 +466,8 @@ async def _run_pipeline(
             articles, config, week_label, llm,
             discovered_count=discovered_count_val,
             archived_count=newly_archived_val,
+            db_path=os.path.join(DATA_DIR, "knowledge.db"),
+            generated_at=end.astimezone(__import__("zoneinfo").ZoneInfo("Asia/Shanghai")).strftime("%Y-%m-%d %H:%M"),
         )
         logger.info(f"Report saved to: {report_path}")
 
@@ -492,7 +495,24 @@ async def main():
     parser.add_argument("--reset", action="store_true", help="Reset dedup DB (for testing)")
     parser.add_argument("--baseline", action="store_true", help="Run baseline with sampled sources + metrics")
     parser.add_argument("--regression", type=str, metavar="DIR", help="Regression test against saved baseline dir")
+    parser.add_argument("--week", help="Explicit report label for historical replay")
+    parser.add_argument("--cutoff", help="Report cutoff timestamp (inclusive); searches previous 7 days")
+    parser.add_argument("--replay", action="store_true", help="Replay cached inputs without URL registry or source discovery mutations")
+    parser.add_argument("--data-dir", default="data", help="Isolated database/run directory")
+    parser.add_argument("--output-dir", default="output", help="Report output root")
     args = parser.parse_args()
+    global DATA_DIR
+    DATA_DIR = args.data_dir
+    if args.replay and (not args.from_cache or not args.week or not args.cutoff):
+        parser.error("--replay requires --from-cache, --week and --cutoff")
+    if args.week and not args.cutoff:
+        parser.error("--week requires an explicit --cutoff")
+    args.cutoff = args.cutoff or datetime.now(timezone.utc).isoformat()
+    if args.cutoff:
+        from filter.quality import parse_date
+        if not parse_date(args.cutoff):
+            parser.error("invalid cutoff")
+        os.environ["REPORT_CUTOFF"] = args.cutoff
 
     if args.reset:
         for db in ("dedup.db", "curator_cache.db", "url_registry.db"):
@@ -517,6 +537,7 @@ async def main():
             logger.info(f"Reset knowledge.db events for {wl}")
 
     config = load_config()
+    config["output"]["dir"] = args.output_dir
     sources = load_sources()
 
     # ── Regression mode ──────────────────────────────────────────
@@ -644,6 +665,8 @@ async def main():
         llm=llm,
         collector=collector,
         sources=sources,
+        cutoff=args.cutoff, week_label=args.week, replay=args.replay,
+        skip_source_eval=args.replay,
     )
 
     # ── Save baseline artifacts ──────────────────────────────────

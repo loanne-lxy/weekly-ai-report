@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitLab目标驱动智能体与Gremlin可靠性智能体审批门控 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W44</span>
+      <span class="mono" style="color: var(--text-3);">2 篇来源文章</span>
+    </div>
+    <h1>GitLab目标驱动智能体与Gremlin可靠性智能体审批门控</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">40<small> / 100</small></div>
+        <div class="bar"><i style="width: 40%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose" style="white-space:pre-line">核心突破：GitLab 19.4为Duo CLI新增/goal命令，接受开放式目标并持续迭代执行，由第二个模型对照目标检查进度，MCP工具对写入和删除操作默认设置人工审核检查点，并引入逐条计费事件的成本归属统计。Gremlin Foresight AI将可靠性工作划分为分析师、测试员、运维和技术项目经理四个智能体角色，基于专有故障图谱推荐测试，采用闭环验证机制，在未获许可前不执行任何测试或修复方案。
+解决的问题：自主软件工程智能体在扩大自动化范围时，如何在保持效率的同时确保操作安全、权限可控和成本可审计，避免无限制访问和不可控资源消耗。
+研究价值：展示了目标驱动智能体（双模型验证+MCP权限策略+成本归属）与多角色可靠性智能体（四角色分工+故障图谱+闭环验证）在权限门控和人工审批方面的工程实践，属于agent harness基础设施方向，为智能体编排与验证harness设计提供参考。</p>
+        <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：两者均为产品发布而非独立研究，缺乏与无门控基线的对比实验；GitLab未提供各模型基准测试结果或每次调用的绝对价格；Gremlin的故障图谱为专有数据，无法独立验证；两者均处于早期阶段，长期效果未经大规模验证</p>
+
+        <details><summary>评分依据 · 综合分 21.2</summary>
+          <p class="prose">重要性：工程集成MCP权限策略、双模型验证与多角色编排，属agent harness基础设施但无根本算法创新（文章3、4）</p>
+          <p class="prose">新颖性：目标驱动智能体双模型验证与MCP逐工具权限策略为新模式，四角色可靠性智能体加故障图谱闭环验证为首次产品化（文章3、4）</p>
+          <p class="prose">影响力：影响企业级智能体部署的权限与成本治理实践，但限于GitLab和Gremlin平台，跨行业辐射待验证（文章3、4）</p>
+          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        </details>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 2 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+
+
+
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://www.infoq.cn/article/c6KGCCmGuad5wbAcCG61?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">GitLab 19.4 发布，新增目标驱动型智能体，强化成本控制</a></h3>
+          <p class="sum">GitLab 发布 DevSecOps 平台 19.4 版本，为 GitLab Duo CLI 新增了目标驱动模式、三个托管开源权重模型、更多 Model Context Protocol (MCP) 工具，以及更精细的 AI 开销控制能力。此次发布让 GitLab 的智能体不再局限于单个提示词和预定义流程，同时智能体的操作仍受项目现有权限与审批规则约束。
+GitLab Duo CLI 中新增的 /goal 命令目前处于公开测试阶段，它接受一个开放式目标，并持续执行任务直到完成任务或达到迭代上限。一个模型负责实施变更，另一个模型对照既定目标检查进度。开发者可以停止运行、更改目标或重新引导智能体。任务在本地运行，并保留项目现有的上下文和控制机制。
+“此次发布将智能体自动化从单个开发者工具变成企业能够在已有控制体系下快速扩展的能力。”
+GitLab 这里使用的“验证”一词有特定含义。第二个模型判断结果是否满足自然语言描述的目标，并非对代码进行形式化验证。该命令会报告无法解决的任务，迭代上限可避免任务无限执行。因此清晰的验收标准依然十分重要，尽管开发者无需监督每一个中间步骤。
+GitLab Duo Agent Platform 还新增了对托管开源权重模型 Kimi K3、MiniMax M3 和 GLM 5.3 的支持。GitLab 表示，与许多同类前沿模型相比，这些模型的每...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 90% · 描述GitLab 19.4的/goal目标驱动智能体（双模型验证、迭代上限）、MCP工具权限策略（只读始终允许、写入删除始终询问）、成本归属统计（逐条计费事件含用户/项目/会话/Token数）及托管开源权重模型支持</p>
+          <blockquote class="chain-note">一个模型负责实施变更，另一个模型对照既定目标检查进度</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-23</span>
+            <a class="url" href="https://www.infoq.cn/article/c6KGCCmGuad5wbAcCG61?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://www.infoq.cn/article/2bKQkdiAcGEycHJLYPv5?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">Foresight AI 正式可用，Gremlin 将智能体引入可靠性工程</a></h3>
+          <p class="sum">可靠性管理公司 Gremlin 宣布其智能体产品 Foresight AI 正式全面上线。该产品可分析服务中的潜在故障、给出优化建议，并重新执行测试以验证修复方案是否有效。它作为 Gremlin 平台的附加组件提供。该平台支持团队开展计划内实验、控制故障的影响范围，并使用自动化测试确保修复措施长期有效。企业可利用可靠性评分量化改进进度，优先投入资源提升系统弹性。
+Foresight AI 的目标是提供可靠性检测能力，无需每位开发者都成为分布式系统专家。Gremlin 将这款产品定位为应对 AI 辅助软件快速交付的解决方案。Gremlin 首席执行官兼联合创始人 Kolton Andrus 认为，当前有大量代码在缺少人工深度审查的情况下直接进入了生产环境。
+“最好的事故，是从未发生的事故。”
+该产品将工作划分为四个智能体角色：分析师智能体（Analyst）收集服务数据并推荐测试用例，测试员智能体（Tester）负责安排和执行测试，运维智能体（Operator）解读失败的测试结果并提出修复方案，技术项目经理智能体（Technical Program Manager）跟踪各团队的测试覆盖率、可靠性风险和承诺事项。最后一个智能体可以生成每周报告，并通过 Slack 推送更新。
+Foresight AI 的推荐基于 Gremlin 的故障图谱（Failure...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 85% · 描述Gremlin Foresight AI的四智能体角色（分析师、测试员、运维、技术项目经理）、专有故障图谱（数十年数万个分布式系统数百万次故障注入实验）、闭环验证机制及人工审批前不执行的监督模式</p>
+          <blockquote class="chain-note">Foresight AI 在未获得许可的前提下不会执行任何测试或应用修复方案</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-23</span>
+            <a class="url" href="https://www.infoq.cn/article/2bKQkdiAcGEycHJLYPv5?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">00357e75</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W44</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">2 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+
+
+        <div class="src-row">
+          <div class="n">InfoQ AI</div>
+          <div class="s">
+            <span class="mono">2 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+</div></footer>
+</body>
+</html>

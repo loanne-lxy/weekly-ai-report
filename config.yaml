@@ -120,4 +120,4 @@ clustering:
     enabled: true
     max_queries: 3
     max_results: 3
-  threshold: 0.72  # curator 簇内一致性阈值（complete-link）；初始聚类用高召回候选层
+  threshold: 0.72  # Legacy compatibility only; no cosine cutoff splits curated events

@@ -33,18 +33,24 @@ for e in events:
     assert {x["url"] for x in arts}=={x["url"] for x in e["evidence"]}
     assert min(x["relevance"] for x in e["evidence"])>=.75
     if len(arts)>1:
-        from itertools import combinations
-        checks={frozenset(c["urls"]):c for c in e.get("identity_checks",[])}
-        for left,right in combinations(arts,2):
-            check=checks.get(frozenset([left["url"],right["url"]]))
-            assert check and check["relation"]=="same_event", "multi-article event lacks identity review"
-            assert len(check["quotes"])==2 and check.get("identity")
-            members={x["url"]:x for x in arts}
-            import re
-            norm=lambda s:re.sub(r"\s+","",s).casefold()
-            for url,quote in zip(check["urls"],check["quotes"]):
-                art=members[url]
-                assert len(quote)>=12 and norm(quote) in norm(art["title"]+" "+art["summary"][:1800]+" "+json.dumps((art.get("raw_extra") or {}).get("identity_context",{}),ensure_ascii=False))
+        validation=e.get("identity_validation", {})
+        assert validation.get("method")=="full_event_curation", "missing whole-group review"
+        assert sorted(validation.get("article_urls",[]))==sorted(x["url"] for x in arts)
+        kind=e.get("grouping_type")
+        assert kind in {"news_event","research_theme"}
+        if kind=="research_theme":
+            assert validation.get("same_research_problem") is True
+            assert len(e.get("research_question", ""))>=8
+        else:
+            assert validation.get("same_event") is True
+        import re
+        norm=lambda s:re.sub(r"\s+","",s).casefold()
+        members={x["url"]:x for x in arts}
+        for evidence in e["evidence"]:
+            art=members[evidence["url"]];quote=evidence["quote"]
+            assert evidence.get("reason")
+            assert len(quote)>=12 and norm(quote) in norm(art["title"]+" "+art["summary"][:1800])
+
     else:
         assert e.get("coherence") is None and e.get("coherence_status")=="not_applicable"
     assert not e["title"].startswith("[未翻译]")

@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-26</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
 </div></div>
 <style>:root { --cat-color: #3b82f6; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: var(--accent);"></i></div>
+        <div class="v">40<small> / 100</small></div>
+        <div class="bar"><i style="width: 40%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+        <div class="v">40<small> / 100</small></div>
+        <div class="bar"><i style="width: 40%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: #10b981;"></i></div>
+        <div class="v">30<small> / 100</small></div>
+        <div class="bar"><i style="width: 30%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -177,15 +177,15 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       <!-- Summary -->
       <div class="sec reveal">
         <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
-        <p class="prose" style="white-space:pre-line">核心突破：提出两阶段方法：筛选阶段通过水平集估计在预生成图像上恢复活跃适配器子集（无需图像生成），精化阶段在恢复的低维子空间中优化合并系数；两阶段均使用风格感知核函数实现视觉相似适配器间的偏好迁移。在模拟用户图像匹配实验中，最终相似度高于所有对比方法，达到给定相似度所需图像生成量不足先前方法的十分之一，且性能在集合扩展至1080个适配器时保持稳定。
-解决的问题：现有偏好贝叶斯优化（PBO）方法仅能处理数十个预选适配器，且每轮交互均需昂贵的图像生成，无法扩展至社区中超过10万个轻量适配器的规模。
-研究价值：为大规模文本到图像模型适配器合并提供了可扩展的优化框架，将高维连续设计空间问题分解为无生成成本的筛选与低维精化，风格感知核函数使偏好信息在视觉相似适配器间迁移。</p>
-        <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：仅在模拟用户图像匹配实验中验证，未报告真实用户偏好实验；未与最新的大规模模型合并方法对比；风格感知核函数在跨风格或跨域适配器上的泛化性未充分验证；未报告计算时间开销。</p>
+        <p class="prose" style="white-space:pre-line">核心突破：提出HimmBO两阶段方法，筛选阶段通过预生成图像的层级集估计恢复活跃适配器集（无需图像生成），精化阶段在低维子空间中优化合并系数，两阶段均使用风格感知核
+解决的问题：现有偏好贝叶斯优化方法限于数十个预选适配器，且每轮交互需昂贵图像生成，无法扩展到大规模适配器集合
+研究价值：将偏好驱动适配器合并扩展到1080个适配器规模，以不到十分之一图像生成成本达到给定相似度，性能随集合增长保持稳定</p>
+        <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：仅在模拟用户图像匹配实验中验证；风格感知核的泛化性未充分测试；未与最新模型合并方法比较；真实用户偏好实验缺失</p>
 
-        <details><summary>评分依据 · 综合分 40.1</summary>
-          <p class="prose">重要性：两阶段优化在图像生成效率上有明确量化提升（&lt;1/10），但限于适配器合并场景，非架构级创新</p>
-          <p class="prose">新颖性：水平集筛选+子空间精化的两阶段框架是PBO的新扩展，但降维+BO核心思想非全新</p>
-          <p class="prose">影响力：适用于文本到图像模型定制场景，对社区适配器生态有实用价值，但影响范围限于图像生成领域</p>
+        <details><summary>评分依据 · 综合分 33.4</summary>
+          <p class="prose">重要性：HimmBO将适配器合并BO扩展到1080规模，方法实用但图像生成定制领域较窄</p>
+          <p class="prose">新颖性：层级集估计筛选加低维精化的两阶段设计为具体贡献，但BO用于模型合并非全新</p>
+          <p class="prose">影响力：图像生成定制为细分领域，1080适配器规模提升有限跨行业外溢</p>
           <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
         </details>
       </div>
@@ -204,8 +204,8 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
           <h3><span class="step">A1</span><a href="http://arxiv.org/abs/2610.30875v1" target="_blank" rel="noopener noreferrer">HimmBO: High-Dimensional Interactive Model-Merging Bayesian Optimization for Image Generation</a></h3>
           <p class="sum">Fine-tuning has become a common way to customize text-to-image models, leading to community collections of over 100K lightweight adapters. Adapters sharing a base model can be merged with continuous coefficients. This turns a large collection into a high-dimensional continuous design space, which recent work explores interactively using preferential Bayesian optimization (PBO). However, existing approaches are limited to a few dozen preselected adapters and require expensive image generation in every interaction round. We introduce HimmBO, a two-stage method that scales preference-driven...</p>
 
-          <p class="chain-note">文章对本事件的证据相关性 95% · 唯一文章，完整描述HimmBO方法、实验设置与结果</p>
-          <blockquote class="chain-note">We introduce HimmBO, a two-stage method that scales preference-driven adapter merging to much larger collections while reducing image-generation cost.</blockquote>
+          <p class="chain-note">文章对本事件的证据相关性 95% · 提出HimmBO两阶段方法，筛选阶段通过层级集估计恢复活跃适配器集无需图像生成，精化阶段在低维子空间优化合并系数，1080适配器上性能稳定</p>
+          <blockquote class="chain-note">Its screening stage recovers the active adapter set through level-set estimation over pre-generated images, requiring no image generation</blockquote>
 
           <div class="ameta">
             <span class="src-tag">arxiv.org · 来源参考评分 90/100
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-26 08:00 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

@@ -121,3 +121,24 @@ async def recover_short_bodies(articles):
                 a["raw_extra"] = {**(a.get("raw_extra") or {}), "body_recovery": type(exc).__name__}
         return a
     return await asyncio.gather(*(one(a) for a in articles))
+
+
+def grounded_limitations(text, articles):
+    """Drop unsupported ranking/disclosure assertions; retain stated scope limits.
+
+    Missing detail in a fetched excerpt does not establish that a paper never
+    disclosed it. Likewise a limitation must not invent a SOTA comparison.
+    This narrow guard complements, rather than replaces, grounded curation.
+    """
+    source = " ".join(a.get("title", "") + " " + a.get("summary", "")[:1800] for a in articles)
+    rank = r"SOTA|state[ -]of[ -]the[ -]art|最先进|最佳现有"
+    clauses = re.split(r"[；;。\n]", str(text))
+    kept = []
+    for clause in clauses:
+        if re.search(rank, clause, re.I) and not re.search(rank, source, re.I):
+            continue
+        if re.search(r"未公开|未公布|没有公开", clause):
+            continue
+        if clause.strip():
+            kept.append(clause.strip())
+    return "；".join(kept) or "仅依据所给材料，尚未核验独立复现情况。"

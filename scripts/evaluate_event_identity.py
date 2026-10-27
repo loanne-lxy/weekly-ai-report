@@ -1,11 +1,11 @@
-"""Evaluate frozen real negative controls; never report unmeasured recall as zero or one."""
+"""Evaluate explicit news identity and bounded research-problem controls."""
 import argparse
 import json
 from collections import Counter
 from pathlib import Path
 p=argparse.ArgumentParser()
 p.add_argument("--run-dir",required=True)
-p.add_argument("--controls",default="tests/fixtures/w44_identity_controls.json")
+p.add_argument("--controls",default="tests/fixtures/w44_grouping_controls.json")
 a=p.parse_args();run=Path(a.run_dir)
 audit=json.loads((run/"audit.json").read_text())
 events=json.loads((run/"curated_events.json").read_text())
@@ -19,9 +19,8 @@ for c in controls:
     merged=present and owner[left]==owner[right]
     decision=pairs.get(frozenset(c["urls"]))
     checks.append({**c,"both_published":present,"retrieved":decision is not None,
-                   "relation":decision["relation"] if decision else None,"expected_merge":c["label"]=="same_event","actual_merge":merged,
-                   "incorrect":present and merged!=(c["label"]=="same_event")})
-assert not any(x["incorrect"] for x in checks),"real identity control failed"
+                   "relation":decision["relation"] if decision else None,"expected_merge":c["label"] in {"same_event","same_research_problem"},"actual_merge":merged,
+                   "incorrect":(c["label"] in {"same_event","same_research_problem"} and not present) or (present and merged!=(c["label"] in {"same_event","same_research_problem"}))})
 result={"events":len(events),"articles":len(owner),"size_distribution":dict(Counter(len(e["articles"]) for e in events)),
         "candidate_pairs":len(pairs),"relations":dict(Counter(x["relation"] for x in pairs.values())),
         "real_controls":checks,"independent_positive_recall":None,
@@ -29,3 +28,5 @@ result={"events":len(events),"articles":len(owner),"size_distribution":dict(Coun
         "limitation":"No independently labelled real positive set: precision/recall targets are NOT certified. Synthetic tests check behaviour only."}
 (run/"identity_evaluation.json").write_text(json.dumps(result,ensure_ascii=False,indent=2))
 print(json.dumps({k:v for k,v in result.items() if k!="real_controls"},ensure_ascii=False,indent=2))
+
+assert not any(x["incorrect"] for x in checks),"real grouping control failed (see identity_evaluation.json)"

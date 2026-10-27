@@ -97,6 +97,76 @@ class QualityTests(unittest.TestCase):
         data=result();data["evidence"][0]["relevance"]=.2
         with self.assertRaises(ValueError):EventCurator(None)._build(evt,data,np.ones((1,2)))
 
+    def test_research_theme_requires_question_and_member_evidence(self):
+        evt={"articles":[article(0),article(1)],"article_indices":[0,1]}
+        data=result([0,1]);data.update(grouping_type="research_theme",same_concrete_event=False,
+                                      same_research_problem=True,research_question="How can agents verify evidence before acting?")
+        out=EventCurator(None)._build(evt,data,np.eye(2))
+        self.assertEqual(out["grouping_type"],"research_theme")
+        self.assertFalse(out["identity_validation"]["same_event"])
+        self.assertTrue(out["identity_validation"]["same_research_problem"])
+        data["research_question"]=""
+        with self.assertRaises(ValueError):EventCurator(None)._build(evt,data,np.eye(2))
+        data["research_question"]="How can agents verify evidence before acting?"
+        data["evidence"].pop()
+        with self.assertRaises(ValueError):EventCurator(None)._build(evt,data,np.eye(2))
+
+    def test_split_drops_pair_evidence_about_other_children(self):
+        evt={"articles":[article(0),article(1)],"article_indices":[0,1],
+             "identity_checks":[{"urls":[article(0)["url"],article(1)["url"]]}]}
+        out=EventCurator(None)._build(evt,result([0]),np.eye(2))
+        self.assertEqual(out["identity_checks"],[])
+
+    def test_large_partition_preserves_coverage_without_size_cap(self):
+        class PartitionLLM:
+            def chat(self,*args):return json.dumps([{"article_indices":list(range(9)),"shared_problem":"memory retrieval"},{"article_indices":[9],"shared_problem":"unrelated"}])
+        evt={"articles":[article(i) for i in range(10)],"article_indices":list(range(100,110))}
+        groups=asyncio.run(EventCurator(PartitionLLM())._partition_large(evt))
+        self.assertEqual([len(e["articles"]) for e in groups],[9,1])
+        self.assertEqual([i for e in groups for i in e["article_indices"]],list(range(100,110)))
+
+    def test_invalid_large_partition_keeps_original_for_full_review(self):
+        class BadPartition:
+            def chat(self,*args):return '[{"article_indices":[0,0]}]'
+        evt={"articles":[article(i) for i in range(9)],"article_indices":list(range(9))}
+        groups=asyncio.run(EventCurator(BadPartition())._partition_large(evt))
+        self.assertEqual(groups,[evt])
+
+    def test_pair_review_is_passed_to_final_group_curator(self):
+        captured=[]
+        class LLM:
+            def chat(self,system,user):
+                captured.append(json.loads(user.split("INPUT:\n",1)[1]))
+                data=result([0,1]);data.update(grouping_type="research_theme",same_research_problem=True,research_question="How can agents verify evidence before acting?")
+                return json.dumps([data])
+        arts=[article(0),article(1)]
+        evt={"articles":arts,"article_indices":[0,1],"identity_verified":True,
+             "identity_checks":[{"urls":[a["url"] for a in arts],"relation":"same_research_problem",
+                                 "identity":"agent evidence checking", "reason":"same bounded problem", "quotes":[TEXT,TEXT]}]}
+        out=asyncio.run(EventCurator(LLM()).curate_events([evt],np.eye(2)))
+        self.assertEqual(len(out),1)
+        self.assertEqual(captured[0][0]["reviewed_pairs"][0]["indices"],[0,1])
+        self.assertIn("same_research_problem",captured[0][0]["review_instructions"])
+
+    def test_limits_do_not_invent_rankings_or_non_disclosure(self):
+        from filter.quality import grounded_limitations
+        arts=[{"summary":"The study reports four case studies and a success rate over 50%."}]
+        cleaned=grounded_limitations("仅4个案例；成功率仍低于SOTA；完整基准列表未公开",arts)
+        self.assertEqual(cleaned,"仅4个案例")
+
+    def test_priority_oxide_scope_cannot_be_added_to_unrelated_materials(self):
+        a=article();a["summary"]="The study investigates ferroelectric CsGeBr3 and aluminum nitride AlN."
+        data=result();data["evidence"][0]["quote"]=a["summary"]
+        data["research_value"]="为铁电氧化物提供仿真方法。"
+        with self.assertRaisesRegex(ValueError,"Unsupported oxide"):
+            EventCurator(None)._build({"articles":[a],"article_indices":[0]},data,np.ones((1,2)))
+
+    def test_category_mismatch_cannot_discard_explicit_rl_research(self):
+        a=article();a["summary"]="A muscle-driven character policy trained using reinforcement learning."
+        data={"article_indices":[0],"is_relevant":False,"relevance_reason":"无法归入五个预定义类别"}
+        with self.assertRaisesRegex(ValueError,"Category mismatch"):
+            EventCurator(None)._build({"articles":[a],"article_indices":[0]},data,np.ones((1,2)))
+
     def test_unknown_date_not_top(self):
         a=article();a["date_status"]="unknown"
         out=EventCurator(None)._build({"articles":[a],"article_indices":[0]},result(),np.ones((1,2)))
@@ -165,6 +235,40 @@ class QualityTests(unittest.TestCase):
         out=synthesize(llm,events)
         self.assertEqual(llm.calls,2)
         self.assertEqual(len(out["domain_signals"]),1)
+
+    def test_retry_preserves_valid_observations_and_other_domains(self):
+        class Retry:
+            calls=0
+            def chat(self,*args):
+                self.calls+=1
+                citation=lambda i:{"event_id":str(i),"quote":TEXT}
+                if self.calls==1:
+                    return json.dumps({"observations":[{"title":"Observation","citations":[citation(0),citation(1)]}]*2,
+                        "domain_signals":[{"category":"Agent","citations":[citation(0)]}]})
+                return json.dumps({"observations":[],"domain_signals":[{"category":"LLM","citations":[citation(1)]}]})
+        llm=Retry()
+        events=[{"id":str(i),"top_eligible":True,"quality_status":"passed","title":"x","summary":TEXT,"category":c} for i,c in enumerate(["Agent","LLM"])]
+        out=synthesize(llm,events)
+        self.assertEqual(llm.calls,2)
+        self.assertEqual(out["status"],"validated")
+        self.assertEqual(len(out["observations"]),2)
+        self.assertEqual({x["category"] for x in out["domain_signals"]},{"Agent","LLM"})
+
+    def test_large_synthesis_uses_bounded_domain_requests(self):
+        class Compact:
+            sizes=[]
+            def chat(self,system,user):
+                payload=json.loads(user)
+                self.sizes.append(len(payload))
+                citations=[{"event_id":e["id"],"quote":TEXT} for e in payload[:2]]
+                if len({e["category"] for e in payload})==1:
+                    return json.dumps({"domain_signals":[{"category":payload[0]["category"],"citations":citations}],"observations":[]})
+                return json.dumps({"observations":[{"title":"Observation","citations":citations}]*2,"domain_signals":[]})
+        events=[{"id":str(i),"top_eligible":True,"quality_status":"passed","title":"x","summary":TEXT,"category":str(i//3)} for i in range(12)]
+        llm=Compact();out=synthesize(llm,events)
+        self.assertEqual(out["status"],"validated")
+        self.assertEqual(len(out["domain_signals"]),4)
+        self.assertLessEqual(max(llm.sizes),6)
 
     def test_unbacked_observation_rejected(self):
         class Bad:

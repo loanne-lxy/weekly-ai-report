@@ -41,6 +41,13 @@ class IdentityTests(unittest.TestCase):
               {"url":"https://b.example/2","title":"AtlasAgent 第二版发布"}]
         self.assertIn((0,1),candidates(arts,np.eye(2)))
 
+    def test_memory_problem_recall_does_not_depend_on_cosine_threshold(self):
+        arts=[{"url":"https://a.example/1","title":"Agent persistent memory retrieval"},
+              {"url":"https://b.example/2","title":"智能体记忆的检索与管理"}]
+        pair=candidates(arts,np.eye(2))[(0,1)]
+        self.assertIn("problem_hint:agent_memory",pair["reasons"])
+        self.assertEqual(len(identity_groups([{"article_indices":[0]},{"article_indices":[1]}],{})),2)
+
     def test_shared_repository_only_retrieves(self):
         arts=[{"url":"https://github.com/org/tool/releases/tag/v1"},
               {"url":"https://github.com/org/tool/releases/tag/v2"}]
@@ -74,13 +81,15 @@ class IdentityTests(unittest.TestCase):
             out=asyncio.run(resolver.consolidate(ev,arts,np.ones((2,3)),Curator()))
             return out,resolver.audit
 
-    def test_existing_cluster_rechecked_and_split(self):
+    def test_existing_cluster_rechecked_as_whole_and_split(self):
         text="This is an independent neural model research article."
         arts=[{"url":f"https://example.com/{i}","title":str(i),"summary":text} for i in range(2)]
         class LLM:
             def chat(self,*args):return json.dumps([{"pair_id":0,"relation":"different_event","reason":"different named papers"}])
         class Curator:
-            async def curate_events(self,events,embeddings):return [{**events[0],"is_relevant":True}]
+            async def curate_events(self,events,embeddings):
+                assert events[0]["article_indices"] == [0,1]
+                return [{"articles":[a],"article_indices":[i],"is_relevant":True} for i,a in enumerate(arts)]
         with tempfile.TemporaryDirectory() as temp:
             resolver=IdentityResolver(LLM(),temp)
             out=asyncio.run(resolver.consolidate([{"articles":arts,"article_indices":[0,1]}],arts,np.ones((2,3)),Curator()))
@@ -90,6 +99,50 @@ class IdentityTests(unittest.TestCase):
     def test_grounded_same_event_rebuilt(self):
         out,audit=self.run_resolver();self.assertEqual(len(out),1)
         self.assertEqual(len(out[0]["articles"]),2);self.assertTrue(out[0]["identity_checks"])
+
+    def test_specific_research_problem_can_merge_distinct_studies(self):
+        out,audit=self.run_resolver("same_research_problem")
+        self.assertEqual(len(out),1)
+        self.assertEqual(out[0]["article_indices"],[0,1])
+
+    def test_fabricated_theme_evidence_fails_closed(self):
+        out,audit=self.run_resolver("same_research_problem",bad_quote=True)
+        self.assertEqual(len(out),2)
+        self.assertEqual(audit["uncertain_pairs"],1)
+
+    def test_missing_pair_does_not_destroy_existing_group(self):
+        from filter.event_identity import merge_event_groups
+        ev=[{"article_indices":[0,1]},{"article_indices":[2]}]
+        yes={(1,2):{"similarity":.8}}
+        self.assertEqual(merge_event_groups(ev,yes,{},dict(enumerate("abc"))),[[0,1,2]])
+
+    def test_explicit_unrelated_bridge_is_vetoed(self):
+        from filter.event_identity import merge_event_groups
+        ev=[{"article_indices":[i]} for i in range(3)]
+        yes={(0,1):{"similarity":.9},(1,2):{"similarity":.8}}
+        no={(0,2):{"relation":"different_event"}}
+        self.assertEqual(merge_event_groups(ev,yes,no,dict(enumerate("abc"))),[[0,1],[2]])
+
+    def test_related_pair_is_not_a_veto_of_a_grounded_problem_proposal(self):
+        from filter.event_identity import merge_event_groups
+        ev=[{"article_indices":[i]} for i in range(3)]
+        yes={(0,1):{"similarity":.9},(1,2):{"similarity":.8}}
+        related={(0,2):{"relation":"related_topic"}}
+        self.assertEqual(merge_event_groups(ev,yes,related,dict(enumerate("abc"))),[[0,1,2]])
+
+    def test_failed_existing_group_recheck_rolls_back_once(self):
+        text="This is an independent neural model research article."
+        arts=[{"url":f"https://example.com/{i}","title":str(i),"summary":text} for i in range(3)]
+        class LLM:
+            def chat(self,system,payload):
+                return json.dumps([{"pair_id":p["pair_id"],"relation":"different_event","reason":"different problems"} for p in json.loads(payload)])
+        class Curator:
+            async def curate_events(self,events,embeddings):return []
+        with tempfile.TemporaryDirectory() as temp:
+            resolver=IdentityResolver(LLM(),temp)
+            out=asyncio.run(resolver.consolidate([{"articles":arts,"article_indices":[0,1,2],"is_relevant":True}],arts,np.ones((3,3)),Curator()))
+        self.assertEqual(len(out),1)
+        self.assertEqual(out[0]["article_indices"],[0,1,2])
 
     def test_related_topic_stays_separate(self):
         out,_=self.run_resolver("related_topic");self.assertEqual(len(out),2)

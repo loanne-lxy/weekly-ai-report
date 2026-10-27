@@ -1,0 +1,86 @@
+[
+  {
+    "urls": [
+      "https://openai.com/index/openai-models-google-cloud",
+      "https://openai.com/index/cloudflare-cyber"
+    ],
+    "titles": [
+      "OpenAI models are coming to Google Cloud",
+      "Cloudflare links vulnerability discovery to defense with OpenAI"
+    ],
+    "label": "different_event",
+    "basis": "Different OpenAI partnerships: Google Cloud versus Cloudflare.",
+    "annotation": "assistant-reviewed supplied titles and summaries; not independent human annotation"
+  },
+  {
+    "urls": [
+      "https://openai.com/index/cloudflare-cyber",
+      "https://www.infoq.cn/article/4647jBOxmf3Ut0i1aVbx?utm_source=rss&utm_medium=article"
+    ],
+    "titles": [
+      "Cloudflare links vulnerability discovery to defense with OpenAI",
+      "Cloudflare 的 OHTTP 网关拒绝解密通过 Cloudflare 传入的请求"
+    ],
+    "label": "different_event",
+    "basis": "Cloudflare vulnerability collaboration versus OHTTP gateway behaviour.",
+    "annotation": "assistant-reviewed supplied titles and summaries; not independent human annotation"
+  },
+  {
+    "urls": [
+      "https://www.infoq.cn/article/Lo9TLlRdvy4II38yaex0?utm_source=rss&utm_medium=article",
+      "https://www.infoq.cn/article/rVqEbaXeaJ91UWlQF4F9?utm_source=rss&utm_medium=article"
+    ],
+    "titles": [
+      "“让Token不空转”，讯飞如何把Agent推进企业核心流程",
+      "AI 赋能开发，Spotify 月代码变更量翻倍"
+    ],
+    "label": "different_event",
+    "basis": "iFlytek enterprise agent integration versus Spotify development metrics.",
+    "annotation": "assistant-reviewed supplied titles and summaries; not independent human annotation"
+  },
+  {
+    "urls": [
+      "https://www.nature.com/articles/s42256-026-01319-4",
+      "https://www.nature.com/articles/s42256-026-01316-7"
+    ],
+    "label": "same_event",
+    "basis": "Publisher marks the first as News & Views and explicitly links the second in associated content; both cover the same Lagrangian-Eulerian flow study. Different DOIs identify commentary and research article, not separate discoveries.",
+    "annotation": "assistant-reviewed publisher HTML association and reference; exploratory control, not independent held-out human label"
+  },
+  {
+    "urls": [
+      "http://arxiv.org/abs/2610.31613v1",
+      "http://arxiv.org/abs/2610.31569v1"
+    ],
+    "label": "same_research_problem",
+    "basis": "VLA execution monitoring: Progress Probes detects off-course execution; Echo predicts stop/failure signals.",
+    "annotation": "Assistant reviewed supplied abstracts against user-requested research-problem grouping; not independent human-labelled benchmark."
+  },
+  {
+    "urls": [
+      "http://arxiv.org/abs/2610.31446v1",
+      "http://arxiv.org/abs/2610.31650v1"
+    ],
+    "label": "same_research_problem",
+    "basis": "Safety-critical evidence verification before agent execution: AMV-Guard and EpiSEM address missing/stale premises.",
+    "annotation": "Assistant reviewed supplied abstracts against user-requested research-problem grouping; not independent human-labelled benchmark."
+  },
+  {
+    "urls": [
+      "https://www.langchain.com/blog/context-engineering-starts-with-retrieval",
+      "http://arxiv.org/abs/2610.27230v1"
+    ],
+    "label": "same_research_problem",
+    "basis": "Agent persistent memory and retrieval: harness retrieval and Magnolia memory across research sessions.",
+    "annotation": "Assistant reviewed supplied abstracts against user-requested research-problem grouping; not independent human-labelled benchmark."
+  },
+  {
+    "urls": [
+      "http://arxiv.org/abs/2610.31540v1",
+      "http://arxiv.org/abs/2610.31371v1"
+    ],
+    "label": "same_research_problem",
+    "basis": "Decentralized multi-robot coordination: shared constraints/planning and reusable interaction policies.",
+    "annotation": "Assistant reviewed supplied abstracts against user-requested research-problem grouping; not independent human-labelled benchmark."
+  }
+]

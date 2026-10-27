@@ -17,14 +17,14 @@ async def main():
         ("CedarAgent version 1", "CedarAgent version 1 was released on 20 October 2026 with a new tool execution runtime.",
          "CedarAgent version 2", "CedarAgent version 2 was released on 24 October 2026 with a new memory system; this is a separate release from version 1.",False),
         ("BirchFlow for particles", "The BirchFlow paper proposes a neural particle simulator and evaluates trajectory errors on fluid experiments.",
-         "MapleFlow for particles", "The MapleFlow paper proposes a different neural particle simulator by a separate research team and evaluates trajectory errors on fluid experiments.",False)]
+         "MapleFlow for particles", "The MapleFlow paper proposes a different neural particle simulator by a separate research team and evaluates trajectory errors on fluid experiments.",True)]
     arts=[];vectors=[]
     for i,(t1,s1,t2,s2,_) in enumerate(fixtures):
         for j,(title,summary) in enumerate([(t1,s1),(t2,s2)]):
             arts.append({"url":f"https://synthetic-{i}-{j}.invalid/article", "title":title,"summary":summary,"published":"2026-10-22T00:00:00Z","date_status":"verified"})
             vectors.append(np.eye(len(fixtures))[i])
     events=[{"article_indices":[i],"articles":[a],"is_relevant":True,"category":"Agent"} for i,a in enumerate(arts)]
-    llm=LLMClient(load_config());root=Path("data/w44-identity-stage/synthetic-controls")
+    llm=LLMClient(load_config());root=Path("data/cluster-repair-8e18d29-20261027/synthetic-controls")
     resolver=IdentityResolver(llm,root/"identity")
     result=await resolver.consolidate(events,arts,np.array(vectors),EventCurator(llm,cache_dir=root/"curation"))
     owner={i:k for k,e in enumerate(result) for i in e["article_indices"]}

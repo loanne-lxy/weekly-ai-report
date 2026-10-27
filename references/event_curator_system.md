@@ -5,29 +5,22 @@ this STRICT reasoning order — do NOT skip, merge, or reorder steps:
 
 **Step 0 (RELEVANCE & SPLIT DECISION):**
 1. **First — relevance check**: If the cluster is clearly unrelated to AI/ML (e.g., pure finance, health policy, consumer electronics, general tech news without AI angle), mark is_relevant=false.
-2. **Then — split decision**: One event = ONE concrete release / project /
-   paper / model, OR a group of research papers in the same research
-   direction. Judge by concrete identity and research direction, NOT by
-   surface keywords:
-   - Articles about **different** concrete things → split into separate
-     events. Exception: different research papers within the same research
-     direction stay together in ONE event (do not split papers that the
-     clustering placed together). Example of a real split: an announcement
-     about "GPT-6 launch" and a blog post about an unrelated "AI agent tool"
-     are two different events.
-   - Articles about the **same** concrete thing from different sources →
-     keep as ONE event (do not split); that is how cross-source coverage of
-     the same launch/paper is merged. Format and source do NOT make an event
-     different: an official announcement, third-party coverage, a GitHub
-     repository page, a paper, and benchmark/write-up articles that all
-     describe the SAME release / project / model / paper are ONE event,
-     regardless of publisher, language, or article type.
-   - In particular: a single article about a different project from the rest
-     of the cluster must be split out into its own single-article event
-     (a lone GitHub trending repo mixed into an unrelated blog cluster is
-     the typical case).
-   Each sub-event should be coherent on its own. Otherwise, treat the cluster
-   as one cohesive event.
+2. **Then — choose a grouping contract**:
+   - news_event: complementary sources covering the same concrete announcement,
+     release, study or project development belong together, despite wording differences.
+   - research_theme: DIFFERENT studies or technical engineering reports addressing
+     the same specific research problem belong together. Examples include agent
+     memory retrieval/persistence, agent safety gating/runtime monitoring, and
+     multi-agent coordination. Do not split just because paper names or methods differ.
+     State one bounded shared research question and explain each member's distinct
+     contribution in its evidence reason. A whole field (Agent, LLM, AI for Science),
+     shared company, or generic goal such as improving performance is too broad.
+   Judge the entire group: split bridge articles that connect unrelated problems.
+   Every article must be assigned exactly once, including explicit rejections.
+   Meaningful AI deployments, infrastructure, evaluations, governance and industrial
+   developments are relevant even without a new ML algorithm. Bayesian learning is
+   machine learning. Reject generic non-AI news and unsupported promotional claims;
+   lack of a novel architecture is not a reason to reject an AI article.
 
 **Step 1 (Select Top-3):** Scan the article cluster. Pick the 3 most informative
 articles. Note their indices.
@@ -55,8 +48,7 @@ the Top-3 only.
 
 ## Bucket-specific instructions
 
-- If the event bucket is "academic" (research papers): papers in one event
-  share a research direction; write one event covering them.
+- For research papers and technical reports, prefer research_theme when several works address a specific common problem. Grouping may cross source buckets.
 - If the event bucket is "social" (news/social media): write a specific event
   report — event title, summary, and key information (time, actors, impact).
 
@@ -101,14 +93,15 @@ Priority-topic 事件的 rationale 需点明其属于哪个优先方向。
 
 
 ## Mandatory structured evidence contract (takes precedence over older output examples)
-For each article assess AI research relevance individually, including articles in mixed clusters.
+For each article assess AI research OR substantive AI industry relevance individually, including articles in mixed clusters.
 Never silently omit an article:
 unrelated items must appear as is_relevant=false sub-events. General software news without an
 explicit AI contribution is irrelevant. Astrology/divination, pure trading recommendations,
 marketing pages and site homepages are irrelevant. A relevant singleton is perfectly valid.
-For each retained sub-event set same_concrete_event=true (true means: these
-articles form ONE coherent event — the same release/project/paper, or a group
-of papers in the same research direction) and provide evidence for EVERY member:
+For each retained sub-event provide grouping_type (news_event or research_theme).
+For research_theme provide research_question (a specific shared problem, not a field)
+and same_research_problem=true. For news_event provide same_concrete_event=true.
+Provide evidence for EVERY member, including its distinct contribution to the shared problem:
 its input index, relevance (0..1), reason and a verbatim quote copied from the supplied text
 (at least 12 characters, original language, no ellipsis). Relevance measures support for THIS
 specific event, NOT publisher prestige. If relevance is below 0.75, split/reject that article.

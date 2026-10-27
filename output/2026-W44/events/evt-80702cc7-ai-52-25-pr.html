@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI编码降低52%耗时但25%PR为低质量贡献 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W44</span>
+      <span class="mono" style="color: var(--text-3);">3 篇来源文章</span>
+    </div>
+    <h1>AI编码降低52%耗时但25%PR为低质量贡献</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">40<small> / 100</small></div>
+        <div class="bar"><i style="width: 40%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">70<small> / 100</small></div>
+        <div class="bar"><i style="width: 70%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose" style="white-space:pre-line">核心突破：三项独立证据共同表明：Linux基金会调查显示AI将代码编写耗时降低52%但约25%的PR为低质量贡献（大型项目达31%）；PostgreSQL 19因AI辅助审查与模糊测试集中暴露约40项边缘缺陷、8至10项功能被撤回而推迟发布；Spotify 8月合并变更量从约8100增至17000，变更数量已超过部分验证机制的处理能力。
+解决的问题：AI辅助编码大幅降低代码生成成本，但代码验证、审查和维护成本未同步下降，效率收益在不同角色间重新分配，开源维护者和企业质量团队面临新的瓶颈。
+研究价值：为AI辅助软件开发的效率-质量权衡提供了跨组织、跨场景的实证数据，涵盖调查统计（Linux基金会）、具体项目案例（PostgreSQL）和企业内部工程复盘（Spotify），有助于制定AI编码的质量治理与验证策略。</p>
+        <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：Linux基金会数据来自受访者估计而非对PR的逐项客观检测；PostgreSQL案例为单一项目且缺乏与无AI审查基线的对比；Spotify数据为内部复盘，缺乏独立复现和跨行业对比基准；三项证据均为观察性数据，未建立因果验证</p>
+
+        <details><summary>评分依据 · 综合分 26.1</summary>
+          <p class="prose">重要性：跨组织实证数据揭示AI编码效率-质量权衡，但为观察性证据而非技术突破（文章0、1、2）</p>
+          <p class="prose">新颖性：52%耗时降低与25%低质量PR为首次量化报告，但AI编码质量挑战已有先前讨论（文章0、1）</p>
+          <p class="prose">影响力：影响开源生态、企业软件交付和数据库项目，跨行业适用（文章0、1、2）</p>
+          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        </details>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 3 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+
+
+
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://www.infoq.cn/article/9TSuUDxrUSGS26XTA2yB?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">四分之一PR是“AI垃圾”！Linux基金会发布新报告：AI写代码快了52%，开源维护者却更累了</a></h3>
+          <p class="sum">AI 编程工具正在大幅缩短开发者写代码的时间，但开源社区可能正在为这种效率提升付出另一种代价。
+10 月 20 日，Linux 基金会发布最新研究报告《Navigating Open Source Software Development in the Generative AI Era》，调查生成式 AI 对开源软件开发、代码贡献和社区维护的影响。
+报告给出了一组颇具反差的数据：受访者估计，使用生成式 AI 后，代码编写任务的平均耗时减少了 52%；与此同时，开源项目维护者估计，收到的 Pull Request（PR，拉取请求）中约有 25% 属于低质量贡献，被称为“AI slop”（AI 垃圾内容）。在大型开源项目中，这一比例进一步上升至 31%。59% 的维护者表示，自生成式 AI 兴起以来，项目收到的代码贡献数量有所增长；在大型项目中，这一比例达到 69%。
+AI 正在让提交代码变得越来越容易，但维护者能否跟上代码增长的速度，成为新的问题。
+AI 写代码更快了，复杂任务却未必省时间
+Linux 基金会这份研究由 LF Research 发布，获得 Red Hat 赞助，以及 Futurewei、OpenSSF、LF AI &amp; Data 的支持。
+Linux 基金会在官方新闻中表示，生成式 AI...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 95% · 提供核心调查数据：AI降低代码编写耗时52%，25%PR为低质量贡献，大型项目达31%，59%维护者报告贡献量增加，71%认同AI降低门槛但53%不同意改善社区信任</p>
+          <blockquote class="chain-note">使用生成式 AI 后，代码编写任务的平均耗时减少了 52%；与此同时，开源项目维护者估计，收到的 Pull Request（PR，拉取请求）中约有 25% 属于低质量贡献</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-25</span>
+            <a class="url" href="https://www.infoq.cn/article/9TSuUDxrUSGS26XTA2yB?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://www.infoq.cn/article/Q6mgHWCSqV6KeZzee3NT?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">PostgreSQL 19 发不出来？AI“找茬”太快，人类修Bug的速度跟不上了</a></h3>
+          <p class="sum">近日，PostgreSQL 19 的发布出现罕见波折。PostgreSQL 团队宣布，原计划于 10 月 29 日正式发布的 PostgreSQL 19，将推迟至 11 月 19 日。在此之前，项目还将额外增加一个 RC2 候选版本，于 11 月 12 日发布。官方给出的原因是，近期被加入各维护分支的修复数量较多，希望先通过 RC2 将这些修复交给社区验证，再进入正式发布。
+与此同时，在 Beta 阶段开始后，大约有 8～10 项重要功能被从 PostgreSQL 19 中撤回，其中部分功能是在相当靠后的阶段才被移除。正常情况下，一个 PostgreSQL 大版本周期出现一项重要功能回滚并不罕见，但一次撤回接近 10 项，已经明显超出了惯例。
+PostgreSQL 核心提交者、EDB 副总裁 Peter Eisentraut 随后专门撰文解释了这次异常，其中一个关键变量，正是迅速成熟起来的大模型辅助代码审查和模糊测试。
+AI 把以前 5 年才能发现的问题提前翻了出来
+Peter Eisentraut 否定了一个很容易出现的猜测：这些问题大体上并不是 vibe coding 造成的。
+他解释道，大多数受到影响并最终被撤回的功能，早在 LLM 辅助编程和代码审查成熟之前就已经完成。也就是说，并不是开发者让 Claude、Codex 等模型大量生成了质量不佳的...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 90% · 提供具体项目案例：PostgreSQL 19因AI辅助审查与模糊测试集中暴露约40项边缘缺陷而推迟发布，8至10项功能被撤回，AI将原本5年内浮现的问题提前到数周内集中扫出</p>
+          <blockquote class="chain-note">借助 AI 辅助代码审查，过去分散在数年时间里的边缘缺陷，现在可能在几天或几周内被集中扫出来</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-23</span>
+            <a class="url" href="https://www.infoq.cn/article/Q6mgHWCSqV6KeZzee3NT?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://www.infoq.cn/article/rVqEbaXeaJ91UWlQF4F9?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">AI 赋能开发，Spotify 月代码变更量翻倍</a></h3>
+          <p class="sum">Spotify 扩大了 AI 辅助开发的应用范围，8 月份合并变更量同比增长一倍以上，从约 8100 个增至 17000 个。该公司正在调整质量与可靠性控制体系，以应对生产系统中激增的软件变更数量。
+Spotify 运营着近 3000 个生产服务，支撑着 7.77 亿月活用户，约 1 亿并发客户端，每秒处理 1100 万至 1200 万次后端请求。在复盘工作中发现了内容处理、集群变更、计算容量以及移动端应用质量方面的问题。对此，Spotify 对监控、测试、发布防护、回滚能力、容量规划和质量度量进行了优化。
+其中一次事故与 Spotify 的内容处理流水线有关，该流水线每天处理超 50 万首新增歌曲、视频、播客及有声书。6 月 24 日，一个计划内的定时批处理任务与新节目内容抢占资源，一项质量优化提升了处理资源需求，而一个调度错误使吞吐量降低了约 10%。原本几分钟内就能上线的节目，延迟了数小时。Spotify 后续新增端到端监控、修复调度器、调低批处理任务优先级、重构任务优先级策略并进行了扩容。
+集群自动化带来了不一样的挑战。Spotify 的集群管理系统已合并超过 250 万个自动化维护拉取请求，其中大部分在安全检查后自动合并。公司后来引入了 Honk，这是一个在 Kubernetes Pod 中使用 Agent SDK 运行 Claude...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 85% · 提供企业内部工程证据：Spotify 8月合并变更量从约8100增至17000，变更数量超过部分验证机制处理能力，质量与优化工作占比从27%升至31%，返工量未增但PR体量与复杂度上升</p>
+          <blockquote class="chain-note">变更数量已经超过了一些验证机制的处理能力</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-23</span>
+            <a class="url" href="https://www.infoq.cn/article/rVqEbaXeaJ91UWlQF4F9?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">80702cc7</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W44</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">3 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+
+
+        <div class="src-row">
+          <div class="n">InfoQ AI</div>
+          <div class="s">
+            <span class="mono">3 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+</div></footer>
+</body>
+</html>

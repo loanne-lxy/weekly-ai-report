@@ -246,10 +246,21 @@ async def _run_pipeline(
         resolver = IdentityResolver(llm, os.path.join(DATA_DIR, "identity_cache"),
                                     identity_cfg.get("candidate_threshold", 0.45),
                                     identity_cfg.get("candidate_top_k", 8))
-        curated_events = await resolver.consolidate(curated_events, articles, embeddings, curator)
+        identity_decisions = await resolver.consolidate(curated_events, articles, embeddings, curator)
+        # Splitting a broad seed can expose valid cross-seed matches previously
+        # blocked by unrelated members. Reconcile once more using cached pair reviews.
+        if any(m.get("output_events", 0) > 1 for m in resolver.audit["merges"]):
+            followup = IdentityResolver(llm, os.path.join(DATA_DIR, "identity_cache"),
+                identity_cfg.get("candidate_threshold", 0.45), identity_cfg.get("candidate_top_k", 8))
+            retained = [e for e in identity_decisions if e.get("is_relevant")]
+            excluded = [e for e in identity_decisions if not e.get("is_relevant")]
+            identity_decisions = excluded + await followup.consolidate(retained, articles, embeddings, curator)
+            resolver.audit["followup_pass"] = followup.audit
+            resolver.audit["output_events"] = sum(e.get("is_relevant", False) for e in identity_decisions)
+        curated_events = [e for e in identity_decisions if e.get("is_relevant")]
         audit["identity_resolution"] = resolver.audit
         # Final decisions account for every input exactly once after consolidation.
-        decisions = [e for e in decisions if not e.get("is_relevant")] + curated_events
+        decisions = [e for e in decisions if not e.get("is_relevant")] + identity_decisions
         audit["curation_decisions"] = [{"urls": [a["url"] for a in e.get("articles", [])],
             "title": e.get("event_title", e.get("title")), "status": e.get("quality_status"),
             "reasons": e.get("quality_reasons", [])} for e in decisions]
@@ -451,6 +462,11 @@ async def _run_pipeline(
     (audit_dir / "audit.json").write_text(json.dumps(audit, ensure_ascii=False, indent=2))
     (audit_dir / "decisions.json").write_text(json.dumps(decisions, ensure_ascii=False, indent=2))
     (audit_dir / "curated_events.json").write_text(json.dumps(curated_events, ensure_ascii=False, indent=2))
+
+    # Validate full input accounting before publishing or updating the knowledge store.
+    from scripts.article_lineage import build_lineage
+    lineage = build_lineage(audit_dir)
+    (audit_dir / "article_lineage.json").write_text(json.dumps(lineage, ensure_ascii=False, indent=2))
 
     # ── Phase 5.5: Unified Knowledge Store Persistence ───────────
     # Persist BEFORE report generation so the report reads fresh data

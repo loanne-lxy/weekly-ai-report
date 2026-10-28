@@ -2,7 +2,7 @@
 
 面向研究与工程读者的 AI 周报流水线：从 RSS、arXiv、GitHub、Exa 等来源获取文章，完成质量审核、语义聚合、评分与有证据支持的研究观察，生成以事件和研究议题为单位的网站。
 
-**[查看 W44 周报](https://loanne-lxy.github.io/weekly-ai-report/2026-W44/)** · [W44 聚类修复与验收报告](docs/clustering-repair-20261027.md)
+**[查看 W44 周报](https://loanne-lxy.github.io/weekly-ai-report/2026-W44/)**
 
 ## 页面预览
 
@@ -103,20 +103,6 @@ python scripts/evaluate_event_identity.py --run-dir data/runs/2026-W44
 逐篇去向工具生成 `article_lineage.json` 和 `article_lineage.md`，记录保留分组、审核状态及排除原因。真实聚合验收样本针对冻结 W44 输入；不是任意新周报的通用精确率评测。
 
 `data/runs/<WEEK>/` 还保存 `raw_articles.json`、`decisions.json`、`curated_events.json` 和 `audit.json`。完整 W44 验收脚本 `scripts/verify_quality_report.py` 检查证据、Top Events、研究观察、链接、历史数据和原错误大簇的去向，需要本地修复前数据库作为 `--baseline`；该历史基线不随仓库分发。
-
-### W44 修复后的验收快照
-
-| 指标 | 结果 |
-|---|---:|
-| 冻结输入 | 150 篇 |
-| 预处理排除 | 11 篇：6 篇超窗、5 篇正文不足 |
-| 内容审核排除 | 40 篇 |
-| 发布文章 / 分组 | 99 篇 / 73 组 |
-| 多文章组 | 16 组，覆盖 42 篇 |
-| 最大分组 | 6 篇 |
-| 研究观察 / 领域信号 | 2 条 / 5 个领域 |
-
-48 项相关回归测试及完整 W44 验收通过。所有输入均有去向，历史周报数据未改变。验收样本不等同于独立标注的全量精确率/召回率，也不替代对原始论文的科学事实核查。
 
 ## 主要模块
 

@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #8b5cf6; }</style>
 
@@ -161,13 +161,13 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: #8b5cf6;"></i></div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">60<small> / 100</small></div>
-        <div class="bar"><i style="width: 60%; background: #10b981;"></i></div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：验证了算子库扩展、FlagTree 编译优化与 KernelGen AI 辅助算子生成协同的规模化跨芯优化路径，将算子开发从专家手工优化推向规模化生产</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：性能数据基于内部测试，无独立复现；27% 为千余算子在 10 款芯片上的整体均值而非单算子指标；成本对比基于租金折算参考值，非实际采购价；GLM-5.3-Flash 吞吐提升仅在指定条件下测得</p>
 
-        <details><summary>评分依据 · 综合分 29.7</summary>
-          <p class="prose">重要性：跨芯 27% 性能提升与季度 765 算子自动生成，实质性降低多芯片适配成本（文章0）</p>
-          <p class="prose">新颖性：2.1 到 2.2 增量更新，算子覆盖与工具链扩展，非新范式（文章0）</p>
-          <p class="prose">影响力：覆盖 10 款芯片、12 款 Day0 适配，影响 AI 算力生态多厂商（文章0）</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 54.0 · 推荐排序分 29.7</summary>
+          <p class="prose">重要性：FlagOS 2.2文章报告在10款芯片、上千算子中跨芯性能提升约27%，并给出GLM-5.3-Flash吞吐与成本数据，说明对多元算力适配有实际工程价值，但缺少独立复现。</p>
+          <p class="prose">新颖性：文章提出KernelGen自动算子生成与FlagPrism跨芯调试，将代码生成、验证和调优衔接，但缺少与既有AI算子生成方法的直接对比，新颖性证据有限。</p>
+          <p class="prose">影响力：FlagOS 2.2文章给出27%算子性能、2.04倍吞吐和成本下降等目标场景收益，但主要来自厂商测试范围，未展示跨机构部署或独立验证，影响仍属有界。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -260,7 +260,7 @@ FlagOS 2.2 持续扩充通用计算、推理专用与科学计算算子，发布
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

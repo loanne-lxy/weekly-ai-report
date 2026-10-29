@@ -173,7 +173,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </div>
-  <div class="issue"><b>2026-W44</b> · 2026-10-27
+  <div class="issue"><b>2026-W44</b> · 2026-10-29
   <span class="hist">过往周报<span class="sep">·</span><a class="hist-link mono" href="../2026-W43/">2026-W43</a><span class="sep">·</span><a class="hist-link mono" href="../2026-W42/">2026-W42</a><span class="sep">·</span><a class="hist-link mono" href="../2026-W41/">2026-W41</a></span></div>
 </div></div>
 
@@ -184,7 +184,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <h1>AI 研究情报周报</h1>
     <p class="lede">本周共追踪 <b>73 个研究事件</b>，聚合 <b>99 篇来源文章</b>，
     覆盖 <b>5 个领域</b>、引用 <b>7 个发布站点</b>。
-    事件通过质量检查后按综合分排序，完整证据链见各事件详情页。</p>
+    事件通过质量检查后按推荐排序分排序，完整证据链见各事件详情页。</p>
     <div class="kpis">
       <div class="kpi"><div class="v">73<small>事件</small></div><div class="l">Events</div></div>
       <div class="kpi"><div class="v">99<small>文章</small></div><div class="l">Articles</div></div>
@@ -197,51 +197,20 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
   <section>
     <div class="sec-head reveal">
       <div><span class="kicker">Top Events</span><h2>本周核心事件</h2></div>
-      <span class="hint">通过质量检查 · 按综合分排序 · Top 5</span>
+      <span class="hint">通过质量检查 · 按推荐排序分排序 · Top 5</span>
     </div>
     <div class="panel top-list">
 
     <div class="top-item reveal" style="animation-delay: 0ms">
       <div class="top-num mono">01</div>
       <div class="top-body">
-        <h3><a href="events/evt-52d2be2f-975b-moe-inkling.html">975B多模态MoE模型Inkling开源发布</a></h3>
-        <div class="top-meta">
-          <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
-          <span class="score"><b>55</b><span>/ 100 综合分</span>
-            <span class="bar"><i style="width: 55%"></i></span>
-          </span>
-          <span class="mono">1 篇来源文章</span>
-        </div>
-        <p class="top-sum"><strong>核心进展：</strong>Thinking Machines Lab开源975B多模态MoE模型Inkling，41B激活参数，1M上下文，无编码器多模态设计，可在Tinker上微调<br><strong>研究价值：</strong>提供了大规模MoE多模态模型的完整架构设计参考，包括无辅助损失sigmoid负载均衡、滑动窗口与全局注意力5:1交替、8 KV头、短卷积后处理及无编码器音频dMel输入等具体技术细节，MoE核心设计参照DeepSeek-V3</p>
-        <a class="evt-link" href="events/evt-52d2be2f-975b-moe-inkling.html">查看证据链 →</a>
-      </div>
-    </div>
-
-    <div class="top-item reveal" style="animation-delay: 70ms">
-      <div class="top-num mono">02</div>
-      <div class="top-body">
-        <h3><a href="events/evt-7fc91eb3-cfd.html">中心线锚定注意力代理加速冠脉血流CFD求解</a></h3>
-        <div class="top-meta">
-          <span class="tag"><span class="dot" style="background: #10b981"></span>AI for Science</span>
-          <span class="score"><b>46</b><span>/ 100 综合分</span>
-            <span class="bar"><i style="width: 46%"></i></span>
-          </span>
-          <span class="mono">1 篇来源文章</span>
-        </div>
-        <p class="top-sum"><strong>核心进展：</strong>CARS以中心线锚定注意力代理将冠脉几何映射为血流解，单例87ms推理，FFR判定准确率97.7%，优于四个神经算子基线。<br><strong>研究价值：</strong>为变几何域PDE代理提供了可扩展的注意力架构范式：以病例自身中心线为焦点集，几何融合代价降至O(N·n_f)，精度在8倍于工作焦点数时即饱和。FFR预测与CFD标签Pearson...</p>
-        <a class="evt-link" href="events/evt-7fc91eb3-cfd.html">查看证据链 →</a>
-      </div>
-    </div>
-
-    <div class="top-item reveal" style="animation-delay: 140ms">
-      <div class="top-num mono">03</div>
-      <div class="top-body">
         <h3><a href="events/evt-3f1e52ed-softmax.html">修复Softmax与交叉熵的数值缺陷</a></h3>
         <div class="top-meta">
           <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
-          <span class="score"><b>45</b><span>/ 100 综合分</span>
-            <span class="bar"><i style="width: 45%"></i></span>
+          <span class="score"><b>70</b><span>/ 100 价值分</span>
+            <span class="bar"><i style="width: 70%"></i></span>
           </span>
+          <span class="mono" title="推荐排序考虑来源、证据相关性与时效；不等同于研究价值">推荐排序分 57</span>
           <span class="mono">1 篇来源文章</span>
         </div>
         <p class="top-sum"><strong>核心进展：</strong>修复softmax与交叉熵的两个数值缺陷，消除Slingshot现象，加速grokking并稳定蒸馏训练。<br><strong>研究价值：</strong>为深度学习训练基础设施提供了底层数值稳定性修复，影响grokking速度、精度保持和知识蒸馏可靠性，对大规模模型训练具有普遍适用性。</p>
@@ -249,35 +218,71 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       </div>
     </div>
 
+    <div class="top-item reveal" style="animation-delay: 70ms">
+      <div class="top-num mono">02</div>
+      <div class="top-body">
+        <h3><a href="events/evt-c776573f-n-gram-75.html">低比特N-gram嵌入量化节省75%表内存</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+          <span class="score"><b>68</b><span>/ 100 价值分</span>
+            <span class="bar"><i style="width: 68%"></i></span>
+          </span>
+          <span class="mono" title="推荐排序考虑来源、证据相关性与时效；不等同于研究价值">推荐排序分 55</span>
+          <span class="mono">1 篇来源文章</span>
+        </div>
+        <p class="top-sum"><strong>核心进展：</strong>提出对LLM中n-gram嵌入表进行低比特量化，4-bit表节省75%内存且保留99%性能增益，已在大型现有模型上验证。<br><strong>研究价值：</strong>系统研究了不同量化方法和比特分配对n-gram嵌入表的影响，证明低比特精度是减少n-gram嵌入内存需求的实用方法，并展示了将节省容量重新投入更大表以进一步提升性能的策略。</p>
+        <a class="evt-link" href="events/evt-c776573f-n-gram-75.html">查看证据链 →</a>
+      </div>
+    </div>
+
+    <div class="top-item reveal" style="animation-delay: 140ms">
+      <div class="top-num mono">03</div>
+      <div class="top-body">
+        <h3><a href="events/evt-d9c3e52c-event.html">代理式物理可行积木构建生成</a></h3>
+        <div class="top-meta">
+          <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+          <span class="score"><b>67</b><span>/ 100 价值分</span>
+            <span class="bar"><i style="width: 67%"></i></span>
+          </span>
+          <span class="mono" title="推荐排序考虑来源、证据相关性与时效；不等同于研究价值">推荐排序分 55</span>
+          <span class="mono">1 篇来源文章</span>
+        </div>
+        <p class="top-sum"><strong>核心进展：</strong>BrickWright利用编码代理配合积木组装API和物理可行性验证器，在512个提示上实现100%物理有效积木构建。<br><strong>研究价值：</strong>验证工具反馈循环足以使代理产生物理有效组装，为具身代理提供范式</p>
+        <a class="evt-link" href="events/evt-d9c3e52c-event.html">查看证据链 →</a>
+      </div>
+    </div>
+
     <div class="top-item reveal" style="animation-delay: 210ms">
       <div class="top-num mono">04</div>
       <div class="top-body">
-        <h3><a href="events/evt-0aa0af51-ribobridge-rna-rna.html">RiboBridge解耦RNA构象生成与蛋白-RNA组装</a></h3>
+        <h3><a href="events/evt-68a0754b-event.html">去中心化多机器人分散树规划与概率能量建模</a></h3>
         <div class="top-meta">
-          <span class="tag"><span class="dot" style="background: #10b981"></span>AI for Science</span>
-          <span class="score"><b>44</b><span>/ 100 综合分</span>
-            <span class="bar"><i style="width: 44%"></i></span>
+          <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+          <span class="score"><b>72</b><span>/ 100 价值分</span>
+            <span class="bar"><i style="width: 72%"></i></span>
           </span>
-          <span class="mono">1 篇来源文章</span>
+          <span class="mono" title="推荐排序考虑来源、证据相关性与时效；不等同于研究价值">推荐排序分 55</span>
+          <span class="mono">2 篇来源文章</span>
         </div>
-        <p class="top-sum"><strong>核心进展：</strong>RiboBridge将RNA构象生成与蛋白-RNA组装解耦，在124个复合物基准上fNAT、DockQ最优，RMSD最低，提供从头RNA结合剂设计新框架。<br><strong>研究价值：</strong>通过RiboSphere预训练RNA结构潜空间生成构象，再用交互约束桥接独立坐标帧并刚性放置，实现几何一致的蛋白相对位姿；组件消融和阶段诊断定位了复合物恢复误差主要来源。</p>
-        <a class="evt-link" href="events/evt-0aa0af51-ribobridge-rna-rna.html">查看证据链 →</a>
+        <p class="top-sum"><strong>核心进展：</strong>去中心化多机器人协同：分散树规划减少22-37%行程时间，概率能量建模实现六类任务零样本迁移与0.96-1.00成功率<br><strong>研究价值：</strong>为多机器人协同提供了去中心化实时近优规划（WarpWeaver分散树+列生成）和统一概率能量建模（PEM）两条互补路径，覆盖运动规划与任务控制，均经仿真和硬件验证</p>
+        <a class="evt-link" href="events/evt-68a0754b-event.html">查看证据链 →</a>
       </div>
     </div>
 
     <div class="top-item reveal" style="animation-delay: 280ms">
       <div class="top-num mono">05</div>
       <div class="top-body">
-        <h3><a href="events/evt-d9c3e52c-event.html">代理式物理可行积木构建生成</a></h3>
+        <h3><a href="events/evt-0711ee0f-3d.html">选择性图像净化预处理用于3D生成</a></h3>
         <div class="top-meta">
-          <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
-          <span class="score"><b>44</b><span>/ 100 综合分</span>
-            <span class="bar"><i style="width: 44%"></i></span>
+          <span class="tag"><span class="dot" style="background: #f59e0b"></span>设计仿真</span>
+          <span class="score"><b>69</b><span>/ 100 价值分</span>
+            <span class="bar"><i style="width: 69%"></i></span>
           </span>
+          <span class="mono" title="推荐排序考虑来源、证据相关性与时效；不等同于研究价值">推荐排序分 54</span>
           <span class="mono">1 篇来源文章</span>
         </div>
-        <p class="top-sum"><strong>核心进展：</strong>BrickWright利用编码代理配合积木组装API和物理可行性验证器，在512个提示上实现100%物理有效积木构建。<br><strong>研究价值：</strong>验证工具反馈循环足以使代理产生物理有效组装，为具身代理提供范式</p>
-        <a class="evt-link" href="events/evt-d9c3e52c-event.html">查看证据链 →</a>
+        <p class="top-sum"><strong>核心进展：</strong>Gate3DGen通过退化感知路由器和3D导向单步净化器，选择性净化退化图像输入现有3D生成器，TRELLIS.2网格距离降低61.5%。<br><strong>研究价值：</strong>为3D生成管线提供即插即用的退化图像鲁棒性增强</p>
+        <a class="evt-link" href="events/evt-0711ee0f-3d.html">查看证据链 →</a>
       </div>
     </div>
 
@@ -370,47 +375,13 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="ex-grid">
 
       <article class="ex-card" style="--i: 0" data-cat="llm"
-               data-text="975b多模态moe模型inkling开源发布 核心突破：发布975b总参数、41b激活参数的多模态moe基础模型，采用无编码器多模态架构、相对位置编码替代rope及短卷积增强，支持1m token上下文和可控思考力度
-解决的问题：构建支持多模态输入（文本/图像/音频）、超长上下文和可控推理力度的大规模开源可微调基础模型
-研究价值：提供了大规模moe多模态模型的完整架构设计参考，包括无辅助损失sigmoid负载均衡、滑动窗口与全局注意力5:1交替、8 kv头、短卷积后处理及无编码器音频dmel输入等具体技术细节，moe核心设计参照deepseek-v3 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">70<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-52d2be2f-975b-moe-inkling.html">975B多模态MoE模型Inkling开源发布</a></h3>
-        <p class="ex-sum">Thinking Machines Lab开源975B多模态MoE模型Inkling，41B激活参数，1M上下文，无编码器多模态设计，可在Tinker上微调</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-52d2be2f-975b-moe-inkling.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 1" data-cat="ai-for-science"
-               data-text="中心线锚定注意力代理加速冠脉血流cfd求解 核心突破：提出中心线锚定注意力机制，将变几何pde代理的几何融合复杂度从o(n²)降至o(n·n_f)，在2,700个openfoam解上训练后实现单例87ms推理（求解器需572-1,063s），ffr≤0.8临床判定在留出集上复现率达97.7%/96.3%，优于四个参数匹配的神经算子。
-解决的问题：冠脉血流cfd（稳态不可压navier-stokes）单例求解耗时572-1,063秒，无法支撑临床实时ffr评估；现有神经算子在几何域本身作为参数的变几何问题上精度不足，注意力模型需编码整个流域导致o(n²)复杂度瓶颈。
-研究价值：为变几何域pde代理提供了可扩展的注意力架构范式：以病例自身中心线为焦点集，几何融合代价降至o(n·n_f)，精度在8倍于工作焦点数时即饱和。ffr预测与cfd标签pearson r达0.941/0.993，为冠脉介入决策提供了秒级替代方案。 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">65<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-7fc91eb3-cfd.html">中心线锚定注意力代理加速冠脉血流CFD求解</a></h3>
-        <p class="ex-sum">CARS以中心线锚定注意力代理将冠脉几何映射为血流解，单例87ms推理，FFR判定准确率97.7%，优于四个神经算子基线。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-7fc91eb3-cfd.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 2" data-cat="llm"
                data-text="修复softmax与交叉熵的数值缺陷 核心突破：识别并修复标准softmax/log-softmax/交叉熵实现中的softmax collapse与softmax cancellation两个数值缺陷，消除slingshot现象并改善grokking、蒸馏及训练稳定性。
 解决的问题：标准softmax和交叉熵实现存在两个数值bug：目标logit远大于其他logit时梯度被舍入为零（softmax collapse），以及学生与教师logit相等时仍产生非零梯度（softmax cancellation），导致训练不稳定和蒸馏漂移。
 研究价值：为深度学习训练基础设施提供了底层数值稳定性修复，影响grokking速度、精度保持和知识蒸馏可靠性，对大规模模型训练具有普遍适用性。 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">75<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-3f1e52ed-softmax.html">修复Softmax与交叉熵的数值缺陷</a></h3>
         <p class="ex-sum">修复softmax与交叉熵的两个数值缺陷，消除Slingshot现象，加速grokking并稳定蒸馏训练。</p>
@@ -420,133 +391,14 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 3" data-cat="ai-for-science"
-               data-text="ribobridge解耦rna构象生成与蛋白-rna组装 核心突破：提出structure-first框架ribobridge，通过跨帧交互几何将rna构象生成与蛋白-rna组装解耦，在124个蛋白-rna复合物基准上取得最高fnat和dockq、最低界面和配体rmsd。
-解决的问题：现有rna结合剂设计方法将rna构象生成与蛋白相对放置纠缠在统一表示中，无法独立优化两个子问题，且需假设预定义结合位点。
-研究价值：通过ribosphere预训练rna结构潜空间生成构象，再用交互约束桥接独立坐标帧并刚性放置，实现几何一致的蛋白相对位姿；组件消融和阶段诊断定位了复合物恢复误差主要来源。 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">60<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-0aa0af51-ribobridge-rna-rna.html">RiboBridge解耦RNA构象生成与蛋白-RNA组装</a></h3>
-        <p class="ex-sum">RiboBridge将RNA构象生成与蛋白-RNA组装解耦，在124个复合物基准上fNAT、DockQ最优，RMSD最低，提供从头RNA结合剂设计新框架。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-0aa0af51-ribobridge-rna-rna.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 4" data-cat="agent"
-               data-text="代理式物理可行积木构建生成 核心突破：编码代理配合组装api和验证器反馈实现100%物理有效积木构建，超越专用模型
-解决的问题：前沿编码代理构建物理世界可组装物体时产生浮动、碰撞或断开部件
-研究价值：验证工具反馈循环足以使代理产生物理有效组装，为具身代理提供范式 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">60<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-d9c3e52c-event.html">代理式物理可行积木构建生成</a></h3>
-        <p class="ex-sum">BrickWright利用编码代理配合积木组装API和物理可行性验证器，在512个提示上实现100%物理有效积木构建。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-d9c3e52c-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 5" data-cat="agent"
-               data-text="去中心化多机器人分散树规划与概率能量建模 核心突破：warpweaver在dynobench上较集中式离线规划器减少22%行程时间、较去中心化基线减少37%，六机器人硬件验证；概率能量建模在六类任务上实现零样本迁移，仿真成功率0.96-1.00，单智能体推理延迟1-10ms
-解决的问题：如何在去中心化、实时约束下实现多机器人近联合最优协同，同时支持多样任务的统一控制而无需重新设计或重训练
-研究价值：为多机器人协同提供了去中心化实时近优规划（warpweaver分散树+列生成）和统一概率能量建模（pem）两条互补路径，覆盖运动规划与任务控制，均经仿真和硬件验证 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">60<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-68a0754b-event.html">去中心化多机器人分散树规划与概率能量建模</a></h3>
-        <p class="ex-sum">去中心化多机器人协同：分散树规划减少22-37%行程时间，概率能量建模实现六类任务零样本迁移与0.96-1.00成功率</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-68a0754b-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 6" data-cat="llm"
-               data-text="benice!两阶段法启用循环模型kv共享 核心突破：提出两阶段方法（预训练随机深度+benice!后训练广播kv-cache）启用循环架构kv共享性，匹配标准微调困惑度；在模拟低内存长上下文推理中缓存命中率提升最高31.4%，吞吐量提升23.6%，p90首token延迟降低83.6%。
-解决的问题：循环（looped）llm架构通过重复通过同一层块扩展质量但参数固定，每次递归生成独立kv-cache导致内存线性增长，限制长上下文推理。
-研究价值：揭示了kv共享性的机制（收缩残差动力学驱动表征趋向公共极限），提供了可复现的两阶段启用方法，并验证了与mla、kimi delta attention及fp8/mxfp8/nvfp4量化的组合性。 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-4f65e23f-benice-kv.html">BeNice!两阶段法启用循环模型KV共享</a></h3>
-        <p class="ex-sum">通过预训练随机深度和BeNice!后训练两阶段方法，在循环LLM架构中启用KV-cache跨递归共享，显著降低长上下文推理内存和延迟。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-4f65e23f-benice-kv.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 7" data-cat="llm"
-               data-text="olmo-3检查点证据显示rlvr非单调工具趋同 核心突破：发现rlvr过程中工具趋同率呈非单调轨迹（sft 25.0%→rlvr步200 46.1%→最终11.8%），提示框架效应仅解释15%方差，inlp移除框架方向后sft到最终rlvr差距不变
-解决的问题：工具趋同常被引为期望agent获取权力寻求子目标的一般理由，但rlvr是否使模型更可能表达工具趋同行为、是否取决于训练制度和评估框架尚不清楚
-研究价值：将工具趋同评估从单一前后对比推进到检查点条件行为轨迹分析，为llm后训练安全监控提供方法论，32b端点结果（35.53%→22.37%）初步支持 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-39ddb57b-olmo-3-rlvr.html">OLMo-3检查点证据显示RLVR非单调工具趋同</a></h3>
-        <p class="ex-sum">OLMo-3-7B-Think在RLVR过程中工具趋同率非单调变化，最终低于SFT基线，提示框架效应仅解释15%方差，INLP分析排除框架方向</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-39ddb57b-olmo-3-rlvr.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 8" data-cat="ai-for-science"
-               data-text="ml分子动力学揭示铁电材料极化翻转与畴生长机制 核心突破：发现csgebr3立方相中一维极化链及其链式翻转机制；揭示aln中氮空位调控畴生长方向与降低矫顽场的多尺度机制
-解决的问题：铁电材料极化翻转与畴生长的微观机制尚不明确，理论预测与实验观测存在方向性矛盾
-研究价值：为铁电氧化物/氮化物材料的缺陷工程、低电压器件设计提供多尺度物理机制与ml增强仿真方法学基础 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">55<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-4887775c-ml.html">ML分子动力学揭示铁电材料极化翻转与畴生长机制</a></h3>
-        <p class="ex-sum">ML增强分子动力学揭示CsGeBr3一维极化链翻转与AlN氮空位调控畴生长的微观机制</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-4887775c-ml.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 9" data-cat="agent"
-               data-text="llm智能体耦合apsim模拟器的季中作物管理建议框架 核心突破：llm智能体提出农艺可行参数边界，优化器在apsim模拟器评估下搜索产量、资源利用和经济可行性多目标最优解，11年南亚玉米分析显示持续优于标准农艺方案
-解决的问题：现有农业建议依赖专家、未充分考虑季中天气变化且无法扩展到个体农场
-研究价值：提出llm约束优化与作物模拟器闭环耦合的季中滚动建议方法，为个体化、可扩展的农业管理提供新框架 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">55<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-8081f313-llm-apsim.html">LLM智能体耦合APSIM模拟器的季中作物管理建议框架</a></h3>
-        <p class="ex-sum">LLM智能体与APSIM模拟器闭环耦合，为南亚玉米提供季中个性化农事建议，11年分析优于标准方案</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-8081f313-llm-apsim.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 10" data-cat="llm"
+      <article class="ex-card" style="--i: 1" data-cat="llm"
                data-text="低比特n-gram嵌入量化节省75%表内存 核心突破：4-bit n-gram嵌入表在nanochat/llama/gpt-2系列模型上节省约75%表内存，保留99%验证损失改善；在deepseek-v4.1-flash和qwen3.8-flash-next上节省47-55%内存，困惑度增加1.2%；将节省的内存重新投入更大表可超越全精度表性能。
 解决的问题：开放权重llm中的n-gram嵌入表（如deepseek-v4.1-flash的engram模块分配1960亿参数）占用大量内存，限制了模型容量和部署效率。
 研究价值：系统研究了不同量化方法和比特分配对n-gram嵌入表的影响，证明低比特精度是减少n-gram嵌入内存需求的实用方法，并展示了将节省容量重新投入更大表以进一步提升性能的策略。 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">75<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-c776573f-n-gram-75.html">低比特N-gram嵌入量化节省75%表内存</a></h3>
         <p class="ex-sum">提出对LLM中n-gram嵌入表进行低比特量化，4-bit表节省75%内存且保留99%性能增益，已在大型现有模型上验证。</p>
@@ -556,54 +408,207 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 11" data-cat="llm"
-               data-text="univoe移除驱动视频对象编辑框架 核心突破：提出移除驱动框架，利用移除器生成配对数据训练注入模型，结合奖励后训练实现sota视频对象编辑
-解决的问题：视频对象注入需要大规模配对监督但真实配对难以收集，合成数据缺乏真实性和多样性
-研究价值：通过移除-注入互操作和奖励后训练解决配对数据稀缺问题，为视频对象编辑提供实用方案 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-40c2608f-univoe.html">UniVOE移除驱动视频对象编辑框架</a></h3>
-        <p class="ex-sum">UniVOE通过移除器生成配对数据训练注入模型，结合奖励后训练实现SOTA视频对象移除与注入</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-40c2608f-univoe.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 12" data-cat="llm"
-               data-text="worldforge v2视频扩散相机轨迹对齐 核心突破：提出免训练引导+光流通道选择+trajectory lora的相机轨迹控制方法，单场景训练即可泛化
-解决的问题：视频扩散模型在空间任务中受限于不精确相机控制、时空不一致和相机运动与场景动态纠缠
-研究价值：为视频扩散模型提供高效相机控制方案，减少训练数据需求，适用于场景生成和视频重渲染 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-324594b7-worldforge-v2.html">WorldForge V2视频扩散相机轨迹对齐</a></h3>
-        <p class="ex-sum">WorldForge V2通过免训练引导和Trajectory LoRA实现视频扩散模型精确相机控制，单场景即可泛化</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-324594b7-worldforge-v2.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 13" data-cat="agent"
-               data-text="quant-arena端到端llm代理量化研究基准 核心突破：首个端到端量化研究循环基准（假设→实现→测试→策略冻结），含密封年份2024评估与模拟订单簿市场冲击，九款前沿模型无一超越等权市场。
-解决的问题：现有基准仅评分公式、代码或单步决策，无法检验llm能否完成完整迭代量化研究循环并产生超越研究期的策略。
-研究价值：为llm代理在迭代研究工作流中的能力提供严格评测harness，含真实交易约束与样本外验证，属代理评测基础设施。 agent">
+      <article class="ex-card" style="--i: 2" data-cat="agent"
+               data-text="代理式物理可行积木构建生成 核心突破：编码代理配合组装api和验证器反馈实现100%物理有效积木构建，超越专用模型
+解决的问题：前沿编码代理构建物理世界可组装物体时产生浮动、碰撞或断开部件
+研究价值：验证工具反馈循环足以使代理产生物理有效组装，为具身代理提供范式 agent">
         <div class="ex-top">
           <span class="dot" style="background: #8b5cf6"></span>
           <span class="ex-cat">Agent</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">70<small>IMP</small></span>
         </div>
-        <h3><a href="events/evt-c0df4a06-quant-arena-llm.html">Quant-Arena端到端LLM代理量化研究基准</a></h3>
-        <p class="ex-sum">Quant-Arena发布LLM代理量化研究端到端基准，九款前沿模型在A股数据评估，GPT-6 Astra最高但无一超越等权市场。</p>
+        <h3><a href="events/evt-d9c3e52c-event.html">代理式物理可行积木构建生成</a></h3>
+        <p class="ex-sum">BrickWright利用编码代理配合积木组装API和物理可行性验证器，在512个提示上实现100%物理有效积木构建。</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-c0df4a06-quant-arena-llm.html">证据链 →</a>
+          <a class="go" href="events/evt-d9c3e52c-event.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 3" data-cat="agent"
+               data-text="去中心化多机器人分散树规划与概率能量建模 核心突破：warpweaver在dynobench上较集中式离线规划器减少22%行程时间、较去中心化基线减少37%，六机器人硬件验证；概率能量建模在六类任务上实现零样本迁移，仿真成功率0.96-1.00，单智能体推理延迟1-10ms
+解决的问题：如何在去中心化、实时约束下实现多机器人近联合最优协同，同时支持多样任务的统一控制而无需重新设计或重训练
+研究价值：为多机器人协同提供了去中心化实时近优规划（warpweaver分散树+列生成）和统一概率能量建模（pem）两条互补路径，覆盖运动规划与任务控制，均经仿真和硬件验证 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-68a0754b-event.html">去中心化多机器人分散树规划与概率能量建模</a></h3>
+        <p class="ex-sum">去中心化多机器人协同：分散树规划减少22-37%行程时间，概率能量建模实现六类任务零样本迁移与0.96-1.00成功率</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-68a0754b-event.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 4" data-cat="设计仿真"
+               data-text="选择性图像净化预处理用于3d生成 核心突破：选择性门控预处理无需重训3d生成器，2.3秒内净化退化图像，网格距离降低61.5%
+解决的问题：单图3d生成在真实世界不均匀光照、模糊和遮挡图像上性能急剧下降
+研究价值：为3d生成管线提供即插即用的退化图像鲁棒性增强 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">75<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-0711ee0f-3d.html">选择性图像净化预处理用于3D生成</a></h3>
+        <p class="ex-sum">Gate3DGen通过退化感知路由器和3D导向单步净化器，选择性净化退化图像输入现有3D生成器，TRELLIS.2网格距离降低61.5%。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-0711ee0f-3d.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 5" data-cat="llm"
+               data-text="低频掩码信号实现t2i模型数据集使用审计 核心突破：spectralcanary利用平滑低通掩码将固定金丝雀图像混入数据集每张图像，轻量验证器可在可疑模型生成输出中检测转移信号，在五个跨领域数据集上平均tpr@1%fpr达92.4%，同时保持图像质量（ssim 0.989，lpips 0.022，平均δfid 0.05）。
+解决的问题：审计t2i模型是否在特定图像集合上进行了微调非常困难，因为模型可以吸收集合级视觉特征而不复现训练图像；现有方法在可验证性、保真度、鲁棒性和可部署性之间存在权衡。
+研究价值：为t2i基础模型的数据集使用审计提供了一种无需辅助生成或逐图像优化的轻量级方案，低频信号作为集合级审计载体的有效性得到多架构、多领域验证，对生成式ai数据治理具有实用价值。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-a91c5f01-t2i.html">低频掩码信号实现T2I模型数据集使用审计</a></h3>
+        <p class="ex-sum">SpectralCanary通过低频掩码将金丝雀图像混入数据集，轻量验证器检测T2I模型输出中的转移信号，五个数据集平均TPR@1%FPR达92.4%。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-a91c5f01-t2i.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 6" data-cat="agent"
+               data-text="ai编码降低52%耗时但25%pr为低质量贡献 核心突破：三项独立证据共同表明：linux基金会调查显示ai将代码编写耗时降低52%但约25%的pr为低质量贡献（大型项目达31%）；postgresql 19因ai辅助审查与模糊测试集中暴露约40项边缘缺陷、8至10项功能被撤回而推迟发布；spotify 8月合并变更量从约8100增至17000，变更数量已超过部分验证机制的处理能力。
+解决的问题：ai辅助编码大幅降低代码生成成本，但代码验证、审查和维护成本未同步下降，效率收益在不同角色间重新分配，开源维护者和企业质量团队面临新的瓶颈。
+研究价值：为ai辅助软件开发的效率-质量权衡提供了跨组织、跨场景的实证数据，涵盖调查统计（linux基金会）、具体项目案例（postgresql）和企业内部工程复盘（spotify），有助于制定ai编码的质量治理与验证策略。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">78<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-80702cc7-ai-52-25-pr.html">AI编码降低52%耗时但25%PR为低质量贡献</a></h3>
+        <p class="ex-sum">AI编码将代码编写耗时降低52%，但25%的PR为低质量贡献，PostgreSQL因AI审查集中暴露缺陷而延期，Spotify变更量翻倍后验证机制承压</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-80702cc7-ai-52-25-pr.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 7" data-cat="llm"
+               data-text="himmbo高维适配器合并贝叶斯优化 核心突破：提出himmbo两阶段方法，筛选阶段通过预生成图像的层级集估计恢复活跃适配器集（无需图像生成），精化阶段在低维子空间中优化合并系数，两阶段均使用风格感知核
+解决的问题：现有偏好贝叶斯优化方法限于数十个预选适配器，且每轮交互需昂贵图像生成，无法扩展到大规模适配器集合
+研究价值：将偏好驱动适配器合并扩展到1080个适配器规模，以不到十分之一图像生成成本达到给定相似度，性能随集合增长保持稳定 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-18ba2a3a-himmbo.html">HimmBO高维适配器合并贝叶斯优化</a></h3>
+        <p class="ex-sum">HimmBO通过无图像生成的层级集筛选和低维子空间精化，将适配器合并贝叶斯优化扩展到1080个适配器，图像生成成本降至十分之一以下</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-18ba2a3a-himmbo.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 8" data-cat="数字孪生"
+               data-text="3dgs自动编辑学习在线贝叶斯场景变化检测 核心突破：通过离线学习参考3dgs模型的自动编辑生成带标签训练视图，结合闭式局部贝叶斯因子更新累积3d高斯场，在paslcd和ccs3d上分别达67.64%和75.82% miou
+解决的问题：在线场景变化检测需整合新观测确定变化区域，但变化先验概率和证据模型未知，数值贝叶斯推断代价高，且需手动标注
+研究价值：利用3dgs自动编辑消除手动标注需求，闭式贝叶斯因子实现高效在线更新，paslcd完整管线17.2 fps为评估中最快在线方法 数字孪生">
+        <div class="ex-top">
+          <span class="dot" style="background: #ef4444"></span>
+          <span class="ex-cat">数字孪生</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-bf37d008-3dgs.html">3DGS自动编辑学习在线贝叶斯场景变化检测</a></h3>
+        <p class="ex-sum">利用3DGS自动编辑学习场景特定证据模型，闭式贝叶斯因子在线更新3D高斯场，PASLCD达67.64% mIoU，17.2 FPS最快在线方法</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-bf37d008-3dgs.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 9" data-cat="ai-for-science"
+               data-text="ml分子动力学揭示铁电材料极化翻转与畴生长机制 核心突破：发现csgebr3立方相中一维极化链及其链式翻转机制；揭示aln中氮空位调控畴生长方向与降低矫顽场的多尺度机制
+解决的问题：铁电材料极化翻转与畴生长的微观机制尚不明确，理论预测与实验观测存在方向性矛盾
+研究价值：为铁电氧化物/氮化物材料的缺陷工程、低电压器件设计提供多尺度物理机制与ml增强仿真方法学基础 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-4887775c-ml.html">ML分子动力学揭示铁电材料极化翻转与畴生长机制</a></h3>
+        <p class="ex-sum">ML增强分子动力学揭示CsGeBr3一维极化链翻转与AlN氮空位调控畴生长的微观机制</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-4887775c-ml.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 10" data-cat="llm"
+               data-text="部分可训练网络的近似率相变理论 核心突破：建立部分可训练两层网络在多项式谱衰减下的平方l2近似率相变理论，证明d=5、τ=10时约4.1%可训练比例即可捕获从p=0到p=1近似率降低的90%
+解决的问题：部分可训练神经网络介于固定随机特征与完全自适应表示之间，其近似率随可训练比例变化的相变规律缺乏理论刻画
+研究价值：量化少量可训练参数捕获大部分近似率改善的相变现象，为部分可训练网络设计提供理论指导，对降低训练成本具有参考意义 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-ea1c57e3-event.html">部分可训练网络的近似率相变理论</a></h3>
+        <p class="ex-sum">建立部分可训练两层网络L2近似率相变理论，d=5时约4.1%可训练比例捕获90%近似率改善，数值实验验证至15层。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-ea1c57e3-event.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 11" data-cat="设计仿真"
+               data-text="可变粒度图像到3d部件生成框架 核心突破：单一模型内通过门控自适应调制统一处理稀疏点到密集掩码的可变粒度几何条件
+解决的问题：现有3d部件生成方法缺乏灵活适应不同用户工作流控制粒度的能力
+研究价值：为数字资产创建提供统一的多粒度3d部件生成方案 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-699ef766-3d.html">可变粒度图像到3D部件生成框架</a></h3>
+        <p class="ex-sum">FlexPart通过门控自适应调制和非对称几何引导，在单一模型中支持从稀疏点到密集掩码的可变粒度图像到3D部件生成。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-699ef766-3d.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 12" data-cat="ai-for-science"
+               data-text="ribobridge解耦rna构象生成与蛋白-rna组装 核心突破：提出structure-first框架ribobridge，通过跨帧交互几何将rna构象生成与蛋白-rna组装解耦，在124个蛋白-rna复合物基准上取得最高fnat和dockq、最低界面和配体rmsd。
+解决的问题：现有rna结合剂设计方法将rna构象生成与蛋白相对放置纠缠在统一表示中，无法独立优化两个子问题，且需假设预定义结合位点。
+研究价值：通过ribosphere预训练rna结构潜空间生成构象，再用交互约束桥接独立坐标帧并刚性放置，实现几何一致的蛋白相对位姿；组件消融和阶段诊断定位了复合物恢复误差主要来源。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-0aa0af51-ribobridge-rna-rna.html">RiboBridge解耦RNA构象生成与蛋白-RNA组装</a></h3>
+        <p class="ex-sum">RiboBridge将RNA构象生成与蛋白-RNA组装解耦，在124个复合物基准上fNAT、DockQ最优，RMSD最低，提供从头RNA结合剂设计新框架。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-0aa0af51-ribobridge-rna-rna.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 13" data-cat="ai-for-science"
+               data-text="中心线锚定注意力代理加速冠脉血流cfd求解 核心突破：提出中心线锚定注意力机制，将变几何pde代理的几何融合复杂度从o(n²)降至o(n·n_f)，在2,700个openfoam解上训练后实现单例87ms推理（求解器需572-1,063s），ffr≤0.8临床判定在留出集上复现率达97.7%/96.3%，优于四个参数匹配的神经算子。
+解决的问题：冠脉血流cfd（稳态不可压navier-stokes）单例求解耗时572-1,063秒，无法支撑临床实时ffr评估；现有神经算子在几何域本身作为参数的变几何问题上精度不足，注意力模型需编码整个流域导致o(n²)复杂度瓶颈。
+研究价值：为变几何域pde代理提供了可扩展的注意力架构范式：以病例自身中心线为焦点集，几何融合代价降至o(n·n_f)，精度在8倍于工作焦点数时即饱和。ffr预测与cfd标签pearson r达0.941/0.993，为冠脉介入决策提供了秒级替代方案。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-7fc91eb3-cfd.html">中心线锚定注意力代理加速冠脉血流CFD求解</a></h3>
+        <p class="ex-sum">CARS以中心线锚定注意力代理将冠脉几何映射为血流解，单例87ms推理，FFR判定准确率97.7%，优于四个神经算子基线。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-7fc91eb3-cfd.html">证据链 →</a>
         </div>
       </article>
 
@@ -614,7 +619,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <div class="ex-top">
           <span class="dot" style="background: #f59e0b"></span>
           <span class="ex-cat">设计仿真</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">65<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-eb552b46-3d.html">相机无关单目3D重建复合射线场</a></h3>
         <p class="ex-sum">OmniRay用单调径向基、球谐残差和自由形式残差组成复合射线场，从单张图像无需相机信息恢复3D点云，建立相机无关重建SOTA。</p>
@@ -624,31 +629,14 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 15" data-cat="llm"
-               data-text="低频掩码信号实现t2i模型数据集使用审计 核心突破：spectralcanary利用平滑低通掩码将固定金丝雀图像混入数据集每张图像，轻量验证器可在可疑模型生成输出中检测转移信号，在五个跨领域数据集上平均tpr@1%fpr达92.4%，同时保持图像质量（ssim 0.989，lpips 0.022，平均δfid 0.05）。
-解决的问题：审计t2i模型是否在特定图像集合上进行了微调非常困难，因为模型可以吸收集合级视觉特征而不复现训练图像；现有方法在可验证性、保真度、鲁棒性和可部署性之间存在权衡。
-研究价值：为t2i基础模型的数据集使用审计提供了一种无需辅助生成或逐图像优化的轻量级方案，低频信号作为集合级审计载体的有效性得到多架构、多领域验证，对生成式ai数据治理具有实用价值。 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-a91c5f01-t2i.html">低频掩码信号实现T2I模型数据集使用审计</a></h3>
-        <p class="ex-sum">SpectralCanary通过低频掩码将金丝雀图像混入数据集，轻量验证器检测T2I模型输出中的转移信号，五个数据集平均TPR@1%FPR达92.4%。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-a91c5f01-t2i.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 16" data-cat="agent"
+      <article class="ex-card" style="--i: 15" data-cat="agent"
                data-text="diffdreamer耦合世界模型与可微仿真控制四旋翼 核心突破：提出diffdreamer可微强化学习框架，在一个优化步骤中学到的世界模型传播捕获外部动态和历史依赖特征的隐状态，可微仿真器传播机器人显式物理状态，将actor目标分解为critic驱动的非可微任务奖励路径和仿真器驱动的可微运动奖励路径
 解决的问题：基于世界模型的强化学习通常将环境演化和机器人自身动态纠缠在单个学习滚动中，模型偏差影响策略优化效率，四旋翼动态门竞速等任务需要同时预测外部运动和维持高频精确控制
 研究价值：在激进跟踪和动态门竞速实验中，diffdreamer在训练收敛和最终性能上优于无模型、有模型和可微rl基线以及经典规划控制方法，提供概念验证的实飞实验 agent">
         <div class="ex-top">
           <span class="dot" style="background: #8b5cf6"></span>
           <span class="ex-cat">Agent</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">65<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-a13e575a-diffdreamer.html">DiffDreamer耦合世界模型与可微仿真控制四旋翼</a></h3>
         <p class="ex-sum">DiffDreamer将世界模型与可微仿真解耦，分别处理外部动态和机器人物理状态，激进跟踪和动态门竞速上优于多种基线，含实飞验证</p>
@@ -658,37 +646,54 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 17" data-cat="llm"
-               data-text="部分可训练网络的近似率相变理论 核心突破：建立部分可训练两层网络在多项式谱衰减下的平方l2近似率相变理论，证明d=5、τ=10时约4.1%可训练比例即可捕获从p=0到p=1近似率降低的90%
-解决的问题：部分可训练神经网络介于固定随机特征与完全自适应表示之间，其近似率随可训练比例变化的相变规律缺乏理论刻画
-研究价值：量化少量可训练参数捕获大部分近似率改善的相变现象，为部分可训练网络设计提供理论指导，对降低训练成本具有参考意义 llm">
+      <article class="ex-card" style="--i: 16" data-cat="llm"
+               data-text="univoe移除驱动视频对象编辑框架 核心突破：提出移除驱动框架，利用移除器生成配对数据训练注入模型，结合奖励后训练实现sota视频对象编辑
+解决的问题：视频对象注入需要大规模配对监督但真实配对难以收集，合成数据缺乏真实性和多样性
+研究价值：通过移除-注入互操作和奖励后训练解决配对数据稀缺问题，为视频对象编辑提供实用方案 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">60<small>IMP</small></span>
         </div>
-        <h3><a href="events/evt-ea1c57e3-event.html">部分可训练网络的近似率相变理论</a></h3>
-        <p class="ex-sum">建立部分可训练两层网络L2近似率相变理论，d=5时约4.1%可训练比例捕获90%近似率改善，数值实验验证至15层。</p>
+        <h3><a href="events/evt-40c2608f-univoe.html">UniVOE移除驱动视频对象编辑框架</a></h3>
+        <p class="ex-sum">UniVOE通过移除器生成配对数据训练注入模型，结合奖励后训练实现SOTA视频对象移除与注入</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-ea1c57e3-event.html">证据链 →</a>
+          <a class="go" href="events/evt-40c2608f-univoe.html">证据链 →</a>
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 18" data-cat="llm"
-               data-text="直接优化pass@k平衡推理剪枝质量与多样性 核心突破：提出直接优化pass@k的剪枝方法，在8个开源推理模型上超越现有质量和多样性剪枝策略
-解决的问题：测试时扩展中候选解剪枝的质量-多样性权衡（探索-利用）
-研究价值：将探索-利用权衡直接编码为pass@k优化目标，避免ad-hoc设计选择 llm">
+      <article class="ex-card" style="--i: 17" data-cat="agent"
+               data-text="llm智能体耦合apsim模拟器的季中作物管理建议框架 核心突破：llm智能体提出农艺可行参数边界，优化器在apsim模拟器评估下搜索产量、资源利用和经济可行性多目标最优解，11年南亚玉米分析显示持续优于标准农艺方案
+解决的问题：现有农业建议依赖专家、未充分考虑季中天气变化且无法扩展到个体农场
+研究价值：提出llm约束优化与作物模拟器闭环耦合的季中滚动建议方法，为个体化、可扩展的农业管理提供新框架 agent">
         <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">70<small>IMP</small></span>
         </div>
-        <h3><a href="events/evt-0d20f6ba-pass-k.html">直接优化Pass@k平衡推理剪枝质量与多样性</a></h3>
-        <p class="ex-sum">提出直接优化pass@k的推理剪枝方法，同时奖励高质量部分解并惩罚冗余，在8个开源推理模型上超越现有策略，中等保留数量时增益显著。</p>
+        <h3><a href="events/evt-8081f313-llm-apsim.html">LLM智能体耦合APSIM模拟器的季中作物管理建议框架</a></h3>
+        <p class="ex-sum">LLM智能体与APSIM模拟器闭环耦合，为南亚玉米提供季中个性化农事建议，11年分析优于标准方案</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-0d20f6ba-pass-k.html">证据链 →</a>
+          <a class="go" href="events/evt-8081f313-llm-apsim.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 18" data-cat="agent"
+               data-text="感觉运动对齐度作为具身模型离线评估指标 核心突破：提出s²（感觉运动对齐度），一个免训练离线指标，衡量模型感觉表征与物理运动几何的对齐程度，发现s²与下游机器人任务成功率正相关，可在闭环评估前优先筛选模型，也能在微调为vla之前识别有前景的vlm骨干
+解决的问题：机器人基础模型通常通过昂贵的闭环滚动评估，缺乏低成本离线代理指标来评估模型能力，需要一种无需训练即可衡量具身模型质量的度量
+研究价值：将柏拉图表示假说扩展到具身模型，使感觉运动对齐可实证测量，提供表征层面解释vla和世界动作模型中观察到的现象，超越闭环成功率提供模型成功原因洞察 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-fedf9a34-event.html">感觉运动对齐度作为具身模型离线评估指标</a></h3>
+        <p class="ex-sum">S²免训练离线指标衡量感觉表征与物理运动几何对齐度，与机器人任务成功率正相关，可在闭环评估前筛选模型和VLM骨干</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-fedf9a34-event.html">证据链 →</a>
         </div>
       </article>
 
@@ -699,7 +704,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">65<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-5eb266ec-causalcot.html">CausalCoT通过上下文隔离缓解注意力泄漏</a></h3>
         <p class="ex-sum">CausalCoT将问题分解为DAG原子子问题，在仅含直接因果父节点的隔离上下文中评估，消除非父内容注意力路径，因果敏感性平均提升12个百分点，最高21个百分点。</p>
@@ -709,24 +714,296 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 20" data-cat="ai-for-science"
-               data-text="量子模拟筛选sofc/soec强关联氧电极材料 核心突破：提出端到端框架评估量子计算在sofc/soec强关联氧电极材料筛选中的应用，将材料问题表述为界面可观测量（氧空位形成能、迁移势垒、电导率），通过gw+dmft或seet嵌入结合dft筛选获取，并用连续体模型连接微观可观测量与宏观工程指标，提供逻辑量子比特数估算与完整资源评估路径。
-解决的问题：强关联氧电极材料（sofc/soec）的筛选需要精确计算界面电子结构，经典求解器随相互作用活跃空间增大面临计算挑战，需要评估量子计算是否可提供量子优势。
-研究价值：为量子计算在工业材料科学中的应用提供了具体评估路径，涵盖从dft筛选到量子嵌入求解再到宏观工程指标映射的完整链条，对氧化物电极材料的计算设计具有指导意义，属于ai for science×工业材料优先方向。 ai for science">
+      <article class="ex-card" style="--i: 20" data-cat="agent"
+               data-text="非平稳环境下保守元智能体架构搜索 核心突破：cmas将元智能体架构搜索形式化为带切换成本与硬风险约束的序贯在位替换，通过影子回放、金丝雀与回滚实现保守晋升
+解决的问题：非平稳环境下如何安全地搜索和替换agent系统架构，在延迟反馈、相关组件故障和高切换成本下保持风险可控
+研究价值：为部署agent系统的架构自适应提供带风险约束的搜索框架和可计算oracle的评测基准 agent">
         <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">65<small>IMP</small></span>
         </div>
-        <h3><a href="events/evt-ff47ec17-sofc-soec.html">量子模拟筛选SOFC/SOEC强关联氧电极材料</a></h3>
-        <p class="ex-sum">提出端到端框架评估量子计算筛选SOFC/SOEC强关联氧电极材料，结合GW+DMFT/SEET嵌入与DFT筛选，连接微观可观测量与宏观工程指标。</p>
+        <h3><a href="events/evt-16e6eac8-event.html">非平稳环境下保守元智能体架构搜索</a></h3>
+        <p class="ex-sum">CMAS在MetaInvest-Bench 96条金融流上将代理动态oracle遗憾从0.116降至0.104，留出效用从0.44升至0.48</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-ff47ec17-sofc-soec.html">证据链 →</a>
+          <a class="go" href="events/evt-16e6eac8-event.html">证据链 →</a>
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 21" data-cat="设计仿真"
+      <article class="ex-card" style="--i: 21" data-cat="agent"
+               data-text="多智能体llm系统实现大规模feature flag自动清理 核心突破：在doordash 56,000+ feature flag、623个仓库的工业环境中，端到端多智能体llm系统以90%成功率（45/50）生成工程师批准的flag移除pr，单次清理平均成本$4.79、耗时13.8分钟，验证了多智能体llm在工业代码维护中的运营可行性。
+解决的问题：大规模代码库中feature flag过期后形成技术债务，手动清理每个flag需1-2小时，现有基于规则的清理工具在复杂代码库中效果不足，需要自动化、可扩展的清理方案。
+研究价值：提供了多智能体llm系统在真实工业环境（mcp查询、jira工单、pr创建）中端到端部署的完整工程经验与架构设计教训，为类似多智能体系统开发提供了可复用的实践指导。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-c944a108-llm-feature-flag.html">多智能体LLM系统实现大规模Feature Flag自动清理</a></h3>
+        <p class="ex-sum">DoorDash部署多智能体LLM系统，集成MCP、Jira和PR创建，在50个过期flag中成功生成45个工程师批准的移除PR，单次成本$4.79、耗时13.8分钟。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-c944a108-llm-feature-flag.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 22" data-cat="llm"
+               data-text="benice!两阶段法启用循环模型kv共享 核心突破：提出两阶段方法（预训练随机深度+benice!后训练广播kv-cache）启用循环架构kv共享性，匹配标准微调困惑度；在模拟低内存长上下文推理中缓存命中率提升最高31.4%，吞吐量提升23.6%，p90首token延迟降低83.6%。
+解决的问题：循环（looped）llm架构通过重复通过同一层块扩展质量但参数固定，每次递归生成独立kv-cache导致内存线性增长，限制长上下文推理。
+研究价值：揭示了kv共享性的机制（收缩残差动力学驱动表征趋向公共极限），提供了可复现的两阶段启用方法，并验证了与mla、kimi delta attention及fp8/mxfp8/nvfp4量化的组合性。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-4f65e23f-benice-kv.html">BeNice!两阶段法启用循环模型KV共享</a></h3>
+        <p class="ex-sum">通过预训练随机深度和BeNice!后训练两阶段方法，在循环LLM架构中启用KV-cache跨递归共享，显著降低长上下文推理内存和延迟。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-4f65e23f-benice-kv.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 23" data-cat="设计仿真"
+               data-text="物理约束学习模型用于材料发现与气动弹性仿真 核心突破：三项工作分别从跨模态属性预测、保结构降阶建模和超缩减本构发现三个角度，实现了学习模型在物理一致性约束下的定量加速与精度保持
+解决的问题：传统物理仿真中，数据驱动方法要么依赖逐场景优化、要么从纯视觉输入预测存在歧义、要么每次损失评估需完整非线性有限元求解，难以兼顾物理一致性与计算效率
+研究价值：为cae/结构仿真提供了可复用的物理一致性学习范式：体素场跨模态调制、精确势函数+不可增能耗散、pod超缩减+多凸神经网络本构律，分别适用于4d仿真属性分配、气动弹性rom和材料本构发现 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">80<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-71af9047-event.html">物理约束学习模型用于材料发现与气动弹性仿真</a></h3>
+        <p class="ex-sum">AutoPhyX以文本条件跨模态调制单次前向预测空间变化物理属性；保结构ROM保留精确势函数仅训练不可增能耗散；超缩减结合POD与多凸神经网络将训练从9小时降至41分钟。</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-71af9047-event.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 24" data-cat="agent"
+               data-text="动作条件记忆验证与vla运行时安全监控 核心突破：amv-guard以voi序贯停止实现动作条件记忆验证，p²用vla内部激活线性探针替代外部vlm监控，episem-bench系统评测10个llm智能体在证据缺失下的安全行为
+解决的问题：长寿命agent执行前如何判断记忆前提是否需要重新验证、运行时如何检测偏离轨迹的执行、以及工具响应缺失安全事实时如何恢复证据并阻止不安全操作
+研究价值：为agent部署提供从预动作验证到运行时监控到证据恢复的完整安全门控技术栈，降低验证成本同时保持安全召回率 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">72<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-dd8c2c75-vla.html">动作条件记忆验证与VLA运行时安全监控</a></h3>
+        <p class="ex-sum">AMV-Guard、P²与EpiSEM-Bench分别从预动作记忆验证、VLA运行时探针和证据缺失安全评测三个维度推进Agent执行安全门控</p>
+        <div class="ex-foot">
+          <span class="mono">4 篇来源</span>
+          <a class="go" href="events/evt-dd8c2c75-vla.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 25" data-cat="llm"
+               data-text="gigabench十亿像素可学习表示压缩超分基准 核心突破：提出gigabench，首个专注于十亿像素图像上部署可学习表示的基准，适配隐式、混合和显式方法在消费级硬件上可靠运行，系统评估重建质量、模型大小、压缩和推理时间
+解决的问题：可学习表示在十亿像素图像上的部署缺乏系统评估，现有方法在消费级硬件上无法可靠运行于该规模，缺乏跨方法的统一比较
+研究价值：提供跨多样领域（收集、获取、合成渲染）的系统评估，识别隐式、混合和显式方法间一致趋势，为未来研究提供可操作指导 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-b1465388-gigabench.html">GigaBench十亿像素可学习表示压缩超分基准</a></h3>
+        <p class="ex-sum">GigaBench系统评估隐式、混合和显式可学习表示在十亿像素图像压缩和超分上的表现，在消费级硬件上运行，提供跨方法一致趋势</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-b1465388-gigabench.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 26" data-cat="ai-for-science"
+               data-text="touckan：kan可处理算子实现确定性矩计算 核心突破：50维均匀/高斯基准下确定性均值和方差误差低于固定预算monte carlo中位数，cahn-hilliard质量守恒达机器精度，2-5维schrödinger特征对联合计算
+解决的问题：科学计算代理模型需计算期望、方差、守恒积分和归一化常数，传统神经网络（含kan）依赖monte carlo采样或多维求积，高维下重复推理代价高
+研究价值：有限度多项式外函数使kan具有可分解和积表示，期望和矩退化为对一维叶积分的确定性递推，连接kan近似与可处理概率电路，为科学代理提供确定性统计算子 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-7f71e7f2-touckan-kan.html">TOUCKAN：KAN可处理算子实现确定性矩计算</a></h3>
+        <p class="ex-sum">TOUCKANs用有限度多项式外函数使KAN期望/方差计算退化为确定性递推，50维下优于Monte Carlo，守恒积分达机器精度</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-7f71e7f2-touckan-kan.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 27" data-cat="agent"
+               data-text="注意力接触规划与混合模仿平衡运动先验与rl泛化 核心突破：提出注意力接触规划器与混合灵巧模仿两种框架，将运动数据严格作为训练先验与rl泛化结合，实现部署时无需参考输入的自然机器人控制
+解决的问题：机器人控制中运动参考方法产生自然行为但无法超越训练轨迹，纯rl方法泛化好但缺乏自然协调，两者存在根本权衡
+研究价值：验证了以运动先验引导rl探索的技术路线，为复杂地形人形全身运动与灵巧手多技能操作提供了可泛化的统一框架 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">68<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-1898a437-rl.html">注意力接触规划与混合模仿平衡运动先验与RL泛化</a></h3>
+        <p class="ex-sum">两篇论文分别提出注意力接触规划与混合灵巧模仿框架，将运动数据作为训练先验结合RL，实现人形运动与灵巧手操作的泛化控制</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-1898a437-rl.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 28" data-cat="agent"
+               data-text="quant-arena端到端llm代理量化研究基准 核心突破：首个端到端量化研究循环基准（假设→实现→测试→策略冻结），含密封年份2024评估与模拟订单簿市场冲击，九款前沿模型无一超越等权市场。
+解决的问题：现有基准仅评分公式、代码或单步决策，无法检验llm能否完成完整迭代量化研究循环并产生超越研究期的策略。
+研究价值：为llm代理在迭代研究工作流中的能力提供严格评测harness，含真实交易约束与样本外验证，属代理评测基础设施。 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-c0df4a06-quant-arena-llm.html">Quant-Arena端到端LLM代理量化研究基准</a></h3>
+        <p class="ex-sum">Quant-Arena发布LLM代理量化研究端到端基准，九款前沿模型在A股数据评估，GPT-6 Astra最高但无一超越等权市场。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-c0df4a06-quant-arena-llm.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 29" data-cat="llm"
+               data-text="olmo-3检查点证据显示rlvr非单调工具趋同 核心突破：发现rlvr过程中工具趋同率呈非单调轨迹（sft 25.0%→rlvr步200 46.1%→最终11.8%），提示框架效应仅解释15%方差，inlp移除框架方向后sft到最终rlvr差距不变
+解决的问题：工具趋同常被引为期望agent获取权力寻求子目标的一般理由，但rlvr是否使模型更可能表达工具趋同行为、是否取决于训练制度和评估框架尚不清楚
+研究价值：将工具趋同评估从单一前后对比推进到检查点条件行为轨迹分析，为llm后训练安全监控提供方法论，32b端点结果（35.53%→22.37%）初步支持 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-39ddb57b-olmo-3-rlvr.html">OLMo-3检查点证据显示RLVR非单调工具趋同</a></h3>
+        <p class="ex-sum">OLMo-3-7B-Think在RLVR过程中工具趋同率非单调变化，最终低于SFT基线，提示框架效应仅解释15%方差，INLP分析排除框架方向</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-39ddb57b-olmo-3-rlvr.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 30" data-cat="设计仿真"
+               data-text="神经隐式能量优化用于lidar建图 核心突破：将经典几何能量泛函适配到神经隐式表示参数空间，百万点lidar地图光滑性改善且无推理开销
+解决的问题：稀疏噪声lidar输入恢复的神经隐式几何存在抖动和伪影
+研究价值：为大规模lidar建图提供无额外成本的光滑化方案 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-8b5c974a-lidar.html">神经隐式能量优化用于LiDAR建图</a></h3>
+        <p class="ex-sum">NIEO将神经LiDAR建图建模为隐式表示参数空间上的能量泛函优化，用形状算子正则化SDF，改善百万点地图光滑性且无额外推理成本。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-8b5c974a-lidar.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 31" data-cat="agent"
+               data-text="ai代理决策的可审计治理与选择性审查 核心突破：三项工作分别从工作流设计、实证人格效应和在线优化算法三个角度推进ai代理决策的人类监督：可争议治理保留完整证据链，人格测试揭示一致性仅达随机水平，选择性审计算法渐近达到最优审计率
+解决的问题：llm代理生成的决策（元数据、临床方案、分类标签）若未经结构化人类审查即进入下游系统，错误会扩散且无审计痕迹；同时人工全量审查成本过高，需要兼顾误差控制与审查效率
+研究价值：为ai代理决策的治理基础设施提供互补方案：可争议治理提供可追溯的决策记录与版本化术语表，人格效应实验为多代理系统提示工程提供实证约束，选择性审计算法给出可证明的误差-审计率权衡下界 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-fd6dbfe9-ai.html">AI代理决策的可审计治理与选择性审查</a></h3>
+        <p class="ex-sum">三项研究分别提出可争议治理工作流、多代理临床人格效应实证和带可证明保证的选择性审计算法，共同推进AI代理决策的人类监督机制</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-fd6dbfe9-ai.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 32" data-cat="llm"
+               data-text="openai habitat存储扩展服务10亿chatgpt用户 核心突破：多租户+全局缓存+azure cosmos db实现12倍读取加速，服务超10亿用户
+解决的问题：如何为超大规模ai产品提供可靠、高性能的在线存储基础设施
+研究价值：展示ai产品基础设施在10亿用户规模下的工程实践，为大规模ai服务部署提供参考 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">70<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-781afdee-openai-habitat-10-chatgpt.html">OpenAI Habitat存储扩展服务10亿ChatGPT用户</a></h3>
+        <p class="ex-sum">OpenAI扩展Habitat存储，通过多租户、全局缓存和Cosmos DB实现12倍读取加速，服务超10亿ChatGPT用户</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-781afdee-openai-habitat-10-chatgpt.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 33" data-cat="llm"
+               data-text="vera仪表盘加速eu ai act下llm合规评估 核心突破：提出vera开源自托管仪表盘，部署于大型欧洲银行，将compl-ai的六组原则和十八项技术要求中十二项可测量要求可视化，对四个开放权重模型运行基准并记录每次评估能耗，受试者研究显示评估时间从56秒降至30秒
+解决的问题：在受监管环境中部署llm的机构需要在批准部署前提供负责任ai实践的技术证据，但基准套件通常从命令行运行，而批准部署的人员是非工程师
+研究价值：将eu ai act技术解释转化为非工程师可用的可视化评估工具，增加运行级能耗证据，仪表盘和组织内研究材料公开发布以促进可重复性 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-df76b204-vera-eu-ai-act-llm.html">VERA仪表盘加速EU AI Act下LLM合规评估</a></h3>
+        <p class="ex-sum">VERA仪表盘将EU AI Act十二项可测量要求可视化，四个开放权重模型通过评估流水线，受试者研究显示评估时间从56秒降至30秒</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-df76b204-vera-eu-ai-act-llm.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 34" data-cat="agent"
+               data-text="opentac电阻式触觉皮肤与自适应采集生态 核心突破：提出可扩展电阻式触觉皮肤及含cad设计工具、传感器模拟器的全栈生态，自适应采集在1024税元皮肤上实现19.2倍于全阵列光栅扫描的读取加速
+解决的问题：机器人触觉传感缺乏可扩展、可定制且支持跨平台迁移的硬件与软件生态，制约接触丰富操控策略学习
+研究价值：为机器人操控学习提供低成本、可定制的3d触觉感知基础设施，cad工具可从2d轮廓和可展开3d表面自动生成制造文件，降低触觉传感部署门槛 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">72<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-3263ff5e-opentac.html">OpenTac电阻式触觉皮肤与自适应采集生态</a></h3>
+        <p class="ex-sum">OpenTac触觉传感生态含CAD设计工具、模拟器与自适应采集，在4种机器人上验证操控策略学习</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-3263ff5e-opentac.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 35" data-cat="设计仿真"
+               data-text="任意骨骼3d动作与视频联合生成及相机注册 核心突破：提出将3d动作模型与预训练视频模型分离、通过少量交叉注意力层连接的联合生成架构，支持任意骨骼绑定的动作生成与相机注册，构建近20万训练对
+解决的问题：视频生成模型无法将生成的运动转化为可重放的3d动作并放置到3d场景中；现有视频-动作模型仅支持人体骨骼或需从2d姿态图三角化3d动作
+研究价值：将动作学习与视频生成解耦，使动作模型可从更易获取的动作数据中学习，支持任意骨骼绑定，为3d资产动画、场景交互和关键帧控制提供实用工具链 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-84a813c0-3d.html">任意骨骼3D动作与视频联合生成及相机注册</a></h3>
+        <p class="ex-sum">分离式动作-视频模型通过交叉注意力联合生成任意骨骼3D动作与相机注册，近20万训练对验证</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-84a813c0-3d.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 36" data-cat="ai-for-science"
+               data-text="近拷贝率诊断血管树生成模型训练数据复用 核心突破：提出近拷贝率（near-copy rate）作为诊断指标，揭示保真度分数无法检测训练数据复用；无训练条件重采样器在1-nna和父-子依赖auc两项保真度分数上优于三个学习式基线（含vesselgpt）。
+解决的问题：保真度分数（1-nna、依赖auc）本身无法检测生成模型对训练数据的复用，导致对生成式血管树模型（coronary/intra）泛化能力的评估可靠性存疑。
+研究价值：为生成式生物结构模型评估提供新诊断框架：将近拷贝率与保真度分数联合报告，并设训练副本、抖动副本、真实留出树三个对照，有助于区分真实泛化与训练记忆。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">62<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-9e61a92b-event.html">近拷贝率诊断血管树生成模型训练数据复用</a></h3>
+        <p class="ex-sum">研究提出近拷贝率诊断指标，发现无训练条件重采样器在血管树保真度上优于学习式基线，揭示保真度分数无法检测训练数据复用。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-9e61a92b-event.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 37" data-cat="设计仿真"
                data-text="rl肌肉激活与xpbd多网格体积仿真角色动画 核心突破：提出rl控制器与3d体积仿真共享同一本构律的肌肉驱动动画框架，设计基于粗四面体笼和重心坐标延拓的xpbd几何多网格求解器，在单张rtx 4090上实现194肌肉人体18ms/帧全身仿真
 解决的问题：3d动画管线中肌肉激活需艺术家手动指定，耗时且无法保证物理真实性；现有rl肌肉控制器仅停留在1d肌肉模型，无法产生真实体积形变
 研究价值：将1d rl代理与3d体积仿真统一于同一hill型本构律，结合实测emg先验引导冗余激活解，为生物力学驱动的角色动画提供可复现、可加速的技术路径 设计仿真">
@@ -743,292 +1020,20 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 22" data-cat="ai-for-science"
-               data-text="touckan：kan可处理算子实现确定性矩计算 核心突破：50维均匀/高斯基准下确定性均值和方差误差低于固定预算monte carlo中位数，cahn-hilliard质量守恒达机器精度，2-5维schrödinger特征对联合计算
-解决的问题：科学计算代理模型需计算期望、方差、守恒积分和归一化常数，传统神经网络（含kan）依赖monte carlo采样或多维求积，高维下重复推理代价高
-研究价值：有限度多项式外函数使kan具有可分解和积表示，期望和矩退化为对一维叶积分的确定性递推，连接kan近似与可处理概率电路，为科学代理提供确定性统计算子 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-7f71e7f2-touckan-kan.html">TOUCKAN：KAN可处理算子实现确定性矩计算</a></h3>
-        <p class="ex-sum">TOUCKANs用有限度多项式外函数使KAN期望/方差计算退化为确定性递推，50维下优于Monte Carlo，守恒积分达机器精度</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-7f71e7f2-touckan-kan.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 23" data-cat="agent"
-               data-text="ai代理决策的可审计治理与选择性审查 核心突破：三项工作分别从工作流设计、实证人格效应和在线优化算法三个角度推进ai代理决策的人类监督：可争议治理保留完整证据链，人格测试揭示一致性仅达随机水平，选择性审计算法渐近达到最优审计率
-解决的问题：llm代理生成的决策（元数据、临床方案、分类标签）若未经结构化人类审查即进入下游系统，错误会扩散且无审计痕迹；同时人工全量审查成本过高，需要兼顾误差控制与审查效率
-研究价值：为ai代理决策的治理基础设施提供互补方案：可争议治理提供可追溯的决策记录与版本化术语表，人格效应实验为多代理系统提示工程提供实证约束，选择性审计算法给出可证明的误差-审计率权衡下界 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">55<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-fd6dbfe9-ai.html">AI代理决策的可审计治理与选择性审查</a></h3>
-        <p class="ex-sum">三项研究分别提出可争议治理工作流、多代理临床人格效应实证和带可证明保证的选择性审计算法，共同推进AI代理决策的人类监督机制</p>
-        <div class="ex-foot">
-          <span class="mono">3 篇来源</span>
-          <a class="go" href="events/evt-fd6dbfe9-ai.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 24" data-cat="agent"
-               data-text="感觉运动对齐度作为具身模型离线评估指标 核心突破：提出s²（感觉运动对齐度），一个免训练离线指标，衡量模型感觉表征与物理运动几何的对齐程度，发现s²与下游机器人任务成功率正相关，可在闭环评估前优先筛选模型，也能在微调为vla之前识别有前景的vlm骨干
-解决的问题：机器人基础模型通常通过昂贵的闭环滚动评估，缺乏低成本离线代理指标来评估模型能力，需要一种无需训练即可衡量具身模型质量的度量
-研究价值：将柏拉图表示假说扩展到具身模型，使感觉运动对齐可实证测量，提供表征层面解释vla和世界动作模型中观察到的现象，超越闭环成功率提供模型成功原因洞察 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-fedf9a34-event.html">感觉运动对齐度作为具身模型离线评估指标</a></h3>
-        <p class="ex-sum">S²免训练离线指标衡量感觉表征与物理运动几何对齐度，与机器人任务成功率正相关，可在闭环评估前筛选模型和VLM骨干</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-fedf9a34-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 25" data-cat="agent"
-               data-text="动作条件记忆验证与vla运行时安全监控 核心突破：amv-guard以voi序贯停止实现动作条件记忆验证，p²用vla内部激活线性探针替代外部vlm监控，episem-bench系统评测10个llm智能体在证据缺失下的安全行为
-解决的问题：长寿命agent执行前如何判断记忆前提是否需要重新验证、运行时如何检测偏离轨迹的执行、以及工具响应缺失安全事实时如何恢复证据并阻止不安全操作
-研究价值：为agent部署提供从预动作验证到运行时监控到证据恢复的完整安全门控技术栈，降低验证成本同时保持安全召回率 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-dd8c2c75-vla.html">动作条件记忆验证与VLA运行时安全监控</a></h3>
-        <p class="ex-sum">AMV-Guard、P²与EpiSEM-Bench分别从预动作记忆验证、VLA运行时探针和证据缺失安全评测三个维度推进Agent执行安全门控</p>
-        <div class="ex-foot">
-          <span class="mono">4 篇来源</span>
-          <a class="go" href="events/evt-dd8c2c75-vla.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 26" data-cat="设计仿真"
-               data-text="物理约束学习模型用于材料发现与气动弹性仿真 核心突破：三项工作分别从跨模态属性预测、保结构降阶建模和超缩减本构发现三个角度，实现了学习模型在物理一致性约束下的定量加速与精度保持
-解决的问题：传统物理仿真中，数据驱动方法要么依赖逐场景优化、要么从纯视觉输入预测存在歧义、要么每次损失评估需完整非线性有限元求解，难以兼顾物理一致性与计算效率
-研究价值：为cae/结构仿真提供了可复用的物理一致性学习范式：体素场跨模态调制、精确势函数+不可增能耗散、pod超缩减+多凸神经网络本构律，分别适用于4d仿真属性分配、气动弹性rom和材料本构发现 设计仿真">
-        <div class="ex-top">
-          <span class="dot" style="background: #f59e0b"></span>
-          <span class="ex-cat">设计仿真</span>
-          <span class="ex-imp">60<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-71af9047-event.html">物理约束学习模型用于材料发现与气动弹性仿真</a></h3>
-        <p class="ex-sum">AutoPhyX以文本条件跨模态调制单次前向预测空间变化物理属性；保结构ROM保留精确势函数仅训练不可增能耗散；超缩减结合POD与多凸神经网络将训练从9小时降至41分钟。</p>
-        <div class="ex-foot">
-          <span class="mono">3 篇来源</span>
-          <a class="go" href="events/evt-71af9047-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 27" data-cat="agent"
-               data-text="注意力接触规划与混合模仿平衡运动先验与rl泛化 核心突破：提出注意力接触规划器与混合灵巧模仿两种框架，将运动数据严格作为训练先验与rl泛化结合，实现部署时无需参考输入的自然机器人控制
-解决的问题：机器人控制中运动参考方法产生自然行为但无法超越训练轨迹，纯rl方法泛化好但缺乏自然协调，两者存在根本权衡
-研究价值：验证了以运动先验引导rl探索的技术路线，为复杂地形人形全身运动与灵巧手多技能操作提供了可泛化的统一框架 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-1898a437-rl.html">注意力接触规划与混合模仿平衡运动先验与RL泛化</a></h3>
-        <p class="ex-sum">两篇论文分别提出注意力接触规划与混合灵巧模仿框架，将运动数据作为训练先验结合RL，实现人形运动与灵巧手操作的泛化控制</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-1898a437-rl.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 28" data-cat="agent"
-               data-text="多智能体llm系统实现大规模feature flag自动清理 核心突破：在doordash 56,000+ feature flag、623个仓库的工业环境中，端到端多智能体llm系统以90%成功率（45/50）生成工程师批准的flag移除pr，单次清理平均成本$4.79、耗时13.8分钟，验证了多智能体llm在工业代码维护中的运营可行性。
-解决的问题：大规模代码库中feature flag过期后形成技术债务，手动清理每个flag需1-2小时，现有基于规则的清理工具在复杂代码库中效果不足，需要自动化、可扩展的清理方案。
-研究价值：提供了多智能体llm系统在真实工业环境（mcp查询、jira工单、pr创建）中端到端部署的完整工程经验与架构设计教训，为类似多智能体系统开发提供了可复用的实践指导。 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-c944a108-llm-feature-flag.html">多智能体LLM系统实现大规模Feature Flag自动清理</a></h3>
-        <p class="ex-sum">DoorDash部署多智能体LLM系统，集成MCP、Jira和PR创建，在50个过期flag中成功生成45个工程师批准的移除PR，单次成本$4.79、耗时13.8分钟。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-c944a108-llm-feature-flag.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 29" data-cat="agent"
-               data-text="非平稳环境下保守元智能体架构搜索 核心突破：cmas将元智能体架构搜索形式化为带切换成本与硬风险约束的序贯在位替换，通过影子回放、金丝雀与回滚实现保守晋升
-解决的问题：非平稳环境下如何安全地搜索和替换agent系统架构，在延迟反馈、相关组件故障和高切换成本下保持风险可控
-研究价值：为部署agent系统的架构自适应提供带风险约束的搜索框架和可计算oracle的评测基准 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-16e6eac8-event.html">非平稳环境下保守元智能体架构搜索</a></h3>
-        <p class="ex-sum">CMAS在MetaInvest-Bench 96条金融流上将代理动态oracle遗憾从0.116降至0.104，留出效用从0.44升至0.48</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-16e6eac8-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 30" data-cat="设计仿真"
-               data-text="任意骨骼3d动作与视频联合生成及相机注册 核心突破：提出将3d动作模型与预训练视频模型分离、通过少量交叉注意力层连接的联合生成架构，支持任意骨骼绑定的动作生成与相机注册，构建近20万训练对
-解决的问题：视频生成模型无法将生成的运动转化为可重放的3d动作并放置到3d场景中；现有视频-动作模型仅支持人体骨骼或需从2d姿态图三角化3d动作
-研究价值：将动作学习与视频生成解耦，使动作模型可从更易获取的动作数据中学习，支持任意骨骼绑定，为3d资产动画、场景交互和关键帧控制提供实用工具链 设计仿真">
-        <div class="ex-top">
-          <span class="dot" style="background: #f59e0b"></span>
-          <span class="ex-cat">设计仿真</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-84a813c0-3d.html">任意骨骼3D动作与视频联合生成及相机注册</a></h3>
-        <p class="ex-sum">分离式动作-视频模型通过交叉注意力联合生成任意骨骼3D动作与相机注册，近20万训练对验证</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-84a813c0-3d.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 31" data-cat="llm"
-               data-text="himmbo高维适配器合并贝叶斯优化 核心突破：提出himmbo两阶段方法，筛选阶段通过预生成图像的层级集估计恢复活跃适配器集（无需图像生成），精化阶段在低维子空间中优化合并系数，两阶段均使用风格感知核
-解决的问题：现有偏好贝叶斯优化方法限于数十个预选适配器，且每轮交互需昂贵图像生成，无法扩展到大规模适配器集合
-研究价值：将偏好驱动适配器合并扩展到1080个适配器规模，以不到十分之一图像生成成本达到给定相似度，性能随集合增长保持稳定 llm">
+      <article class="ex-card" style="--i: 38" data-cat="llm"
+               data-text="成本感知弃权策略评估llm工单分类性能 核心突破：在47,837条工单八类语料上，tf-idf加逻辑回归配合0.60弃权阈值将测试成本从0.763降至0.472（相对降低38.1%），错误路由率从15.3%降至3.5%，优于四种llm的零样本/少样本提示配置。
+解决的问题：it工单自动路由中错误分类成本高于人工分诊，需要在显式成本结构下评估llm分类器是否优于传统方法，以及弃权策略能否有效降低期望路由成本。
+研究价值：提供成本感知弃权的离线评估框架，系统比较四种非llm分类器与四种llm在显式成本模型下的表现，揭示简单方法在特定成本结构下可优于llm，为路由策略选择提供量化依据。 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">40<small>IMP</small></span>
+          <span class="ex-imp">65<small>IMP</small></span>
         </div>
-        <h3><a href="events/evt-18ba2a3a-himmbo.html">HimmBO高维适配器合并贝叶斯优化</a></h3>
-        <p class="ex-sum">HimmBO通过无图像生成的层级集筛选和低维子空间精化，将适配器合并贝叶斯优化扩展到1080个适配器，图像生成成本降至十分之一以下</p>
+        <h3><a href="events/evt-936efc63-llm.html">成本感知弃权策略评估LLM工单分类性能</a></h3>
+        <p class="ex-sum">评估成本感知弃权在IT工单分类中的效果，TF-IDF+逻辑回归在示例成本下优于LLM提示配置，为路由策略提供量化评估框架。</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-18ba2a3a-himmbo.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 32" data-cat="agent"
-               data-text="分层规划与持久状态的流式3d世界模型 核心突破：提出分层规划（macro/micro）与流式确定性编译结合的开放式3d世界模型，通过单一持久世界记录实现已访问区域的编辑恢复与跨瓦片状态一致性；同期综述将持久状态与交互确立为视频世界模型核心研究方向
-解决的问题：如何在无预定义地图约束下，以有界预算流式扩展可交互3d世界，同时维持跨独立规划瓦片的状态一致性与用户编辑持久性
-研究价值：将分层规划、确定性本地编译与持久状态管理统一于单一世界记录，为交互式世界建模提供可复用架构；综述以读取/写入/共享/交互四操作组织文献，确立从片段级识别向持久状态、可控演化与物理因果有效性转变的共识 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-88763777-3d.html">分层规划与持久状态的流式3D世界模型</a></h3>
-        <p class="ex-sum">WorldStream以分层规划与流式编译生成开放式3D世界，持久世界记录支持编辑恢复；综述确立持久状态与交互为视频世界模型核心方向</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-88763777-3d.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 33" data-cat="设计仿真"
-               data-text="可变粒度图像到3d部件生成框架 核心突破：单一模型内通过门控自适应调制统一处理稀疏点到密集掩码的可变粒度几何条件
-解决的问题：现有3d部件生成方法缺乏灵活适应不同用户工作流控制粒度的能力
-研究价值：为数字资产创建提供统一的多粒度3d部件生成方案 设计仿真">
-        <div class="ex-top">
-          <span class="dot" style="background: #f59e0b"></span>
-          <span class="ex-cat">设计仿真</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-699ef766-3d.html">可变粒度图像到3D部件生成框架</a></h3>
-        <p class="ex-sum">FlexPart通过门控自适应调制和非对称几何引导，在单一模型中支持从稀疏点到密集掩码的可变粒度图像到3D部件生成。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-699ef766-3d.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 34" data-cat="设计仿真"
-               data-text="高度场2dgs神经外科皮层表面重建与术后配准 核心突破：提出高度场2d高斯泼溅三阶段管线，将鲁棒3dgs重建融合到共享tsdf表面并用曲面定向高斯基元表示，实现神经外科皮层锐利可变形表面重建与术后mri配准
-解决的问题：神经外科导航中2d mri切片难以关联显微镜下皮层表面；常规3dgs在有限手术视角下产生几何模糊的厚带，无法形成清晰边界
-研究价值：将3dgs与tsdf融合及曲面高斯基元结合，分离高度/颜色/透明度基提供局部几何与外观，为手术导航提供紧凑(7.97mb)、交互(29-42ms/帧)的锐利表面表示 设计仿真">
-        <div class="ex-top">
-          <span class="dot" style="background: #f59e0b"></span>
-          <span class="ex-cat">设计仿真</span>
-          <span class="ex-imp">45<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-8eead09d-2dgs.html">高度场2DGS神经外科皮层表面重建与术后配准</a></h3>
-        <p class="ex-sum">高度场2DGS三阶段管线实现神经外科皮层锐利表面重建，7.97MB表示、29-42ms/帧交互渲染</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-8eead09d-2dgs.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 35" data-cat="设计仿真"
-               data-text="选择性图像净化预处理用于3d生成 核心突破：选择性门控预处理无需重训3d生成器，2.3秒内净化退化图像，网格距离降低61.5%
-解决的问题：单图3d生成在真实世界不均匀光照、模糊和遮挡图像上性能急剧下降
-研究价值：为3d生成管线提供即插即用的退化图像鲁棒性增强 设计仿真">
-        <div class="ex-top">
-          <span class="dot" style="background: #f59e0b"></span>
-          <span class="ex-cat">设计仿真</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-0711ee0f-3d.html">选择性图像净化预处理用于3D生成</a></h3>
-        <p class="ex-sum">Gate3DGen通过退化感知路由器和3D导向单步净化器，选择性净化退化图像输入现有3D生成器，TRELLIS.2网格距离降低61.5%。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-0711ee0f-3d.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 36" data-cat="agent"
-               data-text="智能体记忆检索、共享缓冲与潜空间互连 核心突破：muffin共享记忆缓冲区在20个基准中17个最佳准确率，较辩论范式提升19.2点且减少77.4% token；magnolia三层持久记忆在受控重放中10/10通过检查；lip仅训练连接器实现专家表征到llm内部状态的零样本迁移
-解决的问题：智能体在长程任务中如何高效获取、存储、共享和传输相关上下文与记忆，避免噪声、过期数据、信息交换瓶颈和表征维度损失
-研究价值：为智能体信息管理提供了从检索优化、异步共享缓冲、多层持久化到潜空间表征直传的系统性方法谱系，覆盖llm推理代理、科学计算代理和个人助理场景 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">60<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-e3670037-event.html">智能体记忆检索、共享缓冲与潜空间互连</a></h3>
-        <p class="ex-sum">多源工作推进智能体信息管理：异步共享缓冲提升19.2点准确率，三层持久记忆实现10/10重放通过，潜空间互连支持零样本迁移</p>
-        <div class="ex-foot">
-          <span class="mono">6 篇来源</span>
-          <a class="go" href="events/evt-e3670037-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 37" data-cat="数字孪生"
-               data-text="3dgs自动编辑学习在线贝叶斯场景变化检测 核心突破：通过离线学习参考3dgs模型的自动编辑生成带标签训练视图，结合闭式局部贝叶斯因子更新累积3d高斯场，在paslcd和ccs3d上分别达67.64%和75.82% miou
-解决的问题：在线场景变化检测需整合新观测确定变化区域，但变化先验概率和证据模型未知，数值贝叶斯推断代价高，且需手动标注
-研究价值：利用3dgs自动编辑消除手动标注需求，闭式贝叶斯因子实现高效在线更新，paslcd完整管线17.2 fps为评估中最快在线方法 数字孪生">
-        <div class="ex-top">
-          <span class="dot" style="background: #ef4444"></span>
-          <span class="ex-cat">数字孪生</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-bf37d008-3dgs.html">3DGS自动编辑学习在线贝叶斯场景变化检测</a></h3>
-        <p class="ex-sum">利用3DGS自动编辑学习场景特定证据模型，闭式贝叶斯因子在线更新3D高斯场，PASLCD达67.64% mIoU，17.2 FPS最快在线方法</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-bf37d008-3dgs.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 38" data-cat="agent"
-               data-text="opentac电阻式触觉皮肤与自适应采集生态 核心突破：提出可扩展电阻式触觉皮肤及含cad设计工具、传感器模拟器的全栈生态，自适应采集在1024税元皮肤上实现19.2倍于全阵列光栅扫描的读取加速
-解决的问题：机器人触觉传感缺乏可扩展、可定制且支持跨平台迁移的硬件与软件生态，制约接触丰富操控策略学习
-研究价值：为机器人操控学习提供低成本、可定制的3d触觉感知基础设施，cad工具可从2d轮廓和可展开3d表面自动生成制造文件，降低触觉传感部署门槛 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-3263ff5e-opentac.html">OpenTac电阻式触觉皮肤与自适应采集生态</a></h3>
-        <p class="ex-sum">OpenTac触觉传感生态含CAD设计工具、模拟器与自适应采集，在4种机器人上验证操控策略学习</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-3263ff5e-opentac.html">证据链 →</a>
+          <a class="go" href="events/evt-936efc63-llm.html">证据链 →</a>
         </div>
       </article>
 
@@ -1039,7 +1044,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <div class="ex-top">
           <span class="dot" style="background: #10b981"></span>
           <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">40<small>IMP</small></span>
+          <span class="ex-imp">60<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-b03fa7d2-qubo.html">QUBO量子-经典混合优化用于多构象配体选择</a></h3>
         <p class="ex-sum">将MIQP配体构象选择重构为QUBO，量子-经典混合求解在83个条目中74.7%获得更高RSCC，但EDIAm下降提示原子级支持未同步增强。</p>
@@ -1049,24 +1054,143 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 40" data-cat="设计仿真"
-               data-text="神经隐式能量优化用于lidar建图 核心突破：将经典几何能量泛函适配到神经隐式表示参数空间，百万点lidar地图光滑性改善且无推理开销
-解决的问题：稀疏噪声lidar输入恢复的神经隐式几何存在抖动和伪影
-研究价值：为大规模lidar建图提供无额外成本的光滑化方案 设计仿真">
+      <article class="ex-card" style="--i: 40" data-cat="llm"
+               data-text="直接优化pass@k平衡推理剪枝质量与多样性 核心突破：提出直接优化pass@k的剪枝方法，在8个开源推理模型上超越现有质量和多样性剪枝策略
+解决的问题：测试时扩展中候选解剪枝的质量-多样性权衡（探索-利用）
+研究价值：将探索-利用权衡直接编码为pass@k优化目标，避免ad-hoc设计选择 llm">
         <div class="ex-top">
-          <span class="dot" style="background: #f59e0b"></span>
-          <span class="ex-cat">设计仿真</span>
-          <span class="ex-imp">40<small>IMP</small></span>
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">55<small>IMP</small></span>
         </div>
-        <h3><a href="events/evt-8b5c974a-lidar.html">神经隐式能量优化用于LiDAR建图</a></h3>
-        <p class="ex-sum">NIEO将神经LiDAR建图建模为隐式表示参数空间上的能量泛函优化，用形状算子正则化SDF，改善百万点地图光滑性且无额外推理成本。</p>
+        <h3><a href="events/evt-0d20f6ba-pass-k.html">直接优化Pass@k平衡推理剪枝质量与多样性</a></h3>
+        <p class="ex-sum">提出直接优化pass@k的推理剪枝方法，同时奖励高质量部分解并惩罚冗余，在8个开源推理模型上超越现有策略，中等保留数量时增益显著。</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-8b5c974a-lidar.html">证据链 →</a>
+          <a class="go" href="events/evt-0d20f6ba-pass-k.html">证据链 →</a>
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 41" data-cat="agent"
+      <article class="ex-card" style="--i: 41" data-cat="设计仿真"
+               data-text="高度场2dgs神经外科皮层表面重建与术后配准 核心突破：提出高度场2d高斯泼溅三阶段管线，将鲁棒3dgs重建融合到共享tsdf表面并用曲面定向高斯基元表示，实现神经外科皮层锐利可变形表面重建与术后mri配准
+解决的问题：神经外科导航中2d mri切片难以关联显微镜下皮层表面；常规3dgs在有限手术视角下产生几何模糊的厚带，无法形成清晰边界
+研究价值：将3dgs与tsdf融合及曲面高斯基元结合，分离高度/颜色/透明度基提供局部几何与外观，为手术导航提供紧凑(7.97mb)、交互(29-42ms/帧)的锐利表面表示 设计仿真">
+        <div class="ex-top">
+          <span class="dot" style="background: #f59e0b"></span>
+          <span class="ex-cat">设计仿真</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-8eead09d-2dgs.html">高度场2DGS神经外科皮层表面重建与术后配准</a></h3>
+        <p class="ex-sum">高度场2DGS三阶段管线实现神经外科皮层锐利表面重建，7.97MB表示、29-42ms/帧交互渲染</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-8eead09d-2dgs.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 42" data-cat="llm"
+               data-text="worldforge v2视频扩散相机轨迹对齐 核心突破：提出免训练引导+光流通道选择+trajectory lora的相机轨迹控制方法，单场景训练即可泛化
+解决的问题：视频扩散模型在空间任务中受限于不精确相机控制、时空不一致和相机运动与场景动态纠缠
+研究价值：为视频扩散模型提供高效相机控制方案，减少训练数据需求，适用于场景生成和视频重渲染 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-324594b7-worldforge-v2.html">WorldForge V2视频扩散相机轨迹对齐</a></h3>
+        <p class="ex-sum">WorldForge V2通过免训练引导和Trajectory LoRA实现视频扩散模型精确相机控制，单场景即可泛化</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-324594b7-worldforge-v2.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 43" data-cat="ai-for-science"
+               data-text="量子模拟筛选sofc/soec强关联氧电极材料 核心突破：提出端到端框架评估量子计算在sofc/soec强关联氧电极材料筛选中的应用，将材料问题表述为界面可观测量（氧空位形成能、迁移势垒、电导率），通过gw+dmft或seet嵌入结合dft筛选获取，并用连续体模型连接微观可观测量与宏观工程指标，提供逻辑量子比特数估算与完整资源评估路径。
+解决的问题：强关联氧电极材料（sofc/soec）的筛选需要精确计算界面电子结构，经典求解器随相互作用活跃空间增大面临计算挑战，需要评估量子计算是否可提供量子优势。
+研究价值：为量子计算在工业材料科学中的应用提供了具体评估路径，涵盖从dft筛选到量子嵌入求解再到宏观工程指标映射的完整链条，对氧化物电极材料的计算设计具有指导意义，属于ai for science×工业材料优先方向。 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-ff47ec17-sofc-soec.html">量子模拟筛选SOFC/SOEC强关联氧电极材料</a></h3>
+        <p class="ex-sum">提出端到端框架评估量子计算筛选SOFC/SOEC强关联氧电极材料，结合GW+DMFT/SEET嵌入与DFT筛选，连接微观可观测量与宏观工程指标。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-ff47ec17-sofc-soec.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 44" data-cat="agent"
+               data-text="智能体记忆检索、共享缓冲与潜空间互连 核心突破：muffin共享记忆缓冲区在20个基准中17个最佳准确率，较辩论范式提升19.2点且减少77.4% token；magnolia三层持久记忆在受控重放中10/10通过检查；lip仅训练连接器实现专家表征到llm内部状态的零样本迁移
+解决的问题：智能体在长程任务中如何高效获取、存储、共享和传输相关上下文与记忆，避免噪声、过期数据、信息交换瓶颈和表征维度损失
+研究价值：为智能体信息管理提供了从检索优化、异步共享缓冲、多层持久化到潜空间表征直传的系统性方法谱系，覆盖llm推理代理、科学计算代理和个人助理场景 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">72<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-e3670037-event.html">智能体记忆检索、共享缓冲与潜空间互连</a></h3>
+        <p class="ex-sum">多源工作推进智能体信息管理：异步共享缓冲提升19.2点准确率，三层持久记忆实现10/10重放通过，潜空间互连支持零样本迁移</p>
+        <div class="ex-foot">
+          <span class="mono">6 篇来源</span>
+          <a class="go" href="events/evt-e3670037-event.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 45" data-cat="agent"
+               data-text="分层规划与持久状态的流式3d世界模型 核心突破：提出分层规划（macro/micro）与流式确定性编译结合的开放式3d世界模型，通过单一持久世界记录实现已访问区域的编辑恢复与跨瓦片状态一致性；同期综述将持久状态与交互确立为视频世界模型核心研究方向
+解决的问题：如何在无预定义地图约束下，以有界预算流式扩展可交互3d世界，同时维持跨独立规划瓦片的状态一致性与用户编辑持久性
+研究价值：将分层规划、确定性本地编译与持久状态管理统一于单一世界记录，为交互式世界建模提供可复用架构；综述以读取/写入/共享/交互四操作组织文献，确立从片段级识别向持久状态、可控演化与物理因果有效性转变的共识 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">60<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-88763777-3d.html">分层规划与持久状态的流式3D世界模型</a></h3>
+        <p class="ex-sum">WorldStream以分层规划与流式编译生成开放式3D世界，持久世界记录支持编辑恢复；综述确立持久状态与交互为视频世界模型核心方向</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-88763777-3d.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 46" data-cat="ai-for-science"
+               data-text="谱分解实现m/eeg贝叶斯源定位不确定性量化 核心突破：基于前向算子奇异值结构的谱框架将后验协方差精确分解为数据信息项和不可约不确定性项，并提供等价的减法分解
+解决的问题：m/eeg源定位是病态逆问题，条件高斯后验协方差无法显式区分测量可见源方向的不确定性与测量不可见的不确定性
+研究价值：谱分解提供可解释的不确定性量化，区分可通过更好测量减少的不确定性与由传感几何决定的不可约不确定性，为线性高斯贝叶斯逆求解器提供理论工具 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-e286e052-m-eeg.html">谱分解实现M/EEG贝叶斯源定位不确定性量化</a></h3>
+        <p class="ex-sum">基于前向算子奇异值结构的谱框架，将M/EEG后验协方差分解为数据信息项与不可约项，实现可解释不确定性量化</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-e286e052-m-eeg.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 47" data-cat="llm"
+               data-text="975b多模态moe模型inkling开源发布 核心突破：发布975b总参数、41b激活参数的多模态moe基础模型，采用无编码器多模态架构、相对位置编码替代rope及短卷积增强，支持1m token上下文和可控思考力度
+解决的问题：构建支持多模态输入（文本/图像/音频）、超长上下文和可控推理力度的大规模开源可微调基础模型
+研究价值：提供了大规模moe多模态模型的完整架构设计参考，包括无辅助损失sigmoid负载均衡、滑动窗口与全局注意力5:1交替、8 kv头、短卷积后处理及无编码器音频dmel输入等具体技术细节，moe核心设计参照deepseek-v3 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">40<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-52d2be2f-975b-moe-inkling.html">975B多模态MoE模型Inkling开源发布</a></h3>
+        <p class="ex-sum">Thinking Machines Lab开源975B多模态MoE模型Inkling，41B激活参数，1M上下文，无编码器多模态设计，可在Tinker上微调</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-52d2be2f-975b-moe-inkling.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 48" data-cat="agent"
                data-text="flagos 2.2 跨芯算子性能提升 27% 与 ai 辅助算子生成 核心突破：跨芯算子性能提升约 27%，kernelgen 季度自动生成 765 个算子，其中 416 个在至少 5 款国产芯片上通过精度验证并达原生算子 80% 以上性能
 解决的问题：ai 模型快速换代而算力基础设施需长期服役，需要跨芯片算子复用与持续优化能力，而非仅回答支持哪些芯片
 研究价值：验证了算子库扩展、flagtree 编译优化与 kernelgen ai 辅助算子生成协同的规模化跨芯优化路径，将算子开发从专家手工优化推向规模化生产 agent">
@@ -1083,31 +1207,14 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 42" data-cat="llm"
-               data-text="gigabench十亿像素可学习表示压缩超分基准 核心突破：提出gigabench，首个专注于十亿像素图像上部署可学习表示的基准，适配隐式、混合和显式方法在消费级硬件上可靠运行，系统评估重建质量、模型大小、压缩和推理时间
-解决的问题：可学习表示在十亿像素图像上的部署缺乏系统评估，现有方法在消费级硬件上无法可靠运行于该规模，缺乏跨方法的统一比较
-研究价值：提供跨多样领域（收集、获取、合成渲染）的系统评估，识别隐式、混合和显式方法间一致趋势，为未来研究提供可操作指导 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">30<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-b1465388-gigabench.html">GigaBench十亿像素可学习表示压缩超分基准</a></h3>
-        <p class="ex-sum">GigaBench系统评估隐式、混合和显式可学习表示在十亿像素图像压缩和超分上的表现，在消费级硬件上运行，提供跨方法一致趋势</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-b1465388-gigabench.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 43" data-cat="agent"
+      <article class="ex-card" style="--i: 49" data-cat="agent"
                data-text="langchain公司级agent harness五组件架构 核心突破：langchain提出公司级agent harness的五组件架构，覆盖市场、销售和工程团队的内部agent部署
 解决的问题：企业如何在多个业务团队中系统性地构建和部署agent基础设施
 研究价值：提供公司级agent基础设施的参考架构和跨团队部署模式 agent">
         <div class="ex-top">
           <span class="dot" style="background: #8b5cf6"></span>
           <span class="ex-cat">Agent</span>
-          <span class="ex-imp">30<small>IMP</small></span>
+          <span class="ex-imp">40<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-c3422ea9-langchain-agent-harness.html">LangChain公司级Agent Harness五组件架构</a></h3>
         <p class="ex-sum">LangChain分享公司级Agent Harness五组件架构，展示市场、销售和工程团队的内部Agent部署模式</p>
@@ -1117,150 +1224,14 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 44" data-cat="agent"
-               data-text="多智能体编排实现企业流程与办公任务闭环 核心突破：讯飞agent os实现组织级上下文共享与任务调度，apa将企业软件操作自动封装为智能体可调用技能；小艺work实现自然语言驱动的多智能体协作与文件交付
-解决的问题：企业复杂任务跨crm/erp/oa等多系统执行时，上下文无法在不同智能体与系统间流动，难以形成自动化闭环
-研究价值：验证了多智能体从单点api调用向跨系统端到端任务闭环的工程可行性，为agent编排基础设施提供工业级参考 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">60<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-bd5593ef-event.html">多智能体编排实现企业流程与办公任务闭环</a></h3>
-        <p class="ex-sum">讯飞与华为分别推出多智能体编排系统，验证跨系统企业流程与办公任务的端到端闭环执行能力</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-bd5593ef-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 45" data-cat="agent"
-               data-text="ai编码降低52%耗时但25%pr为低质量贡献 核心突破：三项独立证据共同表明：linux基金会调查显示ai将代码编写耗时降低52%但约25%的pr为低质量贡献（大型项目达31%）；postgresql 19因ai辅助审查与模糊测试集中暴露约40项边缘缺陷、8至10项功能被撤回而推迟发布；spotify 8月合并变更量从约8100增至17000，变更数量已超过部分验证机制的处理能力。
-解决的问题：ai辅助编码大幅降低代码生成成本，但代码验证、审查和维护成本未同步下降，效率收益在不同角色间重新分配，开源维护者和企业质量团队面临新的瓶颈。
-研究价值：为ai辅助软件开发的效率-质量权衡提供了跨组织、跨场景的实证数据，涵盖调查统计（linux基金会）、具体项目案例（postgresql）和企业内部工程复盘（spotify），有助于制定ai编码的质量治理与验证策略。 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-80702cc7-ai-52-25-pr.html">AI编码降低52%耗时但25%PR为低质量贡献</a></h3>
-        <p class="ex-sum">AI编码将代码编写耗时降低52%，但25%的PR为低质量贡献，PostgreSQL因AI审查集中暴露缺陷而延期，Spotify变更量翻倍后验证机制承压</p>
-        <div class="ex-foot">
-          <span class="mono">3 篇来源</span>
-          <a class="go" href="events/evt-80702cc7-ai-52-25-pr.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 46" data-cat="llm"
-               data-text="成本感知弃权策略评估llm工单分类性能 核心突破：在47,837条工单八类语料上，tf-idf加逻辑回归配合0.60弃权阈值将测试成本从0.763降至0.472（相对降低38.1%），错误路由率从15.3%降至3.5%，优于四种llm的零样本/少样本提示配置。
-解决的问题：it工单自动路由中错误分类成本高于人工分诊，需要在显式成本结构下评估llm分类器是否优于传统方法，以及弃权策略能否有效降低期望路由成本。
-研究价值：提供成本感知弃权的离线评估框架，系统比较四种非llm分类器与四种llm在显式成本模型下的表现，揭示简单方法在特定成本结构下可优于llm，为路由策略选择提供量化依据。 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">35<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-936efc63-llm.html">成本感知弃权策略评估LLM工单分类性能</a></h3>
-        <p class="ex-sum">评估成本感知弃权在IT工单分类中的效果，TF-IDF+逻辑回归在示例成本下优于LLM提示配置，为路由策略提供量化评估框架。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-936efc63-llm.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 47" data-cat="ai-for-science"
-               data-text="谱分解实现m/eeg贝叶斯源定位不确定性量化 核心突破：基于前向算子奇异值结构的谱框架将后验协方差精确分解为数据信息项和不可约不确定性项，并提供等价的减法分解
-解决的问题：m/eeg源定位是病态逆问题，条件高斯后验协方差无法显式区分测量可见源方向的不确定性与测量不可见的不确定性
-研究价值：谱分解提供可解释的不确定性量化，区分可通过更好测量减少的不确定性与由传感几何决定的不可约不确定性，为线性高斯贝叶斯逆求解器提供理论工具 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-e286e052-m-eeg.html">谱分解实现M/EEG贝叶斯源定位不确定性量化</a></h3>
-        <p class="ex-sum">基于前向算子奇异值结构的谱框架，将M/EEG后验协方差分解为数据信息项与不可约项，实现可解释不确定性量化</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-e286e052-m-eeg.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 48" data-cat="ai-for-science"
-               data-text="近拷贝率诊断血管树生成模型训练数据复用 核心突破：提出近拷贝率（near-copy rate）作为诊断指标，揭示保真度分数无法检测训练数据复用；无训练条件重采样器在1-nna和父-子依赖auc两项保真度分数上优于三个学习式基线（含vesselgpt）。
-解决的问题：保真度分数（1-nna、依赖auc）本身无法检测生成模型对训练数据的复用，导致对生成式血管树模型（coronary/intra）泛化能力的评估可靠性存疑。
-研究价值：为生成式生物结构模型评估提供新诊断框架：将近拷贝率与保真度分数联合报告，并设训练副本、抖动副本、真实留出树三个对照，有助于区分真实泛化与训练记忆。 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">30<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-9e61a92b-event.html">近拷贝率诊断血管树生成模型训练数据复用</a></h3>
-        <p class="ex-sum">研究提出近拷贝率诊断指标，发现无训练条件重采样器在血管树保真度上优于学习式基线，揭示保真度分数无法检测训练数据复用。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-9e61a92b-event.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 49" data-cat="ai-for-science"
-               data-text="edengnn-uni等变框架全周期表电荷密度预测 核心突破：等变gnn框架实现全周期表通用电荷密度预测，速度提升一个数量级以上
-解决的问题：如何高效准确地预测全周期表材料的电荷密度以加速电子结构计算
-研究价值：为材料电子结构计算提供高效替代，覆盖全周期表，加速材料发现与设计流程，属于ai for science×工业材料优先方向 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">60<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-caac45e5-edengnn-uni.html">EdenGNN-Uni等变框架全周期表电荷密度预测</a></h3>
-        <p class="ex-sum">EdenGNN-Uni采用等变框架实现全周期表通用电荷密度预测，比部分现有方法快一个数量级以上，加速材料电子结构计算</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-caac45e5-edengnn-uni.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 50" data-cat="agent"
-               data-text="生产agent运行时安全控制与评估门控 核心突破：langsmith llm gateway提供生产agent运行时控制（支出上限、速率限制、模型回退、pii脱敏），numan展示评估优先+安全门控的agent构建范式
-解决的问题：生产环境llm agent缺乏统一的运行时安全控制与评估门控机制，难以在监管合规和成本约束下稳定运行
-研究价值：为生产agent提供基础设施级运行时控制（gateway）和应用级评估门控（eval-first）的两层参考架构 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-0b587749-agent.html">生产Agent运行时安全控制与评估门控</a></h3>
-        <p class="ex-sum">LangSmith Gateway提供生产Agent运行时控制，Numan展示评估优先+安全门控的Agent构建方法</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-0b587749-agent.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 51" data-cat="llm"
-               data-text="vera仪表盘加速eu ai act下llm合规评估 核心突破：提出vera开源自托管仪表盘，部署于大型欧洲银行，将compl-ai的六组原则和十八项技术要求中十二项可测量要求可视化，对四个开放权重模型运行基准并记录每次评估能耗，受试者研究显示评估时间从56秒降至30秒
-解决的问题：在受监管环境中部署llm的机构需要在批准部署前提供负责任ai实践的技术证据，但基准套件通常从命令行运行，而批准部署的人员是非工程师
-研究价值：将eu ai act技术解释转化为非工程师可用的可视化评估工具，增加运行级能耗证据，仪表盘和组织内研究材料公开发布以促进可重复性 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">20<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-df76b204-vera-eu-ai-act-llm.html">VERA仪表盘加速EU AI Act下LLM合规评估</a></h3>
-        <p class="ex-sum">VERA仪表盘将EU AI Act十二项可测量要求可视化，四个开放权重模型通过评估流水线，受试者研究显示评估时间从56秒降至30秒</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-df76b204-vera-eu-ai-act-llm.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 52" data-cat="llm"
+      <article class="ex-card" style="--i: 50" data-cat="llm"
                data-text="prism专用推理引擎实现决策模型最高5.3倍加速 核心突破：针对决策模型仅计算候选选项logits而非完整词表，结合共享上下文森林结构批处理，在单卡h200上实现1.2至5.3倍推理加速，12351次决策测试准确率92.94%与bf16基线92.97%持平
 解决的问题：通用推理引擎（vllm、sglang）面向生成式推理优化，对仅需计算有限候选概率的决策任务存在冗余计算：完整词表logits计算、多问题共享材料时的重复分词与上下文前向计算
 研究价值：为决策/分类类模型提供了专用推理优化范式，候选输出层裁剪与公共上下文森林结构可推广至其他有限选项判断场景，降低决策模型部署成本 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">50<small>IMP</small></span>
+          <span class="ex-imp">60<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-bed5977d-prism-5-3.html">Prism专用推理引擎实现决策模型最高5.3倍加速</a></h3>
         <p class="ex-sum">StartLux开源Prism推理引擎，针对决策模型特点优化输出层计算与共享上下文处理，单卡最高5.3倍加速且精度无损。</p>
@@ -1270,14 +1241,65 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
+      <article class="ex-card" style="--i: 51" data-cat="agent"
+               data-text="生产agent运行时安全控制与评估门控 核心突破：langsmith llm gateway提供生产agent运行时控制（支出上限、速率限制、模型回退、pii脱敏），numan展示评估优先+安全门控的agent构建范式
+解决的问题：生产环境llm agent缺乏统一的运行时安全控制与评估门控机制，难以在监管合规和成本约束下稳定运行
+研究价值：为生产agent提供基础设施级运行时控制（gateway）和应用级评估门控（eval-first）的两层参考架构 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-0b587749-agent.html">生产Agent运行时安全控制与评估门控</a></h3>
+        <p class="ex-sum">LangSmith Gateway提供生产Agent运行时控制，Numan展示评估优先+安全门控的Agent构建方法</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-0b587749-agent.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 52" data-cat="ai-for-science"
+               data-text="edengnn-uni等变框架全周期表电荷密度预测 核心突破：等变gnn框架实现全周期表通用电荷密度预测，速度提升一个数量级以上
+解决的问题：如何高效准确地预测全周期表材料的电荷密度以加速电子结构计算
+研究价值：为材料电子结构计算提供高效替代，覆盖全周期表，加速材料发现与设计流程，属于ai for science×工业材料优先方向 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-caac45e5-edengnn-uni.html">EdenGNN-Uni等变框架全周期表电荷密度预测</a></h3>
+        <p class="ex-sum">EdenGNN-Uni采用等变框架实现全周期表通用电荷密度预测，比部分现有方法快一个数量级以上，加速材料电子结构计算</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-caac45e5-edengnn-uni.html">证据链 →</a>
+        </div>
+      </article>
+
       <article class="ex-card" style="--i: 53" data-cat="agent"
+               data-text="多智能体编排实现企业流程与办公任务闭环 核心突破：讯飞agent os实现组织级上下文共享与任务调度，apa将企业软件操作自动封装为智能体可调用技能；小艺work实现自然语言驱动的多智能体协作与文件交付
+解决的问题：企业复杂任务跨crm/erp/oa等多系统执行时，上下文无法在不同智能体与系统间流动，难以形成自动化闭环
+研究价值：验证了多智能体从单点api调用向跨系统端到端任务闭环的工程可行性，为agent编排基础设施提供工业级参考 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">55<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-bd5593ef-event.html">多智能体编排实现企业流程与办公任务闭环</a></h3>
+        <p class="ex-sum">讯飞与华为分别推出多智能体编排系统，验证跨系统企业流程与办公任务的端到端闭环执行能力</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-bd5593ef-event.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 54" data-cat="agent"
                data-text="gitlab目标驱动智能体与gremlin可靠性智能体审批门控 核心突破：gitlab 19.4为duo cli新增/goal命令，接受开放式目标并持续迭代执行，由第二个模型对照目标检查进度，mcp工具对写入和删除操作默认设置人工审核检查点，并引入逐条计费事件的成本归属统计。gremlin foresight ai将可靠性工作划分为分析师、测试员、运维和技术项目经理四个智能体角色，基于专有故障图谱推荐测试，采用闭环验证机制，在未获许可前不执行任何测试或修复方案。
 解决的问题：自主软件工程智能体在扩大自动化范围时，如何在保持效率的同时确保操作安全、权限可控和成本可审计，避免无限制访问和不可控资源消耗。
 研究价值：展示了目标驱动智能体（双模型验证+mcp权限策略+成本归属）与多角色可靠性智能体（四角色分工+故障图谱+闭环验证）在权限门控和人工审批方面的工程实践，属于agent harness基础设施方向，为智能体编排与验证harness设计提供参考。 agent">
         <div class="ex-top">
           <span class="dot" style="background: #8b5cf6"></span>
           <span class="ex-cat">Agent</span>
-          <span class="ex-imp">40<small>IMP</small></span>
+          <span class="ex-imp">62<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-00357e75-gitlab-gremlin.html">GitLab目标驱动智能体与Gremlin可靠性智能体审批门控</a></h3>
         <p class="ex-sum">GitLab引入目标驱动智能体与MCP权限门控及成本归属，Gremlin以四角色智能体加故障图谱实现可靠性闭环验证，均采用人工审批监督模式</p>
@@ -1287,37 +1309,20 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 54" data-cat="llm"
+      <article class="ex-card" style="--i: 55" data-cat="llm"
                data-text="讯飞发布sparkaudio语音基座与端云一体x2.6模型 核心突破：sparkaudio 1.0将语音理解从asr/tts扩展至情绪识别、实时说话人分离和环境声理解的端到端架构；spark-x2.6-4b端侧模型（约41亿参数、百万token上下文）达约70%云端能力
 解决的问题：传统级联语音架构（降噪→asr→nlu→tts）存在信息损失，语气、情绪、空间位置等声音信息在转文本后消失；端侧模型受参数和算力限制难以承担复杂交互任务
 研究价值：端到端语音场景理解与端云协同架构为智能硬件（机器人、汽车、智能家居）提供了更完整的交互技术路线，端侧agent能力降低数据上传需求 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">40<small>IMP</small></span>
+          <span class="ex-imp">45<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-e8166aed-sparkaudio-x2-6.html">讯飞发布SparkAudio语音基座与端云一体X2.6模型</a></h3>
         <p class="ex-sum">讯飞发布SparkAudio 1.0语音基座模型和端云一体X2.6，语音调用量增20倍，端侧达70%云端能力。</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
           <a class="go" href="events/evt-e8166aed-sparkaudio-x2-6.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 55" data-cat="llm"
-               data-text="openai habitat存储扩展服务10亿chatgpt用户 核心突破：多租户+全局缓存+azure cosmos db实现12倍读取加速，服务超10亿用户
-解决的问题：如何为超大规模ai产品提供可靠、高性能的在线存储基础设施
-研究价值：展示ai产品基础设施在10亿用户规模下的工程实践，为大规模ai服务部署提供参考 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">30<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-781afdee-openai-habitat-10-chatgpt.html">OpenAI Habitat存储扩展服务10亿ChatGPT用户</a></h3>
-        <p class="ex-sum">OpenAI扩展Habitat存储，通过多租户、全局缓存和Cosmos DB实现12倍读取加速，服务超10亿ChatGPT用户</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-781afdee-openai-habitat-10-chatgpt.html">证据链 →</a>
         </div>
       </article>
 
@@ -1328,7 +1333,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <div class="ex-top">
           <span class="dot" style="background: #8b5cf6"></span>
           <span class="ex-cat">Agent</span>
-          <span class="ex-imp">30<small>IMP</small></span>
+          <span class="ex-imp">50<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-76622a32-arm-agent-cpu.html">Arm提出Agent场景CPU性能新评估方法</a></h3>
         <p class="ex-sum">Arm提出将工具调用、任务编排和端到端执行纳入CPU性能评价的新方法，指出Agent工作负载中CPU从辅助角色转为任务执行关键环节。</p>
@@ -1345,7 +1350,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <div class="ex-top">
           <span class="dot" style="background: #10b981"></span>
           <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">40<small>IMP</small></span>
+          <span class="ex-imp">50<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-b9078640-event.html">蛋白-配体结合预测方法评估透明性指南</a></h3>
         <p class="ex-sum">Nature MI发表蛋白-配体结合预测评估指南，强调数据代码透明、防泄漏与公平比较，规范ML评分方法评估。</p>
@@ -1355,31 +1360,14 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 58" data-cat="agent"
-               data-text="分布式ai代理挖掘脑细胞数据研究线索 核心突破：openai、perturbai与scripps research利用数千个分布式ai代理分析数百万脑细胞数据，发现新的研究线索
-解决的问题：复杂生物数据（大规模脑细胞组学数据）的自动化分析与研究线索发现
-研究价值：展示ai代理规模化部署于生物医学数据探索的可行性，为大规模细胞组学数据的自动化分析提供新路径 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-9af20916-ai.html">分布式AI代理挖掘脑细胞数据研究线索</a></h3>
-        <p class="ex-sum">OpenAI联合PerturbAI与Scripps Research，用数千分布式AI代理分析数百万脑细胞数据，发现新研究线索。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-9af20916-ai.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 59" data-cat="llm"
+      <article class="ex-card" style="--i: 58" data-cat="llm"
                data-text="chatgpt广告栈扩展26国，llm驱动意图理解 核心突破：llm驱动的对话意图理解广告栈扩展至26个新国家，超10万广告主使用
 解决的问题：如何在对话式ai中实现相关广告投放同时维护用户信任与回答独立性
 研究价值：展示llm在广告意图理解和大规模投放中的工程应用，为对话式ai商业化提供技术路径 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">40<small>IMP</small></span>
+          <span class="ex-imp">50<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-cae393fd-chatgpt-26-llm.html">ChatGPT广告栈扩展26国，LLM驱动意图理解</a></h3>
         <p class="ex-sum">ChatGPT广告栈采用LLM理解对话意图，广告与回答分离，扩展至26国，超10万广告主使用</p>
@@ -1389,7 +1377,126 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 60" data-cat="llm"
+      <article class="ex-card" style="--i: 59" data-cat="agent"
+               data-text="ai编码agent设计技能与语言工具 核心突破：为ai编码agent提供专用设计技能（hallmark）和设计语言（impeccable）以约束设计输出
+解决的问题：ai编码agent生成的设计输出存在&#39;ai-slop&#39;质量问题，需要专用设计约束
+研究价值：探索通过专用设计技能/语言约束ai agent设计输出的工程方法，属于agent harness设计能力增强方向 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">35<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-600d0353-ai-agent.html">AI编码Agent设计技能与语言工具</a></h3>
+        <p class="ex-sum">Hallmark与Impeccable分别以设计技能和设计语言形式提升AI编码Agent的设计输出质量。</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-600d0353-ai-agent.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 60" data-cat="agent"
+               data-text="分布式ai代理挖掘脑细胞数据研究线索 核心突破：openai、perturbai与scripps research利用数千个分布式ai代理分析数百万脑细胞数据，发现新的研究线索
+解决的问题：复杂生物数据（大规模脑细胞组学数据）的自动化分析与研究线索发现
+研究价值：展示ai代理规模化部署于生物医学数据探索的可行性，为大规模细胞组学数据的自动化分析提供新路径 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">45<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-9af20916-ai.html">分布式AI代理挖掘脑细胞数据研究线索</a></h3>
+        <p class="ex-sum">OpenAI联合PerturbAI与Scripps Research，用数千分布式AI代理分析数百万脑细胞数据，发现新研究线索。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-9af20916-ai.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 61" data-cat="agent"
+               data-text="ai代理驱动漏洞发现与安全协同响应 核心突破：ai代理工具链（daybreak、codex、security-audit-skill）在安全漏洞发现与跨组织响应协调中实现工程化闭环部署
+解决的问题：如何系统化利用ai代理执行多阶段安全审计、自动发现漏洞并协调跨组织修复响应
+研究价值：展示了代理工具链在安全领域的可组合性：审计技能→漏洞发现→修复提案→协同响应，为agent安全应用提供工程范式 agent">
+        <div class="ex-top">
+          <span class="dot" style="background: #8b5cf6"></span>
+          <span class="ex-cat">Agent</span>
+          <span class="ex-imp">50<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-b49f0d00-ai.html">AI代理驱动漏洞发现与安全协同响应</a></h3>
+        <p class="ex-sum">OpenAI Daybreak与Cloudflare编码代理技能协同实现多阶段安全审计、漏洞自动发现及跨组织响应协调的工程化部署方案</p>
+        <div class="ex-foot">
+          <span class="mono">3 篇来源</span>
+          <a class="go" href="events/evt-b49f0d00-ai.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 62" data-cat="llm"
+               data-text="openai与nask合作开展ai安全防护研究 核心突破：openai与nask宣布合作，目标是加强ai安全防护与技术研究；未披露具体方法或验证结果。
+解决的问题：ai安全防护、安全与数字生态韧性不足。
+研究价值：为ai安全与防护研究提供机构合作方向，但需后续成果验证。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">30<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-cc4db9ea-openai-nask-ai.html">OpenAI与NASK合作开展AI安全防护研究</a></h3>
+        <p class="ex-sum">OpenAI与波兰NASK宣布建立合作关系，围绕AI安全、安全与技术研究加强防护，支持构建更加韧性数字生态系统。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-cc4db9ea-openai-nask-ai.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 63" data-cat="llm"
+               data-text="uber向3万员工部署chatgpt work 核心突破：3万员工规模部署chatgpt work，覆盖研究、数据分析、演示和复杂工作流
+解决的问题：如何将ai助手规模化部署到大型企业日常办公中
+研究价值：展示ai工具在大型企业知识工作场景中的规模化应用，为行业ai部署提供参考 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">40<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-79d18ae9-uber-3-chatgpt-work.html">Uber向3万员工部署ChatGPT Work</a></h3>
+        <p class="ex-sum">Uber与OpenAI合作向超过3万员工部署ChatGPT Work，支持研究、数据分析、演示创建和复杂工作流完成</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-79d18ae9-uber-3-chatgpt-work.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 64" data-cat="llm"
+               data-text="at&amp;t 基于 openai 重构法务知识接入 核心突破：无新模型突破，主要是法务知识接入与判断支持的企业部署。
+解决的问题：企业法务知识如何更易获取并扩展判断支持。
+研究价值：展示 llm 在法务运营流程中的落地路径。 llm">
+        <div class="ex-top">
+          <span class="dot" style="background: #3b82f6"></span>
+          <span class="ex-cat">LLM</span>
+          <span class="ex-imp">40<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-ed8a771a-at-t-openai.html">AT&amp;T 基于 OpenAI 重构法务知识接入</a></h3>
+        <p class="ex-sum">AT&amp;T 与 OpenAI 合作重构法务知识接入，LegalEdge 团队扩展 intake 与法务判断，属于企业级 LLM 应用。该部署聚焦法律工作流，并提升可及性。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-ed8a771a-at-t-openai.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 65" data-cat="ai-for-science"
+               data-text="trajectoryflownet稀疏轨迹重建流场与粒子路径 核心突破：物理信息学习模型从极有限轨迹测量同时重建流场与长程粒子路径，在模拟和血流实验中验证
+解决的问题：如何从稀疏轨迹观测中重建完整的高分辨率流场和粒子运动轨迹
+研究价值：为流体动力学提供数据高效的重建方法，减少所需测量数据量，适用于血流等工程与生物场景 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">65<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-71af9487-trajectoryflownet.html">TrajectoryFlowNet稀疏轨迹重建流场与粒子路径</a></h3>
+        <p class="ex-sum">TrajectoryFlowNet通过拉格朗日-欧拉混合学习，从极有限轨迹测量同时重建流场与长程粒子路径，经模拟和血流实验验证</p>
+        <div class="ex-foot">
+          <span class="mono">2 篇来源</span>
+          <a class="go" href="events/evt-71af9487-trajectoryflownet.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 66" data-cat="llm"
                data-text="openai模型与codex工作流入google云 核心突破：openai与google cloud将前沿模型和codex工作流引入gemini model garden，并通过google cloud marketplace提供。该安排使openai模型与codex工作流进入google cloud模型目录和云市场分发渠道。
 解决的问题：企业用户需要在google cloud marketplace中获取openai前沿模型和codex工作流，并提升模型与工作流在云生态中的可访问性和入口便利性。
 研究价值：该事件展示前沿模型与codex工作流通过云市场分发的产业路径，为模型接入、工作流部署和云生态合作提供案例。 llm">
@@ -1406,75 +1513,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 61" data-cat="agent"
-               data-text="ai代理驱动漏洞发现与安全协同响应 核心突破：ai代理工具链（daybreak、codex、security-audit-skill）在安全漏洞发现与跨组织响应协调中实现工程化闭环部署
-解决的问题：如何系统化利用ai代理执行多阶段安全审计、自动发现漏洞并协调跨组织修复响应
-研究价值：展示了代理工具链在安全领域的可组合性：审计技能→漏洞发现→修复提案→协同响应，为agent安全应用提供工程范式 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-b49f0d00-ai.html">AI代理驱动漏洞发现与安全协同响应</a></h3>
-        <p class="ex-sum">OpenAI Daybreak与Cloudflare编码代理技能协同实现多阶段安全审计、漏洞自动发现及跨组织响应协调的工程化部署方案</p>
-        <div class="ex-foot">
-          <span class="mono">3 篇来源</span>
-          <a class="go" href="events/evt-b49f0d00-ai.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 62" data-cat="llm"
-               data-text="uber向3万员工部署chatgpt work 核心突破：3万员工规模部署chatgpt work，覆盖研究、数据分析、演示和复杂工作流
-解决的问题：如何将ai助手规模化部署到大型企业日常办公中
-研究价值：展示ai工具在大型企业知识工作场景中的规模化应用，为行业ai部署提供参考 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">30<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-79d18ae9-uber-3-chatgpt-work.html">Uber向3万员工部署ChatGPT Work</a></h3>
-        <p class="ex-sum">Uber与OpenAI合作向超过3万员工部署ChatGPT Work，支持研究、数据分析、演示创建和复杂工作流完成</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-79d18ae9-uber-3-chatgpt-work.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 63" data-cat="llm"
-               data-text="at&amp;t 基于 openai 重构法务知识接入 核心突破：无新模型突破，主要是法务知识接入与判断支持的企业部署。
-解决的问题：企业法务知识如何更易获取并扩展判断支持。
-研究价值：展示 llm 在法务运营流程中的落地路径。 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">30<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-ed8a771a-at-t-openai.html">AT&amp;T 基于 OpenAI 重构法务知识接入</a></h3>
-        <p class="ex-sum">AT&amp;T 与 OpenAI 合作重构法务知识接入，LegalEdge 团队扩展 intake 与法务判断，属于企业级 LLM 应用。该部署聚焦法律工作流，并提升可及性。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-ed8a771a-at-t-openai.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 64" data-cat="llm"
-               data-text="openai与nask合作开展ai安全防护研究 核心突破：openai与nask宣布合作，目标是加强ai安全防护与技术研究；未披露具体方法或验证结果。
-解决的问题：ai安全防护、安全与数字生态韧性不足。
-研究价值：为ai安全与防护研究提供机构合作方向，但需后续成果验证。 llm">
-        <div class="ex-top">
-          <span class="dot" style="background: #3b82f6"></span>
-          <span class="ex-cat">LLM</span>
-          <span class="ex-imp">20<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-cc4db9ea-openai-nask-ai.html">OpenAI与NASK合作开展AI安全防护研究</a></h3>
-        <p class="ex-sum">OpenAI与波兰NASK宣布建立合作关系，围绕AI安全、安全与技术研究加强防护，支持构建更加韧性数字生态系统。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-cc4db9ea-openai-nask-ai.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 65" data-cat="llm"
+      <article class="ex-card" style="--i: 67" data-cat="llm"
                data-text="openai 以统一标准扩大模型访问 核心突破：无算法突破，主要是统一访问标准与使用政策。
 解决的问题：扩大 llm 访问时如何保持安全与政策一致。
 研究价值：为模型分发治理和渠道合规提供实践参考。 llm">
@@ -1491,7 +1530,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 66" data-cat="agent"
+      <article class="ex-card" style="--i: 68" data-cat="agent"
                data-text="开源开箱即用ai agent项目cindy 核心突破：开源ai agent项目cindy发布，主打开箱即用体验
 解决的问题：降低ai agent使用门槛，提供开箱即用（works out of the box）体验
 研究价值：作为开源agent基础设施的探索，但当前公开信息不足以评估具体技术贡献 agent">
@@ -1508,31 +1547,14 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 67" data-cat="ai-for-science"
-               data-text="trajectoryflownet稀疏轨迹重建流场与粒子路径 核心突破：物理信息学习模型从极有限轨迹测量同时重建流场与长程粒子路径，在模拟和血流实验中验证
-解决的问题：如何从稀疏轨迹观测中重建完整的高分辨率流场和粒子运动轨迹
-研究价值：为流体动力学提供数据高效的重建方法，减少所需测量数据量，适用于血流等工程与生物场景 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">50<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-71af9487-trajectoryflownet.html">TrajectoryFlowNet稀疏轨迹重建流场与粒子路径</a></h3>
-        <p class="ex-sum">TrajectoryFlowNet通过拉格朗日-欧拉混合学习，从极有限轨迹测量同时重建流场与长程粒子路径，经模拟和血流实验验证</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-71af9487-trajectoryflownet.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 68" data-cat="llm"
+      <article class="ex-card" style="--i: 69" data-cat="llm"
                data-text="openai前沿ai网络防御治理蓝图 核心突破：提出前沿ai赋能网络防御者的治理蓝图，涵盖安全保障与公共机构韧性建设
 解决的问题：如何利用前沿ai增强网络防御能力并建立配套治理与制度框架
 研究价值：为前沿ai在网络安全防御领域的应用提供治理方向与制度设计参考 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">30<small>IMP</small></span>
+          <span class="ex-imp">40<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-d9162437-openai-ai.html">OpenAI前沿AI网络防御治理蓝图</a></h3>
         <p class="ex-sum">OpenAI发布前沿AI民主治理第二部分蓝图，提出AI赋能网络防御、安全保障与公共机构韧性建设方案。</p>
@@ -1542,48 +1564,14 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 69" data-cat="agent"
-               data-text="ai编码agent设计技能与语言工具 核心突破：为ai编码agent提供专用设计技能（hallmark）和设计语言（impeccable）以约束设计输出
-解决的问题：ai编码agent生成的设计输出存在&#39;ai-slop&#39;质量问题，需要专用设计约束
-研究价值：探索通过专用设计技能/语言约束ai agent设计输出的工程方法，属于agent harness设计能力增强方向 agent">
-        <div class="ex-top">
-          <span class="dot" style="background: #8b5cf6"></span>
-          <span class="ex-cat">Agent</span>
-          <span class="ex-imp">20<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-600d0353-ai-agent.html">AI编码Agent设计技能与语言工具</a></h3>
-        <p class="ex-sum">Hallmark与Impeccable分别以设计技能和设计语言形式提升AI编码Agent的设计输出质量。</p>
-        <div class="ex-foot">
-          <span class="mono">2 篇来源</span>
-          <a class="go" href="events/evt-600d0353-ai-agent.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 70" data-cat="ai-for-science"
-               data-text="openai收购orchestra bio布局ai制药 核心突破：openai通过收购orchestra bio将ai驱动操作引入生命科学r&amp;d，加速药物开发
-解决的问题：如何利用ai能力加速生物制药研发和药物开发流程
-研究价值：ai在生命科学r&amp;d中的工业部署案例，展示前沿ai从通用能力向垂直制药领域的扩展路径 ai for science">
-        <div class="ex-top">
-          <span class="dot" style="background: #10b981"></span>
-          <span class="ex-cat">AI for Science</span>
-          <span class="ex-imp">40<small>IMP</small></span>
-        </div>
-        <h3><a href="events/evt-19a3eed9-openai-orchestra-bio-ai.html">OpenAI收购Orchestra Bio布局AI制药</a></h3>
-        <p class="ex-sum">OpenAI收购Orchestra Bio，将AI驱动操作引入生命科学R&amp;D，帮助生物制药团队加速药物开发。</p>
-        <div class="ex-foot">
-          <span class="mono">1 篇来源</span>
-          <a class="go" href="events/evt-19a3eed9-openai-orchestra-bio-ai.html">证据链 →</a>
-        </div>
-      </article>
-
-      <article class="ex-card" style="--i: 71" data-cat="agent"
+      <article class="ex-card" style="--i: 70" data-cat="agent"
                data-text="智能体不平等访问的概念框架与研究议程 核心突破：提出ai智能体不平等访问的概念框架，识别不平等来源并提出研究议程
 解决的问题：ai智能体在质量、数量和可及性方面的不平等如何产生社会挑战
 研究价值：为ai智能体治理提供概念基础，指导后续实证研究 agent">
         <div class="ex-top">
           <span class="dot" style="background: #8b5cf6"></span>
           <span class="ex-cat">Agent</span>
-          <span class="ex-imp">30<small>IMP</small></span>
+          <span class="ex-imp">55<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-eeec05d2-event.html">智能体不平等访问的概念框架与研究议程</a></h3>
         <p class="ex-sum">Nature MI发表视角文章，提出AI智能体不平等访问的概念框架，识别不平等来源并建议研究议程以应对社会挑战。</p>
@@ -1593,20 +1581,37 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         </div>
       </article>
 
-      <article class="ex-card" style="--i: 72" data-cat="llm"
+      <article class="ex-card" style="--i: 71" data-cat="llm"
                data-text="加盟商用chatgpt work减少94%现金对账时间 核心突破：chatgpt work将菜单定价时间减少95%、现金对账减少94%，释放10万美元现金流
 解决的问题：小型企业如何利用ai工具优化财务对账和定价流程
 研究价值：展示ai工具在小型企业财务运营中的具体应用和量化效果，为中小企业ai采用提供参考 llm">
         <div class="ex-top">
           <span class="dot" style="background: #3b82f6"></span>
           <span class="ex-cat">LLM</span>
-          <span class="ex-imp">20<small>IMP</small></span>
+          <span class="ex-imp">40<small>IMP</small></span>
         </div>
         <h3><a href="events/evt-ff192f26-chatgpt-work-94.html">加盟商用ChatGPT Work减少94%现金对账时间</a></h3>
         <p class="ex-sum">独立加盟商用ChatGPT Work将菜单定价时间减少95%、现金对账减少94%，构建释放10万美元现金流的工作流</p>
         <div class="ex-foot">
           <span class="mono">1 篇来源</span>
           <a class="go" href="events/evt-ff192f26-chatgpt-work-94.html">证据链 →</a>
+        </div>
+      </article>
+
+      <article class="ex-card" style="--i: 72" data-cat="ai-for-science"
+               data-text="openai收购orchestra bio布局ai制药 核心突破：openai通过收购orchestra bio将ai驱动操作引入生命科学r&amp;d，加速药物开发
+解决的问题：如何利用ai能力加速生物制药研发和药物开发流程
+研究价值：ai在生命科学r&amp;d中的工业部署案例，展示前沿ai从通用能力向垂直制药领域的扩展路径 ai for science">
+        <div class="ex-top">
+          <span class="dot" style="background: #10b981"></span>
+          <span class="ex-cat">AI for Science</span>
+          <span class="ex-imp">30<small>IMP</small></span>
+        </div>
+        <h3><a href="events/evt-19a3eed9-openai-orchestra-bio-ai.html">OpenAI收购Orchestra Bio布局AI制药</a></h3>
+        <p class="ex-sum">OpenAI收购Orchestra Bio，将AI驱动操作引入生命科学R&amp;D，帮助生物制药团队加速药物开发。</p>
+        <div class="ex-foot">
+          <span class="mono">1 篇来源</span>
+          <a class="go" href="events/evt-19a3eed9-openai-orchestra-bio-ai.html">证据链 →</a>
         </div>
       </article>
 
@@ -1618,7 +1623,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 
 <script>

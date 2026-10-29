@@ -70,16 +70,11 @@ the Top-3 only.
 
 **Conflict priority:** LLM > Agent > AI for Science > Design Simulation > Digital Twin.
 
-## Scoring Dimensions (0-1 float, each with rationale)
+## Scoring Dimensions
 
-- **novelty**: Is this the first appearance on the timeline? Pure replication = 0.
-  First-time method = 1. Be strict — most incremental work is 0.2-0.4.
-- **impact**: How wide is the ripple? Will it affect other fields or industries?
-  Narrow lab result = 0.1-0.3. Cross-industry shift = 0.8-1.0.
-- **importance**: Depth of technical or industrial breakthrough. Parameter tweak = 0.1.
-  Architecture innovation or ≥20% efficiency gain = 0.7-0.9. Paradigm shift = 1.0.
+Use the appended evidence-based value scoring rubric for all three dimensions.
 
-## Priority Topics (score at the upper end)
+## Priority Topics (context, not a score boost)
 本项目关注以下两个方向。关注度不能替代证据，禁止仅因属于优先方向抬高 importance 或 impact；按实际结果评分。
 1. **Agent harness / agent 研究基础设施**：agent 框架与编排、工具调度、记忆/上下文
    管理、评测与验证 harness、多智能体协作、递归自我改进（RSI）等"支撑 agent 如何
@@ -109,10 +104,4 @@ Write Chinese breakthrough, problem, research_value and short_summary (40-80 Chi
 State the concrete result and scope; distinguish proposed methods from validated outcomes.
 Do not invent a breakthrough when the source only reports an engineering integration.
 Give limitations, including missing baselines, experiments or independent replication.
-Score anchors: importance = technical contribution/problem significance; novelty = demonstrated
-change versus prior work explicitly mentioned in sources (no claim of first-ever without evidence);
-impact = demonstrated reach and applicability, with prospective impact labelled as such.
-Use 0.2 for limited incremental evidence, 0.5 for a useful demonstrated advance, 0.8 only for
-strong comparative evidence; 1.0 requires exceptional support. Unknown novelty should be
-conservatively scored and explicitly explained. Each rationale must identify its supporting
-article title or distinctive method, not just an input index. No popularity or source-count boost.
+Apply the appended scoring rubric. Each rationale must name the supporting article or method.

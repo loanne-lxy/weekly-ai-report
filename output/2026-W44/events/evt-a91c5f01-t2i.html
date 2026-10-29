@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #3b82f6; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: var(--accent);"></i></div>
+        <div class="v">70<small> / 100</small></div>
+        <div class="bar"><i style="width: 70%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: #10b981;"></i></div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：为T2I基础模型的数据集使用审计提供了一种无需辅助生成或逐图像优化的轻量级方案，低频信号作为集合级审计载体的有效性得到多架构、多领域验证，对生成式AI数据治理具有实用价值。</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：评估限于SD3.5和两个架构家族，自适应攻击下最有效移除需激进修改且产生超过25个ΔFID点；未涉及更大规模模型或更多架构的验证；缺乏独立第三方复现</p>
 
-        <details><summary>评分依据 · 综合分 39.8</summary>
-          <p class="prose">重要性：SpectralCanary提供实用T2I审计方法，多数据集多架构验证（文章0），但属数据治理工具而非架构创新。</p>
-          <p class="prose">新颖性：首次提出低通掩码金丝雀信号方案（文章0），消融实验证明低频优于中高频，属有用新进展。</p>
-          <p class="prose">影响力：影响T2I模型数据治理与合规审计（文章0），但限于数据集发布方与审计方，跨行业辐射有限。</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 67.0 · 推荐排序分 53.1</summary>
+          <p class="prose">重要性：SpectralCanary面向T2I数据集使用审计这一有意义问题，提出低频掩码与轻量验证器，并在多数据集、多架构和真实变换下展示较强对比证据，因此重要性取0.7。</p>
+          <p class="prose">新颖性：SpectralCanary相对已有审计方法，采用平滑低通掩码融合固定金丝雀图像，无需辅助生成或逐图优化，并给出多域验证，属于清晰新方法，故取0.65。</p>
+          <p class="prose">影响力：SpectralCanary在目标审计场景中提供可复用检测工具，跨艺术、医疗、卫星、时尚等数据集验证，但缺少真实部署证据，因此影响取0.65。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

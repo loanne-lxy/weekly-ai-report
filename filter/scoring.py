@@ -217,6 +217,14 @@ def select_half_life(
     return _BREAKING_HALF_LIFE
 
 
+def compute_value_score(scores):
+    """Research value independent of publisher, evidence confidence and age."""
+    from filter.quality import score_number
+    return round(0.4 * score_number(scores.get("importance"))
+                 + 0.3 * score_number(scores.get("novelty"))
+                 + 0.3 * score_number(scores.get("impact")), 4)
+
+
 def compute_final_score(llm_scores, obj_metrics, article_count, time_decay=1.0):
     from filter.quality import score_number
     # Normalize each component ONCE. Count does not establish truth or confidence.
@@ -297,6 +305,7 @@ def score_event(
         # Final
         "final_score": final["final_score"],
         "llm_part": final["llm_part"],
+        "value_score": compute_value_score(llm_scores),
         "obj_part": final["obj_part"],
         "confidence": final["confidence"],
         "time_decay": final["time_decay"],

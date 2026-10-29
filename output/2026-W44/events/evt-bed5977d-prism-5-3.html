@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #3b82f6; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: var(--accent);"></i></div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: #8b5cf6;"></i></div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">30<small> / 100</small></div>
-        <div class="bar"><i style="width: 30%; background: #10b981;"></i></div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：为决策/分类类模型提供了专用推理优化范式，候选输出层裁剪与公共上下文森林结构可推广至其他有限选项判断场景，降低决策模型部署成本</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：仅针对StartLux-Decision 27B单一模型验证；未与SGLang等其他引擎对比；5.3倍加速仅在特定三问题共享材料场景下测得；缺乏独立第三方复现；确定性输出仅在特定运行配置下保证</p>
 
-        <details><summary>评分依据 · 综合分 21.6</summary>
-          <p class="prose">重要性：5.3倍加速且精度持平是有用的工程进展，但限于单一模型和特定决策任务场景</p>
-          <p class="prose">新颖性：候选输出层裁剪和共享上下文批处理是特定优化组合，类似思路在约束解码和KV缓存复用中存在</p>
-          <p class="prose">影响力：专为StartLux-Decision设计，跨行业推广需适配其他模型架构和任务类型</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 58.5 · 推荐排序分 29.5</summary>
+          <p class="prose">重要性：该引擎针对决策模型只算候选概率，给出单卡H200上1.2至5.3倍加速及准确率持平证据，属对特定推理场景的扎实改进，但仅限StartLux模型与厂商测试。</p>
+          <p class="prose">新颖性：相对vLLM，Prism利用共享材料、候选选项概率和确定性输出重排计算流程，方法差异明确，但缺少与多基线或跨模型系统的公开对比。</p>
+          <p class="prose">影响力：加速与准确率证据集中在StartLux-Decision单模型、单卡及厂商场景，开源和TP/DP支持提升可复用性，但未见跨任务、跨部署或第三方验证。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -259,7 +259,7 @@ Prism 还重点优化了推理结果的确定性。StartLux 表示，在其支�
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

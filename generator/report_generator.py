@@ -102,6 +102,8 @@ def _query_knowledge_db(week_label: str, db_path: str = "data/knowledge.db") -> 
     for row in events_rows:
         evt = dict(row)
         evt = {**json.loads(evt.get("metadata_json") or "{}"), **evt}
+        from filter.scoring import compute_value_score
+        evt["value_score"] = compute_value_score(evt)
         evt["summary"] = _clean_text(evt.get("summary"))
         events.append(evt)
         event_ids.append(evt["id"])

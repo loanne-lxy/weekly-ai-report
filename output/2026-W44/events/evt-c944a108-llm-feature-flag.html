@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #8b5cf6; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: var(--accent);"></i></div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">30<small> / 100</small></div>
-        <div class="bar"><i style="width: 30%; background: #8b5cf6;"></i></div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：提供了多智能体LLM系统在真实工业环境（MCP查询、Jira工单、PR创建）中端到端部署的完整工程经验与架构设计教训，为类似多智能体系统开发提供了可复用的实践指导。</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：评估规模有限（仅50个flag），未与现有规则工具进行系统性对比基线；90%成功率的失败案例未详细分析；成本与时间指标未考虑工程师审核的额外时间；缺乏独立第三方复现验证</p>
 
-        <details><summary>评分依据 · 综合分 34.9</summary>
-          <p class="prose">重要性：多智能体LLM在工业代码维护中的工程集成，有具体成功率和成本指标，但属应用层部署而非方法创新。</p>
-          <p class="prose">新颖性：LLM辅助代码清理已有先例，本文贡献在于MCP+Jira+PR的端到端多智能体架构及大规模工业验证，属增量工程应用。</p>
-          <p class="prose">影响力：56K flag、623仓库的规模验证了多智能体LLM在工业技术债务管理中的可行性，为同类系统提供实践参考。</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 62.0 · 推荐排序分 49.4</summary>
+          <p class="prose">重要性：该工作针对DoorDash数万feature flag清理这一真实工程问题，给出端到端LLM多智能体方案，并在50个过期flag上达到90%工程师认可，属有明确场景的可靠解决方案。</p>
+          <p class="prose">新颖性：相对既有规则工具，其新意在整合MCP实时flag数据、Jira工单与PR生成的多智能体流程，并给出成本与时间评估；但核心仍属LLM代理工程集成，非全新架构。</p>
+          <p class="prose">影响力：在DoorDash目标场景中，系统平均每次清理13.8分钟、4.79美元，并生成可审核PR，显示可复用价值；但评估仅50个flag，跨仓库与长期部署证据有限。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

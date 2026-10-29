@@ -180,11 +180,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <p class="prose" style="white-space:pre-line">{{ ev.get('summary', '')|clean_summary }}</p>
         {% if ev.get('limitations') %}<p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：{{ ev.limitations }}</p>{% endif %}
         {% if ev.get('quality_status') == 'date_unverified' %}<p class="chain-note">发布时间待核实，未纳入本周精选。</p>{% endif %}
-        <details><summary>评分依据 · 综合分 {{ "%.1f"|format((ev.get('final_score', 0) or 0) * 100) }}</summary>
+        <details><summary>评分依据 · 价值分 {{ "%.1f"|format((ev.value_score or 0) * 100) }} · 推荐排序分 {{ "%.1f"|format((ev.get('final_score', 0) or 0) * 100) }}</summary>
           <p class="prose">重要性：{{ ev.get('importance_rationale', '') }}</p>
           <p class="prose">新颖性：{{ ev.get('novelty_rationale', '') }}</p>
           <p class="prose">影响力：{{ ev.get('impact_rationale', '') }}</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 

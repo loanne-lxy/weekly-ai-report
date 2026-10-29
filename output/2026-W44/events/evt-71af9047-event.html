@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #f59e0b; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">60<small> / 100</small></div>
-        <div class="bar"><i style="width: 60%; background: var(--accent);"></i></div>
+        <div class="v">80<small> / 100</small></div>
+        <div class="bar"><i style="width: 80%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+        <div class="v">75<small> / 100</small></div>
+        <div class="bar"><i style="width: 75%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: #10b981;"></i></div>
+        <div class="v">68<small> / 100</small></div>
+        <div class="bar"><i style="width: 68%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：为CAE/结构仿真提供了可复用的物理一致性学习范式：体素场跨模态调制、精确势函数+不可增能耗散、POD超缩减+多凸神经网络本构律，分别适用于4D仿真属性分配、气动弹性ROM和材料本构发现</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：AutoPhyX未与逐场景优化基线做定量对比；保结构ROM在HyMAX上仅验证65ms跟踪，未覆盖更长时间尺度；超缩减方法在三维示例中仅用6个模态，对高度非线性本构的泛化性未充分验证；三项工作均缺乏独立第三方复现</p>
 
-        <details><summary>评分依据 · 综合分 35.4</summary>
-          <p class="prose">重要性：超缩减将训练从9h降至41min（13x），48672 DOF→6模态，保结构ROM主频误差1.0%，定量加速显著但限于特定结构问题</p>
-          <p class="prose">新颖性：精确势函数+不可增能耗散构造、多凸神经网络+POD超缩减组合为新颖技术路径，但POD/ROM/神经网络本构均为已有组件</p>
-          <p class="prose">影响力：面向航空航天气动弹性与材料本构发现的CAE加速，对结构仿真社区有直接价值，但尚未展示跨行业部署</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 74.9 · 推荐排序分 48.7</summary>
+          <p class="prose">重要性：该组用超约化与结构保持降阶模型解决物理一致学习难题，前者训练从九小时降至四十一分钟且精度不降，后者能量平衡按构造成立，属对重要问题的实质推进。</p>
+          <p class="prose">新颖性：其新颖性来自将多凸神经网络、伴随敏感与能量守恒采样结合，以及保持精确势函数并只训练耗散的结构保持模型，相对全阶或已发表降阶模型有明确方法差异。</p>
+          <p class="prose">影响力：影响限于目标场景：超约化在两个实验数据集和三维合成例中缩短训练，结构保持降阶模型在超声速高超声速薄板中复现频率与响应区，但未见跨任务或真实部署证据。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -306,7 +306,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

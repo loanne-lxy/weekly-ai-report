@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #f59e0b; }</style>
 
@@ -161,13 +161,13 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">55<small> / 100</small></div>
-        <div class="bar"><i style="width: 55%; background: #8b5cf6;"></i></div>
+        <div class="v">70<small> / 100</small></div>
+        <div class="bar"><i style="width: 70%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">35<small> / 100</small></div>
-        <div class="bar"><i style="width: 35%; background: #10b981;"></i></div>
+        <div class="v">45<small> / 100</small></div>
+        <div class="bar"><i style="width: 45%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：将1D RL代理与3D体积仿真统一于同一Hill型本构律，结合实测EMG先验引导冗余激活解，为生物力学驱动的角色动画提供可复现、可加速的技术路径</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：仅在单张RTX 4090上验证，未与现有肌肉动画方法做系统定量对比；EMG先验依赖实测数据，跨被试泛化性未充分验证；未报告与纯1D肌肉方法的消融对比</p>
 
-        <details><summary>评分依据 · 综合分 38.8</summary>
-          <p class="prose">重要性：XPBD几何多网格求解器与RL肌肉控制结合，194肌肉18ms/帧达实用级性能（文章0）</p>
-          <p class="prose">新颖性：首次将1D RL代理与3D体积仿真统一于同一本构律并设计XPBD多网格（文章0）</p>
-          <p class="prose">影响力：角色动画领域应用，未展示跨行业或跨领域影响（文章0）</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 56.5 · 推荐排序分 43.5</summary>
+          <p class="prose">重要性：RLMuscle针对角色动画中肌肉激活需手工指定且物理真实感不足的问题，提出强化学习控制与三维体积仿真结合的方案，问题有意义且方法较完整；但摘要未提供量化对比，故取中档。</p>
+          <p class="prose">新颖性：相对现有仅用一维肌肉的强化学习控制器，RLMuscle将一维代理与三维XPBD体积仿真共享本构律，并加入肌电先验和几何多重网格，方法差异明确；但缺少系统对比证据，故取中上。</p>
+          <p class="prose">影响力：该方法面向角色动画管线，可能减少手工肌肉激活并提升物理真实感，但文章未展示部署、效率或质量验证，适用性仍属潜在，故取较低中档。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

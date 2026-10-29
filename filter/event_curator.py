@@ -12,7 +12,8 @@ from filter.quality import score_number, grounded_limitations
 
 logger = logging.getLogger(__name__)
 _PROMPTS_DIR = Path(__file__).resolve().parent.parent / "references"
-EVENT_CURATOR_SYSTEM = (_PROMPTS_DIR / "event_curator_system.md").read_text()
+EVENT_CURATOR_SYSTEM = ((_PROMPTS_DIR / "event_curator_system.md").read_text()
+                        + "\n" + (_PROMPTS_DIR / "scoring_rubric.md").read_text())
 EVENT_CURATOR_USER_TEMPLATE = (_PROMPTS_DIR / "event_curator_user.md").read_text()
 _EVENT_TEMPLATE = "Source categories: {source_category}"
 BATCH_SIZE = 2

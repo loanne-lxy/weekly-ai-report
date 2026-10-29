@@ -122,7 +122,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
   <div class="cat-head">
     <h1><span class="dot" style="background: {{ cat_color }}; width: 12px; height: 12px;"></span>{{ icons.get(cat_name, '') }} {{ cat_name }}</h1>
-    <span class="count"><b>{{ events|length }}</b> 个事件 · 按综合分排序</span>
+    <span class="count"><b>{{ events|length }}</b> 个事件 · 按推荐排序分排序</span>
     {% if domain_summary %}<p class="cat-sum">{{ domain_summary }}</p>{% endif %}
   </div>
 

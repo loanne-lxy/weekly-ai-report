@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #8b5cf6; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: var(--accent);"></i></div>
+        <div class="v">62<small> / 100</small></div>
+        <div class="bar"><i style="width: 62%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+        <div class="v">58<small> / 100</small></div>
+        <div class="bar"><i style="width: 58%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
+        <div class="v">48<small> / 100</small></div>
+        <div class="bar"><i style="width: 48%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：展示了目标驱动智能体（双模型验证+MCP权限策略+成本归属）与多角色可靠性智能体（四角色分工+故障图谱+闭环验证）在权限门控和人工审批方面的工程实践，属于agent harness基础设施方向，为智能体编排与验证harness设计提供参考。</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：两者均为产品发布而非独立研究，缺乏与无门控基线的对比实验；GitLab未提供各模型基准测试结果或每次调用的绝对价格；Gremlin的故障图谱为专有数据，无法独立验证；两者均处于早期阶段，长期效果未经大规模验证</p>
 
-        <details><summary>评分依据 · 综合分 21.2</summary>
-          <p class="prose">重要性：工程集成MCP权限策略、双模型验证与多角色编排，属agent harness基础设施但无根本算法创新（文章3、4）</p>
-          <p class="prose">新颖性：目标驱动智能体双模型验证与MCP逐工具权限策略为新模式，四角色可靠性智能体加故障图谱闭环验证为首次产品化（文章3、4）</p>
-          <p class="prose">影响力：影响企业级智能体部署的权限与成本治理实践，但限于GitLab和Gremlin平台，跨行业辐射待验证（文章3、4）</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 56.6 · 推荐排序分 25.5</summary>
+          <p class="prose">重要性：GitLab将MCP写操作默认设为询问并保留项目权限审批，Gremlin要求许可后才执行测试或修复，直接回应扩大自动化时的门控与审计问题。</p>
+          <p class="prose">新颖性：相对已有MCP接入，GitLab按工具设权限并默认修改前人工检查，目标模式用双模型对照验收；Gremlin以故障图谱闭环验证，但缺独立对比。</p>
+          <p class="prose">影响力：两文均展示可落地的平台能力：GitLab提供事件级成本导出与用量上限，Gremlin正式提供受控故障测试与修复验证，但缺少独立部署效果或对比数据。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -283,7 +283,7 @@ Foresight AI 的推荐基于 Gremlin 的故障图谱（Failure...</p>
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

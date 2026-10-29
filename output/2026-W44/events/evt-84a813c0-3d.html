@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #f59e0b; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: var(--accent);"></i></div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">50<small> / 100</small></div>
-        <div class="bar"><i style="width: 50%; background: #8b5cf6;"></i></div>
+        <div class="v">70<small> / 100</small></div>
+        <div class="bar"><i style="width: 70%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">35<small> / 100</small></div>
-        <div class="bar"><i style="width: 35%; background: #10b981;"></i></div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：将动作学习与视频生成解耦，使动作模型可从更易获取的动作数据中学习，支持任意骨骼绑定，为3D资产动画、场景交互和关键帧控制提供实用工具链</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：训练数据依赖生成式视频编辑器构建，数据质量受编辑器能力限制；未与最新视频生成模型做全面对比；相机注册精度未单独量化评估；未报告不同骨骼复杂度的消融实验</p>
 
-        <details><summary>评分依据 · 综合分 33.9</summary>
-          <p class="prose">重要性：分离式动作-视频架构支持任意骨骼，20万训练对验证实用性（文章1）</p>
-          <p class="prose">新颖性：将3D动作模型与视频模型分离并用交叉注意力连接以支持任意骨骼（文章1）</p>
-          <p class="prose">影响力：动画与机器人领域应用，跨行业影响有限（文章1）</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 63.5 · 推荐排序分 44.5</summary>
+          <p class="prose">重要性：该工作针对视频生成运动难以用于特定3D资产与场景回放的问题，提出联合生成视频、任意骨骼动作与相机注册，属对有意义问题的较完整方案。</p>
+          <p class="prose">新颖性：相对仅支持人体骨骼或从2D姿态三角化3D动作的既有方法，其将任意骨骼动作模型与预训练视频模型用交叉注意力连接，并学习关节定位以恢复相机，方法差异明确。</p>
+          <p class="prose">影响力：其面向任意骨骼的3D动画与视频生成场景，提供可复用的联合生成与相机注册能力，并构建近20万训练对；但缺少跨任务部署或量化收益证据，影响仍限于目标设置。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

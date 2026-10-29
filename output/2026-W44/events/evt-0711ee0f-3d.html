@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #f59e0b; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: var(--accent);"></i></div>
+        <div class="v">75<small> / 100</small></div>
+        <div class="bar"><i style="width: 75%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: #8b5cf6;"></i></div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">30<small> / 100</small></div>
-        <div class="bar"><i style="width: 30%; background: #10b981;"></i></div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：为3D生成管线提供即插即用的退化图像鲁棒性增强</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：合成退化数据引擎可能无法覆盖所有真实退化模式；仅在TRELLIS.2上验证下游3D质量</p>
 
-        <details><summary>评分依据 · 综合分 33.2</summary>
-          <p class="prose">重要性：Gate3DGen选择性预处理无需重训生成器，网格距离降低61.5%</p>
-          <p class="prose">新颖性：Gate3DGen退化感知路由加单步净化器的选择性预处理方案</p>
-          <p class="prose">影响力：Gate3DGen增强3D生成管线鲁棒性，但依赖合成退化数据</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 69.0 · 推荐排序分 54.5</summary>
+          <p class="prose">重要性：Gate3DGen针对真实图像退化导致3D生成下降的问题，提供免重训练预处理，并在TRELLIS.2上相对退化输入降低61.5%网格距离，属有较强比较证据的实用方案。</p>
+          <p class="prose">新颖性：Gate3DGen提出退化感知路由与一步净化器，可绕过干净输入并保留3D线索，但文章未与既有图像净化方法系统对比，故新颖性为清晰新方法而非突破性。</p>
+          <p class="prose">影响力：Gate3DGen作为可复用预处理，在合成基准和真实照片VLM/人评中显示保身份与退化修正，但缺少跨任务或真实部署证据，影响限于目标3D生成场景。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

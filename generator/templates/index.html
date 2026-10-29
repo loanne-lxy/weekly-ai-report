@@ -184,7 +184,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <h1>AI 研究情报周报</h1>
     <p class="lede">本周共追踪 <b>{{ total_events }} 个研究事件</b>，聚合 <b>{{ total_articles }} 篇来源文章</b>，
     覆盖 <b>{{ active_domain_count }} 个领域</b>、引用 <b>{{ publisher_count }} 个发布站点</b>。
-    事件通过质量检查后按综合分排序，完整证据链见各事件详情页。</p>
+    事件通过质量检查后按推荐排序分排序，完整证据链见各事件详情页。</p>
     <div class="kpis">
       <div class="kpi"><div class="v">{{ total_events }}<small>事件</small></div><div class="l">Events</div></div>
       <div class="kpi"><div class="v">{{ total_articles }}<small>文章</small></div><div class="l">Articles</div></div>
@@ -197,7 +197,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
   <section>
     <div class="sec-head reveal">
       <div><span class="kicker">Top Events</span><h2>本周核心事件</h2></div>
-      <span class="hint">通过质量检查 · 按综合分排序 · Top {{ top_events|length }}</span>
+      <span class="hint">通过质量检查 · 按推荐排序分排序 · Top {{ top_events|length }}</span>
     </div>
     <div class="panel top-list">
     {% for ev in top_events %}
@@ -207,9 +207,10 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <h3><a href="events/{{ event_slugs.get(ev.id, '#') }}.html">{{ ev.get('title', ev.get('event_title', '')) }}</a></h3>
         <div class="top-meta">
           <span class="tag"><span class="dot" style="background: {{ colors.get(ev.cat, '#94a3b8') }}"></span>{{ ev.cat }}</span>
-          <span class="score"><b>{{ "%.0f"|format((ev.final_score or 0) * 100) }}</b><span>/ 100 综合分</span>
-            <span class="bar"><i style="width: {{ "%.0f"|format((ev.final_score or 0) * 100) }}%"></i></span>
+          <span class="score"><b>{{ "%.0f"|format((ev.value_score or 0) * 100) }}</b><span>/ 100 价值分</span>
+            <span class="bar"><i style="width: {{ "%.0f"|format((ev.value_score or 0) * 100) }}%"></i></span>
           </span>
+          <span class="mono" title="推荐排序考虑来源、证据相关性与时效；不等同于研究价值">推荐排序分 {{ "%.0f"|format((ev.final_score or 0) * 100) }}</span>
           <span class="mono">{{ articles_by_event.get(ev.id, [])|length }} 篇来源文章</span>
         </div>
         <p class="top-sum"><strong>核心进展：</strong>{{ ev.get('short_summary', ev.get('breakthrough', ''))|clean_summary }}<br><strong>研究价值：</strong>{{ ev.get('research_value', '')|truncate(110) }}</p>

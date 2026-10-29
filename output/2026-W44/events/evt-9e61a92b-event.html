@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #10b981; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">30<small> / 100</small></div>
-        <div class="bar"><i style="width: 30%; background: var(--accent);"></i></div>
+        <div class="v">62<small> / 100</small></div>
+        <div class="bar"><i style="width: 62%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">40<small> / 100</small></div>
-        <div class="bar"><i style="width: 40%; background: #8b5cf6;"></i></div>
+        <div class="v">68<small> / 100</small></div>
+        <div class="bar"><i style="width: 68%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">20<small> / 100</small></div>
-        <div class="bar"><i style="width: 20%; background: #10b981;"></i></div>
+        <div class="v">58<small> / 100</small></div>
+        <div class="bar"><i style="width: 58%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：为生成式生物结构模型评估提供新诊断框架：将近拷贝率与保真度分数联合报告，并设训练副本、抖动副本、真实留出树三个对照，有助于区分真实泛化与训练记忆。</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：研究自述为探索性（exploratory）；近拷贝率是参考曲线而非边界；VesselGPT在IntrA和scale-free特征上结论不确定；未提供独立复现、更大规模验证或跨数据集泛化实验</p>
 
-        <details><summary>评分依据 · 综合分 25.0</summary>
-          <p class="prose">重要性：方法学贡献揭示保真度分数盲区，但为探索性研究，仅验证于血管树数据，无独立复现（文章0）。</p>
-          <p class="prose">新颖性：近拷贝率作为诊断指标是新颖方法，但研究自述探索性，且仅验证于coronary和IntrA两个数据集（文章0）。</p>
-          <p class="prose">影响力：限于血管树生成模型评估场景，未展示跨领域应用、工业落地或对其他生成模型评估范式的实际影响（文章0）。</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 62.6 · 推荐排序分 44.2</summary>
+          <p class="prose">重要性：该研究以条件重采样和近拷贝率曲线揭示保真度分数无法检测训练数据复用，对血管树生成评估有明确诊断价值，属中等偏上重要性。</p>
+          <p class="prose">新颖性：相对已有学习式基线，提出训练无关条件重采样与近拷贝率-保真度曲线，形成新评估视角，但证据限于冠脉与IntrA，故为清晰新方法而非颠覆。</p>
+          <p class="prose">影响力：该诊断在ImageCAS与IntrA上展示可复用评估，能识别近拷贝与扰动副本，但仅面向血管树生成保真度，未证明跨任务或部署收益，故中等。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

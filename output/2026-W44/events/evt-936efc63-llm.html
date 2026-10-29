@@ -138,7 +138,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="mark">AI</div>
     <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
   </a>
-  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-27</a></div>
+  <div class="issue"><a href="../index.html"><b>2026-W44</b> · 2026-10-29</a></div>
 </div></div>
 <style>:root { --cat-color: #3b82f6; }</style>
 
@@ -156,18 +156,18 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <div class="scores">
       <div class="score-box">
         <div class="l">Importance · 重要性</div>
-        <div class="v">35<small> / 100</small></div>
-        <div class="bar"><i style="width: 35%; background: var(--accent);"></i></div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: var(--accent);"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Novelty · 新颖性</div>
-        <div class="v">25<small> / 100</small></div>
-        <div class="bar"><i style="width: 25%; background: #8b5cf6;"></i></div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: #8b5cf6;"></i></div>
       </div>
       <div class="score-box">
         <div class="l">Impact · 影响力</div>
-        <div class="v">25<small> / 100</small></div>
-        <div class="bar"><i style="width: 25%; background: #10b981;"></i></div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
       </div>
     </div>
   </div>
@@ -182,11 +182,11 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 研究价值：提供成本感知弃权的离线评估框架，系统比较四种非LLM分类器与四种LLM在显式成本模型下的表现，揭示简单方法在特定成本结构下可优于LLM，为路由策略选择提供量化依据。</p>
         <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：结论限于单一数据集（47,837条工单）、特定提示设计和示例成本模型；GPT-4o-mini少样本校准后仅有一个置信值，正确性AUROC为0.500；未提出新弃权算法，跨数据集泛化性未验证</p>
 
-        <details><summary>评分依据 · 综合分 25.7</summary>
-          <p class="prose">重要性：评估框架而非新算法或架构，提供结构化比较方法但无方法创新（文章0）。</p>
-          <p class="prose">新颖性：弃权概念已有，本文为特定数据集上的评估框架，非新方法（文章0）。</p>
-          <p class="prose">影响力：限于单一工单数据集与示例成本，泛化性未验证，影响范围窄（文章0）。</p>
-          <p class="chain-note">综合分结合技术贡献、新颖性、影响力、来源与时效，并按证据相关性和时间折减；热度和文章数量不加分。来源可信度不等于对该事件的证明力。</p>
+        <details><summary>评分依据 · 价值分 57.5 · 推荐排序分 43.3</summary>
+          <p class="prose">重要性：该研究在大规模工单语料上比较非LLM与LLM，证明成本感知弃权能降低错误路由和成本，属对有意义问题的扎实评估，但限于离线与示例成本模型。</p>
+          <p class="prose">新颖性：其新意主要在离线成本条件评估、冻结策略与校准后指标，而非新架构；相对基线给出LLM置信度不足和非LLM更优的明确发现，但方法增量有限。</p>
+          <p class="prose">影响力：在公开工单测试集上展示38.1%成本下降和错误路由降低，具有可复用评估价值；但为离线、示例成本且未证明真实部署收益，影响范围有限。</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
         </details>
       </div>
 
@@ -256,7 +256,7 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
 <footer><div class="wrap">
   <span>AI Research Intelligence · Weekly Report Agent</span>
-  <span class="mono">生成于 2026-10-27 22:16 · 2026-W44</span>
+  <span class="mono">生成于 2026-10-29 10:38 · 2026-W44</span>
 </div></footer>
 </body>
 </html>

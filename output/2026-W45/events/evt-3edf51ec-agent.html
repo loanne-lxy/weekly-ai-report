@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>混合记忆架构与阶段感知剪枝管理Agent上下文 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W45</b> · 2026-11-02</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W45</span>
+      <span class="mono" style="color: var(--text-3);">5 篇来源文章</span>
+    </div>
+    <h1>混合记忆架构与阶段感知剪枝管理Agent上下文</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose" style="white-space:pre-line">核心突破：混合情景-关系记忆架构在LoCoMo达90.2%准确率；阶段感知剪枝发现剪枝位置比评分规则更重要，启发式方法减少73% token
+解决的问题：长程Agent在跨任务/会话中如何持久化、检索和管理累积信息，同时控制上下文规模与token成本
+研究价值：为Agent记忆系统设计提供架构参考（混合记忆+整合）、实证指导（剪枝位置优先于评分规则）和自适应检索策略（RL协调多工具）</p>
+        <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：各方法在独立基准上验证，缺乏跨方法统一对比；GRASP和剪枝研究未涉及持久记忆；LangChain和claude-mem方案缺乏定量评测</p>
+        <p class="chain-note">发布时间待核实，未纳入本周精选。</p>
+        <details><summary>评分依据 · 价值分 60.5 · 推荐排序分 35.8</summary>
+          <p class="prose">重要性：混合记忆SOTA(1)、阶段剪枝实证(6)、RL检索(5)解决Agent上下文管理核心问题</p>
+          <p class="prose">新颖性：混合记忆架构(1)、首次阶段剪枝对比(6)、RL检索协调(5)均为新方法</p>
+          <p class="prose">影响力：两基准SOTA(1)、73%token节省(6)、多基准QA提升(5)验证目标场景收益</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
+        </details>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 5 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+
+
+
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="http://arxiv.org/abs/2610.39790v1" target="_blank" rel="noopener noreferrer">Long-Term Agent Memory through Complementary Curation and Consolidation</a></h3>
+          <p class="sum">Long-horizon dialogue agents require effective memory systems to recall facts, events, and relationships from interaction histories. In this work, we propose a hybrid-memory architecture comprising episodic memories and structured relational memories and a consolidation mechanism which preserves efficiency. We conduct an empirical study across two benchmarks: LoCoMo and LongMemEval-S. Our experiments demonstrate that the two memory types are consistently complementary, combining both outperform state-of-the-art memory frameworks and achieves 90.2% accuracy on LoCoMo and 85.5% on LongMemEval-S.</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 95% · 提出混合情景-关系记忆架构与整合机制，提供核心方法论贡献和双基准验证（LoCoMo 90.2%、LongMemEval-S 85.5%）</p>
+          <blockquote class="chain-note">we propose a hybrid-memory architecture comprising episodic memories and structured relational memories and a consolidation mechanism which preserves efficiency</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">arxiv.org · 来源参考评分 90/100
+
+
+            </span>
+            <span>2026-10-29</span>
+            <a class="url" href="http://arxiv.org/abs/2610.39790v1" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://research.adobe.com/publication/not-worth-another-token-marginal-value-estimation-for-efficient-deep-research-agents/" target="_blank" rel="noopener noreferrer">Not Worth Another Token: Marginal Value Estimation for Efficient Deep Research Agents</a></h3>
+          <p class="sum">Long-horizon research agents solve open-ended tasks through iterative retrieval, aggregation, and synthesis, but context grows rapidly while the marginal value of additional evidence often declines. This leads to unnecessary token cost, higher latency, and noisier inputs for final report generation. We study marginal value estimation for context management in deep research agents and present the first systematic stage-aware comparison of pruning strategies across the pipeline. We evaluate lightweight heuristic criteria and a learned value model at pre-retrieval, post-retrieval, and...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 90% · 首次系统对比深度研究Agent中各阶段的剪枝策略，实证发现剪枝位置比评分规则更重要，启发式方法减少73% token</p>
+          <blockquote class="chain-note">We study marginal value estimation for context management in deep research agents and present the first systematic stage-aware comparison of pruning strategies across the pipeline</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">research.adobe.com · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-29</span>
+            <a class="url" href="https://research.adobe.com/publication/not-worth-another-token-marginal-value-estimation-for-efficient-deep-research-agents/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://www.langchain.com/blog/building-agent-memory-openwiki-graphs" target="_blank" rel="noopener noreferrer">How to build evidence-grounded agent memory with OpenWiki and Graphs</a></h3>
+          <p class="sum">LangChain used OpenWiki, its open-source wiki compiler, and an evidence graph to build a persistent memory layer that preserves knowledge for agents to reuse across tasks. Learn how.</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 80% · 描述用OpenWiki和证据图构建持久记忆层，为Agent跨任务知识复用提供工程实现，贡献持久记忆的工程视角</p>
+          <blockquote class="chain-note">LangChain used OpenWiki, its open-source wiki compiler, and an evidence graph to build a persistent memory layer that preserves knowledge for agents to reuse across tasks.</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">langchain.com · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-28</span>
+            <a class="url" href="https://www.langchain.com/blog/building-agent-memory-openwiki-graphs" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+        <details><summary>其他相关报道（2 篇）</summary>
+        <div class="art" style="--i: 3">
+          <h3><span class="step">A4</span><a href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener noreferrer">thedotmack /claude-mem</a></h3>
+          <p class="sum">Persistent Context Across Sessions for Every Agent – Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions. Works with Claude Code, OpenClaw, Codex, Gemini, Hermes, Copilot, OpenCode + More</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 75% · 提供跨会话持久上下文的捕获、AI压缩和重注入工具，贡献工程部署视角，但缺乏定量评测</p>
+          <blockquote class="chain-note">Captures everything your agent does during sessions, compresses it with AI, and injects relevant context back into future sessions</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">github.com · 来源参考评分 80/100
+
+
+            </span>
+
+            <a class="url" href="https://github.com/thedotmack/claude-mem" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 4">
+          <h3><span class="step">A5</span><a href="https://research.adobe.com/publication/grasp-granularity-aware-search-policy-for-agentic-rag/" target="_blank" rel="noopener noreferrer">GRASP: GRanularity-Aware Search Policy for Agentic RAG</a></h3>
+          <p class="sum">Agentic retrieval-augmented generation (RAG) extends static RAG by allowing language models to iteratively reason, generate search queries, retrieve evidence, and predict answers. However, it remains challenging for models to decide when to retrieve, whether to use lexical matching or semantic similarity, and how to control context granularity to prevent irrelevant tokens from interfering with agent reasoning. In this paper, we introduce GRASP, a reinforcement learning (RL) framework for training agents to adaptively coordinate complementary retrieval tools during multi-step reasoning....</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 80% · 贡献RL训练框架GRASP，使Agent自适应协调语义搜索、关键词搜索和段落阅读，从检索侧解决上下文粒度管理</p>
+          <blockquote class="chain-note">GRASP provides the agent with semantic search, keyword search, and paragraph-reading actions, enabling it to retrieve sentence-level evidence and expand further context only when needed</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">research.adobe.com · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-10-29</span>
+            <a class="url" href="https://research.adobe.com/publication/grasp-granularity-aware-search-policy-for-agentic-rag/" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+        </details>
+
+
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">3edf51ec</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W45</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">5 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">4 个</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+
+
+        <div class="src-row">
+          <div class="n">arXiv cs.MA</div>
+          <div class="s">
+            <span class="mono">1 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+
+        <div class="src-row">
+          <div class="n">Exa: LLM Latest</div>
+          <div class="s">
+            <span class="mono">2 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+
+        <div class="src-row">
+          <div class="n">blog.langchain.dev</div>
+          <div class="s">
+            <span class="mono">1 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+
+        <div class="src-row">
+          <div class="n">GitHub Trending</div>
+          <div class="s">
+            <span class="mono">1 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-11-02 08:00 · 2026-W45</span>
+</div></footer>
+</body>
+</html>

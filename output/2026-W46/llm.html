@@ -122,22 +122,22 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
 
   <div class="cat-head">
     <h1><span class="dot" style="background: #3b82f6; width: 12px; height: 12px;"></span>🧠 LLM</h1>
-    <span class="count"><b>11</b> 个事件 · 按推荐排序分排序</span>
-    <p class="cat-sum">本周观察到多模态视觉推理研究出现量化坐标接地实际使用边界的工作：通过思维链分析估计模型对输出坐标的依赖，并构建 BrickVision 基准，以区分可描述文本引用与不可描述视觉引用任务。该进展为评估接地推理贡献提供可复用工具，但证据仍限于单一训练配方和摘要披露。</p>
+    <span class="count"><b>22</b> 个事件 · 按推荐排序分排序</span>
+    <p class="cat-sum">本周LLM观察到多模态模型从视觉-语言对齐扩展到全模态理解与空间动作表示。全模态模型用混合Mamba-Transformer MoE和视觉、音频编码器覆盖文本、图像、视频、音频；坐标接地基准用思维链分析适用边界；动作-视频框架用动作渲染器统一多任务。</p>
   </div>
 
   <nav class="catnav">
-    <a href="index.html">全部事件<span class="mono">42</span></a>
+    <a href="index.html">全部事件<span class="mono">78</span></a>
 
-    <a href="llm.html" class="on">LLM<span class="mono">11</span></a>
+    <a href="llm.html" class="on">LLM<span class="mono">22</span></a>
 
-    <a href="agent.html" class="">Agent<span class="mono">15</span></a>
+    <a href="agent.html" class="">Agent<span class="mono">31</span></a>
 
-    <a href="ai-for-science.html" class="">AI for Science<span class="mono">9</span></a>
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">14</span></a>
 
-    <a href="design-simulation.html" class="">设计仿真<span class="mono">5</span></a>
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">8</span></a>
 
-    <a href="digital-twin.html" class="">数字孪生<span class="mono">2</span></a>
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">3</span></a>
 
     <a href="其他.html" class="">其他<span class="mono">0</span></a>
 
@@ -168,24 +168,44 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
     <article class="evt" style="--i: 1">
       <div>
         <div class="top">
-          <span class="mono">EVT-9F7900</span>
+          <span class="mono">EVT-3B74AC</span>
           <span class="mono">2026-W46</span>
         </div>
-        <h2><a href="events/evt-829f7900-event.html">视频原生建模统一第一人称动作视频多任务</a></h2>
-        <p class="sum">EgoGeneralist通过视频原生建模统一五项第一人称动作视频任务，实现度量3D运动与视觉动态的紧密耦合</p>
+        <h2><a href="events/evt-193b74ac-nemotron-3-nano-omni.html">Nemotron 3 Nano Omni全模态理解模型</a></h2>
+        <p class="sum">NVIDIA发布Nemotron 3 Nano Omni全模态模型，Mamba-Transformer MoE架构支持文档/音频/视频长上下文理解，多基准领先，吞吐量提升9倍</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-829f7900-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-193b74ac-nemotron-3-nano-omni.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
       </div>
     </article>
 
     <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BE04C4</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-30be04c4-egogeneralist.html">EgoGeneralist统一第一人称动作视频任务</a></h2>
+        <p class="sum">EgoGeneralist通过角色自适应动作渲染器和跨流耦合，将预训练视频生成器适配为统一五个第一人称动作-视频任务的通用框架。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-30be04c4-egogeneralist.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 3">
       <div>
         <div class="top">
           <span class="mono">EVT-C9D31F</span>
@@ -205,27 +225,47 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       </div>
     </article>
 
-    <article class="evt" style="--i: 3">
+    <article class="evt" style="--i: 4">
       <div>
         <div class="top">
-          <span class="mono">EVT-B6F864</span>
+          <span class="mono">EVT-FEB93F</span>
           <span class="mono">2026-W46</span>
         </div>
-        <h2><a href="events/evt-63b6f864-mc-dsa.html">MC-DSA多无人机协同语义自编码器通信架构</a></h2>
-        <p class="sum">MC-DSA由一个T-UAV和多个S-UAV组成，通过语义匹配机制按需建立通信链路，实验表明其提升图像语义分割精度并减少冗余传输。</p>
+        <h2><a href="events/evt-b8feb93f-lfm3-omni-2b.html">LFM3-Omni-2B单模型实现听看说多模态推理</a></h2>
+        <p class="sum">Liquid AI LFM3-Omni-2B以4.5GB权重在5GB显存GPU上统一完成语音识别、视觉理解、语言推理和语音合成，替代四模型串联方案，但SGLang仅支持文本且商业许可限1000万美元年</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-63b6f864-mc-dsa.html">查看证据链 →</a>
+          <a class="go" href="events/evt-b8feb93f-lfm3-omni-2b.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
       </div>
     </article>
 
-    <article class="evt" style="--i: 4">
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-22EFCE</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-f322efce-ernie-5-5-flash-base-ai.html">ERNIE 5.5 Flash Base与多平台AI产品进展</a></h2>
+        <p class="sum">ERNIE 5.5 Flash Base发布、Tencent Hy4上线、Agentforce Coworker增长及Vercel doctor等工具更新。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-f322efce-ernie-5-5-flash-base-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 6">
       <div>
         <div class="top">
           <span class="mono">EVT-9C3D40</span>
@@ -245,7 +285,47 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       </div>
     </article>
 
-    <article class="evt" style="--i: 5">
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FD8B85</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-3dfd8b85-inkling-2-small-594b-moe.html">Inkling 2 Small 594B MoE模型发布</a></h2>
+        <p class="sum">Inkling 2 Small以594B MoE架构仅激活17B参数，DeepSWE v1.1达72.1%，权重将在安全测试后以Apache 2.0发布</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-3dfd8b85-inkling-2-small-594b-moe.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BFE041</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-d2bfe041-rsi-moe-darwin-180b.html">RSI自改进MoE模型Darwin-180B数学推理全球第二</a></h2>
+        <p class="sum">VIDRAFT开源180B MoE模型Darwin-180B-RSI-R3，基于Qwen3.8-Flash-Next，以RSI自改进训练提升推理，SuperCLUE数学科学推理全球第二，468万下载。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d2bfe041-rsi-moe-darwin-180b.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 9">
       <div>
         <div class="top">
           <span class="mono">EVT-0FE981</span>
@@ -265,67 +345,147 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       </div>
     </article>
 
-    <article class="evt" style="--i: 6">
+    <article class="evt" style="--i: 10">
       <div>
         <div class="top">
-          <span class="mono">EVT-8B79F4</span>
+          <span class="mono">EVT-4B2312</span>
           <span class="mono">2026-W46</span>
         </div>
-        <h2><a href="events/evt-7b8b79f4-event.html">分形盆地几何揭示深度学习可预测性极限</a></h2>
-        <p class="sum">Ly和Gong在Nature Machine Intelligence提出分形盆地几何机制，解释深度学习结果难以预测和复现的根本原因：不同结果的起始点在任意精细尺度上交织，提高精度几乎无法改善可预测性</p>
+        <h2><a href="events/evt-174b2312-kimi-k3-1-pro-ripple-65b.html">Kimi K3.1 Pro与Ripple-65B开源模型发布</a></h2>
+        <p class="sum">Kimi K3.1 Pro多模态模型与Ripple-65B稠密模型于11月5日同日开放权重下载，后者训练成本约为前代开源SOTA的十分之一</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-7b8b79f4-event.html">查看证据链 →</a>
+          <a class="go" href="events/evt-174b2312-kimi-k3-1-pro-ripple-65b.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
       </div>
     </article>
 
-    <article class="evt" style="--i: 7">
+    <article class="evt" style="--i: 11">
       <div>
         <div class="top">
-          <span class="mono">EVT-DECA88</span>
+          <span class="mono">EVT-04CE33</span>
           <span class="mono">2026-W46</span>
         </div>
-        <h2><a href="events/evt-d1deca88-tsfm-llm.html">TSFM与LLM结合：上下文作为协变量</a></h2>
-        <p class="sum">arXiv机器学习论文，标题提出TSFM与LLM结合、以上下文作为协变量的方法，无进一步技术细节。</p>
+        <h2><a href="events/evt-2504ce33-tsfm-llm.html">TSFM与LLM融合：上下文作为协变量</a></h2>
+        <p class="sum">该arXiv论文（2026.11）研究TSFM与LLM结合，核心思路为将上下文作为协变量，具体方法与结果待确认</p>
         <div class="foot">
           <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-d1deca88-tsfm-llm.html">查看证据链 →</a>
+          <a class="go" href="events/evt-2504ce33-tsfm-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 20%; background: var(--accent);"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-3EA4AC</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-663ea4ac-openai-hacktron-ai.html">OpenAI与Hacktron合作开展AI系统安全测试</a></h2>
+        <p class="sum">OpenAI宣布与Hacktron合作，发现系统漏洞、测试第三方服务连接并利用前沿AI强化防御。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-663ea4ac-openai-hacktron-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-62290F</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-fe62290f-event.html">分形盆地几何解释深度学习可预测性极限</a></h2>
+        <p class="sum">提出分形盆地几何机制解释深度学习结果难以预测和复现的现象，起始点在任意精细尺度上交织导致精度提升有限。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-fe62290f-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 14">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-AF2AAF</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-46af2aaf-openai-images-2-6.html">OpenAI Images 2.6 图像生成模型更新</a></h2>
+        <p class="sum">OpenAI 发布 Images 2.6，提供更快图像生成、GIF 创建、更精确编辑及新 API 控制，覆盖 ChatGPT、Codex 和 API 平台。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-46af2aaf-openai-images-2-6.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 15">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-19C492</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-1019c492-openai.html">OpenAI发布国家社区契约与算力园区政策蓝图</a></h2>
+        <p class="sum">OpenAI 发布国家社区契约与算力园区政策蓝图，用于保护当地资源、创造就业并指导负责任 AI 基础设施开发。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-1019c492-openai.html">查看证据链 →</a>
         </div>
       </div>
       <div class="side">
         <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 16">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-F42916</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-7ff42916-franklin-templeton-openai.html">Franklin Templeton采用OpenAI投资研究工作流</a></h2>
+        <p class="sum">Franklin Templeton与OpenAI合作，从股票研究入手开发AI工作流，辅助投资组合经理比较研究观点与评估风险。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-7ff42916-franklin-templeton-openai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
       </div>
     </article>
 
-    <article class="evt" style="--i: 8">
-      <div>
-        <div class="top">
-          <span class="mono">EVT-60D2B7</span>
-          <span class="mono">2026-W46</span>
-        </div>
-        <h2><a href="events/evt-2760d2b7-rsi-180b-moe.html">RSI训练180B MoE模型数学推理全球第二</a></h2>
-        <p class="sum">VIDRAFT发布180B参数开源MoE模型Darwin-180B-RSI-R3，基于Qwen3.8-Flash-Next，以RSI自主提升推理权重，SuperCLUE数学科学推理全球第二，Huggi</p>
-        <div class="foot">
-          <span class="mono">1 篇来源文章</span>
-          <a class="go" href="events/evt-2760d2b7-rsi-180b-moe.html">查看证据链 →</a>
-        </div>
-      </div>
-      <div class="side">
-        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
-        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
-        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
-      </div>
-    </article>
-
-    <article class="evt" style="--i: 9">
+    <article class="evt" style="--i: 17">
       <div>
         <div class="top">
           <span class="mono">EVT-EE198D</span>
@@ -345,7 +505,47 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
       </div>
     </article>
 
-    <article class="evt" style="--i: 10">
+    <article class="evt" style="--i: 18">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-D73EEE</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-b6d73eee-gpt-5-6-cyber-aws-govcloud.html">GPT-5.6 Cyber 上线 AWS GovCloud 网络安全服务</a></h2>
+        <p class="sum">Daybreak Red 通过 Amazon Bedrock 将 GPT-5.6 Cyber 部署至 AWS GovCloud (US-East)，面向经授权客户提供网络安全工作支持。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-b6d73eee-gpt-5-6-cyber-aws-govcloud.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 19">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-354DF5</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-00354df5-devrev-gpt-6-1-sol.html">DevRev基于GPT-6.1 Sol构建企业自主服务</a></h2>
+        <p class="sum">DevRev使用GPT-6.1 Sol驱动Computer和Operator，平衡推理、速度与成本，服务企业自主服务场景。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-00354df5-devrev-gpt-6-1-sol.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 20">
       <div>
         <div class="top">
           <span class="mono">EVT-4B01FD</span>
@@ -362,6 +562,26 @@ footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px;
         <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
         <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
         <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 21">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-8BD619</span>
+          <span class="mono">2026-W46</span>
+        </div>
+        <h2><a href="events/evt-0a8bd619-cisco-openai.html">Cisco结合OpenAI模型构建企业安全防御</a></h2>
+        <p class="sum">Cisco将网络智能与OpenAI模型结合，以机器速度构建适应性企业安全防御体系。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0a8bd619-cisco-openai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
       </div>
     </article>
 

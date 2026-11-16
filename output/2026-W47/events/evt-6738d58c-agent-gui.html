@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>多模态Agent视觉推理与GUI理解基准 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W47</b> · 2026-11-16</a></div>
+</div></div>
+<style>:root { --cat-color: #3b82f6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #3b82f6"></span>LLM</span>
+      <span class="mono" style="color: var(--text-3);">2026-W47</span>
+      <span class="mono" style="color: var(--text-3);">3 篇来源文章</span>
+    </div>
+    <h1>多模态Agent视觉推理与GUI理解基准</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">50<small> / 100</small></div>
+        <div class="bar"><i style="width: 50%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose" style="white-space:pre-line">核心突破：三项互补基准分别从无文本视觉推理（26.7%前沿准确率）、web视觉定位（910任务grounding差距）和动态GUI时序理解三个维度，系统量化了多模态agent的视觉能力瓶颈
+解决的问题：现有agent评测以文本为中心（SWE-bench等依赖文本issue描述与编译器反馈），无法衡量agent在视觉信息嵌入图像、无即时执行反馈或需时序GUI理解场景中的真实能力
+研究价值：为多模态agent研究提供了覆盖静态视觉推理、交互式视觉定位和动态时序GUI三个正交维度的评测框架，使研究者能精确定位视觉能力短板并指导后续模型改进方向</p>
+        <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：Visual Cipher Bench仅40题且为静态谜题，未涉及交互执行；VisualWebArena限于3个沙盒站点，真实live泛化未验证，静态任务集会随模型进步饱和；GUI-World的GUI-Vid仅为初步微调方案，未与完整agent pipeline对比，且缺乏独立复现</p>
+
+        <details><summary>评分依据 · 价值分 57.0 · 推荐排序分 40.5</summary>
+          <p class="prose">重要性：三项基准互补暴露多模态agent视觉能力缺口（文章0的26.7%、文章1的grounding差距、文章2的时序短板），为有意义的评测问题提供扎实方案</p>
+          <p class="prose">新颖性：文章0首创无文本提示视觉推理评测，文章1为首个大规模self-hosted多模态web基准，文章2首次将动态GUI视频引入agent评测，各引入正交新维度</p>
+          <p class="prose">影响力：文章1被后续工作（WebGym等）作为标准对照，文章0代码开源可复用，但均为研究评测工具，尚无工业部署证据</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
+        </details>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 3 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+
+
+
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://casrai.org/news/visual-cipher-bench-llm-agents-long-horizon-visual-reasoning-2026" target="_blank" rel="noopener noreferrer">Visual Cipher Bench: Agent Visual Reasoning Test — CASRAI</a></h3>
+          <p class="sum">On November 12, 2026, researchers from Navers Lab, Einsia.AI, and Tsinghua University released Visual Cipher Bench, a rigorous multimodal benchmark assessing long-horizon visual reasoning in autonomous LLM agents across 40 original puzzle tasks without text guidance. Frontier models achieved an overall accuracy of only 26.7% for the leading configuration, exposing a critical capability gap for academic AI laboratories and evaluation researchers relying on text-centric benchmarks.
+Benchmark Architecture: 40 Multi-Step Puzzles and Withheld Text Hints
+The research team led by Deyao Hong,...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 90% · 贡献无文本提示的长程视觉推理评测维度，40个视觉密码谜题量化前沿模型26.7%准确率，暴露文本中心基准无法覆盖的能力缺口</p>
+          <blockquote class="chain-note">assessing long-horizon visual reasoning in autonomous LLM agents across 40 original puzzle tasks without text guidance</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">casrai.org · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-11-15</span>
+            <a class="url" href="https://casrai.org/news/visual-cipher-bench-llm-agents-long-horizon-visual-reasoning-2026" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://kendrick-stein.github.io/MCISLAB_DeepRead/Papers/2401-VisualWebArena" target="_blank" rel="noopener noreferrer">VisualWebArena: Evaluating Multimodal Agents on Realistic Visual Web Tasks</a></h3>
+          <p class="sum">Summary
+VisualWebArena 在 2307-WebArena 基础上扩到多模态视觉 web 任务：910 个需要理解图像+文本才能完成的任务，跨 Classifieds / Shopping / Reddit 三个 self-hosted 站点，暴露 text-only LLM agent 与 SOTA 多模态 agent 在 visual grounding 上与人类的显著差距。是 visual web agent 的奠基 benchmark。
+Problem &amp; Motivation
+既有 web agent benchmark 多为 text-based（依赖 DOM/AXTree），忽略了大量天然需要视觉信息的任务（看商品图选购、按图找帖）。要衡量真正像人一样”看网页”的 agent，需要视觉 grounding 是必要条件的任务集。
+Method
+构建于 WebArena 的 self-hosted 沙盒基础设施：
+- 三站点：Classifieds、Shopping、OneStopMarket、Reddit（复用 WebArena 可复现环境）。
+- 910 任务：每个任务要求 agent 准确处理 image-text 混合输入、理解自然语言指令、执行动作；相当比例任务的成功必须依赖视觉理解（如按参考图找相似商品），text-only...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 90% · 贡献web环境中视觉定位（visual grounding）评测维度，910个self-hosted任务证明text-only agent与SOTA多模态agent均存在显著grounding差距，成为后续pixel-based agent的标准对照</p>
+          <blockquote class="chain-note">910 个需要理解图像+文本才能完成的任务，跨 Classifieds / Shopping / Reddit 三个 self-hosted 站点</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">kendrick-stein.github.io · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-11-13</span>
+            <a class="url" href="https://kendrick-stein.github.io/MCISLAB_DeepRead/Papers/2401-VisualWebArena" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://kendrick-stein.github.io/MCISLAB_DeepRead/Papers/2400-GuiWorldVideoBenchmark" target="_blank" rel="noopener noreferrer">GUI-World: A Video Benchmark and Dataset for Multimodal GUI-oriented Understanding</a></h3>
+          <p class="sum">Summary
+该论文针对现有 MLLM/GUI agent 主要停留在静态网页或移动端、缺乏对动态 GUI 视频与多步交互理解的问题，提出了一个面向多场景 GUI 视频理解的 benchmark 与数据集 GUI-World，并进一步基于 Video LLM 微调得到 GUI-Vid 作为初步改进方案。实验表明，现有 Image LLM 和 Video LLM 在动态 GUI、时序操作和跨窗口场景中普遍表现不佳，而经过面向 GUI 数据增强与微调后，GUI-Vid 在多类 GUI-oriented 任务上有所提升，但距离可靠 GUI agent 仍有明显差距。
+Problem &amp; Motivation
+这篇论文研究的问题属于 Multimodal GUI understanding / GUI agent / Video-Language Understanding 的交叉领域，核心任务是让模型不仅“看懂”单张界面截图，还能理解 GUI 中随时间变化的内容、用户操作历史以及多步任务过程。这个问题之所以重要，是因为现实中的软件使用、网页浏览、桌面办公、视频编辑、系统设置等场景，几乎都不是静态单帧决策，而是依赖状态转移、弹窗、滚动、页面跳转、多窗口切换和操作序列的。若模型只能理解截图而不能理解时序 GUI，就很难真正成为可用的 GUI...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 85% · 贡献动态/时序GUI理解评测维度，提出GUI-World视频benchmark与GUI-Vid微调方案，揭示现有Image/Video LLM在时序操作与跨窗口场景中普遍表现不佳</p>
+          <blockquote class="chain-note">缺乏对动态 GUI 视频与多步交互理解的问题，提出了一个面向多场景 GUI 视频理解的 benchmark 与数据集 GUI-World</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">kendrick-stein.github.io · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-11-13</span>
+            <a class="url" href="https://kendrick-stein.github.io/MCISLAB_DeepRead/Papers/2400-GuiWorldVideoBenchmark" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">6738d58c</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">LLM</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W47</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">3 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+
+
+        <div class="src-row">
+          <div class="n">Exa: LLM Latest</div>
+          <div class="s">
+            <span class="mono">3 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-11-16 08:01 · 2026-W47</span>
+</div></footer>
+</body>
+</html>

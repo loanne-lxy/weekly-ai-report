@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP智能体最小权限隔离与凭证分离 — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .55s ease both; }
+.head .meta-row { animation: fadeUp .55s ease .08s both; }
+.head h1 { animation: fadeUp .55s ease .14s both; }
+.head .scores .score-box { animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; }
+.head .scores .score-box:nth-child(1) { animation-delay: .2s; }
+.head .scores .score-box:nth-child(2) { animation-delay: .28s; }
+.head .scores .score-box:nth-child(3) { animation-delay: .36s; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+/* ── Head ── */
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+.head { padding: 14px 0 26px; }
+.head .meta-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; font-size: 12.5px; }
+.tag { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface); border: 1px solid var(--line); padding: 3px 12px; border-radius: 20px; box-shadow: var(--shadow); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.head h1 { font-size: 34px; font-weight: 800; letter-spacing: -.025em; line-height: 1.28; margin-bottom: 18px; color: var(--text); }
+
+/* 评分带 */
+.scores { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 4px; }
+.score-box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 18px 20px; transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; }
+.score-box:hover { transform: translateY(-4px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.score-box .l { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 11px; font-weight: 700; }
+.score-box .v { font-family: var(--mono); font-size: 30px; font-weight: 700; line-height: 1; letter-spacing: -.01em; }
+.score-box .v small { font-size: 13px; color: var(--text-4); font-weight: 500; }
+.score-box .bar { width: 100%; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; margin-top: 13px; }
+.score-box .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .45s cubic-bezier(.22,.8,.32,1) both; }
+
+/* 两栏 */
+.grid { display: grid; grid-template-columns: minmax(0,1fr) 300px; gap: 28px; padding: 28px 0 12px; align-items: start; }
+.sec { margin-bottom: 32px; }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; gap: 14px; }
+.sec-head h2 { font-size: 19px; font-weight: 800; letter-spacing: -.01em; color: var(--text); }
+.sec-head .kicker { display: block; margin-bottom: 7px; }
+.sec-head .hint { font-size: 12.5px; color: var(--text-3); }
+.prose { font-size: 16px; color: var(--text-2); line-height: 1.9; }
+.prose b { color: var(--text); font-weight: 700; }
+
+/* 证据链 */
+.chain-note { font-size: 13px; color: var(--text-3); margin-bottom: 16px; }
+.art { border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 18px 20px; margin-bottom: 13px; box-shadow: var(--shadow); transition: transform .26s cubic-bezier(.22,.8,.32,1), box-shadow .26s, border-color .26s; animation: cardIn .5s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 55ms); }
+.art:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); border-color: var(--line-2); }
+.art h3 { font-size: 15.5px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); }
+.art h3 a:hover { color: var(--accent); text-decoration: underline; }
+.art .sum { font-size: 13.5px; color: var(--text-2); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 11px; }
+.art .ameta { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; font-size: 12px; color: var(--text-3); }
+.src-tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--line); padding: 2.5px 11px; border-radius: 20px; }
+.trust { font-family: var(--mono); font-size: 11px; color: var(--text-4); }
+.art .url { margin-left: auto; color: var(--accent); font-family: var(--mono); font-size: 11.5px; }
+.art .url:hover { text-decoration: underline; }
+.art .step { display: inline-block; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: var(--accent); background: var(--accent-soft); border-radius: 5px; padding: 1.5px 7px; margin-right: 9px; font-weight: 700; }
+
+/* 侧栏 */
+.side { position: sticky; top: 78px; }
+.side .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); box-shadow: var(--shadow); padding: 20px; margin-bottom: 16px; }
+.side .card h3 { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; font-weight: 700; }
+.kv { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--line); }
+.kv:last-child { border-bottom: none; }
+.kv .k { color: var(--text-3); }
+.kv .v { font-family: var(--mono); color: var(--text); font-size: 13px; font-weight: 500; }
+.src-row { padding: 10px 0; border-bottom: 1px solid var(--line); }
+.src-row:last-child { border-bottom: none; }
+.src-row .n { font-size: 13px; font-weight: 600; color: var(--text); }
+.src-row .s { font-size: 11.5px; color: var(--text-3); margin-top: 5px; display: flex; gap: 9px; align-items: center; }
+.src-row .bar { width: 48px; height: 4px; border-radius: 2px; background: var(--surface-2); overflow: hidden; }
+.src-row .bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 820px) {
+  .grid { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .scores { grid-template-columns: 1fr; }
+  .head h1 { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="../index.html"><b>2026-W47</b> · 2026-11-16</a></div>
+</div></div>
+<style>:root { --cat-color: #8b5cf6; }</style>
+
+<div class="wrap">
+  <div class="crumb"><a href="../index.html">← 返回周报</a> · 事件详情</div>
+
+  <div class="head">
+    <div class="meta-row">
+      <span class="kicker">Event Detail</span>
+      <span class="tag"><span class="dot" style="background: #8b5cf6"></span>Agent</span>
+      <span class="mono" style="color: var(--text-3);">2026-W47</span>
+      <span class="mono" style="color: var(--text-3);">3 篇来源文章</span>
+    </div>
+    <h1>MCP智能体最小权限隔离与凭证分离</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="l">Importance · 重要性</div>
+        <div class="v">65<small> / 100</small></div>
+        <div class="bar"><i style="width: 65%; background: var(--accent);"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Novelty · 新颖性</div>
+        <div class="v">60<small> / 100</small></div>
+        <div class="bar"><i style="width: 60%; background: #8b5cf6;"></i></div>
+      </div>
+      <div class="score-box">
+        <div class="l">Impact · 影响力</div>
+        <div class="v">55<small> / 100</small></div>
+        <div class="bar"><i style="width: 55%; background: #10b981;"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <!-- Summary -->
+      <div class="sec reveal">
+        <div class="sec-head"><div><span class="kicker">Summary</span><h2>事件摘要</h2></div></div>
+        <p class="prose" style="white-space:pre-line">核心突破：Edera 将对象能力控制下沉至虚拟机监控器层，以 capcurl 实现无凭证 API 访问；GitLab 将 MCP 工具集筛选与审计纳入 DevSecOps 治理
+解决的问题：自主 AI 智能体和 MCP 服务器在生产环境中持有敏感凭证，面临提示注入和供应链攻击时缺乏细粒度权限隔离
+研究价值：为智能体运行时安全提供从平台治理（GitLab）到基础设施隔离（Edera）到风险框架（Docker）的多层工程参考</p>
+        <p class="chain-note">当前可得资料的证据边界（未说明不等于未开展）：Edera 的凭证代理 API 访问和编排器集成尚未发布，仅初步功能可用；GitLab 治理依赖管理员手动配置，无自动化策略引擎；Docker 指南为建议性文档，无独立验证实验或量化对比</p>
+
+        <details><summary>评分依据 · 价值分 60.5 · 推荐排序分 26.1</summary>
+          <p class="prose">重要性：Edera 监控器层对象能力（index 2）和 GitLab MCP 治理（index 1）为智能体安全提供多层可落地方案</p>
+          <p class="prose">新颖性：Edera 虚拟机监控器层对象能力模型（index 2）为明确新方法；GitLab MCP 工具集筛选（index 1）为新集成</p>
+          <p class="prose">影响力：GitLab 19.5 已发布（index 1），Edera 初步功能已上线（index 2），但完整系统未交付，影响限于企业部署</p>
+          <p class="chain-note">价值分 = 40% 重要性 + 30% 新颖性 + 30% 影响力，反映研究或工程贡献。推荐排序分另考虑来源、证据相关性与时效；排序更低不代表价值更低。热度和文章数量不加分。</p>
+        </details>
+      </div>
+
+      <!-- Evidence -->
+      <div class="sec reveal" id="evidence">
+        <div class="sec-head">
+          <div><span class="kicker">Evidence Chain</span><h2>证据链 · 来源文章</h2></div>
+          <span class="hint">Event → Articles → Sources</span>
+        </div>
+        <p class="chain-note">该事件由以下 3 篇来源文章聚类而成，每篇文章可溯源至原始出处。</p>
+
+
+
+        <div class="art" style="--i: 0">
+          <h3><span class="step">A1</span><a href="https://www.infoq.cn/article/MU0txcPXXuGdGKBNa6a2?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">容器隔离还不够：Edera 从虚拟机监控器层限制 AI 智能体</a></h3>
+          <p class="sum">Edera 推出了对象能力受限权限模型，承诺保护自主 AI 智能体工作负载的安全，使自主 AI 工作负载和模型上下文协议（MCP）服务器与敏感凭证隔离。该技术由 Edera 联合创始人、杰出工程师 Ariadne Conill 牵头。她因对底层开源安全技术的贡献而知名。该技术通过直接在虚拟机监控器层实施细粒度的对象能力控制，应对现代企业架构面临的一项紧迫挑战：在不向 AI 智能体提供常规访问凭证的情况下，严格限制其活动范围。对象能力受限权限是一种安全模型，在实施细粒度访问控制的同时，使自主 AI 工作负载和 MCP 服务器与敏感凭证隔离。
+随着越来越多的组织将自主编码智能体和外部工具集成部署到生产环境，它们经常把敏感的 API 令牌、云密钥和管理员访问凭证直接暴露给执行环境，而这些环境仍可能受到提示注入和供应链操纵的影响。
+受限权限架构的核心，是将完成任务所需的操作权限与执行任务所依赖的底层凭证分离。传统容器安全很大程度上依赖边界隔离，以及注入环境变量或配置文件的静态密钥。如果由大语言模型驱动的智能体遭到入侵，攻击者通常可以提取这些令牌，并在内部系统间横向移动。Edera 提议通过虚拟机监控器强制执行对象能力控制，将智能体限制在明确界定的操作范围内，同时不把密钥放进工作负载本身。例如，AI 编码助手可以在不持有个人访问令牌的情况下，获得修改单个 GitHub...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 95% · Edera 在虚拟机监控器层实施对象能力控制，capcurl 实现无凭证 API 访问、capsudo 限定作用域命令执行、SPIFFE/SPIRE 提供工作负载身份，是基础设施层凭证隔离的核心贡献</p>
+          <blockquote class="chain-note">使自主 AI 工作负载和模型上下文协议（MCP）服务器与敏感凭证隔离</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-11-13</span>
+            <a class="url" href="https://www.infoq.cn/article/MU0txcPXXuGdGKBNa6a2?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 1">
+          <h3><span class="step">A2</span><a href="https://www.infoq.cn/article/0IpE2EOypcqMFtL7z4z1?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">GitLab 19.5 发布，将智能体开发纳入可治理的 DevOps 平台能力</a></h3>
+          <p class="sum">GitLab 19.5 于 10 月 15 日发布，将智能体软件开发和治理作为平台核心：GitLab MCP 服务器正式可用，同时扩展了外部 AI 智能体与 GitLab 交互的方式。
+该版本允许 Claude Code、Cursor 等兼容 MCP 的工具访问更多 GitLab 工具目录，并调用 GitLab Duo Agent Platform 的智能体和工作流。与此同时，GitLab 增加了对外部智能体的治理控制，让安全团队能够了解哪些智能体正在被使用、谁在使用、针对哪些项目。
+正式可用的 GitLab MCP 服务器通过 Model Context Protocol 为智能体开放 GitLab 平台能力。新增工具允许智能体发现群组、检查单个 CI/CD 构件文件，以及启动或监控 GitLab Duo 智能体和工作流。管理员还可以选择暴露哪些 MCP 工具集，从而减少不必要的工具以及它们占用的上下文。
+为智能体提供所有可用工具会增加上下文消耗，也会增加模型可能执行的操作数量。工具集筛选是一种轻量化的最小权限代理设计方案。
+GitLab.com 还引入了 MCP 速率限制：免费版用户每分钟 60 次请求，Premium 和 Ultimate 用户每分钟 600 次，重连与重试请求同样计入限额。
+更重要的新增功能之一是将外部连接智能体纳入 GitLab 的 AI...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 90% · GitLab 19.5 提供平台级 MCP 治理：工具集筛选减少上下文消耗、审计事件流式传输至 SIEM、Secrets Manager 限定密钥作用域，是智能体最小权限的平台层实现</p>
+          <blockquote class="chain-note">GitLab 19.5 于 10 月 15 日发布，将智能体软件开发和治理作为平台核心</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-11-15</span>
+            <a class="url" href="https://www.infoq.cn/article/0IpE2EOypcqMFtL7z4z1?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+        <div class="art" style="--i: 2">
+          <h3><span class="step">A3</span><a href="https://www.infoq.cn/article/1pCuIRtm5HYwTyR4fIhA?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">Docker 呼吁通过隔离与治理保障智能体安全</a></h3>
+          <p class="sum">Docker 发布了一篇指南，介绍当 AI 智能体在人工监督有限的情况下浏览网页、运行代码、调用工具时会产生的五大安全风险。Docker 首席产品营销经理 Srini Sekaran 与产品经理 Eric Jia 联合撰文指出：让智能体具备价值的自主能力同时也导致传统应用安全控制措施变得不足。Docker 将隔离和治理（而非仅靠模型改进）作为主要的防御手段。
+这篇博文将提示词注入、工具滥用与投毒、过度自主、凭证泄露和数据窃取列为主要风险。Docker 认为这些风险有一个共同根因：智能体可以在运行时选择工具、将多个操作链接在一起，并且通常以启动者的权限运行。
+“智能体不只是回答问题，它会自行浏览、运行代码和调用工具，因此一条错误或受操纵的指令可能变成实实在在的破坏，而不仅仅是一个错误的答案。”
+Eric Jia 和 Srini Sekaran，Docker
+传统的 Web 安全通常假设请求到达已知的端点并由确定性代码处理，但智能体并不符合这种模式。一个编码智能体在收到一条指令后，可能会读取文件、安装依赖项、修改配置、运行测试并提交代码。Docker 指出，一旦智能体被劫持或误导，它能执行的操作范围远大于传统服务。
+提示词注入被视为标志性风险：攻击者无需直接攻陷系统，而是在智能体需要读取的材料中嵌入指令，例如网页、代码注释、问题或文档。Docker...</p>
+
+          <p class="chain-note">文章对本事件的证据相关性 80% · Docker 指南系统梳理提示注入、工具滥用、过度自主、凭证泄露、数据窃取五大风险，主张隔离和治理为主要防御手段，为前两者提供风险框架和防御原则</p>
+          <blockquote class="chain-note">Docker 将隔离和治理（而非仅靠模型改进）作为主要的防御手段</blockquote>
+
+          <div class="ameta">
+            <span class="src-tag">infoq.cn · 来源参考评分 35/100
+
+
+            </span>
+            <span>2026-11-13</span>
+            <a class="url" href="https://www.infoq.cn/article/1pCuIRtm5HYwTyR4fIhA?utm_source=rss&amp;utm_medium=article" target="_blank" rel="noopener noreferrer">原文 ↗</a>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+
+    <!-- 侧栏 -->
+    <aside class="side reveal">
+      <div class="card">
+        <h3>Event Meta</h3>
+        <div class="kv"><span class="k">事件 ID</span><span class="v">55c66ef1</span></div>
+        <div class="kv"><span class="k">分类</span><span class="v">Agent</span></div>
+        <div class="kv"><span class="k">所属周</span><span class="v">2026-W47</span></div>
+        <div class="kv"><span class="k">来源文章</span><span class="v">3 篇</span></div>
+        <div class="kv"><span class="k">独立来源</span><span class="v">1 个</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Sources · 引用来源</h3>
+
+
+        <div class="src-row">
+          <div class="n">InfoQ AI</div>
+          <div class="s">
+            <span class="mono">3 篇</span>
+
+            <span class="bar"><i style="width: 100%"></i></span>
+            <span class="mono">trust 100%</span>
+
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-11-16 08:01 · 2026-W47</span>
+</div></footer>
+</body>
+</html>

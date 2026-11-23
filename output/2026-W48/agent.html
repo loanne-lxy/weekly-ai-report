@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent — AI 前沿资讯周报</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f6f8fc; --surface: #ffffff; --surface-2: #eef3fa;
+  --line: #e6ebf3; --line-2: #d2dcec;
+  --text: #1c2534; --text-2: #46536a; --text-3: #66748c; --text-4: #98a3b8;
+  --accent: #1a73e8; --accent-2: #185abc; --accent-soft: rgba(26,115,232,.08);
+  --mono: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: "Inter", -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  --radius: 18px; --radius-sm: 14px;
+  --shadow: 0 1px 2px rgba(28,37,52,.04), 0 2px 10px rgba(28,37,52,.05);
+  --shadow-2: 0 8px 22px rgba(28,37,52,.09), 0 2px 6px rgba(28,37,52,.05);
+  --shadow-3: 0 16px 40px rgba(28,37,52,.13), 0 4px 12px rgba(28,37,52,.06);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+a { color: inherit; text-decoration: none; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; position: relative; z-index: 1; }
+.kicker { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+.catbar { height: 4px; background: linear-gradient(90deg, var(--cat-color, var(--accent)), rgba(255,255,255,0) 88%); position: relative; z-index: 2; }
+
+/* ── Ambient background ── */
+.bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg-glow::before, .bg-glow::after { content: ""; position: absolute; border-radius: 50%; filter: blur(72px); }
+.bg-glow::before { width: 560px; height: 560px; top: -200px; right: -140px; background: radial-gradient(circle, rgba(26,115,232,.18), transparent 68%); animation: drift1 26s ease-in-out infinite; }
+.bg-glow::after { width: 520px; height: 520px; top: -150px; left: -160px; background: radial-gradient(circle, rgba(106,176,255,.20), transparent 68%); animation: drift2 30s ease-in-out infinite; }
+@keyframes drift1 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(-40px,30px);} }
+@keyframes drift2 { 0%,100%{ transform: translate(0,0);} 50%{ transform: translate(36px,26px);} }
+.topbar { position: sticky; top: 0; z-index: 20; }
+footer { position: relative; z-index: 1; }
+
+/* ── Motion ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.99); } to { opacity: 1; transform: none; } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.reveal { animation: fadeUp .6s cubic-bezier(.22,.8,.32,1) both; }
+.crumb { animation: fadeUp .5s ease both; }
+.cat-head { animation: fadeUp .55s ease .08s both; }
+.catnav { animation: fadeUp .55s ease .16s both; }
+
+/* ── Topbar ── */
+.topbar { background: rgba(255,255,255,.82); backdrop-filter: blur(14px) saturate(160%); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 11px; }
+.brand .mark { width: 32px; height: 32px; border-radius: 9px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; box-shadow: var(--shadow); }
+.brand .name { font-size: 13px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text); }
+.brand .name small { display: block; font-size: 10px; font-weight: 400; letter-spacing: .02em; color: var(--text-3); text-transform: none; margin-top: 1px; }
+.topbar .issue { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
+.topbar .issue b { color: var(--accent); font-weight: 700; }
+
+.crumb { font-size: 13px; color: var(--text-3); padding: 20px 0 0; }
+.crumb a:hover { color: var(--accent); text-decoration: underline; }
+
+.cat-head { padding: 14px 0 22px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.cat-head h1 { font-size: 32px; font-weight: 800; letter-spacing: -.025em; display: flex; align-items: center; gap: 13px; color: var(--text); }
+.cat-head .count { font-family: var(--mono); font-size: 13.5px; color: var(--text-3); margin-left: auto; align-self: center; }
+.cat-head .count b { color: var(--text); font-size: 16px; }
+.cat-sum { width: 100%; font-size: 14px; color: var(--text-2); line-height: 1.75; margin-top: 12px; }
+
+/* 分类导航条 */
+.catnav { display: flex; gap: 9px; overflow-x: auto; padding: 20px 0 4px; flex-wrap: wrap; }
+.catnav a { font-size: 13px; font-weight: 500; color: var(--text-2); background: var(--surface); border: 1px solid var(--line-2); border-radius: 22px; padding: 8px 16px; white-space: nowrap; transition: all .2s; box-shadow: var(--shadow); }
+.catnav a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+.catnav a.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; box-shadow: var(--shadow-2); }
+.catnav a .mono { margin-left: 7px; opacity: .8; font-size: 11px; }
+
+/* 事件列表 */
+.list { padding: 20px 0 6px; }
+.evt { display: grid; grid-template-columns: minmax(0,1fr) 150px; gap: 20px; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 22px 24px; margin-bottom: 15px; box-shadow: var(--shadow); transition: transform .28s cubic-bezier(.22,.8,.32,1), box-shadow .28s, border-color .28s; animation: cardIn .55s cubic-bezier(.22,.8,.32,1) both; animation-delay: calc(var(--i,0) * 60ms); }
+.evt:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); border-color: var(--line-2); }
+.evt:hover h2 a { color: var(--accent); }
+.evt .top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--text-4); flex-wrap: wrap; }
+.evt h2 { font-size: 18px; font-weight: 700; line-height: 1.5; margin-bottom: 9px; color: var(--text); letter-spacing: -.01em; }
+.evt h2 a:hover { color: var(--accent); }
+.evt .sum { font-size: 14px; color: var(--text-2); line-height: 1.78; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.evt .foot { display: flex; align-items: center; gap: 11px; margin-top: 14px; font-size: 12.5px; color: var(--text-3); flex-wrap: wrap; }
+.evt .foot .go { margin-left: auto; color: var(--accent); font-weight: 600; }
+.evt .foot .go:hover { text-decoration: underline; }
+.evt .side { display: flex; flex-direction: column; gap: 9px; justify-content: center; }
+.score-line { display: flex; align-items: center; gap: 9px; font-size: 11.5px; color: var(--text-3); }
+.score-line .mono { margin-left: auto; font-size: 12.5px; color: var(--text-2); }
+.score-line .mono b { font-size: 14px; font-weight: 700; color: var(--text); }
+.score-line .bar { width: 64px; height: 5px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+.score-line .bar i { display: block; height: 100%; border-radius: 3px; transform-origin: left; animation: barGrow .9s .4s cubic-bezier(.22,.8,.32,1) both; }
+
+footer { margin-top: 44px; border-top: 1px solid var(--line); padding: 24px 0 38px; }
+footer .wrap { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--text-3); gap: 12px; flex-wrap: wrap; }
+
+@media (max-width: 720px) {
+  .evt { grid-template-columns: 1fr; }
+  .evt .side { flex-direction: row; flex-wrap: wrap; gap: 14px; }
+  .cat-head h1 { font-size: 26px; }
+  .cat-head .count { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-delay: 0ms !important; transition-duration: .001ms !important; }
+}
+</style>
+<style>:root { --cat-color: #8b5cf6; }</style>
+</head>
+<body>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="catbar"></div>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="index.html">
+    <div class="mark">AI</div>
+    <div class="name">AI Research Intelligence<small>AI 前沿研究周报 · 多源聚合 / 事件聚类 / 重要性评分</small></div>
+  </a>
+  <div class="issue"><a href="index.html"><b>2026-W48</b> · 2026-11-23</a></div>
+</div></div>
+
+<div class="wrap">
+  <div class="crumb"><a href="index.html">← 返回周报</a> · Agent</div>
+
+  <div class="cat-head">
+    <h1><span class="dot" style="background: #8b5cf6; width: 12px; height: 12px;"></span>🤖 Agent</h1>
+    <span class="count"><b>31</b> 个事件 · 按推荐排序分排序</span>
+    <p class="cat-sum">本周观察到具身智能研究将世界模型与物理推理用于机器人动作生成：CloudRobo-WM1.2 提出多模态世界表征和原生动作生成架构，支持跨本体泛化与弹性推理部署；Gemini 4 Argon 将通用物理推理模型用于机器人控制与策略优化，提供从照片合成仿真场景并微调 VLA 策略的路径。</p>
+  </div>
+
+  <nav class="catnav">
+    <a href="index.html">全部事件<span class="mono">71</span></a>
+
+    <a href="llm.html" class="">LLM<span class="mono">26</span></a>
+
+    <a href="agent.html" class="on">Agent<span class="mono">31</span></a>
+
+    <a href="ai-for-science.html" class="">AI for Science<span class="mono">9</span></a>
+
+    <a href="design-simulation.html" class="">设计仿真<span class="mono">3</span></a>
+
+    <a href="digital-twin.html" class="">数字孪生<span class="mono">2</span></a>
+
+    <a href="其他.html" class="">其他<span class="mono">0</span></a>
+
+  </nav>
+
+  <div class="list">
+
+    <article class="evt" style="--i: 0">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C07B47</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-a9c07b47-event.html">具身世界模型与物理推理模型实现机器人动作生成</a></h2>
+        <p class="sum">CloudRobo-WM1.2与Gemini 4 Argon分别从世界模型原生动作生成和物理推理驱动控制两条路径推进具身机器人动作生成，前者双评测第一，后者ERQA达87%。</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-a9c07b47-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 70%; background: var(--accent);"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 65%; background: #10b981;"></i></span><span class="mono"><b>65</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 1">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-607D5B</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-cf607d5b-ace-brain-0-7-9b.html">ACE-Brain-0.7：执行接地推理的9B具身视觉语言模型</a></h2>
+        <p class="sum">ACE-Brain-0.7以370万执行监督问答对微调Qwen3.5-9B，在任务推理与空间接地基准上超越GPT-6 Astra和Claude Opus 5.5。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-cf607d5b-ace-brain-0-7-9b.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 60%; background: #8b5cf6;"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 2">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-087627</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-7b087627-transformer.html">视频扩散Transformer复用实现自监督隐动作学习</a></h2>
+        <p class="sum">O²LaF复用预训练视频DiT作为逆/前向动力学共享先验，在导航与操作任务上实现少样本动作探测与零样本跨具身迁移</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-7b087627-transformer.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 3">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-14B10F</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-a714b10f-event.html">机器人操作策略失败归因诊断基准</a></h2>
+        <p class="sum">AgentRoboCritic、PhyDEX和Mind2Act World从动作级、物理推理和心智-动作组合三个维度诊断机器人操作策略失败</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-a714b10f-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 4">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-315271</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-0a315271-pgx.html">PGX物理接地执行框架解耦长时程人形机器人操作</a></h2>
+        <p class="sum">PGX以谓词状态机、VLA技能与世界坐标锁定三层解耦长时程人形机器人loco-manipulation，在Unitree G1真实任务上验证有效。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0a315271-pgx.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 5">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C71BC6</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-0ec71bc6-humancoin.html">HumanCOIN三层意图代理第一人称操作数据集</a></h2>
+        <p class="sum">HumanCOIN发布12,500小时、38场景的第一人称操作数据集，含L1注视推断、L2表面肌电、L3头皮脑电三层意图代理及多模态感知数据。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0ec71bc6-humancoin.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 65%; background: #8b5cf6;"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 6">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-A9C2F3</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-1ba9c2f3-event.html">数据手册智能体与具身闭环实现硬件设计制造自动化</a></h2>
+        <p class="sum">DS2Agent三模型智能体、GRODE-RTL依赖视图与JARVIS具身闭环分别解决板级设计、RTL修复和电路板制造的智能体自动化问题。</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-1ba9c2f3-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 7">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-2A1198</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-d62a1198-agent.html">Agent安全治理的可观测性与事件复现审计</a></h2>
+        <p class="sum">Agent治理以可观测性为基础，ROGUE-AI在108次复现中89%重现危害并验证hazard warning降低五模型危害</p>
+        <div class="foot">
+          <span class="mono">3 篇来源文章</span>
+          <a class="go" href="events/evt-d62a1198-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 70%; background: #8b5cf6;"></i></span><span class="mono"><b>70</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 55%; background: #10b981;"></i></span><span class="mono"><b>55</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 8">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-307DE0</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-2a307de0-nvidia-gtc-fox-ai.html">Nvidia GTC柏林发布FOX工厂AI代理框架</a></h2>
+        <p class="sum">Nvidia在GTC柏林发布FOX工厂运营蓝图框架，支持开发监控生产、排查问题、协调设备的AI代理，Siemens等欧洲制造商正集成部署。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-2a307de0-nvidia-gtc-fox-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 9">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-8E8C8F</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-b48e8c8f-agent.html">Agent知识策展与任务反馈驱动的持续更新</a></h2>
+        <p class="sum">LangChain知识工厂由策展Agent自动修复缺失知识，TaoDesign通过评测驱动将修复经验蒸馏入知识库，验证Agent知识持续更新的两条工程路径</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-b48e8c8f-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 60%; background: var(--accent);"></i></span><span class="mono"><b>60</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 10">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-27CE04</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-5227ce04-llm.html">LLM代理调用光伏仿真工具支持非专家决策</a></h2>
+        <p class="sum">LLM代理调用光伏仿真工具，非专家通过3D地图或自然语言获取投资、激励与电网决策支持，产出偏差±3.6%</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-5227ce04-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 11">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BD2133</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-05bd2133-ai.html">智能体AI架构：上下文工程、记忆与通信协议</a></h2>
+        <p class="sum">系统梳理Agent AI架构中上下文工程、情景/语义/程序记忆与A2A/MCP通信协议的演进路径及架构层次</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-05bd2133-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 12">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-A50B03</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-d9a50b03-event.html">智能体身份国际标准化体系布局</a></h2>
+        <p class="sum">信通院研究员梳理智能体身份在ISO/IEC、ITU-T、IEEE、IETF、W3C的标准布局，提出术语与参考框架建议</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-d9a50b03-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 25%; background: #8b5cf6;"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 13">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-F8A71E</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-e1f8a71e-nemotron-for-science.html">Nemotron for Science开放模型与化学数据集</a></h2>
+        <p class="sum">NVIDIA在SC26大会发布Nemotron for Science开放模型套件，包含近5万题化学数据集LitmusBench v0.2，基于Nemotron 3.5 Super VL模型提供后训练</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-e1f8a71e-nemotron-for-science.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 65%; background: var(--accent);"></i></span><span class="mono"><b>65</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 55%; background: #8b5cf6;"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 60%; background: #10b981;"></i></span><span class="mono"><b>60</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 14">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-5A27DC</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-fc5a27dc-event.html">编码智能体可追溯性与持续记忆基础设施</a></h2>
+        <p class="sum">Entire与Atlas分别通过trails评估分数+持续记忆、会话-提交绑定+共享记忆解决编码智能体可追溯性与上下文复用问题</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-fc5a27dc-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 15">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FBF143</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-05fbf143-langsmith-tool-gateway-agent.html">LangSmith Tool Gateway 实现 Agent 工具调用安全治理</a></h2>
+        <p class="sum">LangSmith Tool Gateway 进入 Public Beta，为 agent 每次工具调用提供凭证管理、身份验证、访问控制、策略配置、审批流程及调用追踪。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-05fbf143-langsmith-tool-gateway-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 16">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FE3AFF</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-60fe3aff-event.html">容器化沙箱实现编码代理自主安全执行</a></h2>
+        <p class="sum">Eclipse Enclave 1.0 与 ServerOS Agents 分别以开源沙箱运行时和自托管多代理容器工作流，实现编码代理在策略控制环境中的自主安全执行</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-60fe3aff-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 45%; background: #10b981;"></i></span><span class="mono"><b>45</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 17">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-BA78EF</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-1fba78ef-kong-volcano-agent.html">Kong推出Volcano自愈Agent云平台</a></h2>
+        <p class="sum">Kong发布Volcano自愈Agent云平台，统一Agent构建、托管与运行，支持Cursor等编码工具集成，具备自主识别和修复代码缺陷能力。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-1fba78ef-kong-volcano-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 18">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-1C8507</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-ac1c8507-openai-codex-chatgpt.html">OpenAI Codex工作流驱动ChatGPT性能优化</a></h2>
+        <p class="sum">OpenAI Performance Factory利用Codex工作流自动发现并修复ChatGPT性能问题，将AI编码代理应用于生产级性能工程。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-ac1c8507-openai-codex-chatgpt.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 19">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-DBB5E4</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-37dbb5e4-llm.html">自驱动实验室中LLM假设生成与可执行工作流</a></h2>
+        <p class="sum">NMI视角文章论证自驱动实验室需LLM假设生成与自底向上可执行工作流结合以实现物理世界自主</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-37dbb5e4-llm.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 30%; background: #10b981;"></i></span><span class="mono"><b>30</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 20">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-B88F76</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-e6b88f76-ai.html">上海智能制造计划部署AI模型与工业智能体</a></h2>
+        <p class="sum">上海发布下一代智能制造行动计划，目标2028年前覆盖全部重点制造企业，开发2000余个AI应用、10个行业大模型及300个AI智能体，AI赋能产业规模达2000亿元。计划推动AI贯穿研发、产品设计、生</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-e6b88f76-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 25%; background: #8b5cf6;"></i></span><span class="mono"><b>25</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 21">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-559500</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-a7559500-ai.html">跨平台AI代理研究摘要技能</a></h2>
+        <p class="sum">GitHub上的AI代理技能，可跨Reddit、X、YouTube、HN、Polymarket及网页研究任意主题并生成有据摘要。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-a7559500-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 30%; background: var(--accent);"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 22">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-C1E7AA</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-31c1e7aa-event.html">编码智能体跨平台成本治理与支出追踪</a></h2>
+        <p class="sum">LangChain博客介绍跨Claude Code、Cursor、Copilot等编码智能体的统一支出追踪与治理方案，解决多工具并行时成本失控问题。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-31c1e7aa-event.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 23">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-FC246A</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-71fc246a-agent-ux.html">主动Agent后台目标推进的记忆与UX设计</a></h2>
+        <p class="sum">LangChain团队分享GTM Agent与Robin两个主动Agent在后台目标推进中的记忆管理与UX设计工程教训</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-71fc246a-agent-ux.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 40%; background: #8b5cf6;"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 40%; background: #10b981;"></i></span><span class="mono"><b>40</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 24">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-39DABD</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-5939dabd-openai-ai.html">OpenAI 前沿 AI 风险管理体系：对齐、沙箱与监控</a></h2>
+        <p class="sum">OpenAI 提出从训练到部署的前沿 AI 风险管理框架，整合模型对齐、沙箱隔离、阻断措施与持续监控</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-5939dabd-openai-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 25">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-D8B917</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-01d8b917-cli-anything-agent-cli.html">CLI-Anything：软件Agent原生CLI化</a></h2>
+        <p class="sum">HKUDS发布CLI-Anything项目，旨在通过CLI接口使所有软件具备Agent原生交互能力，并提供CLI-Hub平台。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-01d8b917-cli-anything-agent-cli.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 20%; background: var(--accent);"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 20%; background: #8b5cf6;"></i></span><span class="mono"><b>20</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 20%; background: #10b981;"></i></span><span class="mono"><b>20</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 26">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-CBEDA6</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-0ecbeda6-eve-1-0-agent-harness-workflow.html">eve 1.0开源Agent harness与Workflow SDK</a></h2>
+        <p class="sum">eve 1.0开源Agent框架发布，提供harness循环、Workflow SDK持久化、多Agent协作及Vercel托管，声称数千家企业生产使用</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-0ecbeda6-eve-1-0-agent-harness-workflow.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 55%; background: var(--accent);"></i></span><span class="mono"><b>55</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 45%; background: #8b5cf6;"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 27">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-9168D1</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-6c9168d1-nvidia-ai.html">NVIDIA城市AI代理与数字孪生部署扩展</a></h2>
+        <p class="sum">NVIDIA扩展城市AI项目，1MillionBot在西班牙部署居民服务代理，LiveX在旧金山湾区构建AI City系统，覆盖公共服务和交通。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-6c9168d1-nvidia-ai.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 50%; background: var(--accent);"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 50%; background: #8b5cf6;"></i></span><span class="mono"><b>50</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 50%; background: #10b981;"></i></span><span class="mono"><b>50</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 28">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-A29CE2</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-61a29ce2-ai-agent.html">AI Agent 沙箱的文件系统与网络隔离</a></h2>
+        <p class="sum">Codex 沙箱跨平台强制文件系统与网络限制，LangChain 提供 Agent 沙箱选型指南，共同聚焦执行环境安全隔离</p>
+        <div class="foot">
+          <span class="mono">2 篇来源文章</span>
+          <a class="go" href="events/evt-61a29ce2-ai-agent.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 35%; background: var(--accent);"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 30%; background: #8b5cf6;"></i></span><span class="mono"><b>30</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 29">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-372F00</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-38372f00-ehr.html">计算机使用代理直接操作EHR完成转诊闭环</a></h2>
+        <p class="sum">Assort代理借助Codex计算机使用能力，在Athena EHR界面中直接选择转诊医生、输入转诊详情并标记为已预约，完成API集成无法覆盖的界面操作步骤</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-38372f00-ehr.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 45%; background: var(--accent);"></i></span><span class="mono"><b>45</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+
+    <article class="evt" style="--i: 30">
+      <div>
+        <div class="top">
+          <span class="mono">EVT-006D5B</span>
+          <span class="mono">2026-W48</span>
+        </div>
+        <h2><a href="events/evt-6d006d5b-openai-chatgpt.html">OpenAI ChatGPT医疗版引入计算机使用代理与跨软件插件</a></h2>
+        <p class="sum">OpenAI更新ChatGPT for Healthcare，新增计算机使用代理、改进临床回答及跨医疗软件插件，聚焦代理在临床工作流中的实际任务执行。</p>
+        <div class="foot">
+          <span class="mono">1 篇来源文章</span>
+          <a class="go" href="events/evt-6d006d5b-openai-chatgpt.html">查看证据链 →</a>
+        </div>
+      </div>
+      <div class="side">
+        <div class="score-line">重要性 <span class="bar"><i style="width: 40%; background: var(--accent);"></i></span><span class="mono"><b>40</b></span></div>
+        <div class="score-line">新颖性 <span class="bar"><i style="width: 35%; background: #8b5cf6;"></i></span><span class="mono"><b>35</b></span></div>
+        <div class="score-line">影响力 <span class="bar"><i style="width: 35%; background: #10b981;"></i></span><span class="mono"><b>35</b></span></div>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<footer><div class="wrap">
+  <span>AI Research Intelligence · Weekly Report Agent</span>
+  <span class="mono">生成于 2026-11-23 08:01 · 2026-W48</span>
+</div></footer>
+</body>
+</html>
